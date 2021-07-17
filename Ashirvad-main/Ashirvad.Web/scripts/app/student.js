@@ -19,7 +19,7 @@ $(document).ready(function () {
     });
 
     if ($("#RowStatus_RowStatusId").val() != "") {
-        debugger;
+        
         var rowStatus = $("#RowStatus_RowStatusId").val();
         if (rowStatus == "1") {
             $("#rowStaActive").attr('checked', 'checked');
@@ -30,7 +30,7 @@ $(document).ready(function () {
     }
 
     if ($("#LastYearResult").val() != "") {
-        debugger;
+        
         var rowStatus = $("#LastYearResult").val();
         if (rowStatus == "1") {
             $("#rowStaPass").attr('checked', 'checked');
@@ -43,6 +43,13 @@ $(document).ready(function () {
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
+        }
+
+        if (commonData.BranchID != "0") {
+            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
+            $("#BranchInfo_BranchID").val(commonData.BranchID);
+            LoadSchoolName(commonData.BranchID);
+            LoadStandard(commonData.BranchID);
         }
     });
 
@@ -87,7 +94,6 @@ function LoadBranch(onLoaded) {
 function LoadSchoolName(branchID) {
     var postCall = $.post(commonData.School + "SchoolData", { "branchID": branchID});
     postCall.done(function (data) {
-        debugger;
         $('#SchoolName').empty();
         $('#SchoolName').select2();
         $("#SchoolName").append("<option value=" + 0 + ">---Select School Name---</option>");
@@ -105,10 +111,9 @@ function LoadSchoolName(branchID) {
 }
 
 function LoadStandard(branchID) {
-    debugger;
+    
     var postCall = $.post(commonData.Standard + "StandardData", { "branchID": branchID});
     postCall.done(function (data) {
-        debugger;
         $('#StandardName').empty();
         $('#StandardName').select2();
         $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
@@ -157,7 +162,6 @@ function RemoveStudent(studentID) {
 }
 
 $("#BranchName").change(function () {
-    debugger;
     var Data = $("#BranchName option:selected").val();
     $('#BranchInfo_BranchID').val(Data);
     LoadSchoolName(Data);
@@ -165,25 +169,21 @@ $("#BranchName").change(function () {
 });
 
 $("#StandardName").change(function () {
-    debugger;
     var Data = $("#StandardName option:selected").val();
     $('#StandardInfo_StandardID').val(Data);
 });
 
 $("#SchoolName").change(function () {
-    debugger;
     var Data = $("#SchoolName option:selected").val();
     $('#SchoolInfo_SchoolID').val(Data);
 });
 
 $("#SchoolTimeDDL").change(function () {
-    debugger;
     var Data = $("#SchoolTimeDDL option:selected").val();
     $('#SchoolTime').val(Data);
 });
 
-$("#BatchTime").change(function () {
-    debugger;
+$("#BatchTime").change(function () {    
     var Data = $("#BatchTime option:selected").val();
     $('#BatchInfo_BatchType').val(Data);
 });
@@ -192,8 +192,7 @@ $("#fuStudentImage").change(function () {
     readURL(this);
 });
 
-$('input[type=radio][name=Status]').change(function () {
-    debugger;
+$('input[type=radio][name=Status]').change(function () {   
     if (this.value == 'Active') {
         $("#RowStatus_RowStatusId").val(1);
     }
@@ -202,8 +201,7 @@ $('input[type=radio][name=Status]').change(function () {
     }
 });
 
-$('input[type=radio][name=rdbResultofLastYear]').change(function () {
-    debugger;
+$('input[type=radio][name=rdbResultofLastYear]').change(function () {   
     if (this.value == 'Pass') {
         $("#LastYearResult").val(1);
     }
@@ -217,7 +215,7 @@ function readURL(input) {
         var reader = new FileReader();
         reader.readAsDataURL(input.files[0]);
         reader.onload = function (e) {
-            debugger;
+            
             $('#imgStud').attr('src', e.target.result);
             var bas = reader.result;
             var PANtUploadval = bas;

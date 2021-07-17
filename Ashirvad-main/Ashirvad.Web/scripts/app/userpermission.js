@@ -21,7 +21,7 @@ function LoadUser() {
 }
 
 function SaveUserPermission() {
-    debugger;
+    
     var isSuccess = ValidateData('dInformation');
     var RoleList = [];
     $("#studenttbl tr").each(function () {
@@ -37,7 +37,7 @@ function SaveUserPermission() {
         }
     });
     if (isSuccess) {
-        debugger;
+        
         var frm = $('#fUserPermissionDetail');
         var formData = new FormData(frm[0]);
         formData.append('Roles', RoleList);
@@ -54,7 +54,7 @@ function SaveUserPermission() {
 
 
 $("#UserName").change(function () {
-    debugger;
+    
     var Data = $("#UserName option:selected").val();
     $('#UserID').val(Data);
 });

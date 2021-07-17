@@ -138,18 +138,18 @@ function LoadStandard(onLoaded) {
 
 
 function SaveLibrary() {
-    debugger;
+    
     var isSuccess = ValidateData('dInformation');
 
     if (isSuccess) {
-        debugger;
+        
         var frm = $('#fLibraryDetail');
         var formData = new FormData(frm[0]);
         formData.append('LibraryData.ThumbImageFile', $('input[type=file]')[0].files[0]);
         formData.append('LibraryData.DocFile', $('input[type=file]')[1].files[0]);
 
         AjaxCallWithFileUpload(commonData.Library + 'SaveLibrary', formData, function (data) {
-            debugger;
+            
             if (data) {
                 ShowMessage("Library added Successfully.", "Success");
                 window.location.href = "LibraryMaintenance?libraryID=0";
@@ -164,32 +164,32 @@ function SaveLibrary() {
 }
 
 function RemoveLibrary(paperID) {
-    debugger;
+    
     var postCall = $.post(commonData.Library + "RemoveLibrary", { "paperID": paperID });
     postCall.done(function (data) {
-        debugger;
+        
         ShowMessage("Library Removed Successfully.", "Success");
         window.location.href = "LibraryMaintenance?libraryID=0";
     }).fail(function () {
-        debugger;
+        
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
 $("#BranchName").change(function () {
-    debugger;
+    
     var Data = $("#BranchName option:selected").val();
     $('#BranchID').val(Data);
 });
 
 $("#StandardName").change(function () {
-    debugger;
+    
     var Data = $("#StandardName option:selected").val();
     $('#StandardID').val(Data);
 });
 
 $("#SubjectName").change(function () {
-    debugger;
+    
     var Data = $("#SubjectName option:selected").val();
     $('#SubjectID').val(Data);
 });

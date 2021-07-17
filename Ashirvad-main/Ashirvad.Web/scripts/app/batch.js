@@ -64,7 +64,7 @@ function LoadStandard(branchID) {
         }
 
         if ($("#StandardInfo_StandardID").val() != "") {
-            debugger;
+            
             $('#StandardName option[value="' + $("#StandardInfo_StandardID").val() + '"]').attr("selected", "selected");
         }
 
@@ -99,14 +99,14 @@ function SaveBatch() {
 }
 
 function RemoveBatch(batchID) {
-    debugger;
+    
     var postCall = $.post(commonData.Batch + "RemoveBatch", { "batchID": batchID });
     postCall.done(function (data) {
-        debugger;
+        
         ShowMessage("Batch Removed Successfully.", "Success");
         window.location.href = "BatchMaintenance?branchID=0";
     }).fail(function () {
-        debugger;
+        
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }

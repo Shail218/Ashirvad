@@ -118,8 +118,7 @@ $("#Role").change(function () {
     $('#Role').val(Data);
 });
 
-$("#BranchName").change(function () {
-    debugger;
+$("#BranchName").change(function () {    
     var Data = $("#BranchName option:selected").val();
     $('#BranchInfo_BranchID').val(Data);
 });

@@ -103,12 +103,12 @@ function chkOnChange(elem, hdnID, selText) {
 }
 
 function SaveBanner() {
-    debugger;
+    
     var isSuccess = ValidateData('dInformation');
 
     if (isSuccess) {
 
-        debugger;
+        
         var NotificationTypeList = [];
         if ($('input[type=checkbox][id=rowStaAdmin]').is(":checked")) {
             NotificationTypeList.push({
@@ -154,7 +154,7 @@ function SaveBanner() {
         formData.append('ImageFile', bannerData.ImageFile);
         var a = formData.getAll('BannerType');
         AjaxCallWithFileUpload(commonData.Banner + 'SaveBanner', formData, function (data) {
-            debugger;
+            
             if (data) {
                 ShowMessage('Banner details saved!', 'Success');
                 window.location.href = "BannerMaintenance?bannerID=0";
@@ -179,7 +179,7 @@ function RemoveBanner(branchID) {
 }
 
 $("#BranchName").change(function () {
-    debugger;
+    
     var Data = $("#BranchName option:selected").val();
     $('#BranchInfo_BranchID').val(Data);
 });

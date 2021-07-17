@@ -34,42 +34,42 @@ function LoadBranch(onLoaded) {
 }
 
 function GetAttendanceDetail(branchID) {
-    debugger;
+    
     var postCall = $.post(commonData.AttendanceRegister + "GetAllAttendanceByBranch", { "branchID": branchID });
     postCall.done(function (data) {
-        debugger;
+        
         $('#AttendanceData').html(data);
         //ShowMessage("Student added Successfully.", "Success");
         //window.location.href = "StudentMaintenance?studentID=0";
     }).fail(function () {
-        debugger;
+        
         //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
 function GetAttendanceByID(attendanceID) {
-    debugger;
+    
     var postCall = $.post(commonData.AttendanceRegister + "GetAttendanceByID", { "attendanceID": attendanceID });
     postCall.done(function (data) {
-        debugger;
+        
         //$('#AttendanceData').html(data);
         //ShowMessage("Attendance Removed Successfully.", "Success");
         //window.location.href = "AttendanceRegister/Index";
     }).fail(function () {
-        debugger;
+        
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
 function RemoveAttendance(attendanceID) {
-    debugger;
+    
     var postCall = $.post(commonData.AttendanceRegister + "RemoveAttendance", { "attendanceID": attendanceID });
     postCall.done(function (data) {
-        debugger;
+        
         ShowMessage("Attendance Removed Successfully.", "Success");
         window.location.href = "AttendanceRegister/Index";
     }).fail(function () {
-        debugger;
+        
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }

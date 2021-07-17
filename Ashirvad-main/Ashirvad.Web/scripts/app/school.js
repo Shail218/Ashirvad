@@ -69,7 +69,7 @@ function RemoveSchool(schoolID) {
 }
 
 $("#BranchName").change(function () {
-    debugger;
+    
     var Data = $("#BranchName option:selected").val();
     $('#BranchInfo_BranchID').val(Data);
 });

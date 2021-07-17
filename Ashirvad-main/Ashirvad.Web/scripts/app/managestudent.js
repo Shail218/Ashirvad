@@ -24,7 +24,7 @@ function LoadActiveStudent() {
     var Data = $('#BranchID').val();
     var postCall = $.post(commonData.ManageStudent + "GetAllActiveStudent", { "branchID": Data });
     postCall.done(function (data) {
-        debugger;
+        
         $('#studentData').html(data);
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -35,7 +35,7 @@ function LoadInActiveStudent() {
     var Data = $('#BranchID').val();
     var postCall = $.post(commonData.ManageStudent + "GetAllInActiveStudent", { "branchID": Data });
     postCall.done(function (data) {
-        debugger;
+        
         $('#studentData').html(data);
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");

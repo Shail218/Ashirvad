@@ -14,7 +14,7 @@ $(document).ready(function () {
     }
 
     $("#studenttbl tr").each(function () {
-        debugger;
+        
         var elemImg = $(this).find("#Img");
         var photoID = $(this).find("#item_UniqueID").val();
         if (elemImg.length > 0 && photoID.length > 0) {
@@ -32,7 +32,7 @@ $(document).ready(function () {
 function LoadBranch(onLoaded) {
     var postCall = $.post(commonData.Branch + "BranchData");
     postCall.done(function (data) {
-        debugger;
+        
         $('#BranchName').empty();
         $('#BranchName').select2();
         $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
@@ -49,7 +49,7 @@ function LoadBranch(onLoaded) {
 }
 
 function SaveVideos() {
-    debugger;
+    
     var isSuccess = ValidateData('dInformation');
 
     if (isSuccess) {
@@ -58,7 +58,7 @@ function SaveVideos() {
         formData.append('ImageFile', $('input[type=file]')[0].files[0]);
 
         AjaxCallWithFileUpload(commonData.Videos + 'SaveVideos', formData, function (data) {
-            debugger;
+            
             if (data) {
                 ShowMessage('Videos details saved!', 'Success');
                 window.location.href = "VideosMaintenance?videoID=0";
@@ -83,7 +83,7 @@ function RemoveVideos(branchID) {
 }
 
 $("#BranchName").change(function () {
-    debugger;
+    
     var Data = $("#BranchName option:selected").val();
     $('#Branch_BranchID').val(Data);
 });

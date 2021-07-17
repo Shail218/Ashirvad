@@ -26,7 +26,7 @@ $(document).ready(function () {
 function LoadBranch(onLoaded) {
     var postCall = $.post(commonData.Branch + "BranchData");
     postCall.done(function (data) {
-        debugger;
+        
         $('#BranchName').empty();
         $('#BranchName').select2();
         $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
@@ -43,10 +43,10 @@ function LoadBranch(onLoaded) {
 }
 
 function LoadUser(branchID) {
-    debugger;
+    
     var postCall = $.post(commonData.UserPermission + "GetAllUsers", { "branchID": branchID });
     postCall.done(function (data) {
-        debugger;
+        
         $('#UserName').empty();
         $('#UserName').select2();
         $("#UserName").append("<option value=" + 0 + ">---Select User---</option>");
@@ -63,7 +63,7 @@ function LoadUser(branchID) {
 
 
 function SaveToDo() {
-    debugger;
+    
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         var date1 = $("#ToDoDate").val();
@@ -72,7 +72,7 @@ function SaveToDo() {
         var formData = new FormData(frm[0]);
         formData.append('FileInfo', $('input[type=file]')[0].files[0]);
         AjaxCallWithFileUpload(commonData.ToDo + 'SaveToDo', formData, function (data) {
-            debugger;
+            
             if (data) {
                 ShowMessage('ToDo details saved!', 'Success');
                 window.location.href = "ToDoMaintenance?todoID=0";
@@ -97,14 +97,14 @@ function RemoveToDo(todoID) {
 }
 
 $("#BranchName").change(function () {
-    debugger;
+    
     var Data = $("#BranchName option:selected").val();
     $('#BranchInfo_BranchID').val(Data);
     LoadUser(Data);
 });
 
 $("#UserName").change(function () {
-    debugger;
+    
     var Data = $("#UserName option:selected").val();
     $('#UserInfo_UserID').val(Data);
 });
