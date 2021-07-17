@@ -15,6 +15,7 @@ namespace Ashirvad.Web.Controllers
     public class VideosController : BaseController
     {
         private readonly IGalleryService _gallaryService;
+        OperationResult operation = new OperationResult();
         public VideosController(IGalleryService gallaryService)
         {
             _gallaryService = gallaryService;
@@ -79,6 +80,30 @@ namespace Ashirvad.Web.Controllers
 
             return "data:video/*;base64, " + result.FileEncoded;
         }
+
+        public async Task<JsonResult> DownloadVideo(long videoID)
+        {
+            OperationResult<GalleryEntity> operationResult = new OperationResult<GalleryEntity>();
+            operationResult = await _gallaryService.GetGalleryByUniqueID(videoID);
+            if (operationResult != null)
+            {
+                string base64data = string.Empty;
+                string fileName = DateTime.Now.ToString() + "_MyData.csv";
+                base64data = operationResult.Data.FileEncoded;
+                byte[] bytes = Convert.FromBase64String(base64data);
+                var response = new FileContentResult(bytes, "text/csv");
+                response.FileDownloadName = fileName;
+                Response.Clear();
+                Response.AddHeader("content-disposition", "inline; filename=" + fileName);
+                Response.ContentType = "text/csv";
+                Response.OutputStream.Write(bytes, 0, bytes.Length);
+                Response.End();
+                return Json(operationResult.Data.FileEncoded);
+            }
+            return Json(null);
+        }
+        
+
 
     }
 }

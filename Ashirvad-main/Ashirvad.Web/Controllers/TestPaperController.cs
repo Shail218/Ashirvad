@@ -49,6 +49,10 @@ namespace Ashirvad.Web.Controllers
             var data = await _testService.TestMaintenance(testEntity);
             if (data != null)
             {
+                //TestPaperEntity testpaperEntity = new TestPaperEntity();
+                //testpaperEntity = testEntity.test;
+                //testpaperEntity.TestID = data.TestID;
+                //JsonResult jsonResult= SaveTestPaper(testpaperEntity).Result;
                 return Json(data.TestID);
             }
 

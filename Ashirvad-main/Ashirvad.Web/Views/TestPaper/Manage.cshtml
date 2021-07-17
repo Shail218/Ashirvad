@@ -84,8 +84,8 @@
             <td>
                 @item.Remarks
             </td>
-            <td></td>
-            <td></td>
+            <td>@item.test.PaperType</td>
+            <td>@item.test.DocLink</td>
             <td></td>
             <td>
                 <a href="@Url.Action("Index", "/TestPaper/TestPaperMaintenance", new { testID = item.TestID})">

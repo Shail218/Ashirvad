@@ -30,6 +30,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             }
 
             testMaster.row_sta_cd = testInfo.RowStatus.RowStatusId;
+            testInfo.TestName = "Demo";
             testMaster.trans_id = this.AddTransactionData(testInfo.Transaction);
             testMaster.branch_id = testInfo.Branch.BranchID;
             testMaster.std_id = testInfo.Standard.StandardID;
@@ -40,6 +41,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             testMaster.test_dt = testInfo.TestDate;
             testMaster.test_st_time = testInfo.TestStartTime;
             testMaster.test_end_time = testInfo.TestEndTime;
+            testMaster.test_name = "Demo";
             this.context.TEST_MASTER.Add(testMaster);
             if (isUpdate)
             {
@@ -56,6 +58,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
+                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
                         where u.branch_id == branchID
                         select new TestEntity()
                         {
@@ -88,6 +91,11 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestEndTime = u.test_end_time,
                             TestName = u.test_name,
                             TestStartTime = u.test_st_time,
+                            test= new TestPaperEntity()
+                            {
+                                PaperType= TestPaper.paper_type.ToString(),
+                                DocLink= TestPaper.doc_link.ToString()
+                            },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
 

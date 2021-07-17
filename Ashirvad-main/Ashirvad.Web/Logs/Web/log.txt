@@ -97,3 +97,22 @@ Ashirvad.Logger.EventLogger                         [(null)]
    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
    at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
    at Ashirvad.ServiceAPI.Services.Area.Banner.BannerService.<GetBannerByBannerID>d__4.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Banner\BannerService.cs:line 64
+
+
+2021-07-17 11:55:14,977 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Test.Test.<TestMaintenance>d__0.MoveNext() in D:\Shail ARA\Ashirvad\Ashirvad-main\Ashirvad.Repo\Services\Area\Test\Test.cs:line 32
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Test.TestService.<TestMaintenance>d__2.MoveNext() in D:\Shail ARA\Ashirvad\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Test\TestService.cs:line 27
+
+
+2021-07-17 12:38:07,719 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.ArgumentNullException: Value cannot be null.
+Parameter name: s
+   at System.Convert.FromBase64String(String s)
+   at Ashirvad.ServiceAPI.Services.Area.Test.TestService.<TestPaperMaintenance>d__7.MoveNext() in D:\Shail ARA\Ashirvad\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Test\TestService.cs:line 117

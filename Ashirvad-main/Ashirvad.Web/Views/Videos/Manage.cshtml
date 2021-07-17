@@ -19,32 +19,34 @@
             </th>
         </tr>
     </thead>
+    <tbody>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                <video id="Img">
-                    <source src="@Url.Content("~/Uploads/Wildlife.wmv")" type='video/*' style="height:50px;width:50px" />
-                </video>
-                @Html.HiddenFor(x => item.UniqueID)
-            </td>
-            <td>
-                @item.Remarks
-            </td>
-            <td>
-                <a href="@Url.Action("Index", "/Videos/VideosMaintenance", new { videoID = item.UniqueID})">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
-            </td>
-            <td>
-                <a href="#" onclick="RemovePhotos(@item.UniqueID);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-        </tr>
-    }
 
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    Download Video
+                    <a onclick="DownloadVideo('@item.UniqueID')" id="videoDownload" download><img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" /></a>
+                    @Html.HiddenFor(x => item.UniqueID)
+                    <input hidden id="UniqID" value="@item.UniqueID" />
+                </td>
+                <td>
+                    @item.Remarks
+                </td>
+                <td>
+                    <a href="@Url.Action("Index", "/Videos/VideosMaintenance", new { videoID = item.UniqueID})">
+                        <img src="~/ThemeData/images/viewIcon.png" />
+                    </a>
+                </td>
+                <td>
+                    <a href="#" onclick="RemovePhotos(@item.UniqueID);">
+                        <img src="~/ThemeData/images/delete.png" />
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 
 

@@ -43,6 +43,11 @@ $(document).ready(function () {
         }
         $('#Type option[value="' + $("#PaperTypeID").val() + '"]').attr("selected", "selected");
     }
+    if ($("#RowStatus_RowStatusId").val() != "") {
+        var Data = $("#RowStatus_RowStatusId").val();
+       
+        $('#Status option[value="' + $("#RowStatus_RowStatusId").val() + '"]').attr("selected", "selected");
+    }
 
 });
 
@@ -108,7 +113,7 @@ function LoadSubject(branchID) {
 
 function SaveTest() {
     debugger;
-    var isSuccess = ValidateData('dInformation');
+    var isSuccess = ValidateData('fTestDetail');
     if (isSuccess) {
         var date1 = $("#TestDate").val();
         $("#TestDate").val(ConvertData(date1));
@@ -117,8 +122,9 @@ function SaveTest() {
             debugger;
             if (data > 0) {
                 SaveTestPaper(data);
+                ShowMessage("Test added Successfully.", "Success");
             } else {
-                ShowMessage("Test not added Successfully.", "Success");
+                ShowMessage("Test not added.", "Error");
                 window.location.href = "TestPaperMaintenance?testID=0";
             }
         }).fail(function () {
@@ -130,11 +136,12 @@ function SaveTest() {
 
 function SaveTestPaper(testID) {
     debugger;
-    var isSuccess = ValidateData('dpaperInformation');
+  
     $('#TestID').val(testID);
+    var isSuccess = true;
     if (isSuccess) {
         debugger;
-        var frm = $('#fTestPaperDetail');
+        var frm = $('#fTestDetail');
         var formData = new FormData(frm[0]);
         formData.append('FileInfo', $('input[type=file]')[0].files[0]);
 
@@ -194,14 +201,23 @@ $("#Type").change(function () {
     var Data = $("#Type option:selected").val();
     if (Data == 2) {
         $('#link').show();
+        $('#fuPaperDoc').removeClass("fileRequired");   
         $('#testpaper').hide();
     } else if (Data == 1) {
         $('#testpaper').show();
+        $('#fuPaperDoc').addClass("fileRequired");        
         $('#link').hide();
     } else {
         $('#testpaper').hide();
         $('#link').hide();
+        $('#fuPaperDoc').removeClass("fileRequired");
     }
     $('#PaperTypeID').val(Data);
+});
+
+$("#Status").change(function () {
+    var Data = $("#Status option:selected").val();
+    $('#RowStatus_RowStatusId').val(Data);
+   
 });
 

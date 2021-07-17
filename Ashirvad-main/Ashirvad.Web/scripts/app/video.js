@@ -13,18 +13,27 @@ $(document).ready(function () {
         $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
     }
 
-    $("#studenttbl tr").each(function () {
+    $("#studenttbl tbody tr").each(function () {
         debugger;
-        var elemImg = $(this).find("#Img");
-        var photoID = $(this).find("#item_UniqueID").val();
-        if (elemImg.length > 0 && photoID.length > 0) {
-            var postCall = $.post(commonData.Videos + "GetPhoto", { "videoID": photoID });
+        
+        var photoID = $(this).find("#UniqID").val();
+  
+           
+            var postCall = $.post(commonData.Videos + "DownloadVideo", { "videoID": photoID });
             postCall.done(function (data) {
-                $(elemImg).attr('src', data);
+                if (data != null) {
+                    var ppls = document.getElementById("videoDownload");
+                    $(ppls).attr('src', data);
+                    //ppls.download = data;
+                    //ppls.target = "_blank";
+                    //ppls.href = data;
+                    //ppls.click();
+                }
+
             }).fail(function () {
-                $(elemImg).attr('src', "../ThemeData/images/Default.png");
+                ShowMessage("An unexpected error occcurred while processing request!", "Error");
             });
-        }
+        
     });
 
 });
@@ -87,3 +96,19 @@ $("#BranchName").change(function () {
     var Data = $("#BranchName option:selected").val();
     $('#Branch_BranchID').val(Data);
 });
+
+function DownloadVideo(branchID) {
+    var postCall = $.post(commonData.Videos + "DownloadVideo", { "videoID": branchID });
+    postCall.done(function (data) {
+        if (data != null) {
+            var ppls = document.getElementById("videoDownload");
+            //ppls.download = data[0].message;
+            //ppls.target = "_blank";
+            //ppls.href = data[0].message;
+            //ppls.click();
+        }
+       
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
