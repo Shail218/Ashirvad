@@ -1,0 +1,130 @@
+﻿using Ashirvad.Common;
+using Ashirvad.Data;
+using Ashirvad.Repo.DataAcceessAPI.Area.Standard;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Ashirvad.Repo.Services.Area.Standard
+{
+    public class Standard : ModelAccess, IStandardAPI
+    {
+        public async Task<long> StandardMaintenance(StandardEntity standardInfo)
+        {
+            Model.STD_MASTER standardMaster = new Model.STD_MASTER();
+
+            bool isUpdate = true;
+            var data = (from standard in this.context.STD_MASTER
+                        where standard.std_id == standardInfo.StandardID
+                        select standard).FirstOrDefault();
+            if (data == null)
+            {
+                standardMaster = new Model.STD_MASTER();
+
+                isUpdate = false;
+            }
+            else
+            {
+                standardMaster = data;
+                standardInfo.Transaction.TransactionId = data.trans_id;
+            }
+
+            standardMaster.standard = standardInfo.Standard;
+            standardMaster.branch_id = standardInfo.BranchInfo.BranchID;
+            standardMaster.row_sta_cd = standardInfo.RowStatus.RowStatusId;
+            standardMaster.trans_id = this.AddTransactionData(standardInfo.Transaction);
+            this.context.STD_MASTER.Add(standardMaster);
+            if (isUpdate)
+            {
+                this.context.Entry(standardMaster).State = System.Data.Entity.EntityState.Modified;
+            }
+
+            return this.context.SaveChanges() > 0 ? standardMaster.std_id : 0;
+        }
+
+        public async Task<List<StandardEntity>> GetAllStandards(long branchID)
+        {
+            var data = (from u in this.context.STD_MASTER
+                        where branchID == 0 || u.branch_id == branchID
+                        select new StandardEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            Standard = u.standard,
+                            StandardID = u.std_id,
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+
+            return data;
+        }
+
+        public async Task<List<StandardEntity>> GetAllStandards()
+        {
+            var data = (from u in this.context.STD_MASTER
+                        select new StandardEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            Standard = u.standard,
+                            StandardID = u.std_id,
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+
+            return data;
+        }
+
+        public async Task<StandardEntity> GetStandardsByID(long standardID)
+        {
+            var data = (from u in this.context.STD_MASTER
+                        where u.std_id == standardID
+                        select new StandardEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            Standard = u.standard,
+                            StandardID = u.std_id,
+                            BranchInfo = new BranchEntity() { BranchID = u.branch_id },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).FirstOrDefault();
+
+            return data;
+        }
+
+        public bool RemoveStandard(long StandardID, string lastupdatedby)
+        {
+            var data = (from u in this.context.STD_MASTER
+                        where u.std_id == StandardID
+                        select u).FirstOrDefault();
+            if (data != null)
+            {
+                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                this.context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+    }
+}

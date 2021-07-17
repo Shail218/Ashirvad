@@ -1,0 +1,51 @@
+﻿﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.GalleryEntity>
+
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Video
+            </th>
+
+            <th>
+                Description
+            </th>
+            <th>
+                Edit
+            </th>
+            <th>
+                Delete
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <video id="Img">
+                    <source src="@Url.Content("~/Uploads/Wildlife.wmv")" type='video/*' style="height:50px;width:50px" />
+                </video>
+                @Html.HiddenFor(x => item.UniqueID)
+            </td>
+            <td>
+                @item.Remarks
+            </td>
+            <td>
+                <a href="@Url.Action("Index", "/Videos/VideosMaintenance", new { videoID = item.UniqueID})">
+                    <img src="~/ThemeData/images/viewIcon.png" />
+                </a>
+            </td>
+            <td>
+                <a href="#" onclick="RemovePhotos(@item.UniqueID);">
+                    <img src="~/ThemeData/images/delete.png" />
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+

@@ -1,0 +1,236 @@
+
+
+2021-03-24 15:51:17,688 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.ArgumentException: Format of the initialization string does not conform to specification starting at index 138.
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions.GetKeyValuePair(String connectionString, Int32 currentPosition, StringBuilder buffer, String& keyname, String& keyvalue)
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions.ParseInternal(IDictionary`2 parsetable, String connectionString, IList`1 validKeywords)
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions..ctor(String connectionString, IList`1 validKeywords)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.ChangeConnectionString(String newConnectionString)
+   at System.Data.Entity.Core.EntityClient.EntityConnection..ctor(String connectionString)
+   at System.Data.Entity.Internal.LazyInternalConnection.InitializeFromConnectionStringSetting(ConnectionStringSettings appConfigConnection)
+   at System.Data.Entity.Internal.LazyInternalConnection.TryInitializeFromAppConfig(String name, AppConfig config)
+   at System.Data.Entity.Internal.LazyInternalConnection.Initialize()
+   at System.Data.Entity.Internal.LazyInternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+   at Ashirvad.Repo.Services.Area.User.User.ValidateUser(String userName, String password) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.Repo\Services\Area\User\User.cs:line 44
+   at Ashirvad.ServiceAPI.Services.Area.User.UserService.ValidateUser(String userName, String password) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\User\UserService.cs:line 45
+
+
+2021-03-24 17:36:39,384 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.ArgumentException: Format of the initialization string does not conform to specification starting at index 138.
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions.GetKeyValuePair(String connectionString, Int32 currentPosition, StringBuilder buffer, String& keyname, String& keyvalue)
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions.ParseInternal(IDictionary`2 parsetable, String connectionString, IList`1 validKeywords)
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions..ctor(String connectionString, IList`1 validKeywords)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.ChangeConnectionString(String newConnectionString)
+   at System.Data.Entity.Core.EntityClient.EntityConnection..ctor(String connectionString)
+   at System.Data.Entity.Internal.LazyInternalConnection.InitializeFromConnectionStringSetting(ConnectionStringSettings appConfigConnection)
+   at System.Data.Entity.Internal.LazyInternalConnection.TryInitializeFromAppConfig(String name, AppConfig config)
+   at System.Data.Entity.Internal.LazyInternalConnection.Initialize()
+   at System.Data.Entity.Internal.LazyInternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Include(String path)
+   at System.Data.Entity.Infrastructure.DbQuery`1.Include(String path)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.Repo\Services\Area\Branch\Branch.cs:line 19
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 17:39:17,904 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.ArgumentException: Format of the initialization string does not conform to specification starting at index 138.
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions.GetKeyValuePair(String connectionString, Int32 currentPosition, StringBuilder buffer, String& keyname, String& keyvalue)
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions.ParseInternal(IDictionary`2 parsetable, String connectionString, IList`1 validKeywords)
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions..ctor(String connectionString, IList`1 validKeywords)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.ChangeConnectionString(String newConnectionString)
+   at System.Data.Entity.Core.EntityClient.EntityConnection..ctor(String connectionString)
+   at System.Data.Entity.Internal.LazyInternalConnection.InitializeFromConnectionStringSetting(ConnectionStringSettings appConfigConnection)
+   at System.Data.Entity.Internal.LazyInternalConnection.TryInitializeFromAppConfig(String name, AppConfig config)
+   at System.Data.Entity.Internal.LazyInternalConnection.Initialize()
+   at System.Data.Entity.Internal.LazyInternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Include(String path)
+   at System.Data.Entity.Infrastructure.DbQuery`1.Include(String path)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.Repo\Services\Area\Branch\Branch.cs:line 19
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 17:47:10,734 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.ArgumentException: Format of the initialization string does not conform to specification starting at index 138.
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions.GetKeyValuePair(String connectionString, Int32 currentPosition, StringBuilder buffer, String& keyname, String& keyvalue)
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions.ParseInternal(IDictionary`2 parsetable, String connectionString, IList`1 validKeywords)
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions..ctor(String connectionString, IList`1 validKeywords)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.ChangeConnectionString(String newConnectionString)
+   at System.Data.Entity.Core.EntityClient.EntityConnection..ctor(String connectionString)
+   at System.Data.Entity.Internal.LazyInternalConnection.InitializeFromConnectionStringSetting(ConnectionStringSettings appConfigConnection)
+   at System.Data.Entity.Internal.LazyInternalConnection.TryInitializeFromAppConfig(String name, AppConfig config)
+   at System.Data.Entity.Internal.LazyInternalConnection.Initialize()
+   at System.Data.Entity.Internal.LazyInternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Include(String path)
+   at System.Data.Entity.Infrastructure.DbQuery`1.Include(String path)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.Repo\Services\Area\Branch\Branch.cs:line 19
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 17:47:48,096 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.ArgumentException: Format of the initialization string does not conform to specification starting at index 138.
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions.GetKeyValuePair(String connectionString, Int32 currentPosition, StringBuilder buffer, String& keyname, String& keyvalue)
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions.ParseInternal(IDictionary`2 parsetable, String connectionString, IList`1 validKeywords)
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions..ctor(String connectionString, IList`1 validKeywords)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.ChangeConnectionString(String newConnectionString)
+   at System.Data.Entity.Core.EntityClient.EntityConnection..ctor(String connectionString)
+   at System.Data.Entity.Internal.LazyInternalConnection.InitializeFromConnectionStringSetting(ConnectionStringSettings appConfigConnection)
+   at System.Data.Entity.Internal.LazyInternalConnection.TryInitializeFromAppConfig(String name, AppConfig config)
+   at System.Data.Entity.Internal.LazyInternalConnection.Initialize()
+   at System.Data.Entity.Internal.LazyInternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Include(String path)
+   at System.Data.Entity.Infrastructure.DbQuery`1.Include(String path)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.Repo\Services\Area\Branch\Branch.cs:line 19
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 18:08:30,866 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.ArgumentException: Format of the initialization string does not conform to specification starting at index 138.
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions.GetKeyValuePair(String connectionString, Int32 currentPosition, StringBuilder buffer, String& keyname, String& keyvalue)
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions.ParseInternal(IDictionary`2 parsetable, String connectionString, IList`1 validKeywords)
+   at System.Data.Entity.Core.EntityClient.Internal.DbConnectionOptions..ctor(String connectionString, IList`1 validKeywords)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.ChangeConnectionString(String newConnectionString)
+   at System.Data.Entity.Core.EntityClient.EntityConnection..ctor(String connectionString)
+   at System.Data.Entity.Internal.LazyInternalConnection.InitializeFromConnectionStringSetting(ConnectionStringSettings appConfigConnection)
+   at System.Data.Entity.Internal.LazyInternalConnection.TryInitializeFromAppConfig(String name, AppConfig config)
+   at System.Data.Entity.Internal.LazyInternalConnection.Initialize()
+   at System.Data.Entity.Internal.LazyInternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Include(String path)
+   at System.Data.Entity.Infrastructure.DbQuery`1.Include(String path)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.Repo\Services\Area\Branch\Branch.cs:line 19
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 18:16:44,402 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo)
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 18:20:19,173 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo)
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 18:20:32,859 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at Ashirvad.Repo.ModelAccess.AddTransactionData(TransactionEntity transactionData)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo)
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 18:20:41,300 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at Ashirvad.Repo.ModelAccess.AddTransactionData(TransactionEntity transactionData)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo)
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 18:22:19,609 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at Ashirvad.Repo.ModelAccess.AddTransactionData(TransactionEntity transactionData)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo)
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 18:23:46,148 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at Ashirvad.Repo.ModelAccess.AddTransactionData(TransactionEntity transactionData)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo)
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 18:26:52,496 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.InvalidOperationException: The changes to the database were committed successfully, but an error occurred while updating the object context. The ObjectContext might be in an inconsistent state. Inner exception message: A referential integrity constraint violation occurred: The property value(s) of 'TRANSACTION_MASTER.trans_id' on one end of a relationship do not match the property value(s) of 'BRANCH_MASTER.trans_id' on the other end. ---> System.InvalidOperationException: A referential integrity constraint violation occurred: The property value(s) of 'TRANSACTION_MASTER.trans_id' on one end of a relationship do not match the property value(s) of 'BRANCH_MASTER.trans_id' on the other end.
+   at System.Data.Entity.Core.Objects.DataClasses.RelatedEnd.CheckReferentialConstraintProperties(EntityEntry ownerEntry)
+   at System.Data.Entity.Core.Objects.DataClasses.RelationshipManager.CheckReferentialConstraintProperties(EntityEntry ownerEntry)
+   at System.Data.Entity.Core.Objects.EntityEntry.AcceptChanges()
+   at System.Data.Entity.Core.Objects.ObjectContext.AcceptAllChanges()
+   at System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   --- End of inner exception stack trace ---
+   at System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   at System.Data.Entity.Core.Objects.ObjectContext.<>c__DisplayClass2a.<SaveChangesInternal>b__27()
+   at System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   at System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   at System.Data.Entity.Core.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at Ashirvad.Repo.ModelAccess.AddTransactionData(TransactionEntity transactionData)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo)
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 18:30:53,493 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at Ashirvad.Repo.ModelAccess.AddTransactionData(TransactionEntity transactionData)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo)
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 18:35:55,474 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at Ashirvad.Repo.ModelAccess.AddTransactionData(TransactionEntity transactionData)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo)
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-24 18:39:09,755 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo)
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\source\repos\AshirvadProduct\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26

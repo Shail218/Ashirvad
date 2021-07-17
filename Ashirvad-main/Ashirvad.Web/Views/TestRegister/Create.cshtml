@@ -1,0 +1,50 @@
+﻿<div class="row">
+    <div class="col-md-2">
+        @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        <div class="input-group">
+            @Html.TextBox("FromDate", null, new { @class = "form-control", autocomplete = "off" })
+            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <label>To Date<span class="required">*</span></label>
+        @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        <div class="input-group">
+            @Html.TextBox("ToDate", null, new { @class = "form-control", autocomplete = "off" })
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.DropDownList("Branch", new List<SelectListItem>
+                       {
+                       new SelectListItem{ Text="---Select-Branch---", Value = "-1" },
+                        new SelectListItem{ Text="Branch", Value = "1" },
+                        }, new { @class = "form-control", id = "Branch" })
+    </div>
+    <div class="col-md-2">
+        @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.DropDownList("Standard", new List<SelectListItem>
+                       {
+                       new SelectListItem{ Text="---Select-Standard---", Value = "-1" },
+                        new SelectListItem{ Text="Standard", Value = "1" },
+                        }, new { @class = "form-control", id = "Standard" })
+    </div>
+    <div class="col-md-2">
+        @Html.Label("Select Batch Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.DropDownList("BatchTime", new List<SelectListItem>
+                       {
+                       new SelectListItem{ Text="---Select-Batch-Time---", Value = "-1" },
+                        new SelectListItem{ Text="Morning", Value = "1" },
+                        new SelectListItem{ Text="AfterNoon", Value = "2" },
+                        new SelectListItem{ Text="Evening", Value = "3" },
+                        }, new { @class = "form-control", id = "BatchTime" })
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-4" style="margin-top: 27px">
+        <button class="btn btn-bitbucket btn-flat" OnClick="btnFilter_Click"><i class="fa fa-filter"></i>&nbsp;Filter</button>&nbsp;
+        <button class="btn btn-bitbucket bg-gray btn-flat" OnClick="btnReset_Click"><i class="fa fa-times"></i>&nbsp;Reset</button>
+    </div>
+</div>

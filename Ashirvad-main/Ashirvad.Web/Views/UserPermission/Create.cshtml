@@ -1,0 +1,15 @@
+﻿﻿@model Ashirvad.Data.UserEntity
+<form id="fUserPermissionDetail">
+    <div class="row" id="dInformation">
+        <div class="col-md-2 control-label">
+            @Html.Label("User Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.HiddenFor(x => x.UserID)
+            @Html.HiddenFor(x => x.Roles)
+        </div>
+        <div class="col-md-3">
+            <select name="UserName" id="UserName" class="form-control requiredDDL" alt="User">
+                <option value="0">--Select User--</option>
+            </select>
+        </div>
+    </div>
+</form>

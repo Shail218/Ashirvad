@@ -1,0 +1,13 @@
+C:\Users\HEET\Desktop\Ashirvad\Ashirvad.Logger\bin\Debug\Ashirvad.Logger.dll
+C:\Users\HEET\Desktop\Ashirvad\Ashirvad.Logger\bin\Debug\Ashirvad.Logger.pdb
+C:\Users\HEET\Desktop\Ashirvad\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.csproj.CoreCompileInputs.cache
+C:\Users\HEET\Desktop\Ashirvad\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.csproj.CopyComplete
+C:\Users\HEET\Desktop\Ashirvad\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.dll
+C:\Users\HEET\Desktop\Ashirvad\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.pdb
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Logger\bin\Debug\Ashirvad.Logger.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Logger\bin\Debug\Ashirvad.Logger.pdb
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.csprojAssemblyReference.cache
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.csproj.CoreCompileInputs.cache
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.csproj.CopyComplete
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.pdb

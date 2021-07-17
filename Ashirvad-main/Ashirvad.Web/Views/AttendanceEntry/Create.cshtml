@@ -1,0 +1,58 @@
+﻿﻿@model Ashirvad.Data.AttendanceEntity
+@{
+
+    Layout = null;
+}
+<form id="fAttendanceDetail">
+    <div class="row" id="dInformation">
+        <div class="col-md-3" id="BranchDiv">
+            @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="BranchName" id="BranchName" class="form-control requiredDDL" alt="Branch">
+                <option value="0">--Select Branch--</option>
+            </select>
+            @Html.HiddenFor(x => x.Branch.BranchID)
+        </div>
+        <div class="col-md-3">
+            @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
+                <option value="0">--Select Standard--</option>
+            </select>
+            @Html.HiddenFor(x => x.Standard.StandardID)
+        </div>
+        <div class="col-md-3">
+            @Html.Label("Batch Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="BatchTime" id="BatchTime" class="form-control requiredDDL select2" alt="Batch Time">
+                <option value="0">--Select Batch Time--</option>
+                <option value="1">Morning</option>
+                <option value="2">AfterNoon</option>
+                <option value="3">Evening</option>
+            </select>
+            @Html.HiddenFor(x => x.BatchTypeID)
+            @Html.HiddenFor(x => x.BatchTypeText)
+        </div>
+        <div class="col-md-3">
+            @Html.Label("Attendance Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <div id="datepickerattendance" class="input-group date" data-date-format="dd/mm/yyyy">
+                @if (Model == null)
+                {
+                    @Html.TextBoxFor(x => x.AttendanceDate, null, new { @class = "form-control", @alt = "Attendance Date", autocomplete = "off", @readonly = "readonly" })
+                }
+                else
+                {
+                    @Html.TextBoxFor(x => x.AttendanceDate, Model.AttendanceDate.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Attendance Date" })
+                }
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="margin-top: 2.5%; text-align: right">
+            <a onclick="return GetStudentDetail();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                <span class="ladda-label">
+                    Save
+                </span>
+                <span class="ladda-spinner"></span>
+            </a>
+        </div>
+    </div>
+</form>

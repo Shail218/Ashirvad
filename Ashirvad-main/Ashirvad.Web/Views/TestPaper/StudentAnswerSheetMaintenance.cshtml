@@ -1,0 +1,117 @@
+﻿@model List<Ashirvad.Data.StudentAnswerSheetEntity>
+
+@{
+    ViewBag.Title = "StudentAnswerSheetMaintenance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1><i class="fa fa-edit" style="margin-right: 5px;"></i>Student Answer Sheet</h1>
+</section>
+<hr />
+<section class="content">
+    <div class="row">
+        <div class="messagealert" id="alert_container"></div>
+        <section class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Student Answer Sheet Detail</h3>
+                </div>
+                <div class="box-body">
+                    <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+                        <thead>
+                            <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+                                <th>
+                                    Submit Date
+                                </th>
+                                <th>
+                                    Student Name
+                                </th>
+                                <th>
+                                    Student No
+                                </th>
+                                <th>
+                                    Download AnswerSheet
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Remarks
+                                </th>
+                                <th>
+                                    Edit
+                                </th>
+                            </tr>
+                        </thead>
+
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.SubmitDate
+                                    </td>
+
+                                    <td>
+                                        @item.StudentInfo.FirstName @item.StudentInfo.LastName
+                                    </td>
+
+                                    <td>
+                                        @item.StudentInfo.StudentID
+                                    </td>
+                                    <td style="text-align:center">
+                                        <a href="#">
+                                            <img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" style="height:35px;width:35px" />
+                                        </a>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        @Html.TextBoxFor(x => item.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
+                                    </td>
+                                    <td>
+                                        <a onclick="return SaveTest();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                                            <span class="ladda-label">
+                                                Save
+                                            </span>
+                                            <span class="ladda-spinner"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+    @section Scripts {
+        <script type="text/javascript" src="~/scripts/app/test.js"></script>
+        <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                $('#studenttbl').DataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": true
+                });
+            });
+        </script>
+        <script type="text/javascript">
+            function ConfirmationDialog() {
+                if (confirm("Are you sure to continue?"))
+                    return true;
+                else
+                    return false;
+            }
+        </script>
+
+    }
+
+</section>
+

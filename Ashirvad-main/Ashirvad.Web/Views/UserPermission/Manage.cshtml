@@ -1,0 +1,57 @@
+﻿﻿@model Dictionary<string, int>
+
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Module Name
+            </th>
+
+            <th>
+                @Html.CheckBox("RequestForSample", false, htmlAttributes: new { @class = "radioboxlist" }) Pending
+                Permission
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Key
+                @Html.HiddenFor(x => item.Key)
+                @Html.HiddenFor(x => item.Value)
+            </td>
+            <td>
+                <lable for="userrole">
+                    <input type="checkbox" id="userrole" />
+                </lable>
+            </td>
+        </tr>
+    }
+
+</table>
+<div class="form-group">
+    <div class="col-md-12" style="text-align: right;">
+        <a href="@Url.Action("UserPermissionMaintenance","UserPermission")" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+            <span class="ladda-label">
+                Cancel
+            </span>
+            <span class="ladda-spinner"></span>
+        </a>
+        <a href="#" onclick="return SaveUserPermission();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+            <span class="ladda-label">
+                Save
+            </span>
+            <span class="ladda-spinner"></span>
+        </a>
+    </div>
+</div>
+
+
+
+
+
+
+
+

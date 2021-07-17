@@ -1,0 +1,36 @@
+﻿<div class="form-group">
+    <div class="col-md-12">
+        @Html.Label("About us", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.TextArea("Aboutus", null, new { @class = "form-control", autocomplete = "off" })
+    </div>
+    <div class="col-md-3">
+        @Html.Label("Website Url", htmlAttributes: new { @class = "control-label" })
+        @Html.TextBox("WebsiteUrl", null, new { @class = "form-control", autocomplete = "off" })
+    </div>
+    <div class="col-md-3">
+        @Html.Label("Email ID", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.TextBox("EmailID", null, new { @class = "form-control", autocomplete = "off" })
+    </div>
+    <div class="col-md-3">
+        @Html.Label("Contact No", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.TextBox("ContactNo", null, new { @class = "form-control", autocomplete = "off" })
+    </div>
+    <div class="col-md-3">
+        @Html.Label("Whatsapp No", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.TextBox("WhatsappNo", null, new { @class = "form-control", autocomplete = "off" })
+    </div>
+    <div class="col-md-3">
+        @Html.Label("Header Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.TextBox("file", null, new { type = "file", htmlAttributes = new { @class = "form-control" } })
+    </div>
+    <div class="form-group">
+        <div class="col-md-12" style="text-align: right;">
+            <button id="btnDelete" class="btn btn-danger" OnClick="btnDelete_Click" CausesValidation="false">
+                Cancel
+            </button>
+            <button id="btnSave" class="btn btn-primary" OnClick="btnSave_Click">
+                Save
+            </button>
+        </div>
+    </div>
+</div>

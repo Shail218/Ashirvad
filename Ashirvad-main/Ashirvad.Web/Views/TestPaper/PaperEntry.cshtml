@@ -1,0 +1,55 @@
+﻿﻿@model Ashirvad.Data.TestPaperEntity
+<form id="fTestPaperDetail">
+    <div class="row" id="dpaperInformation">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                @Html.Label("Select Type", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="Type" id="Type" class="form-control requiredDDL select2" alt="Type">
+                    <option value="0">--Select Type--</option>
+                    <option value="1">Upload Document</option>
+                    <option value="2">Upload Link</option>
+                </select>
+                @Html.HiddenFor(x => x.PaperTypeID)
+                @Html.HiddenFor(x => x.PaperType)
+                @Html.HiddenFor(x => x.TestID)
+                @Html.HiddenFor(x => x.TestPaperID)
+            </div>
+            <div class="col-md-3" style="display:none" id="link">
+                @Html.Label("Link", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextBoxFor(x => x.DocLink, new { @class = "form-control", @alt = "Link", autocomplete = "off" })
+            </div>
+            <div class="col-md-3" style="display:none" id="testpaper">
+                @Html.Label("Uplolad test paper", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <input class="file-upload fileRequired" alt="Thumbnail Image" id="fuPaperDoc" name="ThumbnailFile" type="file" />
+                @Html.HiddenFor(x => x.DocContentText)
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextBoxFor(x => x.Remarks, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Status", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="Status" id="Status" class="form-control requiredDDL select2" alt="Status">
+                    <option value="0">--Select Status--</option>
+                    <option value="1">Active</option>
+                    <option value="2">InActive</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-12" style="text-align: right; margin-top: 27PX">
+            <a href="@Url.Action("TestPaperMaintenance","TestPaper", new { @testID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                <span class="ladda-label">
+                    Cancel
+                </span>
+                <span class="ladda-spinner"></span>
+            </a>
+            <a onclick="return SaveTest();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                <span class="ladda-label">
+                    Save
+                </span>
+                <span class="ladda-spinner"></span>
+            </a>
+        </div>
+        
+    </div>
+</form>

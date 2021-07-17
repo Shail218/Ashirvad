@@ -1,0 +1,136 @@
+
+
+2021-07-10 12:13:38,801 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Banner.Banner.<GetBannerByBannerID>d__5.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Repo\Services\Area\Banner\Banner.cs:line 210
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Banner.BannerService.<GetBannerByBannerID>d__4.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Banner\BannerService.cs:line 64
+
+
+2021-07-10 12:13:39,637 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Banner.Banner.<GetBannerByBannerID>d__5.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Repo\Services\Area\Banner\Banner.cs:line 210
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Banner.BannerService.<GetBannerByBannerID>d__4.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Banner\BannerService.cs:line 64
+
+
+2021-07-10 12:13:50,766 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Banner.Banner.<GetBannerByBannerID>d__5.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Repo\Services\Area\Banner\Banner.cs:line 210
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Banner.BannerService.<GetBannerByBannerID>d__4.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Banner\BannerService.cs:line 64
+
+
+2021-07-10 12:14:31,121 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Banner.Banner.<GetBannerByBannerID>d__5.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Repo\Services\Area\Banner\Banner.cs:line 210
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Banner.BannerService.<GetBannerByBannerID>d__4.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Banner\BannerService.cs:line 64
+
+
+2021-07-10 12:14:32,025 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Banner.Banner.<GetBannerByBannerID>d__5.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Repo\Services\Area\Banner\Banner.cs:line 210
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Banner.BannerService.<GetBannerByBannerID>d__4.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Banner\BannerService.cs:line 64
+
+
+2021-07-10 12:14:40,669 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Banner.Banner.<GetBannerByBannerID>d__5.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Repo\Services\Area\Banner\Banner.cs:line 210
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Banner.BannerService.<GetBannerByBannerID>d__4.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Banner\BannerService.cs:line 64
+
+
+2021-07-10 12:15:49,187 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Banner.Banner.<GetBannerByBannerID>d__5.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Repo\Services\Area\Banner\Banner.cs:line 210
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Banner.BannerService.<GetBannerByBannerID>d__4.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Banner\BannerService.cs:line 64
+
+
+2021-07-10 12:15:50,035 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Banner.Banner.<GetBannerByBannerID>d__5.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Repo\Services\Area\Banner\Banner.cs:line 210
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Banner.BannerService.<GetBannerByBannerID>d__4.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Banner\BannerService.cs:line 64
+
+
+2021-07-10 12:15:58,459 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Banner.Banner.<GetBannerByBannerID>d__5.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Repo\Services\Area\Banner\Banner.cs:line 210
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Banner.BannerService.<GetBannerByBannerID>d__4.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Banner\BannerService.cs:line 64
+
+
+2021-07-10 12:36:38,521 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Test.Test.<TestMaintenance>d__0.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Repo\Services\Area\Test\Test.cs:line 32
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Test.TestService.<TestMaintenance>d__2.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Test\TestService.cs:line 27
+
+
+2021-07-10 12:39:02,816 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ashirvad.Repo.Services.Area.Test.Test.<TestMaintenance>d__0.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Repo\Services\Area\Test\Test.cs:line 32
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Test.TestService.<TestMaintenance>d__2.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Test\TestService.cs:line 27
+
+
+2021-07-10 13:00:10,685 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at Ashirvad.Repo.ModelAccess.AddTransactionData(TransactionEntity transactionData) in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Repo\ModelAccess.cs:line 53
+   at Ashirvad.Repo.Services.Area.Library.Library.<LibraryMaintenance>d__0.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.Repo\Services\Area\Library\Library.cs:line 40
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Library.LibraryService.<LibraryMaintenance>d__2.MoveNext() in C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Library\LibraryService.cs:line 46

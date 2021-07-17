@@ -1,0 +1,113 @@
+﻿@model Ashirvad.Data.AttendanceEntity
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1><i class="fa fa-edit" style="margin-right: 5px;"></i>Student Attendance Entry</h1>
+</section>
+<hr />
+<section class="content">
+    <div class="row">
+        <div class="messagealert" id="alert_container"></div>
+        <section class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-body">
+                    <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+                        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+                            <th>
+                                Gr No.
+                            </th>
+                            <th>
+                                Student Name
+                            </th>
+                            <th>
+                                Present/Absent
+                            </th>
+                            <th>
+                                Remarks
+                            </th>
+                        </tr>
+
+                        @foreach (var item in Model.AttendanceDetail)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Student.GrNo
+                                </td>
+                                <td>
+                                    @item.Student.FirstName
+                                </td>
+                                <td>
+                                    @if (item.IsAbsent)
+                                    {
+                                        <lable for="absent">
+                                            <input type="checkbox" id="absent" checked />Absent
+                                        </lable>
+                                    }
+                                    else
+                                    {
+                                        <lable for="absent">
+                                            <input type="checkbox" id="absent" />Absent
+                                        </lable>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => item.Remarks, new { @id = "Remarks", @class = "form-control", @alt = "Remarks", autocomplete = "off" })
+                                </td>
+                            </tr>
+                        }
+                    </table>
+
+                    <div class="form-group">
+                        <div class="col-md-12" style="text-align: right;">
+                            <a href="@Url.Action("Index","AttendanceEntry")" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                                <span class="ladda-label">
+                                    Cancel
+                                </span>
+                                <span class="ladda-spinner"></span>
+                            </a>
+                            <a href="#" onclick="return SaveAttendance();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                                <span class="ladda-label">
+                                    Save
+                                </span>
+                                <span class="ladda-spinner"></span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+    @section Scripts {
+        <script type="text/javascript" src="~/scripts/app/attendance.js"></script>
+        <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                $('#studenttbl').DataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": true
+                });
+
+            });
+        </script>
+        <script type="text/javascript">
+            function ConfirmationDialog() {
+                if (confirm("Are you sure to continue?"))
+                    return true;
+                else
+                    return false;
+            }
+        </script>
+
+    }
+
+</section>
+

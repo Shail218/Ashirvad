@@ -1,0 +1,61 @@
+﻿@model List<Ashirvad.Data.ReminderEntity>
+
+
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Task Date
+            </th>
+
+            <th>
+                Task Time
+            </th>
+
+            <th>
+                Description
+            </th>
+            <th>
+                Edit
+            </th>
+            <th>
+                Delete
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.ReminderDate
+            </td>
+
+            <td>
+                @item.ReminderTime
+            </td>
+            <td>
+                @item.ReminderDesc
+            </td>
+            <td>
+                <a href="@Url.Action("ReminderMaintenance", "Reminder", new { reminderID = item.ReminderID})">
+                    <img src="~/ThemeData/images/viewIcon.png" />
+                </a>
+            </td>
+            <td>
+                <a href="#" onclick="RemoveReminder(@item.ReminderID);">
+                    <img src="~/ThemeData/images/delete.png" />
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+
+
+
+
+

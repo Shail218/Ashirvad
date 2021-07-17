@@ -1,0 +1,67 @@
+﻿<div class="row">
+    <div class="col-md-3">
+        @Html.DropDownList("Branch", new List<SelectListItem>
+                       {
+                       new SelectListItem{ Text="---Select-Branch---", Value = "-1" },
+                        new SelectListItem{ Text="Branch", Value = "1" },
+                        }, new { @class = "form-control", id = "Branch" })
+    </div>
+    <div class="col-md-12">
+        <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+            <thead>
+                <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+                    <th>
+                        Standard
+                    </th>
+                    <th>
+                        Remarks
+                    </th>
+                    <th>
+                        Edit
+                    </th>
+                    <th>
+                        Delete
+                    </th>
+                </tr>
+            </thead>
+
+            @*@foreach (var item in Model.BranchLogo)
+            {
+                <tr>
+
+                    @if (item.Photo == null || item.Photo == "")
+                    {
+                        <td><img src="~/ThemeData/images/Default.png" style="height:50px;width:50px" /></td>
+                    }
+                    else
+                    {
+                        <td><img src="@Url.Content(""+item.Photo+"")" style="height:50px;width:50px" /></td>
+                    }
+
+
+
+                    <td>
+                        @item.FirstName
+                    </td>
+
+                    <td>
+                        @item.AdmissionDate
+                    </td>
+                    <td>
+                        @item.Standard
+                    </td>
+                    <td>
+                        @item.BatchTime
+                    </td>
+                    <td>
+                        @item.ContactNo
+                    </td>
+
+                </tr>
+            }*@
+
+        </table>
+
+    </div>
+</div>
+

@@ -1,0 +1,81 @@
+﻿@model List<Ashirvad.Data.ToDoEntity>
+
+@*<div class="row">
+        <div class="col-md-3">
+            @Html.Label("Select Status", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.DropDownList("Status", new List<SelectListItem>
+                           {
+                           new SelectListItem{ Text="---Select-Status---", Value = "-1" },
+                            new SelectListItem{ Text="Pending", Value = "1" },
+                            new SelectListItem{ Text="Done", Value = "2" },
+                            }, new { @class = "form-control", id = "Status" })
+
+        </div>
+    </div>*@
+
+
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Branch Name
+            </th>
+
+            <th>
+                Task Date
+            </th>
+
+            <th>
+                Staff Name
+            </th>
+
+            <th>
+                Document
+            </th>
+
+            <th>
+                Description
+            </th>
+            <th>
+                Edit
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.BranchInfo.BranchName
+            </td>
+
+            <td>
+                @item.ToDoDate
+            </td>
+            <td>
+                @item.UserInfo.Username
+                @Html.HiddenFor(x => item.UserInfo.UserID)
+            </td>
+            <td>
+                @item.ToDoFileName
+            </td>
+            <td>
+                @item.ToDoDescription
+            </td>
+            <td>
+                <a href="@Url.Action("Index", "/ToDoRegister/ToDoRegisterMaintenance", new { todoID = item.ToDoID})">
+                    <img src="~/ThemeData/images/viewIcon.png" />
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+
+
+
+
+

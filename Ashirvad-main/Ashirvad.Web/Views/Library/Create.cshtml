@@ -1,0 +1,88 @@
+﻿﻿@model Ashirvad.Data.LibraryEntity
+<form id="fLibraryDetail">
+    <div class="row" id="dInformation">
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.Label("Select type", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <table id="rdbType" class="radioboxlist form-control">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="radio" name="Type" id="rowStaAll" value="All" checked />
+                                <lable for="rowStaAll">All</lable>
+                            </td>
+                            <td>
+                                <input type="radio" name="Type" id="rowStaBranch" value="Branch" style="margin-left:10px" />
+                                <lable for="rowStaBranch">Branch</lable>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                @Html.HiddenFor(x => x.LibraryID)
+            </div>
+            <div class="col-md-12" id="BranchDiv">
+                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BranchName" id="BranchName" class="form-control requiredDDL" alt="Branch">
+                    <option value="0">--Select Branch--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchID)
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.Label("Thumbnail", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                        <input class="file-upload fileRequired" alt="Thumbnail Image" id="fuThumbnailImage" name="ThumbnailFile" type="file" accept="image/*" />
+                        @Html.HiddenFor(x => x.LibraryData.ThumbImageContentText)
+                    </div>
+                    <div class="col-md-12">
+                        <label class="control-label">Document</label>
+                        @Html.Label("Document", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                        <input class="file-upload fileRequired" alt="Document" id="fuDocument" name="DocFile" type="file" accept="image/*" />
+                        @Html.HiddenFor(x => x.LibraryData.DocContentText)
+                        @Html.HiddenFor(x => x.LibraryData.DocFile)
+                    </div>
+                    <div class="col-md-12">
+                        @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                        <select name="StandardName" id="StandardName" class="form-control requiredDDL" alt="Standard">
+                            <option value="0">--Select Standard--</option>
+                        </select>
+                        @Html.HiddenFor(x => x.StandardID)
+                    </div>
+                    <div class="col-md-12">
+                        @Html.Label("Select Subject", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                        <select name="SubjectName" id="SubjectName" class="form-control requiredDDL" alt="Subject">
+                            <option value="0">--Select Subject--</option>
+                        </select>
+                        @Html.HiddenFor(x => x.SubjectID)
+                    </div>
+                    <div class="col-md-12" style="margin-top: 10px">
+                        @Html.Label("Document Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                        @Html.TextBoxFor(x => x.Description, new { @class = "form-control required", @alt = "Description", autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+        <div class="form-group">
+            <div class="col-md-12" style="text-align: right;">
+                <div class="form-group">
+                    <div class="col-md-12" style="text-align: right;">
+                        <a href="@Url.Action("LibraryMaintenance","Library", new { @libraryID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                            <span class="ladda-label">
+                                Cancel
+                            </span>
+                            <span class="ladda-spinner"></span>
+                        </a>
+                        <a href="#" onclick="return SaveLibrary();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                            <span class="ladda-label">
+                                Save
+                            </span>
+                            <span class="ladda-spinner"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

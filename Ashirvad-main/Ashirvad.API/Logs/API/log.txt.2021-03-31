@@ -1,0 +1,162 @@
+
+
+2021-03-31 10:51:36,473 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.IO.FileNotFoundException: Unable to resolve assembly 'Model.Ashirvad.csdl'.
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.ResolveAssemblyName(String assemblyName, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.LoadResources(String assemblyName, String resourceName, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.CreateResourceLoader(String path, ExtensionCheck extensionCheck, String validExtension, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoader.Create(String path, ExtensionCheck extensionCheck, String validExtension, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.SplitPaths(String paths)
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.<>c__DisplayClass2.<Evaluate>b__0()
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.Result.GetValue()
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.Evaluate(TArg arg)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetArtifactLoader(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetMetadataWorkspace(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.GetMetadataWorkspace()
+   at System.Data.Entity.Core.Objects.ObjectContext.RetrieveMetadataWorkspaceFromConnection()
+   at System.Data.Entity.Core.Objects.ObjectContext..ctor(EntityConnection connection, Boolean isConnectionConstructor, ObjectQueryExecutionPlanFactory objectQueryExecutionPlanFactory, Translator translator, ColumnMapFactory columnMapFactory)
+   at System.Data.Entity.Internal.InternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Include(String path)
+   at System.Data.Entity.Infrastructure.DbQuery`1.Include(String path)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\Desktop\Ashirvad\Ashirvad.Repo\Services\Area\Branch\Branch.cs:line 20
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\Desktop\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-31 10:51:46,698 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.IO.FileNotFoundException: Unable to resolve assembly 'Model.Ashirvad.csdl'.
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.ResolveAssemblyName(String assemblyName, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.LoadResources(String assemblyName, String resourceName, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.CreateResourceLoader(String path, ExtensionCheck extensionCheck, String validExtension, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoader.Create(String path, ExtensionCheck extensionCheck, String validExtension, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.SplitPaths(String paths)
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.<>c__DisplayClass2.<Evaluate>b__0()
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.Result.GetValue()
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.Evaluate(TArg arg)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetArtifactLoader(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetMetadataWorkspace(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.GetMetadataWorkspace()
+   at System.Data.Entity.Core.Objects.ObjectContext.RetrieveMetadataWorkspaceFromConnection()
+   at System.Data.Entity.Core.Objects.ObjectContext..ctor(EntityConnection connection, Boolean isConnectionConstructor, ObjectQueryExecutionPlanFactory objectQueryExecutionPlanFactory, Translator translator, ColumnMapFactory columnMapFactory)
+   at System.Data.Entity.Internal.InternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Include(String path)
+   at System.Data.Entity.Infrastructure.DbQuery`1.Include(String path)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\Desktop\Ashirvad\Ashirvad.Repo\Services\Area\Branch\Branch.cs:line 20
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\Desktop\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-31 10:57:14,823 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.IO.FileNotFoundException: Unable to resolve assembly 'Model.Ashirvad.csdl'.
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.ResolveAssemblyName(String assemblyName, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.LoadResources(String assemblyName, String resourceName, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.CreateResourceLoader(String path, ExtensionCheck extensionCheck, String validExtension, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoader.Create(String path, ExtensionCheck extensionCheck, String validExtension, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.SplitPaths(String paths)
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.<>c__DisplayClass2.<Evaluate>b__0()
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.Result.GetValue()
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.Evaluate(TArg arg)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetArtifactLoader(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetMetadataWorkspace(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.GetMetadataWorkspace()
+   at System.Data.Entity.Core.Objects.ObjectContext.RetrieveMetadataWorkspaceFromConnection()
+   at System.Data.Entity.Core.Objects.ObjectContext..ctor(EntityConnection connection, Boolean isConnectionConstructor, ObjectQueryExecutionPlanFactory objectQueryExecutionPlanFactory, Translator translator, ColumnMapFactory columnMapFactory)
+   at System.Data.Entity.Internal.InternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Include(String path)
+   at System.Data.Entity.Infrastructure.DbQuery`1.Include(String path)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\Desktop\Ashirvad\Ashirvad.Repo\Services\Area\Branch\Branch.cs:line 20
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\Desktop\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-31 10:58:55,572 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.IO.FileNotFoundException: Unable to resolve assembly 'Model.Ashirvad.csdl'.
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.ResolveAssemblyName(String assemblyName, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.LoadResources(String assemblyName, String resourceName, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.CreateResourceLoader(String path, ExtensionCheck extensionCheck, String validExtension, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoader.Create(String path, ExtensionCheck extensionCheck, String validExtension, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.SplitPaths(String paths)
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.<>c__DisplayClass2.<Evaluate>b__0()
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.Result.GetValue()
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.Evaluate(TArg arg)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetArtifactLoader(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetMetadataWorkspace(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.GetMetadataWorkspace()
+   at System.Data.Entity.Core.Objects.ObjectContext.RetrieveMetadataWorkspaceFromConnection()
+   at System.Data.Entity.Core.Objects.ObjectContext..ctor(EntityConnection connection, Boolean isConnectionConstructor, ObjectQueryExecutionPlanFactory objectQueryExecutionPlanFactory, Translator translator, ColumnMapFactory columnMapFactory)
+   at System.Data.Entity.Internal.InternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Include(String path)
+   at System.Data.Entity.Infrastructure.DbQuery`1.Include(String path)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\Desktop\Ashirvad\Ashirvad.Repo\Services\Area\Branch\Branch.cs:line 20
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\Desktop\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-31 11:02:20,554 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.IO.FileNotFoundException: Unable to resolve assembly 'Model.Ashirvad.csdl'.
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.ResolveAssemblyName(String assemblyName, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.LoadResources(String assemblyName, String resourceName, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.CreateResourceLoader(String path, ExtensionCheck extensionCheck, String validExtension, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoader.Create(String path, ExtensionCheck extensionCheck, String validExtension, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.SplitPaths(String paths)
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.<>c__DisplayClass2.<Evaluate>b__0()
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.Result.GetValue()
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.Evaluate(TArg arg)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetArtifactLoader(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetMetadataWorkspace(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.GetMetadataWorkspace()
+   at System.Data.Entity.Core.Objects.ObjectContext.RetrieveMetadataWorkspaceFromConnection()
+   at System.Data.Entity.Core.Objects.ObjectContext..ctor(EntityConnection connection, Boolean isConnectionConstructor, ObjectQueryExecutionPlanFactory objectQueryExecutionPlanFactory, Translator translator, ColumnMapFactory columnMapFactory)
+   at System.Data.Entity.Internal.InternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Include(String path)
+   at System.Data.Entity.Infrastructure.DbQuery`1.Include(String path)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\Desktop\Ashirvad\Ashirvad.Repo\Services\Area\Branch\Branch.cs:line 20
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\Desktop\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26
+
+
+2021-03-31 11:05:04,290 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.IO.FileNotFoundException: Unable to resolve assembly 'Model.Ashirvad.csdl'.
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.ResolveAssemblyName(String assemblyName, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.LoadResources(String assemblyName, String resourceName, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoaderCompositeResource.CreateResourceLoader(String path, ExtensionCheck extensionCheck, String validExtension, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataArtifactLoader.Create(String path, ExtensionCheck extensionCheck, String validExtension, ICollection`1 uriRegistry, MetadataArtifactAssemblyResolver resolver)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.SplitPaths(String paths)
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.<>c__DisplayClass2.<Evaluate>b__0()
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.Result.GetValue()
+   at System.Data.Entity.Core.Common.Utils.Memoizer`2.Evaluate(TArg arg)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetArtifactLoader(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetMetadataWorkspace(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.GetMetadataWorkspace()
+   at System.Data.Entity.Core.Objects.ObjectContext.RetrieveMetadataWorkspaceFromConnection()
+   at System.Data.Entity.Core.Objects.ObjectContext..ctor(EntityConnection connection, Boolean isConnectionConstructor, ObjectQueryExecutionPlanFactory objectQueryExecutionPlanFactory, Translator translator, ColumnMapFactory columnMapFactory)
+   at System.Data.Entity.Internal.InternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Include(String path)
+   at System.Data.Entity.Infrastructure.DbQuery`1.Include(String path)
+   at Ashirvad.Repo.Services.Area.Branch.Branch.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\Desktop\Ashirvad\Ashirvad.Repo\Services\Area\Branch\Branch.cs:line 20
+   at Ashirvad.ServiceAPI.Services.Area.Branch.BranchService.BranchMaintenance(BranchEntity branchInfo) in C:\Users\HEET\Desktop\Ashirvad\Ashirvad.ServiceAPI\Services\Area\Branch\BranchService.cs:line 26

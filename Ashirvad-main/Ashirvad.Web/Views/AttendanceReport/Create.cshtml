@@ -1,0 +1,87 @@
+﻿<div class="row">
+    <div class="col-md-3">
+        @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        <div id="datepickerfromdate" class="input-group date" data-date-format="dd/mm/yyyy">
+                @if (Model == null)
+                {
+                    @Html.TextBox("From Date", null, new { @class = "form-control required", @alt = "From Date", autocomplete = "off", @readonly = "readonly" })
+                }
+                else
+                {
+                    @Html.TextBox("From Date",null, new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "From Date" })
+                }
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        <div id="datepickertodate" class="input-group date" data-date-format="dd/mm/yyyy">
+                @if (Model == null)
+                {
+                    @Html.TextBox("To Date", null, new { @class = "form-control required", @alt = "To Date", autocomplete = "off", @readonly = "readonly" })
+                }
+                else
+                {
+                    @Html.TextBox("To Date",null, new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "To Date" })
+                }
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.DropDownList("Branch", new List<SelectListItem>
+                       {
+                       new SelectListItem{ Text="---Select-Branch---", Value = "-1" },
+                        new SelectListItem{ Text="Branch", Value = "1" },
+                        }, new { @class = "form-control", id = "Branch" })
+    </div>
+    <div class="col-md-3">
+        @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.DropDownList("Standard", new List<SelectListItem>
+                       {
+                       new SelectListItem{ Text="---Select-Standard---", Value = "-1" },
+                        new SelectListItem{ Text="Standard", Value = "1" },
+                        }, new { @class = "form-control", id = "Standard" })
+    </div>
+    <div class="col-md-3">
+        @Html.Label("Batch Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.DropDownList("BatchTime", new List<SelectListItem>
+                       {
+                       new SelectListItem{ Text="---Select-Batch-Time---", Value = "-1" },
+                        new SelectListItem{ Text="Morning", Value = "1" },
+                        new SelectListItem{ Text="AfterNoon", Value = "2" },
+                        new SelectListItem{ Text="Evening", Value = "3" },
+                        }, new { @class = "form-control", id = "BatchTime" })
+    </div>
+    <div class="col-md-3">
+        @Html.Label("Student's Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.DropDownList("StudentName", new List<SelectListItem>
+                       {
+                       new SelectListItem{ Text="---Select-Student-Name---", Value = "-1" },
+                        new SelectListItem{ Text="Morning", Value = "1" },
+                        new SelectListItem{ Text="AfterNoon", Value = "2" },
+                        new SelectListItem{ Text="Evening", Value = "3" },
+                        }, new { @class = "form-control", id = "StudentName" })
+    </div>
+    <div class="col-md-3">
+        @Html.Label("Attendance Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+       <div id="datepickerdate" class="input-group date" data-date-format="dd/mm/yyyy">
+                @if (Model == null)
+                {
+                    @Html.TextBox("Attendance Date", null, new { @class = "form-control required", @alt = "Attendance Date", autocomplete = "off", @readonly = "readonly" })
+                }
+                else
+                {
+                    @Html.TextBox("Attendance Date",null, new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Attendance Date" })
+                }
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12" style="margin-top: 2.5%; text-align: right">
+        <button class="btn btn-primary" OnClick="btnSubmit_Click">Submit</button>
+    </div>
+</div>
+
+

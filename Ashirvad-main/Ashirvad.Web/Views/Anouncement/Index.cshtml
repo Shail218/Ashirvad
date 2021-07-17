@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <section class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-body">
+                    <div class="form-group">
+                        <div class="col-md-2" id="Branch" runat="server">
+                            @Html.CheckBox("isActive", false) All Branch
+                        </div>
+                        <div class="col-md-3">
+                            @Html.DropDownList("Branch", new List<SelectListItem>
+                                           {
+                                           new SelectListItem{ Text="---Select-Branch---", Value = "-1" },
+                                            new SelectListItem{ Text="Branch", Value = "1" },
+                                            }, new { @class = "form-control", id = "Branch" })
+                        </div>
+                        <div class="col-md-5">
+                            @Html.TextBox("Announcement", null, new { @class = "form-control", autocomplete = "off" })
+                        </div>
+
+                        <div class="col-md-2">
+                            <button id="btnSave" class="btn btn-primary" OnClick="btnSave_Click">
+                                Update
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
+
+

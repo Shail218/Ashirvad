@@ -1,0 +1,65 @@
+﻿﻿@model Ashirvad.Data.Model.UserPermissionMaintenanceModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1><i class="fa fa-edit" style="margin-right: 5px;"></i>User Permision</h1>
+</section>
+<hr />
+
+<section class="content">
+    <div class="messagealert" id="alert_container"></div>
+    <div class="row">
+        <section class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-body">
+                    @{
+                        Html.RenderPartial("Create", new ViewDataDictionary(Model.UserInfo));
+                    }
+                </div>
+            </div>
+        </section>
+        <section class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body">
+                    @{
+                        Html.RenderPartial("Manage", new ViewDataDictionary(Model.RolesData));
+                    }
+                </div>
+            </div>
+        </section>
+    </div>
+    @section Scripts {
+        <script type="text/javascript" src="~/scripts/app/userpermission.js"></script>
+        <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                $('#studenttbl').DataTable({
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": true
+                });
+
+            });
+        </script>
+        <script type="text/javascript">
+            function ConfirmationDialog() {
+                if (confirm("Are you sure to continue?"))
+                    return true;
+                else
+                    return false;
+            }
+        </script>
+
+    }
+
+
+</section>
+

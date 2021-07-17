@@ -1,0 +1,73 @@
+﻿﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.NotificationEntity>
+
+
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Branch Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Sub Type
+            </th>
+            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
+                <th>
+                    Edit
+                </th>
+                <th>
+                    Delete
+                </th>
+            }
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Branch.BranchName
+            </td>
+            <td>
+                @item.NotificationMessage
+            </td>
+            <td>
+                @foreach (var subtype in item.NotificationType)
+                {
+                    string a = "";
+                    if (subtype.TypeID == 1)
+                    {
+                        a = "Admin";
+                    }
+                    if (subtype.TypeID == 2)
+                    {
+                        a += "- Teacher ";
+                    }
+                    if (subtype.TypeID == 3)
+                    {
+                        a += "- Student";
+                    }
+                    <label>@a</label>
+                }
+            </td>
+            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
+                <td>
+                    <a href="@Url.Action("Index", "/Notification/NotificationMaintenance", new { notificationID = item.NotificationID })">
+                        <img src="~/ThemeData/images/viewIcon.png" />
+                    </a>
+                </td>
+                <td>
+                    <a href="#" onclick="RemoveNotification(@item.NotificationID);">
+                        <img src="~/ThemeData/images/delete.png" />
+                    </a>
+                </td>
+            }
+        </tr>
+    }
+
+</table>

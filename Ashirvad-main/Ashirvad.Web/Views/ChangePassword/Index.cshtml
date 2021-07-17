@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1><i class="fa fa-edit" style="margin-right: 5px;"></i>Change Password</h1>
+</section>
+<hr />
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                @Html.Label("Old Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                                @Html.TextBox("OldPwd", null, new { @class = "form-control", autocomplete = "off" })
+                            </div>
+                            <div class="col-md-4">
+                                @Html.Label("New Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                                @Html.TextBox("NewPwd", null, new { @class = "form-control", autocomplete = "off" })
+                            </div>
+                            <div class="col-md-4" style="margin-top: 30px;">
+                                <button class="btn btn-primary" OnClick="btnSave_Click">Save</button>&nbsp;&nbsp;&nbsp;
+                                <button class="btn btn-danger" OnClick="btnDelete_Click">Cancel</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

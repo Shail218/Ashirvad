@@ -1,0 +1,82 @@
+﻿@model List<Ashirvad.Data.StaffEntity>
+
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+
+            <th>
+                Name
+            </th>
+
+            <th>
+                Mobile No
+            </th>
+
+            <th>
+                Email ID
+            </th>
+            <th>
+                User Type
+            </th>
+            @*<th>
+                Branch Name
+            </th>*@
+            <th>
+                Status
+            </th>
+
+            <th>
+                Edit
+            </th>
+            <th>
+                Delete
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+
+            <td>
+                @item.MobileNo
+            </td>
+            <td>
+                @item.EmailID
+            </td>
+            <td>
+                @item.Gender
+                @Html.HiddenFor(x => item.BranchInfo.BranchID)
+                @Html.HiddenFor(x => item.StaffID)
+            </td>
+            
+            @*<td>
+                @item.BranchInfo.BranchName               
+            </td>*@
+            <td>
+                @item.RowStatus.RowStatus
+            </td>
+            <td>
+                <a href="@Url.Action("UserMaintenance", "User", new { branchID = item.StaffID })">
+                    <img src="~/ThemeData/images/viewIcon.png" />
+                </a>
+                @*<a href="@Url.Action("Index", "/User/UserMaintenance", new { branchID = item.StaffID })">
+            <img src="~/ThemeData/images/viewIcon.png" />
+        </a>*@
+            </td>
+            <td>
+                <a href="#" onclick="RemoveUser(@item.StaffID);">
+                    <img src="~/ThemeData/images/delete.png" />
+                </a>
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+
+

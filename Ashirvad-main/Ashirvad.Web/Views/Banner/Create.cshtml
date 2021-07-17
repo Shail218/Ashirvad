@@ -1,0 +1,120 @@
+﻿﻿@model Ashirvad.Data.BannerEntity
+@{ if (Model.BranchInfo == null)
+    {
+        Model.BranchInfo = new Ashirvad.Data.BranchEntity();
+    } }
+<form id="fBannerDetail">
+    <div class="row" id="dInformation">
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.Label("Select type", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
+                <table id="rdbType" class="radioboxlist form-control">
+                    <tbody>
+                        <tr>
+                            <td>
+                                @if (Model.BranchInfo.BranchID == 0)
+                                {
+                                    <input type="radio" name="Type" id="rowStaAll" value="All" checked />
+                                }
+                                else
+                                {
+                                    <input type="radio" name="Type" id="rowStaAll" value="All" />
+                                }
+
+                                <lable for="rowStaAll">All</lable>
+                            </td>
+                            <td>
+                                <input type="radio" name="Type" id="rowStaBranch" value="Branch" style="margin-left:10px" />
+                                <lable for="rowStaBranch">Branch</lable>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                @Html.HiddenFor(x => x.BannerID)
+            </div>
+            <div class="col-md-12" id="BranchDiv">
+                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BranchName" id="BranchName" class="form-control" alt="Branch">
+                    <option value="0">--Select Branch--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchInfo.BranchID)
+            </div>
+            <div class="col-md-12">
+                @Html.Label("Select subtype", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
+                <table id="chkSubtype" class="radioboxlist form-control">
+                    <tbody>
+                        <tr>
+
+                            @*@foreach (var item in Model.BannerType)
+                                {
+                                    <td>
+                                        <input type="checkbox" onchange='chkOnChange(this, "@item.TypeText");' name="Subtype" id="rowSta_@item.TypeText" value="@item.TypeText" />
+                                        <lable for="rowStaAdmin">@item.TypeText</lable>
+                                        @Html.HiddenFor(x => item.TypeID)
+                                    </td>
+                                }*@
+
+                            @*@Html.HiddenFor(x=> Model.BannerType)*@
+
+                            <td>
+                                @if (Model.BannerType != null && Model.BannerType.Where(x => x.TypeID == 1 && x.ID > 0).FirstOrDefault() != null)
+                                {
+                                    <input type="checkbox" name="Subtype" id="rowStaAdmin" value="Admin" checked />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" name="Subtype" id="rowStaAdmin" value="Admin" />
+                                }
+
+                                <lable for="rowStaAdmin">Admin</lable>
+
+                            </td>
+                            <td>
+                                @if (Model.BannerType != null && Model.BannerType.Where(x => x.TypeID == 2 && x.ID > 0).FirstOrDefault() != null)
+                                {
+                                    <input type="checkbox" name="Subtype" id="rowStaTeacher" value="Teacher" style="margin-left:10px" checked />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" name="Subtype" id="rowStaTeacher" value="Teacher" style="margin-left:10px" />
+                                }
+
+                                <lable for="rowStaTeacher">Teacher</lable>
+                            </td>
+                            <td>
+                                @if (Model.BannerType != null && Model.BannerType.Where(x => x.TypeID == 3 && x.ID > 0).FirstOrDefault() != null)
+                                {
+                                    <input type="checkbox" name="Subtype" id="rowStaStudent" value="Student" style="margin-left:10px" checked />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" name="Subtype" id="rowStaStudent" value="Student" style="margin-left:10px" />
+                                }
+                                <lable for="rowStaStudent">Student</lable>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-12">
+                @Html.Label("Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <input class="file-upload fileRequired" alt="Branch Image" id="fuBannerImage" name="ImageFile" type="file" accept="image/*" />
+                @Html.HiddenFor(x => x.BannerImageText)
+            </div>
+            <div class="col-md-12" style="text-align: right;">
+                <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                    <span class="ladda-label">
+                        Cancel
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+                <a href="#" onclick="return SaveBanner();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Save
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</form>

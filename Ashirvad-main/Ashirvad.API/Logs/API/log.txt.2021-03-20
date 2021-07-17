@@ -1,0 +1,14 @@
+
+
+2021-03-20 20:57:47,725 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.InvalidOperationException: No connection string named 'AshirvadDBEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+   at Ashirvad.Repo.Services.Area.User.User.ValidateUser(String userName, String password) in D:\Client\Ashirvad\Development\SourceCode\Ashirvad\Ashirvad.Repo\Services\Area\User\User.cs:line 44
+   at Ashirvad.ServiceAPI.Services.Area.User.UserService.ValidateUser(String userName, String password) in D:\Client\Ashirvad\Development\SourceCode\Ashirvad\Ashirvad.ServiceAPI\Services\Area\User\UserService.cs:line 45

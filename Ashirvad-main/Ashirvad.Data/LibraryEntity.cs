@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace Ashirvad.Data
+{
+    public class LibraryEntity
+    {
+        public long LibraryID { get; set; }
+        public long? BranchID { get; set; }
+        public string ThumbImageName { get; set; }
+        public string ThumbDocName { get; set; }
+        public int Type { get; set; }
+        public long? StandardID { get; set; }
+        public long? SubjectID { get; set; }
+        public string Description { get; set; }
+        public RowStatusEntity RowStatus { get; set; }
+        public TransactionEntity Transaction { get; set; }
+        public LibraryDataEntity LibraryData { get; set; }
+    }
+
+    public class LibraryDataEntity
+    {
+        public long UniqueID { get; set; }
+        public long LibraryID { get; set; }
+        public byte[] ThumbImageContent { get; set; }
+        public string ThumbImageContentText { get; set; }
+        public string ThumbImageExt{ get; set; }
+        public string ThumbImageFileName { get; set; }
+        public byte[] DocContent { get; set; }
+        public string DocContentText { get; set; }
+        public string DocContentFileName { get; set; }
+        public string DocContentExt { get; set; }
+        public HttpPostedFileBase ThumbImageFile { get; set; }
+        public HttpPostedFileBase DocFile { get; set; }
+    }
+}

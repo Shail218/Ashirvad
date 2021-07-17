@@ -1,0 +1,40 @@
+﻿<div class="row">
+    <div class="col-md-3">
+        @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.DropDownList("Branch", new List<SelectListItem>
+                      {
+                      new SelectListItem{ Text="---Select-Branch---", Value = "-1" },
+                       new SelectListItem{ Text="Branch", Value = "1" },
+                       }, new { @class = "form-control", id = "Branch" })
+    </div>
+    <div class="col-md-3">
+        @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.DropDownList("Standard", new List<SelectListItem>
+                      {
+                      new SelectListItem{ Text="---Select-Standard---", Value = "-1" },
+                       new SelectListItem{ Text="Standard", Value = "1" },
+                       }, new { @class = "form-control", id = "Standard" })
+    </div>
+
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @Html.Label("Uplolad Struture Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.TextBox("file", null, new { type = "file", htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.TextArea("Remarks", null, new { @class = "form-control", autocomplete = "off" })
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-3" style="text-align: left; margin-top: 27PX">
+        <button class="btn btn-primary" OnClick="btnSave_Click">Save</button>
+        <button class="btn btn-primary" OnClick="btnUpdate_Click">update</button>
+        <button class="btn btn-danger" OnClick="btnDelete_Click">Cancel</button>&nbsp;&nbsp;&nbsp;
+    </div>
+</div>

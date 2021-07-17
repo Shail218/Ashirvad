@@ -1,0 +1,37 @@
+﻿<div class="row">
+    <div class="form-group">
+        <div class="col-md-12">
+            @Html.Label("Select type", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
+            @Html.RadioButton("RequestForSample", "All", htmlAttributes: new { @class = "radioboxlist" }) All
+            @Html.RadioButton("RequestForSample", "Branch", htmlAttributes: new { @class = "radioboxlist" }) Branch
+        </div>
+        <div class="col-md-12">
+            <br />
+            @Html.Label("Select subtype", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
+            @Html.CheckBox("Admin", htmlAttributes: new { @class = "radioboxlist" }) Admin
+            @Html.CheckBox("Teacher", htmlAttributes: new { @class = "radioboxlist" }) Teacher
+            @Html.CheckBox("Student", htmlAttributes: new { @class = "radioboxlist" }) Branch
+        </div>
+        <div class="col-md-12">
+            <br />
+            @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextArea("Remarks", null, new { @class = "form-control", autocomplete = "off" })
+        </div>
+        <div class="col-md-12">
+            <br />
+            @Html.Label("Test Paper Link", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBox("TestPaperLink", null, new { @class = "form-control", autocomplete = "off" })
+        </div>
+        <div class="col-md-12" style="text-align: right;">
+            <button id="btnDelete" class="btn btn-danger" OnClick="btnDelete_Click" CausesValidation="false">
+                Cancel
+            </button>
+            <button id="btnSave" class="btn btn-primary" OnClick="btnSave_Click">
+                Save
+            </button>
+            <button id="btnUpdate" class="btn btn-primary" OnClick="btnUpdate_Click">
+                Update
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,195 @@
+﻿/// <reference path="common.js" />
+/// <reference path="../ashirvad.js" />
+
+
+$(document).ready(function () {
+
+    LoadBranch(function () {
+        if ($("#BranchID").val() != "") {
+            if ($("#BranchID").val() != "0") {
+                $("#rowStaBranch").attr('checked', 'checked');
+                $("#BranchDiv").show();
+                $('#BranchName option[value="' + $("#BranchID").val() + '"]').attr("selected", "selected");
+            } else {
+                $("#rowStaAll").attr('checked', 'checked');
+                $("#BranchDiv").hide();
+                $('#BranchName option[value="' + $("#BranchID").val() + '"]').attr("selected", "selected");
+            }
+        } else {
+            $("#BranchDiv").hide();
+        }
+    });
+
+    if ($("#BranchID").val() != "") {
+        if ($("#BranchID").val() != "0") {
+            $("#rowStaBranch").attr('checked', 'checked');
+            $("#BranchDiv").show();
+            $('#BranchName option[value="' + $("#BranchID").val() + '"]').attr("selected", "selected");
+        } else {
+            $("#rowStaAll").attr('checked', 'checked');
+            $("#BranchDiv").hide();
+            $('#BranchName option[value="' + $("#BranchID").val() + '"]').attr("selected", "selected");
+        }
+    } else {
+        $("#BranchDiv").hide();
+    }
+
+    $('input[type=radio][name=Type]').change(function () {
+        if (this.value == 'Branch') {
+            $('#BranchName option[value="0"]').attr("selected", "selected");
+            $("#BranchDiv").show();
+        }
+        else {
+            $("#BranchDiv").hide();
+        }
+    });
+
+    LoadStandard(function () {
+        if ($("#StandardID").val() != "") {
+            $('#StandardName option[value="' + $("#StandardID").val() + '"]').attr("selected", "selected");
+        }
+    });
+
+    if ($("#StandardID").val() != "") {
+        $('#StandardName option[value="' + $("#StandardID").val() + '"]').attr("selected", "selected");
+    }
+
+    LoadSubject(function () {
+        if ($("#SubjectID").val() != "") {
+            $('#SubjectName option[value="' + $("#SubjectID").val() + '"]').attr("selected", "selected");
+        }
+    });
+
+    if ($("#SubjectID").val() != "") {
+        $('#SubjectName option[value="' + $("#SubjectID").val() + '"]').attr("selected", "selected");
+    }
+
+    $("#studenttbl tr").each(function () {
+        var elemImg = $(this).find("#thumnailImg");
+        var LibraryID = $(this).find("#item_LibraryID").val();
+        if (elemImg.length > 0 && LibraryID.length > 0) {
+            var postCall = $.post(commonData.Library + "GetLibraryThumbnail", { "libraryID": LibraryID });
+            postCall.done(function (data) {
+                $(elemImg).attr('src', data);
+            }).fail(function () {
+                $(elemImg).attr('src', "../ThemeData/images/Default.png");
+            });
+        }
+    });
+
+});
+
+function LoadBranch(onLoaded) {
+    var postCall = $.post(commonData.Branch + "BranchData");
+    postCall.done(function (data) {
+        $('#BranchName').empty();
+        $('#BranchName').select2();
+        $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
+        for (i = 0; i < data.length; i++) {
+            $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
+        }
+
+        //$.each(data, function (i) {
+        //    $("#BranchName").append($("<option></option>").val(data[i].BranchID).html(data[i].BranchName));
+        //});
+
+        if (onLoaded != undefined) {
+            onLoaded();
+        }
+
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+function LoadSubject(onLoaded) {
+    var postCall = $.post(commonData.Subject + "SubjectData");
+    postCall.done(function (data) {
+        $('#SubjectName').empty();
+        $('#SubjectName').select2();
+        $("#SubjectName").append("<option value=" + 0 + ">---Select Subject Name---</option>");
+        for (i = 0; i < data.length; i++) {
+            $("#SubjectName").append("<option value=" + data[i].SubjectID + ">" + data[i].Subject + "</option>");
+        }
+        if (onLoaded != undefined) {
+            onLoaded();
+        }
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+function LoadStandard(onLoaded) {
+    var postCall = $.post(commonData.Standard + "AllStandardData");
+    postCall.done(function (data) {
+        $('#StandardName').empty();
+        $('#StandardName').select2();
+        $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
+        for (i = 0; i < data.length; i++) {
+            $("#StandardName").append("<option value=" + data[i].StandardID + ">" + data[i].Standard + "</option>");
+        }
+        if (onLoaded != undefined) {
+            onLoaded();
+        }
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+
+function SaveLibrary() {
+    debugger;
+    var isSuccess = ValidateData('dInformation');
+
+    if (isSuccess) {
+        debugger;
+        var frm = $('#fLibraryDetail');
+        var formData = new FormData(frm[0]);
+        formData.append('LibraryData.ThumbImageFile', $('input[type=file]')[0].files[0]);
+        formData.append('LibraryData.DocFile', $('input[type=file]')[1].files[0]);
+
+        AjaxCallWithFileUpload(commonData.Library + 'SaveLibrary', formData, function (data) {
+            debugger;
+            if (data) {
+                ShowMessage("Library added Successfully.", "Success");
+                window.location.href = "LibraryMaintenance?libraryID=0";
+            }
+            else {
+                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+            }
+        }, function (xhr) {
+
+        });
+    }
+}
+
+function RemoveLibrary(paperID) {
+    debugger;
+    var postCall = $.post(commonData.Library + "RemoveLibrary", { "paperID": paperID });
+    postCall.done(function (data) {
+        debugger;
+        ShowMessage("Library Removed Successfully.", "Success");
+        window.location.href = "LibraryMaintenance?libraryID=0";
+    }).fail(function () {
+        debugger;
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+$("#BranchName").change(function () {
+    debugger;
+    var Data = $("#BranchName option:selected").val();
+    $('#BranchID').val(Data);
+});
+
+$("#StandardName").change(function () {
+    debugger;
+    var Data = $("#StandardName option:selected").val();
+    $('#StandardID').val(Data);
+});
+
+$("#SubjectName").change(function () {
+    debugger;
+    var Data = $("#SubjectName option:selected").val();
+    $('#SubjectID').val(Data);
+});
