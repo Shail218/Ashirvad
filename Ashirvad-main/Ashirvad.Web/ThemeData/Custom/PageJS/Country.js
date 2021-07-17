@@ -10,7 +10,7 @@
 }
 function OnSubmit() {
 
-    debugger;
+    
     var CountryName = $("#CountryName").val();
 
     if (CountryName == "") {

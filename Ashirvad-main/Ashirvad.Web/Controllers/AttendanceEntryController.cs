@@ -1,6 +1,8 @@
-﻿using Ashirvad.Data;
+﻿using Ashirvad.Common;
+using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.Repo.DataAcceessAPI.Area.Attendance;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,13 +28,25 @@ namespace Ashirvad.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AttendanceMaintenance(AttendanceEntity aInfo)
+        public async Task<JsonResult> AttendanceMaintenance(AttendanceEntity aInfo)
         {
-            AttendanceEntity attendance = new AttendanceEntity();
+            aInfo.Transaction = GetTransactionData(aInfo.AttendanceID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            aInfo.RowStatus = new RowStatusEntity()
+            {
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
             //aInfo.AttendanceDetail = attendanceDetailEntities;
+            var line = JsonConvert.DeserializeObject<List<AttendanceDetailEntity>>(aInfo.JsonData);
+            aInfo.AttendanceDetail = line;
             long attendanceID = await _attendanceContext.AttendanceMaintenance(aInfo);
-            aInfo.AttendanceID = attendanceID;
-            return View("Index", attendance);
+            if(attendanceID > 0)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json(false);
+            }
         }
 
         [HttpPost]

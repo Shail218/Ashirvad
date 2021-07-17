@@ -60,20 +60,20 @@ function SaveStandard() {
 }
 
 function RemoveStandard(standardID) {
-    debugger;
+    
     var postCall = $.post(commonData.Standard + "RemoveStandard", { "standardID": standardID });
     postCall.done(function (data) {
-        debugger;
+        
         ShowMessage("Standard Removed Successfully.", "Success");
         window.location.href = "StandardMaintenance?branchID=0";
     }).fail(function () {
-        debugger;
+        
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
 $("#BranchName").change(function () {
-    debugger;
+    
     var Data = $("#BranchName option:selected").val();
     $('#BranchInfo_BranchID').val(Data);
 });

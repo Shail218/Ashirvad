@@ -37,10 +37,10 @@ function LoadBranch(onLoaded) {
 }
 
 function LoadStandard(branchID) {
-    debugger;
+    
     var postCall = $.post(commonData.Standard + "StandardData", { "branchID": branchID });
     postCall.done(function (data) {
-        debugger;
+        
         $('#StandardName').empty();
         $('#StandardName').select2();
         $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
@@ -56,7 +56,7 @@ function LoadStandard(branchID) {
 }
 
 function SaveYoutube() {
-    debugger;
+    
     var isSuccess = ValidateData('dInformation');
 
     if (isSuccess) {
@@ -72,27 +72,27 @@ function SaveYoutube() {
 }
 
 function RemoveYoutube(schoolID) {
-    debugger;
+    
     var postCall = $.post(commonData.Youtube + "RemoveYoutube", { "linkID": schoolID });
     postCall.done(function (data) {
-        debugger;
+        
         ShowMessage("Youtube Removed Successfully.", "Success");
         window.location.href = "YoutubeMaintenance?linkID=0";
     }).fail(function () {
-        debugger;
+        
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
 $("#BranchName").change(function () {
-    debugger;
+    
     var Data = $("#BranchName option:selected").val();
     $('#Branch_BranchID').val(Data);
     LoadStandard(Data);
 });
 
 $("#StandardName").change(function () {
-    debugger;
+    
     var Data = $("#StandardName option:selected").val();
     $('#StandardID').val(Data);
 });

@@ -8,6 +8,7 @@ namespace Ashirvad.Data
 {
     public class AttendanceEntity
     {
+        public string JsonData { get; set; }
         public long AttendanceID { get; set; }
         public BranchEntity Branch { get; set; }
         public StandardEntity Standard { get; set; }

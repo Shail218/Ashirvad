@@ -15,6 +15,12 @@ $(document).ready(function () {
         if ($("#Branch_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
         }
+
+        if (commonData.BranchID != "0") {
+            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
+            $("#Branch_BranchID").val(commonData.BranchID);
+            LoadStandard(commonData.BranchID);
+        }
     });
 
     if ($("#Branch_BranchID").val() != "") {
@@ -50,7 +56,7 @@ function LoadBranch(onLoaded) {
 function LoadStandard(branchID) {
     var postCall = $.post(commonData.Standard + "StandardData", { "branchID": branchID });
     postCall.done(function (data) {
-        debugger;
+        
         $('#StandardName').empty();
         $('#StandardName').select2();
         $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
@@ -85,15 +91,15 @@ function GetStudentDetail() {
 }
 
 function SaveAttendance() {
-    debugger;
     var AttendanceData = [];
-    $("#studenttbl tr").each(function () {
-        debugger;
+    Map = {};
+    $("#attendancetable tbody tr").each(function () {       
         var IsAbsent, IsPresent;
         var GrNo = $(this).find("#item_GrNo").val();
         var Remarks = $(this).find("#Remarks").val();
         var StudentID = $(this).find("#item_StudentID").val();
-        if ($(this).find("#absent").is(":checked")) {
+        var checked = $(this).find("#cb").prop("checked");
+        if (checked) {
             IsAbsent = true;
             IsPresent = false;
         } else {
@@ -101,38 +107,42 @@ function SaveAttendance() {
             IsPresent = true;
         }
         if (StudentID != null) {
-            AttendanceData.push({
+            Map = {
                 IsAbsent: IsAbsent,
                 IsPresent: IsPresent,
+                Remarks: Remarks,
                 Student: {
                     StudentID: StudentID
-                },
-                Remakrs: Remarks
-            });
+                }
+            }
+            AttendanceData.push(Map);
         }
     });
-    var Form = $('#fAttendanceDetail').serialize();
-    var Data = { aInfo: Form, attendanceDetailEntities: AttendanceData }
-    var postCall = $.post(commonData.AttendanceEntry + "AttendanceMaintenance", $('#fAttendanceDetail').serialize());
-    postCall.done(function (data) {
-        debugger;
-        ShowMessage("Attendance added Successfully.", "Success");
-        window.location.href = "Index";
-    }).fail(function () {
-        debugger;
-        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    $('#JsonData').val(JSON.stringify(AttendanceData));
+    var isSuccess = ValidateData('dInformation');
+    if (isSuccess) {
+        ShowLoader(); 
+        var postCall = $.post(commonData.AttendanceEntry + "AttendanceMaintenance", $('#fAttendanceDetail').serialize());
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Attendance added Successfully.", "Success");
+            window.location.href = "/AttendanceRegister/Index";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 function RemoveStudent(studentID) {
-    debugger;
+    
     var postCall = $.post(commonData.Student + "RemoveStudent", { "studentID": studentID });
     postCall.done(function (data) {
-        debugger;
+        
         ShowMessage("Student Removed Successfully.", "Success");
         window.location.href = "StudentMaintenance?studentID=0";
     }).fail(function () {
-        debugger;
+        
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }

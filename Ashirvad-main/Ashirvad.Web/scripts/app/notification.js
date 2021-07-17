@@ -102,7 +102,7 @@ function LoadBranch(onLoaded) {
 }
 
 function SaveNotification() {
-    debugger;
+    
     var isSuccess = ValidateData('dInformation');
     var NotificationTypeList = [];
     if ($('input[type=checkbox][id=rowStaAdmin]').is(":checked")) {
@@ -125,7 +125,7 @@ function SaveNotification() {
     }
     $('#NotificationType').val(NotificationTypeList);
     if (isSuccess) {
-        debugger;
+        
         var postCall = $.post(commonData.Notification + "SaveNotification", $('#fNotificationDetail').serialize());
         postCall.done(function (data) {
             ShowMessage('Notification details saved!', 'Success');
@@ -152,7 +152,7 @@ function RemoveNotification(branchID) {
 
 
 $("#BranchName").change(function () {
-    debugger;
+    
     var Data = $("#BranchName option:selected").val();
     $('#Branch_BranchID').val(Data);
 });

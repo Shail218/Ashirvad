@@ -75,10 +75,10 @@ function LoadBranch(onLoaded) {
 }
 
 function LoadStandard(branchID) {
-    debugger;
+    
     var postCall = $.post(commonData.Standard + "StandardData", { "branchID": branchID});
     postCall.done(function (data) {
-        debugger;
+        
         $('#StandardName').empty();
         $('#StandardName').select2();
         $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
@@ -96,7 +96,7 @@ function LoadStandard(branchID) {
 function LoadSubject(branchID) {
     var postCall = $.post(commonData.Subject + "SubjectDataByBranch", { "branchID": branchID });
     postCall.done(function (data) {
-        debugger;
+        
         $('#SubjectName').empty();
         $('#SubjectName').select2();
         $("#SubjectName").append("<option value=" + 0 + ">---Select Subject Name---</option>");
@@ -112,14 +112,14 @@ function LoadSubject(branchID) {
 }
 
 function SaveTest() {
-    debugger;
-    var isSuccess = ValidateData('fTestDetail');
-    if (isSuccess) {
+
+    var isSuccess = ValidateData('fTestDetail');    
+        if (isSuccess) {
         var date1 = $("#TestDate").val();
         $("#TestDate").val(ConvertData(date1));
         var postCall = $.post(commonData.TestPaper + "SaveTest", $('#fTestDetail').serialize());
         postCall.done(function (data) {
-            debugger;
+            
             if (data > 0) {
                 SaveTestPaper(data);
                 ShowMessage("Test added Successfully.", "Success");
@@ -128,25 +128,27 @@ function SaveTest() {
                 window.location.href = "TestPaperMaintenance?testID=0";
             }
         }).fail(function () {
-            debugger;
+            
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }
 }
 
 function SaveTestPaper(testID) {
-    debugger;
-  
+
+
+    var isSuccess = ValidateData('dpaperInformation');
+
     $('#TestID').val(testID);
     var isSuccess = true;
     if (isSuccess) {
-        debugger;
+   
         var frm = $('#fTestDetail');
         var formData = new FormData(frm[0]);
         formData.append('FileInfo', $('input[type=file]')[0].files[0]);
 
         AjaxCallWithFileUpload(commonData.TestPaper + 'SaveTestPaper', formData, function (data) {
-            debugger;
+            
             if (data) {
                 ShowMessage("Test paper added Successfully.", "Success");
                 window.location.href = "TestPaperMaintenance?testID=0";
@@ -161,14 +163,14 @@ function SaveTestPaper(testID) {
 }
 
 function RemoveTest(testID) {
-    debugger;
+    
     var postCall = $.post(commonData.TestPaper + "RemoveTest", { "testID": testID });
     postCall.done(function (data) {
-        debugger;
+        
         ShowMessage("Test Removed Successfully.", "Success");
         window.location.href = "TestPaperMaintenance?testID=0";
     }).fail(function () {
-        debugger;
+        
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }

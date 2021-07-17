@@ -13,6 +13,7 @@ $(document).ready(function () {
         $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
     }
 
+
     $("#studenttbl tbody tr").each(function () {
         debugger;
         
@@ -20,6 +21,8 @@ $(document).ready(function () {
   
            
             var postCall = $.post(commonData.Videos + "DownloadVideo", { "videoID": photoID });
+
+    
             postCall.done(function (data) {
                 if (data != null) {
                     var ppls = document.getElementById("videoDownload");
@@ -41,7 +44,7 @@ $(document).ready(function () {
 function LoadBranch(onLoaded) {
     var postCall = $.post(commonData.Branch + "BranchData");
     postCall.done(function (data) {
-        debugger;
+        
         $('#BranchName').empty();
         $('#BranchName').select2();
         $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
@@ -58,7 +61,7 @@ function LoadBranch(onLoaded) {
 }
 
 function SaveVideos() {
-    debugger;
+    
     var isSuccess = ValidateData('dInformation');
 
     if (isSuccess) {
@@ -67,7 +70,7 @@ function SaveVideos() {
         formData.append('ImageFile', $('input[type=file]')[0].files[0]);
 
         AjaxCallWithFileUpload(commonData.Videos + 'SaveVideos', formData, function (data) {
-            debugger;
+            
             if (data) {
                 ShowMessage('Videos details saved!', 'Success');
                 window.location.href = "VideosMaintenance?videoID=0";
@@ -92,7 +95,7 @@ function RemoveVideos(branchID) {
 }
 
 $("#BranchName").change(function () {
-    debugger;
+    
     var Data = $("#BranchName option:selected").val();
     $('#Branch_BranchID').val(Data);
 });
