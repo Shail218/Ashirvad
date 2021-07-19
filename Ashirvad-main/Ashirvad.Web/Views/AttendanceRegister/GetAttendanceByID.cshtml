@@ -3,18 +3,36 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .table > tbody > tr, .table > tbody > tr > td, .table > tfoot > tr > td {
+        padding: 4px !important;
+    }
 
+    .remark {
+        height: 30px;
+        padding-left: 5px;
+        width: 70%;
+    }
+</style>
 <section class="content-header">
     <h1><i class="fa fa-edit" style="margin-right: 5px;"></i>Student Attendance Entry</h1>
 </section>
 <hr />
 <section class="content">
-    <div class="row">
+    <div class="row" id='dInformation'>
+        <form id="attendence">
+            @Html.HiddenFor(x => x.JsonData)
+            @Html.HiddenFor(x => x.AttendanceID)
+            @Html.HiddenFor(x => x.Branch.BranchID)
+            @Html.HiddenFor(x => x.Standard.StandardID)
+            @Html.HiddenFor(x => x.BatchTypeID)
+            @Html.HiddenFor(x => x.AttendanceDate)
+        </form>
         <div class="messagealert" id="alert_container"></div>
         <section class="col-md-12">
             <div class="box box-warning">
                 <div class="box-body">
-                    <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+                    <table style="width: 100%;" id="attendancetable" class="table table-striped dataTable no-footer">
                         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
                             <th>
                                 Gr No.
@@ -29,60 +47,63 @@
                                 Remarks
                             </th>
                         </tr>
+                        <tbody>
+                            @foreach (var item in Model.AttendanceDetail)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Student.GrNo
+                                        @Html.HiddenFor(x => item.Student.StudentID)
+                                        @Html.HiddenFor(x => item.DetailID)
+                                        @Html.HiddenFor(x => item.HeaderID)
 
-                        @foreach (var item in Model.AttendanceDetail)
-                        {
-                            <tr>
-                                <td>
-                                    @item.Student.GrNo
-                                </td>
-                                <td>
-                                    @item.Student.FirstName
-                                </td>
-                                <td>
-                                    @if (item.IsAbsent)
-                                    {
-                                        <lable for="absent">
-                                            <input type="checkbox" id="absent" checked />Absent
-                                        </lable>
-                                    }
-                                    else
-                                    {
-                                        <lable for="absent">
-                                            <input type="checkbox" id="absent" />Absent
-                                        </lable>
-                                    }
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => item.Remarks, new { @id = "Remarks", @class = "form-control", @alt = "Remarks", autocomplete = "off" })
-                                </td>
-                            </tr>
-                        }
+                                    </td>
+                                    <td>
+                                        @item.Student.FirstName @item.Student.LastName
+                                    </td>
+                                    <td>
+                                        @if (item.IsAbsent)
+                                        {
+                                            <lable>
+                                                <input type="checkbox" name="cb" value="@item.Student.StudentID" id="cb" checked />  Absent
+                                            </lable>
+                                        }
+                                        else
+                                        {
+                                            <lable>
+                                                <input type="checkbox" name="cb" value="@item.Student.StudentID" id="cb" />  Absent
+                                            </lable>
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(x => item.Remarks, new { @class = "remark", @alt = "Remarks", autocomplete = "off" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
                     </table>
-
                     <div class="form-group">
                         <div class="col-md-12" style="text-align: right;">
+                            <a href="#" onclick="return EditAttendance();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                                <span class="ladda-label">
+                                    Save
+                                </span>
+                                <span class="ladda-spinner"></span>
+                            </a>
                             <a href="@Url.Action("Index","AttendanceEntry")" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
                                 <span class="ladda-label">
                                     Cancel
                                 </span>
                                 <span class="ladda-spinner"></span>
                             </a>
-                            <a href="#" onclick="return SaveAttendance();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
-                                <span class="ladda-label">
-                                    Save
-                                </span>
-                                <span class="ladda-spinner"></span>
-                            </a>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
     </div>
     @section Scripts {
-        <script type="text/javascript" src="~/scripts/app/attendance.js"></script>
+        <script type="text/javascript" src="~/scripts/app/attendanceRegister.js"></script>
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
         <script>

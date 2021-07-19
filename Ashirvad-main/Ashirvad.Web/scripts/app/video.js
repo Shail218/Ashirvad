@@ -7,6 +7,11 @@ $(document).ready(function () {
         if ($("#Branch_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
         }
+
+        if (commonData.BranchID != "0") {
+            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
+            $("#Branch_BranchID").val(commonData.BranchID);
+        }
     });
 
     if ($("#Branch_BranchID").val() != "") {
@@ -15,14 +20,9 @@ $(document).ready(function () {
 
 
     $("#studenttbl tbody tr").each(function () {
-        debugger;
-        
-        var photoID = $(this).find("#UniqID").val();
-  
-           
-            var postCall = $.post(commonData.Videos + "DownloadVideo", { "videoID": photoID });
-
-    
+        debugger;     
+        var photoID = $(this).find("#UniqID").val();          
+            var postCall = $.post(commonData.Videos + "DownloadVideo", { "videoID": photoID });   
             postCall.done(function (data) {
                 if (data != null) {
                     var ppls = document.getElementById("videoDownload");
@@ -60,17 +60,16 @@ function LoadBranch(onLoaded) {
     });
 }
 
-function SaveVideos() {
-    
+function SaveVideo() {
+    debugger;
     var isSuccess = ValidateData('dInformation');
-
     if (isSuccess) {
+        ShowLoader();
         var frm = $('#fVideosDetail');
         var formData = new FormData(frm[0]);
         formData.append('ImageFile', $('input[type=file]')[0].files[0]);
-
         AjaxCallWithFileUpload(commonData.Videos + 'SaveVideos', formData, function (data) {
-            
+            HideLoader();
             if (data) {
                 ShowMessage('Videos details saved!', 'Success');
                 window.location.href = "VideosMaintenance?videoID=0";
@@ -79,7 +78,7 @@ function SaveVideos() {
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
         }, function (xhr) {
-
+            HideLoader();
         });
     }
 }

@@ -8,6 +8,12 @@ $(document).ready(function () {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
             LoadStandard($("#Branch_BranchID").val());
         }
+
+        if (commonData.BranchID != "0") {
+            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
+            $("#Branch_BranchID").val(commonData.BranchID);
+            LoadStandard(commonData.BranchID);
+        }
     });
 
     if ($("#Branch_BranchID").val() != "") {
@@ -55,17 +61,17 @@ function LoadStandard(branchID) {
     });
 }
 
-function SaveYoutube() {
-    
+function SaveYoutube() {    
     var isSuccess = ValidateData('dInformation');
-
     if (isSuccess) {
-
+        ShowLoader();
         var postCall = $.post(commonData.Youtube + "SaveYoutube", $('#fyoutubeDetail').serialize());
         postCall.done(function (data) {
+            HideLoader();
             ShowMessage("Youtube added Successfully.", "Success");
             window.location.href = "YoutubeMaintenance?linkID=0";
         }).fail(function () {
+            HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }

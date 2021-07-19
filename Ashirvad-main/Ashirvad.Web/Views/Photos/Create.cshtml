@@ -1,39 +1,52 @@
 ﻿@model Ashirvad.Data.GalleryEntity
 <form id="fPhotosDetail">
     <div class="form-group" id="dInformation">
-        <div class="col-md-12">
-            @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <select name="BranchName" id="BranchName" class="form-control requiredDDL" alt="Branch">
-                <option value="0">--Select Branch--</option>
-            </select>
-            @Html.HiddenFor(x => x.Branch.BranchID)
-            @Html.HiddenFor(x => x.UniqueID)
-        </div>
-        <div class="col-md-12">
-            @Html.Label("Document", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <input class="file-upload fileRequired" alt="Document" id="fuImage" name="ImageFile" type="file" accept="image/*" />
-            @Html.HiddenFor(x => x.FileEncoded)
-        </div>
-        <div class="form-group">
+        <div class="row">
+            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
             <div class="col-md-12">
+                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BranchName" id="BranchName" class="form-control requiredDDL select2" alt="Branch">
+                    <option value="0">--Select Branch--</option>
+                </select>
+                @Html.HiddenFor(x => x.Branch.BranchID)
+                @Html.HiddenFor(x => x.UniqueID)
+            </div>
+            }
+            else
+            {
+            <div class="col-md-12" style="display: none;">
+                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BranchName" id="BranchName" class="form-control" alt="Branch">
+                    <option value="0">--Select Branch--</option>
+                </select>
+                @Html.HiddenFor(x => x.Branch.BranchID)
+                @Html.HiddenFor(x => x.UniqueID)
+            </div>
+            }
+            <div class="col-md-12" style="margin-top:10px;">
+                @Html.Label("Document", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <input class="file-upload fileRequired" alt="Document" id="fuImage" name="ImageFile" type="file" accept="image/*" />
+                @Html.HiddenFor(x => x.FileEncoded)
+            </div>
+            <div class="col-md-12" style="margin-top:10px;">
                 @Html.Label("Image Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
             </div>
-        </div>
-        <div class="form-group">
             <div class="col-md-12" style="text-align: right;">
-                <a href="@Url.Action("PhotosMaintenance","Photos", new { @photoID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
-                    <span class="ladda-label">
-                        Cancel
-                    </span>
-                    <span class="ladda-spinner"></span>
-                </a>
                 <a href="#" onclick="return SavePhotos();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                     <span class="ladda-label">
                         Save
                     </span>
                     <span class="ladda-spinner"></span>
                 </a>
+                <a href="@Url.Action("PhotosMaintenance","Photos", new { @photoID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                    <span class="ladda-label">
+                        Cancel
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+
             </div>
         </div>
     </div>

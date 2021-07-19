@@ -39,8 +39,8 @@
     </script>
     <!-- Bootstrap 3.3.6 -->
     <script src="~/ThemeData/bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    @*<script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>*@
+    @*<script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>*@
     <!-- Select2 -->
     <script src="~/ThemeData/plugins/select2/select2.full.min.js"></script>
     <!-- InputMask -->
@@ -119,15 +119,14 @@
                     </div>
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li class="treeview">
+                            <li class="treeview" style="margin-left:20px;">
                                 <a href="@Url.Action("Index","Home")">
                                     Dashboard
                                 </a>
                             </li>
-                            <li class="dropdown" id="Master">
+                            <li class="dropdown" id="Master" style="margin-left:10px;">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     Masters
-
                                 </a>
                                 <ul class="dropdown-menu">
                                     @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
@@ -186,7 +185,7 @@
                             </li>
                             @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
                             {
-                                <li class="dropdown" id="student">
+                                <li class="dropdown" id="student" style="margin-left:10px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         Student
                                     </a>
@@ -202,7 +201,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="dropdown" id="Attendance">
+                                <li class="dropdown" id="Attendance" style="margin-left:10px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         Attendance
 
@@ -219,7 +218,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="dropdown" id="TestSchedule">
+                                <li class="dropdown" id="TestSchedule" style="margin-left:10px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         Test
 
@@ -239,7 +238,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="dropdown" id="Photos">
+                                <li class="dropdown" id="Photos" style="margin-left:10px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         Gallery
                                     </a>
@@ -267,7 +266,7 @@
                                     </ul>
                                 </li>
 
-                                <li class="dropdown" id="Library">
+                                <li class="dropdown" id="Library" style="margin-left:10px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         Library
                                     </a>
@@ -289,7 +288,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="dropdown" id="role" visible="false">
+                                <li class="dropdown" id="role" visible="false" style="margin-left:10px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         Permission
 
@@ -305,7 +304,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="dropdown" id="ChartReport" visible="false">
+                                <li class="dropdown" id="ChartReport" visible="false" style="margin-left:10px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         Chart Reports
 
@@ -333,7 +332,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="dropdown" id="More" visible="true">
+                                <li class="dropdown" id="More" visible="true" style="margin-left:10px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         More
 
@@ -447,9 +446,9 @@
             //Initialize Select2 Elements
             $(".select2").select2();
             //Datemask dd/mm/yyyy
-            $("#datemask").inputmask("dd/mm/yyyy", { "placeholder": "dd/mm/yyyy" });
+            //$("#datemask").inputmask("dd/mm/yyyy", { "placeholder": "dd/mm/yyyy" });
             //Money Euro
-            $("[data-mask]").inputmask();
+            //$("[data-mask]").inputmask();
         });
     </script>
     <script>

@@ -1,7 +1,6 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
-
 $(document).ready(function () {
 
     $("#datepickertest").datepicker({
@@ -16,6 +15,13 @@ $(document).ready(function () {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
             LoadStandard($("#Branch_BranchID").val());
             LoadSubject($("#Branch_BranchID").val());
+        }
+
+        if (commonData.BranchID != "0") {
+            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
+            $("#Branch_BranchID").val(commonData.BranchID);
+            LoadStandard(commonData.BranchID);
+            LoadSubject(commonData.BranchID);
         }
     });
 
@@ -112,14 +118,15 @@ function LoadSubject(branchID) {
 }
 
 function SaveTest() {
-
     var isSuccess = ValidateData('fTestDetail');    
-        if (isSuccess) {
+    if (isSuccess) {
+        ShowLoader();
         var date1 = $("#TestDate").val();
         $("#TestDate").val(ConvertData(date1));
         var postCall = $.post(commonData.TestPaper + "SaveTest", $('#fTestDetail').serialize());
         postCall.done(function (data) {
-            
+            HideLoader();
+            debugger;
             if (data > 0) {
                 SaveTestPaper(data);
                 ShowMessage("Test added Successfully.", "Success");
@@ -128,21 +135,17 @@ function SaveTest() {
                 window.location.href = "TestPaperMaintenance?testID=0";
             }
         }).fail(function () {
-            
+            HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }
 }
 
 function SaveTestPaper(testID) {
-
-
     var isSuccess = ValidateData('dpaperInformation');
-
     $('#TestID').val(testID);
     var isSuccess = true;
-    if (isSuccess) {
-   
+    if (isSuccess) {  
         var frm = $('#fTestDetail');
         var formData = new FormData(frm[0]);
         formData.append('FileInfo', $('input[type=file]')[0].files[0]);

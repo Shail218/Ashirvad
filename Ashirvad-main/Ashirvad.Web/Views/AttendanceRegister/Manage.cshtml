@@ -30,7 +30,7 @@
         {
             <tr>
                 <td>
-                    @item.AttendanceDate
+                    @item.AttendanceDate.ToString("dd/MM/yyyy")
                     @Html.HiddenFor(x => item.AttendanceID)
                 </td>
                 <td>
@@ -55,7 +55,7 @@
 </table>
 
 
-<div class="form-group">
+@*<div class="form-group">
     <div class="col-md-12" style="text-align: right;">
         <a href="@Url.Action("Index","AttendanceRegister")" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
             <span class="ladda-label">
@@ -70,7 +70,7 @@
             <span class="ladda-spinner"></span>
         </a>
     </div>
-</div>
+</div>*@
 
 <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>

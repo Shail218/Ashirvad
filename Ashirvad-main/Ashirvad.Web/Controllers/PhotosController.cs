@@ -34,7 +34,7 @@ namespace Ashirvad.Web.Controllers
                 branch.GalleryInfo = result.Data;
             }
 
-            var branchData = await _gallaryService.GetAllGalleryWithoutContent(1);
+            var branchData = await _gallaryService.GetAllGalleryWithoutContent(1,SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             branch.GalleryData = branchData.Data;
 
             return View("Index", branch);

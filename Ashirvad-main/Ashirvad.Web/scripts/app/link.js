@@ -8,6 +8,12 @@ $(document).ready(function () {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
             LoadStandard($("#Branch_BranchID").val());
         }
+
+        if (commonData.BranchID != "0") {
+            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
+            $("#Branch_BranchID").val(commonData.BranchID);
+            LoadStandard(commonData.BranchID);
+        }
     });
 
     if ($("#Branch_BranchID").val() != "") {
@@ -54,17 +60,17 @@ function LoadStandard(branchID) {
     });
 }
 
-function SaveLink() {
-    
+function SaveLink() {  
     var isSuccess = ValidateData('dInformation');
-
     if (isSuccess) {
-
+        ShowLoader();
         var postCall = $.post(commonData.LiveVideo + "SaveLink", $('#flinkDetail').serialize());
         postCall.done(function (data) {
+            HideLoader();
             ShowMessage("School added Successfully.", "Success");
             window.location.href = "LiveVideoMaintenance?linkID=0";
         }).fail(function () {
+            HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }

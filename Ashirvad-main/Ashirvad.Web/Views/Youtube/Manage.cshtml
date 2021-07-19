@@ -4,9 +4,12 @@
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            @if(SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
             <th>
                 Branch Name
             </th>
+            }
 
             <th>
                 Standard
@@ -32,9 +35,13 @@
     @foreach (var item in Model)
     {
         <tr>
+            @if(SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
             <td>
                 @item.Branch.BranchName
             </td>
+            }
+            
             <td>
                 @item.StandardName
             </td>
@@ -45,11 +52,11 @@
                 @item.LinkURL
             </td>
             <td>
-                <a href="@Url.Action("Index", "/Youtube/YoutubeMaintenance", new { linkID = item.UniqueID })">
+                <a href="@Url.Action("YoutubeMaintenance", "Youtube", new { linkID = item.UniqueID })">
                     <img src="~/ThemeData/images/viewIcon.png" />
                 </a>
             </td>
-            <td>
+            <td style="text-align:center;">
                 <a href="#" onclick="RemoveYoutube(@item.UniqueID);">
                     <img src="~/ThemeData/images/delete.png" />
                 </a>

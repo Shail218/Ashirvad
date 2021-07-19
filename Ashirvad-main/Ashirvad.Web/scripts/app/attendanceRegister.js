@@ -7,6 +7,11 @@ $(document).ready(function () {
         if ($("#Branch_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
         }
+        if (commonData.BranchID != "0") {
+            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
+            $("#BranchInfo_BranchID").val(commonData.BranchID);
+            GetAttendanceDetail(commonData.BranchID);
+        }
     });
 
     if ($("#Branch_BranchID").val() != "") {
@@ -34,15 +39,13 @@ function LoadBranch(onLoaded) {
 }
 
 function GetAttendanceDetail(branchID) {
-    
+    ShowLoader();
     var postCall = $.post(commonData.AttendanceRegister + "GetAllAttendanceByBranch", { "branchID": branchID });
     postCall.done(function (data) {
-        
+        HideLoader();
         $('#AttendanceData').html(data);
-        //ShowMessage("Student added Successfully.", "Success");
-        //window.location.href = "StudentMaintenance?studentID=0";
     }).fail(function () {
-        
+        HideLoader();
         //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
@@ -59,6 +62,53 @@ function GetAttendanceByID(attendanceID) {
         
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
+}
+
+function EditAttendance() {
+    var AttendanceData = [];
+    Map = {};
+    $("#attendancetable tbody tr").each(function () {
+        var IsAbsent, IsPresent;
+        var Remarks = $(this).find("#item_Remarks").val();
+        var StudentID = $(this).find("#item_Student_StudentID").val();
+        var detailID = $(this).find("#item_DetailID").val();
+        var headerID = $(this).find("#item_HeaderID").val();
+        var checked = $(this).find("#cb").prop("checked");
+        if (checked) {
+            IsAbsent = true;
+            IsPresent = false;
+        } else {
+            IsAbsent = false;
+            IsPresent = true;
+        }
+        if (StudentID != null) {
+            Map = {
+                IsAbsent: IsAbsent,
+                IsPresent: IsPresent,
+                Remarks: Remarks,
+                Student: {
+                    StudentID: StudentID
+                },
+                DetailID: detailID,
+                HeaderID: headerID
+            }
+            AttendanceData.push(Map);
+        }
+    });
+    $('#JsonData').val(JSON.stringify(AttendanceData));
+    var isSuccess = ValidateData('dInformation');
+    if (isSuccess) {
+        ShowLoader();
+        var postCall = $.post(commonData.AttendanceEntry + "AttendanceMaintenance", $('#attendence').serialize());
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Attendance added Successfully.", "Success");
+            window.location.href = "/AttendanceRegister/Index";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 function RemoveAttendance(attendanceID) {

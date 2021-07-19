@@ -38,11 +38,11 @@
                 <div id="datepickerattendance" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null)
                     {
-                        @Html.TextBoxFor(x => x.AttendanceDate, null, new { @class = "form-control", @alt = "Attendance Date", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(x => x.AttendanceDate, new { @class = "form-control required", @alt = "Attendance Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {
-                        @Html.TextBoxFor(x => x.AttendanceDate, Model.AttendanceDate.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Attendance Date" })
+                        @Html.TextBoxFor(x => x.AttendanceDate, Model.AttendanceDate.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Attendance Date" })
                     }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>

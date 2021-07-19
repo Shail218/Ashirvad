@@ -49,7 +49,7 @@ function LoadBranch(onLoaded) {
         }
 
     }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
@@ -67,7 +67,7 @@ function LoadStandard(branchID) {
             $('#StandardName option[value="' + $("#Standard_StandardID").val() + '"]').attr("selected", "selected");
         }
     }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
