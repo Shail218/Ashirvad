@@ -10,6 +10,13 @@ $(document).ready(function () {
             LoadSubject($("#Branch_BranchID").val());
             LoadStandard($("#Branch_BranchID").val());
         }
+
+        if (commonData.BranchID != "0") {
+            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
+            $("#Branch_BranchID").val(commonData.BranchID);
+            LoadSubject(commonData.BranchID);
+            LoadStandard(commonData.BranchID);
+        }
     });
 
     if ($("#Branch_BranchID").val() != "") {
@@ -86,18 +93,15 @@ function LoadStandard(branchID) {
 }
 
 
-function SavePaper() {
-    
+function SavePaper() {   
     var isSuccess = ValidateData('dInformation');
-
     if (isSuccess) {
-        
+        ShowLoader();
         var frm = $('#fPaperDetail');
         var formData = new FormData(frm[0]);
         formData.append('PaperData.PaperFile', $('input[type=file]')[0].files[0]);
-
         AjaxCallWithFileUpload(commonData.Paper + 'SavePaper', formData, function (data) {
-            
+            HideLoader();
             if (data) {
                 ShowMessage("Paper added Successfully.", "Success");
                 window.location.href = "PaperMaintenance?paperID=0";
@@ -106,7 +110,7 @@ function SavePaper() {
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
         }, function (xhr) {
-
+            HideLoader();
         });
     }
 }

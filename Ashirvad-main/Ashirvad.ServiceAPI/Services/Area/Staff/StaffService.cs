@@ -29,14 +29,15 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
         public async Task<StaffEntity> StaffMaintenance(StaffEntity staffInfo)
         {
             StaffEntity staff = new StaffEntity();
+            ResponseModel res = new ResponseModel();
             try
             {
                 bool isUpdate = staffInfo.StaffID > 0;
-                long staffID = await _staffContext.StaffMaintenance(staffInfo);
-                if (staffID > 0)
+                res = await _staffContext.StaffMaintenance(staffInfo);
+                if (staffInfo.StaffID > 0)
                 {
-                    staff.StaffID = staffID;
-                    var user = await _userContext.UserMaintenance(await this.GetUserData(staffInfo, staffID));
+                    staff.StaffID = staffInfo.StaffID;
+                    var user = await _userContext.UserMaintenance(await this.GetUserData(staffInfo, staffInfo.StaffID));
                 }
             }
             catch (Exception ex)

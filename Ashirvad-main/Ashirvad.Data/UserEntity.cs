@@ -25,6 +25,7 @@ namespace Ashirvad.Data
         public StudentMaint ParentDetail { get; set; }
         public StaffEntity StaffDetail { get; set; }
         public List<RolesEntity>  Roles { get; set; }
+        public string JSONData { get; set; }
     }
 
     public class RolesEntity
@@ -34,5 +35,6 @@ namespace Ashirvad.Data
         public Enums.Roles Permission { get; set; }
         public string RoleName { get; set; }
         public bool HasAccess{ get; set; }
+        public int PermissionValue{ get; set; }
     }
 }

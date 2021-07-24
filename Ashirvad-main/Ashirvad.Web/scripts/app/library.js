@@ -1,9 +1,8 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
-
 $(document).ready(function () {
-
+    $("#Type").val(1);
     LoadBranch(function () {
         if ($("#BranchID").val() != "") {
             if ($("#BranchID").val() != "0") {
@@ -14,6 +13,7 @@ $(document).ready(function () {
                 $("#rowStaAll").attr('checked', 'checked');
                 $("#BranchDiv").hide();
                 $('#BranchName option[value="' + $("#BranchID").val() + '"]').attr("selected", "selected");
+                $("#BranchID").val(0);
             }
         } else {
             $("#BranchDiv").hide();
@@ -29,9 +29,11 @@ $(document).ready(function () {
             $("#rowStaAll").attr('checked', 'checked');
             $("#BranchDiv").hide();
             $('#BranchName option[value="' + $("#BranchID").val() + '"]').attr("selected", "selected");
+            $("#BranchID").val(0);
         }
     } else {
         $("#BranchDiv").hide();
+        $("#BranchID").val(0);
     }
 
     $('input[type=radio][name=Type]').change(function () {
@@ -41,6 +43,22 @@ $(document).ready(function () {
         }
         else {
             $("#BranchDiv").hide();
+        }
+    });
+
+    $("#standard").hide();
+    $("#subject").hide();
+
+    $('input[type=radio][name=Type1]').change(function () {
+        if (this.value == 'General') {
+            $("#standard").hide();
+            $("#subject").hide();
+            $("#Type").val(1);
+        }
+        else {
+            $("#standard").show();
+            $("#subject").show();
+            $("#Type").val(2);
         }
     });
 
@@ -137,28 +155,26 @@ function LoadStandard(onLoaded) {
 }
 
 
-function SaveLibrary() {
-    
+function SaveLibrary() {   
     var isSuccess = ValidateData('dInformation');
-
     if (isSuccess) {
-        
+        ShowLoader();
         var frm = $('#fLibraryDetail');
         var formData = new FormData(frm[0]);
         formData.append('LibraryData.ThumbImageFile', $('input[type=file]')[0].files[0]);
         formData.append('LibraryData.DocFile', $('input[type=file]')[1].files[0]);
-
         AjaxCallWithFileUpload(commonData.Library + 'SaveLibrary', formData, function (data) {
-            
             if (data) {
+                HideLoader();
                 ShowMessage("Library added Successfully.", "Success");
                 window.location.href = "LibraryMaintenance?libraryID=0";
             }
             else {
+                HideLoader();
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
         }, function (xhr) {
-
+            HideLoader();
         });
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ashirvad.Data
 {
-    public class StaffEntity
+    public class StaffEntity : ResponseModel
     {
         public long StaffID { get; set; }
         public string Name { get; set; }

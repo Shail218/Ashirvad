@@ -5,6 +5,7 @@
             @Html.Label("User Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.HiddenFor(x => x.UserID)
             @Html.HiddenFor(x => x.Roles)
+            @Html.HiddenFor(x => x.JSONData)
         </div>
         <div class="col-md-3">
             <select name="UserName" id="UserName" class="form-control requiredDDL" alt="User">

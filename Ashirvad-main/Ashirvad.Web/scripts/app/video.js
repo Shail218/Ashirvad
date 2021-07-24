@@ -69,12 +69,14 @@ function SaveVideo() {
         var formData = new FormData(frm[0]);
         formData.append('ImageFile', $('input[type=file]')[0].files[0]);
         AjaxCallWithFileUpload(commonData.Videos + 'SaveVideos', formData, function (data) {
-            HideLoader();
+            
             if (data) {
+                HideLoader();
                 ShowMessage('Videos details saved!', 'Success');
                 window.location.href = "VideosMaintenance?videoID=0";
             }
             else {
+                HideLoader();
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
         }, function (xhr) {

@@ -23,6 +23,8 @@ namespace Ashirvad.Data
         public string Remarks { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public TransactionEntity Transaction { get; set; }
+        public TestPaperEntity test { get; set; }
+
     }
 
     public class TestPaperEntity

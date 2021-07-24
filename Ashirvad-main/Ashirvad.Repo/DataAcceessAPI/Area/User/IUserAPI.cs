@@ -18,6 +18,5 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.User
         List<RolesEntity> GetRolesByUser(long userID);
         Task<UserEntity> GetUserByUserID(long userID);
         List<UserEntity> GetAllUsers(string userName, string contactNo);
-
     }
 }

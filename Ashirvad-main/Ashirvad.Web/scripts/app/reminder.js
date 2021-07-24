@@ -11,17 +11,19 @@ $(document).ready(function () {
     });
 });
 
-function SaveReminder() {
-    
+function SaveReminder() {   
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
+        ShowLoader();
         var date1 = $("#ReminderDate").val();
         $("#ReminderDate").val(ConvertData(date1));
         var postCall = $.post(commonData.Reminder + "SaveReminder", $('#fReminderDetail').serialize());
         postCall.done(function (data) {
+            HideLoader();
             ShowMessage("Reminder added Successfully.", "Success");
             window.location.href = "ReminderMaintenance?reminderID=0";
         }).fail(function () {
+            HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }

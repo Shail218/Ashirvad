@@ -14,8 +14,15 @@ $(document).ready(function () {
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
-            LoadSubject($("#Branch_BranchID").val());
-            LoadStandard($("#Branch_BranchID").val());
+            LoadSubject($("#BranchInfo_BranchID").val());
+            LoadStandard($("#BranchInfo_BranchID").val());
+        }
+
+        if (commonData.BranchID != "0") {
+            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
+            $("#BranchInfo_BranchID").val(commonData.BranchID);
+            LoadSubject(commonData.BranchID);
+            LoadStandard(commonData.BranchID);
         }
     });
 
@@ -71,7 +78,7 @@ function LoadStandard(branchID) {
             $('#StandardName option[value="' + $("#StandardInfo_StandardID").val() + '"]').attr("selected", "selected");
         }
     }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
@@ -90,33 +97,31 @@ function LoadSubject(branchID) {
             $('#SubjectName option[value="' + $("#SubjectInfo_SubjectID").val() + '"]').attr("selected", "selected");
         }
     }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
-function SaveHomework() {
-    
+function SaveHomework() {    
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
-        
+        ShowLoader();
         var date1 = $("#HomeworkDate").val();
         $("#HomeworkDate").val(ConvertData(date1));
         var frm = $('#fHomeworkDetail');
         var formData = new FormData(frm[0]);
         formData.append('FileInfo', $('input[type=file]')[0].files[0]);
-
         AjaxCallWithFileUpload(commonData.Homework + 'SaveHomework', formData, function (data) {
-            
             if (data) {
-                ShowMessage("Homework Removed Successfully.", "Success");
+                HideLoader();
+                ShowMessage("Homework added Successfully.", "Success");
                 window.location.href = "HomeworkMaintenance?homeworkID=0&branchID=0";
             } else {
+                HideLoader();
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
         }, function (xhr) {
-
+            HideLoader();
         });
-
     }
 }
 

@@ -403,33 +403,47 @@ namespace Ashirvad.Repo.Services.Area.User
 
         public bool AddUserRoles(UserEntity user)
         {
-            if (user.Roles?.Count > 0)
+            try
             {
-                var currentRoles = (from role in this.context.USER_ROLE
-                                    where role.user_id == user.UserID
-                                    select role).ToList();
-                if (currentRoles?.Count > 0)
+                if (user.Roles?.Count > 0)
                 {
-                    this.context.USER_ROLE.RemoveRange(currentRoles);
-                    this.context.SaveChanges();
-                }
-
-                List<USER_ROLE> data = new List<USER_ROLE>();
-                foreach (var item in user.Roles)
-                {
-                    data.Add(new USER_ROLE()
+                    var currentRoles = (from role in this.context.USER_ROLE
+                                        where role.user_id == user.UserID
+                                        select role).ToList();
+                    if (currentRoles?.Count > 0)
                     {
-                        role_id = (int)item.Permission,
-                        user_id = item.UserID,
-                        row_sta_cd = (int)Enums.RowStatus.Active,
-                        trans_id = this.AddTransactionData(user.Transaction),
-                        has_priv = item.HasAccess ? "Y" : "N"
-                    });
-                }
+                        this.context.USER_ROLE.RemoveRange(currentRoles);
+                        this.context.SaveChanges();
+                    }
 
-                this.context.USER_ROLE.AddRange(data);
-                this.context.SaveChanges();
-                return true;
+                    List<USER_ROLE> data = new List<USER_ROLE>();
+                    foreach (var item in user.Roles)
+                    {
+                        //data.Add(new USER_ROLE()
+                        //{
+                        //    role_id = item.PermissionValue,
+                        //    user_id = item.UserID,
+                        //    row_sta_cd = (int)Enums.RowStatus.Active,
+                        //    trans_id = this.AddTransactionData(user.Transaction),
+                        //    has_priv = item.HasAccess ? "Y" : "N"
+                        //});
+                        USER_ROLE rl = new USER_ROLE();
+                        rl.role_id = item.PermissionValue;
+                        rl.user_id = item.UserID;
+                        rl.row_sta_cd = (int)Enums.RowStatus.Active;
+                        rl.trans_id = this.AddTransactionData(user.Transaction);
+                        rl.has_priv = item.HasAccess ? "Y" : "N";
+                        data.Add(rl);
+                    }
+
+                    this.context.USER_ROLE.AddRange(data);
+                    this.context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+
             }
 
             return false;

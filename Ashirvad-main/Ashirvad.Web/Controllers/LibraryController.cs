@@ -61,12 +61,12 @@ namespace Ashirvad.Web.Controllers
             //    branch.LibraryData.DocContentExt = Path.GetExtension(branch.LibraryData.DocFile.FileName);
             //    branch.ThumbDocName = branch.LibraryData.DocFile.FileName;
             //}
-            library.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
+            //library.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             library.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            library.Transaction = GetTransactionData(library.BranchID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            library.Transaction = GetTransactionData(library.LibraryID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             var data = await _libraryService.LibraryMaintenance(library);
             if (data != null)
             {

@@ -13,9 +13,11 @@ $(document).ready(function () {
                 $("#rowStaAll").attr('checked', 'checked');
                 $("#BranchDiv").hide();
                 $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
+                $("#Branch_BranchID").val(0);
             }
         } else {
             $("#BranchDiv").hide();
+            $("#Branch_BranchID").val(0);
         }
     });
 
@@ -28,9 +30,11 @@ $(document).ready(function () {
             $("#rowStaAll").attr('checked', 'checked');
             $("#BranchDiv").hide();
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
+            $("#Branch_BranchID").val(0);
         }
     } else {
         $("#BranchDiv").hide();
+        $("#Branch_BranchID").val(0);
     }
     
     $('input[type=radio][name=Status]').change(function () {
@@ -49,6 +53,7 @@ $(document).ready(function () {
         }
         else {
             $("#BranchDiv").hide();
+            $("#Branch_BranchID").val(0);
         }
     });
 
@@ -101,8 +106,7 @@ function LoadBranch(onLoaded) {
     });
 }
 
-function SaveNotification() {
-    
+function SaveNotification() {    
     var isSuccess = ValidateData('dInformation');
     var NotificationTypeList = [];
     if ($('input[type=checkbox][id=rowStaAdmin]').is(":checked")) {
@@ -123,14 +127,16 @@ function SaveNotification() {
             TypeID: 3
         });
     }
-    $('#NotificationType').val(NotificationTypeList);
+    $('#JSONData').val(JSON.stringify(NotificationTypeList));
     if (isSuccess) {
-        
+        ShowLoader();
         var postCall = $.post(commonData.Notification + "SaveNotification", $('#fNotificationDetail').serialize());
         postCall.done(function (data) {
+            HideLoader();
             ShowMessage('Notification details saved!', 'Success');
             window.location.href = "NotificationMaintenance?notificationID=0";
         }).fail(function () {
+            HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
 

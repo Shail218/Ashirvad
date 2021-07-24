@@ -17,6 +17,7 @@ namespace Ashirvad.Data
         public byte[] BannerImage { get; set; }
         public string BannerImageText { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
+        public string JSONData { get; set; }
     }
 
     public class BannerTypeEntity

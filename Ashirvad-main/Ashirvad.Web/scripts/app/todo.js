@@ -14,6 +14,11 @@ $(document).ready(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");    
         }
+        if (commonData.BranchID != "0") {
+            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
+            $("#BranchInfo_BranchID").val(commonData.BranchID);
+            LoadUser(commonData.BranchID);
+        }
     });
 
     if ($("#BranchInfo_BranchID").val() != "") {
@@ -62,10 +67,10 @@ function LoadUser(branchID) {
 }
 
 
-function SaveToDo() {
-    
+function SaveToDo() {   
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
+        ShowLoader();
         var date1 = $("#ToDoDate").val();
         $("#ToDoDate").val(ConvertData(date1));
         var frm = $('#fToDoDetail');
@@ -74,14 +79,16 @@ function SaveToDo() {
         AjaxCallWithFileUpload(commonData.ToDo + 'SaveToDo', formData, function (data) {
             
             if (data) {
+                HideLoader();
                 ShowMessage('ToDo details saved!', 'Success');
                 window.location.href = "ToDoMaintenance?todoID=0";
             }
             else {
+                HideLoader();
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
         }, function (xhr) {
-
+            HideLoader();
         });
     }
 }

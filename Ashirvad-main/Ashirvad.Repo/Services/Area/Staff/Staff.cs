@@ -11,43 +11,67 @@ namespace Ashirvad.Repo.Services.Area.Staff
 {
     public class Staff : ModelAccess, IStaffAPI
     {
-        public async Task<long> StaffMaintenance(StaffEntity staffInfo)
-        {
-            Model.BRANCH_STAFF branchStaff = new Model.BRANCH_STAFF();
-            bool isUpdate = true;
-            var data = (from staff in this.context.BRANCH_STAFF
-                        where staff.staff_id == staffInfo.StaffID
-                        select staff).FirstOrDefault();
-            if (data == null)
-            {
-                branchStaff = new Model.BRANCH_STAFF();
-                isUpdate = false;
-            }
-            else
-            {
-                branchStaff = data;
-                staffInfo.Transaction.TransactionId = data.trans_id;
-            }
+        ResponseModel res = new ResponseModel();
 
-            branchStaff.name = staffInfo.Name;
-            branchStaff.education = staffInfo.Education;
-            branchStaff.dob = staffInfo.DOB;
-            branchStaff.gender = (int)staffInfo.Gender;
-            branchStaff.address = staffInfo.Address;
-            branchStaff.appt_dt = staffInfo.ApptDT;
-            branchStaff.join_dt = staffInfo.JoinDT;
-            branchStaff.leaving_dt = staffInfo.LeavingDT;
-            branchStaff.email_id = staffInfo.EmailID;
-            branchStaff.branch_id = staffInfo.BranchInfo.BranchID;
-            branchStaff.mobile_no = staffInfo.MobileNo;
-            branchStaff.row_sta_cd = staffInfo.RowStatus.RowStatusId;
-            branchStaff.trans_id = this.AddTransactionData(staffInfo.Transaction);
-            this.context.BRANCH_STAFF.Add(branchStaff);
-            if (isUpdate)
+        public async Task<bool> CheckUser(string emailid, string mobileno ,long userID)
+        {
+            bool isExists = this.context.BRANCH_STAFF.Where(s => (userID == 0 || s.staff_id != userID) && s.email_id == emailid && s.mobile_no == mobileno && s.row_sta_cd == 1).FirstOrDefault() != null;
+            return isExists;
+        }
+
+        public async Task<ResponseModel> StaffMaintenance(StaffEntity staffInfo)
+        {
+            try
             {
-                this.context.Entry(branchStaff).State = System.Data.Entity.EntityState.Modified;
+                Model.BRANCH_STAFF branchStaff = new Model.BRANCH_STAFF();
+                if (!CheckUser(staffInfo.EmailID, staffInfo.MobileNo, staffInfo.StaffID).Result)
+                {
+                    bool isUpdate = true;
+                    var data = (from staff in this.context.BRANCH_STAFF
+                                where staff.staff_id == staffInfo.StaffID
+                                select staff).FirstOrDefault();
+                    if (data == null)
+                    {
+                        branchStaff = new Model.BRANCH_STAFF();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        branchStaff = data;
+                        staffInfo.Transaction.TransactionId = data.trans_id;
+                    }
+
+                    branchStaff.name = staffInfo.Name;
+                    branchStaff.education = staffInfo.Education;
+                    branchStaff.dob = staffInfo.DOB;
+                    branchStaff.gender = (int)staffInfo.Gender;
+                    branchStaff.address = staffInfo.Address;
+                    branchStaff.appt_dt = staffInfo.ApptDT;
+                    branchStaff.join_dt = staffInfo.JoinDT;
+                    branchStaff.leaving_dt = staffInfo.LeavingDT;
+                    branchStaff.email_id = staffInfo.EmailID;
+                    branchStaff.branch_id = staffInfo.BranchInfo.BranchID;
+                    branchStaff.mobile_no = staffInfo.MobileNo;
+                    branchStaff.row_sta_cd = staffInfo.RowStatus.RowStatusId;
+                    branchStaff.trans_id = this.AddTransactionData(staffInfo.Transaction);
+                    this.context.BRANCH_STAFF.Add(branchStaff);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(branchStaff).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    res.Status =  this.context.SaveChanges() > 0 ? true : false;
+                    res.Message =  res.Status == true ? "user details saved!!!" : "fail to insert!!!";
+                }
+                else
+                {
+                    res.Message = "EmailId and Mobile no Already Exists!!!";
+                }
             }
-            return this.context.SaveChanges() > 0 ? branchStaff.staff_id : 0;
+            catch(Exception ex)
+            {
+                throw;
+            }
+            return res;
         }
 
         public async Task<List<StaffEntity>> GetAllStaff(long branchID)

@@ -12,61 +12,55 @@
             <th>
                 Sub type
             </th>
-            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
-            {
-                <th>
-                    Edit
-                </th>
-                <th>
-                    Delete
-                </th>
-            }
+            <th>
+                Edit
+            </th>
+            <th>
+                Delete
+            </th>
         </tr>
     </thead>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @item.BranchInfo.BranchName
-                @Html.HiddenFor(x => item.BannerID)
-                @Html.HiddenFor(x => item.BranchInfo.BranchID)
-            </td>
-            <td>
-                <img src="~/ThemeData/images/Default.png" id="bannerImg" style="height:50px;width:50px" />
-            </td>
-            <td>
-                @foreach (var subtype in item.BannerType)
-                {
-                    string a = "";
-                    if (subtype.TypeID == 1)
-                    {
-                        a = "Admin";
-
-                    }
-                    if (subtype.TypeID == 2)
-                    {
-                        a += "- Teacher ";
-                    }
-                    if (subtype.TypeID == 3)
-                    {
-                        a += "- Student";
-                    }
-                    <label>@a</label>
-                }
-            </td>
-            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+    <tr>
+        <td>
+            @item.BranchInfo.BranchName
+            @Html.HiddenFor(x => item.BannerID)
+            @Html.HiddenFor(x => item.BranchInfo.BranchID)
+        </td>
+        <td>
+            <img src="~/ThemeData/images/Default.png" id="bannerImg" style="height:40px;width:40px;margin-left:40px;" />
+        </td>
+        <td>
+            @foreach (var subtype in item.BannerType)
             {
-                <td>
-                    <a href="@Url.Action("Index", "/Banner/BannerMaintenance", new { bannerID = item.BannerID })">
-                        <img src="~/ThemeData/images/viewIcon.png" />
-                    </a>
-                </td>
-                <td>
-                    <a href="#" onclick="RemoveBanner(@item.BannerID);">
-                        <img src="~/ThemeData/images/delete.png" />
-                    </a>
-                </td>
+                string a = "";
+                if (subtype.TypeID == 1)
+                {
+                    a = "Admin";
+
+                }
+                if (subtype.TypeID == 2)
+                {
+                    a += "- Teacher ";
+                }
+                if (subtype.TypeID == 3)
+                {
+                    a += "- Student";
+                }
+                <label>@a</label>
             }
-        </tr>
+        </td>
+        <td>
+            <a href="@Url.Action("BannerMaintenance", "Banner", new { bannerID = item.BannerID })">
+                <img src="~/ThemeData/images/viewIcon.png" />
+            </a>
+        </td>
+        <td>
+            <a style="margin-left:20px;" href="#" onclick="RemoveBanner(@item.BannerID);">
+                <img src="~/ThemeData/images/delete.png" />
+            </a>
+        </td>
+    </tr>
     }
 </table>

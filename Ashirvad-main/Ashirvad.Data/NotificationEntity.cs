@@ -14,6 +14,7 @@ namespace Ashirvad.Data
         public RowStatusEntity RowStatus { get; set; }
         public TransactionEntity Transaction { get; set; }
         public string NotificationMessage { get; set; }
+        public string JSONData { get; set; }
     }
 
     public class NotificationTypeEntity

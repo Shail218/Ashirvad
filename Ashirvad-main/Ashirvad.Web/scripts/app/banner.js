@@ -3,7 +3,6 @@
 
 
 $(document).ready(function () {
-    //$("#BranchDiv").hide();
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             if ($("#BranchInfo_BranchID").val() != "0") {
@@ -14,9 +13,11 @@ $(document).ready(function () {
                 $("#rowStaAll").attr('checked', 'checked');
                 $("#BranchDiv").hide();
                 $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
+                $("#BranchInfo_BranchID").val(0);
             }
         } else {
             $("#BranchDiv").hide();
+            $("#BranchInfo_BranchID").val(0);
         }
     });
 
@@ -29,9 +30,11 @@ $(document).ready(function () {
             $("#rowStaAll").attr('checked', 'checked');
             $("#BranchDiv").hide();
             $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
+            $("#BranchInfo_BranchID").val(0);
         }
     } else {
         $("#BranchDiv").hide();
+        $("#BranchInfo_BranchID").val(0);
     }
 
     $('input[type=radio][name=Status]').change(function () {
@@ -50,6 +53,7 @@ $(document).ready(function () {
         }
         else {
             $("#BranchDiv").hide();
+            $("#BranchInfo_BranchID").val(0);
         }
     });
 
@@ -102,13 +106,10 @@ function chkOnChange(elem, hdnID, selText) {
     }
 }
 
-function SaveBanner() {
-    
+function SaveBanner() {  
     var isSuccess = ValidateData('dInformation');
-
     if (isSuccess) {
-
-        
+        ShowLoader();
         var NotificationTypeList = [];
         if ($('input[type=checkbox][id=rowStaAdmin]').is(":checked")) {
             NotificationTypeList.push({
@@ -140,30 +141,24 @@ function SaveBanner() {
             },
             ImageFile: $('input[type=file]')[0].files[0]
         };
-
-        //$("#BannerType").val(NotificationTypeList);
-
+        $('#JSONData').val(JSON.stringify(NotificationTypeList));
         var frm = $('#fBannerDetail');
         var formData = new FormData(frm[0]);
-        //formData.append('ImageFile', $('input[type=file]')[0].files[0]);
-
-        //formData.append('banner', bannerData);
-        //formData.append('banner', bannerData);
-        formData.append('BannerType', JSON.stringify(bannerData.BannerType));
-        //formData.append('BranchInfo', bannerData.BranchInfo);
         formData.append('ImageFile', bannerData.ImageFile);
         var a = formData.getAll('BannerType');
         AjaxCallWithFileUpload(commonData.Banner + 'SaveBanner', formData, function (data) {
             
             if (data) {
+                HideLoader();
                 ShowMessage('Banner details saved!', 'Success');
                 window.location.href = "BannerMaintenance?bannerID=0";
             }
             else {
+                HideLoader();
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
         }, function (xhr) {
-
+            HideLoader();
         });
     }
 }

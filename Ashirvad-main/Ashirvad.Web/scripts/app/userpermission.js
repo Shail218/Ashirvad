@@ -3,11 +3,11 @@
 
 
 $(document).ready(function () {
-    LoadUser();
+    LoadUser(commonData.BranchID);
 });
 
-function LoadUser() {
-    var postCall = $.post(commonData.UserPermission + "GetAllUsers", { "branchID": 13 });
+function LoadUser(branchId) {
+    var postCall = $.post(commonData.UserPermission + "GetAllUsers", { "branchID": branchId });
     postCall.done(function (data) {
         $('#UserName').empty();
         $('#UserName').select2();
@@ -21,10 +21,8 @@ function LoadUser() {
 }
 
 function SaveUserPermission() {
-    
-    var isSuccess = ValidateData('dInformation');
     var RoleList = [];
-    $("#studenttbl tr").each(function () {
+    $("#studenttbl tbody tr").each(function () {
         var RoleID = $(this).find("#item_Key").val();
         var UserID = $('#UserID').val();
         var HasAccessVal = $(this).find("#userrole").is(":checked");
@@ -36,17 +34,21 @@ function SaveUserPermission() {
             });
         }
     });
+    $('#JSONData').val(JSON.stringify(RoleList));
+    var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
-        
+        ShowLoader();
         var frm = $('#fUserPermissionDetail');
         var formData = new FormData(frm[0]);
-        formData.append('Roles', RoleList);
-        $('#Roles').val(JSON.stringify(RoleList));
+        //formData.append('Roles', RoleList);
+        
         var postCall = $.post(commonData.UserPermission + "UserRoleManagement", $('#fUserPermissionDetail').serialize());
         postCall.done(function (data) {
+            HideLoader();
             ShowMessage("User Permission added Successfully.", "Success");
             window.location.href = "UserPermissionMaintenance";
         }).fail(function () {
+            HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }

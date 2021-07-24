@@ -1,19 +1,6 @@
 ﻿﻿@using Ashirvad.Web.Controllers;
 @model List<Ashirvad.Data.PaperEntity>
 
-@*<div class="row">
-    <div class="col-md-3">
-        @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-        @Html.DropDownList("Branch", new List<SelectListItem>
-                       {
-                       new SelectListItem{ Text="---Select-Branch---", Value = "-1" },
-                        new SelectListItem{ Text="Branch", Value = "1" },
-                        }, new { @class = "form-control", id = "Branch" })
-
-    </div>
-</div>*@
-
-
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
@@ -47,6 +34,7 @@
         <tr>
             <td>
                 @item.Standard.Standard
+                @Html.HiddenFor(x => item.PaperID)
             </td>
             <td>
                 @item.Subject.Subject
@@ -55,12 +43,17 @@
                 @item.BatchTypeText
             </td>
             <td>
-                <a href="@Url.Action("PaperMaintenance", "Paper", new { paperID = item.PaperID})">
+                <a href="#">
+                    <img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" />
+                </a>
+            </td>
+            <td>
+                <a href="@Url.Action("PaperMaintenance", "Papers", new { paperID = item.PaperID})">
                     <img src="~/ThemeData/images/viewIcon.png" />
                 </a>
             </td>
             <td>
-                <a href="#" onclick="RemovePaper(@item.PaperID);">
+                <a href="#" style="margin-left:20px;" onclick="RemovePaper(@item.PaperID);">
                     <img src="~/ThemeData/images/delete.png" />
                 </a>
             </td>

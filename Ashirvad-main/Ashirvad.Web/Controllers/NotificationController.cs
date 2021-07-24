@@ -2,6 +2,7 @@
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Notification;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,8 +48,8 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveNotification(NotificationEntity notification)
         {
-            //, List<NotificationTypeEntity> notificationTypeEntities)
-            //branch.Branch.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
+            var nt = JsonConvert.DeserializeObject<List<NotificationTypeEntity>>(notification.JSONData);
+            notification.NotificationType = nt;
             notification.Transaction = GetTransactionData(notification.NotificationID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             notification.RowStatus = new RowStatusEntity()
             {
@@ -59,7 +60,6 @@ namespace Ashirvad.Web.Controllers
             {
                 return Json(true);
             }
-
             return Json(false);
         }
 

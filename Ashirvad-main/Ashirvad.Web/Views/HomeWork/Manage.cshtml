@@ -44,10 +44,10 @@
     {
         <tr>
             <td>
-                @item.HomeworkDate
+                @item.HomeworkDate.ToString("dd/MM/yyyy")
             </td>
 
-            <td>
+            <td style="text-align:center;">
                 @item.StandardInfo.Standard
             </td>
             <td>
@@ -56,22 +56,28 @@
             <td>
                 @item.BatchTimeText
                 @Html.HiddenFor(x => item.BatchTimeID)
+                @Html.HiddenFor(x => item.BranchInfo.BranchID)
+                @Html.HiddenFor(x => item.HomeworkID)
             </td>
-            <td></td>
+            <td style="text-align:center;">
+                <a href="#">
+                    <img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" />
+                </a>
+            </td>
             <td>
                 @item.Remarks
             </td>
             <td>
-                <a href="@Url.Action("Index", "/Homework/HomeworkMaintenance", new { homeworkID = item.HomeworkID,branchID=0})">
+                <a href="@Url.Action("HomeworkMaintenance", "HomeWork", new { homeworkID = item.HomeworkID, branchID = item.BranchInfo.BranchID})">
                     <img src="~/ThemeData/images/viewIcon.png" />
                 </a>
             </td>
-            <td>
+            <td style="text-align:center;">
                 <a href="#" onclick="RemoveHomework(@item.HomeworkID);">
                     <img src="~/ThemeData/images/delete.png" />
                 </a>
             </td>
-            <td>
+            <td style="text-align:center;">
                 @*<a href="@Url.Action("Index", "/Homework/HomeworkMaintenance", new { homeworkID = item.HomeworkID,branchID=0})">
                         <img src="~/ThemeData/images/viewIcon.png" />
                     </a>*@

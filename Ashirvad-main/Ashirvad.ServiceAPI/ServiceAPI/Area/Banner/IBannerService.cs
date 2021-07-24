@@ -14,7 +14,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Banner
         Task<OperationResult<BannerEntity>> GetBannerByBannerID(long bannerID);
         Task<List<BannerEntity>> GetAllBanner(long branchID = 0);
         bool RemoveBanner(long bannerID, string lastupdatedby);
-
         Task<OperationResult<List<BannerEntity>>> GetAllBanner(long branchID, int bannerTypeID);
     }
 }

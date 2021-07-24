@@ -86,11 +86,11 @@ function SaveUser() {
         var postCall = $.post(commonData.User + "SaveUser", $('#fUserDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("User added Successfully.", "Success");
+            ShowMessage(data.Message, "Success");
             window.location.href = "UserMaintenance?branchID=0";
         }).fail(function () {
             HideLoader();
-            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+            ShowMessage(data.Message , "Error");
         });
     }
 }
