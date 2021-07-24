@@ -14,6 +14,8 @@ namespace Ashirvad.Web.Controllers
     public class StandardController : BaseController
     {
         private readonly IStandardService _standardService;
+        public ResponseModel res = new ResponseModel();
+
         public StandardController(IStandardService standardService)
         {
             _standardService = standardService;
@@ -71,12 +73,10 @@ namespace Ashirvad.Web.Controllers
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             var data = await _standardService.StandardMaintenance(branch);
-            if (data != null)
-            {
-                return Json(true);
-            }
+            res.Status = data.StandardID > 0 ? true : false;
+            res.Message = data.StandardID == -1 ? "Standard Already exists!!" : data.StandardID == 0 ? "Standard failed to insert!!" : "Standard Inserted Successfully!!";
+            return Json(res);
 
-            return Json(false);
         }
 
         [HttpPost]

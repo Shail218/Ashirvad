@@ -11,36 +11,51 @@ namespace Ashirvad.Repo.Services.Area.Subject
 {
     public class Subject : ModelAccess, ISubjectAPI
     {
+        public async Task<long> CheckSubject(string name, long branch, long Id)
+        {
+            long result;
+            bool isExists = this.context.SUBJECT_MASTER.Where(s => (Id == 0 || s.subject_id != Id) && s.subject == name &&  s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
+            result = isExists == true ? -1 : 1;
+            return result;
+        }
+
         public async Task<long> SubjectMaintenance(SubjectEntity subjectInfo)
         {
             Model.SUBJECT_MASTER subjectMaster = new Model.SUBJECT_MASTER();
-
-            bool isUpdate = true;
-            var data = (from subject in this.context.SUBJECT_MASTER
-                        where subject.subject_id == subjectInfo.SubjectID
-                        select subject).FirstOrDefault();
-            if (data == null)
+            if (CheckSubject(subjectInfo.Subject, subjectInfo.BranchInfo.BranchID, subjectInfo.SubjectID).Result != -1)
             {
-                subjectMaster = new Model.SUBJECT_MASTER();
+                bool isUpdate = true;
+                var data = (from subject in this.context.SUBJECT_MASTER
+                            where subject.subject_id == subjectInfo.SubjectID
+                            select subject).FirstOrDefault();
+                if (data == null)
+                {
+                    subjectMaster = new Model.SUBJECT_MASTER();
 
-                isUpdate = false;
+                    isUpdate = false;
+                }
+                else
+                {
+                    subjectMaster = data;
+                    subjectInfo.Transaction.TransactionId = data.trans_id;
+                }
+
+                subjectMaster.subject = subjectInfo.Subject;
+                subjectMaster.branch_id = subjectInfo.BranchInfo.BranchID;
+                subjectMaster.row_sta_cd = subjectInfo.RowStatus.RowStatusId;
+                subjectMaster.trans_id = this.AddTransactionData(subjectInfo.Transaction);
+                this.context.SUBJECT_MASTER.Add(subjectMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(subjectMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+                return this.context.SaveChanges() > 0 ? subjectMaster.subject_id : 0;
             }
             else
             {
-                subjectMaster = data;
-                subjectInfo.Transaction.TransactionId = data.trans_id;
+                return -1;
             }
-
-            subjectMaster.subject = subjectInfo.Subject;
-            subjectMaster.branch_id = subjectInfo.BranchInfo.BranchID;
-            subjectMaster.row_sta_cd = subjectInfo.RowStatus.RowStatusId;
-            subjectMaster.trans_id = this.AddTransactionData(subjectInfo.Transaction);
-            this.context.SUBJECT_MASTER.Add(subjectMaster);
-            if (isUpdate)
-            {
-                this.context.Entry(subjectMaster).State = System.Data.Entity.EntityState.Modified;
-            }
-            return this.context.SaveChanges() > 0 ? subjectMaster.subject_id : 0;
+               
         }
 
         public async Task<List<SubjectEntity>> GetAllSubjects(long branchID)

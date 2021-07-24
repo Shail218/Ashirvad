@@ -14,6 +14,8 @@ namespace Ashirvad.Web.Controllers
     public class BatchController : BaseController
     {
         private readonly IBatchService _batchService;
+        public ResponseModel res = new ResponseModel();
+
         public BatchController(IBatchService batchService)
         {
             _batchService = batchService;
@@ -72,12 +74,9 @@ namespace Ashirvad.Web.Controllers
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             var data = await _batchService.BatchMaintenance(branch);
-            if (data != null)
-            {
-                return Json(true);
-            }
-
-            return Json(false);
+            res.Status = data.BatchID > 0 ? true : false;
+            res.Message = data.BatchID == -1 ? "Batch Already exists!!" : data.BatchID == 0 ? "Batch failed to insert!!" : "Batch Inserted Successfully!!";
+            return Json(res);
         }
 
         [HttpPost]

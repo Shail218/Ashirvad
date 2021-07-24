@@ -23,11 +23,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.School
             try
             {
                 long schoolID = await _schoolContext.SchoolMaintenance(schoolInfo);
-                if (schoolID > 0)
-                {
-                    school.SchoolID = schoolID;
-
-                }
+                school.SchoolID = schoolID;
             }
             catch (Exception ex)
             {

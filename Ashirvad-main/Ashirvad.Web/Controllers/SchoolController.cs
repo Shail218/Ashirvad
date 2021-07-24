@@ -15,6 +15,7 @@ namespace Ashirvad.Web.Controllers
     public class SchoolController : BaseController
     {
         private readonly ISchoolService _schoolService;
+        public ResponseModel res = new ResponseModel();
         public SchoolController(ISchoolService schoolService)
         {
             _schoolService = schoolService;
@@ -72,12 +73,9 @@ namespace Ashirvad.Web.Controllers
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             var data = await _schoolService.SchoolMaintenance(branch);
-            if (data != null)
-            {
-                return Json(true);
-            }
-
-            return Json(false);
+            res.Status = data.SchoolID > 0 ? true : false;
+            res.Message = data.SchoolID == -1 ? "School Already exists!!" : data.SchoolID == 0 ? "School failed to insert!!":"School Inserted Successfully!!";
+            return Json(res);
         }
 
         [HttpPost]

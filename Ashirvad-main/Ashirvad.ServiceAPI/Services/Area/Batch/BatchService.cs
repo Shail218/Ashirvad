@@ -23,10 +23,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Batch
             try
             {
                 long batchID = await _batchContext.BatchMaintenance(batchInfo);
-                if (batchID > 0)
-                {
-                    batch.BatchID = batchID;
-                }
+                batch.BatchID = batchID;
             }
             catch (Exception ex)
             {

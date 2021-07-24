@@ -24,10 +24,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Subject
             try
             {
                 long subjectID = await _subjectContext.SubjectMaintenance(subjectInfo);
-                if (subjectID > 0)
-                {
-                    standard.SubjectID = subjectID;
-                }
+                standard.SubjectID = subjectID;
             }
             catch (Exception ex)
             {

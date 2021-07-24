@@ -11,37 +11,52 @@ namespace Ashirvad.Repo.Services.Area.Standard
 {
     public class Standard : ModelAccess, IStandardAPI
     {
+        ResponseModel res = new ResponseModel();
+
+        public async Task<long> CheckStandard(string std, long branch, long stdID)
+        {
+            long result;
+            bool isExists = this.context.STD_MASTER.Where(s => (stdID == 0 || s.std_id != stdID) && s.standard == std && s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
+            result = isExists == true ? -1 : 1;
+            return result;
+        }
+
         public async Task<long> StandardMaintenance(StandardEntity standardInfo)
         {
             Model.STD_MASTER standardMaster = new Model.STD_MASTER();
-
-            bool isUpdate = true;
-            var data = (from standard in this.context.STD_MASTER
-                        where standard.std_id == standardInfo.StandardID
-                        select standard).FirstOrDefault();
-            if (data == null)
+            if (CheckStandard(standardInfo.Standard, standardInfo.BranchInfo.BranchID,standardInfo.StandardID).Result != -1)
             {
-                standardMaster = new Model.STD_MASTER();
+                bool isUpdate = true;
+                var data = (from standard in this.context.STD_MASTER
+                            where standard.std_id == standardInfo.StandardID
+                            select standard).FirstOrDefault();
+                if (data == null)
+                {
+                    standardMaster = new Model.STD_MASTER();
 
-                isUpdate = false;
+                    isUpdate = false;
+                }
+                else
+                {
+                    standardMaster = data;
+                    standardInfo.Transaction.TransactionId = data.trans_id;
+                }
+
+                standardMaster.standard = standardInfo.Standard;
+                standardMaster.branch_id = standardInfo.BranchInfo.BranchID;
+                standardMaster.row_sta_cd = standardInfo.RowStatus.RowStatusId;
+                standardMaster.trans_id = this.AddTransactionData(standardInfo.Transaction);
+                this.context.STD_MASTER.Add(standardMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(standardMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+                return this.context.SaveChanges() > 0 ? standardMaster.std_id : 0;
             }
             else
             {
-                standardMaster = data;
-                standardInfo.Transaction.TransactionId = data.trans_id;
+                return -1;
             }
-
-            standardMaster.standard = standardInfo.Standard;
-            standardMaster.branch_id = standardInfo.BranchInfo.BranchID;
-            standardMaster.row_sta_cd = standardInfo.RowStatus.RowStatusId;
-            standardMaster.trans_id = this.AddTransactionData(standardInfo.Transaction);
-            this.context.STD_MASTER.Add(standardMaster);
-            if (isUpdate)
-            {
-                this.context.Entry(standardMaster).State = System.Data.Entity.EntityState.Modified;
-            }
-
-            return this.context.SaveChanges() > 0 ? standardMaster.std_id : 0;
         }
 
         public async Task<List<StandardEntity>> GetAllStandards(long branchID)

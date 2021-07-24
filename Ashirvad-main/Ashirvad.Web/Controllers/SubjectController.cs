@@ -14,6 +14,8 @@ namespace Ashirvad.Web.Controllers
     public class SubjectController : BaseController
     {
         private readonly ISubjectService _subjectService;
+        public ResponseModel res = new ResponseModel();
+
         public SubjectController(ISubjectService subjectService)
         {
             _subjectService = subjectService;
@@ -71,12 +73,9 @@ namespace Ashirvad.Web.Controllers
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             var data = await _subjectService.SubjectMaintenance(branch);
-            if (data != null)
-            {
-                return Json(true);
-            }
-
-            return Json(false);
+            res.Status = data.SubjectID > 0 ? true : false;
+            res.Message = data.SubjectID == -1 ? "Subject Already exists!!" : data.SubjectID == 0 ? "Subject failed to insert!!" : "Subject Inserted Successfully!!";
+            return Json(res);
         }
 
         [HttpPost]

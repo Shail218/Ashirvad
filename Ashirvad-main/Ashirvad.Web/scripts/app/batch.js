@@ -89,8 +89,12 @@ function SaveBatch() {
         var postCall = $.post(commonData.Batch + "SaveBatch", $('#fBatchDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Batch added Successfully.", "Success");
-            window.location.href = "BatchMaintenance?branchID=0";
+            if (data.Status == true) {
+                ShowMessage(data.Message, "Success");
+                setTimeout(function () { window.location.href = "BatchMaintenance?branchID=0" }, 2000);
+            } else {
+                ShowMessage(data.Message, "Error");
+            }     
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

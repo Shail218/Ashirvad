@@ -22,18 +22,13 @@ namespace Ashirvad.ServiceAPI.Services.Area.Standard
             StandardEntity standard = new StandardEntity();
             try
             {
-                long standardID = await _standardContext.StandardMaintenance(standardInfo);
-                if (standardID > 0)
-                {
-                    standard.StandardID = standardID;
-
-                }
+                long StandardID = await _standardContext.StandardMaintenance(standardInfo);
+                standard.StandardID = StandardID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-
             return standard;
         }
 

@@ -11,35 +11,49 @@ namespace Ashirvad.Repo.Services.Area.School
 {
     public class School : ModelAccess, ISchoolAPI
     {
+        public async Task<long> Checkschool(string name,long branch, long Id)
+        {
+            long result;
+            bool isExists = this.context.SCHOOL_MASTER.Where(s => (Id == 0 || s.school_id != Id) && s.school_name == name && s.row_sta_cd == 1).FirstOrDefault() != null;
+            result = isExists == true ? -1 : 1;
+            return result;
+        }
+
         public async Task<long> SchoolMaintenance(SchoolEntity schoolInfo)
         {
             Model.SCHOOL_MASTER schoolMaster = new Model.SCHOOL_MASTER();
-
-            bool isUpdate = true;
-            var data = (from school in this.context.SCHOOL_MASTER
-                        where school.school_id == schoolInfo.SchoolID
-                        select school).FirstOrDefault();
-            if (data == null)
+            if (Checkschool(schoolInfo.SchoolName, schoolInfo.BranchInfo.BranchID,schoolInfo.SchoolID).Result != -1)
             {
-                schoolMaster = new Model.SCHOOL_MASTER();
-                isUpdate = false;
-            }
+                bool isUpdate = true;
+                var data = (from school in this.context.SCHOOL_MASTER
+                            where school.school_id == schoolInfo.SchoolID
+                            select school).FirstOrDefault();
+                if (data == null)
+                {
+                    schoolMaster = new Model.SCHOOL_MASTER();
+                    isUpdate = false;
+                }
 
+                else
+                {
+                    schoolMaster = data;
+                    schoolInfo.Transaction.TransactionId = schoolMaster.trans_id;
+                }
+                schoolMaster.school_name = schoolInfo.SchoolName;
+                schoolMaster.branch_id = schoolInfo.BranchInfo.BranchID;
+                schoolMaster.row_sta_cd = schoolInfo.RowStatus.RowStatusId;
+                schoolMaster.trans_id = this.AddTransactionData(schoolInfo.Transaction);
+                this.context.SCHOOL_MASTER.Add(schoolMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(schoolMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+                return this.context.SaveChanges() > 0 ? schoolMaster.school_id : 0;
+            }
             else
             {
-                schoolMaster = data;
-                schoolInfo.Transaction.TransactionId = schoolMaster.trans_id;
+                return -1;
             }
-            schoolMaster.school_name = schoolInfo.SchoolName;
-            schoolMaster.branch_id = schoolInfo.BranchInfo.BranchID;
-            schoolMaster.row_sta_cd = schoolInfo.RowStatus.RowStatusId;
-            schoolMaster.trans_id = this.AddTransactionData(schoolInfo.Transaction);
-            this.context.SCHOOL_MASTER.Add(schoolMaster);
-            if (isUpdate)
-            {
-                this.context.Entry(schoolMaster).State = System.Data.Entity.EntityState.Modified;
-            }
-            return this.context.SaveChanges() > 0 ? schoolMaster.school_id : 0;
         }
 
         public async Task<List<SchoolEntity>> GetAllSchools(long branchID)

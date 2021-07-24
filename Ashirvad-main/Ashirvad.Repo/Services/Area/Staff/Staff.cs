@@ -11,67 +11,59 @@ namespace Ashirvad.Repo.Services.Area.Staff
 {
     public class Staff : ModelAccess, IStaffAPI
     {
-        ResponseModel res = new ResponseModel();
-
-        public async Task<bool> CheckUser(string emailid, string mobileno ,long userID)
+  
+        public async Task<long> CheckUser(string emailid, string mobileno, long branch, long userID)
         {
-            bool isExists = this.context.BRANCH_STAFF.Where(s => (userID == 0 || s.staff_id != userID) && s.email_id == emailid && s.mobile_no == mobileno && s.row_sta_cd == 1).FirstOrDefault() != null;
-            return isExists;
+            long result;
+            bool isExists = this.context.BRANCH_STAFF.Where(s => (userID == 0 || s.staff_id != userID) && s.email_id == emailid && s.mobile_no == mobileno && s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
+            result = isExists == true ? -1 : 1;
+            return result;
         }
 
-        public async Task<ResponseModel> StaffMaintenance(StaffEntity staffInfo)
+        public async Task<long> StaffMaintenance(StaffEntity staffInfo)
         {
-            try
+            Model.BRANCH_STAFF branchStaff = new Model.BRANCH_STAFF();
+            if (CheckUser(staffInfo.EmailID, staffInfo.MobileNo, staffInfo.BranchInfo.BranchID,staffInfo.StaffID).Result != -1)
             {
-                Model.BRANCH_STAFF branchStaff = new Model.BRANCH_STAFF();
-                if (!CheckUser(staffInfo.EmailID, staffInfo.MobileNo, staffInfo.StaffID).Result)
+                bool isUpdate = true;
+                var data = (from staff in this.context.BRANCH_STAFF
+                            where staff.staff_id == staffInfo.StaffID
+                            select staff).FirstOrDefault();
+                if (data == null)
                 {
-                    bool isUpdate = true;
-                    var data = (from staff in this.context.BRANCH_STAFF
-                                where staff.staff_id == staffInfo.StaffID
-                                select staff).FirstOrDefault();
-                    if (data == null)
-                    {
-                        branchStaff = new Model.BRANCH_STAFF();
-                        isUpdate = false;
-                    }
-                    else
-                    {
-                        branchStaff = data;
-                        staffInfo.Transaction.TransactionId = data.trans_id;
-                    }
-
-                    branchStaff.name = staffInfo.Name;
-                    branchStaff.education = staffInfo.Education;
-                    branchStaff.dob = staffInfo.DOB;
-                    branchStaff.gender = (int)staffInfo.Gender;
-                    branchStaff.address = staffInfo.Address;
-                    branchStaff.appt_dt = staffInfo.ApptDT;
-                    branchStaff.join_dt = staffInfo.JoinDT;
-                    branchStaff.leaving_dt = staffInfo.LeavingDT;
-                    branchStaff.email_id = staffInfo.EmailID;
-                    branchStaff.branch_id = staffInfo.BranchInfo.BranchID;
-                    branchStaff.mobile_no = staffInfo.MobileNo;
-                    branchStaff.row_sta_cd = staffInfo.RowStatus.RowStatusId;
-                    branchStaff.trans_id = this.AddTransactionData(staffInfo.Transaction);
-                    this.context.BRANCH_STAFF.Add(branchStaff);
-                    if (isUpdate)
-                    {
-                        this.context.Entry(branchStaff).State = System.Data.Entity.EntityState.Modified;
-                    }
-                    res.Status =  this.context.SaveChanges() > 0 ? true : false;
-                    res.Message =  res.Status == true ? "user details saved!!!" : "fail to insert!!!";
+                    branchStaff = new Model.BRANCH_STAFF();
+                    isUpdate = false;
                 }
                 else
                 {
-                    res.Message = "EmailId and Mobile no Already Exists!!!";
+                    branchStaff = data;
+                    staffInfo.Transaction.TransactionId = data.trans_id;
                 }
+
+                branchStaff.name = staffInfo.Name;
+                branchStaff.education = staffInfo.Education;
+                branchStaff.dob = staffInfo.DOB;
+                branchStaff.gender = (int)staffInfo.Gender;
+                branchStaff.address = staffInfo.Address;
+                branchStaff.appt_dt = staffInfo.ApptDT;
+                branchStaff.join_dt = staffInfo.JoinDT;
+                branchStaff.leaving_dt = staffInfo.LeavingDT;
+                branchStaff.email_id = staffInfo.EmailID;
+                branchStaff.branch_id = staffInfo.BranchInfo.BranchID;
+                branchStaff.mobile_no = staffInfo.MobileNo;
+                branchStaff.row_sta_cd = staffInfo.RowStatus.RowStatusId;
+                branchStaff.trans_id = this.AddTransactionData(staffInfo.Transaction);
+                this.context.BRANCH_STAFF.Add(branchStaff);
+                if (isUpdate)
+                {
+                    this.context.Entry(branchStaff).State = System.Data.Entity.EntityState.Modified;
+                }
+                return this.context.SaveChanges() > 0 ? branchStaff.branch_id : 0;
             }
-            catch(Exception ex)
+            else
             {
-                throw;
+                return -1;
             }
-            return res;
         }
 
         public async Task<List<StaffEntity>> GetAllStaff(long branchID)

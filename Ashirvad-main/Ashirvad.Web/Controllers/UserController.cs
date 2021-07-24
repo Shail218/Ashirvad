@@ -14,6 +14,7 @@ namespace Ashirvad.Web.Controllers
     public class UserController : BaseController
     {
         private readonly IStaffService _staffService;
+        public ResponseModel res = new ResponseModel();
         public UserController(IStaffService staffService)
         {
             _staffService = staffService;
@@ -73,11 +74,9 @@ namespace Ashirvad.Web.Controllers
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             var data = await _staffService.StaffMaintenance(branch);
-            if (data != null)
-            {
-                return Json(true);
-            }
-            return Json(false);
+            res.Status = data.StaffID > 0 ? true : false;
+            res.Message = data.StaffID == -1 ? "User Already exists!!" : data.StaffID == 0 ? "User failed to insert!!" : "User Inserted Successfully!!";
+            return Json(res);
         }
 
         [HttpPost]

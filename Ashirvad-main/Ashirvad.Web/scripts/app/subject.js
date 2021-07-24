@@ -50,8 +50,12 @@ function SaveSubject() {
         var postCall = $.post(commonData.Subject + "SaveSubject", $('#fSubjectDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Subject added Successfully.", "Success");
-            window.location.href = "SubjectMaintenance?branchID=0";
+            if (data.Status == true) {
+                ShowMessage(data.Message, "Success");
+                setTimeout(function () { window.location.href = "SubjectMaintenance?branchID=0" }, 2000);
+            } else {
+                ShowMessage(data.Message, "Error");
+            }        
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

@@ -86,8 +86,12 @@ function SaveUser() {
         var postCall = $.post(commonData.User + "SaveUser", $('#fUserDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage(data.Message, "Success");
-            window.location.href = "UserMaintenance?branchID=0";
+            if (data.Status == true) {
+                ShowMessage(data.Message, "Success");
+                setTimeout(function () { window.location.href = "UserMaintenance?branchID=0"; }, 2000);
+            } else {
+                ShowMessage(data.Message, "Error");
+            }   
         }).fail(function () {
             HideLoader();
             ShowMessage(data.Message , "Error");

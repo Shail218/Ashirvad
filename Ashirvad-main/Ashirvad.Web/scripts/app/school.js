@@ -46,8 +46,12 @@ function SaveSchool() {
         var postCall = $.post(commonData.School + "SaveSchool", $('#fSchoolDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("School added Successfully.", "Success");
-            window.location.href = "SchoolMaintenance?branchID=0";
+            if (data.Status == true) {
+                ShowMessage(data.Message, "Success");
+                setTimeout(function () { window.location.href = "SchoolMaintenance?branchID=0"; }, 2000);
+            } else {
+                ShowMessage(data.Message, "Error");
+            }                 
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

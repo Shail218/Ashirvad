@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ashirvad.Data
 {
-    public class StandardEntity
+    public class StandardEntity : ResponseModel
     {
         public long StandardID { get; set; }
         public string Standard { get; set; }
