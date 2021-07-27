@@ -75,6 +75,7 @@
     <Compile Include="PaperEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReminderEntity.cs" />
+    <Compile Include="ResponseModel.cs" />
     <Compile Include="RowStatusEntity.cs" />
     <Compile Include="SchoolEntity.cs" />
     <Compile Include="StaffEntity.cs" />
