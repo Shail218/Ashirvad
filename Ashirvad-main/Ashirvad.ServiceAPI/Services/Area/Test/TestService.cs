@@ -114,9 +114,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
                 }
                 else
                 {
-                    //paperInfo.DocContent = Convert.FromBase64String(paperInfo.DocContentText);
+                    if (paperInfo.DocContentText != null)
+                    {
+                        paperInfo.DocContent = Convert.FromBase64String(paperInfo.DocContentText);
+                    }
                 }
-                
 
                 var data = await _testContext.TestPaperMaintenance(paperInfo);
                 if (data > 0)
