@@ -14,6 +14,7 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Staff;
 using Ashirvad.Repo.DataAcceessAPI.Area.Standard;
 using Ashirvad.Repo.DataAcceessAPI.Area.Student;
 using Ashirvad.Repo.DataAcceessAPI.Area.Subject;
+using Ashirvad.Repo.DataAcceessAPI.Area.Test;
 using Ashirvad.Repo.DataAcceessAPI.Area.ToDo;
 using Ashirvad.Repo.DataAcceessAPI.Area.User;
 using Ashirvad.Repo.Services.Area.Attendance;
@@ -32,6 +33,7 @@ using Ashirvad.Repo.Services.Area.Staff;
 using Ashirvad.Repo.Services.Area.Standard;
 using Ashirvad.Repo.Services.Area.Student;
 using Ashirvad.Repo.Services.Area.Subject;
+using Ashirvad.Repo.Services.Area.Test;
 using Ashirvad.Repo.Services.Area.ToDo;
 using Ashirvad.Repo.Services.Area.User;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Attendance;
@@ -50,6 +52,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Staff;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Standard;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Student;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Subject;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Test;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.ToDo;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.User;
 using Ashirvad.ServiceAPI.Services.Area.Attendance;
@@ -66,6 +69,7 @@ using Ashirvad.ServiceAPI.Services.Area.Staff;
 using Ashirvad.ServiceAPI.Services.Area.Standard;
 using Ashirvad.ServiceAPI.Services.Area.Student;
 using Ashirvad.ServiceAPI.Services.Area.Subject;
+using Ashirvad.ServiceAPI.Services.Area.Test;
 using Ashirvad.ServiceAPI.Services.Area.ToDo;
 using Ashirvad.ServiceAPI.Services.Area.User;
 using Ashirvad.ServiceAPI.Services.Gallery;
@@ -125,7 +129,7 @@ namespace Ashirvad.API
             container.RegisterType<INotificationService, NotificationService>();
             container.RegisterType<INotificationAPI, Notification>();
 
-              container.RegisterType<IBannerService, BannerService>();
+            container.RegisterType<IBannerService, BannerService>();
             container.RegisterType<IBannerAPI, Banner>();
 
             container.RegisterType<IPaperService, PaperService>();
@@ -142,6 +146,9 @@ namespace Ashirvad.API
 
             container.RegisterType<IHomeworkService, HomeworkService>();
             container.RegisterType<IHomeworkAPI, Homework>();
+
+            container.RegisterType<ITestService, TestService>();
+            container.RegisterType<ITestAPI, Test>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
