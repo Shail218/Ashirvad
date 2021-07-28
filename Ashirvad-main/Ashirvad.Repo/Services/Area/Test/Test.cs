@@ -94,8 +94,8 @@ namespace Ashirvad.Repo.Services.Area.Test
                             {
                                 DocContent = TestPaper.doc_content,
                                 TestPaperID = TestPaper.test_paper_id,
-                                PaperType= TestPaper.paper_type.ToString(),
-                                DocLink= TestPaper.doc_link.ToString()
+                                PaperType = TestPaper.paper_type.ToString(),
+                                DocLink = TestPaper.doc_link.ToString()
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
@@ -160,7 +160,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("SUBJECT_MASTER")
                         where u.test_dt >= fromDT && u.test_dt <= toDT
                         && (string.IsNullOrEmpty(searchParam)
-                        ||  u.remarks.Contains(searchParam)
+                        || u.remarks.Contains(searchParam)
                         || u.STD_MASTER.standard.Contains(searchParam)
                         || u.SUBJECT_MASTER.subject.Contains(searchParam)
                         || u.test_end_time.Contains(searchParam)
@@ -348,10 +348,13 @@ namespace Ashirvad.Repo.Services.Area.Test
                         }).ToList();
             if (data?.Count > 0)
             {
-                foreach (var item in data)
+                if (data[0].DocContent != null)
                 {
-                    int idx = data.IndexOf(item);
-                    data[idx].DocContentText = Convert.ToBase64String(data[idx].DocContent);
+                    foreach (var item in data)
+                    {
+                        int idx = data.IndexOf(item);
+                        data[idx].DocContentText = Convert.ToBase64String(data[idx].DocContent);
+                    }
                 }
             }
             return data;
@@ -453,7 +456,7 @@ namespace Ashirvad.Repo.Services.Area.Test
 
             return data;
         }
-        
+
 
         public bool RemoveTestPaper(long paperID, string lastupdatedby)
         {
