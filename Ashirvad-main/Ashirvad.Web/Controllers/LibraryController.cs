@@ -44,24 +44,6 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveLibrary(LibraryEntity library)
         {
-            //if (branch.LibraryData.ThumbImageFile != null)
-            //{
-            //    branch.LibraryData = new LibraryDataEntity();
-            //    branch.LibraryData.ThumbImageContent = Common.Common.ReadFully(branch.LibraryData.ThumbImageFile.InputStream);
-            //    branch.LibraryData.ThumbImageFileName = branch.LibraryData.ThumbImageFile.FileName;
-            //    branch.LibraryData.ThumbImageExt = Path.GetExtension(branch.LibraryData.ThumbImageFile.FileName);
-            //    branch.ThumbImageName = branch.LibraryData.ThumbImageFile.FileName;
-            //}
-
-            //if (branch.LibraryData.DocFile != null)
-            //{
-            //    branch.LibraryData = new LibraryDataEntity();
-            //    branch.LibraryData.DocContent = Common.Common.ReadFully(branch.LibraryData.DocFile.InputStream);
-            //    branch.LibraryData.DocContentFileName = branch.LibraryData.DocFile.FileName;
-            //    branch.LibraryData.DocContentExt = Path.GetExtension(branch.LibraryData.DocFile.FileName);
-            //    branch.ThumbDocName = branch.LibraryData.DocFile.FileName;
-            //}
-            //library.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             library.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active

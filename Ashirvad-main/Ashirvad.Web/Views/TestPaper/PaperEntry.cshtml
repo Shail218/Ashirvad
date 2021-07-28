@@ -1,6 +1,6 @@
 ﻿﻿@model Ashirvad.Data.TestPaperEntity
-@*<form id="fTestPaperDetail">*@
-    <div class="row" id="dpaperInformation">
+<form id="fTestPaperDetail">
+    <div class="row" id="dInformation">
         <div class="col-md-12">
             <div class="col-md-3">
                 @Html.Label("Select Type", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -11,8 +11,9 @@
                 </select>
                 @Html.HiddenFor(x => x.PaperTypeID)
                 @Html.HiddenFor(x => x.PaperType)
-                @Html.HiddenFor(x => x.TestID)
+                @Html.HiddenFor(x => x.TestID, new { @class = "form-control", @Id = "test_id", autocomplete = "off" })
                 @Html.HiddenFor(x => x.TestPaperID)
+                @Html.HiddenFor(x => x.TestDate, new { @class = "form-control", @Id = "test_date", autocomplete = "off" })
             </div>
             <div class="col-md-3" style="display:none" id="link">
                 @Html.Label("Link", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -38,7 +39,7 @@
             </div>
         </div>
         <div class="col-md-12" style="text-align: right; margin-top: 27PX">
-            <a onclick="return SaveTest();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+            <a onclick="return Savetest();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                 <span class="ladda-label">
                     Save
                 </span>
@@ -53,4 +54,4 @@
         </div>
         
     </div>
-@*</form>*@
+</form>

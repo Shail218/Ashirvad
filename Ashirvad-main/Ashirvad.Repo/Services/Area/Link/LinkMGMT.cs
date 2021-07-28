@@ -53,7 +53,7 @@ namespace Ashirvad.Repo.Services.Area.Link
                         join std in this.context.STD_MASTER on u.std_id equals std.std_id
                         where u.type == type
                         && (0 == branchID || u.branch_id == branchID)
-                        && (0 == stdID || u.std_id == stdID)
+                        && (0 == stdID || u.std_id == stdID) && u.row_sta_cd == 1
                         select new LinkEntity()
                         {
                             RowStatus = new RowStatusEntity()

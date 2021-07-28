@@ -203,7 +203,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
-                        where (0 == branchID || u.branch_id == branchID)
+                        where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new PaperEntity()
                         {
                             RowStatus = new RowStatusEntity()

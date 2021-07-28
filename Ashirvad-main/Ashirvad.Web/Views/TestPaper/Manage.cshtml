@@ -1,18 +1,6 @@
 ﻿﻿@using Ashirvad.Web.Controllers;
 @model List<Ashirvad.Data.TestEntity>
 
-@*<div class="row">
-        <div class="col-md-3">
-            @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.DropDownList("Branch", new List<SelectListItem>
-                           {
-                           new SelectListItem{ Text="---Select-Branch---", Value = "-1" },
-                            new SelectListItem{ Text="Branch", Value = "1" },
-                            }, new { @class = "form-control", id = "Branch" })
-
-        </div>
-    </div>*@
-
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
@@ -35,21 +23,15 @@
                 Total Marks
             </th>
             <th>
-                Remarks
-            </th>
-            <th>
-                Type
-            </th>
-            <th>
                 Link
             </th>
             <th>
-                Download
+                Document
             </th>
             <th>
                 Edit
             </th>
-            <th>
+            <th style="text-align:center;">
                 View Student AnswerSheet
             </th>
             <th>
@@ -60,49 +42,57 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @item.Standard.Standard
-            </td>
+    <tr>
+        <td>
+            @item.Standard.Standard
+        </td>
 
-            <td>
-                @item.BatchTimeText
-            </td>
+        <td>
+            @item.BatchTimeText
+        </td>
 
-            <td>
-                @item.TestDate
-            </td>
-            <td>
-                @item.TestStartTime - @item.TestEndTime
-            </td>
-            <td>
-                @item.Subject.Subject
-            </td>
-            <td>
-                @item.Marks
-            </td>
-            <td>
-                @item.Remarks
-            </td>
-            <td>@item.test.PaperType</td>
-            <td>@item.test.DocLink</td>
+        <td>
+            @item.TestDate.ToString("dd/MM/yyyy")
+        </td>
+        <td>
+            @item.TestStartTime - @item.TestEndTime
+        </td>
+        <td>
+            @item.Subject.Subject
+        </td>
+        <td>
+            @item.Marks
+        </td>
+        <td>@item.test.DocLink</td>
+        @if (item.test.DocContent == null)
+        {
             <td></td>
+        }
+        else
+        {
             <td>
-                <a href="@Url.Action("Index", "/TestPaper/TestPaperMaintenance", new { testID = item.TestID})">
-                    <img src="~/ThemeData/images/viewIcon.png" />
+                <a href="#" style="margin-left:25px;">
+                    <img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" />
                 </a>
             </td>
-            <td style="text-align:center">
-                <a href="@Url.Action("Index", "/TestPaper/StudentAnswerSheetMaintenance", new { testID = item.TestID})">
-                    <img src="~/ThemeData/images/tick.png" style="height:35px;width:35px" />
-                </a>
-            </td>
-            <td>
-                <a href="#" onclick="RemoveTest(@item.TestID);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-        </tr>
+        }
+
+        <td>
+            <a href="@Url.Action("TestPaperMaintenance", "TestPaper", new { testID = item.TestID, paperID = item.test.TestPaperID})">
+                <img src="~/ThemeData/images/viewIcon.png" />
+            </a>
+        </td>
+        <td style="text-align:center">
+            <a href="@Url.Action("StudentAnswerSheetMaintenance", "TestPaper", new { testID = item.TestID})">
+                <img src="~/ThemeData/images/tick.png" style="height:35px;width:35px" />
+            </a>
+        </td>
+        <td>
+            <a style="margin-left:20px;" href="#" onclick="RemoveTest(@item.TestID);">
+                <img src="~/ThemeData/images/delete.png" />
+            </a>
+        </td>
+    </tr>
     }
 
 </table>

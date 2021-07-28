@@ -38,22 +38,6 @@ namespace Ashirvad.Web.Controllers
             else
             {
                 branch.BannerInfo = new BannerEntity();
-                //branch.BannerInfo.BannerType = new List<BannerTypeEntity>();
-                //branch.BannerInfo.BannerType.Add(new BannerTypeEntity()
-                //{
-                //    TypeID = 1,
-                //    TypeText = "Admin"
-                //});
-                //branch.BannerInfo.BannerType.Add(new BannerTypeEntity()
-                //{
-                //    TypeID = 2,
-                //    TypeText = "Teacher"
-                //});
-                //branch.BannerInfo.BannerType.Add(new BannerTypeEntity()
-                //{
-                //    TypeID = 3,
-                //    TypeText = "Student"
-                //});
             }
 
             //var branchData = await _bannerService.GetAllBannerWithoutImage(SessionContext.Instance.LoginUser.BranchInfo.BranchID);

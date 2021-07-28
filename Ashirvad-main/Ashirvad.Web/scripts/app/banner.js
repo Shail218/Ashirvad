@@ -164,11 +164,14 @@ function SaveBanner() {
 }
 
 function RemoveBanner(branchID) {
+    ShowLoader();
     var postCall = $.post(commonData.Banner + "RemoveBanner", { "bannerID": branchID });
     postCall.done(function (data) {
+        HideLoader();
         ShowMessage("Banner Removed Successfully.", "Success");
         window.location.href = "BannerMaintenance?bannerID=0";
     }).fail(function () {
+        HideLoader();
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }

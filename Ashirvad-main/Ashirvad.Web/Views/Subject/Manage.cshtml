@@ -10,9 +10,9 @@
             <th>
                 Branch Name
             </th>
-            <th>
+            @*<th>
                 Status
-            </th>
+            </th>*@
             <th>
                 Edit
             </th>
@@ -35,9 +35,9 @@
                 @item.BranchInfo.BranchName
                 @Html.HiddenFor(x => item.BranchInfo.BranchID)
             </td>
-            <td>
+            @*<td>
                 @item.RowStatus.RowStatus
-            </td>
+            </td>*@
             <td>
                 <a href="@Url.Action("SubjectMaintenance", "Subject", new { branchID = item.SubjectID })">
                     <img src="~/ThemeData/images/viewIcon.png" />

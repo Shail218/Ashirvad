@@ -30,7 +30,6 @@ namespace Ashirvad.Repo.Services.Area.Test
             }
 
             testMaster.row_sta_cd = testInfo.RowStatus.RowStatusId;
-            testInfo.TestName = "Demo";
             testMaster.trans_id = this.AddTransactionData(testInfo.Transaction);
             testMaster.branch_id = testInfo.Branch.BranchID;
             testMaster.std_id = testInfo.Standard.StandardID;
@@ -91,8 +90,10 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestEndTime = u.test_end_time,
                             TestName = u.test_name,
                             TestStartTime = u.test_st_time,
-                            test= new TestPaperEntity()
+                            test = new TestPaperEntity()
                             {
+                                DocContent = TestPaper.doc_content,
+                                TestPaperID = TestPaper.test_paper_id,
                                 PaperType= TestPaper.paper_type.ToString(),
                                 DocLink= TestPaper.doc_link.ToString()
                             },
@@ -447,7 +448,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         }).FirstOrDefault();
             if (data != null)
             {
-                data.DocContentText = Convert.ToBase64String(data.DocContent);
+                //data.DocContentText = Convert.ToBase64String(data.DocContent);
             }
 
             return data;

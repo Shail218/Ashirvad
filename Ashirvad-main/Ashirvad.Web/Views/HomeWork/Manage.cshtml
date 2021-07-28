@@ -23,11 +23,6 @@
             <th>
                 Homework
             </th>
-
-            <th>
-                Remarks
-            </th>
-
             <th>
                 Edit
             </th>
@@ -65,9 +60,6 @@
                 </a>
             </td>
             <td>
-                @item.Remarks
-            </td>
-            <td>
                 <a href="@Url.Action("HomeworkMaintenance", "HomeWork", new { homeworkID = item.HomeworkID, branchID = item.BranchInfo.BranchID})">
                     <img src="~/ThemeData/images/viewIcon.png" />
                 </a>
@@ -82,7 +74,7 @@
                         <img src="~/ThemeData/images/viewIcon.png" />
                     </a>*@
                 <a href="#">
-                    <img src="~/ThemeData/images/viewIcon.png" />
+                    <img src="~/ThemeData/images/tick.png" style="height:35px;width:35px" />
                 </a>
             </td>
         </tr>

@@ -59,7 +59,7 @@ namespace Ashirvad.Repo.Services.Area.School
         public async Task<List<SchoolEntity>> GetAllSchools(long branchID)
         {
             var data = (from u in this.context.SCHOOL_MASTER
-                        where branchID == 0 || u.branch_id == branchID
+                        where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
                         select new SchoolEntity()
                         {
                             RowStatus = new RowStatusEntity()

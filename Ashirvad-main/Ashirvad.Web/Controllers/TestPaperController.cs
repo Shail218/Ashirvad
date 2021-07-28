@@ -1,4 +1,5 @@
-﻿using Ashirvad.Data;
+﻿using Ashirvad.Common;
+using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Test;
 using System;
@@ -24,7 +25,7 @@ namespace Ashirvad.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> TestPaperMaintenance(long testID)
+        public async Task<ActionResult> TestPaperMaintenance(long testID, long paperID = 0)
         {
             TestMaintenanceModel branch = new TestMaintenanceModel();
             if (testID > 0)
@@ -32,7 +33,7 @@ namespace Ashirvad.Web.Controllers
                 var test = await _testService.GetTestByTestID(testID);
                 branch.TestInfo = test.Data;
 
-                var testpaper = await _testService.GetTestPaperByPaperID(testID);
+                var testpaper = await _testService.GetTestPaperByPaperID(paperID);
                 branch.TestPaperInfo = testpaper;
             }
 
@@ -46,14 +47,14 @@ namespace Ashirvad.Web.Controllers
         public async Task<JsonResult> SaveTest(TestEntity testEntity)
         {
             testEntity.Transaction = GetTransactionData(testEntity.TestID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            testEntity.RowStatus = new RowStatusEntity()
+            {
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
             var data = await _testService.TestMaintenance(testEntity);
             if (data != null)
             {
-                TestPaperEntity testpaperEntity = new TestPaperEntity();
-                //testpaperEntity = testEntity.test;
-                testpaperEntity.TestID = data.TestID;
-                JsonResult jsonResult= SaveTestPaper(testpaperEntity).Result;
-                return Json(data.TestID);
+                return Json(data);
             }
 
             return Json(0);
@@ -62,7 +63,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveTestPaper(TestPaperEntity testpaperEntity)
         {
-            testpaperEntity.Transaction = GetTransactionData(testpaperEntity.TestID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            testpaperEntity.Transaction = GetTransactionData(testpaperEntity.TestPaperID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             var data = await _testService.TestPaperMaintenance(testpaperEntity);
             if (data != null)
             {

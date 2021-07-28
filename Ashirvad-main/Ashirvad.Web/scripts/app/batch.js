@@ -40,10 +40,6 @@ function LoadBranch(onLoaded) {
             $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
         }
 
-        //$.each(data, function (i) {
-        //    $("#BranchName").append($("<option></option>").val(data[i].BranchID).html(data[i].BranchName));
-        //});
-
         if (onLoaded != undefined) {
             onLoaded();
         }
@@ -103,22 +99,22 @@ function SaveBatch() {
 }
 
 function RemoveBatch(batchID) {
-    
+    ShowLoader();
     var postCall = $.post(commonData.Batch + "RemoveBatch", { "batchID": batchID });
     postCall.done(function (data) {
-        
+        HideLoader();
         ShowMessage("Batch Removed Successfully.", "Success");
         window.location.href = "BatchMaintenance?branchID=0";
     }).fail(function () {
-        
+        HideLoader();
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
 function SpliteData() {
-    var SplitData = $('#SunBatchTime').val().split('-');
-    var SplitData1 = $('#MonFriBatchTime').val().split('-');
-    var SplitData2 = $('#SatBatchTime').val().split('-');
+    var SplitData = $('#SunBatchTime').val().split(' - ');
+    var SplitData1 = $('#MonFriBatchTime').val().split(' - ');
+    var SplitData2 = $('#SatBatchTime').val().split(' - ');
     var snststart = $("#snstarttime").val(SplitData[0]);
     var snstend = $("#snendtime").val(SplitData[1]);
     var start = $("#starttime").val(SplitData1[0]);

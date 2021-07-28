@@ -41,17 +41,21 @@
                 <img src="~/ThemeData/images/Default.png" style="height:50px;width:50px" id="thumnailImg" />
                 @Html.HiddenFor(x => item.LibraryID)
             </td>
-            <td></td>
+            <td>
+                <a style="margin-left:20px;" href="#">
+                    <img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" />
+                </a>
+            </td>
             <td>
                 @item.Description
             </td>
             <td>
-                <a href="@Url.Action("Index", "/Library/LibraryMaintenance", new { libraryID = item.LibraryID})">
+                <a href="@Url.Action("LibraryMaintenance", "Library", new { libraryID = item.LibraryID})">
                     <img src="~/ThemeData/images/viewIcon.png" />
                 </a>
             </td>
             <td>
-                <a href="#" onclick="RemoveLibrary(@item.LibraryID);">
+                <a style="margin-left:20px;" href="#" onclick="RemoveLibrary(@item.LibraryID);">
                     <img src="~/ThemeData/images/delete.png" />
                 </a>
             </td>

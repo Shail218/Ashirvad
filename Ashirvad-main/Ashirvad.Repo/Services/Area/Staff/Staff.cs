@@ -69,7 +69,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
         public async Task<List<StaffEntity>> GetAllStaff(long branchID)
         {
             var data = (from u in this.context.BRANCH_STAFF
-                        where branchID == 0 || u.branch_id == branchID
+                        where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
                         select new StaffEntity()
                         {
                             RowStatus = new RowStatusEntity()

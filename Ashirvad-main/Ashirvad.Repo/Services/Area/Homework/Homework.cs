@@ -167,7 +167,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
                         where u.branch_id == branchID
-                        && (0 == stdID || u.std_id == stdID)
+                        && (0 == stdID || u.std_id == stdID) && u.row_sta_cd == 1
                         select new HomeworkEntity()
                         {
                             RowStatus = new RowStatusEntity()

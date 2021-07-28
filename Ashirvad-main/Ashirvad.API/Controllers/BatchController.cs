@@ -42,8 +42,7 @@ namespace Ashirvad.API.Controllers
             result.Data = data.Result;
             return result;
         }
-
-
+        
         [Route("RemoveBatch")]
         [HttpPost]
         public OperationResult<bool> RemoveBatch(long BatchID, string lastupdatedby)

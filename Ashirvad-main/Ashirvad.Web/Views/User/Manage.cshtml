@@ -21,9 +21,9 @@
             @*<th>
                 Branch Name
             </th>*@
-            <th>
+            @*<th>
                 Status
-            </th>
+            </th>*@
 
             <th>
                 Edit
@@ -56,9 +56,9 @@
             @*<td>
                 @item.BranchInfo.BranchName               
             </td>*@
-            <td>
+            @*<td>
                 @item.RowStatus.RowStatus
-            </td>
+            </td>*@
             <td>
                 <a href="@Url.Action("UserMaintenance", "User", new { branchID = item.StaffID })">
                     <img src="~/ThemeData/images/viewIcon.png" />
@@ -68,7 +68,7 @@
         </a>*@
             </td>
             <td>
-                <a href="#" onclick="RemoveUser(@item.StaffID);">
+                <a style="margin-left:20px;" href="#" onclick="RemoveUser(@item.StaffID);">
                     <img src="~/ThemeData/images/delete.png" />
                 </a>
             </td>

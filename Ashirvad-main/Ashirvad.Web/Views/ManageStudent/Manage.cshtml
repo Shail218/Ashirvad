@@ -39,11 +39,12 @@
                 {
                     <tr>
                         <td>
-                            <img src="data:image/jpg;base64,@item.StudImage" id="branchImg" style="height:30px;width:30px;" />
+                            <img src="data:image/jpg;base64,@item.StudImage" id="branchImg" style="height:30px;width:30px;margin-left:20px;" />
                         </td>
                         <td>
                             @item.FirstName @item.LastName
                             @Html.HiddenFor(x => item.StudentID)
+                            @Html.HiddenFor(x => item.BranchInfo.BranchID)
                         </td>
                         <td>
                             @item.AdmissionDate.Value.ToString("dd/MM/yyyy")

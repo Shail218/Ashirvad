@@ -72,11 +72,6 @@ $(document).ready(function () {
         var elemImg = $(this).find("#branchImg");
         var branchID = $(this).find("#item_BranchID").val();
         if (elemImg.length > 0 && branchID.length > 0) {
-            //AjaxCall(commonData.Branch + "GetBranchLogo", '{ "branchID": ' + branchID +'}', function (data) {
-            //    $(elemImg).attr('src', data);
-            //}, function (xhr) {
-            //    $(elemImg).attr('src', "../ThemeData/images/Default.png");
-            //});
             var postCall = $.post(commonData.Branch + "GetBranchLogo", { "branchID": branchID });
             postCall.done(function (data) {
                 $(elemImg).attr('src', data);

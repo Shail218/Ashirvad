@@ -127,7 +127,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
-                        where u.branch_id == branchID
+                        where u.branch_id == branchID && u.row_sta_cd == 1
                         select new AttendanceEntity()
                         {
                             RowStatus = new RowStatusEntity()

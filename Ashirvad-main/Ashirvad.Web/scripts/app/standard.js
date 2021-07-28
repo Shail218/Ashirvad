@@ -64,14 +64,14 @@ function SaveStandard() {
 }
 
 function RemoveStandard(standardID) {
-    
+    ShowLoader();
     var postCall = $.post(commonData.Standard + "RemoveStandard", { "standardID": standardID });
     postCall.done(function (data) {
-        
+        HideLoader();
         ShowMessage("Standard Removed Successfully.", "Success");
         window.location.href = "StandardMaintenance?branchID=0";
     }).fail(function () {
-        
+        HideLoader();
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }

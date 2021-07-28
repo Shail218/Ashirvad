@@ -30,14 +30,14 @@ function SaveReminder() {
 }
 
 function RemoveReminder(reminderID) {
-    
+    ShowLoader();
     var postCall = $.post(commonData.Reminder + "RemoveReminder", { "reminderID": reminderID });
     postCall.done(function (data) {
-        
+        HideLoader();
         ShowMessage("Reminder Removed Successfully.", "Success");
         window.location.href = "ReminderMaintenance?reminderID=0";
     }).fail(function () {
-        
+        HideLoader();
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }

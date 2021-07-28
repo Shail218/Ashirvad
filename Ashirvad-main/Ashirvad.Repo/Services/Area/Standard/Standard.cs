@@ -62,7 +62,7 @@ namespace Ashirvad.Repo.Services.Area.Standard
         public async Task<List<StandardEntity>> GetAllStandards(long branchID)
         {
             var data = (from u in this.context.STD_MASTER
-                        where branchID == 0 || u.branch_id == branchID
+                        where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
                         select new StandardEntity()
                         {
                             RowStatus = new RowStatusEntity()

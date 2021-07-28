@@ -78,14 +78,14 @@ function SaveYoutube() {
 }
 
 function RemoveYoutube(schoolID) {
-    
+    ShowLoader();
     var postCall = $.post(commonData.Youtube + "RemoveYoutube", { "linkID": schoolID });
     postCall.done(function (data) {
-        
+        HideLoader();
         ShowMessage("Youtube Removed Successfully.", "Success");
         window.location.href = "YoutubeMaintenance?linkID=0";
     }).fail(function () {
-        
+        HideLoader();
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }

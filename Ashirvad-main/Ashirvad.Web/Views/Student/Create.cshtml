@@ -169,12 +169,12 @@
                 @Html.Label("Address", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 @Html.TextBoxFor(x => x.Address, new { @class = "form-control required", @alt = "Address", autocomplete = "off" })
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2" style="margin-top:10px;">
                 @Html.Label("Upload Photo", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <input class="file-upload" alt="Student Image" id="fuStudentImage" name="ImageFile" type="file" accept="image/*" />
                 @Html.HiddenFor(x => x.StudImage)
             </div>
-            <div class="col-md-1">
+            <div class="col-md-1" style="margin-top:5px;">
                 <img CssClass="imgStud" Style="width: 80px; height: 80px; border: 1px solid #000;" id="imgStud" />
             </div>
         </div>

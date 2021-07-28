@@ -94,11 +94,14 @@ function SaveToDo() {
 }
 
 function RemoveToDo(todoID) {
+    ShowLoader();
     var postCall = $.post(commonData.ToDo + "RemoveToDo", { "todoID": todoID });
     postCall.done(function (data) {
+        HideLoader();
         ShowMessage("ToDo Removed Successfully.", "Success");
         window.location.href = "ToDoMaintenance?todoID=0";
     }).fail(function () {
+        HideLoader();
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }

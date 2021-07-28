@@ -39,13 +39,17 @@ namespace Ashirvad.Web.Controllers
             return View("Index", branch);
         }
 
+        public async Task<ActionResult> ToDoEdit(long todoID)
+        {
+            ToDoMaintenanceModel branch = new ToDoMaintenanceModel();
+            var todo = await _todoService.GetToDoByToDoID(todoID);
+            branch.ToDoInfo = todo;
+            return View("~/Views/ToDoRegister/Create.cshtml", branch.ToDoInfo);
+        }
+
         [HttpPost]
         public async Task<JsonResult> SaveToDo(ToDoEntity toDoEntity)
         {
-            toDoEntity.RowStatus = new RowStatusEntity()
-            {
-                RowStatusId = (int)Enums.RowStatus.Active
-            };
             toDoEntity.Transaction = GetTransactionData(toDoEntity.ToDoID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             var data = await _todoService.ToDoMaintenance(toDoEntity);
             if (data != null)

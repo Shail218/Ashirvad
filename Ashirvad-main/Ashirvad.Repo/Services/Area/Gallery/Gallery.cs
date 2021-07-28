@@ -95,7 +95,7 @@ namespace Ashirvad.Repo.Services.Area.Gallery
             var data = (from u in this.context.GALLERY_MASTER
                         .Include("BRANCH_MASTER")
                         where u.uplaod_type == type
-                        && (0 == branchID || u.branch_id == branchID)
+                        && (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new GalleryEntity()
                         {
                             RowStatus = new RowStatusEntity()

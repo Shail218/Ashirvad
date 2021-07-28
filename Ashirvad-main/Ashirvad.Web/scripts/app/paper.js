@@ -116,14 +116,14 @@ function SavePaper() {
 }
 
 function RemovePaper(paperID) {
-    
+    ShowLoader();
     var postCall = $.post(commonData.Paper + "RemovePaper", { "paperID": paperID });
     postCall.done(function (data) {
-        
+        HideLoader();
         ShowMessage("Paper Removed Successfully.", "Success");
         window.location.href = "PaperMaintenance?paperID=0";
     }).fail(function () {
-        
+        HideLoader();
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }

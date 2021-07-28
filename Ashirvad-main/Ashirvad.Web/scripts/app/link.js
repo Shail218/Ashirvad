@@ -77,14 +77,14 @@ function SaveLink() {
 }
 
 function RemoveLink(schoolID) {
-    
+    ShowLoader();
     var postCall = $.post(commonData.LiveVideo + "RemoveLink", { "linkID": schoolID });
     postCall.done(function (data) {
-        
+        HideLoader();
         ShowMessage("Live Video Removed Successfully.", "Success");
         window.location.href = "LiveVideoMaintenance?linkID=0";
     }).fail(function () {
-        
+        HideLoader();
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }

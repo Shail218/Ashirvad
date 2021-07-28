@@ -38,7 +38,7 @@
                 @Html.HiddenFor(x => x.ToDoContentText)
             </div>
             <div class="col-md-9" style="margin-top:5px;">
-                @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.Label("Task Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 @Html.TextBoxFor(x => x.ToDoDescription, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
             </div>
             <div class="col-md-3" style="text-align: right;margin-top:27px;">
@@ -89,7 +89,7 @@
                 @Html.HiddenFor(x => x.UserInfo.UserID)
             </div>
             <div class="col-md-3">
-                @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.Label("Task Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 @Html.TextBoxFor(x => x.ToDoDescription, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
             </div>
             <div class="col-md-3" style="margin-top:10px;">

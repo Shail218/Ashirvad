@@ -1,71 +1,49 @@
 ﻿@model Ashirvad.Data.ToDoEntity
+    @{ 
+        Layout = null;
+    }
 <form id="fToDoDetail">
-    <div class="form-group">
-        <div class="col-md-6"></div>
-        <div class="col-md-6">
-            @Html.Label("Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.ToDoDate, new { @class = "form-control required", @alt = "Date", autocomplete = "off" })
-        </div>
-        <div class="col-md-6">
-            @Html.Label("Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.BranchInfo.BranchName, new { @class = "form-control required", @alt = "Date", autocomplete = "off" })
-            @Html.HiddenFor(x => x.BranchInfo.BranchID)
-        </div>
-        <div class="col-md-6">
-            @Html.Label("User", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.UserInfo.Username, new { @class = "form-control required", @alt = "Date", autocomplete = "off" })
-            @Html.HiddenFor(x => x.UserInfo.UserID)
-        </div>
-        <div class="col-md-12">
-            @Html.Label("Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.ToDoDescription, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
-        </div>
-        <div class="col-md-12">
-            @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextArea("Remarks", null, new { @class = "form-control", autocomplete = "off" })
-        </div>
-        <div class="col-md-12" style="margin-top: 5px">
-            @Html.Label("Select Status", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
+    <div class="form-group" id="dInformation">
+        <div class="col-md-4">
+            @Html.Label("Status", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
             <table id="rdbResult" class="radioboxlist form-control">
                 <tbody>
                     <tr>
                         <td>
-                            <input type="radio" name="Status" id="rowStaPending" value="Pending" />
-                            <lable for="rowStaPending">Pending</lable>
+                            <input type="radio" name="Status" id="rowStaActive" value="Active" />
+                            <lable for="rowStaActive">Active</lable>
                         </td>
                         <td>
-                            <input type="radio" name="Status" id="rowStaDone" value="Done" style="margin-left:10px" />
-                            <lable for="rowStaDone">Done</lable>
-                            @*@Html.HiddenFor(x => x.RowStatus.RowStatusId)*@
+                            <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:10px" />
+                            <lable for="rowStaInactive">Inactive</lable>
+                            @Html.HiddenFor(x => x.RowStatus.RowStatusId)
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <div class="col-md-8">
+            @Html.Label("Task Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBoxFor(x => x.ToDoDescription, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
+            @Html.HiddenFor(x => x.ToDoID)
+            @Html.HiddenFor(x => x.ToDoDate)
+            @Html.HiddenFor(x => x.BranchInfo.BranchID)
+            @Html.HiddenFor(x => x.UserInfo.UserID)
+            @Html.HiddenFor(x => x.ToDoDescription)
+            @Html.HiddenFor(x => x.ToDoContent)
+        </div>
     </div>
-    <div class="form-group">
+    <div class="row">
         <div class="col-md-12" style="text-align: right;">
-            @*<a href="@Url.Action("ToDoMaintenance","ToDo", new { @todoID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
-                    <span class="ladda-label">
-                        Cancel
-                    </span>
-                    <span class="ladda-spinner"></span>
-                </a>
-                <a onclick="return SaveToDo();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
-                    <span class="ladda-label">
-                        Save
-                    </span>
-                    <span class="ladda-spinner"></span>
-                </a>*@
-            <a href="#" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+            <a onclick="return Savetodo();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                 <span class="ladda-label">
-                    Cancel
+                    Save
                 </span>
                 <span class="ladda-spinner"></span>
             </a>
-            <a href="#" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+            <a href="@Url.Action("StudentMaintenance","Student", new { @studentID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
                 <span class="ladda-label">
-                    Save
+                    Cancel
                 </span>
                 <span class="ladda-spinner"></span>
             </a>

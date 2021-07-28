@@ -50,7 +50,7 @@ namespace Ashirvad.Repo.Services.Area.Reminder
             var data = (from u in this.context.REMINDER_MASTER.Include("BRANCH_MASTER")
                         join ud in this.context.USER_DEF on u.user_id equals ud.user_id
                         where u.branch_id == branchID
-                        && (0 == userID || u.user_id == userID)
+                        && (0 == userID || u.user_id == userID) && u.row_sta_cd == 1
                         select new ReminderEntity()
                         {
                             RowStatus = new RowStatusEntity()

@@ -28,4 +28,5 @@
     Reminder: $("#hdnFldVDName").val() + "Reminder/",
     ToDo: $("#hdnFldVDName").val() + "ToDo/",
     ToDoRegister: $("#hdnFldVDName").val() + "ToDoRegister/",
+    ChangePassword: $("#hdnFldVDName").val() + "ChangePassword/",
 };

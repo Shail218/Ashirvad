@@ -72,7 +72,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
             var data = (from u in this.context.NOTIFICATION_MASTER.Include("NOTIFICATION_TYPE_REL")
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
                         from branch in tempBranch.DefaultIfEmpty()
-                        where (0 == branchID || u.branch_id == null || u.branch_id == 0 || (u.branch_id.HasValue && u.branch_id.Value == branchID))
+                        where (0 == branchID || u.branch_id == null || u.branch_id == 0 || (u.branch_id.HasValue && u.branch_id.Value == branchID) && u.row_sta_cd == 1)
                         select new NotificationEntity()
                         {
                             RowStatus = new RowStatusEntity()

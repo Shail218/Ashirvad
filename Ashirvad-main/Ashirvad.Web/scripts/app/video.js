@@ -20,7 +20,6 @@ $(document).ready(function () {
 
 
     $("#studenttbl tbody tr").each(function () {
-        debugger;     
         var photoID = $(this).find("#UniqID").val();          
             var postCall = $.post(commonData.Videos + "DownloadVideo", { "videoID": photoID });   
             postCall.done(function (data) {
