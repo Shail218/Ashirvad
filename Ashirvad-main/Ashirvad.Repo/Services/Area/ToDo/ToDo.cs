@@ -87,7 +87,7 @@ namespace Ashirvad.Repo.Services.Area.ToDo
                 foreach (var item in data)
                 {
                     int idx = data.IndexOf(item);
-                    data[idx].ToDoContentText = Convert.ToBase64String(data[idx].ToDoContent);
+                    data[idx].ToDoContentText = data[idx].ToDoContent.Length > 0 ? Convert.ToBase64String(data[idx].ToDoContent) : "";
                 }
             }
             return data;
@@ -159,7 +159,7 @@ namespace Ashirvad.Repo.Services.Area.ToDo
                         }).FirstOrDefault();
             if (data != null)
             {
-                data.ToDoContentText = Convert.ToBase64String(data.ToDoContent);
+                data.ToDoContentText = data.ToDoContent.Length > 0 ? Convert.ToBase64String(data.ToDoContent) : "";
             }
             return data;
         }
