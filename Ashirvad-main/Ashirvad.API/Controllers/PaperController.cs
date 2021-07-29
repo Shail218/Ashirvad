@@ -54,6 +54,14 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("GetAllPaperWithoutContent")]
+        [HttpGet]
+        public OperationResult<List<PaperEntity>> GetAllPaperWithoutContent(long branchID)
+        {
+            var data = this._paperService.GetAllPaperWithoutContent(branchID);
+            return data.Result;
+        }
+
 
         [Route("GetPracticePaperSubject")]
         [HttpGet]
