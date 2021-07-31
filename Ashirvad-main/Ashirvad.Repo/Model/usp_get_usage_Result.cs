@@ -10,15 +10,11 @@
 namespace Ashirvad.Repo.Model
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class PRACTICE_PAPER_REL
+    public partial class usp_get_usage_Result
     {
-        public long unique_id { get; set; }
-        public long paper_id { get; set; }
-        public byte[] paper_content { get; set; }
-        public string paper_file { get; set; }
-    
-        public virtual PRACTICE_PAPER PRACTICE_PAPER { get; set; }
+        public long branch_id { get; set; }
+        public Nullable<decimal> usage { get; set; }
+        public string keyVal { get; set; }
     }
 }
