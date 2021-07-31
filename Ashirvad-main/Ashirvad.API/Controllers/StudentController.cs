@@ -32,11 +32,34 @@ namespace Ashirvad.API.Controllers
             result.Data = data.Result;
             return result;
         }
+
+        [Route("GetStudentByID")]
+        [HttpPost]
+        public OperationResult<StudentEntity> GetStudentByID(long studenID)
+        {
+            var data = this._studentService.GetStudentByID(studenID);
+            OperationResult<StudentEntity> result = new OperationResult<StudentEntity>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
+
         [Route("GetAllStudent")]
         [HttpPost]
         public async Task<OperationResult<List<StudentEntity>>> GetAllStudent(long branchID)
         {
             var data = await this._studentService.GetAllStudent(branchID);
+            OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
+            result.Completed = true;
+            result.Data = data;
+            return result;
+        }
+
+        [Route("GetAllStudentWithoutContent")]
+        [HttpPost]
+        public async Task<OperationResult<List<StudentEntity>>> GetAllStudentWithoutContent(long branchID)
+        {
+            var data = await this._studentService.GetAllStudentWithoutContent(branchID);
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
             result.Completed = true;
             result.Data = data;
@@ -54,11 +77,33 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("GetAllActiveStudentWithoutContent")]
+        [HttpPost]
+        public async Task<OperationResult<List<StudentEntity>>> GetAllActiveStudentWithoutContent(long branchID)
+        {
+            var data = await this._studentService.GetAllStudentWithoutContent(branchID, (int)Enums.RowStatus.Active);
+            OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
+            result.Completed = true;
+            result.Data = data;
+            return result;
+        }
+
         [Route("GetAllInActiveStudent")]
         [HttpPost]
         public async Task<OperationResult<List<StudentEntity>>> GetAllInActiveStudent(long branchID)
         {
             var data = await this._studentService.GetAllStudent(branchID, (int)Enums.RowStatus.Inactive);
+            OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
+            result.Completed = true;
+            result.Data = data;
+            return result;
+        }
+
+        [Route("GetAllInActiveStudentWithoutContent")]
+        [HttpPost]
+        public async Task<OperationResult<List<StudentEntity>>> GetAllInActiveStudentWithoutContent(long branchID)
+        {
+            var data = await this._studentService.GetAllStudentWithoutContent(branchID, (int)Enums.RowStatus.Inactive);
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
             result.Completed = true;
             result.Data = data;

@@ -80,6 +80,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             return null;
         }
 
+        public async Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, int status = 0)
+        {
+            try
+            {
+                return await this._studentContext.GetAllStudentWithoutContent(branchID, status);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public bool RemoveStudent(long StudentID, string lastupdatedby)
         {
             try

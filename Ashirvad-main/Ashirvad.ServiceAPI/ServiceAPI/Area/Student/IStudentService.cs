@@ -11,6 +11,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Student
     {
         Task<StudentEntity> StudentMaintenance(StudentEntity studentInfo);
         Task<List<StudentEntity>> GetAllStudent(long branchID, int status = 0);
+        Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, int status = 0);
         bool RemoveStudent(long StudentID, string lastupdatedby);
         Task<StudentEntity> GetStudentByID(long studenID);
         Task<List<StudentEntity>> GetAllStudent(string studName, string contactNo);
