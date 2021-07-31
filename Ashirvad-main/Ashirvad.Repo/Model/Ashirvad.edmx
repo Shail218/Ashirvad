@@ -1086,6 +1086,7 @@
           <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="usp_get_usage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="AshirvadModelStoreContainer">
           <EntitySet Name="ABOUTUS_DETAIL_REL" EntityType="Self.ABOUTUS_DETAIL_REL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ABOUTUS_MASTER" EntityType="Self.ABOUTUS_MASTER" Schema="dbo" store:Type="Tables" />
@@ -1593,6 +1594,7 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="usp_get_usage" ReturnType="Collection(AshirvadModel.usp_get_usage_Result)" />
         </EntityContainer>
         <EntityType Name="BANNER_MASTER">
           <Key>
@@ -2755,6 +2757,11 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="usp_get_usage_Result">
+          <Property Type="Int64" Name="branch_id" Nullable="false" />
+          <Property Type="Decimal" Name="usage" Nullable="true" Precision="9" Scale="2" />
+          <Property Type="String" Name="keyVal" Nullable="false" MaxLength="17" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3265,6 +3272,15 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="AshirvadModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="AshirvadModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="usp_get_usage" FunctionName="AshirvadModel.Store.usp_get_usage">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AshirvadModel.usp_get_usage_Result">
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="usage" ColumnName="usage" />
+                <ScalarProperty Name="keyVal" ColumnName="keyVal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

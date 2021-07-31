@@ -47,6 +47,7 @@
     <Compile Include="BatchEntity.cs" />
     <Compile Include="BranchEntity.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="DataUsageEntity.cs" />
     <Compile Include="GalleryEntity.cs" />
     <Compile Include="HomeworkEntity.cs" />
     <Compile Include="LibraryEntity.cs" />
