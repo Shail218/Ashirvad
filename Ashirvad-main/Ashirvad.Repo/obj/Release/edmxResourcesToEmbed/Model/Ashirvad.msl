@@ -1,0 +1,509 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AshirvadModelStoreContainer" CdmEntityContainer="AshirvadDBEntities1">
+    <EntitySetMapping Name="BANNER_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.BANNER_MASTER">
+        <MappingFragment StoreEntitySet="BANNER_MASTER">
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="banner_img" ColumnName="banner_img" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="banner_id" ColumnName="banner_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BANNER_TYPE_REL">
+      <EntityTypeMapping TypeName="AshirvadModel.BANNER_TYPE_REL">
+        <MappingFragment StoreEntitySet="BANNER_TYPE_REL">
+          <ScalarProperty Name="banner_id" ColumnName="banner_id" />
+          <ScalarProperty Name="sub_type_id" ColumnName="sub_type_id" />
+          <ScalarProperty Name="unique_id" ColumnName="unique_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BATCH_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.BATCH_MASTER">
+        <MappingFragment StoreEntitySet="BATCH_MASTER">
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="sun_batch_time" ColumnName="sun_batch_time" />
+          <ScalarProperty Name="sat_batch_time" ColumnName="sat_batch_time" />
+          <ScalarProperty Name="mon_fri_batch_time" ColumnName="mon_fri_batch_time" />
+          <ScalarProperty Name="batch_time" ColumnName="batch_time" />
+          <ScalarProperty Name="std_id" ColumnName="std_id" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="batch_id" ColumnName="batch_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BRANCH_LICENSE">
+      <EntityTypeMapping TypeName="AshirvadModel.BRANCH_LICENSE">
+        <MappingFragment StoreEntitySet="BRANCH_LICENSE">
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="license_key" ColumnName="license_key" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="license_id" ColumnName="license_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BRANCH_MAINT">
+      <EntityTypeMapping TypeName="AshirvadModel.BRANCH_MAINT">
+        <MappingFragment StoreEntitySet="BRANCH_MAINT">
+          <ScalarProperty Name="header_logo_ext" ColumnName="header_logo_ext" />
+          <ScalarProperty Name="branch_logo_ext" ColumnName="branch_logo_ext" />
+          <ScalarProperty Name="website" ColumnName="website" />
+          <ScalarProperty Name="header_logo" ColumnName="header_logo" />
+          <ScalarProperty Name="branch_logo" ColumnName="branch_logo" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BRANCH_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.BRANCH_MASTER">
+        <MappingFragment StoreEntitySet="BRANCH_MASTER">
+          <ScalarProperty Name="branch_type" ColumnName="branch_type" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="email_id" ColumnName="email_id" />
+          <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+          <ScalarProperty Name="contact_no" ColumnName="contact_no" />
+          <ScalarProperty Name="about_us" ColumnName="about_us" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="branch_name" ColumnName="branch_name" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BRANCH_STAFF">
+      <EntityTypeMapping TypeName="AshirvadModel.BRANCH_STAFF">
+        <MappingFragment StoreEntitySet="BRANCH_STAFF">
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="email_id" ColumnName="email_id" />
+          <ScalarProperty Name="leaving_dt" ColumnName="leaving_dt" />
+          <ScalarProperty Name="join_dt" ColumnName="join_dt" />
+          <ScalarProperty Name="appt_dt" ColumnName="appt_dt" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="dob" ColumnName="dob" />
+          <ScalarProperty Name="education" ColumnName="education" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="staff_id" ColumnName="staff_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NOTIFICATION_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.NOTIFICATION_MASTER">
+        <MappingFragment StoreEntitySet="NOTIFICATION_MASTER">
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="notif_message" ColumnName="notif_message" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="notif_id" ColumnName="notif_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NOTIFICATION_TYPE_REL">
+      <EntityTypeMapping TypeName="AshirvadModel.NOTIFICATION_TYPE_REL">
+        <MappingFragment StoreEntitySet="NOTIFICATION_TYPE_REL">
+          <ScalarProperty Name="notif_id" ColumnName="notif_id" />
+          <ScalarProperty Name="sub_type_id" ColumnName="sub_type_id" />
+          <ScalarProperty Name="unique_id" ColumnName="unique_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SCHOOL_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.SCHOOL_MASTER">
+        <MappingFragment StoreEntitySet="SCHOOL_MASTER">
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="school_name" ColumnName="school_name" />
+          <ScalarProperty Name="school_id" ColumnName="school_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="STD_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.STD_MASTER">
+        <MappingFragment StoreEntitySet="STD_MASTER">
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="standard" ColumnName="standard" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="std_id" ColumnName="std_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="STUDENT_MAINT">
+      <EntityTypeMapping TypeName="AshirvadModel.STUDENT_MAINT">
+        <MappingFragment StoreEntitySet="STUDENT_MAINT">
+          <ScalarProperty Name="contact_no" ColumnName="contact_no" />
+          <ScalarProperty Name="mother_occupation" ColumnName="mother_occupation" />
+          <ScalarProperty Name="father_occupation" ColumnName="father_occupation" />
+          <ScalarProperty Name="parent_name" ColumnName="parent_name" />
+          <ScalarProperty Name="student_id" ColumnName="student_id" />
+          <ScalarProperty Name="parent_id" ColumnName="parent_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="STUDENT_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.STUDENT_MASTER">
+        <MappingFragment StoreEntitySet="STUDENT_MASTER">
+          <ScalarProperty Name="admission_date" ColumnName="admission_date" />
+          <ScalarProperty Name="stud_img" ColumnName="stud_img" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="contact_no" ColumnName="contact_no" />
+          <ScalarProperty Name="last_yr_class_name" ColumnName="last_yr_class_name" />
+          <ScalarProperty Name="grade" ColumnName="grade" />
+          <ScalarProperty Name="last_yr_result" ColumnName="last_yr_result" />
+          <ScalarProperty Name="batch_time" ColumnName="batch_time" />
+          <ScalarProperty Name="school_time" ColumnName="school_time" />
+          <ScalarProperty Name="school_id" ColumnName="school_id" />
+          <ScalarProperty Name="std_id" ColumnName="std_id" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="dob" ColumnName="dob" />
+          <ScalarProperty Name="last_name" ColumnName="last_name" />
+          <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+          <ScalarProperty Name="first_name" ColumnName="first_name" />
+          <ScalarProperty Name="gr_no" ColumnName="gr_no" />
+          <ScalarProperty Name="student_id" ColumnName="student_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SUBJECT_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.SUBJECT_MASTER">
+        <MappingFragment StoreEntitySet="SUBJECT_MASTER">
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="subject" ColumnName="subject" />
+          <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TRANSACTION_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.TRANSACTION_MASTER">
+        <MappingFragment StoreEntitySet="TRANSACTION_MASTER">
+          <ScalarProperty Name="last_mod_id" ColumnName="last_mod_id" />
+          <ScalarProperty Name="last_mod_by" ColumnName="last_mod_by" />
+          <ScalarProperty Name="last_mod_dt" ColumnName="last_mod_dt" />
+          <ScalarProperty Name="created_id" ColumnName="created_id" />
+          <ScalarProperty Name="created_by" ColumnName="created_by" />
+          <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TYPE_DESC">
+      <EntityTypeMapping TypeName="AshirvadModel.TYPE_DESC">
+        <MappingFragment StoreEntitySet="TYPE_DESC">
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="long_desc" ColumnName="long_desc" />
+          <ScalarProperty Name="short_desc" ColumnName="short_desc" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="class" ColumnName="class" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="USER_DEF">
+      <EntityTypeMapping TypeName="AshirvadModel.USER_DEF">
+        <MappingFragment StoreEntitySet="USER_DEF">
+          <ScalarProperty Name="parent_id" ColumnName="parent_id" />
+          <ScalarProperty Name="student_id" ColumnName="student_id" />
+          <ScalarProperty Name="user_type" ColumnName="user_type" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="staff_id" ColumnName="staff_id" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="USER_ROLE">
+      <EntityTypeMapping TypeName="AshirvadModel.USER_ROLE">
+        <MappingFragment StoreEntitySet="USER_ROLE">
+          <ScalarProperty Name="has_priv" ColumnName="has_priv" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GALLERY_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.GALLERY_MASTER">
+        <MappingFragment StoreEntitySet="GALLERY_MASTER">
+          <ScalarProperty Name="uplaod_type" ColumnName="uplaod_type" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="remarks" ColumnName="remarks" />
+          <ScalarProperty Name="file_info" ColumnName="file_info" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="unique_id" ColumnName="unique_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LINK_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.LINK_MASTER">
+        <MappingFragment StoreEntitySet="LINK_MASTER">
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="vid_url" ColumnName="vid_url" />
+          <ScalarProperty Name="vid_desc" ColumnName="vid_desc" />
+          <ScalarProperty Name="std_id" ColumnName="std_id" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="unique_id" ColumnName="unique_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LIBRARY_DATA">
+      <EntityTypeMapping TypeName="AshirvadModel.LIBRARY_DATA">
+        <MappingFragment StoreEntitySet="LIBRARY_DATA">
+          <ScalarProperty Name="doc_img_ext" ColumnName="doc_img_ext" />
+          <ScalarProperty Name="doc_img_name" ColumnName="doc_img_name" />
+          <ScalarProperty Name="doc_content" ColumnName="doc_content" />
+          <ScalarProperty Name="thumb_img_ext" ColumnName="thumb_img_ext" />
+          <ScalarProperty Name="thumb_img_name" ColumnName="thumb_img_name" />
+          <ScalarProperty Name="thumb_img_content" ColumnName="thumb_img_content" />
+          <ScalarProperty Name="library_id" ColumnName="library_id" />
+          <ScalarProperty Name="unique_id" ColumnName="unique_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LIBRARY_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.LIBRARY_MASTER">
+        <MappingFragment StoreEntitySet="LIBRARY_MASTER">
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="doc_desc" ColumnName="doc_desc" />
+          <ScalarProperty Name="sub_id" ColumnName="sub_id" />
+          <ScalarProperty Name="std_id" ColumnName="std_id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="thumbnail_doc" ColumnName="thumbnail_doc" />
+          <ScalarProperty Name="thumbnail_img" ColumnName="thumbnail_img" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="library_id" ColumnName="library_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PRACTICE_PAPER">
+      <EntityTypeMapping TypeName="AshirvadModel.PRACTICE_PAPER">
+        <MappingFragment StoreEntitySet="PRACTICE_PAPER">
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="remarks" ColumnName="remarks" />
+          <ScalarProperty Name="batch_type" ColumnName="batch_type" />
+          <ScalarProperty Name="sub_id" ColumnName="sub_id" />
+          <ScalarProperty Name="std_id" ColumnName="std_id" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="paper_id" ColumnName="paper_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PRACTICE_PAPER_REL">
+      <EntityTypeMapping TypeName="AshirvadModel.PRACTICE_PAPER_REL">
+        <MappingFragment StoreEntitySet="PRACTICE_PAPER_REL">
+          <ScalarProperty Name="paper_file" ColumnName="paper_file" />
+          <ScalarProperty Name="paper_content" ColumnName="paper_content" />
+          <ScalarProperty Name="paper_id" ColumnName="paper_id" />
+          <ScalarProperty Name="unique_id" ColumnName="unique_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="AshirvadModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ATTENDANCE_DTL">
+      <EntityTypeMapping TypeName="AshirvadModel.ATTENDANCE_DTL">
+        <MappingFragment StoreEntitySet="ATTENDANCE_DTL">
+          <ScalarProperty Name="remarks" ColumnName="remarks" />
+          <ScalarProperty Name="present_fg" ColumnName="present_fg" />
+          <ScalarProperty Name="absent_fg" ColumnName="absent_fg" />
+          <ScalarProperty Name="student_id" ColumnName="student_id" />
+          <ScalarProperty Name="attd_hdr_id" ColumnName="attd_hdr_id" />
+          <ScalarProperty Name="attd_dtl_id" ColumnName="attd_dtl_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ATTENDANCE_HDR">
+      <EntityTypeMapping TypeName="AshirvadModel.ATTENDANCE_HDR">
+        <MappingFragment StoreEntitySet="ATTENDANCE_HDR">
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="attendance_dt" ColumnName="attendance_dt" />
+          <ScalarProperty Name="batch_time_type" ColumnName="batch_time_type" />
+          <ScalarProperty Name="std_id" ColumnName="std_id" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="attendance_hdr_id" ColumnName="attendance_hdr_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TEST_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.TEST_MASTER">
+        <MappingFragment StoreEntitySet="TEST_MASTER">
+          <ScalarProperty Name="file_name" ColumnName="file_name" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="remarks" ColumnName="remarks" />
+          <ScalarProperty Name="test_end_time" ColumnName="test_end_time" />
+          <ScalarProperty Name="test_st_time" ColumnName="test_st_time" />
+          <ScalarProperty Name="test_dt" ColumnName="test_dt" />
+          <ScalarProperty Name="total_marks" ColumnName="total_marks" />
+          <ScalarProperty Name="sub_id" ColumnName="sub_id" />
+          <ScalarProperty Name="batch_time_id" ColumnName="batch_time_id" />
+          <ScalarProperty Name="std_id" ColumnName="std_id" />
+          <ScalarProperty Name="test_name" ColumnName="test_name" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="test_id" ColumnName="test_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TEST_PAPER_REL">
+      <EntityTypeMapping TypeName="AshirvadModel.TEST_PAPER_REL">
+        <MappingFragment StoreEntitySet="TEST_PAPER_REL">
+          <ScalarProperty Name="file_name" ColumnName="file_name" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="remakrs" ColumnName="remakrs" />
+          <ScalarProperty Name="doc_link" ColumnName="doc_link" />
+          <ScalarProperty Name="doc_content" ColumnName="doc_content" />
+          <ScalarProperty Name="paper_type" ColumnName="paper_type" />
+          <ScalarProperty Name="test_id" ColumnName="test_id" />
+          <ScalarProperty Name="test_paper_id" ColumnName="test_paper_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="REMINDER_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.REMINDER_MASTER">
+        <MappingFragment StoreEntitySet="REMINDER_MASTER">
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="reminder_desc" ColumnName="reminder_desc" />
+          <ScalarProperty Name="reminder_time" ColumnName="reminder_time" />
+          <ScalarProperty Name="reminder_dt" ColumnName="reminder_dt" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="reminder_id" ColumnName="reminder_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="STUDENT_ANS_SHEET">
+      <EntityTypeMapping TypeName="AshirvadModel.STUDENT_ANS_SHEET">
+        <MappingFragment StoreEntitySet="STUDENT_ANS_SHEET">
+          <ScalarProperty Name="submit_dt" ColumnName="submit_dt" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="remarks" ColumnName="remarks" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="ans_sheet_name" ColumnName="ans_sheet_name" />
+          <ScalarProperty Name="ans_sheet_content" ColumnName="ans_sheet_content" />
+          <ScalarProperty Name="stud_id" ColumnName="stud_id" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="test_id" ColumnName="test_id" />
+          <ScalarProperty Name="ans_sheet_id" ColumnName="ans_sheet_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HOMEWORK_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.HOMEWORK_MASTER">
+        <MappingFragment StoreEntitySet="HOMEWORK_MASTER">
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="homework_file" ColumnName="homework_file" />
+          <ScalarProperty Name="homework_content" ColumnName="homework_content" />
+          <ScalarProperty Name="remarks" ColumnName="remarks" />
+          <ScalarProperty Name="batch_time_id" ColumnName="batch_time_id" />
+          <ScalarProperty Name="sub_id" ColumnName="sub_id" />
+          <ScalarProperty Name="std_id" ColumnName="std_id" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="homework_dt" ColumnName="homework_dt" />
+          <ScalarProperty Name="homework_id" ColumnName="homework_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TODO_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.TODO_MASTER">
+        <MappingFragment StoreEntitySet="TODO_MASTER">
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="todo_doc_name" ColumnName="todo_doc_name" />
+          <ScalarProperty Name="todo_doc_content" ColumnName="todo_doc_content" />
+          <ScalarProperty Name="todo_desc" ColumnName="todo_desc" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="todo_dt" ColumnName="todo_dt" />
+          <ScalarProperty Name="todo_id" ColumnName="todo_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ABOUTUS_DETAIL_REL">
+      <EntityTypeMapping TypeName="AshirvadModel.ABOUTUS_DETAIL_REL">
+        <MappingFragment StoreEntitySet="ABOUTUS_DETAIL_REL">
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="header_img" ColumnName="header_img" />
+          <ScalarProperty Name="brand_name" ColumnName="brand_name" />
+          <ScalarProperty Name="aboutus_id" ColumnName="aboutus_id" />
+          <ScalarProperty Name="brand_id" ColumnName="brand_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ABOUTUS_MASTER">
+      <EntityTypeMapping TypeName="AshirvadModel.ABOUTUS_MASTER">
+        <MappingFragment StoreEntitySet="ABOUTUS_MASTER">
+          <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="header_img_name" ColumnName="header_img_name" />
+          <ScalarProperty Name="header_img" ColumnName="header_img" />
+          <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+          <ScalarProperty Name="whatsapp_no" ColumnName="whatsapp_no" />
+          <ScalarProperty Name="contact_no" ColumnName="contact_no" />
+          <ScalarProperty Name="email_id" ColumnName="email_id" />
+          <ScalarProperty Name="website" ColumnName="website" />
+          <ScalarProperty Name="aboutus_id" ColumnName="aboutus_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="AshirvadModel.Store.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="AshirvadModel.Store.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="AshirvadModel.Store.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="AshirvadModel.Store.sp_helpdiagramdefinition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AshirvadModel.sp_helpdiagramdefinition_Result">
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="AshirvadModel.Store.sp_helpdiagrams">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AshirvadModel.sp_helpdiagrams_Result">
+          <ScalarProperty Name="Database" ColumnName="Database" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="AshirvadModel.Store.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="AshirvadModel.Store.sp_upgraddiagrams" />
+  </EntityContainerMapping>
+</Mapping>

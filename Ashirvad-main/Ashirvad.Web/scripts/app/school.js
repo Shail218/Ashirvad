@@ -60,16 +60,18 @@ function SaveSchool() {
 }
 
 function RemoveSchool(schoolID) {
-    ShowLoader();
-    var postCall = $.post(commonData.School + "RemoveSchool", { "branchID": schoolID });
-    postCall.done(function (data) {
-        HideLoader();
-        ShowMessage("School Removed Successfully.", "Success");
-        window.location.href = "SchoolMaintenance?branchID=0";
-    }).fail(function () {
-        HideLoader();
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this School?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.School + "RemoveSchool", { "branchID": schoolID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("School Removed Successfully.", "Success");
+            window.location.href = "SchoolMaintenance?branchID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 $("#BranchName").change(function () {

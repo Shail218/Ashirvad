@@ -87,23 +87,43 @@ namespace Ashirvad.Web.Controllers
             operationResult = await _gallaryService.GetGalleryByUniqueID(videoID);
             if (operationResult != null)
             {
-                string base64data = string.Empty;
-                string fileName = DateTime.Now.ToString() + "_MyData.csv";
-                base64data = operationResult.Data.FileEncoded;
-                byte[] bytes = Convert.FromBase64String(base64data);
-                var response = new FileContentResult(bytes, "text/csv");
-                response.FileDownloadName = fileName;
-                Response.Clear();
-                Response.AddHeader("content-disposition", "inline; filename=" + fileName);
-                Response.ContentType = "text/csv";
-                Response.OutputStream.Write(bytes, 0, bytes.Length);
-                Response.End();
+                string ext = GetFileExtension(operationResult.Data.FileEncoded);
                 return Json(operationResult.Data.FileEncoded);
             }
             return Json(null);
         }
-        
 
+        public static string GetFileExtension(string base64String)
+        {
+            var data = base64String.Substring(0, 5);
+
+            switch (data.ToUpper())
+            {
+                case "IVBOR":
+                    return "png";
+                case "/9J/4":
+                    return "jpg";
+                case "AAAAF":
+                    return "mp4";
+                case "AAAAG":
+                    return "mp4";
+                case "JVBER":
+                    return "pdf";
+                case "AAABA":
+                    return "ico";
+                case "UMFYI":
+                    return "rar";
+                case "E1XYD":
+                    return "rtf";
+                case "U1PKC":
+                    return "txt";
+                case "MQOWM":
+                case "77U/M":
+                    return "srt";
+                default:
+                    return string.Empty;
+            }
+        }
 
     }
 }

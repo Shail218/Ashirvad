@@ -1,0 +1,2 @@
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.ServiceAPI\obj\Release\Ashirvad.ServiceAPI.csprojAssemblyReference.cache
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.ServiceAPI\obj\Release\Ashirvad.ServiceAPI.csproj.CoreCompileInputs.cache

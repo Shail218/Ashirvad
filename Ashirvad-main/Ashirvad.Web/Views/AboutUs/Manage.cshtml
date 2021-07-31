@@ -1,60 +1,55 @@
-﻿@model Ashirvad.Data.BranchMaint
-
+﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.AboutUsEntity>
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
-
             <th>
-                Description
-            </th>
-
-            <th>
-                Image
+                Email Id
             </th>
             <th>
+                Contact No
+            </th>
+            <th>
+                Brand Name
+            </th>
+            <th>
+                Header Image
+            </th>
+            <th style="text-align:center;">
                 Edit
             </th>
-            <th>
+            <th style="text-align:center;">
                 Delete
             </th>
         </tr>
     </thead>
-
-    @*@foreach (var item in Model.BranchLogo)
-        {
-            <tr>
-
-                @if (item.Photo == null || item.Photo == "")
-                {
-                    <td><img src="~/ThemeData/images/Default.png" style="height:50px;width:50px" /></td>
-                }
-                else
-                {
-                    <td><img src="@Url.Content(""+item.Photo+"")" style="height:50px;width:50px" /></td>
-                }
-
-
-
-                <td>
-                    @item.FirstName
-                </td>
-
-                <td>
-                    @item.AdmissionDate
-                </td>
-                <td>
-                    @item.Standard
-                </td>
-                <td>
-                    @item.BatchTime
-                </td>
-                <td>
-                    @item.ContactNo
-                </td>
-
-            </tr>
-        }*@
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.EmailID
+                @Html.HiddenFor(x => item.AboutUsID)
+            </td>
+            <td>
+                @item.ContactNo
+            </td>
+            <td>
+                
+            </td>
+            <td>
+                <img src="~/ThemeData/images/Default.png" id="headerImg" style="height:40px;width:40px;margin-left:40px;" />
+            </td>
+            <td>
+                <a style="margin-left:60px;" href="@Url.Action("BannerMaintenance", "Banner")">
+                    <img src="~/ThemeData/images/viewIcon.png" />
+                </a>
+            </td>
+            <td>
+                <a style="margin-left:60px;" href="#">
+                    <img src="~/ThemeData/images/delete.png" />
+                </a>
+            </td>
+        </tr>
+    }
 </table>
-
 

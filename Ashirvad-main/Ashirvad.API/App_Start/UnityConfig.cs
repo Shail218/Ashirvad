@@ -16,7 +16,9 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Student;
 using Ashirvad.Repo.DataAcceessAPI.Area.Subject;
 using Ashirvad.Repo.DataAcceessAPI.Area.Test;
 using Ashirvad.Repo.DataAcceessAPI.Area.ToDo;
+using Ashirvad.Repo.DataAcceessAPI.Area.AboutUs;
 using Ashirvad.Repo.DataAcceessAPI.Area.User;
+using Ashirvad.Repo.Services.Area.AboutUs;
 using Ashirvad.Repo.Services.Area.Attendance;
 using Ashirvad.Repo.Services.Area.Banner;
 using Ashirvad.Repo.Services.Area.Batch;
@@ -36,6 +38,7 @@ using Ashirvad.Repo.Services.Area.Subject;
 using Ashirvad.Repo.Services.Area.Test;
 using Ashirvad.Repo.Services.Area.ToDo;
 using Ashirvad.Repo.Services.Area.User;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.AboutUs;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Attendance;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Banner;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Batch;
@@ -55,6 +58,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Subject;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Test;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.ToDo;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.User;
+using Ashirvad.ServiceAPI.Services.Area.AboutUs;
 using Ashirvad.ServiceAPI.Services.Area.Attendance;
 using Ashirvad.ServiceAPI.Services.Area.Banner;
 using Ashirvad.ServiceAPI.Services.Area.Batch;
@@ -149,6 +153,9 @@ namespace Ashirvad.API
 
             container.RegisterType<ITestService, TestService>();
             container.RegisterType<ITestAPI, Test>();
+
+            container.RegisterType<IAboutUsService, AboutUsService>();
+            container.RegisterType<IAboutUs, AboutUs>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

@@ -2,7 +2,7 @@
     @{ 
         Layout = null;
     }
-<form id="fToDoDetail">
+<form id="fToDoRegisterDetail">
     <div class="form-group" id="dInformation">
         <div class="col-md-4">
             @Html.Label("Status", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
@@ -10,13 +10,26 @@
                 <tbody>
                     <tr>
                         <td>
-                            <input type="radio" name="Status" id="rowStaActive" value="Active" />
+                            @if (Model.RowStatus.RowStatusId == 1 && Model != null)
+                            {
+                                <input type="radio" name="Status" id="rowStaActive" value="Active" style="margin-left" checked onchange="changestatus();"/>
+                            }
+                            else
+                            {
+                                <input type="radio" name="Status" id="rowStaActive" value="Active" onchange="changestatus();"/>
+                            }
                             <lable for="rowStaActive">Active</lable>
                         </td>
                         <td>
-                            <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:10px" />
+                            @if (Model.RowStatus.RowStatusId == 2 && Model != null)
+                            {
+                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px" checked onchange="changestatus();"/>
+                            }
+                            else
+                            {
+                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px" onchange="changestatus();"/>
+                            }
                             <lable for="rowStaInactive">Inactive</lable>
-                            @Html.HiddenFor(x => x.RowStatus.RowStatusId)
                         </td>
                     </tr>
                 </tbody>
@@ -31,17 +44,21 @@
             @Html.HiddenFor(x => x.UserInfo.UserID)
             @Html.HiddenFor(x => x.ToDoDescription)
             @Html.HiddenFor(x => x.ToDoContent)
+            @Html.HiddenFor(x => x.FileInfo)
+            @Html.HiddenFor(x => x.ToDoFileName)
+            @Html.HiddenFor(x => x.ToDoContentText)
+            @Html.HiddenFor(x => x.RowStatus.RowStatusId)   
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12" style="text-align: right;">
-            <a onclick="return Savetodo();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+        <div class="col-md-12" style="text-align: right;margin-top:20px;">
+            <a onclick="return Savetodo('myModal');" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                 <span class="ladda-label">
                     Save
                 </span>
                 <span class="ladda-spinner"></span>
             </a>
-            <a href="@Url.Action("StudentMaintenance","Student", new { @studentID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+            <a href="@Url.Action("ToDoRegisterMaintenance","ToDoRegister", new { todoID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
                 <span class="ladda-label">
                     Cancel
                 </span>

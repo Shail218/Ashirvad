@@ -1,0 +1,2 @@
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Repo\obj\Release\Ashirvad.Repo.csprojAssemblyReference.cache
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Repo\obj\Release\Ashirvad.Repo.csproj.CoreCompileInputs.cache

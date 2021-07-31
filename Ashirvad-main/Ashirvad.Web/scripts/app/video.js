@@ -18,26 +18,6 @@ $(document).ready(function () {
         $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
     }
 
-
-    $("#studenttbl tbody tr").each(function () {
-        var photoID = $(this).find("#UniqID").val();          
-            var postCall = $.post(commonData.Videos + "DownloadVideo", { "videoID": photoID });   
-            postCall.done(function (data) {
-                if (data != null) {
-                    var ppls = document.getElementById("videoDownload");
-                    $(ppls).attr('src', data);
-                    //ppls.download = data;
-                    //ppls.target = "_blank";
-                    //ppls.href = data;
-                    //ppls.click();
-                }
-
-            }).fail(function () {
-                ShowMessage("An unexpected error occcurred while processing request!", "Error");
-            });
-        
-    });
-
 });
 
 function LoadBranch(onLoaded) {
@@ -60,7 +40,6 @@ function LoadBranch(onLoaded) {
 }
 
 function SaveVideo() {
-    debugger;
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
@@ -104,11 +83,10 @@ function DownloadVideo(branchID) {
     var postCall = $.post(commonData.Videos + "DownloadVideo", { "videoID": branchID });
     postCall.done(function (data) {
         if (data != null) {
-            var ppls = document.getElementById("videoDownload");
-            //ppls.download = data[0].message;
-            //ppls.target = "_blank";
-            //ppls.href = data[0].message;
-            //ppls.click();
+            var a = document.createElement("a"); //Create <a>
+            a.href = "data:video/mp4;base64," + data; //Image Base64 Goes here
+            a.download = "test.mp4"; //File name Here
+            a.click(); //Downloaded file
         }
        
     }).fail(function () {

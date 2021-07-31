@@ -75,14 +75,14 @@ function SaveUser() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        var date1 = $("#DOB").val();
-        $("#DOB").val(ConvertData(date1));
-        var date2 = $("#ApptDT").val();
-        $("#ApptDT").val(ConvertData(date2));
-        var date3 = $("#JoinDT").val();
-        $("#JoinDT").val(ConvertData(date3));
-        var date4 = $("#LeavingDT").val();
-        $("#LeavingDT").val(ConvertData(date4));
+        //var date1 = $("#DOB").val();
+        //$("#DOB").val(ConvertData(date1));
+        //var date2 = $("#ApptDT").val();
+        //$("#ApptDT").val(ConvertData(date2));
+        //var date3 = $("#JoinDT").val();
+        //$("#JoinDT").val(ConvertData(date3));
+        //var date4 = $("#LeavingDT").val();
+        //$("#LeavingDT").val(ConvertData(date4));
         var postCall = $.post(commonData.User + "SaveUser", $('#fUserDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
@@ -100,16 +100,18 @@ function SaveUser() {
 }
 
 function RemoveUser(userID) {
-    ShowLoader();
-    var postCall = $.post(commonData.User + "RemoveUser", { "userID": userID });
-    postCall.done(function (data) {
-        HideLoader();
-        ShowMessage("User Removed Successfully.", "Success");
-        window.location.href = "UserMaintenance?branchID=0";
-    }).fail(function () {
-        HideLoader();
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this User?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.User + "RemoveUser", { "userID": userID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("User Removed Successfully.", "Success");
+            window.location.href = "UserMaintenance?branchID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 $("#GenderName").change(function () {

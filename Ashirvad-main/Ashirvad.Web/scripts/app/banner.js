@@ -3,6 +3,11 @@
 
 
 $(document).ready(function () {
+
+    if ($("#BannerID").val() > 0) {
+        $("#fuBannerImage").addClass("editForm");
+    }
+
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             if ($("#BranchInfo_BranchID").val() != "0") {
@@ -109,7 +114,6 @@ function chkOnChange(elem, hdnID, selText) {
 function SaveBanner() {  
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
-        ShowLoader();
         var NotificationTypeList = [];
         if ($('input[type=checkbox][id=rowStaAdmin]').is(":checked")) {
             NotificationTypeList.push({
@@ -142,12 +146,11 @@ function SaveBanner() {
             ImageFile: $('input[type=file]')[0].files[0]
         };
         $('#JSONData').val(JSON.stringify(NotificationTypeList));
+        ShowLoader();
         var frm = $('#fBannerDetail');
         var formData = new FormData(frm[0]);
         formData.append('ImageFile', bannerData.ImageFile);
-        var a = formData.getAll('BannerType');
-        AjaxCallWithFileUpload(commonData.Banner + 'SaveBanner', formData, function (data) {
-            
+        AjaxCallWithFileUpload(commonData.Banner + 'SaveBanner', formData, function (data) {           
             if (data) {
                 HideLoader();
                 ShowMessage('Banner details saved!', 'Success');

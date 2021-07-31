@@ -1,7 +1,6 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
-
 $(document).ready(function () {
     LoadBranch();
 });
@@ -45,6 +44,7 @@ function LoadInActiveStudent() {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
+
 
 $("#BranchName").change(function () {
     var Data = $("#BranchName option:selected").val();

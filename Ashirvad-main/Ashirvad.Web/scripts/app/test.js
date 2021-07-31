@@ -202,10 +202,12 @@ $("#SubjectName").change(function () {
 $("#Type").change(function () {
     var Data = $("#Type option:selected").val();
     if (Data == 2) {
+        $("#DocContent").val('');
         $('#link').show();
         $('#fuPaperDoc').removeClass("fileRequired");   
         $('#testpaper').hide();
     } else if (Data == 1) {
+        $("#DocLink").val(' ');
         $('#testpaper').show();
         $('#fuPaperDoc').addClass("fileRequired");        
         $('#link').hide();

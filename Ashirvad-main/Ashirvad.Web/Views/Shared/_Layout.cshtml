@@ -134,9 +134,9 @@
                                         <li id="BrM">
                                             <a href="@Url.Action("BranchMaintenance","Branch", new { @branchID=0 })">Branch Master</a>
                                         </li>
-                                        <li id="AuM">
-                                            <a href="@Url.Action("Index","AboutUs")">About Us Master</a>
-                                        </li>
+                                        @*<li id="AuM">
+                                            <a href="@Url.Action("AboutUsMaintenance","AboutUs", new { @aboutID=0 })">About Us Master</a>
+                                        </li>*@
                                         <li id="StM">
                                             <a href="@Url.Action("UserMaintenance","User", new { @branchID=0 })">User Master</a>
                                         </li>
@@ -178,8 +178,11 @@
                                             <a href="@Url.Action("BatchMaintenance","Batch", new { @branchID=0 })">Batch Master</a>
                                         </li>
                                         <li id="Banner">
-                                            <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })" )">Banner Master</a>
+                                            <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })">Banner Master</a>
                                         </li>
+                                        @*<li id="AuM">
+                                            <a href="@Url.Action("AboutUsMaintenance","AboutUs", new { @aboutID=0 })">About Us Master</a>
+                                        </li>*@
                                     }
                                 </ul>
                             </li>

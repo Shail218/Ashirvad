@@ -51,6 +51,7 @@
     <Compile Include="HomeworkEntity.cs" />
     <Compile Include="LibraryEntity.cs" />
     <Compile Include="LinkEntity.cs" />
+    <Compile Include="Model\AboutUsMaintenanceModel.cs" />
     <Compile Include="Model\AttendanceMaintenanceModel.cs" />
     <Compile Include="Model\BannerMaintenanceModel.cs" />
     <Compile Include="Model\BatchMaintenanceModel.cs" />

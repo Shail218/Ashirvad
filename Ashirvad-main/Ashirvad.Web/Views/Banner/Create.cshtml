@@ -89,7 +89,7 @@
             <div class="col-md-12">
                 @Html.Label("Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <input class="file-upload fileRequired" alt="Branch Image" id="fuBannerImage" name="ImageFile" type="file" accept="image/*" />
-                @Html.HiddenFor(x => x.BannerImageText)
+                @Html.HiddenFor(x => x.BannerImageText, htmlAttributes: new { @class = "control-label fileRequired2" })
             </div>
             <div class="col-md-12" style="text-align: right;">
                 <a href="#" onclick="return SaveBanner();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">

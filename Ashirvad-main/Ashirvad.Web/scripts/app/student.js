@@ -132,10 +132,10 @@ function SaveStudent() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        var date1 = $("#DOB").val();
-        $("#DOB").val(ConvertData(date1));
-        var date2 = $("#AdmissionDate").val();
-        $("#AdmissionDate").val(ConvertData(date2));
+        //var date1 = $("#DOB").val();
+        //$("#DOB").val(ConvertData(date1));
+        //var date2 = $("#AdmissionDate").val();
+        //$("#AdmissionDate").val(ConvertData(date2));
         var postCall = $.post(commonData.Student + "SaveStudent", $('#fStudentDetail').serialize());
         postCall.done(function (data) {
             HideLoader();

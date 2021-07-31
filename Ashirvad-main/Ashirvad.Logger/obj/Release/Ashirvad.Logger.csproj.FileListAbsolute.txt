@@ -1,0 +1,2 @@
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Logger\obj\Release\Ashirvad.Logger.csprojAssemblyReference.cache
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Logger\obj\Release\Ashirvad.Logger.csproj.CoreCompileInputs.cache

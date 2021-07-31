@@ -24,7 +24,7 @@ namespace Ashirvad.ServiceAPI.Services.Link
             try
             {
                 long linkID = await _linkContext.LinkMaintenance(linkInfo);
-                linkInfo.UniqueID = linkID;
+                link.UniqueID = linkID;
             }
             catch (Exception ex)
             {

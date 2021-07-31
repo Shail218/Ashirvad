@@ -64,16 +64,18 @@ function SaveSubject() {
 }
 
 function RemoveSubject(subjectID) {
-    ShowLoader();
-    var postCall = $.post(commonData.Subject + "RemoveSubject", { "subjectID": subjectID });
-    postCall.done(function (data) {
-        HideLoader();
-        ShowMessage("Subject Removed Successfully.", "Success");
-        window.location.href = "SubjectMaintenance?branchID=0";
-    }).fail(function () {
-        HideLoader();
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this Subject?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.Subject + "RemoveSubject", { "subjectID": subjectID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Subject Removed Successfully.", "Success");
+            window.location.href = "SubjectMaintenance?branchID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 $("#BranchName").change(function () {

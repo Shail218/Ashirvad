@@ -124,7 +124,7 @@ namespace Ashirvad.Repo.Services.Area.Banner
                         join bt in this.context.BANNER_TYPE_REL on u.banner_id equals bt.banner_id
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempB
                         from branch in tempB.DefaultIfEmpty()
-                        where (0 == branchID || u.branch_id == null || (u.branch_id.HasValue && u.branch_id.Value == branchID))
+                        where (0 == branchID ||  u.branch_id == null || u.branch_id == 0 || (u.branch_id.HasValue && u.branch_id.Value == branchID))
                         && (0 == bannerTypeID || bt.sub_type_id == bannerTypeID)
                         select new BannerEntity()
                         {

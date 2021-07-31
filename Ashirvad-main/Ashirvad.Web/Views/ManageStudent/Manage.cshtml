@@ -30,6 +30,9 @@
                 <th>
                     Edit
                 </th>
+                <th>
+                    Delete
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -37,33 +40,38 @@
             {
                 foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            <img src="data:image/jpg;base64,@item.StudImage" id="branchImg" style="height:30px;width:30px;margin-left:20px;" />
-                        </td>
-                        <td>
-                            @item.FirstName @item.LastName
-                            @Html.HiddenFor(x => item.StudentID)
-                            @Html.HiddenFor(x => item.BranchInfo.BranchID)
-                        </td>
-                        <td>
-                            @item.AdmissionDate.Value.ToString("dd/MM/yyyy")
-                        </td>
-                        <td>
-                            @item.StandardInfo.Standard
-                        </td>
-                        <td>
-                            @item.BatchInfo.BatchType
-                        </td>
-                        <td>
-                            @item.ContactNo
-                        </td>
-                        <td>
-                            <a href="@Url.Action("StudentMaintenance", "Student", new { studentID = item.StudentID })">
-                                <img src="~/ThemeData/images/viewIcon.png" />
-                            </a>
-                        </td>
-                    </tr>
+            <tr>
+                <td>
+                    <img src="data:image/jpg;base64,@item.StudImage" id="branchImg" style="height:30px;width:30px;margin-left:20px;" />
+                </td>
+                <td>
+                    @item.FirstName @item.LastName
+                    @Html.HiddenFor(x => item.StudentID)
+                    @Html.HiddenFor(x => item.BranchInfo.BranchID)
+                </td>
+                <td>
+                    @item.AdmissionDate.Value.ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @item.StandardInfo.Standard
+                </td>
+                <td>
+                    @item.BatchInfo.BatchType
+                </td>
+                <td>
+                    @item.ContactNo
+                </td>
+                <td>
+                    <a href="@Url.Action("StudentMaintenance", "Student", new { studentID = item.StudentID })">
+                        <img src="~/ThemeData/images/viewIcon.png" />
+                    </a>
+                </td>
+                <td>
+                    <a style="margin-left:20px;" href="#" onclick="RemoveStudent(@item.StudentID);">
+                        <img src="~/ThemeData/images/delete.png" />
+                    </a>
+                </td>
+            </tr>
                 }
             }
         </tbody>

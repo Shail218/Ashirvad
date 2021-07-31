@@ -1,0 +1,14 @@
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\bin\Release\Ashirvad.Common.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\bin\Release\Ashirvad.Common.pdb
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\bin\Release\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\bin\Release\Microsoft.IdentityModel.Logging.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\bin\Release\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\bin\Release\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\bin\Release\Microsoft.IdentityModel.JsonWebTokens.xml
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\bin\Release\Microsoft.IdentityModel.Logging.xml
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\bin\Release\Microsoft.IdentityModel.Tokens.xml
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\bin\Release\System.IdentityModel.Tokens.Jwt.xml
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\obj\Release\Ashirvad.Common.csproj.CoreCompileInputs.cache
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\obj\Release\Ashirvad.Common.csproj.CopyComplete
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\obj\Release\Ashirvad.Common.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Common\obj\Release\Ashirvad.Common.pdb

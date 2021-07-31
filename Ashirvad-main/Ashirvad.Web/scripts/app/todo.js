@@ -76,8 +76,7 @@ function SaveToDo() {
         var frm = $('#fToDoDetail');
         var formData = new FormData(frm[0]);
         formData.append('FileInfo', $('input[type=file]')[0].files[0]);
-        AjaxCallWithFileUpload(commonData.ToDo + 'SaveToDo', formData, function (data) {
-            
+        AjaxCallWithFileUpload(commonData.ToDo + 'SaveToDo', formData, function (data) {           
             if (data) {
                 HideLoader();
                 ShowMessage('ToDo details saved!', 'Success');

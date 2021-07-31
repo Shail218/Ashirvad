@@ -196,6 +196,7 @@
     <Content Include="Global.asax" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
+    <Content Include="scripts\app\aboutus.js" />
     <Content Include="scripts\app\attendance.js" />
     <Content Include="scripts\app\attendanceRegister.js" />
     <Content Include="scripts\app\attendanceReport.js" />
@@ -496,6 +497,7 @@
     <Content Include="ThemeData\dist\css\alt\AdminLTE-select2.min.css" />
     <Content Include="ThemeData\dist\css\alt\AdminLTE-without-plugins.css" />
     <Content Include="ThemeData\dist\css\alt\AdminLTE-without-plugins.min.css" />
+    <Content Include="ThemeData\dist\css\model-pop-up.css" />
     <Content Include="ThemeData\dist\css\skins\skin-black-light.css" />
     <Content Include="ThemeData\dist\css\skins\skin-black-light.min.css" />
     <Content Include="ThemeData\dist\css\skins\skin-black.css" />

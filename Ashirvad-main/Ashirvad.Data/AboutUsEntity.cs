@@ -21,6 +21,7 @@ namespace Ashirvad.Data
         public BranchEntity BranchInfo { get; set; }
         public TransactionEntity TransactionInfo { get; set; }
         public RowStatusEntity RowStatus { get; set; }
+        public AboutUsDetailEntity detailEntity { get; set; }
     }
 
     public class AboutUsDetailEntity

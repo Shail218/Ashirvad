@@ -168,7 +168,6 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         }
 
 
-
         #region - About Us Details -
         public async Task<long> AboutUsDetailMaintenance(AboutUsDetailEntity aboutUsDetailInfo)
         {
