@@ -45,6 +45,20 @@ function LoadInActiveStudent() {
     });
 }
 
+function RemoveStudent(studentID) {
+    if (confirm('Are you sure want to delete this Student?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.ManageStudent + "Removestudent", { "studentID": studentID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Student Removed Successfully.", "Success");
+            window.location.href = "ManageStudentMaintenance?branchID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
+}
 
 $("#BranchName").change(function () {
     var Data = $("#BranchName option:selected").val();

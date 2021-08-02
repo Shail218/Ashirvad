@@ -78,7 +78,6 @@ namespace Ashirvad.Web.Controllers
             return Json(result);
         }
 
-
         [HttpPost]
         public async Task<string> GetBannerImage(long bannerID)
         {

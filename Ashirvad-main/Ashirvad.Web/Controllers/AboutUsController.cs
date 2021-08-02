@@ -25,13 +25,16 @@ namespace Ashirvad.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> AboutUsMaintenance(long aboutID)
+        public async Task<ActionResult> AboutUsMaintenance(long aboutID, long detailid = 0)
         {
             AboutUsMaintenanceModel model = new AboutUsMaintenanceModel();
             if (aboutID > 0)
             {
                 var about = await _aboutUsService.GetAboutUsByUniqueID(aboutID);
                 model.AboutusInfo = about.Data;
+
+                var aboutdetail = await _aboutUsService.GetAboutUsDetailByUniqueID(detailid);
+                model.detailInfo = aboutdetail.Data;
             }
 
             var list = await _aboutUsService.GetAllAboutUs(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
@@ -77,8 +80,25 @@ namespace Ashirvad.Web.Controllers
             var data = await _aboutUsService.AboutUsMaintenance(about);
             if (data != null)
             {
+                return Json(data);
+            }
+            return Json(0);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> SaveDetails(AboutUsDetailEntity entity)
+        {
+            entity.TransactionInfo = GetTransactionData(entity.DetailID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            entity.RowStatus = new RowStatusEntity()
+            {
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
+            var data = await _aboutUsService.AboutUsDetailMaintenance(entity);
+            if (data != null)
+            {
                 return Json(true);
             }
+
             return Json(false);
         }
 
@@ -88,6 +108,20 @@ namespace Ashirvad.Web.Controllers
             var data = await _aboutUsService.GetAboutUsByUniqueID(aboutID);
             var result = data.Data;
             return "data:image/jpg;base64, " + result.HeaderImageText;
+        }
+
+        [HttpPost]
+        public JsonResult RemoveAboutUs(long aboutID)
+        {
+            var result = _aboutUsService.RemoveAboutUs(aboutID, SessionContext.Instance.LoginUser.Username);
+            return Json(result);
+        }
+
+        [HttpPost]
+        public JsonResult RemoveDetails(long detailID)
+        {
+            var result = _aboutUsService.RemoveAboutUsDetail(detailID, SessionContext.Instance.LoginUser.Username);
+            return Json(result);
         }
     }
 }

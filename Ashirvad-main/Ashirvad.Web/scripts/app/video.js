@@ -3,6 +3,11 @@
 
 
 $(document).ready(function () {
+
+    if ($("#UniqueID").val() > 0) {
+        $("#fuImage").addClass("editForm");
+    }
+
     LoadBranch(function () {
         if ($("#Branch_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
@@ -45,7 +50,10 @@ function SaveVideo() {
         ShowLoader();
         var frm = $('#fVideosDetail');
         var formData = new FormData(frm[0]);
-        formData.append('ImageFile', $('input[type=file]')[0].files[0]);
+        var item = $('input[type=file]');
+        if (item[0].files.length > 0) {
+            formData.append('ImageFile', $('input[type=file]')[0].files[0]);
+        }  
         AjaxCallWithFileUpload(commonData.Videos + 'SaveVideos', formData, function (data) {
             
             if (data) {
@@ -64,13 +72,18 @@ function SaveVideo() {
 }
 
 function RemoveVideos(branchID) {
-    var postCall = $.post(commonData.Videos + "RemoveVideos", { "videoID": branchID });
-    postCall.done(function (data) {
-        ShowMessage("Videos Removed Successfully.", "Success");
-        window.location.href = "VideosMaintenance?videoID=0";
-    }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this Video?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.Videos + "RemoveVideos", { "videoID": branchID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Videos Removed Successfully.", "Success");
+            window.location.href = "VideosMaintenance?videoID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 $("#BranchName").change(function () {
@@ -80,16 +93,19 @@ $("#BranchName").change(function () {
 });
 
 function DownloadVideo(branchID) {
+    ShowLoader();
     var postCall = $.post(commonData.Videos + "DownloadVideo", { "videoID": branchID });
     postCall.done(function (data) {
+        HideLoader();
         if (data != null) {
             var a = document.createElement("a"); //Create <a>
-            a.href = "data:video/mp4;base64," + data; //Image Base64 Goes here
-            a.download = "test.mp4"; //File name Here
+            a.href = "data:video/mp4;base64," + data[1]; //Image Base64 Goes here
+            a.download = data[2]; //File name Here
             a.click(); //Downloaded file
         }
        
     }).fail(function () {
+        HideLoader();
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }

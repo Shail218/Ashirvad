@@ -180,9 +180,9 @@
                                         <li id="Banner">
                                             <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })">Banner Master</a>
                                         </li>
-                                        @*<li id="AuM">
+                                        <li id="AuM">
                                             <a href="@Url.Action("AboutUsMaintenance","AboutUs", new { @aboutID=0 })">About Us Master</a>
-                                        </li>*@
+                                        </li>
                                     }
                                 </ul>
                             </li>
@@ -364,6 +364,11 @@
                                         <li class="treeview" id="Li3">
                                             <a href="@Url.Action("ReminderMaintenance","Reminder", new { @reminderID=0 })">
                                                 Reminder Entry
+                                            </a>
+                                        </li>
+                                        <li class="treeview" id="Li3">
+                                            <a href="@Url.Action("GetAllReportData","AdminReport")">
+                                                Report
                                             </a>
                                         </li>
                                     </ul>

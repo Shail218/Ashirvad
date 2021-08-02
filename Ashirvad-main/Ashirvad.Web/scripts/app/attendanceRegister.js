@@ -112,16 +112,18 @@ function EditAttendance() {
 }
 
 function RemoveAttendance(attendanceID) {
-    
-    var postCall = $.post(commonData.AttendanceRegister + "RemoveAttendance", { "attendanceID": attendanceID });
-    postCall.done(function (data) {
-        
-        ShowMessage("Attendance Removed Successfully.", "Success");
-        window.location.href = "AttendanceRegister/Index";
-    }).fail(function () {
-        
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this Attendance?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.AttendanceRegister + "RemoveAttendance", { "attendanceID": attendanceID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Attendance Removed Successfully.", "Success");
+            window.location.href = "AttendanceRegister/Index";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 $("#BranchName").change(function () {

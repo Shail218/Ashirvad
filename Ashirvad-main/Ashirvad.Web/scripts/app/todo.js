@@ -3,6 +3,10 @@
 
 $(document).ready(function () {
 
+    if ($("#ToDoID").val() > 0) {
+        $("#fuDocument").addClass("editForm");
+    }
+
     $("#datepickertodo").datepicker({
         autoclose: true,
         todayHighlight: true,
@@ -71,11 +75,14 @@ function SaveToDo() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        var date1 = $("#ToDoDate").val();
-        $("#ToDoDate").val(ConvertData(date1));
+        //var date1 = $("#ToDoDate").val();
+        //$("#ToDoDate").val(ConvertData(date1));
         var frm = $('#fToDoDetail');
         var formData = new FormData(frm[0]);
-        formData.append('FileInfo', $('input[type=file]')[0].files[0]);
+        var item = $('input[type=file]');
+        if (item[0].files.length > 0) {
+            formData.append('FileInfo', $('input[type=file]')[0].files[0]);
+        }
         AjaxCallWithFileUpload(commonData.ToDo + 'SaveToDo', formData, function (data) {           
             if (data) {
                 HideLoader();
@@ -93,16 +100,18 @@ function SaveToDo() {
 }
 
 function RemoveToDo(todoID) {
-    ShowLoader();
-    var postCall = $.post(commonData.ToDo + "RemoveToDo", { "todoID": todoID });
-    postCall.done(function (data) {
-        HideLoader();
-        ShowMessage("ToDo Removed Successfully.", "Success");
-        window.location.href = "ToDoMaintenance?todoID=0";
-    }).fail(function () {
-        HideLoader();
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this ToDo Task?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.ToDo + "RemoveToDo", { "todoID": todoID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("ToDo Removed Successfully.", "Success");
+            window.location.href = "ToDoMaintenance?todoID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 $("#BranchName").change(function () {

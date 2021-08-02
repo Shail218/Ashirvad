@@ -1,4 +1,5 @@
 ﻿using Ashirvad.Data;
+using Ashirvad.Repo.DataAcceessAPI.Area.Admin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ashirvad.Repo.Services.Area.Admin
 {
-    public class AdminData : ModelAccess
+    public class AdminData : ModelAccess, IAdminData
     {
 
         public List<DataUsageEntity> GetDataUsage(long branchID = 0)
@@ -22,7 +23,7 @@ namespace Ashirvad.Repo.Services.Area.Admin
                     Usage = x.usage
                 }).ToList();
 
-                return result;
+                return result.ToList();
             }
 
             return new List<DataUsageEntity>();

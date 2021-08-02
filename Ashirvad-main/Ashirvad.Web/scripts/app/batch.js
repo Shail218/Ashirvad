@@ -99,16 +99,18 @@ function SaveBatch() {
 }
 
 function RemoveBatch(batchID) {
-    ShowLoader();
-    var postCall = $.post(commonData.Batch + "RemoveBatch", { "batchID": batchID });
-    postCall.done(function (data) {
-        HideLoader();
-        ShowMessage("Batch Removed Successfully.", "Success");
-        window.location.href = "BatchMaintenance?branchID=0";
-    }).fail(function () {
-        HideLoader();
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this Batch?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.Batch + "RemoveBatch", { "batchID": batchID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Batch Removed Successfully.", "Success");
+            window.location.href = "BatchMaintenance?branchID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 function SpliteData() {

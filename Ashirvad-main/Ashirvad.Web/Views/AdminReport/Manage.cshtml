@@ -1,0 +1,31 @@
+﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.DataUsageEntity>
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Branch Name
+            </th>
+            <th>
+                Usage
+            </th>
+            <th>
+                Identifier
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @item.BranchID
+        </td>
+        <td>
+            @item.Usage
+        </td>
+        <td>
+            @item.Identifier
+        </td>
+    </tr>
+    }
+</table>

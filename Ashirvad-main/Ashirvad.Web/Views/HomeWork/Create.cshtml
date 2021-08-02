@@ -62,6 +62,8 @@
                 @Html.Label("HomeWork", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <input class="file-upload fileRequired" alt="Thumbnail Image" id="fuHomeworkDoc" name="ThumbnailFile" type="file" />
                 @Html.HiddenFor(x => x.HomeworkContentText)
+                @Html.HiddenFor(x => x.HomeworkContent)
+                @Html.HiddenFor(x => x.HomeworkContentFileName)
             </div>
         }
         else

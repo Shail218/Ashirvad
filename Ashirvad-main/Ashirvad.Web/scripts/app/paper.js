@@ -4,6 +4,10 @@
 
 $(document).ready(function () {
 
+    if ($("#PaperID").val() > 0) {
+        $("#fuPaperImage").addClass("editForm");
+    }
+
     LoadBranch(function () {
         if ($("#Branch_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
@@ -99,7 +103,10 @@ function SavePaper() {
         ShowLoader();
         var frm = $('#fPaperDetail');
         var formData = new FormData(frm[0]);
-        formData.append('PaperData.PaperFile', $('input[type=file]')[0].files[0]);
+        var item = $('input[type=file]');
+        if (item[0].files.length > 0) {
+            formData.append('PaperData.PaperFile', $('input[type=file]')[0].files[0]);
+        }
         AjaxCallWithFileUpload(commonData.Paper + 'SavePaper', formData, function (data) {
             HideLoader();
             if (data) {
@@ -116,16 +123,18 @@ function SavePaper() {
 }
 
 function RemovePaper(paperID) {
-    ShowLoader();
-    var postCall = $.post(commonData.Paper + "RemovePaper", { "paperID": paperID });
-    postCall.done(function (data) {
-        HideLoader();
-        ShowMessage("Paper Removed Successfully.", "Success");
-        window.location.href = "PaperMaintenance?paperID=0";
-    }).fail(function () {
-        HideLoader();
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this Practice Paper?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.Paper + "RemovePaper", { "paperID": paperID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Paper Removed Successfully.", "Success");
+            window.location.href = "PaperMaintenance?paperID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 $("#BranchName").change(function () {

@@ -15,10 +15,10 @@
             <th>
                 Header Image
             </th>
-            <th style="text-align:center;">
+            <th>
                 Edit
             </th>
-            <th style="text-align:center;">
+            <th>
                 Delete
             </th>
         </tr>
@@ -34,18 +34,18 @@
                 @item.ContactNo
             </td>
             <td>
-                
+                @item.detailEntity.BrandName
             </td>
             <td>
                 <img src="~/ThemeData/images/Default.png" id="headerImg" style="height:40px;width:40px;margin-left:40px;" />
             </td>
             <td>
-                <a style="margin-left:60px;" href="@Url.Action("BannerMaintenance", "Banner")">
+                <a href="@Url.Action("AboutUsMaintenance", "AboutUs",new { aboutID = item.AboutUsID, detailid = item.detailEntity.DetailID})">
                     <img src="~/ThemeData/images/viewIcon.png" />
                 </a>
             </td>
             <td>
-                <a style="margin-left:60px;" href="#">
+                <a href="#" onclick="RemoveaboutUs(@item.AboutUsID);">
                     <img src="~/ThemeData/images/delete.png" />
                 </a>
             </td>

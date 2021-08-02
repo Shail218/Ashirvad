@@ -52,9 +52,10 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
             aboutUsMaster.website = aboutUsInfo.WebsiteURL;
             aboutUsMaster.whatsapp_no = aboutUsInfo.WhatsAppNo;
             aboutUsMaster.contact_no = aboutUsInfo.ContactNo;
-            if (!isUpdate)
+            this.context.ABOUTUS_MASTER.Add(aboutUsMaster);
+            if (isUpdate)
             {
-                this.context.ABOUTUS_MASTER.Add(aboutUsMaster);
+                this.context.Entry(aboutUsMaster).State = System.Data.Entity.EntityState.Modified;
             }
 
             var uniqueID = this.context.SaveChanges() > 0 ? aboutUsMaster.aboutus_id : 0;
@@ -65,6 +66,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         {
             var data = (from u in this.context.ABOUTUS_MASTER
                         .Include("BRANCH_MASTER")
+                        join Detail in this.context.ABOUTUS_DETAIL_REL on u.aboutus_id equals Detail.aboutus_id
                         where (0 == branchID || u.branch_id == branchID)
                         select new AboutUsEntity()
                         {
@@ -81,7 +83,13 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                             EmailID = u.email_id,
                             HeaderImageName = u.header_img_name,
                             WebsiteURL = u.website,
-                            WhatsAppNo = u.whatsapp_no
+                            WhatsAppNo = u.whatsapp_no,
+                            detailEntity = new AboutUsDetailEntity()
+                            {
+                                DetailID = Detail.brand_id,
+                                BrandName = Detail.brand_name,
+                                HeaderImage = Detail.header_img
+                            },
                         }).ToList();
 
             if (data?.Count > 0)
@@ -199,14 +207,14 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
             {
                 aboutUsDetailMaster.header_img = null;
             }
-
-
+            aboutUsDetailMaster.aboutus_id = aboutUsDetailInfo.AboutUsInfo.AboutUsID;
             aboutUsDetailMaster.row_sta_cd = aboutUsDetailInfo.RowStatus.RowStatusId;
             aboutUsDetailMaster.trans_id = this.AddTransactionData(aboutUsDetailInfo.TransactionInfo);
             aboutUsDetailMaster.brand_name = aboutUsDetailInfo.BrandName;
-            if (!isUpdate)
+            this.context.ABOUTUS_DETAIL_REL.Add(aboutUsDetailMaster);
+            if (isUpdate)
             {
-                this.context.ABOUTUS_DETAIL_REL.Add(aboutUsDetailMaster);
+                this.context.Entry(aboutUsDetailMaster).State = System.Data.Entity.EntityState.Modified;
             }
 
             var uniqueID = this.context.SaveChanges() > 0 ? aboutUsDetailMaster.brand_id : 0;

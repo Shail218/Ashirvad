@@ -1,6 +1,6 @@
 ﻿﻿@model Ashirvad.Data.TestPaperEntity
 <form id="fTestPaperDetail">
-    <div class="row" id="dInformation">
+    <div class="row" id="dpaperInformation">
         <div class="col-md-12">
             <div class="col-md-3">
                 @Html.Label("Select Type", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -21,7 +21,7 @@
             </div>
             <div class="col-md-3" style="display:none" id="testpaper">
                 @Html.Label("Uplolad test paper", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <input class="file-upload " alt="Thumbnail Image" id="fuPaperDoc" name="ThumbnailFile" type="file" />
+                <input class="file-upload" alt="Thumbnail Image" id="fuPaperDoc" name="ThumbnailFile" type="file" />
                 @Html.HiddenFor(x => x.DocContentText)
                 @Html.HiddenFor(x => x.DocContent)
             </div>

@@ -3,6 +3,11 @@
 
 
 $(document).ready(function () {
+
+    if ($("#UniqueID").val() > 0) {
+        $("#fuImage").addClass("editForm");
+    }
+
     LoadBranch(function () {
         if ($("#Branch_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
@@ -58,14 +63,18 @@ function SavePhotos() {
         ShowLoader();
         var frm = $('#fPhotosDetail');
         var formData = new FormData(frm[0]);
-        formData.append('ImageFile', $('input[type=file]')[0].files[0]);
+        var item = $('input[type=file]');
+        if (item[0].files.length > 0) {
+            formData.append('ImageFile', $('input[type=file]')[0].files[0]);
+        }  
         AjaxCallWithFileUpload(commonData.Photos + 'SavePhotos', formData, function (data) {
-            HideLoader();
             if (data) {
+                HideLoader();
                 ShowMessage('Photos details saved!', 'Success');
                 window.location.href = "PhotosMaintenance?photoID=0";
             }
             else {
+                HideLoader();
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
         }, function (xhr) {
@@ -75,13 +84,18 @@ function SavePhotos() {
 }
 
 function RemovePhotos(branchID) {
-    var postCall = $.post(commonData.Photos + "RemovePhotos", { "photoID": branchID });
-    postCall.done(function (data) {
-        ShowMessage("Photos Removed Successfully.", "Success");
-        window.location.href = "PhotosMaintenance?photoID=0";
-    }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this Image?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.Photos + "RemovePhotos", { "photoID": branchID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Photos Removed Successfully.", "Success");
+            window.location.href = "PhotosMaintenance?photoID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 $("#BranchName").change(function () {   

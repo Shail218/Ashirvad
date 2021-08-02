@@ -26,7 +26,6 @@
         {
             <tr>
                 <td>
-                    Download Video
                     <a onclick="DownloadVideo('@item.UniqueID')" id="videoDownload" download><img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" /></a>
                     @Html.HiddenFor(x => item.UniqueID)
                     <input hidden id="UniqID" value="@item.UniqueID" />
@@ -35,12 +34,12 @@
                     @item.Remarks
                 </td>
                 <td>
-                    <a href="@Url.Action("Index", "/Videos/VideosMaintenance", new { videoID = item.UniqueID})">
+                    <a href="@Url.Action("VideosMaintenance", "Videos", new { videoID = item.UniqueID})">
                         <img src="~/ThemeData/images/viewIcon.png" />
                     </a>
                 </td>
                 <td>
-                    <a href="#" onclick="RemovePhotos(@item.UniqueID);">
+                    <a href="#" onclick="RemoveVideos(@item.UniqueID);">
                         <img src="~/ThemeData/images/delete.png" />
                     </a>
                 </td>

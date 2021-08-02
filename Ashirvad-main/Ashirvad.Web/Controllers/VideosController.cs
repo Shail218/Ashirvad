@@ -83,14 +83,27 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> DownloadVideo(long videoID)
         {
-            OperationResult<GalleryEntity> operationResult = new OperationResult<GalleryEntity>();
-            operationResult = await _gallaryService.GetGalleryByUniqueID(videoID);
-            if (operationResult != null)
+            string[] array = new string[3];
+            try
             {
-                string ext = GetFileExtension(operationResult.Data.FileEncoded);
-                return Json(operationResult.Data.FileEncoded);
+                OperationResult<GalleryEntity> operationResult = new OperationResult<GalleryEntity>();
+                operationResult = await _gallaryService.GetGalleryByUniqueID(videoID);
+                if (operationResult != null)
+                {
+                    string ext = GetFileExtension(operationResult.Data.FileEncoded);
+                    string file = operationResult.Data.FileEncoded;
+                    string filename = DateTime.Now.ToString("dd/MM/yyyy");
+                    array[0] = ext;
+                    array[1] = file;
+                    array[2] = filename;
+                    return Json(array);
+                }
             }
-            return Json(null);
+            catch(Exception ex)
+            {
+
+            }
+            return Json(array);
         }
 
         public static string GetFileExtension(string base64String)
@@ -119,6 +132,8 @@ namespace Ashirvad.Web.Controllers
                     return "txt";
                 case "MQOWM":
                 case "77U/M":
+                    return "srt";
+                case "":
                     return "srt";
                 default:
                     return string.Empty;

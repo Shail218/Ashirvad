@@ -3,6 +3,10 @@
 
 $(document).ready(function () {
 
+    if ($("#TestID").val() > 0 && $("#TestPaperID").val() > 0) {
+        $("#fuPaperDoc").addClass("editForm");
+    }
+
     $("#datepickertest").datepicker({
         autoclose: true,
         todayHighlight: true,
@@ -116,8 +120,8 @@ function Savetest() {
     var isSuccess = ValidateData('dInformation');    
     if (isSuccess) {
         ShowLoader();
-        var date1 = $("#TestDate").val();
-        $("#TestDate").val(ConvertData(date1));
+        //var date1 = $("#TestDate").val();
+        //$("#TestDate").val(ConvertData(date1));
         var postCall = $.post(commonData.TestPaper + "SaveTest", $('#fTestDetail').serialize());
         postCall.done(function (data) {
             if (data.TestID > 0) {
@@ -145,7 +149,10 @@ function Savetestpaper(testID,date) {
         var date1 = new Date(sd2[0]);
         TestDate: $("#test_date").val(date1)
         var formData = new FormData(frm[0]);
-        formData.append('FileInfo', $('input[type=file]')[0].files[0]);
+        var item = $('input[type=file]');
+        if (item[0].files.length > 0) {
+            formData.append('FileInfo', $('input[type=file]')[0].files[0]);
+        }
         AjaxCallWithFileUpload(commonData.TestPaper + 'SaveTestPaper', formData, function (data) {            
             if (data) {
                 HideLoader();

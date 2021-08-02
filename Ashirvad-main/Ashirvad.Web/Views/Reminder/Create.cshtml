@@ -18,7 +18,7 @@
         </div>
         <div class="col-md-6">
             @Html.Label("Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.ReminderTime, null, new { @class = "form-control readonly timeformat required", @alt = "Reminder Time", autocomplete = "off", @type = "time"})
+            @Html.TextBoxFor(x => x.ReminderTime, new { @class = "form-control required", @alt = "Reminder Time", autocomplete = "off"})
         </div>
         <div class="col-md-12">
             @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>

@@ -50,5 +50,11 @@ namespace Ashirvad.Web.Controllers
             return View("~/Views/ManageStudent/Manage.cshtml", data);
         }
 
+        [HttpPost]
+        public JsonResult Removestudent(long studentID)
+        {
+            var result = _studentService.RemoveStudent(studentID, SessionContext.Instance.LoginUser.Username);
+            return Json(result);
+        }
     }
 }

@@ -4,6 +4,11 @@
 
 $(document).ready(function () {
 
+    if ($("#HomeworkID").val() > 0) {
+        $("#fuHomeworkDoc").addClass("editForm");
+    }
+
+
     $("#datepickerhomework").datepicker({
         autoclose: true,
         todayHighlight: true,
@@ -105,11 +110,14 @@ function SaveHomework() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        var date1 = $("#HomeworkDate").val();
-        $("#HomeworkDate").val(ConvertData(date1));
+        //var date1 = $("#HomeworkDate").val();
+        //$("#HomeworkDate").val(ConvertData(date1));
         var frm = $('#fHomeworkDetail');
         var formData = new FormData(frm[0]);
-        formData.append('FileInfo', $('input[type=file]')[0].files[0]);
+        var item = $('input[type=file]');
+        if (item[0].files.length > 0) {
+            formData.append('FileInfo', $('input[type=file]')[0].files[0]);
+        }
         AjaxCallWithFileUpload(commonData.Homework + 'SaveHomework', formData, function (data) {
             if (data) {
                 HideLoader();
@@ -126,16 +134,18 @@ function SaveHomework() {
 }
 
 function RemoveHomework(homeworkID) {
-    ShowLoader();
-    var postCall = $.post(commonData.Homework + "RemoveHomework", { "homeworkID": homeworkID });
-    postCall.done(function (data) {
-        HideLoader();
-        ShowMessage("Homework Removed Successfully.", "Success");
-        window.location.href = "HomeworkMaintenance?homeworkID=0&branchID=0";
-    }).fail(function () {
-        HideLoader();
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this Homework?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.Homework + "RemoveHomework", { "homeworkID": homeworkID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Homework Removed Successfully.", "Success");
+            window.location.href = "HomeworkMaintenance?homeworkID=0&branchID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 $("#BranchName").change(function () {

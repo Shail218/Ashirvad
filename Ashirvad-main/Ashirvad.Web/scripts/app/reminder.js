@@ -15,8 +15,8 @@ function SaveReminder() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        var date1 = $("#ReminderDate").val();
-        $("#ReminderDate").val(ConvertData(date1));
+        //var date1 = $("#ReminderDate").val();
+        //$("#ReminderDate").val(ConvertData(date1));
         var postCall = $.post(commonData.Reminder + "SaveReminder", $('#fReminderDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
@@ -30,14 +30,16 @@ function SaveReminder() {
 }
 
 function RemoveReminder(reminderID) {
-    ShowLoader();
-    var postCall = $.post(commonData.Reminder + "RemoveReminder", { "reminderID": reminderID });
-    postCall.done(function (data) {
-        HideLoader();
-        ShowMessage("Reminder Removed Successfully.", "Success");
-        window.location.href = "ReminderMaintenance?reminderID=0";
-    }).fail(function () {
-        HideLoader();
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this Reminder?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.Reminder + "RemoveReminder", { "reminderID": reminderID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Reminder Removed Successfully.", "Success");
+            window.location.href = "ReminderMaintenance?reminderID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }

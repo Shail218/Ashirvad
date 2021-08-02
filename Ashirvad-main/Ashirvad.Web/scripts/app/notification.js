@@ -139,16 +139,18 @@ function SaveNotification() {
 }
 
 function RemoveNotification(branchID) {
-    ShowLoader();
-    var postCall = $.post(commonData.Notification + "RemoveNotification", { "notificationID": branchID });
-    postCall.done(function (data) {
-        HideLoader();
-        ShowMessage("Notification Removed Successfully.", "Success");
-        window.location.href = "NotificationMaintenance?notificationID=0";
-    }).fail(function () {
-        HideLoader();
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this Notification?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.Notification + "RemoveNotification", { "notificationID": branchID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Notification Removed Successfully.", "Success");
+            window.location.href = "NotificationMaintenance?notificationID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 
