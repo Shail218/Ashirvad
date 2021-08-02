@@ -25,6 +25,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Test
         Task<long> AnswerSheetMaintenance(StudentAnswerSheetEntity studAnswerSheet);
         Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetByTestStudent(long testID);
         Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetWithoutContentByTestStudent(long testID);
+        Task<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID, long studentID);
         Task<StudentAnswerSheetEntity> GetTestAnswerSheetPaperByAnswerSheetID(long ansID);
         bool RemoveAnswerSheet(long ansID, string lastupdatedby);
         Task<List<TestEntity>> GetAllTest(DateTime testDate, string searchParam);

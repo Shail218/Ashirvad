@@ -192,6 +192,16 @@ namespace Ashirvad.API.Controllers
             result.Completed = true;
             return result;
         }
+        [Route("GetAllAnsSheetByTestStudentID")]
+        [HttpGet]
+        public OperationResult<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID,long studentID)
+        {
+            var data = this._testService.GetAllAnsSheetByTestStudentID(testID, studentID);
+            OperationResult<List<StudentAnswerSheetEntity>> result = new OperationResult<List<StudentAnswerSheetEntity>>();
+            result.Data = data.Result;
+            result.Completed = true;
+            return result;
+        }
 
         [Route("GetAnswerSheetByAnsID")]
         [HttpGet]

@@ -566,6 +566,57 @@ namespace Ashirvad.Repo.Services.Area.Test
             }
             return data;
         }
+        
+        public async Task<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID, long studentID)
+        {
+            var data = (from u in this.context.STUDENT_ANS_SHEET
+                       .Include("TEST_MASTER")
+                       .Include("STUDENT_MASTER")
+                       .Include("BRANCH_MASTER")
+                        where u.test_id == testID && u.stud_id == studentID
+                        select new StudentAnswerSheetEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            AnswerSheetContent = u.ans_sheet_content,
+                            AnsSheetID = u.ans_sheet_id,
+                            AnswerSheetName = u.ans_sheet_name,
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Remarks = u.remarks,
+                            Status = u.status,
+                            StatusText = u.status == 1 ? "Pending" : "Done",
+                            StudentInfo = new StudentEntity()
+                            {
+                                StudentID = u.STUDENT_MASTER.student_id,
+                                FirstName = u.STUDENT_MASTER.first_name,
+                                LastName = u.STUDENT_MASTER.last_name
+                            },
+                            SubmitDate = u.submit_dt,
+                            TestInfo = new TestEntity()
+                            {
+                                TestID = u.test_id,
+                                TestDate = u.TEST_MASTER.test_dt,
+                                TestName = u.TEST_MASTER.test_name
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+            if (data?.Count > 0)
+            {
+                foreach (var item in data)
+                {
+                    int idx = data.IndexOf(item);
+                    data[idx].AnswerSheetContentText = Convert.ToBase64String(data[idx].AnswerSheetContent);
+                }
+            }
+            return data;
+        }
 
         public async Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetWithoutContentByTestStudent(long testID)
         {
@@ -665,6 +716,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             var data = (from u in this.context.STUDENT_ANS_SHEET
                         where u.ans_sheet_id == ansID
                         select u).FirstOrDefault();
+
             if (data != null)
             {
                 data.row_sta_cd = (int)Enums.RowStatus.Inactive;
@@ -675,6 +727,8 @@ namespace Ashirvad.Repo.Services.Area.Test
 
             return false;
         }
+
+
         #endregion
     }
 }
