@@ -34,6 +34,10 @@ namespace Ashirvad.Repo.Model
             this.HOMEWORK_MASTER = new HashSet<HOMEWORK_MASTER>();
             this.TODO_MASTER = new HashSet<TODO_MASTER>();
             this.ABOUTUS_MASTER = new HashSet<ABOUTUS_MASTER>();
+            this.FEE_STRUCTURE_MASTER = new HashSet<FEE_STRUCTURE_MASTER>();
+            this.STUDENT_PAYMENT_MASTER = new HashSet<STUDENT_PAYMENT_MASTER>();
+            this.UPI_MASTER = new HashSet<UPI_MASTER>();
+            this.BRANCH_AGREEMENT = new HashSet<BRANCH_AGREEMENT>();
         }
     
         public long branch_id { get; set; }
@@ -82,5 +86,13 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<TODO_MASTER> TODO_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ABOUTUS_MASTER> ABOUTUS_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FEE_STRUCTURE_MASTER> FEE_STRUCTURE_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<STUDENT_PAYMENT_MASTER> STUDENT_PAYMENT_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UPI_MASTER> UPI_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BRANCH_AGREEMENT> BRANCH_AGREEMENT { get; set; }
     }
 }

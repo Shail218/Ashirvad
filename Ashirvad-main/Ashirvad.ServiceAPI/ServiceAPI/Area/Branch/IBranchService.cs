@@ -15,5 +15,12 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Branch
         Task<OperationResult<List<BranchEntity>>> GetAllBranchWithoutImage();
         Task<OperationResult<BranchEntity>> GetBranchByBranchID(long branchID);
         bool RemoveBranch(long BranchID, string lastupdatedby);
+
+        Task<BranchAgreementEntity> AgreementMaintenance(BranchAgreementEntity agreementInfo);
+
+        Task<OperationResult<List<BranchAgreementEntity>>> GetAllAgreement(long branchID);
+
+        Task<OperationResult<BranchAgreementEntity>> GetAgreementByAgreementID(long agreementID);
+        bool RemoveAgreement(long agreementID, string lastupdatedby);
     }
 }

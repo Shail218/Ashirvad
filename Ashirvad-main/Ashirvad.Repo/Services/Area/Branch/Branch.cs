@@ -177,5 +177,99 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return false;
         }
 
+        public async Task<long> AgreementMaintenance(BranchAgreementEntity agrInfo)
+        {
+            Model.BRANCH_AGREEMENT agrMaster = new Model.BRANCH_AGREEMENT();
+            bool isUpdate = true;
+            var data = (from upi in this.context.BRANCH_AGREEMENT
+                        where upi.agreement_id == agrInfo.AgreementID
+                        select upi).FirstOrDefault();
+            if (data == null)
+            {
+                data = new Model.BRANCH_AGREEMENT();
+                isUpdate = false;
+            }
+            else
+            {
+                agrMaster = data;
+                agrInfo.TranscationData.TransactionId = data.trans_id;
+            }
+
+            agrMaster.row_sta_cd = agrInfo.RowStatusData.RowStatusId;
+            agrMaster.trans_id = this.AddTransactionData(agrInfo.TranscationData);
+            agrMaster.branch_id = agrInfo.BranchData.BranchID;
+            agrMaster.from_dt = agrInfo.AgreementFromDate;
+            agrMaster.amount = agrInfo.Amount;
+            agrMaster.to_dt = agrInfo.AgreementToDate;
+            if (!isUpdate)
+            {
+                this.context.BRANCH_AGREEMENT.Add(agrMaster);
+            }
+
+            var agrID = this.context.SaveChanges() > 0 ? agrMaster.agreement_id : 0;
+            return agrID;
+        }
+
+        public async Task<List<BranchAgreementEntity>> GetAllAgreements(long branchID)
+        {
+            var data = (from u in this.context.BRANCH_AGREEMENT
+                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
+                        where (0 == branchID || u.branch_id == branchID) //&& u.row_sta_cd == 1
+                        select new BranchAgreementEntity()
+                        {
+                            RowStatusData = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            AgreementFromDate = u.from_dt,
+                            AgreementToDate = u.to_dt,
+                            AgreementID = u.agreement_id,
+                            Amount = u.amount,
+                            BranchData = new BranchEntity() { BranchID = b.branch_id, BranchName = b.branch_name },
+                            TranscationData = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+
+            return data;
+        }
+
+        public async Task<BranchAgreementEntity> GetAgreementByID(long agreementID)
+        {
+            var data = (from u in this.context.BRANCH_AGREEMENT
+                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
+                        where u.agreement_id == agreementID && u.row_sta_cd == 1
+                        select new BranchAgreementEntity()
+                        {
+                            RowStatusData = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            AgreementFromDate = u.from_dt,
+                            AgreementToDate = u.to_dt,
+                            AgreementID = u.agreement_id,
+                            Amount = u.amount,
+                            BranchData = new BranchEntity() { BranchID = b.branch_id, BranchName = b.branch_name },
+                            TranscationData = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).FirstOrDefault();
+            return data;
+        }
+
+        public bool RemoveAgreement(long agreementID, string lastupdatedby)
+        {
+            var data = (from u in this.context.BRANCH_AGREEMENT
+                        where u.agreement_id == agreementID
+                        select u).FirstOrDefault();
+            if (data != null)
+            {
+                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                this.context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }
