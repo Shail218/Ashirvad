@@ -14,5 +14,9 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Branch
         Task<List<BranchEntity>> GetAllBranchWithoutImage();
         Task<BranchEntity> GetBranchByBranchID(long branchID);
         bool RemoveBranch(long BranchID, string lastupdatedby);
+        Task<long> AgreementMaintenance(BranchAgreementEntity agrInfo);
+        Task<List<BranchAgreementEntity>> GetAllAgreements(long branchID);
+        Task<BranchAgreementEntity> GetAgreementByID(long agreementID);
+        bool RemoveAgreement(long agreementID, string lastupdatedby);
     }
 }

@@ -159,13 +159,29 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
             return data;
         }
 
-        public bool RemoveAboutUs(long uniqueID, string lastupdatedby)
+        public bool RemoveAboutUs(long uniqueID, string lastupdatedby, bool removeAboutUsDetail)
         {
             var data = (from u in this.context.ABOUTUS_MASTER
                         where u.aboutus_id == uniqueID
                         select u).FirstOrDefault();
             if (data != null)
             {
+                if (removeAboutUsDetail)
+                {
+                    var tAboutUs = (from au in this.context.ABOUTUS_DETAIL_REL
+                                  where au.aboutus_id == uniqueID
+                                  select au).ToList();
+                    if (tAboutUs?.Count > 0)
+                    {
+                        foreach (var item in tAboutUs)
+                        {
+                            item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                            item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                        }
+                    }
+                }
+
+
                 data.row_sta_cd = (int)Enums.RowStatus.Inactive;
                 data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
                 this.context.SaveChanges();

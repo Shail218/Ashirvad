@@ -57,6 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceAPI\Area\AboutUs\IAboutUsService.cs" />
     <Compile Include="ServiceAPI\Area\Admin\IAdminDataService.cs" />
+    <Compile Include="ServiceAPI\Area\Announcement\IAnnouncementService.cs" />
     <Compile Include="ServiceAPI\Area\Attendance\IAttendanceService.cs" />
     <Compile Include="ServiceAPI\Area\Banner\IBannerService.cs" />
     <Compile Include="ServiceAPI\Area\Batch\IBatchService.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="ServiceAPI\Area\Link\ILinkService.cs" />
     <Compile Include="ServiceAPI\Area\Notification\INotificationService.cs" />
     <Compile Include="ServiceAPI\Area\Paper\IPaperService.cs" />
+    <Compile Include="ServiceAPI\Area\Payment\IStudentPaymentService.cs" />
     <Compile Include="ServiceAPI\Area\Reminder\IReminderService.cs" />
     <Compile Include="ServiceAPI\Area\School\ISchoolService.cs" />
     <Compile Include="ServiceAPI\Area\Staff\IStaffService.cs" />
@@ -75,9 +77,11 @@
     <Compile Include="ServiceAPI\Area\Subject\ISubjectService.cs" />
     <Compile Include="ServiceAPI\Area\Test\ITestService.cs" />
     <Compile Include="ServiceAPI\Area\ToDo\IToDoService.cs" />
+    <Compile Include="ServiceAPI\Area\UPI\IUPIService.cs" />
     <Compile Include="ServiceAPI\Area\User\IUserService.cs" />
     <Compile Include="Services\Area\AboutUs\AboutUsService.cs" />
     <Compile Include="Services\Area\Admin\AdminDataService.cs" />
+    <Compile Include="Services\Area\Announcement\AnnouncementService.cs" />
     <Compile Include="Services\Area\Attendance\AttendanceService.cs" />
     <Compile Include="Services\Area\Banner\BannerService.cs" />
     <Compile Include="Services\Area\Batch\BatchService.cs" />
@@ -86,6 +90,7 @@
     <Compile Include="Services\Area\Library\LibraryService.cs" />
     <Compile Include="Services\Area\Notification\NotificationService.cs" />
     <Compile Include="Services\Area\Paper\PaperService.cs" />
+    <Compile Include="Services\Area\Payment\StudentPaymentService.cs" />
     <Compile Include="Services\Area\Reminder\ReminderService.cs" />
     <Compile Include="Services\Area\School\SchoolService.cs" />
     <Compile Include="Services\Area\Staff\StaffService.cs" />
@@ -94,6 +99,7 @@
     <Compile Include="Services\Area\Subject\SubjectService.cs" />
     <Compile Include="Services\Area\Test\TestService.cs" />
     <Compile Include="Services\Area\ToDo\ToDoService.cs" />
+    <Compile Include="Services\Area\UPI\UPIService.cs" />
     <Compile Include="Services\Area\User\UserService.cs" />
     <Compile Include="Services\Gallery\GalleryService.cs" />
     <Compile Include="Services\Link\LinkService.cs" />

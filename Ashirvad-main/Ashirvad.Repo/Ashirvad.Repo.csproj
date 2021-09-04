@@ -60,6 +60,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="DataAcceessAPI\Area\AboutUs\IAboutUs.cs" />
     <Compile Include="DataAcceessAPI\Area\Admin\IAdminData.cs" />
+    <Compile Include="DataAcceessAPI\Area\Announcement\IAnnouncementAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Attendance\IAttendanceAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Banner\IBannerAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Batch\IBatchAPI.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="DataAcceessAPI\Area\Link\ILinkAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Notification\INotificationAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Paper\IPaperAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\Payment\IStudentPaymentAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Reminder\IReminderAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\School\ISchoolAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Staff\IStaffAPI.cs" />
@@ -78,12 +80,16 @@
     <Compile Include="DataAcceessAPI\Area\Subject\ISubjectAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Test\ITestAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\ToDo\IToDoAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\UPI\IUPIAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\User\IUserAPI.cs" />
     <Compile Include="ModelAccess.cs" />
     <Compile Include="Model\ABOUTUS_DETAIL_REL.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\ABOUTUS_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ANNOUNCE_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Ashirvad.Context.cs">
@@ -116,6 +122,9 @@
     <Compile Include="Model\BATCH_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\BRANCH_AGREEMENT.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\BRANCH_LICENSE.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -126,6 +135,12 @@
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\BRANCH_STAFF.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FEE_STRUCTURE_DTL.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FEE_STRUCTURE_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\GALLERY_MASTER.cs">
@@ -179,6 +194,12 @@
     <Compile Include="Model\STUDENT_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\STUDENT_PAYMENT_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STUDENT_PAYMENT_REL.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\SUBJECT_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -200,6 +221,9 @@
     <Compile Include="Model\TYPE_DESC.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\UPI_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\USER_DEF.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -212,6 +236,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Area\AboutUs\AboutUs.cs" />
     <Compile Include="Services\Area\Admin\AdminData.cs" />
+    <Compile Include="Services\Area\Announcement\Announcement.cs" />
     <Compile Include="Services\Area\Attendance\Attendance.cs" />
     <Compile Include="Services\Area\Banner\Banner.cs" />
     <Compile Include="Services\Area\Batch\Batch.cs" />
@@ -222,6 +247,7 @@
     <Compile Include="Services\Area\Link\LinkMGMT.cs" />
     <Compile Include="Services\Area\Notification\Notification.cs" />
     <Compile Include="Services\Area\Paper\Paper.cs" />
+    <Compile Include="Services\Area\Payment\StudentPayment.cs" />
     <Compile Include="Services\Area\Reminder\Reminder.cs" />
     <Compile Include="Services\Area\School\School.cs" />
     <Compile Include="Services\Area\Staff\Staff.cs" />
@@ -230,6 +256,7 @@
     <Compile Include="Services\Area\Subject\Subject.cs" />
     <Compile Include="Services\Area\Test\Test.cs" />
     <Compile Include="Services\Area\ToDo\ToDo.cs" />
+    <Compile Include="Services\Area\UPI\UPI.cs" />
     <Compile Include="Services\Area\User\User.cs" />
   </ItemGroup>
   <ItemGroup>

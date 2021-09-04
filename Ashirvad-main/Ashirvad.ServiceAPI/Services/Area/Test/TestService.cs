@@ -240,6 +240,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return false;
         }
 
+        public bool RemoveTestAndPaper(long testID, string lastUpdatedBy)
+        {
+            return this.RemoveTest(testID, lastUpdatedBy, true);
+        }
+
         #region - Student Answer Sheet - 
         public async Task<StudentAnswerSheetEntity> StudentAnswerSheetMaintenance(StudentAnswerSheetEntity ansSheetInfo)
         {

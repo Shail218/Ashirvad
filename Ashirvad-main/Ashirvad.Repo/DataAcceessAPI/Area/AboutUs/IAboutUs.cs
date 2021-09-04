@@ -13,7 +13,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.AboutUs
         Task<List<AboutUsEntity>> GetAllAboutUs(long branchID);
         Task<List<AboutUsEntity>> GetAllAboutUsWithoutContent(long branchID);
         Task<AboutUsEntity> GetAboutUsByUniqueID(long uniqueID);
-        bool RemoveAboutUs(long uniqueID, string lastupdatedby);
+        bool RemoveAboutUs(long uniqueID, string lastupdatedby, bool removeAboutUsDetail);
         Task<long> AboutUsDetailMaintenance(AboutUsDetailEntity aboutUsDetailInfo);
         Task<List<AboutUsDetailEntity>> GetAllAboutUsDetails(long aboutusID, long branchID);
         Task<List<AboutUsDetailEntity>> GetAllAboutUsDetailWithoutContent(long aboutusID, long branchID);

@@ -25,6 +25,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Test
         Task<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID, long studentID);
         Task<StudentAnswerSheetEntity> GetAnswerSheetByID(long ansID);
         bool RemoveAnswerSheet(long ansID, string lastupdatedby);
+        bool RemoveTestAndPaper(long testID, string lastUpdatedBy);
 
         Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAndStandard(long branchID, long stdID, int batchTime);
         Task<OperationResult<List<TestPaperEntity>>> GetAllTestPapaerByBranchStdDate(long branchID, long stdID, DateTime dt, int batchTime);

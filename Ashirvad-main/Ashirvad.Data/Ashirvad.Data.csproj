@@ -42,9 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutUsEntity.cs" />
+    <Compile Include="AnnouncementEntity.cs" />
     <Compile Include="AttendanceEntity.cs" />
     <Compile Include="BannerEntity.cs" />
     <Compile Include="BatchEntity.cs" />
+    <Compile Include="BranchAgreementEntity.cs" />
     <Compile Include="BranchEntity.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="DataUsageEntity.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="NotificationEntity.cs" />
     <Compile Include="OperationResult.cs" />
     <Compile Include="PaperEntity.cs" />
+    <Compile Include="PaymentEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReminderEntity.cs" />
     <Compile Include="ResponseModel.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="TestEntity.cs" />
     <Compile Include="ToDoEntity.cs" />
     <Compile Include="TransactionEntity.cs" />
+    <Compile Include="UPIEntity.cs" />
     <Compile Include="UserEntity.cs" />
   </ItemGroup>
   <ItemGroup>

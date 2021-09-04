@@ -90,6 +90,24 @@
         <EntityTypeShape EntityType="AshirvadModel.ABOUTUS_MASTER" Width="1.5" PointX="5.25" PointY="44.625" />
         <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.ANNOUNCE_MASTER" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="AshirvadModel.FEE_STRUCTURE_DTL" Width="1.5" PointX="17.75" PointY="15.125" />
+        <EntityTypeShape EntityType="AshirvadModel.FEE_STRUCTURE_MASTER" Width="1.5" PointX="15.5" PointY="14.625" />
+        <EntityTypeShape EntityType="AshirvadModel.STUDENT_PAYMENT_MASTER" Width="1.5" PointX="5.25" PointY="33.25" />
+        <EntityTypeShape EntityType="AshirvadModel.STUDENT_PAYMENT_REL" Width="1.5" PointX="7.5" PointY="29.875" />
+        <EntityTypeShape EntityType="AshirvadModel.UPI_MASTER" Width="1.5" PointX="8.25" PointY="10.875" />
+        <AssociationConnector Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_UPI_MASTER_TRANSACTION_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.BRANCH_AGREEMENT" Width="1.5" PointX="5.25" PointY="49.5" />
+        <AssociationConnector Association="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -102,11 +102,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
             return null;
         }
 
-        public bool RemoveAboutUs(long aboutUsID, string lastupdatedby)
+        public bool RemoveAboutUs(long aboutUsID, string lastupdatedby, bool remomveAboutUsDetail = false)
         {
             try
             {
-                return this._aboutusContext.RemoveAboutUs(aboutUsID, lastupdatedby);
+                return this._aboutusContext.RemoveAboutUs(aboutUsID, lastupdatedby, remomveAboutUsDetail);
             }
             catch (Exception ex)
             {

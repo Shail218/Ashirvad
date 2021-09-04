@@ -58,6 +58,13 @@ namespace Ashirvad.Common
             Evening = 3
         }
 
+        public enum PaymentStatus : int
+        {
+            Approve = 1,
+            Reject = 2,
+            Pending = 3
+        }
+
         public enum Roles : int
         {
             Student = 1,

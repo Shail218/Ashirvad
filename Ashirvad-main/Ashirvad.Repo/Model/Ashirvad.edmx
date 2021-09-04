@@ -31,6 +31,16 @@
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="ANNOUNCE_MASTER">
+          <Key>
+            <PropertyRef Name="announce_id" />
+          </Key>
+          <Property Name="announce_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="branch_id" Type="bigint" />
+          <Property Name="announce_text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="ATTENDANCE_DTL">
           <Key>
             <PropertyRef Name="attd_dtl_id" />
@@ -86,6 +96,18 @@
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
         </EntityType>
+        <EntityType Name="BRANCH_AGREEMENT">
+          <Key>
+            <PropertyRef Name="agreement_id" />
+          </Key>
+          <Property Name="agreement_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="branch_id" Type="bigint" Nullable="false" />
+          <Property Name="from_dt" Type="datetime" Nullable="false" />
+          <Property Name="to_dt" Type="datetime" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="amount" Type="float" Nullable="false" />
+        </EntityType>
         <EntityType Name="BRANCH_LICENSE">
           <Key>
             <PropertyRef Name="license_id" />
@@ -139,6 +161,28 @@
           <Property Name="mobile_no" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FEE_STRUCTURE_DTL">
+          <Key>
+            <PropertyRef Name="fee_struct_dtl_id" />
+          </Key>
+          <Property Name="fee_struct_dtl_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fee_struct_mst_id" Type="bigint" Nullable="false" />
+          <Property Name="fee_content" Type="varbinary(max)" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="file_name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="FEE_STRUCTURE_MASTER">
+          <Key>
+            <PropertyRef Name="fee_struct_mst_id" />
+          </Key>
+          <Property Name="fee_struct_mst_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="branch_id" Type="bigint" Nullable="false" />
+          <Property Name="std_id" Type="bigint" Nullable="false" />
+          <Property Name="remarks" Type="nvarchar(max)" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="GALLERY_MASTER">
           <Key>
@@ -335,6 +379,30 @@
           <Property Name="stud_img" Type="varbinary(max)" />
           <Property Name="admission_date" Type="datetime" />
         </EntityType>
+        <EntityType Name="STUDENT_PAYMENT_MASTER">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="student_id" Type="bigint" Nullable="false" />
+          <Property Name="status_id" Type="int" Nullable="false" />
+          <Property Name="admin_remark" Type="nvarchar(max)" />
+          <Property Name="student_remark" Type="nvarchar(max)" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="branch_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="STUDENT_PAYMENT_REL">
+          <Key>
+            <PropertyRef Name="payment_rel_id" />
+          </Key>
+          <Property Name="payment_rel_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="payment_id" Type="bigint" Nullable="false" />
+          <Property Name="payment_content" Type="varbinary(max)" Nullable="false" />
+          <Property Name="file_name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="SUBJECT_MASTER">
           <Key>
             <PropertyRef Name="subject_id" />
@@ -424,6 +492,16 @@
           <Property Name="short_desc" Type="nvarchar" MaxLength="255" />
           <Property Name="long_desc" Type="nvarchar(max)" />
           <Property Name="row_sta_cd" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UPI_MASTER">
+          <Key>
+            <PropertyRef Name="unique_id" />
+          </Key>
+          <Property Name="unique_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="upi_code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="branch_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="USER_DEF">
           <Key>
@@ -559,6 +637,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_BRANCH_AGREEMENT_BRANCH_MASTER">
+          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+          <End Role="BRANCH_AGREEMENT" Type="Self.BRANCH_AGREEMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="BRANCH_AGREEMENT">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BRANCH_LICENSE_BRANCH_MASTER">
           <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
           <End Role="BRANCH_LICENSE" Type="Self.BRANCH_LICENSE" Multiplicity="*" />
@@ -631,6 +721,66 @@
               <PropertyRef Name="trans_id" />
             </Principal>
             <Dependent Role="BRANCH_STAFF">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
+          <End Role="FEE_STRUCTURE_MASTER" Type="Self.FEE_STRUCTURE_MASTER" Multiplicity="1" />
+          <End Role="FEE_STRUCTURE_DTL" Type="Self.FEE_STRUCTURE_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="fee_struct_mst_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_DTL">
+              <PropertyRef Name="fee_struct_mst_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="FEE_STRUCTURE_DTL" Type="Self.FEE_STRUCTURE_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_DTL">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
+          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+          <End Role="FEE_STRUCTURE_MASTER" Type="Self.FEE_STRUCTURE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_MASTER_STD_MASTER">
+          <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
+          <End Role="FEE_STRUCTURE_MASTER" Type="Self.FEE_STRUCTURE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STD_MASTER">
+              <PropertyRef Name="std_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="std_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="FEE_STRUCTURE_MASTER" Type="Self.FEE_STRUCTURE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_MASTER">
               <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -911,6 +1061,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER">
+          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+          <End Role="STUDENT_PAYMENT_MASTER" Type="Self.STUDENT_PAYMENT_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="STUDENT_PAYMENT_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER">
+          <End Role="STUDENT_PAYMENT_MASTER" Type="Self.STUDENT_PAYMENT_MASTER" Multiplicity="1" />
+          <End Role="STUDENT_PAYMENT_REL" Type="Self.STUDENT_PAYMENT_REL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT_PAYMENT_MASTER">
+              <PropertyRef Name="payment_id" />
+            </Principal>
+            <Dependent Role="STUDENT_PAYMENT_REL">
+              <PropertyRef Name="payment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="STUDENT_PAYMENT_REL" Type="Self.STUDENT_PAYMENT_REL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="STUDENT_PAYMENT_REL">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SUBJECT_MASTER_BRANCH_MASTER">
           <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
           <End Role="SUBJECT_MASTER" Type="Self.SUBJECT_MASTER" Multiplicity="*" />
@@ -992,6 +1178,30 @@
             </Principal>
             <Dependent Role="TODO_MASTER">
               <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UPI_MASTER_BRANCH_MASTER">
+          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+          <End Role="UPI_MASTER" Type="Self.UPI_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="UPI_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UPI_MASTER_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="UPI_MASTER" Type="Self.UPI_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="UPI_MASTER">
+              <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1090,15 +1300,19 @@
         <EntityContainer Name="AshirvadModelStoreContainer">
           <EntitySet Name="ABOUTUS_DETAIL_REL" EntityType="Self.ABOUTUS_DETAIL_REL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ABOUTUS_MASTER" EntityType="Self.ABOUTUS_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ANNOUNCE_MASTER" EntityType="Self.ANNOUNCE_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ATTENDANCE_DTL" EntityType="Self.ATTENDANCE_DTL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ATTENDANCE_HDR" EntityType="Self.ATTENDANCE_HDR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BANNER_MASTER" EntityType="Self.BANNER_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BANNER_TYPE_REL" EntityType="Self.BANNER_TYPE_REL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BATCH_MASTER" EntityType="Self.BATCH_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BRANCH_AGREEMENT" EntityType="Self.BRANCH_AGREEMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BRANCH_LICENSE" EntityType="Self.BRANCH_LICENSE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BRANCH_MAINT" EntityType="Self.BRANCH_MAINT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BRANCH_MASTER" EntityType="Self.BRANCH_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BRANCH_STAFF" EntityType="Self.BRANCH_STAFF" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FEE_STRUCTURE_DTL" EntityType="Self.FEE_STRUCTURE_DTL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FEE_STRUCTURE_MASTER" EntityType="Self.FEE_STRUCTURE_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GALLERY_MASTER" EntityType="Self.GALLERY_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HOMEWORK_MASTER" EntityType="Self.HOMEWORK_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LIBRARY_DATA" EntityType="Self.LIBRARY_DATA" Schema="dbo" store:Type="Tables" />
@@ -1114,6 +1328,8 @@
           <EntitySet Name="STUDENT_ANS_SHEET" EntityType="Self.STUDENT_ANS_SHEET" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STUDENT_MAINT" EntityType="Self.STUDENT_MAINT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STUDENT_MASTER" EntityType="Self.STUDENT_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="STUDENT_PAYMENT_MASTER" EntityType="Self.STUDENT_PAYMENT_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="STUDENT_PAYMENT_REL" EntityType="Self.STUDENT_PAYMENT_REL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SUBJECT_MASTER" EntityType="Self.SUBJECT_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TEST_MASTER" EntityType="Self.TEST_MASTER" Schema="dbo" store:Type="Tables" />
@@ -1121,6 +1337,7 @@
           <EntitySet Name="TODO_MASTER" EntityType="Self.TODO_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TRANSACTION_MASTER" EntityType="Self.TRANSACTION_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TYPE_DESC" EntityType="Self.TYPE_DESC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UPI_MASTER" EntityType="Self.UPI_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER_DEF" EntityType="Self.USER_DEF" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER_ROLE" EntityType="Self.USER_ROLE" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" Association="Self.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER">
@@ -1159,6 +1376,10 @@
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
           </AssociationSet>
+          <AssociationSet Name="FK_BRANCH_AGREEMENT_BRANCH_MASTER" Association="Self.FK_BRANCH_AGREEMENT_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="BRANCH_AGREEMENT" EntitySet="BRANCH_AGREEMENT" />
+          </AssociationSet>
           <AssociationSet Name="FK_BRANCH_LICENSE_BRANCH_MASTER" Association="Self.FK_BRANCH_LICENSE_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="BRANCH_LICENSE" EntitySet="BRANCH_LICENSE" />
@@ -1182,6 +1403,26 @@
           <AssociationSet Name="FK_BRANCH_STAFF_TRANSACTION_MASTER" Association="Self.FK_BRANCH_STAFF_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" Association="Self.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+            <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" Association="Self.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" Association="Self.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_STD_MASTER" Association="Self.FK_FEE_STRUCTURE_MASTER_STD_MASTER">
+            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" Association="Self.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_GALLERY_MASTER_BRANCH_MASTER" Association="Self.FK_GALLERY_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
@@ -1275,6 +1516,18 @@
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
           </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER" Association="Self.FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="STUDENT_PAYMENT_MASTER" EntitySet="STUDENT_PAYMENT_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER" Association="Self.FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER">
+            <End Role="STUDENT_PAYMENT_MASTER" EntitySet="STUDENT_PAYMENT_MASTER" />
+            <End Role="STUDENT_PAYMENT_REL" EntitySet="STUDENT_PAYMENT_REL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER" Association="Self.FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="STUDENT_PAYMENT_REL" EntitySet="STUDENT_PAYMENT_REL" />
+          </AssociationSet>
           <AssociationSet Name="FK_SUBJECT_MASTER_BRANCH_MASTER" Association="Self.FK_SUBJECT_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
@@ -1302,6 +1555,14 @@
           <AssociationSet Name="FK_TODO_MASTER_BRANCH_MASTER" Association="Self.FK_TODO_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="TODO_MASTER" EntitySet="TODO_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UPI_MASTER_BRANCH_MASTER" Association="Self.FK_UPI_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="UPI_MASTER" EntitySet="UPI_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UPI_MASTER_TRANSACTION_MASTER" Association="Self.FK_UPI_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="UPI_MASTER" EntitySet="UPI_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_USER_DEF_BRANCH_STAFF" Association="Self.FK_USER_DEF_BRANCH_STAFF">
             <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
@@ -1595,6 +1856,57 @@
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="usp_get_usage" ReturnType="Collection(AshirvadModel.usp_get_usage_Result)" />
+          <EntitySet Name="ANNOUNCE_MASTER" EntityType="AshirvadModel.ANNOUNCE_MASTER" />
+          <EntitySet Name="FEE_STRUCTURE_DTL" EntityType="AshirvadModel.FEE_STRUCTURE_DTL" />
+          <EntitySet Name="FEE_STRUCTURE_MASTER" EntityType="AshirvadModel.FEE_STRUCTURE_MASTER" />
+          <EntitySet Name="STUDENT_PAYMENT_MASTER" EntityType="AshirvadModel.STUDENT_PAYMENT_MASTER" />
+          <EntitySet Name="STUDENT_PAYMENT_REL" EntityType="AshirvadModel.STUDENT_PAYMENT_REL" />
+          <EntitySet Name="UPI_MASTER" EntityType="AshirvadModel.UPI_MASTER" />
+          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="STUDENT_PAYMENT_MASTER" EntitySet="STUDENT_PAYMENT_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UPI_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="UPI_MASTER" EntitySet="UPI_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+            <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_STD_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER">
+            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER" Association="AshirvadModel.FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER">
+            <End Role="STUDENT_PAYMENT_MASTER" EntitySet="STUDENT_PAYMENT_MASTER" />
+            <End Role="STUDENT_PAYMENT_REL" EntitySet="STUDENT_PAYMENT_REL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER" Association="AshirvadModel.FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="STUDENT_PAYMENT_REL" EntitySet="STUDENT_PAYMENT_REL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UPI_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_UPI_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="UPI_MASTER" EntitySet="UPI_MASTER" />
+          </AssociationSet>
+          <EntitySet Name="BRANCH_AGREEMENT" EntityType="AshirvadModel.BRANCH_AGREEMENT" />
+          <AssociationSet Name="FK_BRANCH_AGREEMENT_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="BRANCH_AGREEMENT" EntitySet="BRANCH_AGREEMENT" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="BANNER_MASTER">
           <Key>
@@ -1689,6 +2001,10 @@
           <NavigationProperty Name="TODO_MASTER" Relationship="AshirvadModel.FK_TODO_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TODO_MASTER" />
           <NavigationProperty Name="ABOUTUS_MASTER" Relationship="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="ABOUTUS_MASTER" />
           <Property Name="branch_type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
+          <NavigationProperty Name="STUDENT_PAYMENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_PAYMENT_MASTER" />
+          <NavigationProperty Name="UPI_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="UPI_MASTER" />
+          <NavigationProperty Name="BRANCH_AGREEMENT" Relationship="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_AGREEMENT" />
         </EntityType>
         <EntityType Name="BRANCH_STAFF">
           <Key>
@@ -1763,6 +2079,7 @@
           <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_STD_MASTER" FromRole="STD_MASTER" ToRole="ATTENDANCE_HDR" />
           <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="TEST_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="HOMEWORK_MASTER" />
+          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
         </EntityType>
         <EntityType Name="STUDENT_MAINT">
           <Key>
@@ -1842,6 +2159,10 @@
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="SUBJECT_MASTER" />
           <NavigationProperty Name="USER_DEF" Relationship="AshirvadModel.FK_USER_DEF_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="USER_DEF" />
+          <NavigationProperty Name="FEE_STRUCTURE_DTL" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FEE_STRUCTURE_DTL" />
+          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
+          <NavigationProperty Name="STUDENT_PAYMENT_REL" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STUDENT_PAYMENT_REL" />
+          <NavigationProperty Name="UPI_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="UPI_MASTER" />
         </EntityType>
         <EntityType Name="TYPE_DESC">
           <Key>
@@ -2762,6 +3083,229 @@
           <Property Type="Decimal" Name="usage" Nullable="true" Precision="9" Scale="2" />
           <Property Type="String" Name="keyVal" Nullable="false" MaxLength="17" />
         </ComplexType>
+        <EntityType Name="ANNOUNCE_MASTER">
+          <Key>
+            <PropertyRef Name="announce_id" />
+          </Key>
+          <Property Name="announce_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branch_id" Type="Int64" />
+          <Property Name="announce_text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FEE_STRUCTURE_DTL">
+          <Key>
+            <PropertyRef Name="fee_struct_dtl_id" />
+          </Key>
+          <Property Name="fee_struct_dtl_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fee_struct_mst_id" Type="Int64" Nullable="false" />
+          <Property Name="fee_content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" FromRole="FEE_STRUCTURE_DTL" ToRole="FEE_STRUCTURE_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" FromRole="FEE_STRUCTURE_DTL" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <EntityType Name="FEE_STRUCTURE_MASTER">
+          <Key>
+            <PropertyRef Name="fee_struct_mst_id" />
+          </Key>
+          <Property Name="fee_struct_mst_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="std_id" Type="Int64" Nullable="false" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="FEE_STRUCTURE_DTL" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="FEE_STRUCTURE_DTL" />
+          <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="STD_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <EntityType Name="STUDENT_PAYMENT_MASTER">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="student_id" Type="Int64" Nullable="false" />
+          <Property Name="status_id" Type="Int32" Nullable="false" />
+          <Property Name="admin_remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="student_remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER" FromRole="STUDENT_PAYMENT_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="STUDENT_PAYMENT_REL" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER" FromRole="STUDENT_PAYMENT_MASTER" ToRole="STUDENT_PAYMENT_REL" />
+        </EntityType>
+        <EntityType Name="STUDENT_PAYMENT_REL">
+          <Key>
+            <PropertyRef Name="payment_rel_id" />
+          </Key>
+          <Property Name="payment_rel_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="payment_id" Type="Int64" Nullable="false" />
+          <Property Name="payment_content" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="file_name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="STUDENT_PAYMENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER" FromRole="STUDENT_PAYMENT_REL" ToRole="STUDENT_PAYMENT_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER" FromRole="STUDENT_PAYMENT_REL" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <EntityType Name="UPI_MASTER">
+          <Key>
+            <PropertyRef Name="unique_id" />
+          </Key>
+          <Property Name="unique_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="upi_code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER" FromRole="UPI_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_TRANSACTION_MASTER" FromRole="UPI_MASTER" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <Association Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.STUDENT_PAYMENT_MASTER" Role="STUDENT_PAYMENT_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="STUDENT_PAYMENT_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UPI_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.UPI_MASTER" Role="UPI_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="UPI_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
+          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_DTL" Role="FEE_STRUCTURE_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="fee_struct_mst_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_DTL">
+              <PropertyRef Name="fee_struct_mst_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_DTL" Role="FEE_STRUCTURE_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_DTL">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_MASTER_STD_MASTER">
+          <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STD_MASTER">
+              <PropertyRef Name="std_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="std_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER">
+          <End Type="AshirvadModel.STUDENT_PAYMENT_MASTER" Role="STUDENT_PAYMENT_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.STUDENT_PAYMENT_REL" Role="STUDENT_PAYMENT_REL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT_PAYMENT_MASTER">
+              <PropertyRef Name="payment_id" />
+            </Principal>
+            <Dependent Role="STUDENT_PAYMENT_REL">
+              <PropertyRef Name="payment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.STUDENT_PAYMENT_REL" Role="STUDENT_PAYMENT_REL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="STUDENT_PAYMENT_REL">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UPI_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.UPI_MASTER" Role="UPI_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="UPI_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BRANCH_AGREEMENT">
+          <Key>
+            <PropertyRef Name="agreement_id" />
+          </Key>
+          <Property Name="agreement_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="from_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="to_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER" FromRole="BRANCH_AGREEMENT" ToRole="BRANCH_MASTER" />
+          <Property Name="amount" Type="Double" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BRANCH_AGREEMENT_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.BRANCH_AGREEMENT" Role="BRANCH_AGREEMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="BRANCH_AGREEMENT">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3281,6 +3825,91 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="ANNOUNCE_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.ANNOUNCE_MASTER">
+              <MappingFragment StoreEntitySet="ANNOUNCE_MASTER">
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="announce_text" ColumnName="announce_text" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="announce_id" ColumnName="announce_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FEE_STRUCTURE_DTL">
+            <EntityTypeMapping TypeName="AshirvadModel.FEE_STRUCTURE_DTL">
+              <MappingFragment StoreEntitySet="FEE_STRUCTURE_DTL">
+                <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="fee_content" ColumnName="fee_content" />
+                <ScalarProperty Name="fee_struct_mst_id" ColumnName="fee_struct_mst_id" />
+                <ScalarProperty Name="fee_struct_dtl_id" ColumnName="fee_struct_dtl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FEE_STRUCTURE_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.FEE_STRUCTURE_MASTER">
+              <MappingFragment StoreEntitySet="FEE_STRUCTURE_MASTER">
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="std_id" ColumnName="std_id" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="fee_struct_mst_id" ColumnName="fee_struct_mst_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="STUDENT_PAYMENT_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.STUDENT_PAYMENT_MASTER">
+              <MappingFragment StoreEntitySet="STUDENT_PAYMENT_MASTER">
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="student_remark" ColumnName="student_remark" />
+                <ScalarProperty Name="admin_remark" ColumnName="admin_remark" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="STUDENT_PAYMENT_REL">
+            <EntityTypeMapping TypeName="AshirvadModel.STUDENT_PAYMENT_REL">
+              <MappingFragment StoreEntitySet="STUDENT_PAYMENT_REL">
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="payment_content" ColumnName="payment_content" />
+                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+                <ScalarProperty Name="payment_rel_id" ColumnName="payment_rel_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UPI_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.UPI_MASTER">
+              <MappingFragment StoreEntitySet="UPI_MASTER">
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="upi_code" ColumnName="upi_code" />
+                <ScalarProperty Name="unique_id" ColumnName="unique_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BRANCH_AGREEMENT">
+            <EntityTypeMapping TypeName="AshirvadModel.BRANCH_AGREEMENT">
+              <MappingFragment StoreEntitySet="BRANCH_AGREEMENT">
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="to_dt" ColumnName="to_dt" />
+                <ScalarProperty Name="from_dt" ColumnName="from_dt" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="agreement_id" ColumnName="agreement_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
