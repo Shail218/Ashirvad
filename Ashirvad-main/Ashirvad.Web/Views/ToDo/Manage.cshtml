@@ -3,27 +3,23 @@
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
-            @if(SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
             {
-            <th>
-                Branch Name
-            </th>
+                <th>
+                    Branch Name
+                </th>
             }
-
             <th>
                 Task Date
             </th>
-
             <th>
                 User Name
             </th>
-
+            <th>
+                Description
+            </th>
             <th>
                 Document
-            </th>
-
-            <th>
-                Task Description
             </th>
             <th>
                 Edit
@@ -38,38 +34,39 @@
     {
         foreach (var item in Model)
         {
-            <tr>
-                @if(SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
-                {
-                <td>
-                    @item.BranchInfo.BranchName
-                </td>
-                }
-
-                <td>
-                    @item.ToDoDate.ToString("dd/MM/yyyy")
-                </td>
-                <td>
-                    @item.UserInfo.Username
-                    @Html.HiddenFor(x => item.UserInfo.UserID)
-                </td>
-                <td>
-                    @item.ToDoFileName
-                </td>
-                <td>
-                    @item.ToDoDescription
-                </td>
-                <td>
-                    <a href="@Url.Action("ToDoMaintenance", "ToDo", new { todoID = item.ToDoID})">
-                        <img src="~/ThemeData/images/viewIcon.png" />
-                    </a>
-                </td>
-                <td>
-                    <a href="#" onclick="RemoveToDo(@item.ToDoID);">
-                        <img src="~/ThemeData/images/delete.png" />
-                    </a>
-                </td>
-            </tr>
+    <tr>
+        @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+        {
+            <td>
+                @item.BranchInfo.BranchName
+            </td>
+        }
+        <td>
+            @item.ToDoDate.ToString("dd/MM/yyyy")
+        </td>
+        <td>
+            @item.UserInfo.Username
+            @Html.HiddenFor(x => item.UserInfo.UserID)
+        </td>
+        <td>
+            @item.ToDoDescription
+        </td>
+        <td>
+            <a style="margin-left:20px;" onclick="DownloadToDo('@item.ToDoID')" id="paperdownload" download><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
+            @Html.HiddenFor(x => item.ToDoID)
+            <input hidden id="UniqID" value="@item.ToDoID" />
+        </td>
+        <td>
+            <a href="@Url.Action("ToDoMaintenance", "ToDo", new { todoID = item.ToDoID})">
+                <img src="~/ThemeData/images/viewIcon.png" />
+            </a>
+        </td>
+        <td>
+            <a href="#" style="margin-left:20px;" onclick="RemoveToDo(@item.ToDoID);">
+                <img src="~/ThemeData/images/delete.png" />
+            </a>
+        </td>
+    </tr>
         }
     }
 

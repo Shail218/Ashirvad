@@ -451,7 +451,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         }).FirstOrDefault();
             if (data != null)
             {
-                //data.DocContentText = Convert.ToBase64String(data.DocContent);
+                data.DocContentText = Convert.ToBase64String(data.DocContent);
             }
 
             return data;
@@ -474,7 +474,8 @@ namespace Ashirvad.Repo.Services.Area.Test
             return false;
         }
 
-        #region - Test Answer Sheet -
+        #region - Test Answer Sheet
+
         public async Task<long> AnswerSheetMaintenance(StudentAnswerSheetEntity studAnswerSheet)
         {
             Model.STUDENT_ANS_SHEET ansSheet = new Model.STUDENT_ANS_SHEET();
@@ -708,9 +709,7 @@ namespace Ashirvad.Repo.Services.Area.Test
 
             return data;
         }
-
-
-
+        
         public bool RemoveAnswerSheet(long ansID, string lastupdatedby)
         {
             var data = (from u in this.context.STUDENT_ANS_SHEET
@@ -727,8 +726,7 @@ namespace Ashirvad.Repo.Services.Area.Test
 
             return false;
         }
-
-
+        
         #endregion
     }
 }

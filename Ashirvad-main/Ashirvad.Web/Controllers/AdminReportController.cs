@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Ashirvad.Web.Controllers
 {
-    public class AdminReportController : Controller
+    public class AdminReportController : BaseController
     {
         private readonly IAdminDataService _adminDataService = null;
 
@@ -31,6 +31,13 @@ namespace Ashirvad.Web.Controllers
             var data = this._adminDataService.GetDataUsage(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             model.dataUsageEntitiesInfo = data;
             return View("Index", model);
+        }
+        public async Task<ActionResult> GetReportDataBranchWise(long branchId)
+        {
+            AdminDataModel model = new AdminDataModel();
+            var data = this._adminDataService.GetDataUsage(branchId);
+            model.dataUsageEntitiesInfo = data;
+            return View("~/Views/AdminReport/Manage.cshtml", model.dataUsageEntitiesInfo);
         }
     }
 }

@@ -135,8 +135,8 @@
                                             <a href="@Url.Action("BranchMaintenance","Branch", new { @branchID=0 })">Branch Master</a>
                                         </li>
                                         @*<li id="AuM">
-                                            <a href="@Url.Action("AboutUsMaintenance","AboutUs", new { @aboutID=0 })">About Us Master</a>
-                                        </li>*@
+                <a href="@Url.Action("AboutUsMaintenance","AboutUs", new { @aboutID=0 })">About Us Master</a>
+            </li>*@
                                         <li id="StM">
                                             <a href="@Url.Action("UserMaintenance","User", new { @branchID=0 })">User Master</a>
                                         </li>
@@ -184,6 +184,9 @@
                                             <a href="@Url.Action("AboutUsMaintenance","AboutUs", new { @aboutID=0 })">About Us Master</a>
                                         </li>
                                     }
+                                    <li id="StM">
+                                        <a href="@Url.Action("Index","Anouncement")">Announcement Master</a>
+                                    </li>
                                 </ul>
                             </li>
                             @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
@@ -303,7 +306,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index","PermissionReg")">Regsiter</a>
+                                            <a href="@Url.Action("Index","PermissionReg")">Register</a>
                                         </li>
                                     </ul>
                                 </li>

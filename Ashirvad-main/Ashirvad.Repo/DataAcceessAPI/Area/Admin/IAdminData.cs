@@ -9,6 +9,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Admin
 {
     public interface IAdminData
     {
-        List<DataUsageEntity> GetDataUsage(long branchID = 0);
+        List<DataUsageEntity> GetDataUsage(long branchID);
     }
 }

@@ -30,6 +30,7 @@
     ToDoRegister: $("#hdnFldVDName").val() + "ToDoRegister/",
     ChangePassword: $("#hdnFldVDName").val() + "ChangePassword/",
     AboutUs: $("#hdnFldVDName").val() + "AboutUs/",
+    AdminReport: $("#hdnFldVDName").val() +"AdminReport/",
 };
 
 function GetExtention(image){

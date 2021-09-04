@@ -86,8 +86,7 @@ function RemoveVideos(branchID) {
     }
 }
 
-$("#BranchName").change(function () {
-    
+$("#BranchName").change(function () {    
     var Data = $("#BranchName option:selected").val();
     $('#Branch_BranchID').val(Data);
 });

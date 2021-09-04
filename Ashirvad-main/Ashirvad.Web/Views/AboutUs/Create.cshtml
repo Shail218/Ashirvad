@@ -1,7 +1,7 @@
 ﻿@model Ashirvad.Data.AboutUsEntity
 <form id="fAboutUsDetails">
     <div class="form-group" id="dInformation">
-        <div class="col-md-12">
+        <div class="col-md-12" style="display:none;">
             @Html.Label("About us", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextArea("Aboutus", null, new { @class = "form-control", autocomplete = "off" })
         </div>

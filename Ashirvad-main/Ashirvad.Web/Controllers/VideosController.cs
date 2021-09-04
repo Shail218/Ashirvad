@@ -126,15 +126,8 @@ namespace Ashirvad.Web.Controllers
                     return "ico";
                 case "UMFYI":
                     return "rar";
-                case "E1XYD":
-                    return "rtf";
-                case "U1PKC":
-                    return "txt";
-                case "MQOWM":
-                case "77U/M":
-                    return "srt";
-                case "":
-                    return "srt";
+                case "UEsDBB":
+                    return "docx";
                 default:
                     return string.Empty;
             }

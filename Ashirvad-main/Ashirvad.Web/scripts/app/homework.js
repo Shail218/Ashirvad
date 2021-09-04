@@ -148,6 +148,23 @@ function RemoveHomework(homeworkID) {
     }
 }
 
+function DownloadHomework(branchID) {
+    ShowLoader();
+    var postCall = $.post(commonData.Homework + "Downloadhomework", { "homeworkid": branchID });
+    postCall.done(function (data) {
+        HideLoader();
+        if (data != null) {
+            var a = document.createElement("a"); //Create <a>
+            a.href = "data:" + data[3] + ";base64," + data[1]; //Image Base64 Goes here
+            a.download = data[2];//File name Here
+            a.click(); //Downloaded file
+        }
+    }).fail(function () {
+        HideLoader();
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
 $("#BranchName").change(function () {
     var Data = $("#BranchName option:selected").val();
     $('#BranchInfo_BranchID').val(Data);

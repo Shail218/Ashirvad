@@ -1,0 +1,14 @@
+﻿﻿@model Ashirvad.Data.DataUsageEntity
+<form id="fUserPermissionDetail">
+    <div class="row" id="dInformation">
+        <div class="col-md-2 control-label">
+            @Html.Label("Branch Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.HiddenFor(x => x.BranchID)
+        </div>
+        <div class="col-md-3">
+            <select name="BranchName" id="BranchName" class="form-control requiredDDL" alt="Branch Name">
+                <option value="0">--Select Branch--</option>
+            </select>
+        </div>
+    </div>
+</form>
