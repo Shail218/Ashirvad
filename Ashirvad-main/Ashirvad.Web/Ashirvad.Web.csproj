@@ -197,6 +197,8 @@
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="scripts\app\aboutus.js" />
+    <Content Include="scripts\app\adminreport.js" />
+    <Content Include="scripts\app\announcement.js" />
     <Content Include="scripts\app\attendance.js" />
     <Content Include="scripts\app\attendanceRegister.js" />
     <Content Include="scripts\app\attendanceReport.js" />
@@ -221,6 +223,7 @@
     <Content Include="scripts\app\test.js" />
     <Content Include="scripts\app\todo.js" />
     <Content Include="scripts\app\todoregister.js" />
+    <Content Include="scripts\app\upi.js" />
     <Content Include="scripts\app\user.js" />
     <Content Include="scripts\app\userpermission.js" />
     <Content Include="scripts\app\video.js" />
@@ -228,6 +231,7 @@
     <Content Include="scripts\ashirvad.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
@@ -1024,6 +1028,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\AboutUsController.cs" />
+    <Compile Include="Controllers\AdminReportController.cs" />
     <Compile Include="Controllers\AnouncementController.cs" />
     <Compile Include="Controllers\AttendanceEntryController.cs" />
     <Compile Include="Controllers\AttendanceRegisterController.cs" />
@@ -1242,6 +1247,11 @@
     <Content Include="Views\TestPaper\PaperEntry.cshtml" />
     <Content Include="Views\ManageStudent\Filter.cshtml" />
     <Content Include="Views\TestPaper\StudentAnswerSheetMaintenance.cshtml" />
+    <Content Include="Views\AdminReport\Index.cshtml" />
+    <Content Include="Views\AdminReport\Manage.cshtml" />
+    <Content Include="Views\AdminReport\Create.cshtml" />
+    <Content Include="Views\Anouncement\Create.cshtml" />
+    <Content Include="Views\Anouncement\Manage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

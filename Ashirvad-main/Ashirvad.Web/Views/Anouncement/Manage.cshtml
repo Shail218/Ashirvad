@@ -1,13 +1,13 @@
 ﻿@using Ashirvad.Web.Controllers;
-@model List<Ashirvad.Data.UPIEntity>
+@model List<Ashirvad.Data.AnnouncementEntity>
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
             <th>
-                UPI ID
+                Branch Name
             </th>
             <th>
-                Branch Name
+                Announcement
             </th>
             <th>
                 Edit
@@ -22,22 +22,22 @@
     {
         <tr>
             <td>
-                @item.UPICode
-            </td>
-            <td>
                 @item.BranchData.BranchName
-            </td>
+            </td>  
             <td>
-                <a href="@Url.Action("UPIMaintenance", "Upi", new { upiID = item.UPIId })">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
+                 @item.AnnouncementText
             </td>
-            <td>
-                <a href="#" onclick="RemoveUPI(@item.UPIId);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-        </tr>
+    <td>
+        <a href="@Url.Action("AnnouncementMaintenance", "Anouncement", new { annoID = item.AnnouncementID })">
+            <img src="~/ThemeData/images/viewIcon.png" />
+        </a>
+    </td>
+    <td>
+        <a href="#" onclick="RemoveAnnouncement(@item.AnnouncementID);">
+            <img src="~/ThemeData/images/delete.png" />
+        </a>
+    </td>
+</tr>
     }
 
 </table>

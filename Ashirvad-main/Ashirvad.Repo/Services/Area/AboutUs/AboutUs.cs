@@ -67,7 +67,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
             var data = (from u in this.context.ABOUTUS_MASTER
                         .Include("BRANCH_MASTER")
                         join Detail in this.context.ABOUTUS_DETAIL_REL on u.aboutus_id equals Detail.aboutus_id
-                        where (0 == branchID || u.branch_id == branchID)
+                        where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new AboutUsEntity()
                         {
                             RowStatus = new RowStatusEntity()

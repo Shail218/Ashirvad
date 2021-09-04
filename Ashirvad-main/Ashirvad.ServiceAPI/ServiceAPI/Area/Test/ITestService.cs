@@ -12,7 +12,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Test
         Task<TestEntity> TestMaintenance(TestEntity testInfo);
         Task<OperationResult<List<TestEntity>>> GetAllTestByBranch(long branchID);
         Task<OperationResult<TestEntity>> GetTestByTestID(long testID);
-        bool RemoveTest(long testID, string lastupdatedby, bool removePaper = false);
+        bool RemoveTest(long testID, string lastupdatedby, bool removePaper);
         Task<TestPaperEntity> TestPaperMaintenance(TestPaperEntity paperInfo);
         Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID);
         Task<List<TestPaperEntity>> GetAllTestPapaerWithoutContentByTest(long testID);

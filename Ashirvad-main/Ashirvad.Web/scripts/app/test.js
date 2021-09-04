@@ -1,6 +1,8 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
+const { hide } = require("@popperjs/core");
+
 $(document).ready(function () {
 
     if ($("#TestID").val() > 0 && $("#TestPaperID").val() > 0) {
@@ -126,7 +128,6 @@ function Savetest() {
         postCall.done(function (data) {
             if (data.TestID > 0) {
                 Savetestpaper(data.TestID, data.TestDate);
-                ShowMessage("Test added Successfully.", "Success");
             } else {
                 HideLoader();
                 ShowMessage("Test not added.", "Error");
@@ -153,7 +154,7 @@ function Savetestpaper(testID,date) {
         if (item[0].files.length > 0) {
             formData.append('FileInfo', $('input[type=file]')[0].files[0]);
         }
-        AjaxCallWithFileUpload(commonData.TestPaper + 'SaveTestPaper', formData, function (data) {            
+        AjaxCallWithFileUpload(commonData.TestPaper + 'SaveTestPaper', formData, function (data) {
             if (data) {
                 HideLoader();
                 ShowMessage("Test paper added Successfully.", "Success");
@@ -165,21 +166,24 @@ function Savetestpaper(testID,date) {
         }, function (xhr) {
             HideLoader();
         });
-
+    } else {
+        HideLoader();
     }
 }
 
 function RemoveTest(testID) {
-    
-    var postCall = $.post(commonData.TestPaper + "RemoveTest", { "testID": testID });
-    postCall.done(function (data) {
-        
-        ShowMessage("Test Removed Successfully.", "Success");
-        window.location.href = "TestPaperMaintenance?testID=0";
-    }).fail(function () {
-        
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this Test Paper?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.TestPaper + "RemoveTest", { "testID": testID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Test Removed Successfully.", "Success");
+            window.location.href = "TestPaperMaintenance?testID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 function DownloadTestPaper(branchID) {

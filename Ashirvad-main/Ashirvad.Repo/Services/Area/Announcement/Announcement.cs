@@ -44,24 +44,32 @@ namespace Ashirvad.Repo.Services.Area.Announcement
 
         public async Task<List<AnnouncementEntity>> GetAllAnnouncement(long branchID)
         {
-            var data = (from u in this.context.ANNOUNCE_MASTER
-                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
-                        from branch in tempBranch.DefaultIfEmpty()
-                        where (0 == branchID || u.branch_id == null || u.branch_id == 0 || (u.branch_id.HasValue && u.branch_id.Value == branchID) && u.row_sta_cd == 1)
-                        select new AnnouncementEntity()
-                        {
-                            RowStatusData = new RowStatusEntity()
+            try
+            {
+                var data = (from u in this.context.ANNOUNCE_MASTER
+                            join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
+                            from branch in tempBranch.DefaultIfEmpty()
+                            where (0 == branchID || u.branch_id == null || u.branch_id == 0 || (u.branch_id.HasValue && u.branch_id.Value == branchID)) && u.row_sta_cd == 1
+                            select new AnnouncementEntity()
                             {
-                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = (int)u.row_sta_cd
-                            },
-                            AnnouncementText = u.announce_text,
-                            AnnouncementID = u.announce_id,
-                            BranchData = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
-                            TransactionData = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).ToList();
+                                RowStatusData = new RowStatusEntity()
+                                {
+                                    RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                    RowStatusId = (int)u.row_sta_cd
+                                },
+                                AnnouncementText = u.announce_text,
+                                AnnouncementID = u.announce_id,
+                                BranchData = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
+                                TransactionData = new TransactionEntity() { TransactionId = u.trans_id }
+                            }).ToList();
 
-            return data;
+                return data;
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+            
         }
 
         public async Task<AnnouncementEntity> GetAnnouncementsByAnnouncementID(long annID)

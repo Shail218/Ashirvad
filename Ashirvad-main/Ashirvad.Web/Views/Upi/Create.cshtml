@@ -1,25 +1,35 @@
-﻿<div class="row">
-    <div class="form-group">
+﻿@model Ashirvad.Data.UPIEntity
+<form id="fUPIDetail">
+    <div class="form-group" id="dInformation">
         <div class="col-md-5">
             @Html.Label("UPI ID", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBox("name", null, new { @class = "form-control", autocomplete = "off" })
+            @Html.TextBoxFor(x => x.UPICode, new { @class = "form-control required", @alt = "UPI ID", autocomplete = "off" })
+            @Html.HiddenFor(x => x.UPIId)
         </div>
         <div class="col-md-7">
             @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.DropDownList("Branch", new List<SelectListItem>
-                           {
-                           new SelectListItem{ Text="---Select-Branch---", Value = "-1" },
-                            new SelectListItem{ Text="Branch", Value = "1" },
-                            }, new { @class = "form-control", id = "Branch" })
+            <select name="BranchName" id="BranchName" class="form-control requiredDDL select2" alt="Branch">
+                <option value="0">--Select Branch--</option>
+            </select>
+            @Html.HiddenFor(x => x.BranchData.BranchID)
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12" style="text-align: right;">
+                <br />
+                <a onclick="return SaveUPI();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Save
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+                <a href="@Url.Action("SchoolMaintenance","School", new { @branchID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                    <span class="ladda-label">
+                        Cancel
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+            </div>
         </div>
     </div>
-</div>
-
-<div class="form-group">
-    <div class="col-md-12" style="text-align: right;">
-
-        <asp:Button ID="btnSave" runat="server" Text="Save" TabIndex="2" CssClass="btn btn-primary" OnClick="btnSave_Click" />
-        <asp:Button ID="btnUpdate" Visible="false" runat="server" CausesValidation="false" Text="Update" CssClass="btn btn-primary" OnClick="btnUpdate_Click" />
-        <asp:Button ID="btnDelete" runat="server" Text="Cancel" TabIndex="3" CssClass="btn btn-danger" OnClick="btnDelete_Click" CausesValidation="false" />&nbsp;&nbsp;&nbsp;
-    </div>
-</div>
+</form>

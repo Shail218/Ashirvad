@@ -3,7 +3,7 @@
     <div class="row" id="dDetailsInformation">
         <div class="col-md-4">
             @Html.Label("Brand Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.BrandName, new { @class = "form-control required", autocomplete = "off" })
+            @Html.TextBoxFor(x => x.BrandName, new { @class = "form-control required", autocomplete = "off", @alt = "Brand Name" })
             @Html.HiddenFor(x => x.AboutUsInfo.AboutUsID)
             @Html.HiddenFor(x => x.DetailID)
             @Html.HiddenFor(x => x.HeaderImage)

@@ -113,7 +113,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public JsonResult RemoveAboutUs(long aboutID)
         {
-            var result = _aboutUsService.RemoveAboutUs(aboutID, SessionContext.Instance.LoginUser.Username);
+            var result = _aboutUsService.RemoveAboutUs(aboutID, SessionContext.Instance.LoginUser.Username,true);
             return Json(result);
         }
 

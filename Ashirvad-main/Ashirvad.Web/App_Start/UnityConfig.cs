@@ -1,5 +1,6 @@
 using Ashirvad.Repo.DataAcceessAPI.Area.AboutUs;
 using Ashirvad.Repo.DataAcceessAPI.Area.Admin;
+using Ashirvad.Repo.DataAcceessAPI.Area.Announcement;
 using Ashirvad.Repo.DataAcceessAPI.Area.Attendance;
 using Ashirvad.Repo.DataAcceessAPI.Area.Banner;
 using Ashirvad.Repo.DataAcceessAPI.Area.Batch;
@@ -18,9 +19,11 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Student;
 using Ashirvad.Repo.DataAcceessAPI.Area.Subject;
 using Ashirvad.Repo.DataAcceessAPI.Area.Test;
 using Ashirvad.Repo.DataAcceessAPI.Area.ToDo;
+using Ashirvad.Repo.DataAcceessAPI.Area.UPI;
 using Ashirvad.Repo.DataAcceessAPI.Area.User;
 using Ashirvad.Repo.Services.Area.AboutUs;
 using Ashirvad.Repo.Services.Area.Admin;
+using Ashirvad.Repo.Services.Area.Announcement;
 using Ashirvad.Repo.Services.Area.Attendance;
 using Ashirvad.Repo.Services.Area.Banner;
 using Ashirvad.Repo.Services.Area.Batch;
@@ -39,9 +42,11 @@ using Ashirvad.Repo.Services.Area.Student;
 using Ashirvad.Repo.Services.Area.Subject;
 using Ashirvad.Repo.Services.Area.Test;
 using Ashirvad.Repo.Services.Area.ToDo;
+using Ashirvad.Repo.Services.Area.UPI;
 using Ashirvad.Repo.Services.Area.User;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.AboutUs;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Admin;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Announcement;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Attendance;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Banner;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Batch;
@@ -60,9 +65,11 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Student;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Subject;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Test;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.ToDo;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.UPI;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.User;
 using Ashirvad.ServiceAPI.Services.Area.AboutUs;
 using Ashirvad.ServiceAPI.Services.Area.Admin;
+using Ashirvad.ServiceAPI.Services.Area.Announcement;
 using Ashirvad.ServiceAPI.Services.Area.Attendance;
 using Ashirvad.ServiceAPI.Services.Area.Banner;
 using Ashirvad.ServiceAPI.Services.Area.Batch;
@@ -79,6 +86,7 @@ using Ashirvad.ServiceAPI.Services.Area.Student;
 using Ashirvad.ServiceAPI.Services.Area.Subject;
 using Ashirvad.ServiceAPI.Services.Area.Test;
 using Ashirvad.ServiceAPI.Services.Area.ToDo;
+using Ashirvad.ServiceAPI.Services.Area.UPI;
 using Ashirvad.ServiceAPI.Services.Area.User;
 using Ashirvad.ServiceAPI.Services.Gallery;
 using Ashirvad.ServiceAPI.Services.Link;
@@ -160,6 +168,12 @@ namespace Ashirvad.Web
 
             container.RegisterType<IAdminDataService, AdminDataService>();
             container.RegisterType<IAdminData, AdminData>();
+
+            container.RegisterType<IAnnouncementService, AnnouncementService>();
+            container.RegisterType<IAnnouncementAPI, Announcement>();
+
+            container.RegisterType<IUPIService, UPIService>();
+            container.RegisterType<IUPIAPI, UPI>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

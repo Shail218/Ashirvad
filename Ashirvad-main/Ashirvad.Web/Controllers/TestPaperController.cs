@@ -76,7 +76,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public JsonResult RemoveTest(long testID)
         {
-            var result = _testService.RemoveTest(testID, SessionContext.Instance.LoginUser.Username);
+            var result = _testService.RemoveTest(testID, SessionContext.Instance.LoginUser.Username,true);
             return Json(result);
         }
 

@@ -30,7 +30,9 @@
     ToDoRegister: $("#hdnFldVDName").val() + "ToDoRegister/",
     ChangePassword: $("#hdnFldVDName").val() + "ChangePassword/",
     AboutUs: $("#hdnFldVDName").val() + "AboutUs/",
-    AdminReport: $("#hdnFldVDName").val() +"AdminReport/",
+    AdminReport: $("#hdnFldVDName").val() + "AdminReport/",
+    Announcement: $("#hdnFldVDName").val() + "Anouncement/",
+    UPI: $("#hdnFldVDName").val() + "Upi/",
 };
 
 function GetExtention(image){
