@@ -71,20 +71,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("RemoveTest")]
         [HttpPost]
-        public OperationResult<bool> RemoveTest(long testID, string lastupdatedby)
+        public OperationResult<bool> RemoveTest(long testID, string lastupdatedby, bool paper)
         {
-            var data = this._testService.RemoveTest(testID, lastupdatedby);
-            OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
-            return result;
-        }
-
-        [Route("RemoveTestAndPaper")]
-        [HttpPost]
-        public OperationResult<bool> RemoveTest(long testID, string lastupdatedby, bool removePaper)
-        {
-            var data = this._testService.RemoveTest(testID, lastupdatedby, removePaper);
+            var data = this._testService.RemoveTest(testID, lastupdatedby,true);
             OperationResult<bool> result = new OperationResult<bool>();
             result.Completed = true;
             result.Data = data;

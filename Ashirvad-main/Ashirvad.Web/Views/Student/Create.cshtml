@@ -169,6 +169,7 @@
                 @Html.Label("Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 @Html.PasswordFor(x => x.StudentPassword, new { @class = "form-control required", @alt = "Password", autocomplete = "off" })
                 @Html.HiddenFor(x => x.UserID)
+                @Html.HiddenFor(x => x.StudentMaint.ParentID)
             </div>
             <div class="col-md-6">
                 @Html.Label("Address", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
