@@ -11,15 +11,15 @@
             @Html.TextBoxFor(x => x.Education, new { @class = "form-control", autocomplete = "off" })
         </div>
         <div class="col-md-6">
-            @Html.Label("Date of Birth", htmlAttributes: new { @class = "control-label" })
+            @Html.Label("Date of Birth", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <div id="datepicker" class="input-group date" data-date-format="dd/mm/yyyy">
                 @if (Model == null)
                 {
-                    @Html.TextBoxFor(x => x.DOB, null, new { @class = "form-control", @alt = "Date of Birth", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(x => x.DOB, null, new { @class = "form-control required", @alt = "Date of Birth", autocomplete = "off", @readonly = "readonly" })
                 }
                 else
                 {
-                    @Html.TextBoxFor(x => x.DOB, Model.DOB.Value.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Birth" })
+                    @Html.TextBoxFor(x => x.DOB, Model.DOB.Value.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Date of Birth" })
                 }
                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
             </div>
@@ -36,15 +36,15 @@
         </div>
         <div class="col-md-12">
             @Html.Label("Address", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.Address, new { @class = "form-control", autocomplete = "off", @alt = "Address" })
+            @Html.TextBoxFor(x => x.Address, new { @class = "form-control required", autocomplete = "off", @alt = "Address" })
         </div>
         <div class="col-md-12">
             @Html.Label("Mobile No(Login ID)", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.MobileNo, new { @class = "form-control", autocomplete = "off" })
+            @Html.TextBoxFor(x => x.MobileNo, new { @class = "form-control required", autocomplete = "off" })
         </div>
         <div class="col-md-12">
-            @Html.Label("Email ID", htmlAttributes: new { @class = "control-label" })
-            @Html.TextBoxFor(x => x.EmailID, new { @class = "form-control", autocomplete = "off" })
+            @Html.Label("Email ID", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBoxFor(x => x.EmailID, new { @class = "form-control required", autocomplete = "off" })
         </div>
         <div class="col-md-6">
             @Html.Label("Date of Appointment", htmlAttributes: new { @class = "control-label" })
@@ -55,7 +55,14 @@
                 }
                 else
                 {
-                    @Html.TextBoxFor(x => x.ApptDT, Model.ApptDT.Value.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Appointment" })
+                    if (Model.ApptDT == null)
+                    {
+                        @Html.TextBoxFor(x => x.ApptDT, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Appointment" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(x => x.ApptDT, Model.ApptDT.Value.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Appointment" })
+                    }
                 }
                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
             </div>
@@ -69,7 +76,14 @@
                 }
                 else
                 {
-                    @Html.TextBoxFor(x => x.JoinDT, Model.JoinDT.Value.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Joining" })
+                    if (Model.JoinDT == null)
+                    {
+                        @Html.TextBoxFor(x => x.JoinDT, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Joining" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(x => x.JoinDT, Model.JoinDT.Value.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Joining" })
+                    }
                 }
                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
             </div>
@@ -83,7 +97,14 @@
                 }
                 else
                 {
-                    @Html.TextBoxFor(x => x.LeavingDT, Model.LeavingDT.Value.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Leaving" })
+                    if (Model.LeavingDT == null)
+                    {
+                        @Html.TextBoxFor(x => x.LeavingDT, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Leaving" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(x => x.LeavingDT, Model.LeavingDT.Value.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Leaving" })
+                    }
                 }
                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
             </div>

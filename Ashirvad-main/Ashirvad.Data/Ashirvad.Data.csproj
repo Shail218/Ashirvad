@@ -56,6 +56,8 @@
     <Compile Include="LinkEntity.cs" />
     <Compile Include="Model\AboutUsMaintenanceModel.cs" />
     <Compile Include="Model\AdminDataModel.cs" />
+    <Compile Include="Model\AgreementMaintenanceModel.cs" />
+    <Compile Include="Model\AnnouncementMaintenanceModel.cs" />
     <Compile Include="Model\AttendanceMaintenanceModel.cs" />
     <Compile Include="Model\BannerMaintenanceModel.cs" />
     <Compile Include="Model\BatchMaintenanceModel.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="Model\SubjectMaintenanceModel.cs" />
     <Compile Include="Model\TestMaintenanceModel.cs" />
     <Compile Include="Model\ToDoMaintenanceModel.cs" />
+    <Compile Include="Model\UPIModel.cs" />
     <Compile Include="Model\UserMaintenanceModel.cs" />
     <Compile Include="Model\UserPermissionMaintenanceModel.cs" />
     <Compile Include="NotificationEntity.cs" />

@@ -33,6 +33,7 @@
     AdminReport: $("#hdnFldVDName").val() + "AdminReport/",
     Announcement: $("#hdnFldVDName").val() + "Anouncement/",
     UPI: $("#hdnFldVDName").val() + "Upi/",
+    Agreement: $("#hdnFldVDName").val() + "Agreement/",
 };
 
 function GetExtention(image){

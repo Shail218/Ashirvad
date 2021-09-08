@@ -55,12 +55,14 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
                 BranchInfo = result.Where(x => x.BranchID == studentInfo.BranchInfo.BranchID).FirstOrDefault(),
                 ClientSecret = "TESTGUID",
                 ParentID = studentInfo.StudentMaint.ParentID,
-                Password = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ContactNo : studentInfo.ContactNo,
+                Password = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ParentPassword : studentInfo.StudentPassword,
+                //Password = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ContactNo : studentInfo.ContactNo,
                 RowStatus = studentInfo.RowStatus,
                 StudentID = studentID,
                 Transaction = studentInfo.Transaction,
                 Username = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ContactNo : studentInfo.ContactNo,
-                UserType = userType
+                UserType = userType,
+                UserID = studentInfo.UserID
             };
 
             return user;

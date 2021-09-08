@@ -183,6 +183,14 @@
                                     </li>
                                 </ul>
                             </li>
+                            @if(SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+                            {
+                            <li class="dropdown" visible="true" style="margin-left:10px;">
+                                <a href="@Url.Action("AgreementMaintenance","Agreement", new { @agreeID=0 })">
+                                    Agreement
+                                </a>
+                            </li>
+                            }
                             @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
                             {
                                 <li class="dropdown" id="student" style="margin-left:10px;">
@@ -334,7 +342,6 @@
                                 <li class="dropdown" id="More" visible="true" style="margin-left:10px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         More
-
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li class="treeview" id="PracticePaper">

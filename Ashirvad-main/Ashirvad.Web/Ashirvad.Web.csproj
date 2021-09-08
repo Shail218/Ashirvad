@@ -198,6 +198,7 @@
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="scripts\app\aboutus.js" />
     <Content Include="scripts\app\adminreport.js" />
+    <Content Include="scripts\app\agreement.js" />
     <Content Include="scripts\app\announcement.js" />
     <Content Include="scripts\app\attendance.js" />
     <Content Include="scripts\app\attendanceRegister.js" />
@@ -1029,6 +1030,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\AboutUsController.cs" />
     <Compile Include="Controllers\AdminReportController.cs" />
+    <Compile Include="Controllers\AgreementController.cs" />
     <Compile Include="Controllers\AnouncementController.cs" />
     <Compile Include="Controllers\AttendanceEntryController.cs" />
     <Compile Include="Controllers\AttendanceRegisterController.cs" />
@@ -1252,6 +1254,9 @@
     <Content Include="Views\AdminReport\Create.cshtml" />
     <Content Include="Views\Anouncement\Create.cshtml" />
     <Content Include="Views\Anouncement\Manage.cshtml" />
+    <Content Include="Views\Agreement\Index.cshtml" />
+    <Content Include="Views\Agreement\Create.cshtml" />
+    <Content Include="Views\Agreement\Manage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

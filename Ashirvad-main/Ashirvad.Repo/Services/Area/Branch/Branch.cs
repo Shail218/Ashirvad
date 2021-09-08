@@ -237,7 +237,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         {
             var data = (from u in this.context.BRANCH_AGREEMENT
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
-                        where u.agreement_id == agreementID && u.row_sta_cd == 1
+                        where u.agreement_id == agreementID
                         select new BranchAgreementEntity()
                         {
                             RowStatusData = new RowStatusEntity()

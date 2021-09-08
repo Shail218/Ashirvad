@@ -1,8 +1,6 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
-const { hide } = require("@popperjs/core");
-
 $(document).ready(function () {
 
     if ($("#TestID").val() > 0 && $("#TestPaperID").val() > 0) {

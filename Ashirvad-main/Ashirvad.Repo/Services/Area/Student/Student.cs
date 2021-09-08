@@ -109,7 +109,6 @@ namespace Ashirvad.Repo.Services.Area.Student
                             GrNo = u.gr_no,
                             SchoolTime = u.school_time,
                             StudentImgByte = u.stud_img,
-
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
@@ -260,6 +259,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
+                        join usr in this.context.USER_DEF on u.student_id equals usr.student_id into tempUser
+                        from user in tempUser.DefaultIfEmpty()
                         where u.student_id == studenID
                         select new StudentEntity()
                         {
@@ -282,7 +283,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                             GrNo = u.gr_no,
                             SchoolTime = u.school_time,
                             StudentImgByte = u.stud_img,
-
+                            StudentPassword = user.password,
+                            UserID = user.user_id,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
@@ -294,7 +296,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                                 ContactNo = maint.contact_no,
                                 FatherOccupation = maint.father_occupation,
                                 MotherOccupation = maint.mother_occupation,
-                                StudentID = maint.student_id
+                                StudentID = maint.student_id,
+                                ParentPassword = user.password
                             },
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
