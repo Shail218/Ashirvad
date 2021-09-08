@@ -167,9 +167,10 @@
         <div class="row">
             <div class="col-md-3">
                 @Html.Label("Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.PasswordFor(x => x.StudentPassword, new { @class = "form-control required", @alt = "Password", autocomplete = "off" })
+                @Html.PasswordFor(x => x.StudentPassword, new { @class = "form-control required", @alt = "Password", autocomplete = "off", @Id = "StudentPassword1" })
                 @Html.HiddenFor(x => x.UserID)
                 @Html.HiddenFor(x => x.StudentMaint.ParentID)
+                @Html.HiddenFor(x => x.StudentMaint.UserID)
             </div>
             <div class="col-md-6">
                 @Html.Label("Address", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -199,7 +200,10 @@
                 </div>
                 <div class="col-md-3">
                     @Html.Label("Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
-                    @Html.PasswordFor(x => x.StudentMaint.ParentPassword, new { @class = "form-control required", @alt = "Password", autocomplete = "off" })
+                    @Html.PasswordFor(x => x.StudentMaint.ParentPassword, new { @class = "form-control required", @alt = "Password", autocomplete = "off",@Id="ParentPassword1" })
+                   @Html.HiddenFor(x => x.StudentPassword2);
+                   @Html.HiddenFor(x => x.StudentMaint.ParentPassword2);
+                   @Html.HiddenFor(x => x.StudentMaint.StudentID);
                 </div>
                 <div class="col-md-3" style="text-align: right;margin-top:27px;">
                     <a onclick="return SaveStudent();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">

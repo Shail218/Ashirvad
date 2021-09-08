@@ -284,6 +284,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             SchoolTime = u.school_time,
                             StudentImgByte = u.stud_img,
                             StudentPassword = user.password,
+                            StudentPassword2 = user.password,
                             UserID = user.user_id,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
@@ -296,8 +297,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                                 ContactNo = maint.contact_no,
                                 FatherOccupation = maint.father_occupation,
                                 MotherOccupation = maint.mother_occupation,
-                                StudentID = maint.student_id,
-                                ParentPassword = user.password
+                                StudentID = maint.student_id
                             },
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
@@ -307,6 +307,19 @@ namespace Ashirvad.Repo.Services.Area.Student
             //{
             //    data[data.IndexOf(item)].StudImage = item.StudentImgByte != null && item.StudentImgByte.Length > 0 ? Convert.ToBase64String(item.StudentImgByte) : "";
             //}
+            if (data != null)
+            {
+                if(data.StudentMaint.ParentID != null)
+                {
+                    var d = (from a in this.context.USER_DEF where a.parent_id == data.StudentMaint.ParentID && a.student_id == data.StudentID select a).FirstOrDefault();
+                    if (d != null)
+                    {
+                        data.StudentMaint.UserID = d.user_id;
+                        data.StudentMaint.ParentPassword = d.password;
+                        data.StudentMaint.ParentPassword2 = d.password;
+                    }
+                }
+            }
             return data;
         }
     }

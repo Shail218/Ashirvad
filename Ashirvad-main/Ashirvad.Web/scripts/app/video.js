@@ -28,7 +28,7 @@ $(document).ready(function () {
 function LoadBranch(onLoaded) {
     var postCall = $.post(commonData.Branch + "BranchData");
     postCall.done(function (data) {
-        
+
         $('#BranchName').empty();
         $('#BranchName').select2();
         $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
@@ -53,9 +53,9 @@ function SaveVideo() {
         var item = $('input[type=file]');
         if (item[0].files.length > 0) {
             formData.append('ImageFile', $('input[type=file]')[0].files[0]);
-        }  
+        }
         AjaxCallWithFileUpload(commonData.Videos + 'SaveVideos', formData, function (data) {
-            
+
             if (data) {
                 HideLoader();
                 ShowMessage('Videos details saved!', 'Success');
@@ -67,6 +67,7 @@ function SaveVideo() {
             }
         }, function (xhr) {
             HideLoader();
+            ShowMessage('An unexpected error occcurred while processing request!', 'Error');
         });
     }
 }
@@ -86,7 +87,7 @@ function RemoveVideos(branchID) {
     }
 }
 
-$("#BranchName").change(function () {    
+$("#BranchName").change(function () {
     var Data = $("#BranchName option:selected").val();
     $('#Branch_BranchID').val(Data);
 });
@@ -102,7 +103,7 @@ function DownloadVideo(branchID) {
             a.download = data[2]; //File name Here
             a.click(); //Downloaded file
         }
-       
+
     }).fail(function () {
         HideLoader();
         ShowMessage("An unexpected error occcurred while processing request!", "Error");

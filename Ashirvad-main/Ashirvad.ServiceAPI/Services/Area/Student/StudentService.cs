@@ -34,9 +34,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
                 long studentID = await _studentContext.StudentMaintenance(studentInfo);
                 if (studentID > 0)
                 {
-                    student.StudentID = studentID;
-                    var user = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, studentID, Enums.UserType.Student));
-                    user = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, studentID, Enums.UserType.Parent));
+                    var info = await _studentContext.GetStudentByID(studentID);
+                    if (info != null)
+                    {
+                        studentInfo.StudentID = info.StudentID;
+                        studentInfo.UserID = info.UserID;
+                        studentInfo.StudentPassword2 = info.StudentPassword2;
+                        studentInfo.StudentMaint.UserID = info.StudentMaint.UserID;
+                        studentInfo.StudentMaint.ParentID = 0;
+                        var user = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, studentID, Enums.UserType.Student));
+                        studentInfo.StudentMaint.ParentID = info.StudentMaint.ParentID;
+                        studentInfo.StudentPassword2 = info.StudentMaint.ParentPassword2;
+                        long parentId = info.StudentMaint.ParentID;
+                        var user2 = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, parentId, Enums.UserType.Parent));
+                    }
                 }
             }
             catch (Exception ex)
@@ -49,12 +60,15 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
 
         private async Task<UserEntity> GetUserData(StudentEntity studentInfo, long studentID, Enums.UserType userType)
         {
+            long? a = null;
             var result = await _branchContext.GetAllBranch();
+            studentInfo.StudentMaint.ParentPassword = studentInfo.StudentMaint.ParentPassword == "" || studentInfo.StudentMaint.ParentPassword == null ? studentInfo.StudentMaint.ParentPassword2 : studentInfo.StudentMaint.ParentPassword;
+            studentInfo.StudentPassword = studentInfo.StudentPassword == "" || studentInfo.StudentPassword == null ? studentInfo.StudentPassword2 : studentInfo.StudentPassword;
             UserEntity user = new UserEntity()
             {
                 BranchInfo = result.Where(x => x.BranchID == studentInfo.BranchInfo.BranchID).FirstOrDefault(),
                 ClientSecret = "TESTGUID",
-                ParentID = studentInfo.StudentMaint.ParentID,
+                ParentID = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ParentID : a,
                 Password = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ParentPassword : studentInfo.StudentPassword,
                 //Password = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ContactNo : studentInfo.ContactNo,
                 RowStatus = studentInfo.RowStatus,
@@ -62,7 +76,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
                 Transaction = studentInfo.Transaction,
                 Username = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ContactNo : studentInfo.ContactNo,
                 UserType = userType,
-                UserID = studentInfo.UserID
+                UserID = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.UserID : studentInfo.UserID
             };
 
             return user;

@@ -41,6 +41,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveStudent(StudentEntity branch)
         {
+
             branch.GrNo = "Gr 1";
             branch.Transaction = GetTransactionData(branch.StudentID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             var data = await _studentService.StudentMaintenance(branch);

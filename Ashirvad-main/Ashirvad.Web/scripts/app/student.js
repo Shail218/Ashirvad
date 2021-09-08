@@ -129,9 +129,20 @@ function LoadStandard(branchID) {
 }
 
 function SaveStudent() {
+    var id = $("#StudentID").val();
+    if (id > 0) {
+        $("#StudentPassword1").removeClass('required');
+      
+        $("#ParentPassword1").removeClass('required');
+       
+    }
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
+        var a = $("#stupass").val();
+        $("#StudentPassword").val(a);
+        var b = $("#parentpass").val();
+        $("#StudentMaint_ParentPassword").val(b);
         //var date1 = $("#DOB").val();
         //$("#DOB").val(ConvertData(date1));
         //var date2 = $("#AdmissionDate").val();

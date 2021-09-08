@@ -166,6 +166,7 @@ function AjaxCall(serviceUrl, dataParam, successCallBack, errorCallBack) {
 
 function AjaxCallWithFileUpload(serviceUrl, dataParam, successCallBack, errorCallBack) {
     $.ajax({
+      
         type: 'POST',
         url: serviceUrl,
         data: dataParam,
