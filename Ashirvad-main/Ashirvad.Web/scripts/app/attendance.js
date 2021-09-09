@@ -75,8 +75,8 @@ function GetStudentDetail() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        var date1 = $("#AttendanceDate").val();
-        $("#AttendanceDate").val(ConvertData(date1));
+        //var date1 = $("#AttendanceDate").val();
+        //$("#AttendanceDate").val(ConvertData(date1));
         var postCall = $.post(commonData.AttendanceEntry + "GetAllStudentByBranchStdBatch", $('#fAttendanceDetail').serialize());
         postCall.done(function (data) {
             HideLoader();

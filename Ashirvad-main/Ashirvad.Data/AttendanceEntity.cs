@@ -24,7 +24,6 @@ namespace Ashirvad.Data
     {
         public long DetailID { get; set; }
         public long HeaderID { get; set; }
-
         public StudentEntity Student { get; set; }
         public bool IsAbsent { get; set; }
         public bool IsPresent { get; set; }

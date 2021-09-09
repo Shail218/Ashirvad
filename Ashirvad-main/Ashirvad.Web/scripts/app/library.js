@@ -2,7 +2,7 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-    $("#Type").val(1);
+
     LoadBranch(function () {
         if ($("#BranchID").val() != "") {
             if ($("#BranchID").val() != "0") {
@@ -20,6 +20,26 @@ $(document).ready(function () {
         }
     });
 
+    LoadStandard(function () {
+        if ($("#StandardID").val() != "") {
+            $('#StandardName option[value="' + $("#StandardID").val() + '"]').attr("selected", "selected");
+        }
+    });
+
+    if ($("#StandardID").val() != "") {
+        $('#StandardName option[value="' + $("#StandardID").val() + '"]').attr("selected", "selected");
+    }
+
+    LoadSubject(function () {
+        if ($("#SubjectID").val() != "") {
+            $('#SubjectName option[value="' + $("#SubjectID").val() + '"]').attr("selected", "selected");
+        }
+    });
+
+    if ($("#SubjectID").val() != "") {
+        $('#SubjectName option[value="' + $("#SubjectID").val() + '"]').attr("selected", "selected");
+    }
+
     if ($("#BranchID").val() != "") {
         if ($("#BranchID").val() != "0") {
             $("#rowStaBranch").attr('checked', 'checked');
@@ -36,7 +56,27 @@ $(document).ready(function () {
         $("#BranchID").val(0);
     }
 
-    $('input[type=radio][name=Type]').change(function () {
+    if ($("#Type").val() != "") {
+        if ($("#Type").val() == "1") {
+            $("#rowGeneral").attr('checked', 'checked');
+            $("#standard").hide();
+            $("#subject").hide();
+            $("#Type").val(1);
+        } else if ($("#Type").val() == "2"){
+            $("#rowstandard").attr('checked', 'checked');
+            $("#standard").show();
+            $("#subject").show();
+            $('#StandardName option[value="' + $("#StandardID").val() + '"]').attr("selected", "selected");
+            $('#SubjectName option[value="' + $("#SubjectID").val() + '"]').attr("selected", "selected");
+            $("#Type").val(2);
+        }
+    } else {
+        $("#standard").hide();
+        $("#subject").hide();
+        $("#Type").val(1);
+    }
+
+    $('input[type=radio][name=Type3]').change(function () {
         if (this.value == 'Branch') {
             $('#BranchName option[value="0"]').attr("selected", "selected");
             $("#BranchDiv").show();
@@ -61,26 +101,6 @@ $(document).ready(function () {
             $("#Type").val(2);
         }
     });
-
-    LoadStandard(function () {
-        if ($("#StandardID").val() != "") {
-            $('#StandardName option[value="' + $("#StandardID").val() + '"]').attr("selected", "selected");
-        }
-    });
-
-    if ($("#StandardID").val() != "") {
-        $('#StandardName option[value="' + $("#StandardID").val() + '"]').attr("selected", "selected");
-    }
-
-    LoadSubject(function () {
-        if ($("#SubjectID").val() != "") {
-            $('#SubjectName option[value="' + $("#SubjectID").val() + '"]').attr("selected", "selected");
-        }
-    });
-
-    if ($("#SubjectID").val() != "") {
-        $('#SubjectName option[value="' + $("#SubjectID").val() + '"]').attr("selected", "selected");
-    }
 
     $("#studenttbl tr").each(function () {
         var elemImg = $(this).find("#thumnailImg");

@@ -309,6 +309,10 @@ namespace Ashirvad.Repo.Services.Area.Student
             //}
             if (data != null)
             {
+                if (data.UserID ==null)
+                {
+                    data.UserID = 0;
+                }
                 if(data.StudentMaint.ParentID != null)
                 {
                     var d = (from a in this.context.USER_DEF where a.parent_id == data.StudentMaint.ParentID && a.student_id == data.StudentID select a).FirstOrDefault();

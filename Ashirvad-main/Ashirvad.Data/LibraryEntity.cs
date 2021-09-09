@@ -20,6 +20,7 @@ namespace Ashirvad.Data
         public RowStatusEntity RowStatus { get; set; }
         public TransactionEntity Transaction { get; set; }
         public LibraryDataEntity LibraryData { get; set; }
+        public BranchEntity BranchData { get; set; }
     }
 
     public class LibraryDataEntity

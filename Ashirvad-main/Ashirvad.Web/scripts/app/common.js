@@ -34,6 +34,7 @@
     Announcement: $("#hdnFldVDName").val() + "Anouncement/",
     UPI: $("#hdnFldVDName").val() + "Upi/",
     Agreement: $("#hdnFldVDName").val() + "Agreement/",
+    AttendanceReport: $("#hdnFldVDName").val() + "AttendanceReport/",
 };
 
 function GetExtention(image){

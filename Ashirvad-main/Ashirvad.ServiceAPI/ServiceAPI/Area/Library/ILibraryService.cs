@@ -11,7 +11,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Library
     {
         Task<LibraryEntity> LibraryMaintenance(LibraryEntity libInfo);
 
-        Task<OperationResult<List<LibraryEntity>>> GetAllLibraryWithoutContent(long branchID = 0, long stdID = 0);
+        Task<OperationResult<List<LibraryEntity>>> GetAllLibraryWithoutContent(long branchID, long stdID);
 
         Task<OperationResult<LibraryEntity>> GetLibraryByLibraryID(long libID);
 

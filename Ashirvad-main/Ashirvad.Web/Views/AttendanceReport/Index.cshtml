@@ -1,4 +1,4 @@
-﻿
+﻿@model Ashirvad.Data.Model.AttendanceMaintenanceModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,6 +8,7 @@
 </section>
 <hr />
 <section class="content">
+    <div class="messagealert" id="alert_container"></div>
     <div class="row">
         <section class="col-md-12">
             <div class="box box-warning">
@@ -20,9 +21,9 @@
         </section>
         <section class="col-md-12">
             <div class="box box-primary">
-                <div class="box-body">
+                <div class="box-body" id="ReportData">
                     @{
-                        Html.RenderPartial("Manage");
+                        Html.RenderPartial("Manage", new ViewDataDictionary(Model));
                     }
                 </div>
             </div>
@@ -37,58 +38,13 @@
             $(document).ready(function () {
 
                 $('#studenttbl').DataTable({
-                    "searching": true,
-                    "orderable": true,
-                    "columnDefs": [
-                        {
-                            "targets": [0],
-                            "searchable": false,
-                            "orderable": false,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [1],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [2],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [3],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [4],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [5],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-
-                    ],
-                    "columns": [
-                        { "data": "" },
-                        { "data": "FirstName" },
-                        { "data": "AdmissionDate" },
-                        { "data": "Standard" },
-                        { "data": "BatchTime" },
-                        { "data": "ContactNo" },
-                    ]
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": true
                 });
-            });
-        </script>
+            });</script>
         <script type="text/javascript">
             function ConfirmationDialog() {
                 if (confirm("Are you sure to continue?"))
@@ -99,4 +55,3 @@
         </script>
     }
 </section>
-

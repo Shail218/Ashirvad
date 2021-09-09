@@ -118,9 +118,11 @@ namespace Ashirvad.Repo.Services.Area.Library
 
         public async Task<List<LibraryEntity>> GetAllLibraryWithoutContent(long branchID, long stdID)
         {
-            var data = (from u in this.context.LIBRARY_MASTER.Include("LIBRARY_DATA")
-                        where (0 == u.branch_id || u.branch_id == branchID) &&
-                        (0 == stdID || u.std_id == stdID)
+            var data = (from u in this.context.LIBRARY_MASTER
+                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
+                        from branch in tempBranch.DefaultIfEmpty()
+                        where (0 == branchID || u.branch_id == null || u.branch_id == 0 || u.branch_id == branchID) &&
+                        (0 == stdID || u.std_id == stdID || u.std_id == null || u.std_id == 0)
                         select new LibraryEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -137,6 +139,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                             ThumbImageName = u.thumbnail_img,
                             Type = u.type.Value,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value },
+                            BranchData = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
                             LibraryData = new LibraryDataEntity()
                             {
                                 DocContentExt = u.LIBRARY_DATA.FirstOrDefault().doc_img_ext,

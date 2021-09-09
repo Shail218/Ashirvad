@@ -8,11 +8,11 @@
                     <tbody>
                         <tr>
                             <td>
-                                <input type="radio" name="Type" id="rowStaAll" value="All" checked />
+                                <input type="radio" name="Type3" id="rowStaAll" value="All" checked />
                                 <lable for="rowStaAll">All</lable>
                             </td>
                             <td>
-                                <input type="radio" name="Type" id="rowStaBranch" value="Branch" style="margin-left:10px" />
+                                <input type="radio" name="Type3" id="rowStaBranch" value="Branch" style="margin-left:10px" />
                                 <lable for="rowStaBranch">Branch</lable>
                             </td>
                         </tr>
@@ -35,7 +35,6 @@
                         @Html.HiddenFor(x => x.LibraryData.ThumbImageContentText)
                     </div>
                     <div class="col-md-6">
-                        <label class="control-label">Document</label>
                         @Html.Label("Document", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                         <input class="file-upload fileRequired" alt="Document" id="fuDocument" name="DocFile" type="file" accept="image/*" />
                         @Html.HiddenFor(x => x.LibraryData.DocContentText)

@@ -32,7 +32,7 @@ namespace Ashirvad.Data
         public DateTime? AdmissionDate { get; set; }
         public string StudentPassword { get; set; }
         public string StudentPassword2 { get; set; }
-        public long UserID { get; set; } = 0;
+        public long? UserID { get; set; } = 0;
     }
     public class StudentMaint
     {
@@ -44,6 +44,6 @@ namespace Ashirvad.Data
         public string ContactNo { get; set; }
         public string ParentPassword { get; set; }
         public string ParentPassword2 { get; set; }
-        public long UserID { get; set; } = 0;
+        public long? UserID { get; set; } = 0;
     }
 }

@@ -72,11 +72,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
                 Password = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ParentPassword : studentInfo.StudentPassword,
                 //Password = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ContactNo : studentInfo.ContactNo,
                 RowStatus = studentInfo.RowStatus,
-                StudentID = studentID,
+                StudentID = studentInfo.StudentID,
                 Transaction = studentInfo.Transaction,
                 Username = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ContactNo : studentInfo.ContactNo,
                 UserType = userType,
-                UserID = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.UserID : studentInfo.UserID
+                UserID = userType == Enums.UserType.Parent ? (long)studentInfo.StudentMaint.UserID : (long)studentInfo.UserID
             };
 
             return user;
