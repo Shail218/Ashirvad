@@ -87,7 +87,20 @@ function SaveReport() {
         var postCall = $.post(commonData.AttendanceReport + "SaveReport", { "FromDate": fromdate, "ToDate": todate, "BranchId": branch, "StandardId": standard, "BatchTime": batchtime });
         postCall.done(function (data) {
             HideLoader();
-            $('#ReportData').html(data);
+            $('#ReportData').html('');
+            //$('#subcategorytbl2 tbody').remove();
+            //$('#studenttbl tbody').removeData();
+            $('#ReportData').replaceWith(data);
+            //$('#ReportData').html(data);
+
+            //var seen ;
+            //$('#studenttbl tbody tr').each(function () {
+            //    var txt = $(this).text();
+            //    if (seen==txt)
+            //        $(this).remove();
+            //    else
+            //        seen = txt;
+            //});
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

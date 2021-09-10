@@ -1,7 +1,6 @@
 ﻿@using Ashirvad.Web.Controllers;
 @model List<Ashirvad.Data.AttendanceEntity>
 @{
-
     Layout = null;
 }
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
@@ -23,13 +22,12 @@
         </tr>
     </thead>
 
-    <tbody>
         @if (Model != null)
         {
             foreach (var item in Model)
             {
                 <tr>
-                    <td>
+                    <td id="tag">
                         <img src="~/ThemeData/images/plus.png" style="width: 10px; height: 10px;margin-left:20px;" />
                         <div style="display: none">
                             <table style="width: 100%;" id="subcategorytbl2" class="table table-bordered dataTable no-footer">
@@ -46,7 +44,7 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                       
                                     @foreach (var item1 in item.AttendanceDetail)
                                     {
 
@@ -73,7 +71,6 @@
                                             </td>
                                         </tr>
                                     }
-                                </tbody>
                             </table>
                         </div>
                     </td>
@@ -90,19 +87,37 @@
                 </tr>
             }
         }
-    </tbody>
 </table>
 
 <script type="text/javascript">
     //Assign Click event to Plus Image.
 
-    $("body").on("click", "img[src*='plus.png']", function () {
+    $("#tag").on("click", "img[src*='plus.png']", function () {
+       
         $(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>");
         $(this).attr("src", "../ThemeData/images/minus.png");
     });
     //Assign Click event to Minus Image.
-    $("body").on("click", "img[src*='minus.png']", function () {
+    $("#tag").on("click", "img[src*='minus.png']", function () {
         $(this).attr("src", "../ThemeData/images/plus.png");
         $(this).closest("tr").next().remove();
     });
 </script>
+<script>
+    $(document).ready(function () {
+
+        $('#studenttbl').DataTable({
+            "bPaginate": true,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bInfo": true,
+            "bAutoWidth": true
+        });
+        $('#subcategorytbl2').DataTable({
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": false,
+            "bAutoWidth": false
+        });
+    });</script>
