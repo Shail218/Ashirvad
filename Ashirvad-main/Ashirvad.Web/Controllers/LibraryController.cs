@@ -35,7 +35,7 @@ namespace Ashirvad.Web.Controllers
                 branch.LibraryInfo = result.Data;
             }
 
-            var branchData = await _libraryService.GetAllLibraryWithoutContent();
+            var branchData = await _libraryService.GetAllLibraryWithoutContent(0,0);
             branch.LibraryData = branchData.Data;
 
             return View("Index", branch);
