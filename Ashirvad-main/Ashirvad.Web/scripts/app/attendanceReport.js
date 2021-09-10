@@ -87,11 +87,11 @@ function SaveReport() {
         var postCall = $.post(commonData.AttendanceReport + "SaveReport", { "FromDate": fromdate, "ToDate": todate, "BranchId": branch, "StandardId": standard, "BatchTime": batchtime });
         postCall.done(function (data) {
             HideLoader();
-            $('#ReportData').html('');
+            //$('#ReportData').html('');
             //$('#subcategorytbl2 tbody').remove();
             //$('#studenttbl tbody').removeData();
-            $('#ReportData').replaceWith(data);
-            //$('#ReportData').html(data);
+            //$('#ReportData').replaceWith(data);
+            $('#ReportData').html(data);
 
             //var seen ;
             //$('#studenttbl tbody tr').each(function () {
