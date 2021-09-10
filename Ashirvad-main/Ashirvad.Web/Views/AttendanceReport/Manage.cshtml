@@ -2,6 +2,7 @@
 @model List<Ashirvad.Data.AttendanceEntity>
 @{
     Layout = null;
+    int count = 0;
 }
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
@@ -26,8 +27,9 @@
         {
             foreach (var item in Model)
             {
+                count++;
                 <tr>
-                    <td id="tag">
+                    <td class="tag">
                         <img src="~/ThemeData/images/plus.png" style="width: 10px; height: 10px;margin-left:20px;" />
                         <div style="display: none">
                             <table style="width: 100%;" id="subcategorytbl2" class="table table-bordered dataTable no-footer">
@@ -92,13 +94,13 @@
 <script type="text/javascript">
     //Assign Click event to Plus Image.
 
-    $("#tag").on("click", "img[src*='plus.png']", function () {
+    $(".tag").on("click", "img[src*='plus.png']", function () {
        
         $(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>");
         $(this).attr("src", "../ThemeData/images/minus.png");
     });
     //Assign Click event to Minus Image.
-    $("#tag").on("click", "img[src*='minus.png']", function () {
+    $(".tag").on("click", "img[src*='minus.png']", function () {
         $(this).attr("src", "../ThemeData/images/plus.png");
         $(this).closest("tr").next().remove();
     });
