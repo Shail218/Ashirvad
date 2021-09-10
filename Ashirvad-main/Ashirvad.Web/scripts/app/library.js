@@ -3,6 +3,11 @@
 
 $(document).ready(function () {
 
+    if ($("#LibraryID").val() > 0 && $("#LibraryData_UniqueID").val() > 0) {
+        $("#fuThumbnailImage").addClass("editForm");
+        $("#fuDocument").addClass("editForm");
+    }
+
     LoadBranch(function () {
         if ($("#BranchID").val() != "") {
             if ($("#BranchID").val() != "0") {
@@ -62,7 +67,7 @@ $(document).ready(function () {
             $("#standard").hide();
             $("#subject").hide();
             $("#Type").val(1);
-        } else if ($("#Type").val() == "2"){
+        } else {
             $("#rowstandard").attr('checked', 'checked');
             $("#standard").show();
             $("#subject").show();
@@ -85,9 +90,6 @@ $(document).ready(function () {
             $("#BranchDiv").hide();
         }
     });
-
-    $("#standard").hide();
-    $("#subject").hide();
 
     $('input[type=radio][name=Type1]').change(function () {
         if (this.value == 'General') {
@@ -181,8 +183,11 @@ function SaveLibrary() {
         ShowLoader();
         var frm = $('#fLibraryDetail');
         var formData = new FormData(frm[0]);
-        formData.append('LibraryData.ThumbImageFile', $('input[type=file]')[0].files[0]);
-        formData.append('LibraryData.DocFile', $('input[type=file]')[1].files[0]);
+        var item = $('input[type=file]');
+        if (item[0].files.length > 0) {
+            formData.append('LibraryData.ThumbImageFile', $('input[type=file]')[0].files[0]);
+            formData.append('LibraryData.DocFile', $('input[type=file]')[1].files[0]);
+        }
         AjaxCallWithFileUpload(commonData.Library + 'SaveLibrary', formData, function (data) {
             if (data) {
                 HideLoader();
@@ -199,17 +204,19 @@ function SaveLibrary() {
     }
 }
 
-function RemoveLibrary(paperID) {
-    
-    var postCall = $.post(commonData.Library + "RemoveLibrary", { "paperID": paperID });
-    postCall.done(function (data) {
-        
-        ShowMessage("Library Removed Successfully.", "Success");
-        window.location.href = "LibraryMaintenance?libraryID=0";
-    }).fail(function () {
-        
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+function RemoveLibrary(libraryID) {
+    if (confirm('Are you sure want to delete this Library Details?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.Library + "RemoveLibrary", { "libraryID": libraryID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Library Removed Successfully.", "Success");
+            window.location.href = "LibraryMaintenance?libraryID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 $("#BranchName").change(function () {

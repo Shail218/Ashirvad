@@ -19,6 +19,7 @@
                     </tbody>
                 </table>
                 @Html.HiddenFor(x => x.LibraryID)
+                @Html.HiddenFor(x => x.LibraryData.UniqueID)
             </div>
             <div class="col-md-12" id="BranchDiv" style="margin-top:3px;">
                 @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -33,12 +34,21 @@
                         @Html.Label("Thumbnail", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                         <input class="file-upload fileRequired" alt="Thumbnail Image" id="fuThumbnailImage" name="ThumbnailFile" type="file" accept="image/*" />
                         @Html.HiddenFor(x => x.LibraryData.ThumbImageContentText)
+                        @Html.HiddenFor(x => x.LibraryData.ThumbImageContent)
+                        @Html.HiddenFor(x => x.LibraryData.ThumbImageExt)
+                        @Html.HiddenFor(x => x.ThumbDocName)
+                        @Html.HiddenFor(x => x.ThumbImageName)
+                        @Html.HiddenFor(x => x.LibraryData.ThumbImageFile)
+                        @Html.HiddenFor(x => x.LibraryData.ThumbImageFileName)
                     </div>
                     <div class="col-md-6">
                         @Html.Label("Document", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                         <input class="file-upload fileRequired" alt="Document" id="fuDocument" name="DocFile" type="file" accept="image/*" />
                         @Html.HiddenFor(x => x.LibraryData.DocContentText)
                         @Html.HiddenFor(x => x.LibraryData.DocFile)
+                        @Html.HiddenFor(x => x.LibraryData.DocContentExt)
+                        @Html.HiddenFor(x => x.LibraryData.DocContentFileName)
+                        @Html.HiddenFor(x => x.LibraryData.DocContent)
                     </div>
                     <div class="col-md-12" style="margin-top:10px;">
                         @Html.Label("Select type", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
