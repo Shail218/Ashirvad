@@ -47,7 +47,14 @@
                     }
                     else
                     {
-                        @Html.TextBoxFor(x => x.DOB, Model.DOB.Value.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Birth Date" })
+                        if (Model.DOB == null)
+                        {
+                            @Html.TextBoxFor(x => x.DOB, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Birth Date" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(x => x.DOB, Model.DOB.Value.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Birth Date" })
+                        }
                     }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
@@ -63,7 +70,14 @@
                     }
                     else
                     {
-                        @Html.TextBoxFor(x => x.AdmissionDate, Model.AdmissionDate.Value.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Admission Date" })
+                        if (Model.AdmissionDate == null)
+                        {
+                            @Html.TextBoxFor(x => x.AdmissionDate, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Admission Date" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(x => x.AdmissionDate, Model.AdmissionDate.Value.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Admission Date" })
+                        }
                     }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>

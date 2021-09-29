@@ -257,6 +257,6 @@ function ConvertData(FromDate) {
     var Date = Data[0];
     var Month = Data[1];
     var Year = Data[2];
-    var FromDateupdate = Year + "-" + Month + "-" + Date;
+    var FromDateupdate = Month + "/" + Date + "/" + Year;
     return FromDateupdate
 }

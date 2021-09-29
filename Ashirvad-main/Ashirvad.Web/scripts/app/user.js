@@ -75,8 +75,8 @@ function SaveUser() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        //var date1 = $("#DOB").val();
-        //$("#DOB").val(ConvertData(date1));
+        var date1 = $("#DOB").val();
+        $("#DOB").val(ConvertData(date1));
         //var date2 = $("#ApptDT").val();
         //$("#ApptDT").val(ConvertData(date2));
         //var date3 = $("#JoinDT").val();

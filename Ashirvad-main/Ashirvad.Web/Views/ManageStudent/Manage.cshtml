@@ -50,7 +50,10 @@
                     @Html.HiddenFor(x => item.BranchInfo.BranchID)
                 </td>
                 <td>
-                    @item.AdmissionDate.Value.ToString("dd/MM/yyyy")
+                    @if (item.AdmissionDate != null)
+                    {
+                        @item.AdmissionDate.Value.ToString("dd/MM/yyyy")
+                    }
                 </td>
                 <td>
                     @item.StandardInfo.Standard

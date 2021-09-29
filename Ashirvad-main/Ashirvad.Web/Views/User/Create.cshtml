@@ -19,7 +19,14 @@
                 }
                 else
                 {
-                    @Html.TextBoxFor(x => x.DOB, Model.DOB.Value.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Date of Birth" })
+                    if (Model.DOB == null)
+                    {
+                        @Html.TextBoxFor(x => x.DOB, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Birth" })
+                    }
+                    else
+                    {
+                       @Html.TextBoxFor(x => x.DOB, Model.DOB.Value.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Date of Birth" }) 
+                    }
                 }
                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
             </div>
