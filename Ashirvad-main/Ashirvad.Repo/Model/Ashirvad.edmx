@@ -172,6 +172,7 @@
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="file_name" Type="nvarchar(max)" />
+          <Property Name="file_path" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="FEE_STRUCTURE_MASTER">
           <Key>
@@ -1857,7 +1858,6 @@
           <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="usp_get_usage" ReturnType="Collection(AshirvadModel.usp_get_usage_Result)" />
           <EntitySet Name="ANNOUNCE_MASTER" EntityType="AshirvadModel.ANNOUNCE_MASTER" />
-          <EntitySet Name="FEE_STRUCTURE_DTL" EntityType="AshirvadModel.FEE_STRUCTURE_DTL" />
           <EntitySet Name="FEE_STRUCTURE_MASTER" EntityType="AshirvadModel.FEE_STRUCTURE_MASTER" />
           <EntitySet Name="STUDENT_PAYMENT_MASTER" EntityType="AshirvadModel.STUDENT_PAYMENT_MASTER" />
           <EntitySet Name="STUDENT_PAYMENT_REL" EntityType="AshirvadModel.STUDENT_PAYMENT_REL" />
@@ -1873,14 +1873,6 @@
           <AssociationSet Name="FK_UPI_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="UPI_MASTER" EntitySet="UPI_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
-            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
-            <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
-            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
-            <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
           </AssociationSet>
           <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_STD_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER">
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
@@ -1907,7 +1899,16 @@
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="BRANCH_AGREEMENT" EntitySet="BRANCH_AGREEMENT" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="FEE_STRUCTURE_DTL" EntityType="AshirvadModel.FEE_STRUCTURE_DTL" />
+          <AssociationSet Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+            <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="BANNER_MASTER">
           <Key>
             <PropertyRef Name="banner_id" />
@@ -2159,10 +2160,10 @@
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="SUBJECT_MASTER" />
           <NavigationProperty Name="USER_DEF" Relationship="AshirvadModel.FK_USER_DEF_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="USER_DEF" />
-          <NavigationProperty Name="FEE_STRUCTURE_DTL" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FEE_STRUCTURE_DTL" />
           <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
           <NavigationProperty Name="STUDENT_PAYMENT_REL" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STUDENT_PAYMENT_REL" />
           <NavigationProperty Name="UPI_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="UPI_MASTER" />
+          <NavigationProperty Name="FEE_STRUCTURE_DTL" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FEE_STRUCTURE_DTL" />
         </EntityType>
         <EntityType Name="TYPE_DESC">
           <Key>
@@ -3093,19 +3094,6 @@
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="FEE_STRUCTURE_DTL">
-          <Key>
-            <PropertyRef Name="fee_struct_dtl_id" />
-          </Key>
-          <Property Name="fee_struct_dtl_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fee_struct_mst_id" Type="Int64" Nullable="false" />
-          <Property Name="fee_content" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" FromRole="FEE_STRUCTURE_DTL" ToRole="FEE_STRUCTURE_MASTER" />
-          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" FromRole="FEE_STRUCTURE_DTL" ToRole="TRANSACTION_MASTER" />
-        </EntityType>
         <EntityType Name="FEE_STRUCTURE_MASTER">
           <Key>
             <PropertyRef Name="fee_struct_mst_id" />
@@ -3117,9 +3105,9 @@
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="BRANCH_MASTER" />
-          <NavigationProperty Name="FEE_STRUCTURE_DTL" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="FEE_STRUCTURE_DTL" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="FEE_STRUCTURE_DTL" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="FEE_STRUCTURE_DTL" />
         </EntityType>
         <EntityType Name="STUDENT_PAYMENT_MASTER">
           <Key>
@@ -3194,30 +3182,6 @@
             </Principal>
             <Dependent Role="UPI_MASTER">
               <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
-          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.FEE_STRUCTURE_DTL" Role="FEE_STRUCTURE_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FEE_STRUCTURE_MASTER">
-              <PropertyRef Name="fee_struct_mst_id" />
-            </Principal>
-            <Dependent Role="FEE_STRUCTURE_DTL">
-              <PropertyRef Name="fee_struct_mst_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
-          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.FEE_STRUCTURE_DTL" Role="FEE_STRUCTURE_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TRANSACTION_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Principal>
-            <Dependent Role="FEE_STRUCTURE_DTL">
-              <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3303,6 +3267,44 @@
             </Principal>
             <Dependent Role="BRANCH_AGREEMENT">
               <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FEE_STRUCTURE_DTL">
+          <Key>
+            <PropertyRef Name="fee_struct_dtl_id" />
+          </Key>
+          <Property Name="fee_struct_dtl_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fee_struct_mst_id" Type="Int64" Nullable="false" />
+          <Property Name="fee_content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="file_path" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" FromRole="FEE_STRUCTURE_DTL" ToRole="FEE_STRUCTURE_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" FromRole="FEE_STRUCTURE_DTL" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <Association Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
+          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_DTL" Role="FEE_STRUCTURE_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="fee_struct_mst_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_DTL">
+              <PropertyRef Name="fee_struct_mst_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_DTL" Role="FEE_STRUCTURE_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_DTL">
+              <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3836,18 +3838,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="FEE_STRUCTURE_DTL">
-            <EntityTypeMapping TypeName="AshirvadModel.FEE_STRUCTURE_DTL">
-              <MappingFragment StoreEntitySet="FEE_STRUCTURE_DTL">
-                <ScalarProperty Name="file_name" ColumnName="file_name" />
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="fee_content" ColumnName="fee_content" />
-                <ScalarProperty Name="fee_struct_mst_id" ColumnName="fee_struct_mst_id" />
-                <ScalarProperty Name="fee_struct_dtl_id" ColumnName="fee_struct_dtl_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="FEE_STRUCTURE_MASTER">
             <EntityTypeMapping TypeName="AshirvadModel.FEE_STRUCTURE_MASTER">
               <MappingFragment StoreEntitySet="FEE_STRUCTURE_MASTER">
@@ -3907,6 +3897,19 @@
                 <ScalarProperty Name="from_dt" ColumnName="from_dt" />
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="agreement_id" ColumnName="agreement_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FEE_STRUCTURE_DTL">
+            <EntityTypeMapping TypeName="AshirvadModel.FEE_STRUCTURE_DTL">
+              <MappingFragment StoreEntitySet="FEE_STRUCTURE_DTL">
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="fee_content" ColumnName="fee_content" />
+                <ScalarProperty Name="fee_struct_mst_id" ColumnName="fee_struct_mst_id" />
+                <ScalarProperty Name="fee_struct_dtl_id" ColumnName="fee_struct_dtl_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

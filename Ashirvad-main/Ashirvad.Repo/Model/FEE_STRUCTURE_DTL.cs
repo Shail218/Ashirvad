@@ -20,6 +20,7 @@ namespace Ashirvad.Repo.Model
         public long trans_id { get; set; }
         public int row_sta_cd { get; set; }
         public string file_name { get; set; }
+        public string file_path { get; set; }
     
         public virtual FEE_STRUCTURE_MASTER FEE_STRUCTURE_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }

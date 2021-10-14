@@ -1,0 +1,19 @@
+﻿using Ashirvad.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Ashirvad.Repo.DataAcceessAPI.Area.Fees
+{
+    public interface IFeesAPI
+    {
+        Task<long> FeesMaintenance(FeesEntity branchInfo);
+        Task<List<FeesEntity>> GetAllFees();
+        Task<List<FeesEntity>> GetAllFeesWithoutImage();
+        Task<FeesEntity> GetFeesByFeesID(long FeesID);
+        bool RemoveFees(long FeesID, string lastupdatedby);
+       
+    }
+}

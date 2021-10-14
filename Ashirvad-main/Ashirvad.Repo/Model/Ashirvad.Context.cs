@@ -63,12 +63,12 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<ABOUTUS_DETAIL_REL> ABOUTUS_DETAIL_REL { get; set; }
         public virtual DbSet<ABOUTUS_MASTER> ABOUTUS_MASTER { get; set; }
         public virtual DbSet<ANNOUNCE_MASTER> ANNOUNCE_MASTER { get; set; }
-        public virtual DbSet<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
         public virtual DbSet<FEE_STRUCTURE_MASTER> FEE_STRUCTURE_MASTER { get; set; }
         public virtual DbSet<STUDENT_PAYMENT_MASTER> STUDENT_PAYMENT_MASTER { get; set; }
         public virtual DbSet<STUDENT_PAYMENT_REL> STUDENT_PAYMENT_REL { get; set; }
         public virtual DbSet<UPI_MASTER> UPI_MASTER { get; set; }
         public virtual DbSet<BRANCH_AGREEMENT> BRANCH_AGREEMENT { get; set; }
+        public virtual DbSet<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

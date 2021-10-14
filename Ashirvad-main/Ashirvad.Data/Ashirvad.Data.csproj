@@ -50,6 +50,7 @@
     <Compile Include="BranchEntity.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="DataUsageEntity.cs" />
+    <Compile Include="FeesEntity.cs" />
     <Compile Include="GalleryEntity.cs" />
     <Compile Include="HomeworkEntity.cs" />
     <Compile Include="LibraryEntity.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Model\AttendanceMaintenanceModel.cs" />
     <Compile Include="Model\BannerMaintenanceModel.cs" />
     <Compile Include="Model\BatchMaintenanceModel.cs" />
+    <Compile Include="Model\FeesMaintenanceModel.cs" />
     <Compile Include="Model\BranchMaintenanceModel.cs" />
     <Compile Include="Model\GalleryMaintenanceModel.cs" />
     <Compile Include="Model\HomeworkMaintenanceModel.cs" />

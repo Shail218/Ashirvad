@@ -26,10 +26,10 @@ namespace Ashirvad.Repo.Model
             this.STUDENT_MASTER = new HashSet<STUDENT_MASTER>();
             this.SUBJECT_MASTER = new HashSet<SUBJECT_MASTER>();
             this.USER_DEF = new HashSet<USER_DEF>();
-            this.FEE_STRUCTURE_DTL = new HashSet<FEE_STRUCTURE_DTL>();
             this.FEE_STRUCTURE_MASTER = new HashSet<FEE_STRUCTURE_MASTER>();
             this.STUDENT_PAYMENT_REL = new HashSet<STUDENT_PAYMENT_REL>();
             this.UPI_MASTER = new HashSet<UPI_MASTER>();
+            this.FEE_STRUCTURE_DTL = new HashSet<FEE_STRUCTURE_DTL>();
         }
     
         public long trans_id { get; set; }
@@ -59,12 +59,12 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USER_DEF> USER_DEF { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FEE_STRUCTURE_MASTER> FEE_STRUCTURE_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<STUDENT_PAYMENT_REL> STUDENT_PAYMENT_REL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UPI_MASTER> UPI_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
     }
 }

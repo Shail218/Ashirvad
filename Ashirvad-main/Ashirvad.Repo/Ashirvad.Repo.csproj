@@ -65,6 +65,7 @@
     <Compile Include="DataAcceessAPI\Area\Banner\IBannerAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Batch\IBatchAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Branch\IBranchAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\Fees\IFeesAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Gallery\IGalleryAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Homework\IHomeworkAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Library\ILibraryAPI.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="Services\Area\Banner\Banner.cs" />
     <Compile Include="Services\Area\Batch\Batch.cs" />
     <Compile Include="Services\Area\Branch\Branch.cs" />
+    <Compile Include="Services\Area\Fees\Fees.cs" />
     <Compile Include="Services\Area\Gallery\Gallery.cs" />
     <Compile Include="Services\Area\Homework\Homework.cs" />
     <Compile Include="Services\Area\Library\Library.cs" />
