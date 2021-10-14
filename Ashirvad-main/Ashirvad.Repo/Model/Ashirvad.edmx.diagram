@@ -81,9 +81,7 @@
         <AssociationConnector Association="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.HOMEWORK_MASTER" Width="1.5" PointX="15.5" PointY="28.25" />
-        <EntityTypeShape EntityType="AshirvadModel.TODO_MASTER" Width="1.5" PointX="5.25" PointY="40.625" />
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_BRANCH_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_TODO_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_SUBJECT_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.ABOUTUS_DETAIL_REL" Width="1.5" PointX="7.5" PointY="45" />
@@ -106,6 +104,8 @@
         <EntityTypeShape EntityType="AshirvadModel.BRANCH_AGREEMENT" Width="1.5" PointX="5.25" PointY="49.5" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.FEE_STRUCTURE_DTL" Width="1.5" PointX="17.75" PointY="15" />
+        <EntityTypeShape EntityType="AshirvadModel.TODO_MASTER" Width="1.5" PointX="5.25" PointY="53" />
+        <AssociationConnector Association="AshirvadModel.FK_TODO_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" />
         </Diagram>

@@ -23,6 +23,8 @@ namespace Ashirvad.Repo.Model
         public string todo_doc_name { get; set; }
         public int row_sta_cd { get; set; }
         public long trans_id { get; set; }
+        public Nullable<bool> reg_status { get; set; }
+        public string remark { get; set; }
     
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
     }

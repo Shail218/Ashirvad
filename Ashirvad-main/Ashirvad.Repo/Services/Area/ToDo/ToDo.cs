@@ -32,6 +32,9 @@ namespace Ashirvad.Repo.Services.Area.ToDo
             todo.row_sta_cd = todoInfo.RowStatus.RowStatusId;
             todo.trans_id = this.AddTransactionData(todoInfo.Transaction);
             todo.branch_id = todoInfo.BranchInfo.BranchID;
+            todo.reg_status = todoInfo.Registerstatus;
+            todo.remark = todoInfo.Remark;
+            todo.branch_id = todoInfo.BranchInfo.BranchID;
             if (todoInfo.ToDoContent?.Length > 0)
             {
                 todo.todo_doc_content = todoInfo.ToDoContent;
@@ -145,6 +148,8 @@ namespace Ashirvad.Repo.Services.Area.ToDo
                             ToDoFileName = u.todo_doc_name,
                             ToDoDate = u.todo_dt,
                             ToDoDescription = u.todo_desc,
+                            Remark=u.remark,
+                            Registerstatus=u.reg_status,
                             UserInfo = new UserEntity()
                             {
                                 UserID = ud.user_id,

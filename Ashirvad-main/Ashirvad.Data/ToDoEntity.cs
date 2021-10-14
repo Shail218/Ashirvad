@@ -18,6 +18,8 @@ namespace Ashirvad.Data
         public byte[] ToDoContent { get; set; }
         public string ToDoContentText { get; set; }
         public string ToDoFileName { get; set; }
+        public string Remark { get; set; }
+        public bool? Registerstatus { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public TransactionEntity Transaction { get; set; }
     }
