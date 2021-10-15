@@ -11,7 +11,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
     {
         Task<FeesEntity> FeesMaintenance(FeesEntity FeesInfo);
         Task<List<FeesEntity>> GetAllFees();
-
+    
         Task<List<FeesEntity>> GetAllFeesWithoutImage();
         Task<FeesEntity> GetFeesByFeesID(long FeesID);
         bool RemoveFees(long FeesID, string lastupdatedby);

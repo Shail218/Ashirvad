@@ -30,22 +30,14 @@ function EditToDo(todoID) {
     });
 }
 
-function changestatus() {
-    if (this.value == 'Active') {
-        $("#RowStatus_RowStatusId").val(1);
+function changestatus(row) {
+    if (row.value == 'Active') {
+        $("#Registerstatus").val(true);
     }
     else {
-        $("#RowStatus_RowStatusId").val(2);
+        $("#Registerstatus").val(false);
     }
 }
-$('input[type=radio][name=Status]').change(function () {
-    if (this.value == 'Active') {
-        $("#RowStatus_RowStatusId").val(1);
-    }
-    else {
-        $("#RowStatus_RowStatusId").val(2);
-    }
-});
 
 function onclosemodel(myModal) {
 
