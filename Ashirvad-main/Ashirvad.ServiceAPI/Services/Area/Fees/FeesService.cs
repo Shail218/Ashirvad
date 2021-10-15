@@ -101,7 +101,9 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return false;
         }
 
-       
-
+        Task<List<FeesEntity>> IFeesService.GetAllFeesWithoutImage()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
