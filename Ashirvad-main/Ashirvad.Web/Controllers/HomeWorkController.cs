@@ -1,6 +1,7 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
+using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Homework;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,11 @@ namespace Ashirvad.Web.Controllers
     public class HomeWorkController : BaseController
     {
         private readonly IHomeworkService _homeworkService = null;
-        public HomeWorkController(IHomeworkService homeworkService)
+        private readonly IHomeworkDetailService _homeworkdetailService = null;
+        public HomeWorkController(IHomeworkService homeworkService, IHomeworkDetailService homeworkdetailService)
         {
             _homeworkService = homeworkService;
+            _homeworkdetailService = homeworkdetailService;
         }
 
 
@@ -134,6 +137,14 @@ namespace Ashirvad.Web.Controllers
 
             }
             return Json(array);
+        }
+
+        public ActionResult StudentHomeworkDetails(long StudhID)
+        {
+            var result = _homeworkdetailService.GetAllHomeworkdetailByHomeWork(StudhID);
+
+            
+            return View(result);
         }
 
     }

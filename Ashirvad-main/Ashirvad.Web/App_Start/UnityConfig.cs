@@ -1,3 +1,4 @@
+using Ashirvad.Repo.DataAcceessAPI.Area;
 using Ashirvad.Repo.DataAcceessAPI.Area.AboutUs;
 using Ashirvad.Repo.DataAcceessAPI.Area.Admin;
 using Ashirvad.Repo.DataAcceessAPI.Area.Announcement;
@@ -5,6 +6,7 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Attendance;
 using Ashirvad.Repo.DataAcceessAPI.Area.Banner;
 using Ashirvad.Repo.DataAcceessAPI.Area.Batch;
 using Ashirvad.Repo.DataAcceessAPI.Area.Branch;
+using Ashirvad.Repo.DataAcceessAPI.Area.Fees;
 using Ashirvad.Repo.DataAcceessAPI.Area.Gallery;
 using Ashirvad.Repo.DataAcceessAPI.Area.Homework;
 using Ashirvad.Repo.DataAcceessAPI.Area.Library;
@@ -21,6 +23,7 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Test;
 using Ashirvad.Repo.DataAcceessAPI.Area.ToDo;
 using Ashirvad.Repo.DataAcceessAPI.Area.UPI;
 using Ashirvad.Repo.DataAcceessAPI.Area.User;
+using Ashirvad.Repo.Services.Area;
 using Ashirvad.Repo.Services.Area.AboutUs;
 using Ashirvad.Repo.Services.Area.Admin;
 using Ashirvad.Repo.Services.Area.Announcement;
@@ -44,6 +47,7 @@ using Ashirvad.Repo.Services.Area.Test;
 using Ashirvad.Repo.Services.Area.ToDo;
 using Ashirvad.Repo.Services.Area.UPI;
 using Ashirvad.Repo.Services.Area.User;
+using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.AboutUs;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Admin;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Announcement;
@@ -67,6 +71,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Test;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.ToDo;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.UPI;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.User;
+using Ashirvad.ServiceAPI.Services.Area;
 using Ashirvad.ServiceAPI.Services.Area.AboutUs;
 using Ashirvad.ServiceAPI.Services.Area.Admin;
 using Ashirvad.ServiceAPI.Services.Area.Announcement;
@@ -174,6 +179,15 @@ namespace Ashirvad.Web
 
             container.RegisterType<IUPIService, UPIService>();
             container.RegisterType<IUPIAPI, UPI>();
+
+            container.RegisterType<IUPIService, UPIService>();
+            container.RegisterType<IUPIAPI, UPI>();
+
+            container.RegisterType<IFeesService, FeesService>();
+            container.RegisterType<IFeesAPI, Fees>();
+
+            container.RegisterType<IHomeworkDetailService, HomeworkDetailService>();
+            container.RegisterType<IHomeworkDetailsAPI, HomeworkDetails>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

@@ -1041,6 +1041,7 @@
     <Compile Include="Controllers\BatchController.cs" />
     <Compile Include="Controllers\BatchWiseChartController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\FeesStructureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1258,6 +1259,10 @@
     <Content Include="Views\Agreement\Index.cshtml" />
     <Content Include="Views\Agreement\Create.cshtml" />
     <Content Include="Views\Agreement\Manage.cshtml" />
+    <Content Include="Views\HomeWork\StudentHomeworkDetails.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\Create.cshtml" />
+    <Content Include="Views\Category\Manage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

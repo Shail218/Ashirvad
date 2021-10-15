@@ -21,7 +21,6 @@ namespace Ashirvad.Web.Controllers
             _subjectService = subjectService;
         }
 
-        // GET: Subject
         public ActionResult Index()
         {
             return View();
