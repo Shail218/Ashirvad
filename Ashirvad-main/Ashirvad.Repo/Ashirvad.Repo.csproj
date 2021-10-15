@@ -67,6 +67,7 @@
     <Compile Include="DataAcceessAPI\Area\Branch\IBranchAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Fees\IFeesAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Gallery\IGalleryAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\HomeworkDetails\IHomeworkDetailsAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Homework\IHomeworkAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Library\ILibraryAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Link\ILinkAPI.cs" />
@@ -148,6 +149,9 @@
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\HOMEWORK_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\HOMEWORK_MASTER_DTL.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\LIBRARY_DATA.cs">
@@ -244,6 +248,7 @@
     <Compile Include="Services\Area\Branch\Branch.cs" />
     <Compile Include="Services\Area\Fees\Fees.cs" />
     <Compile Include="Services\Area\Gallery\Gallery.cs" />
+    <Compile Include="Services\Area\HomeworkDetails\HomeworkDetails.cs" />
     <Compile Include="Services\Area\Homework\Homework.cs" />
     <Compile Include="Services\Area\Library\Library.cs" />
     <Compile Include="Services\Area\Link\LinkMGMT.cs" />

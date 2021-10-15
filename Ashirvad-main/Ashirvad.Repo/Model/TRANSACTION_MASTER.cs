@@ -30,6 +30,7 @@ namespace Ashirvad.Repo.Model
             this.STUDENT_PAYMENT_REL = new HashSet<STUDENT_PAYMENT_REL>();
             this.UPI_MASTER = new HashSet<UPI_MASTER>();
             this.FEE_STRUCTURE_DTL = new HashSet<FEE_STRUCTURE_DTL>();
+            this.HOMEWORK_MASTER_DTL = new HashSet<HOMEWORK_MASTER_DTL>();
         }
     
         public long trans_id { get; set; }
@@ -66,5 +67,7 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<UPI_MASTER> UPI_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HOMEWORK_MASTER_DTL> HOMEWORK_MASTER_DTL { get; set; }
     }
 }

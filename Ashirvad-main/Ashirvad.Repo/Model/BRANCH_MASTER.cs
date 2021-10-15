@@ -38,6 +38,7 @@ namespace Ashirvad.Repo.Model
             this.UPI_MASTER = new HashSet<UPI_MASTER>();
             this.BRANCH_AGREEMENT = new HashSet<BRANCH_AGREEMENT>();
             this.TODO_MASTER = new HashSet<TODO_MASTER>();
+            this.HOMEWORK_MASTER_DTL = new HashSet<HOMEWORK_MASTER_DTL>();
         }
     
         public long branch_id { get; set; }
@@ -94,5 +95,7 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<BRANCH_AGREEMENT> BRANCH_AGREEMENT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TODO_MASTER> TODO_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HOMEWORK_MASTER_DTL> HOMEWORK_MASTER_DTL { get; set; }
     }
 }

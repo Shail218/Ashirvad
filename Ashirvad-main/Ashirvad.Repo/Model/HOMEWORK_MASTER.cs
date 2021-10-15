@@ -14,6 +14,12 @@ namespace Ashirvad.Repo.Model
     
     public partial class HOMEWORK_MASTER
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public HOMEWORK_MASTER()
+        {
+            this.HOMEWORK_MASTER_DTL = new HashSet<HOMEWORK_MASTER_DTL>();
+        }
+    
         public long homework_id { get; set; }
         public System.DateTime homework_dt { get; set; }
         public long branch_id { get; set; }
@@ -29,5 +35,7 @@ namespace Ashirvad.Repo.Model
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         public virtual STD_MASTER STD_MASTER { get; set; }
         public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HOMEWORK_MASTER_DTL> HOMEWORK_MASTER_DTL { get; set; }
     }
 }
