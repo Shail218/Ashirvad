@@ -64,6 +64,7 @@
     <Compile Include="ServiceAPI\Area\Fees\IFeesService.cs" />
     <Compile Include="ServiceAPI\Area\Branch\IBranchService.cs" />
     <Compile Include="ServiceAPI\Area\Gallery\IGalleryService.cs" />
+    <Compile Include="ServiceAPI\Area\HomeworkDetail\IHomeworkDetailService.cs" />
     <Compile Include="ServiceAPI\Area\Homework\IHomeworkService.cs" />
     <Compile Include="ServiceAPI\Area\Library\ILibraryService.cs" />
     <Compile Include="ServiceAPI\Area\Link\ILinkService.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Services\Area\Standard\StandardService.cs" />
     <Compile Include="Services\Area\Student\StudentService.cs" />
     <Compile Include="Services\Area\Subject\SubjectService.cs" />
+    <Compile Include="Services\Area\HomeworkDetail\HomeworkDetailService.cs" />
     <Compile Include="Services\Area\Test\TestService.cs" />
     <Compile Include="Services\Area\ToDo\ToDoService.cs" />
     <Compile Include="Services\Area\UPI\UPIService.cs" />
