@@ -1,7 +1,6 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
-
 $(document).ready(function () {
 
     $("#datepickeradmission").datepicker({

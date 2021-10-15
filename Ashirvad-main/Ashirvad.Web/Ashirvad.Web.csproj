@@ -208,6 +208,7 @@
     <Content Include="scripts\app\branch.js" />
     <Content Include="scripts\app\branchdata.js" />
     <Content Include="scripts\app\common.js" />
+    <Content Include="scripts\app\fees.js" />
     <Content Include="scripts\app\homework.js" />
     <Content Include="scripts\app\image.js" />
     <Content Include="scripts\app\library.js" />

@@ -10,34 +10,34 @@
                 <tbody>
                     <tr>
                         <td>
-                            @if (Model.RowStatus.RowStatusId == 1 && Model != null)
+                            @if (Model.Registerstatus == true && Model != null)
                             {
-                                <input type="radio" name="Status" id="rowStaActive" value="Active" style="margin-left" checked onchange="changestatus();"/>
+                                <input type="radio" name="Status" id="rowStaActive" value="Active" style="margin-left:10px" checked onchange="changestatus(this);"/>
                             }
                             else
                             {
-                                <input type="radio" name="Status" id="rowStaActive" value="Active" onchange="changestatus();"/>
+                                <input type="radio" name="Status" id="rowStaActive" value="Active" style="margin-left:10px" onchange="changestatus(this);"/>
                             }
-                            <lable for="rowStaActive">Active</lable>
+                            <lable for="rowStaActive">Done</lable>
                         </td>
                         <td>
-                            @if (Model.RowStatus.RowStatusId == 2 && Model != null)
+                            @if (Model.Registerstatus == false && Model != null)
                             {
-                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px" checked onchange="changestatus();"/>
+                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px" checked onchange="changestatus(this);"/>
                             }
                             else
                             {
-                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px" onchange="changestatus();"/>
+                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px" onchange="changestatus(this);"/>
                             }
-                            <lable for="rowStaInactive">Inactive</lable>
+                            <lable for="rowStaInactive">Pending</lable>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="col-md-8">
-            @Html.Label("Task Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.ToDoDescription, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
+            @Html.Label("Remark", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBoxFor(x => x.Remark, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
             @Html.HiddenFor(x => x.ToDoID)
             @Html.HiddenFor(x => x.ToDoDate)
             @Html.HiddenFor(x => x.BranchInfo.BranchID)
@@ -48,6 +48,7 @@
             @Html.HiddenFor(x => x.ToDoFileName)
             @Html.HiddenFor(x => x.ToDoContentText)
             @Html.HiddenFor(x => x.RowStatus.RowStatusId)   
+            @Html.HiddenFor(x => x.Registerstatus)   
         </div>
     </div>
     <div class="row">

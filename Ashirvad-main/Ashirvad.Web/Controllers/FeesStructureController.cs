@@ -1,4 +1,5 @@
-﻿using Ashirvad.Data;
+﻿using Ashirvad.Common;
+using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using System;
@@ -58,7 +59,7 @@ namespace Ashirvad.Web.Controllers
                 string _FileName = Path.GetFileName(Fees.ImageFile.FileName);
                 string extension = System.IO.Path.GetExtension(Fees.ImageFile.FileName);
                 string randomfilename = Common.Common.RandomString(20);
-                string _Filepath = "~/FeesImage/"+randomfilename + extension;
+                string _Filepath = "/FeesImage/"+randomfilename + extension;
                 string _path = Path.Combine(Server.MapPath("~/FeesImage"), randomfilename + extension);
                 Fees.ImageFile.SaveAs(_path);
                 Fees.FileName= _FileName;
@@ -66,6 +67,10 @@ namespace Ashirvad.Web.Controllers
             }
 
             Fees.Transaction = GetTransactionData(Fees.FeesID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            Fees.RowStatus = new RowStatusEntity()
+            {
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
             var data = await _FeesService.FeesMaintenance(Fees);
             if (data != null)
             {

@@ -35,6 +35,7 @@
     UPI: $("#hdnFldVDName").val() + "Upi/",
     Agreement: $("#hdnFldVDName").val() + "Agreement/",
     AttendanceReport: $("#hdnFldVDName").val() + "AttendanceReport/",
+    FeesStructure: $("#hdnFldVDName").val() + "FeesStructure/",
 };
 
 function GetExtention(image){

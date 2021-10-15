@@ -1,14 +1,14 @@
-﻿
+﻿@model Ashirvad.Data.Model.FeesMaintenanceModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <section class="content-header">
     <h1><i class="fa fa-edit" style="margin-right: 5px;"></i>Student Fees Structure</h1>
 </section>
 <hr />
 <section class="content">
+    <div class="messagealert" id="alert_container"></div>
     <div class="row">
         <section class="col-md-5">
             <div class="box box-warning">
@@ -17,7 +17,7 @@
                 </div>
                 <div class="box-body">
                     @{
-                        Html.RenderPartial("Create");
+                        Html.RenderPartial("Create", new ViewDataDictionary(Model.FeesInfo));
                     }
                 </div>
             </div>
@@ -29,82 +29,35 @@
                 </div>
                 <div class="box-body">
                     @{
-                        Html.RenderPartial("Manage");
+                        Html.RenderPartial("Manage", new ViewDataDictionary(Model.FeesData));
                     }
                 </div>
             </div>
         </section>
     </div>
     @section Scripts {
-        <script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>
+        <script type="text/javascript" src="~/scripts/app/fees.js"></script>
+        @*<script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>*@
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
         <script>
-        $(document).ready(function () {
+            $(document).ready(function () {
 
-            $('#studenttbl').DataTable({
-                "searching": true,
-                "orderable": true,
-                "columnDefs": [
-                    {
-                        "targets": [0],
-                        "searchable": false,
-                        "orderable": false,
-                        "width": "10%"
-                    },
-                    {
-                        "targets": [1],
-                        "searchable": true,
-                        "orderable": true,
-                        "width": "10%"
-                    },
-                    {
-                        "targets": [2],
-                        "searchable": true,
-                        "orderable": true,
-                        "width": "10%"
-                    },
-                    {
-                        "targets": [3],
-                        "searchable": true,
-                        "orderable": true,
-                        "width": "10%"
-                    },
-                    {
-                        "targets": [4],
-                        "searchable": true,
-                        "orderable": true,
-                        "width": "10%"
-                    },
-                    {
-                        "targets": [5],
-                        "searchable": true,
-                        "orderable": true,
-                        "width": "10%"
-                    },
-
-                ],
-                "columns": [
-                    { "data": "" },
-                    { "data": "FirstName" },
-                    { "data": "AdmissionDate" },
-                    { "data": "Standard" },
-                    { "data": "BatchTime" },
-                    { "data": "ContactNo" },
-                ]
-            });
-        });
-        </script>
+                $('#studenttbl').DataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": true
+                });
+            });</script>
         <script type="text/javascript">
-        function ConfirmationDialog() {
-            if (confirm("Are you sure to continue?"))
-                return true;
-            else
-                return false;
-        }
-        </script>
-
+            function ConfirmationDialog() {
+                if (confirm("Are you sure to continue?"))
+                    return true;
+                else
+                    return false;
+            }</script>
     }
-
 </section>
-

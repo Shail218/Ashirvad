@@ -48,7 +48,7 @@ namespace Ashirvad.Repo.Services.Area
             {
                 FeesInfo.FeesID = FeesMaster.fee_struct_mst_id;
                var result2 = FeesDetailMaintenance(FeesInfo).Result;
-               return result2 > 0 ? FeesMaster.fee_struct_mst_id : 0;
+               return result2 > 0 ? FeesInfo.FeesID : 0;
             }
             return this.context.SaveChanges() > 0 ? FeesMaster.fee_struct_mst_id : 0;
         }
@@ -76,7 +76,8 @@ namespace Ashirvad.Repo.Services.Area
 
             FeesMaster.fee_content = FeesInfo.Fees_Content;
             FeesMaster.file_name = FeesInfo.FileName;
-            FeesMaster.fee_struct_mst_id = FeesInfo.FeesID;            
+            FeesMaster.fee_struct_mst_id = FeesInfo.FeesID;
+            FeesMaster.file_path = FeesInfo.FilePath;
             FeesMaster.row_sta_cd = FeesInfo.RowStatus.RowStatusId;
             FeesMaster.trans_id = this.AddTransactionData(FeesInfo.Transaction);
             this.context.FEE_STRUCTURE_DTL.Add(FeesMaster);
@@ -92,7 +93,7 @@ namespace Ashirvad.Repo.Services.Area
         {
             var data = (from u in this.context.FEE_STRUCTURE_MASTER
                         join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
-                        where u.row_sta_cd == 2
+                        where u.row_sta_cd == 1
                         select new FeesEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -135,6 +136,7 @@ namespace Ashirvad.Repo.Services.Area
                             BranchInfo= new BranchEntity() { BranchID = u.branch_id },
                             standardInfo= new StandardEntity() { StandardID = u.std_id },
                             FeesDetailID= b.fee_struct_dtl_id,
+                            FilePath = b.file_path,
                             FileName=b.file_name,
                             Fees_Content=b.fee_content
                         }).FirstOrDefault();
