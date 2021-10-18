@@ -3,6 +3,7 @@
 
 $(document).ready(function () {
     LoadBranch();
+    /*arrayBufferToBase64()*/
 });
 
 function LoadBranch() {

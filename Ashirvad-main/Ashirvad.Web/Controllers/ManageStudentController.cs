@@ -29,7 +29,7 @@ namespace Ashirvad.Web.Controllers
             StudentMaintenanceModel branch = new StudentMaintenanceModel();
             if (branchID > 0)
             {
-                var result = await _studentService.GetAllStudent(branchID);
+                var result = await _studentService.GetAllStudentWithoutContent(branchID);
                 branch.StudentData = result;
             }
 
