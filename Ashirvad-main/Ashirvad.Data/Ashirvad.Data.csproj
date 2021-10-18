@@ -48,6 +48,7 @@
     <Compile Include="BatchEntity.cs" />
     <Compile Include="BranchAgreementEntity.cs" />
     <Compile Include="BranchEntity.cs" />
+    <Compile Include="CategoryEntity.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="DataUsageEntity.cs" />
     <Compile Include="FeesEntity.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Model\AttendanceMaintenanceModel.cs" />
     <Compile Include="Model\BannerMaintenanceModel.cs" />
     <Compile Include="Model\BatchMaintenanceModel.cs" />
+    <Compile Include="Model\CategoryMaintenanceModel.cs" />
     <Compile Include="Model\FeesMaintenanceModel.cs" />
     <Compile Include="Model\BranchMaintenanceModel.cs" />
     <Compile Include="Model\GalleryMaintenanceModel.cs" />

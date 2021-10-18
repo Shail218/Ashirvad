@@ -28,6 +28,7 @@
     <tr>
         <td>
             @item.Branch.BranchName
+            @Html.HiddenFor(x => item.Branch.BranchID)
         </td>
         <td>
             @item.NotificationMessage

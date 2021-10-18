@@ -10,5 +10,12 @@ namespace Ashirvad.Data.Model
     {
         public HomeworkEntity HomeworkInfo { get; set; }
         public List<HomeworkEntity> HomeworkData { get; set; }
+ 
+    }
+
+    public class HomeworkDetailMaintenanceModel
+    {
+        public HomeworkDetailEntity HomeworkDetailInfo { get; set; }
+        public List<HomeworkDetailEntity> HomeworkDetailData { get; set; }
     }
 }

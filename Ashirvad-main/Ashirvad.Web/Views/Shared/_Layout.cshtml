@@ -86,6 +86,9 @@
             border-bottom: 0;
             border-left: .3em solid transparent;
         }
+        .input-sm{
+            height:25px !important;
+        }
     </style>
 </head>
 <body class="skin-blue layout-top-nav">
@@ -279,6 +282,11 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li class="treeview">
+                                            <a href="@Url.Action("Index","Category")">
+                                              Category
+                                            </a>
+                                        </li>
+                                        <li class="treeview">
                                             <a href="@Url.Action("LibraryMaintenance","Library", new { @libraryID=0 })">
                                                 Library Entry
                                             </a>
@@ -419,6 +427,8 @@
                                     <img src="~/ThemeData/dist/img/avatar5.png" class="user-image" alt="User Image" />
                                     <span class="hidden-xs">
                                         <label id="lblUserName">@SessionContext.Instance.LoginUser.Username</label>
+                                        <input id="Role_Name" hidden value="@SessionContext.Instance.LoginUser.UserType"/>
+                                        <input id="Branch_Name" hidden value="@SessionContext.Instance.LoginUser.BranchInfo.BranchID"/>
                                     </span>
                                 </a>
                                 <ul class="dropdown-menu">
