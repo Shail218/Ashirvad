@@ -189,6 +189,9 @@ namespace Ashirvad.Web
             container.RegisterType<IHomeworkDetailService, HomeworkDetailService>();
             container.RegisterType<IHomeworkDetailsAPI, HomeworkDetails>();
 
+            container.RegisterType<IMarksAPI, Marks>();
+            container.RegisterType<IMarksService, MarksService>();
+
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }
