@@ -53,6 +53,7 @@
     <Compile Include="DataUsageEntity.cs" />
     <Compile Include="FeesEntity.cs" />
     <Compile Include="GalleryEntity.cs" />
+    <Compile Include="MarksEntity.cs" />
     <Compile Include="HomeworkEntity.cs" />
     <Compile Include="LibraryEntity.cs" />
     <Compile Include="LinkEntity.cs" />
