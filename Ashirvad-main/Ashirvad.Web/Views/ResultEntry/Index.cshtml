@@ -32,72 +32,76 @@
         </section>
     </div>
     @section Scripts {
-        <script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>
+        @*<script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>*@
+        <script type="text/javascript" src="~/scripts/app/marks.js"></script>
+
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+
         <script>
-        $(document).ready(function () {
+            $(document).ready(function () {
 
-            $('#studenttbl').DataTable({
-                "searching": true,
-                "orderable": true,
-                "columnDefs": [
-                    {
-                        "targets": [0],
-                        "searchable": false,
-                        "orderable": false,
-                        "width": "10%"
-                    },
-                    {
-                        "targets": [1],
-                        "searchable": true,
-                        "orderable": true,
-                        "width": "10%"
-                    },
-                    {
-                        "targets": [2],
-                        "searchable": true,
-                        "orderable": true,
-                        "width": "10%"
-                    },
-                    {
-                        "targets": [3],
-                        "searchable": true,
-                        "orderable": true,
-                        "width": "10%"
-                    },
-                    {
-                        "targets": [4],
-                        "searchable": true,
-                        "orderable": true,
-                        "width": "10%"
-                    },
-                    {
-                        "targets": [5],
-                        "searchable": true,
-                        "orderable": true,
-                        "width": "10%"
-                    },
+                $('#studenttbl').DataTable({
+                    "searching": true,
+                    "orderable": true,
+                    "columnDefs": [
+                        {
+                            "targets": [0],
+                            "searchable": false,
+                            "orderable": false,
+                            "width": "10%"
+                        },
+                        {
+                            "targets": [1],
+                            "searchable": true,
+                            "orderable": true,
+                            "width": "10%"
+                        },
+                        {
+                            "targets": [2],
+                            "searchable": true,
+                            "orderable": true,
+                            "width": "10%"
+                        },
+                        {
+                            "targets": [3],
+                            "searchable": true,
+                            "orderable": true,
+                            "width": "10%"
+                        },
+                        {
+                            "targets": [4],
+                            "searchable": true,
+                            "orderable": true,
+                            "width": "10%"
+                        },
+                        {
+                            "targets": [5],
+                            "searchable": true,
+                            "orderable": true,
+                            "width": "10%"
+                        },
 
-                ],
-                "columns": [
-                    { "data": "" },
-                    { "data": "FirstName" },
-                    { "data": "AdmissionDate" },
-                    { "data": "Standard" },
-                    { "data": "BatchTime" },
-                    { "data": "ContactNo" },
-                ]
+                    ],
+                    "columns": [
+                        { "data": "" },
+                        { "data": "FirstName" },
+                        { "data": "AdmissionDate" },
+                        { "data": "Standard" },
+                        { "data": "BatchTime" },
+                        { "data": "ContactNo" },
+                    ]
+                });
             });
-        });
         </script>
         <script type="text/javascript">
-        function ConfirmationDialog() {
-            if (confirm("Are you sure to continue?"))
-                return true;
-            else
-                return false;
-        }
+            function ConfirmationDialog() {
+                if (confirm("Are you sure to continue?"))
+                    return true;
+                else
+                    return false;
+            }
         </script>
 
     }
