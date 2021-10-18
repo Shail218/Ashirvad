@@ -24,7 +24,7 @@ namespace Ashirvad.Repo.Model
     
         public virtual MARKS_MASTER_DTL MARKS_MASTER_DTL1 { get; set; }
         public virtual MARKS_MASTER_DTL MARKS_MASTER_DTL2 { get; set; }
-        public virtual MARKS_MASTER MARKS_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
+        public virtual MARKS_MASTER MARKS_MASTER { get; set; }
     }
 }

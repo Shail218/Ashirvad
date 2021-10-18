@@ -113,18 +113,18 @@
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER" />
-        <EntityTypeShape EntityType="AshirvadModel.MARKS_MASTER" Width="1.5" PointX="18.5" PointY="28.5" />
         <EntityTypeShape EntityType="AshirvadModel.MARKS_MASTER_DTL" Width="1.5" PointX="9.375" PointY="0.75" />
-        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_MARKS_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_STD_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_SUBJECT_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL" />
         <EntityTypeShape EntityType="AshirvadModel.CATEGORY_MASTER" Width="1.5" PointX="11.25" PointY="10.25" />
         <AssociationConnector Association="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_CATEGORY_MASTER_TRANSACTION_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL1" />
         <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_DTL_TRANSACTION_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.MARKS_MASTER" Width="1.5" PointX="18.5" PointY="28.5" />
+        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_MARKS_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL1" />
+        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_STD_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_SUBJECT_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
