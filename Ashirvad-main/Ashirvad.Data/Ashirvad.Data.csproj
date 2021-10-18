@@ -65,6 +65,7 @@
     <Compile Include="Model\BannerMaintenanceModel.cs" />
     <Compile Include="Model\BatchMaintenanceModel.cs" />
     <Compile Include="Model\CategoryMaintenanceModel.cs" />
+    <Compile Include="Model\MarksMaintenanceModel.cs" />
     <Compile Include="Model\FeesMaintenanceModel.cs" />
     <Compile Include="Model\BranchMaintenanceModel.cs" />
     <Compile Include="Model\GalleryMaintenanceModel.cs" />
