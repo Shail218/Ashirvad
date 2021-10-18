@@ -27,7 +27,7 @@ namespace Ashirvad.Repo.Model
         public long sub_id { get; set; }
         public long batch_id { get; set; }
         public string remarks { get; set; }
-        public byte[] total_marks { get; set; }
+        public string total_marks { get; set; }
         public int row_sta_cd { get; set; }
         public long trans_id { get; set; }
     

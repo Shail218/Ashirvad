@@ -58,7 +58,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                 {
                     this.context.Entry(branchStaff).State = System.Data.Entity.EntityState.Modified;
                 }
-                return this.context.SaveChanges() > 0 ? branchStaff.branch_id : 0;
+                return this.context.SaveChanges() > 0 ? branchStaff.staff_id : 0;
             }
             else
             {

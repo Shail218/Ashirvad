@@ -12,23 +12,22 @@ namespace Ashirvad.Repo.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class CATEGORY_MASTER
+    public partial class LIBRARY_MASTER_DTL
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CATEGORY_MASTER()
-        {
-            this.LIBRARY1_MASTER = new HashSet<LIBRARY1_MASTER>();
-        }
-    
-        public long category_id { get; set; }
-        public string category_name { get; set; }
+        public long library_dtl_id { get; set; }
+        public long library_id { get; set; }
         public long branch_id { get; set; }
+        public long type { get; set; }
+        public byte[] library_content { get; set; }
+        public string library_name { get; set; }
+        public string library_filepath { get; set; }
+        public int status { get; set; }
+        public string remarks { get; set; }
         public int row_sta_cd { get; set; }
         public long trans_id { get; set; }
     
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+        public virtual LIBRARY_MASTER LIBRARY_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LIBRARY1_MASTER> LIBRARY1_MASTER { get; set; }
     }
 }

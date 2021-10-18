@@ -159,10 +159,16 @@
     <Compile Include="Model\HOMEWORK_MASTER_DTL.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\LIBRARY1_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\LIBRARY_DATA.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\LIBRARY_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LIBRARY_MASTER_DTL.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\LINK_MASTER.cs">
