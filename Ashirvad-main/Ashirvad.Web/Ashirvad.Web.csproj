@@ -1273,6 +1273,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="FeesImage\" />
+    <Folder Include="MarksImage\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
