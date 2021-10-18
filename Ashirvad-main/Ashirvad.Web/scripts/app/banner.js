@@ -93,8 +93,16 @@ function LoadBranch(onLoaded) {
         $('#BranchName').empty();
         $('#BranchName').select2();
         $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
+        if ($("#Role_Name").val() == 'SuperAdmin') {
+            for (i = 0; i < data.length; i++) {
+                $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
+            }
+        } else {
+            for (i = 0; i < data.length; i++) {
+                if (data[i].BranchID == $("#Branch_Name").val()) {
+                    $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
+                }
+            }
         }
         if (onLoaded != undefined) {
             onLoaded();
