@@ -76,6 +76,7 @@
     <Compile Include="DataAcceessAPI\Area\Paper\IPaperAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Payment\IStudentPaymentAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Reminder\IReminderAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\Category\ICategoryAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\School\ISchoolAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Staff\IStaffAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Standard\IStandardAPI.cs" />
@@ -138,6 +139,9 @@
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\BRANCH_STAFF.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CATEGORY_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\FEE_STRUCTURE_DTL.cs">
@@ -264,6 +268,7 @@
     <Compile Include="Services\Area\Paper\Paper.cs" />
     <Compile Include="Services\Area\Payment\StudentPayment.cs" />
     <Compile Include="Services\Area\Reminder\Reminder.cs" />
+    <Compile Include="Services\Area\Category\Category.cs" />
     <Compile Include="Services\Area\School\School.cs" />
     <Compile Include="Services\Area\Staff\Staff.cs" />
     <Compile Include="Services\Area\Standard\Standard.cs" />

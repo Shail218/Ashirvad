@@ -192,6 +192,9 @@ namespace Ashirvad.Web
             container.RegisterType<IMarksAPI, Marks>();
             container.RegisterType<IMarksService, MarksService>();
 
+            container.RegisterType<ICategoryAPI, Category>();
+            container.RegisterType<ICategoryService, CategoryService>();
+
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

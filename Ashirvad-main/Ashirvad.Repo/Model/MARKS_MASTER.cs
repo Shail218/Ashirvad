@@ -14,6 +14,12 @@ namespace Ashirvad.Repo.Model
     
     public partial class MARKS_MASTER
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public MARKS_MASTER()
+        {
+            this.MARKS_MASTER_DTL = new HashSet<MARKS_MASTER_DTL>();
+        }
+    
         public long marks_id { get; set; }
         public System.DateTime marks_dt { get; set; }
         public long branch_id { get; set; }
@@ -29,5 +35,7 @@ namespace Ashirvad.Repo.Model
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         public virtual STD_MASTER STD_MASTER { get; set; }
         public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MARKS_MASTER_DTL> MARKS_MASTER_DTL { get; set; }
     }
 }

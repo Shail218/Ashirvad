@@ -162,6 +162,16 @@
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
         </EntityType>
+        <EntityType Name="CATEGORY_MASTER">
+          <Key>
+            <PropertyRef Name="category_id" />
+          </Key>
+          <Property Name="category_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="branch_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="FEE_STRUCTURE_DTL">
           <Key>
             <PropertyRef Name="fee_struct_dtl_id" />
@@ -772,6 +782,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CATEGORY_MASTER_BRANCH_MASTER">
+          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+          <End Role="CATEGORY_MASTER" Type="Self.CATEGORY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="CATEGORY_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CATEGORY_MASTER_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="CATEGORY_MASTER" Type="Self.CATEGORY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="CATEGORY_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
           <End Role="FEE_STRUCTURE_MASTER" Type="Self.FEE_STRUCTURE_MASTER" Multiplicity="1" />
           <End Role="FEE_STRUCTURE_DTL" Type="Self.FEE_STRUCTURE_DTL" Multiplicity="*" />
@@ -953,14 +987,26 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL">
-          <End Role="MARKS_MASTER_DTL" Type="Self.MARKS_MASTER_DTL" Multiplicity="1" />
-          <End Role="MARKS_MASTER_DTL1" Type="Self.MARKS_MASTER_DTL" Multiplicity="0..1" />
+          <End Role="MARKS_MASTER" Type="Self.MARKS_MASTER" Multiplicity="1" />
+          <End Role="MARKS_MASTER_DTL" Type="Self.MARKS_MASTER_DTL" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="MARKS_MASTER_DTL">
-              <PropertyRef Name="marks_master_dtl_id" />
+            <Principal Role="MARKS_MASTER">
+              <PropertyRef Name="marks_id" />
             </Principal>
-            <Dependent Role="MARKS_MASTER_DTL1">
-              <PropertyRef Name="marks_master_dtl_id" />
+            <Dependent Role="MARKS_MASTER_DTL">
+              <PropertyRef Name="marks_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARKS_MASTER_DTL_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="MARKS_MASTER_DTL" Type="Self.MARKS_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="MARKS_MASTER_DTL">
+              <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1466,6 +1512,7 @@
           <EntitySet Name="BRANCH_MAINT" EntityType="Self.BRANCH_MAINT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BRANCH_MASTER" EntityType="Self.BRANCH_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BRANCH_STAFF" EntityType="Self.BRANCH_STAFF" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CATEGORY_MASTER" EntityType="Self.CATEGORY_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FEE_STRUCTURE_DTL" EntityType="Self.FEE_STRUCTURE_DTL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FEE_STRUCTURE_MASTER" EntityType="Self.FEE_STRUCTURE_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GALLERY_MASTER" EntityType="Self.GALLERY_MASTER" Schema="dbo" store:Type="Tables" />
@@ -1562,6 +1609,14 @@
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
           </AssociationSet>
+          <AssociationSet Name="FK_CATEGORY_MASTER_BRANCH_MASTER" Association="Self.FK_CATEGORY_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CATEGORY_MASTER_TRANSACTION_MASTER" Association="Self.FK_CATEGORY_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
+          </AssociationSet>
           <AssociationSet Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" Association="Self.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
             <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
             <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
@@ -1623,8 +1678,12 @@
             <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL" Association="Self.FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL">
+            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
             <End Role="MARKS_MASTER_DTL" EntitySet="MARKS_MASTER_DTL" />
-            <End Role="MARKS_MASTER_DTL1" EntitySet="MARKS_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARKS_MASTER_DTL_TRANSACTION_MASTER" Association="Self.FK_MARKS_MASTER_DTL_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="MARKS_MASTER_DTL" EntitySet="MARKS_MASTER_DTL" />
           </AssociationSet>
           <AssociationSet Name="FK_MARKS_MASTER_MARKS_MASTER" Association="Self.FK_MARKS_MASTER_MARKS_MASTER">
             <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
@@ -2140,6 +2199,23 @@
             <End Role="MARKS_MASTER_DTL" EntitySet="MARKS_MASTER_DTL" />
             <End Role="MARKS_MASTER_DTL1" EntitySet="MARKS_MASTER_DTL" />
           </AssociationSet>
+          <EntitySet Name="CATEGORY_MASTER" EntityType="AshirvadModel.CATEGORY_MASTER" />
+          <AssociationSet Name="FK_CATEGORY_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CATEGORY_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_CATEGORY_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL1" Association="AshirvadModel.FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL1">
+            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+            <End Role="MARKS_MASTER_DTL" EntitySet="MARKS_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARKS_MASTER_DTL_TRANSACTION_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_DTL_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="MARKS_MASTER_DTL" EntitySet="MARKS_MASTER_DTL" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_MASTER">
           <Key>
@@ -2241,6 +2317,7 @@
           <NavigationProperty Name="TODO_MASTER" Relationship="AshirvadModel.FK_TODO_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TODO_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
           <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="MARKS_MASTER" />
+          <NavigationProperty Name="CATEGORY_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="CATEGORY_MASTER" />
         </EntityType>
         <EntityType Name="BRANCH_STAFF">
           <Key>
@@ -2403,6 +2480,8 @@
           <NavigationProperty Name="UPI_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="UPI_MASTER" />
           <NavigationProperty Name="FEE_STRUCTURE_DTL" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FEE_STRUCTURE_DTL" />
           <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
+          <NavigationProperty Name="CATEGORY_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="CATEGORY_MASTER" />
+          <NavigationProperty Name="MARKS_MASTER_DTL" Relationship="AshirvadModel.FK_MARKS_MASTER_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="MARKS_MASTER_DTL" />
         </EntityType>
         <EntityType Name="TYPE_DESC">
           <Key>
@@ -3637,6 +3716,7 @@
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" FromRole="MARKS_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_STD_MASTER" FromRole="MARKS_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_SUBJECT_MASTER" FromRole="MARKS_MASTER" ToRole="SUBJECT_MASTER" />
+          <NavigationProperty Name="MARKS_MASTER_DTL" Relationship="AshirvadModel.FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL1" FromRole="MARKS_MASTER" ToRole="MARKS_MASTER_DTL" />
         </EntityType>
         <EntityType Name="MARKS_MASTER_DTL">
           <Key>
@@ -3651,6 +3731,8 @@
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="MARKS_MASTER_DTL1" Relationship="AshirvadModel.FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL" FromRole="MARKS_MASTER_DTL" ToRole="MARKS_MASTER_DTL1" />
           <NavigationProperty Name="MARKS_MASTER_DTL2" Relationship="AshirvadModel.FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL" FromRole="MARKS_MASTER_DTL1" ToRole="MARKS_MASTER_DTL" />
+          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL1" FromRole="MARKS_MASTER_DTL" ToRole="MARKS_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_DTL_TRANSACTION_MASTER" FromRole="MARKS_MASTER_DTL" ToRole="TRANSACTION_MASTER" />
         </EntityType>
         <Association Name="FK_MARKS_MASTER_MARKS_MASTER">
           <End Type="AshirvadModel.BATCH_MASTER" Role="BATCH_MASTER" Multiplicity="1" />
@@ -3709,6 +3791,66 @@
             </Principal>
             <Dependent Role="MARKS_MASTER_DTL1">
               <PropertyRef Name="marks_master_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CATEGORY_MASTER">
+          <Key>
+            <PropertyRef Name="category_id" />
+          </Key>
+          <Property Name="category_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER" FromRole="CATEGORY_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_TRANSACTION_MASTER" FromRole="CATEGORY_MASTER" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <Association Name="FK_CATEGORY_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.CATEGORY_MASTER" Role="CATEGORY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="CATEGORY_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CATEGORY_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.CATEGORY_MASTER" Role="CATEGORY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="CATEGORY_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL1">
+          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.MARKS_MASTER_DTL" Role="MARKS_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MARKS_MASTER">
+              <PropertyRef Name="marks_id" />
+            </Principal>
+            <Dependent Role="MARKS_MASTER_DTL">
+              <PropertyRef Name="marks_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARKS_MASTER_DTL_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.MARKS_MASTER_DTL" Role="MARKS_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="MARKS_MASTER_DTL">
+              <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4363,6 +4505,17 @@
                 <ScalarProperty Name="marks_sheet_content" ColumnName="marks_sheet_content" />
                 <ScalarProperty Name="marks_id" ColumnName="marks_id" />
                 <ScalarProperty Name="marks_master_dtl_id" ColumnName="marks_master_dtl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CATEGORY_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.CATEGORY_MASTER">
+              <MappingFragment StoreEntitySet="CATEGORY_MASTER">
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
