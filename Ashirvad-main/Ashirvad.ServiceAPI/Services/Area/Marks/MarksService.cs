@@ -32,7 +32,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
                 }
             }
             catch (Exception ex)
-            {
+                {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 

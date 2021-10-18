@@ -1,6 +1,6 @@
 ﻿@model Ashirvad.Data.CategoryEntity
 
-<form id="fSubjectDetail">
+<form id="fCategory">
     <div class="form-group" id="dInformation">
         <div class="col-md-12">
             @Html.Label("Category Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -34,7 +34,7 @@ else
                     </span>
                     <span class="ladda-spinner"></span>
                 </a>
-                <a href="@Url.Action("CategoryMaintenance","Category", new { @branchID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                <a href="@Url.Action("CategoryMaintenance","Category", new { @CategoryID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
                     <span class="ladda-label">
                         Cancel
                     </span>

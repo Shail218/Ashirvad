@@ -36,6 +36,8 @@
     Agreement: $("#hdnFldVDName").val() + "Agreement/",
     AttendanceReport: $("#hdnFldVDName").val() + "AttendanceReport/",
     FeesStructure: $("#hdnFldVDName").val() + "FeesStructure/",
+    ResultEntry: $("#hdnFldVDName").val() + "ResultEntry/",
+    Category: $("#hdnFldVDName").val() + "Category/",
 };
 
 function GetExtention(image){

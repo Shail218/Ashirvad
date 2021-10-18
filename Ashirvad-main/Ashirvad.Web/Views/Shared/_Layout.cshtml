@@ -238,7 +238,7 @@
                                             <a href="@Url.Action("TestPaperMaintenance","TestPaper", new { @testID=0 })">Test Paper Entry</a>
                                         </li>
                                         <li id="Me">
-                                            <a href="@Url.Action("Index","ResultEntry")">Marks Entry</a>
+                                            <a href="@Url.Action("MarksMaintenance","ResultEntry", new { @MarksID=0 })">Marks Entry</a>
                                         </li>
                                         <li id="Mr">
                                             <a href="@Url.Action("Index","ResultRegister")">Marks Register</a>
@@ -282,7 +282,7 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li class="treeview">
-                                            <a href="@Url.Action("Index","Category")">
+                                            <a href="@Url.Action("CategoryMaintenance","Category",new { @categoryID=0 })">
                                               Category
                                             </a>
                                         </li>

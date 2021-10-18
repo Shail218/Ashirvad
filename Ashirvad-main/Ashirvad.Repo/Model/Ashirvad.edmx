@@ -293,7 +293,7 @@
           <Property Name="sub_id" Type="bigint" Nullable="false" />
           <Property Name="batch_id" Type="bigint" Nullable="false" />
           <Property Name="remarks" Type="nvarchar(max)" />
-          <Property Name="total_marks" Type="varbinary" MaxLength="50" Nullable="false" />
+          <Property Name="total_marks" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
         </EntityType>
@@ -3785,7 +3785,7 @@
           <Property Name="sub_id" Type="Int64" Nullable="false" />
           <Property Name="batch_id" Type="Int64" Nullable="false" />
           <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="total_marks" Type="Binary" Nullable="false" MaxLength="50" FixedLength="false" />
+          <Property Name="total_marks" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_MARKS_MASTER" FromRole="MARKS_MASTER" ToRole="BATCH_MASTER" />
