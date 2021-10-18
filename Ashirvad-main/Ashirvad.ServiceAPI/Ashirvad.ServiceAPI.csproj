@@ -61,6 +61,7 @@
     <Compile Include="ServiceAPI\Area\Attendance\IAttendanceService.cs" />
     <Compile Include="ServiceAPI\Area\Banner\IBannerService.cs" />
     <Compile Include="ServiceAPI\Area\Batch\IBatchService.cs" />
+    <Compile Include="ServiceAPI\Area\Marks\IMarksService.cs" />
     <Compile Include="ServiceAPI\Area\Fees\IFeesService.cs" />
     <Compile Include="ServiceAPI\Area\Branch\IBranchService.cs" />
     <Compile Include="ServiceAPI\Area\Gallery\IGalleryService.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Services\Area\Attendance\AttendanceService.cs" />
     <Compile Include="Services\Area\Banner\BannerService.cs" />
     <Compile Include="Services\Area\Batch\BatchService.cs" />
+    <Compile Include="Services\Area\Marks\MarksService.cs" />
     <Compile Include="Services\Area\Fees\FeesService.cs" />
     <Compile Include="Services\Area\Branch\BranchService.cs" />
     <Compile Include="Services\Area\Homework\HomeworkService.cs" />

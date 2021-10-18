@@ -65,6 +65,7 @@
     <Compile Include="DataAcceessAPI\Area\Banner\IBannerAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Batch\IBatchAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Branch\IBranchAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\Marks\IMarksAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Fees\IFeesAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Gallery\IGalleryAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\HomeworkDetails\IHomeworkDetailsAPI.cs" />
@@ -163,6 +164,12 @@
     <Compile Include="Model\LINK_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\MARKS_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MARKS_MASTER_DTL.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\NOTIFICATION_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -246,6 +253,7 @@
     <Compile Include="Services\Area\Banner\Banner.cs" />
     <Compile Include="Services\Area\Batch\Batch.cs" />
     <Compile Include="Services\Area\Branch\Branch.cs" />
+    <Compile Include="Services\Area\Marks\Marks.cs" />
     <Compile Include="Services\Area\Fees\Fees.cs" />
     <Compile Include="Services\Area\Gallery\Gallery.cs" />
     <Compile Include="Services\Area\HomeworkDetails\HomeworkDetails.cs" />
