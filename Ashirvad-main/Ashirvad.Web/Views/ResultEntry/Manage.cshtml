@@ -1,4 +1,4 @@
-﻿@model Ashirvad.Data.BranchEntity
+﻿@model List<Ashirvad.Data.BranchEntity>
 
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
@@ -12,23 +12,15 @@
         </tr>
     </thead>
 
-    @*@foreach (var item in Model.BranchLogo)
+    @*@foreach (var item in Model)
         {
             <tr>
 
-                @if (item.Photo == null || item.Photo == "")
-                {
-                    <td><img src="~/ThemeData/images/Default.png" style="height:50px;width:50px" /></td>
-                }
-                else
-                {
-                    <td><img src="@Url.Content(""+item.Photo+"")" style="height:50px;width:50px" /></td>
-                }
-
+               
 
 
                 <td>
-                    @item.FirstName
+                    @item.
                 </td>
 
                 <td>

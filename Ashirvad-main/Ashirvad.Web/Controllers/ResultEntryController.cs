@@ -16,6 +16,12 @@ namespace Ashirvad.Web.Controllers
     {
         // GET: ResultEntry
         private readonly IMarksService _MarksService;
+        public ResponseModel res = new ResponseModel();
+
+        public ResultEntryController(IMarksService marksService)
+        {
+            _MarksService = marksService;
+        }
         public ActionResult Index()
         {
             return View();

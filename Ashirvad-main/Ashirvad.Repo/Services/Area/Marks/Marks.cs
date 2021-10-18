@@ -34,8 +34,12 @@ namespace Ashirvad.Repo.Services.Area
             }
 
             MarksMaster.branch_id = MarksInfo.BranchInfo.BranchID;
+            MarksMaster.batch_id = MarksInfo.batchEntityInfo.BatchID;
             MarksMaster.std_id = MarksInfo.StandardInfo.StandardID;     
+            MarksMaster.sub_id = MarksInfo.SubjectInfo.SubjectID;     
             MarksMaster.row_sta_cd = MarksInfo.RowStatus.RowStatusId;
+            MarksMaster.total_marks = MarksInfo.TotalMarks;
+            MarksMaster.marks_dt = MarksInfo.MarksDate;
             MarksMaster.trans_id = this.AddTransactionData(MarksInfo.Transaction);
             this.context.MARKS_MASTER.Add(MarksMaster);
             if (isUpdate)
@@ -78,6 +82,7 @@ namespace Ashirvad.Repo.Services.Area
             MarksMaster.marks_id = MarksInfo.MarksID;
             MarksMaster.marks_filepath = MarksInfo.MarksFilepath;
             MarksMaster.row_sta_cd = MarksInfo.RowStatus.RowStatusId;
+           
             MarksMaster.trans_id = this.AddTransactionData(MarksInfo.Transaction);
             this.context.MARKS_MASTER_DTL.Add(MarksMaster);
             if (isUpdate)
@@ -102,6 +107,7 @@ namespace Ashirvad.Repo.Services.Area
                             },
                             MarksID = u.marks_id,                         
                             MarksFilepath= b.marks_filepath,
+                            TotalMarks= u.total_marks,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             StandardInfo = new StandardEntity() { StandardID = u.std_id,Standard=u.STD_MASTER.standard },
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id }
@@ -135,7 +141,8 @@ namespace Ashirvad.Repo.Services.Area
                             MarksDetailID= b.marks_master_dtl_id,
                             MarksFilepath = b.marks_filepath,
                             MarksContentFileName=b.marks_sheet_name,
-                            MarksContent=b.marks_sheet_content
+                            MarksContent=b.marks_sheet_content,
+                            TotalMarks=u.total_marks
                         }).FirstOrDefault();
 
             return data;

@@ -20,6 +20,8 @@ namespace Ashirvad.Data
         public HttpPostedFileBase FileInfo { get; set; }
         public byte[] MarksContent { get; set; }
         public string MarksContentText { get; set; }
+        public string TotalMarks { get; set; }
+        public string Remarks { get; set; }
         public string MarksContentFileName { get; set; }
         public string MarksFilepath { get; set; }
         public TransactionEntity Transaction { get; set; }

@@ -10,9 +10,6 @@ $(document).ready(function () {
 
     });
 
-   
-  
-
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
@@ -23,6 +20,8 @@ $(document).ready(function () {
             $("#BranchInfo_BranchID").val(commonData.BranchID);
             LoadSchoolName(commonData.BranchID);
             LoadStandard(commonData.BranchID);
+            LoadSubject(commonData.BranchID);
+
         }
     });
 
@@ -30,17 +29,17 @@ $(document).ready(function () {
         $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
         LoadSchoolName($("#BranchInfo_BranchID").val());
         LoadStandard($("#BranchInfo_BranchID").val());
+        LoadSubject(commonData.BranchID);
+        ($("#BranchInfo_BranchID").val());
     }
 
     if ($("#SchoolTime").val() != "") {
         $('#SchoolTimeDDL option[value="' + $("#SchoolTime").val() + '"]').attr("selected", "selected");
     }
 
-    if ($("#BatchInfo_BatchTime").val() != "") {
-        $('#BatchTime option[value="' + $("#BatchInfo_BatchTime").val() + '"]').attr("selected", "selected");
+    if ($("#batchEntityInfo_BatchID").val() != "") {
+        $('#BatchTime option[value="' + $("#batchEntityInfo_BatchID").val() + '"]').attr("selected", "selected");
     }
-
-   
 });
 
 function LoadBranch(onLoaded) {
@@ -97,3 +96,70 @@ function LoadStandard(branchID) {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
+
+function LoadSubject(branchID) {
+    var postCall = $.post(commonData.Subject + "SubjectDataByBranch", { "branchID": branchID });
+    postCall.done(function (data) {
+
+        $('#SubjectName').empty();
+        $('#SubjectName').select2();
+        $("#SubjectName").append("<option value=" + 0 + ">---Select Subject Name---</option>");
+        for (i = 0; i < data.length; i++) {
+            $("#SubjectName").append("<option value=" + data[i].SubjectID + ">" + data[i].Subject + "</option>");
+        }
+
+        if ($("#SubjectInfo_SubjectID").val() != "") {
+            $('#SubjectName option[value="' + $("#SubjectInfo_SubjectID").val() + '"]').attr("selected", "selected");
+        }
+    }).fail(function () {
+        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+function SaveMarks() {
+    var isSuccess = ValidateData('dInformation');
+    if (isSuccess) {
+        ShowLoader();
+        var frm = $('#fMarks');
+        var formData = new FormData(frm[0]);
+        var item = $('input[type=file]');
+        if (item[0].files.length > 0) {
+            formData.append('FileInfo', $('input[type=file]')[0].files[0]);
+        }
+        AjaxCallWithFileUpload(commonData.ResultEntry + 'SaveMarks', formData, function (data) {
+            HideLoader();
+            if (data) {
+                ShowMessage("Marks added Successfully.", "Success");
+                window.location.href = "MarksMaintenance?MarksID=0";
+            }
+            else {
+                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+            }
+        }, function (xhr) {
+            HideLoader();
+        });
+    }
+}
+
+$("#BranchName").change(function () {
+
+    var Data = $("#BranchName option:selected").val();
+    $('#BranchInfo_BranchID').val(Data);
+    LoadSubject(Data);
+    LoadStandard(Data);
+});
+
+$("#StandardName").change(function () {
+    var Data = $("#StandardName option:selected").val();
+    $('#StandardInfo_StandardID').val(Data);
+});
+
+$("#SubjectName").change(function () {
+    var Data = $("#SubjectName option:selected").val();
+    $('#SubjectInfo_SubjectID').val(Data);
+});
+
+$("#BatchTime").change(function () {
+    var Data = $("#BatchTime option:selected").val();
+    $('#batchEntityInfo_BatchID').val(Data);
+});
