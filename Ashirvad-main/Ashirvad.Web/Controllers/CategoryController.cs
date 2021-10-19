@@ -66,15 +66,15 @@ namespace Ashirvad.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SaveCategory(CategoryEntity category)
+        public async Task<JsonResult> SaveCategory(CategoryEntity categoryEntity)
         {
-            
-            category.Transaction = GetTransactionData(category.CategoryID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-            category.RowStatus = new RowStatusEntity()
+
+            categoryEntity.Transaction = GetTransactionData(categoryEntity.CategoryID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            categoryEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            var data = await _CategoryService.CategoryMaintenance(category);
+            var data = await _CategoryService.CategoryMaintenance(categoryEntity);
             res.Status = data.CategoryID > 0 ? true : false;
             res.Message = data.CategoryID == -1 ? "Category Already exists!!" : data.CategoryID == 0 ? "Category failed to insert!!" : "Category Inserted Successfully!!";
             return Json(res);
@@ -93,9 +93,9 @@ namespace Ashirvad.Web.Controllers
         //    return Json(categoryData);
         //}
 
-        public async Task<JsonResult> CategoryData(long categoryID)
+        public async Task<JsonResult> CategoryData()
         {
-            var categoryData = await _CategoryService.GetAllCategorys(categoryID);
+            var categoryData = await _CategoryService.GetAllCategorys(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             return Json(categoryData);
         }
     }

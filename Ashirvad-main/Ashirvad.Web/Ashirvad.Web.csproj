@@ -207,14 +207,17 @@
     <Content Include="scripts\app\batch.js" />
     <Content Include="scripts\app\branch.js" />
     <Content Include="scripts\app\branchdata.js" />
+    <Content Include="scripts\app\Category.js" />
     <Content Include="scripts\app\common.js" />
     <Content Include="scripts\app\fees.js" />
     <Content Include="scripts\app\homework.js" />
     <Content Include="scripts\app\image.js" />
     <Content Include="scripts\app\library.js" />
+    <Content Include="scripts\app\LibraryImage.js" />
     <Content Include="scripts\app\link.js" />
     <Content Include="scripts\app\login.js" />
     <Content Include="scripts\app\managestudent.js" />
+    <Content Include="scripts\app\marks.js" />
     <Content Include="scripts\app\notification.js" />
     <Content Include="scripts\app\paper.js" />
     <Content Include="scripts\app\reminder.js" />
@@ -1264,6 +1267,13 @@
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Category\Create.cshtml" />
     <Content Include="Views\Category\Manage.cshtml" />
+    <Content Include="Views\LibraryImage\Create.cshtml" />
+    <Content Include="Views\LibraryImage\Index.cshtml" />
+    <Content Include="Views\LibraryImage\Manage.cshtml" />
+    <Content Include="Views\NewLibrary\Index.cshtml" />
+    <Content Include="Views\NewLibrary\Create.cshtml" />
+    <Content Include="Views\NewLibrary\Manage.cshtml" />
+    <Content Include="Views\NewLibrary\VideoIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

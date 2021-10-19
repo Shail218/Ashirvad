@@ -1,14 +1,32 @@
-﻿@model Ashirvad.Data.CategoryEntity
+﻿@model Ashirvad.Data.LibraryEntity1
 
-<form id="fCategory">
+<form id="flibimage">
     <div class="form-group" id="dInformation">
         <div class="col-md-12">
-            @Html.Label("Category Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.Category, new { @class = "form-control required", @alt = "Category Name", autocomplete = "off" })
-            @Html.HiddenFor(x => x.CategoryID)
+            @Html.Label("Title", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBoxFor(x => x.Title, new { @class = "form-control required", @alt = "Category Name", autocomplete = "off" })
+            @Html.HiddenFor(x => x.LibraryID)
         </div>
 
-       
+        <div class="col-md-12" style="margin-bottom:10px">
+            @Html.Label("Upload Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <input class="file-upload" alt="Student Image" id="fuStudentImage" name="ImageFile" type="file" accept="image/*" />
+            @Html.HiddenFor(x => x.ImageFile)
+        </div>
+        <div class="col-md-12">
+            @Html.Label("Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextAreaFor(x => x.Description, new { @class = "form-control required", @alt = "Category Name", autocomplete = "off" })
+            @Html.HiddenFor(x => x.LibraryID)
+        </div>
+
+        <div class="col-md-12">
+            @Html.Label("Select Category Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="CategoryName" id="CategoryName" class="form-control requiredDDL select2" alt="School Name">
+                <option value="0">--Select Category Name--</option>
+            </select>
+            @Html.HiddenFor(x => x.CategoryInfo.CategoryID)
+        </div>
+
         @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
         {
             <div class="col-md-12">
@@ -31,7 +49,7 @@
         <div class="form-group">
             <div class="col-md-12" style="text-align: right;">
                 <br />
-                <a onclick="return Savecategory();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                <a onclick="return SaveLibraryImage();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                     <span class="ladda-label">
                         Save
                     </span>

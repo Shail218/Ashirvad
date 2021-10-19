@@ -38,6 +38,7 @@
     FeesStructure: $("#hdnFldVDName").val() + "FeesStructure/",
     ResultEntry: $("#hdnFldVDName").val() + "ResultEntry/",
     Category: $("#hdnFldVDName").val() + "Category/",
+    NewLibrary: $("#hdnFldVDName").val() + "NewLibrary/",
 };
 
 function GetExtention(image){

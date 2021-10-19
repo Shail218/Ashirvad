@@ -25,8 +25,12 @@ namespace Ashirvad.Web.Controllers
         {
             return View();
         }
+        public ActionResult VideoIndex()
+        {
+            return View();
+        }
 
-        public async Task<ActionResult> LibraryMaintenance(long LibraryID)
+        public async Task<ActionResult> LibraryMaintenance(long LibraryID, long Type)
         {
             LibraryNewMaintenanceModel Library = new LibraryNewMaintenanceModel();
             if (LibraryID > 0)
@@ -37,8 +41,15 @@ namespace Ashirvad.Web.Controllers
 
             var LibraryData = await _LibraryService.GetAllLibrary();
             Library.LibraryData = LibraryData;
+            if(Type== (int)Enums.GalleryType.Image)
+            {
+                return View("Index", Library);
 
-            return View("Index", Library);
+            }
+            else
+            {
+                return View("VideoIndex", Library); 
+            }
         }
 
       
@@ -59,7 +70,17 @@ namespace Ashirvad.Web.Controllers
                 Library.FileName= _FileName;
                 Library.FilePath = _Filepath;
             }
-
+            if (Library.link != "" && Library.link !=null)
+            {
+                Library.Type = (int)Enums.GalleryType.Video;
+                Library.FileName = "";
+                Library.FilePath = "";
+            }
+            else
+            {
+                Library.Type = (int)Enums.GalleryType.Image;
+                Library.link = "";
+            }
             Library.Transaction = GetTransactionData(Library.LibraryID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             Library.RowStatus = new RowStatusEntity()
             {
