@@ -61,7 +61,8 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
                 StaffID = studentID,
                 Transaction = staffInfo.Transaction,
                 Username = staffInfo.MobileNo,
-                UserType = Enums.UserType.Staff
+                //UserType = Enums.UserType.Staff
+                UserType = staffInfo.Userrole
             };
 
             return user;

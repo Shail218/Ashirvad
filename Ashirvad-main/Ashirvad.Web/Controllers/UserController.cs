@@ -73,6 +73,13 @@ namespace Ashirvad.Web.Controllers
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
+            if(SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
+            {
+                branch.Userrole = Ashirvad.Common.Enums.UserType.Staff;
+                branch.BranchInfo = new BranchEntity();
+                branch.BranchInfo.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
+
+            }
             var data = await _staffService.StaffMaintenance(branch);
             res.Status = data.StaffID > 0 ? true : false;
             res.Message = data.StaffID == -1 ? "User Already exists!!" : data.StaffID == 0 ? "User failed to insert!!" : "User Inserted Successfully!!";

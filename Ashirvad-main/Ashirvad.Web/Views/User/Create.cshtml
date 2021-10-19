@@ -118,15 +118,16 @@
         </div>
         @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
         {
-            <div class="col-md-6">
-                @Html.Label("Select Role", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="Role" id="Role" class="form-control requiredDDL select2" alt="Role">
-                    <option value="0">--Select Role--</option>
-                    <option value="2">Admin</option>
-                    <option value="5">Staff</option>
-                </select>
-                @Html.HiddenFor(x => x.StaffID)
-            </div>
+    <div class="col-md-6">
+        @Html.Label("Select Role", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        <select name="Role" id="Role" class="form-control requiredDDL select2" alt="Role">
+            <option value="0">--Select Role--</option>
+            <option value="1">Admin</option>
+            <option value="4">Staff</option>
+        </select>
+        @Html.HiddenFor(x => x.StaffID)
+        @Html.HiddenFor(x => x.Userrole)
+    </div>
             <div class="form-group">
                 <div class="col-md-12" style="text-align: right;margin-top:10px;">
                     <a onclick="return SaveUser();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">

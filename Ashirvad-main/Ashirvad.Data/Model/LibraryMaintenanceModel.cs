@@ -11,4 +11,9 @@ namespace Ashirvad.Data.Model
         public LibraryEntity LibraryInfo { get; set; }
         public List<LibraryEntity> LibraryData { get; set; }
     }
+    public class LibraryNewMaintenanceModel
+    {
+        public LibraryEntity1 LibraryInfo { get; set; }
+        public List<LibraryEntity1> LibraryData { get; set; }
+    }
 }

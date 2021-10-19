@@ -50,7 +50,7 @@
                 @item.RowStatus.RowStatusText
             </td>
             <td>
-                <a href="@Url.Action("Index", "/Branch/BranchMaintenance", new { branchID = item.BranchID })">
+                <a href="@Url.Action("BranchMaintenance", "Branch", new { branchID = item.BranchID })">
                     <img src="~/ThemeData/images/viewIcon.png" />
                 </a>
             </td>

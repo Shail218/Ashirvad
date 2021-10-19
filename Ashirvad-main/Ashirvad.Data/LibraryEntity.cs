@@ -38,4 +38,26 @@ namespace Ashirvad.Data
         public HttpPostedFileBase ThumbImageFile { get; set; }
         public HttpPostedFileBase DocFile { get; set; }
     }
+
+
+    public class LibraryEntity1
+    {
+        public long LibraryID { get; set; }
+        public long LibraryDetailID { get; set; }
+        public long Type { get; set; }
+        public string Title { get; set; }
+        public byte[] FileContent { get; set; }
+        public string link { get; set; }
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
+        public string Description { get; set; }
+        public RowStatusEntity RowStatus { get; set; }
+        public TransactionEntity Transaction { get; set; }
+        public LibraryDataEntity LibraryData { get; set; }
+        public BranchEntity BranchInfo { get; set; }
+        public CategoryEntity CategoryInfo { get; set; }
+        public HttpPostedFileBase ImageFile { get; set; }
+    }
+
+
 }

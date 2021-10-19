@@ -1043,6 +1043,7 @@
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
+    <Compile Include="Controllers\NewLibraryController.cs" />
     <Compile Include="Controllers\FeesStructureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeWorkController.cs" />
@@ -1273,6 +1274,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="FeesImage\" />
+    <Folder Include="LibraryImage\" />
     <Folder Include="MarksImage\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />

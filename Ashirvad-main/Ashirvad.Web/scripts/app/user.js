@@ -50,7 +50,10 @@ $(document).ready(function () {
         //$('#GenderName option[text="' + $("#Gender").val() + '"]').attr("selected", "selected");
         $('#GenderName').find('option:contains("' + $("#Gender").val() + '")').attr('selected', 'selected');
     }
-
+    if ($("#Userrole").val() != "") {
+        //$('#GenderName option[text="' + $("#Gender").val() + '"]').attr("selected", "selected");
+        $('#Role').find('option:contains("' + $("#Userrole").val() + '")').attr('selected', 'selected');
+    }
 });
 
 function LoadBranch(onLoaded) {
@@ -121,7 +124,7 @@ $("#GenderName").change(function () {
 
 $("#Role").change(function () {
     var Data = $("#Role option:selected").val();
-    $('#Role').val(Data);
+    $('#Userrole').val(Data);
 });
 
 $("#BranchName").change(function () {    

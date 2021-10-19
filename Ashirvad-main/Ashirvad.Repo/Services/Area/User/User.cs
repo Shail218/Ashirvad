@@ -350,6 +350,7 @@ namespace Ashirvad.Repo.Services.Area.User
 
             return data;
         }
+
         public List<RolesEntity> GetRolesByUser(long userID)
         {
             var roles = (from r in this.context.USER_ROLE

@@ -195,6 +195,10 @@ namespace Ashirvad.Web
             container.RegisterType<ICategoryAPI, Category>();
             container.RegisterType<ICategoryService, CategoryService>();
 
+            container.RegisterType<ILibrary1API, Library1>();
+            container.RegisterType<ILibrary1Service, Library1Service>();
+           
+
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }
