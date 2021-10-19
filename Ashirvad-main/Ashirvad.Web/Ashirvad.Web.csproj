@@ -1274,6 +1274,8 @@
     <Content Include="Views\NewLibrary\Create.cshtml" />
     <Content Include="Views\NewLibrary\Manage.cshtml" />
     <Content Include="Views\NewLibrary\VideoIndex.cshtml" />
+    <Content Include="Views\NewLibrary\VideoCreate.cshtml" />
+    <Content Include="Views\NewLibrary\VideoManage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

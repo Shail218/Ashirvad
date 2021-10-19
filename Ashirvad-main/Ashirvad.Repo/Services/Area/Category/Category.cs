@@ -22,7 +22,7 @@ namespace Ashirvad.Repo.Services.Area
         public async Task<long> CategoryMaintenance(CategoryEntity CategoryInfo)
         {
             Model.CATEGORY_MASTER CategoryMaster = new Model.CATEGORY_MASTER();
-            if (CheckCategory(CategoryInfo.Category, CategoryInfo.BranchInfo.BranchID,CategoryInfo.CategoryID).Result != -1)
+            if (CheckCategory(CategoryInfo.Category, CategoryInfo.BranchInfo.BranchID, CategoryInfo.CategoryID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from Category in this.context.CATEGORY_MASTER
