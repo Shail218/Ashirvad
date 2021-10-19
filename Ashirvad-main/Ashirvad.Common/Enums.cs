@@ -13,7 +13,11 @@ namespace Ashirvad.Common
             Active = 1,
             Inactive = 2
         }
-
+        public enum GalleryType : int
+        {
+            Video = 1,
+            Image = 2
+        }
         public enum Gender : int {
             Male =1,
             Female =2,
