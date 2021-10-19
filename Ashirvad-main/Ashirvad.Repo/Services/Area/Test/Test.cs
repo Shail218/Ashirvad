@@ -102,6 +102,8 @@ namespace Ashirvad.Repo.Services.Area.Test
 
             return data;
         }
+
+
         public async Task<List<TestEntity>> GetAllTestByBranchType(long branchID,long BatchType)
         {
             var data = (from u in this.context.TEST_MASTER
