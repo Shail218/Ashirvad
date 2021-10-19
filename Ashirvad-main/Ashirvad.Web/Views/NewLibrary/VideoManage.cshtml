@@ -9,7 +9,7 @@
                 Title
             </th>
             <th>
-                Image
+                Link
             </th>
             <th>
                 Description
@@ -34,7 +34,8 @@
             @Html.HiddenFor(x => item.LibraryID)
         </td>
         <td>
-            <img src="~/ThemeData/images/Default.png" id="Img" style="height:40px;width:40px;margin-left:40px;" />
+            @item.link
+            @Html.HiddenFor(x => item.LibraryID)
         </td>
         <td>
             @item.Description
@@ -55,12 +56,12 @@
             @item.RowStatus.RowStatus
         </td>*@
         <td>
-            <a href="@Url.Action("LibraryMaintenance", "NewLibrary", new { LibraryID = item.LibraryID ,Type=2})">
+            <a href="@Url.Action("LibraryMaintenance", "NewLibrary", new { LibraryID = item.LibraryID ,Type=1})">
                 <img src="~/ThemeData/images/viewIcon.png" />
             </a>
         </td>
         <td>
-            <a href="#" onclick="RemoveLibraryImage(@item.LibraryID);">
+            <a href="#" onclick="RemoveLibraryVideo(@item.LibraryID);">
                 <img src="~/ThemeData/images/delete.png" />
             </a>
         </td>

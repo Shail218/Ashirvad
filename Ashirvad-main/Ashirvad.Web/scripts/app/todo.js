@@ -75,8 +75,8 @@ function SaveToDo() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        //var date1 = $("#ToDoDate").val();
-        //$("#ToDoDate").val(ConvertData(date1));
+        var date1 = $("#ToDoDate").val();
+        $("#ToDoDate").val(ConvertData(date1));
         var frm = $('#fToDoDetail');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');

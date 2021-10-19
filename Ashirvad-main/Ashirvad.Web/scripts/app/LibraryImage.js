@@ -103,3 +103,55 @@ function SaveLibraryImage() {
         });
     }
 }
+
+function SaveLibraryvideo() {
+    var isSuccess = ValidateData('dInformation');
+    if (isSuccess) {
+        ShowLoader();
+        var postCall = $.post(commonData.Subject + "SaveLibrary", $('#flibvideo').serialize());
+        postCall.done(function (data) {
+            HideLoader();
+            if (data.Status == true) {
+                ShowMessage(data.Message, "Success");
+                setTimeout(function () { window.location.href = "LibraryMaintenance?LibraryID=0" }, 2000);
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
+}
+
+function RemoveLibraryImage(LibraryID) {
+    if (confirm('Are you sure want to delete this Image?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.NewLibrary + "RemoveLibrary", { "LibraryID": LibraryID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Library Image Removed Successfully.", "Success");
+            window.location.href = "LibraryMaintenance?LibraryID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
+}
+
+function RemoveLibraryVideo(LibraryID) {
+    if (confirm('Are you sure want to delete this Video?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.NewLibrary + "RemoveLibrary", { "LibraryID": LibraryID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Library video Removed Successfully.", "Success");
+            window.location.href = "LibraryMaintenance?LibraryID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
+}
+
+
