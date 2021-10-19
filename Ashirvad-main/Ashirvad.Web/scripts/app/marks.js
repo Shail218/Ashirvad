@@ -141,6 +141,33 @@ function SaveMarks() {
     }
 }
 
+function LoadTestDates(BatchType) {
+
+    var BranchID = $("#Branch_Name").val();
+    var BatchType = BatchType;
+    if (BranchID > 0 && BatchType > 0) {
+        var postCall = $.post(commonData.TestPaper + "GetTestDatesByBatch", { "BranchID": BranchID, "BatchType": BatchType });
+        postCall.done(function (data) {
+            $('#BranchName').empty();
+            $('#BranchName').select2();
+            $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
+            for (i = 0; i < data.length; i++) {
+                $("#BranchName").append("<option value='" + data[i].BranchID + "'>" + data[i].BranchName + "</option>");
+            }
+            if (onLoaded != undefined) {
+                onLoaded();
+            }
+
+        }).fail(function () {
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
+    else {
+        $('#BranchName').empty();
+        $('#BranchName').select2();
+    }
+}
+
 $("#BranchName").change(function () {
 
     var Data = $("#BranchName option:selected").val();
@@ -162,4 +189,5 @@ $("#SubjectName").change(function () {
 $("#BatchTime").change(function () {
     var Data = $("#BatchTime option:selected").val();
     $('#batchEntityInfo_BatchID').val(Data);
+    LoadTestDates(Data);
 });

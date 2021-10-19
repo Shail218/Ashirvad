@@ -77,10 +77,11 @@ namespace Ashirvad.Repo.Services.Area
             }
 
             LibraryMaster.library_content = LibraryInfo.FileContent;
-            LibraryMaster.library_name = LibraryInfo.FileName;
-            LibraryMaster.library_dtl_id = LibraryInfo.LibraryID;
+            LibraryMaster.library_id = LibraryInfo.LibraryID;
+            LibraryMaster.library_name = LibraryInfo.FileName;        
             LibraryMaster.library_filepath = LibraryInfo.FilePath;
             LibraryMaster.row_sta_cd = LibraryInfo.RowStatus.RowStatusId;
+            LibraryMaster.branch_id = LibraryInfo.BranchInfo.BranchID;
             LibraryMaster.trans_id = this.AddTransactionData(LibraryInfo.Transaction);
             this.context.LIBRARY_MASTER_DTL.Add(LibraryMaster);
             if (isUpdate)

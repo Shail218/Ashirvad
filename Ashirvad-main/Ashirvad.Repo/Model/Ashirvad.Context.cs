@@ -72,9 +72,9 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<MARKS_MASTER_DTL> MARKS_MASTER_DTL { get; set; }
         public virtual DbSet<CATEGORY_MASTER> CATEGORY_MASTER { get; set; }
         public virtual DbSet<LIBRARY_MASTER> LIBRARY_MASTER { get; set; }
+        public virtual DbSet<MARKS_MASTER> MARKS_MASTER { get; set; }
         public virtual DbSet<LIBRARY_MASTER_DTL> LIBRARY_MASTER_DTL { get; set; }
         public virtual DbSet<LIBRARY1_MASTER> LIBRARY1_MASTER { get; set; }
-        public virtual DbSet<MARKS_MASTER> MARKS_MASTER { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

@@ -12,6 +12,8 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Test
         Task<long> TestMaintenance(TestEntity testInfo);
 
         Task<List<TestEntity>> GetAllTestByBranch(long branchID);
+
+        Task<List<TestEntity>> GetAllTestByBranchType(long branchID,long BatchType);
         Task<TestEntity> GetTestByTestID(long testID);
         bool RemoveTest(long testID, string lastupdatedby, bool removePaper);
         Task<List<TestEntity>> GetAllTestByBranchAndStandard(long branchID, long stdID, int batchTime);

@@ -155,5 +155,13 @@ namespace Ashirvad.Web.Controllers
             }
             return Json(array);
         }
+
+        public async Task<JsonResult> GetTestDatesByBatch(long BranchID,long BatchType)
+        {
+            var testpaperByBranch = await _testService.GetAllTestDates(BranchID, BatchType);
+            return Json(testpaperByBranch.Data);
+        }
+
+
     }
 }

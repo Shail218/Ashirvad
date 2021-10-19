@@ -80,12 +80,12 @@ function SaveUser() {
         ShowLoader();
         var date1 = $("#DOB").val();
         $("#DOB").val(ConvertData(date1));
-        //var date2 = $("#ApptDT").val();
-        //$("#ApptDT").val(ConvertData(date2));
-        //var date3 = $("#JoinDT").val();
-        //$("#JoinDT").val(ConvertData(date3));
-        //var date4 = $("#LeavingDT").val();
-        //$("#LeavingDT").val(ConvertData(date4));
+        var date2 = $("#ApptDT").val();
+        $("#ApptDT").val(ConvertData(date2));
+        var date3 = $("#JoinDT").val();
+        $("#JoinDT").val(ConvertData(date3));
+        var date4 = $("#LeavingDT").val();
+        $("#LeavingDT").val(ConvertData(date4));
         var postCall = $.post(commonData.User + "SaveUser", $('#fUserDetail').serialize());
         postCall.done(function (data) {
             HideLoader();

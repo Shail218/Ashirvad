@@ -27,7 +27,7 @@ namespace Ashirvad.Repo.Model
         public long trans_id { get; set; }
     
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
-        public virtual LIBRARY_MASTER LIBRARY_MASTER { get; set; }
+        public virtual LIBRARY1_MASTER LIBRARY1_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
     }
 }

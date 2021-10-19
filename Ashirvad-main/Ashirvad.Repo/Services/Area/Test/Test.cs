@@ -102,7 +102,58 @@ namespace Ashirvad.Repo.Services.Area.Test
 
             return data;
         }
+        public async Task<List<TestEntity>> GetAllTestByBranchType(long branchID,long BatchType)
+        {
+            var data = (from u in this.context.TEST_MASTER
+                        .Include("TEST_PAPER_REL")
+                        .Include("BRANCH_MASTER")
+                        .Include("STD_MASTER")
+                        .Include("SUBJECT_MASTER")
+                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
+                        where u.branch_id == branchID && u.batch_time_id==BatchType
+                        select new TestEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            Branch = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Standard = new StandardEntity()
+                            {
+                                StandardID = u.std_id,
+                                Standard = u.STD_MASTER.standard
+                            },
+                            Subject = new SubjectEntity()
+                            {
+                                SubjectID = u.SUBJECT_MASTER.subject_id,
+                                Subject = u.SUBJECT_MASTER.subject
+                            },
+                            BatchTimeID = u.batch_time_id,
+                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
+                            TestID = u.test_id,
+                            Remarks = u.remarks,
+                            Marks = u.total_marks,
+                            TestDate = u.test_dt,
+                            TestEndTime = u.test_end_time,
+                            TestName = u.test_name,
+                            TestStartTime = u.test_st_time,
+                            test = new TestPaperEntity()
+                            {
+                                DocContent = TestPaper.doc_content,
+                                TestPaperID = TestPaper.test_paper_id,
+                                PaperType = TestPaper.paper_type.ToString(),
+                                DocLink = TestPaper.doc_link.ToString()
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
 
+            return data;
+        }
         public async Task<List<TestEntity>> GetAllTestByBranchAndStandard(long branchID, long stdID, int batchTime)
         {
             var data = (from u in this.context.TEST_MASTER

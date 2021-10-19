@@ -14,6 +14,12 @@ namespace Ashirvad.Repo.Model
     
     public partial class LIBRARY1_MASTER
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public LIBRARY1_MASTER()
+        {
+            this.LIBRARY_MASTER_DTL = new HashSet<LIBRARY_MASTER_DTL>();
+        }
+    
         public long library_id { get; set; }
         public string library_title { get; set; }
         public string video_link { get; set; }
@@ -25,6 +31,8 @@ namespace Ashirvad.Repo.Model
     
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         public virtual CATEGORY_MASTER CATEGORY_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LIBRARY_MASTER_DTL> LIBRARY_MASTER_DTL { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
     }
 }
