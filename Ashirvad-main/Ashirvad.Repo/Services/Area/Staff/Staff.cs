@@ -15,7 +15,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
         public async Task<long> CheckUser(string emailid, string mobileno, long branch, long userID)
         {
             long result;
-            bool isExists = this.context.BRANCH_STAFF.Where(s => (userID == 0 || s.staff_id != userID) && s.email_id == emailid && s.mobile_no == mobileno && s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.BRANCH_STAFF.Where(s => (userID == 0 || s.staff_id != userID) && (s.email_id == emailid || s.mobile_no == mobileno) && s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }

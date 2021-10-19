@@ -30,6 +30,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Branch
                     //Get Branch
                     branch.BranchID = branchID;
                 }
+
             }
             catch (Exception ex)
             {

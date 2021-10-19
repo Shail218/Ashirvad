@@ -14,7 +14,7 @@ namespace Ashirvad.Repo.Services.Area.School
         public async Task<long> Checkschool(string name,long branch, long Id)
         {
             long result;
-            bool isExists = this.context.SCHOOL_MASTER.Where(s => (Id == 0 || s.school_id != Id) && s.school_name == name && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.SCHOOL_MASTER.Where(s => (Id == 0 || s.school_id != Id) && s.school_name == name && s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }

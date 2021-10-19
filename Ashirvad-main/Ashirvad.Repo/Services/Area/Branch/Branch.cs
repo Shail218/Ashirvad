@@ -12,59 +12,71 @@ namespace Ashirvad.Repo.Services.Area.Branch
 {
     public class Branch : ModelAccess, IBranchAPI
     {
+
+        public async Task<long> CheckBranch(int BranchID, string Branchname)
+        {
+            long result;
+            bool isExists = this.context.BRANCH_MASTER.Where(s => (BranchID == 0 || s.branch_id != BranchID) && s.branch_name == Branchname && s.row_sta_cd == 1).FirstOrDefault() != null;
+            result = isExists == true ? -1 : 1;
+            return result;
+        }
         public async Task<long> BranchMaintenance(BranchEntity branchInfo)
         {
             Model.BRANCH_MASTER branchMaster = new Model.BRANCH_MASTER();
-            branchMaster.BRANCH_MAINT = new Model.BRANCH_MAINT();
-            bool isUpdate = true;
-            var data = (from branch in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
-                        where branch.branch_id == branchInfo.BranchID
-                        select new
-                        {
-                            branchMaster = branch
-                        }).FirstOrDefault();
-            if (data == null)
+            if (CheckBranch((int)branchInfo.BranchID, branchInfo.BranchName).Result != -1)
             {
-                branchMaster = new Model.BRANCH_MASTER();
                 branchMaster.BRANCH_MAINT = new Model.BRANCH_MAINT();
-                isUpdate = false;
-            }
-            else
-            {
-                branchMaster = data.branchMaster;
-                branchMaster.BRANCH_MAINT = data.branchMaster.BRANCH_MAINT;
-                branchInfo.Transaction.TransactionId = data.branchMaster.trans_id;
-            }
+                bool isUpdate = true;
+                var data = (from branch in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
+                            where branch.branch_id == branchInfo.BranchID
+                            select new
+                            {
+                                branchMaster = branch
+                            }).FirstOrDefault();
+                if (data == null)
+                {
+                    branchMaster = new Model.BRANCH_MASTER();
+                    branchMaster.BRANCH_MAINT = new Model.BRANCH_MAINT();
+                    isUpdate = false;
+                }
+                else
+                {
+                    branchMaster = data.branchMaster;
+                    branchMaster.BRANCH_MAINT = data.branchMaster.BRANCH_MAINT;
+                    branchInfo.Transaction.TransactionId = data.branchMaster.trans_id;
+                }
 
-            branchMaster.about_us = branchInfo.AboutUs;
-            branchMaster.branch_name = branchInfo.BranchName;
-            branchMaster.contact_no = branchInfo.ContactNo;
-            branchMaster.branch_type = 2;
-            branchMaster.email_id = branchInfo.EmailID;
-            branchMaster.mobile_no = branchInfo.MobileNo;
-            branchMaster.row_sta_cd = branchInfo.RowStatus.RowStatusId;
-            branchMaster.trans_id = this.AddTransactionData(branchInfo.Transaction);
-            this.context.BRANCH_MASTER.Add(branchMaster);
-            if (isUpdate)
-            {
-                this.context.Entry(branchMaster).State = System.Data.Entity.EntityState.Modified;
-            }
-            if (!isUpdate)
-            {
-                branchMaster.BRANCH_MAINT.branch_id = branchMaster.branch_id;
-            }
+                branchMaster.about_us = branchInfo.AboutUs;
+                branchMaster.branch_name = branchInfo.BranchName;
+                branchMaster.contact_no = branchInfo.ContactNo;
+                branchMaster.branch_type = 2;
+                branchMaster.email_id = branchInfo.EmailID;
+                branchMaster.mobile_no = branchInfo.MobileNo;
+                branchMaster.row_sta_cd = branchInfo.RowStatus.RowStatusId;
+                branchMaster.trans_id = this.AddTransactionData(branchInfo.Transaction);
+                this.context.BRANCH_MASTER.Add(branchMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(branchMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+                if (!isUpdate)
+                {
+                    branchMaster.BRANCH_MAINT.branch_id = branchMaster.branch_id;
+                }
 
-            branchMaster.BRANCH_MAINT.branch_logo = branchInfo.BranchMaint.BranchLogo;
-            branchMaster.BRANCH_MAINT.header_logo = branchInfo.BranchMaint.HeaderLogo;
-            branchMaster.BRANCH_MAINT.website = branchInfo.BranchMaint.Website;
-            branchMaster.BRANCH_MAINT.branch_logo_ext = branchInfo.BranchMaint.BranchLogoExt;
-            branchMaster.BRANCH_MAINT.header_logo_ext = branchInfo.BranchMaint.HeaderLogoExt;
-            this.context.BRANCH_MAINT.Add(branchMaster.BRANCH_MAINT);
-            if (isUpdate)
-            {
-                this.context.Entry(branchMaster.BRANCH_MAINT).State = System.Data.Entity.EntityState.Modified;
+                branchMaster.BRANCH_MAINT.branch_logo = branchInfo.BranchMaint.BranchLogo;
+                branchMaster.BRANCH_MAINT.header_logo = branchInfo.BranchMaint.HeaderLogo;
+                branchMaster.BRANCH_MAINT.website = branchInfo.BranchMaint.Website;
+                branchMaster.BRANCH_MAINT.branch_logo_ext = branchInfo.BranchMaint.BranchLogoExt;
+                branchMaster.BRANCH_MAINT.header_logo_ext = branchInfo.BranchMaint.HeaderLogoExt;
+                this.context.BRANCH_MAINT.Add(branchMaster.BRANCH_MAINT);
+                if (isUpdate)
+                {
+                    this.context.Entry(branchMaster.BRANCH_MAINT).State = System.Data.Entity.EntityState.Modified;
+                }
+                return this.context.SaveChanges() > 0 ? branchMaster.branch_id : 0;
             }
-            return this.context.SaveChanges() > 0 ? branchMaster.branch_id : 0;
+            return -1;
         }
 
         public async Task<List<BranchEntity>> GetAllBranch()
