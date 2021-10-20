@@ -166,5 +166,16 @@ namespace Ashirvad.API.Controllers
             }
             return result;
         }
+
+        [Route("GetAllUsersddl")]
+        [HttpGet]
+        public OperationResult<List<UserEntity>> GetAllUsersddl(long branchID)
+        {
+            var data = this._userService.GetAllUsersddl(branchID);
+            OperationResult<List<UserEntity>> result = new OperationResult<List<UserEntity>>();
+            result.Completed = true;
+            result.Data = data;
+            return result;
+        }
     }
 }

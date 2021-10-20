@@ -237,6 +237,7 @@
     <Compile Include="Controllers\FeesStructureController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeworkController.cs" />
+    <Compile Include="Controllers\NewLibraryController.cs" />
     <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="Controllers\LinkController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />

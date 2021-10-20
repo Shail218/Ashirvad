@@ -1,5 +1,6 @@
 ﻿using Ashirvad.API.Filter;
 using Ashirvad.Data;
+using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Homework;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,11 @@ namespace Ashirvad.API.Controllers
     public class HomeworkController : ApiController
     {
         private readonly IHomeworkService _homeworkService = null;
-        public HomeworkController(IHomeworkService homeworkService)
+        private readonly IHomeworkDetailService _homeworkdetailService = null;
+        public HomeworkController(IHomeworkService homeworkService ,IHomeworkDetailService homeworkdetailService)
         {
             _homeworkService = homeworkService;
+            _homeworkdetailService = homeworkdetailService;
         }
 
 
@@ -110,5 +113,17 @@ namespace Ashirvad.API.Controllers
             result.Data = data;
             return result;
         }
+
+        [Route("GetAllHomeworks")]
+        [HttpGet]
+        public OperationResult<List<HomeworkDetailEntity>> GetAllHomeworks(long StudID)
+        {
+            var data = this._homeworkdetailService.GetAllHomeworkdetailByHomeWork(StudID);
+            OperationResult<List<HomeworkDetailEntity>> result = new OperationResult<List<HomeworkDetailEntity>>();
+            result.Data = data.Result;
+            result.Completed = true;
+            return result;
+        }
+        
     }
 }
