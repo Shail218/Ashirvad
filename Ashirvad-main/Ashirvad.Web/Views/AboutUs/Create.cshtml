@@ -15,15 +15,15 @@
         </div>
         <div class="col-md-3">
             @Html.Label("Email ID", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.EmailID, new { @class = "form-control", autocomplete = "off" })
+            @Html.TextBoxFor(x => x.EmailID, new { @class = "form-control required email", autocomplete = "off" })
         </div>
         <div class="col-md-3">
             @Html.Label("Contact No", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.ContactNo, new { @class = "form-control", autocomplete = "off" })
+            @Html.TextBoxFor(x => x.ContactNo, new { @class = "form-control required mobile", autocomplete = "off", maxlength = 10, minlength = 10 })
         </div>
         <div class="col-md-3">
             @Html.Label("Whatsapp No", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.WhatsAppNo, new { @class = "form-control", autocomplete = "off" })
+            @Html.TextBoxFor(x => x.WhatsAppNo, new { @class = "form-control required mobile", autocomplete = "off", maxlength = 10, minlength = 10 })
         </div>
         <div class="col-md-3">
             @Html.Label("Header Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>

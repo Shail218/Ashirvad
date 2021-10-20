@@ -11,11 +11,11 @@
                 <div id="datepickerhomework" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null)
                     {
-                        @Html.TextBoxFor(x => x.HomeworkDate, null, new { @class = "form-control", @alt = "Homework Date", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(x => x.HomeworkDate, null, new { @class = "form-control required", @alt = "Homework Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {
-                        @Html.TextBoxFor(x => x.HomeworkDate, Model.HomeworkDate.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Homework Date" })
+                        @Html.TextBoxFor(x => x.HomeworkDate, Model.HomeworkDate.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Homework Date" })
                     }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>

@@ -157,6 +157,31 @@ function ValidateData(divName) {
         });
     }
 
+    if (isSuccess) {
+        $('#' + divName + ' .requiredradio').each(function () {
+            var test = $(this).val();
+            if ($(this).val() == '') {
+                ShowMessage('Please Select SubType', "Error");
+                //alert();
+                $(this).focus();
+                isSuccess = false;
+                return false;
+            }
+        });
+    }
+
+    if (isSuccess) {
+        $('#' + divName + ' .checkboxRequired').each(function () {
+            if ($(this)[0].checked == false) {
+                ShowMessage('Please select ' + $(this).attr('alt'), "Error");
+                //alert();
+                $(this).focus();
+                isSuccess = false;
+                return false;
+            }
+        });
+    }
+
     return isSuccess;
 }
 

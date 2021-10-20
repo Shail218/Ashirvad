@@ -49,22 +49,22 @@
                 <div id="datepickertest" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null)
                     {
-                        @Html.TextBoxFor(x => x.TestDate, null, new { @class = "form-control", @alt = "Test Date", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(x => x.TestDate, null, new { @class = "form-control required", @alt = "Test Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {
-                        @Html.TextBoxFor(x => x.TestDate, Model.TestDate.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Test Date" })
+                        @Html.TextBoxFor(x => x.TestDate, Model.TestDate.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Test Date" })
                     }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
             </div>
             <div class="col-md-3">
                 @Html.Label("Test Start Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.TestStartTime, null, new { @class = "form-control readonly timeformat", @alt = "Start Time", autocomplete = "off", @type = "time" })
+                @Html.TextBoxFor(x => x.TestStartTime, null, new { @class = "form-control required readonly timeformat", @alt = "Start Time", autocomplete = "off", @type = "time" })
             </div>
             <div class="col-md-3">
                 @Html.Label("Test End Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.TestEndTime, null, new { @class = "form-control readonly timeformat", @alt = "End Time", autocomplete = "off", @type = "time" })
+                @Html.TextBoxFor(x => x.TestEndTime, null, new { @class = "form-control required readonly timeformat", @alt = "End Time", autocomplete = "off", @type = "time" })
             </div>
         </div>
         <div class="col-md-12">
@@ -79,7 +79,7 @@
         <div class="col-md-12">
             <div class="col-md-3" style="display:none;">
                 @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="BranchName" id="BranchName" class="form-control select2" alt="Branch">
+                <select name="BranchName" id="BranchName" class="form-control select2 requiredDDL" alt="Branch">
                     <option value="0">--Select Branch--</option>
                 </select>
                 @Html.HiddenFor(x => x.Branch.BranchID)
@@ -121,11 +121,11 @@
                 <div id="datepickertest" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null)
                     {
-                        @Html.TextBoxFor(x => x.TestDate, null, new { @class = "form-control", @alt = "Test Date", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(x => x.TestDate, null, new { @class = "form-control required", @alt = "Test Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {
-                        @Html.TextBoxFor(x => x.TestDate, Model.TestDate.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Test Date" })
+                        @Html.TextBoxFor(x => x.TestDate, Model.TestDate.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Test Date" })
                     }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>

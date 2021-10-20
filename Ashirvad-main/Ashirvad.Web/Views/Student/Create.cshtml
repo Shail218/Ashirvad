@@ -87,7 +87,7 @@
                 <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
                     <option value="0">--Select Standard--</option>
                 </select>
-                @Html.HiddenFor(x => x.StandardInfo.StandardID)
+                @Html.HiddenFor(x => x.StandardInfo.StandardID) 
             </div>
             <div class="col-md-3">
                 @Html.Label("Select School Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
