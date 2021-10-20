@@ -144,7 +144,7 @@ namespace Ashirvad.Web.Controllers
             var result = _homeworkdetailService.GetAllHomeworkdetailByHomeWork(StudhID);
 
             
-            return View(result);
+            return View(result.Result);
         }
 
     }

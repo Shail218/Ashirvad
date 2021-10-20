@@ -83,6 +83,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
             return null;
         }
 
+        public List<UserEntity> GetAllUsersddl(long branchID)
+        {
+            try
+            {
+                
+                return this._userContext.GetAllUsersddl(branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
         public List<UserEntity> GetAllUsers(string userName, string contactNo)
         {
             try

@@ -13,6 +13,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.User
         Task<UserEntity> ValidateUser(string userName, string password);
         Task<UserEntity> ValidateStudent(string userName, string password);
         List<UserEntity> GetAllUsers(long branchID, List<int> userType = null);
+        List<UserEntity> GetAllUsersddl(long branchID);
         bool RemoveUser(long userID, string lastupdatedby);
         bool AddUserRoles(UserEntity user);
         List<RolesEntity> GetRolesByUser(long userID);

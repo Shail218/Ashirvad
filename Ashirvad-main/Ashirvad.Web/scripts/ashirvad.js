@@ -181,7 +181,17 @@ function ValidateData(divName) {
             }
         });
     }
-
+    if (isSuccess) {
+        $('#' + divName + ' .radioRequired').each(function () {
+            if ($(this)[0].checked == false) {
+                ShowMessage('Please select ' + $(this).attr('alt'), "Error");
+                //alert();
+                $(this).focus();
+                isSuccess = false;
+                return false;
+            }
+        });
+    }
     return isSuccess;
 }
 
@@ -301,6 +311,14 @@ function ConvertData(FromDate) {
     return FromDateupdate
 }
 
+function ConvertDate(FromDate) {
+    var Data = FromDate.split("/");
+    var Date = Data[0];
+    var Month = Data[1];
+    var Year = Data[2];
+    var FromDateupdate = Month + "/" + Date + "/" + Year;
+    return FromDateupdate
+}
 
 function arrayBufferToBase64(buffer) {
     let binary = '';

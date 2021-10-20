@@ -121,15 +121,15 @@
             </div>
             <div class="col-md-3">
                 @Html.Label("Result of Last Year", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
-                <table id="rdbResultofLastYear" class="radioboxlist form-control required requiredDDL">
+                <table id="rdbResultofLastYear" class="radioboxlist form-control">
                     <tbody>
                         <tr>
                             <td>
-                                <input type="radio" name="rdbResultofLastYear" id="rowStaPass" value="Pass" />
+                                <input type="radio" checked name="rdbResultofLastYear" id="rowStaPass" value="Pass" />
                                 <lable for="rowStaPass">Pass</lable>
                             </td>
                             <td>
-                                <input type="radio" name="rdbResultofLastYear" id="rowStaFail" value="Fail" style="margin-left:10px" />
+                                <input type="radio"  name="rdbResultofLastYear" id="rowStaFail" value="Fail" style="margin-left:10px" />
                                 <lable for="rowStaFail">Fail</lable>
                                 @Html.HiddenFor(x => x.LastYearResult)
                             </td>
@@ -161,11 +161,11 @@
             </div>
             <div class="col-md-3">
                 @Html.Label("Status", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
-                <table id="rdbResult" class="radioboxlist form-control required requiredDDL">
+                <table id="rdbResult" class="radioboxlist form-control">
                     <tbody>
                         <tr>
                             <td>
-                                <input type="radio" name="Status" id="rowStaActive" value="Active" />
+                                <input type="radio" checked name="Status" id="rowStaActive" value="Active" />
                                 <lable for="rowStaActive">Active</lable>
                             </td>
                             <td>

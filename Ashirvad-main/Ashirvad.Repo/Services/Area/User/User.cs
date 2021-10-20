@@ -508,7 +508,7 @@ namespace Ashirvad.Repo.Services.Area.User
 
         public bool RemoveUser(long userID, string lastupdatedby)
         {
-            var data = (from u in this.context.USER_DEF
+            var data = (from u in this.context.USER_DEF                       
                         where u.user_id == userID
                         select u).FirstOrDefault();
             if (data != null)
@@ -520,6 +520,28 @@ namespace Ashirvad.Repo.Services.Area.User
             }
 
             return false;
+        }
+
+        public List<UserEntity> GetAllUsersddl(long branchID)
+        {
+            
+            var data = (from u in this.context.BRANCH_STAFF
+                        join UD in this.context.USER_DEF on u.staff_id equals UD.staff_id
+                        where u.branch_id == branchID && UD.user_type==(int)Enums.UserType.Staff && UD.row_sta_cd == (int)Enums.RowStatus.Active
+                        select new UserEntity()
+                        {
+                            UserID = u.staff_id,
+                            Username = u.name,
+                        }).ToList();
+
+            if (data != null)
+            {
+                foreach (var item in data)
+                {
+                    data[data.IndexOf(item)].Roles = this.GetRolesByUser(item.UserID);
+                }
+            }
+            return data;
         }
     }
 }

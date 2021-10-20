@@ -42,14 +42,21 @@ namespace Ashirvad.Web.Controllers
         public async Task<JsonResult> SaveStudent(StudentEntity branch)
         {
 
+            StudentEntity data = new StudentEntity();
             branch.GrNo = "Gr 1";
-            branch.Transaction = GetTransactionData(branch.StudentID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-            var data = await _studentService.StudentMaintenance(branch);
+            
+          for(int i = 1; i <= 10000; i++)
+            {
+                branch.StudentID = 0;
+                branch.Transaction = GetTransactionData(branch.StudentID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+                data = await _studentService.StudentMaintenance(branch);
+                
+            }
+
             if (data != null)
             {
                 return Json(true);
             }
-
             return Json(false);
         }
 

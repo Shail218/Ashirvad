@@ -37,9 +37,11 @@ namespace Ashirvad.Web.Controllers
 
         public JsonResult GetAllUsers(long branchID)
         {
-            var branchData = _userService.GetAllUsers(branchID);
+            var branchData = _userService.GetAllUsersddl(branchID);
             return Json(branchData);
         }
+       
+        
 
         [HttpPost]
         public JsonResult UserRoleManagement(UserEntity user)
