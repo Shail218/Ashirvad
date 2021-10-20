@@ -52,7 +52,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
 
             return null;
         }
+        public async Task<UserEntity> ValidateStudent(string userName, string password)
+        {
+            try
+            {
+                return await this._userContext.ValidateStudent(userName, password);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
 
+            return null;
+        }
         public List<UserEntity> GetAllUsers(long branchID, List<int> userType = null)
         {
             try

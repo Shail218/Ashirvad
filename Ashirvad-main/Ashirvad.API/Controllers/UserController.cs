@@ -16,6 +16,7 @@ namespace Ashirvad.API.Controllers
     public class UserController : ApiController
     {
         private readonly IUserService _userService = null;
+        public ResponseModel res = new ResponseModel();
         public UserController(IUserService userService)
         {
             this._userService = userService;
@@ -138,6 +139,31 @@ namespace Ashirvad.API.Controllers
             var data = _userService.AddUserRoles(user);
             result.Completed = true;
             result.Data = data;
+            return result;
+        }
+
+
+        [Route("ValidateStudent")]
+        [HttpGet]
+        public OperationResult<UserEntity> ValidateStudent(string userName, string password)
+        {
+            var data = this._userService.ValidateStudent(userName, password);
+
+            OperationResult<UserEntity> result = new OperationResult<UserEntity>();
+           
+            if (data.Result.UserID==0)
+            {
+                result.Completed = false;
+                result.Data = null;
+                result.Message = "Invalid Username Or Password !!";
+                
+            }
+            else
+            {
+                result.Completed = true;
+                result.Data = data.Result;
+                result.Message = "Login Successfully!!";
+            }
             return result;
         }
     }

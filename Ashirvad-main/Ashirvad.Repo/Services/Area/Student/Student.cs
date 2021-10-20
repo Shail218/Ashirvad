@@ -257,7 +257,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
-                        .Include("BRANCH_MASTER")
+                        .Include("BRANCH_MASTER")                        
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
                         join usr in this.context.USER_DEF on u.student_id equals usr.student_id into tempUser
                         from user in tempUser.DefaultIfEmpty()

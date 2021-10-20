@@ -82,6 +82,7 @@ namespace Ashirvad.Data
     public class OperationResult<T> : OperationResult
     {
         public T Data { get; set; }
+        public string Message { get; set; }
         public override string ToString()
         {
             return Environment.NewLine + typeof(OperationResult).Name + "<" + typeof(T).Name + ">:" + Environment.NewLine + Data + Environment.NewLine + base.ToString();

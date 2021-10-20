@@ -10,5 +10,7 @@ namespace Ashirvad.Data
     {
         public string Message { get; set; }
         public bool Status { get; set; }
+      
+  
     }
 }
