@@ -113,6 +113,19 @@ function ValidateData(divName) {
     }
 
     if (isSuccess) {
+        $('#' + divName + ' .timeformat').each(function () {
+            var test = $(this).val();
+            if ($(this).val() == '') {
+                ShowMessage('Please Enter ' + $(this).attr('alt'), "Error");
+                //alert();
+                $(this).focus();
+                isSuccess = false;
+                return false;
+            }
+        });
+    }
+
+    if (isSuccess) {
         $('#' + divName + ' .email').each(function () {
             if ($(this).val() != '') {
                 var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
@@ -158,19 +171,6 @@ function ValidateData(divName) {
     }
 
     if (isSuccess) {
-        $('#' + divName + ' .requiredradio').each(function () {
-            var test = $(this).val();
-            if ($(this).val() == '') {
-                ShowMessage('Please Select SubType', "Error");
-                //alert();
-                $(this).focus();
-                isSuccess = false;
-                return false;
-            }
-        });
-    }
-
-    if (isSuccess) {
         $('#' + divName + ' .checkboxRequired').each(function () {
             if ($(this)[0].checked == false) {
                 ShowMessage('Please select ' + $(this).attr('alt'), "Error");
@@ -181,17 +181,7 @@ function ValidateData(divName) {
             }
         });
     }
-    if (isSuccess) {
-        $('#' + divName + ' .radioRequired').each(function () {
-            if ($(this)[0].checked == false) {
-                ShowMessage('Please select ' + $(this).attr('alt'), "Error");
-                //alert();
-                $(this).focus();
-                isSuccess = false;
-                return false;
-            }
-        });
-    }
+
     return isSuccess;
 }
 
@@ -311,14 +301,6 @@ function ConvertData(FromDate) {
     return FromDateupdate
 }
 
-function ConvertDate(FromDate) {
-    var Data = FromDate.split("/");
-    var Date = Data[0];
-    var Month = Data[1];
-    var Year = Data[2];
-    var FromDateupdate = Month + "/" + Date + "/" + Year;
-    return FromDateupdate
-}
 
 function arrayBufferToBase64(buffer) {
     let binary = '';

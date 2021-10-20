@@ -97,7 +97,8 @@ function LoadStandard(branchID) {
 }
 
 
-function SavePaper() {   
+function SavePaper() {
+    debugger;
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();

@@ -84,21 +84,21 @@
             </div>
             <div class="col-md-3">
                 @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
+                <select name="StandardName" id="StandardName" class="form-control requiredDDL" alt="Standard">
                     <option value="0">--Select Standard--</option>
                 </select>
-                @Html.HiddenFor(x => x.StandardInfo.StandardID) 
+                @Html.HiddenFor(x => x.StandardInfo.StandardID)
             </div>
             <div class="col-md-3">
                 @Html.Label("Select School Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="SchoolName" id="SchoolName" class="form-control requiredDDL select2" alt="School Name">
+                <select name="SchoolName" id="SchoolName" class="form-control requiredDDL" alt="School Name">
                     <option value="0">--Select School Name--</option>
                 </select>
                 @Html.HiddenFor(x => x.SchoolInfo.SchoolID)
             </div>
             <div class="col-md-3">
                 @Html.Label("Time of School", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="SchoolTimeDDL" id="SchoolTimeDDL" class="form-control requiredDDL select2" alt="School Time">
+                <select name="SchoolTimeDDL" id="SchoolTimeDDL" class="form-control requiredDDL" alt="School Time">
                     <option value="0">--Select School Time--</option>
                     <option value="1">Morning</option>
                     <option value="2">AfterNoon</option>
@@ -110,7 +110,7 @@
         <div class="row">
             <div class="col-md-3">
                 @Html.Label("Batch Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="BatchTime" id="BatchTime" class="form-control requiredDDL select2" alt="Batch Time">
+                <select name="BatchTime" id="BatchTime" class="form-control requiredDDL" alt="Batch Time">
                     <option value="0">--Select Batch Time--</option>
                     <option value="1">Morning</option>
                     <option value="2">AfterNoon</option>
@@ -125,11 +125,11 @@
                     <tbody>
                         <tr>
                             <td>
-                                <input type="radio" checked name="rdbResultofLastYear" id="rowStaPass" value="Pass" />
+                                <input type="radio" name="rdbResultofLastYear" id="rowStaPass" value="Pass" />
                                 <lable for="rowStaPass">Pass</lable>
                             </td>
                             <td>
-                                <input type="radio"  name="rdbResultofLastYear" id="rowStaFail" value="Fail" style="margin-left:10px" />
+                                <input type="radio" name="rdbResultofLastYear" id="rowStaFail" value="Fail" style="margin-left:10px" />
                                 <lable for="rowStaFail">Fail</lable>
                                 @Html.HiddenFor(x => x.LastYearResult)
                             </td>
@@ -165,7 +165,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <input type="radio" checked name="Status" id="rowStaActive" value="Active" />
+                                <input type="radio" name="Status" id="rowStaActive" value="Active" />
                                 <lable for="rowStaActive">Active</lable>
                             </td>
                             <td>
@@ -192,7 +192,7 @@
             </div>
             <div class="col-md-2" style="margin-top:10px;">
                 @Html.Label("Upload Photo", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <input class="file-upload" alt="Student Image" id="fuStudentImage" name="ImageFile" type="file" accept="image/*" />
+                <input class="file-upload fileRequired" alt="Student Image" id="fuStudentImage" name="ImageFile" type="file" accept="image/*" />
                 @Html.HiddenFor(x => x.StudImage)
             </div>
             <div class="col-md-1" style="margin-top:5px;">
@@ -214,10 +214,10 @@
                 </div>
                 <div class="col-md-3">
                     @Html.Label("Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
-                    @Html.PasswordFor(x => x.StudentMaint.ParentPassword, new { @class = "form-control required", @alt = "Password", autocomplete = "off",@Id="ParentPassword1" })
-                   @Html.HiddenFor(x => x.StudentPassword2)
-                   @Html.HiddenFor(x => x.StudentMaint.ParentPassword2)
-                   @Html.HiddenFor(x => x.StudentMaint.StudentID)
+                    @Html.PasswordFor(x => x.StudentMaint.ParentPassword, new { @class = "form-control required", @alt = "Password", autocomplete = "off", @Id = "ParentPassword1" })
+                    @Html.HiddenFor(x => x.StudentPassword2)
+                    @Html.HiddenFor(x => x.StudentMaint.ParentPassword2)
+                    @Html.HiddenFor(x => x.StudentMaint.StudentID)
                 </div>
                 <div class="col-md-3" style="text-align: right;margin-top:27px;">
                     <a onclick="return SaveStudent();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">

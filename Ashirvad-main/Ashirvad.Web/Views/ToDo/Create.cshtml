@@ -8,11 +8,11 @@
                 <div id="datepickertodo" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null)
                     {
-                        @Html.TextBoxFor(x => x.ToDoDate, null, new { @class = "form-control", @alt = "ToDo Date", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(x => x.ToDoDate, null, new { @class = "form-control required", @alt = "ToDo Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {
-                        @Html.TextBoxFor(x => x.ToDoDate, Model.ToDoDate.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "ToDo Date" })
+                        @Html.TextBoxFor(x => x.ToDoDate, Model.ToDoDate.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "ToDo Date" })
                     }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
@@ -39,7 +39,7 @@
             </div>
             <div class="col-md-9" style="margin-top:5px;">
                 @Html.Label("Task Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.ToDoDescription, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
+                @Html.TextBoxFor(x => x.ToDoDescription, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
             </div>
             <div class="col-md-3" style="text-align: right;margin-top:27px;">
                 <a onclick="return SaveToDo();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
