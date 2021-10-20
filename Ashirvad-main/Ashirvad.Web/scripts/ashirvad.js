@@ -91,7 +91,7 @@ function ValidateData(divName) {
     $('#' + divName + ' .required').each(function () {
         var test = $(this).val();
         if ($(this).val() == '') {
-            ShowMessage('Please select ' + $(this).attr('alt'), "Error");
+            ShowMessage('Please Enter ' + $(this).attr('alt'), "Error");
             //alert();
             $(this).focus();
             isSuccess = false;
@@ -103,7 +103,7 @@ function ValidateData(divName) {
         $('#' + divName + ' .requiredDDL').each(function () {
             var ddlVal = $("#" + $(this).attr('id') + " :selected").val();
             if (ddlVal == '' || ddlVal == '0') {
-                ShowMessage('Please select ' + $(this).attr('alt'),"Error");
+                ShowMessage('Please select ' + $(this).attr('alt'), "Error");
                 //alert();
                 $(this).focus();
                 isSuccess = false;
@@ -127,13 +127,28 @@ function ValidateData(divName) {
     }
 
     if (isSuccess) {
+        $('#' + divName + ' .mobile').each(function () {
+            if ($(this).val() != '') {
+                var mobileReg = /^[0-9]+$/;
+                if (!mobileReg.test($(this).val())) {
+                    ShowMessage('Enter Only Number.', "Error");
+                    $(this).focus();
+                    isSuccess = false;
+                    return false;
+                }
+            }
+        });
+    }
+
+
+    if (isSuccess) {
         $('#' + divName + ' .fileRequired').each(function () {
             if ($(this).hasClass('editForm')) {
                 return true;
             }
 
             if ($(this).get(0).files.length === 0) {
-                ShowMessage('Please select file in ' + $(this).attr('alt'),"Error");
+                ShowMessage('Please select file in ' + $(this).attr('alt'), "Error");
                 //alert();
                 $(this).focus();
                 isSuccess = false;
@@ -166,7 +181,7 @@ function AjaxCall(serviceUrl, dataParam, successCallBack, errorCallBack) {
 
 function AjaxCallWithFileUpload(serviceUrl, dataParam, successCallBack, errorCallBack) {
     $.ajax({
-      
+
         type: 'POST',
         url: serviceUrl,
         data: dataParam,

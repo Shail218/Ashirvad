@@ -47,11 +47,11 @@
         </div>
         <div class="col-md-12">
             @Html.Label("Mobile No(Login ID)", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.MobileNo, new { @class = "form-control required", autocomplete = "off" })
+            @Html.TextBoxFor(x => x.MobileNo, new { @class = "form-control required mobile", autocomplete = "off", maxlength = 10, minlength = 10 })
         </div>
         <div class="col-md-12">
             @Html.Label("Email ID", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.EmailID, new { @class = "form-control required", autocomplete = "off" })
+            @Html.TextBoxFor(x => x.EmailID, new { @class = "form-control required email", autocomplete = "off" })
         </div>
         <div class="col-md-6">
             @Html.Label("Date of Appointment", htmlAttributes: new { @class = "control-label" })
