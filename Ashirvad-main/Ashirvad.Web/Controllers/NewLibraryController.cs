@@ -39,7 +39,7 @@ namespace Ashirvad.Web.Controllers
                 Library.LibraryInfo = result;
             }
 
-            var LibraryData = await _LibraryService.GetAllLibrary();
+            var LibraryData = await _LibraryService.GetAllLibrary(Type);
             Library.LibraryData = LibraryData;
             if(Type== (int)Enums.GalleryType.Image)
             {
