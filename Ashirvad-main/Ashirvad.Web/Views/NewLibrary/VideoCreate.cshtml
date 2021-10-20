@@ -11,13 +11,13 @@
         <div class="col-md-12">
             @Html.Label("Link", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextBoxFor(x => x.link, new { @class = "form-control required", @alt = "Link Name", autocomplete = "off" })
-            @Html.HiddenFor(x => x.LibraryID)
+            @Html.HiddenFor(x => x.LibraryDetailID)
         </div>
 
         <div class="col-md-12">
             @Html.Label("Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextAreaFor(x => x.Description, new { @class = "form-control required", @alt = "Description Name", autocomplete = "off" })
-            @Html.HiddenFor(x => x.LibraryID)
+  
         </div>
 
         <div class="col-md-12">

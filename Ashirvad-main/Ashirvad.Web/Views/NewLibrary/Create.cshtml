@@ -5,7 +5,7 @@
         <div class="col-md-12">
             @Html.Label("Title", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextBoxFor(x => x.Title, new { @class = "form-control required", @alt = "Category Name", autocomplete = "off" })
-            @Html.HiddenFor(x => x.LibraryID)
+        
         </div>
 
         <div class="col-md-12" style="margin-bottom:10px">
@@ -17,6 +17,7 @@
             @Html.Label("Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextAreaFor(x => x.Description, new { @class = "form-control required", @alt = "Category Name", autocomplete = "off" })
             @Html.HiddenFor(x => x.LibraryID)
+            @Html.HiddenFor(x => x.LibraryDetailID)
         </div>
 
         <div class="col-md-12">

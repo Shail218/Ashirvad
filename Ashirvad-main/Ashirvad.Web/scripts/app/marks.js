@@ -144,15 +144,17 @@ function SaveMarks() {
 function LoadTestDates(BatchType) {
 
     var BranchID = $("#Branch_Name").val();
+    var STD = $('#StandardInfo_StandardID').val();
     var BatchType = BatchType;
-    if (BranchID > 0 && BatchType > 0) {
-        var postCall = $.post(commonData.TestPaper + "GetTestDatesByBatch", { "BranchID": BranchID, "BatchType": BatchType });
+
+    if (BranchID > 0 && BatchType > 0 && STD>0) {
+        var postCall = $.post(commonData.TestPaper + "GetTestDatesByBatch", { "BranchID": BranchID, "BatchType": BatchType, "stdID": STD });
         postCall.done(function (data) {
-            $('#BranchName').empty();
-            $('#BranchName').select2();
-            $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
+            $('#testddl').empty();
+            $('#testddl').select2();
+            $("#testddl").append("<option value=" + 0 + ">---Select Test Date---</option>");
             for (i = 0; i < data.length; i++) {
-                $("#BranchName").append("<option value='" + data[i].BranchID + "'>" + data[i].BranchName + "</option>");
+                $("#testddl").append("<option value='" + data[i].BranchID + "'>" + data[i].BranchName + "</option>");
             }
             if (onLoaded != undefined) {
                 onLoaded();
@@ -163,8 +165,9 @@ function LoadTestDates(BatchType) {
         });
     }
     else {
-        $('#BranchName').empty();
-        $('#BranchName').select2();
+        $('#testddl').empty();
+        $('#testddl').select2();
+       
     }
 }
 

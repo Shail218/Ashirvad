@@ -45,24 +45,9 @@
             </div>
             <div class="col-md-3">
                 @Html.Label("Test Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <div id="datepickermarks" class="input-group date" data-date-format="dd/mm/yyyy">
-                    @if (Model == null)
-                    {
-                        @Html.TextBoxFor(x => x.MarksDate, null, new { @class = "form-control", @alt = "Test Date", autocomplete = "off", @readonly = "readonly" })
-                    }
-                    @*else
-                        {
-                            if (Model.DOB == null)
-                            {
-                                @Html.TextBoxFor(x => x.DOB, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Test Date" })
-                            }
-                            else
-                            {
-                                @Html.TextBoxFor(x => x.DOB, Model.DOB.Value.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Test Date" })
-                            }
-                        }*@
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                </div>
+                <select name="Test" id="testddl" class="form-control requiredDDL select2" alt="Standard">
+                        <option value="0">--Select Test Date--</option>
+                    </select>
             </div>
 
             <div class="col-md-3">

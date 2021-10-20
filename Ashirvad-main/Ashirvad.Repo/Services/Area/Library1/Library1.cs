@@ -77,6 +77,7 @@ namespace Ashirvad.Repo.Services.Area
             }
 
             LibraryMaster.library_content = LibraryInfo.FileContent;
+            LibraryMaster.type = LibraryInfo.Type;
             LibraryMaster.library_id = LibraryInfo.LibraryID;
             LibraryMaster.library_name = LibraryInfo.FileName;        
             LibraryMaster.library_filepath = LibraryInfo.FilePath;
@@ -96,7 +97,7 @@ namespace Ashirvad.Repo.Services.Area
         {
             var data = (from u in this.context.LIBRARY1_MASTER
                         join b in this.context.LIBRARY_MASTER_DTL on u.library_id equals b.library_id
-                        where u.row_sta_cd == 1 && b.type==Type
+                        where u.row_sta_cd == 1 && b.type== Type
                         select new LibraryEntity1()
                         {
                             RowStatus = new RowStatusEntity()
@@ -105,6 +106,7 @@ namespace Ashirvad.Repo.Services.Area
                                 RowStatusId = (int)u.row_sta_cd
                             },
                             LibraryID = u.library_id,                           
+                            link = u.video_link,                           
                             Title = u.library_title,
                             Description = u.library_title,
                             FilePath= b.library_filepath,
@@ -136,8 +138,10 @@ namespace Ashirvad.Repo.Services.Area
                                 RowStatusId = (int)u.row_sta_cd,
                                 RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
                             },
-                            LibraryID = u.library_id,
+                            LibraryID = u.library_id,                   
                             Title = u.library_title,                            
+                            Description = u.description,                            
+                            link = u.video_link,                            
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             BranchInfo= new BranchEntity() { BranchID = u.branch_id },
                             CategoryInfo= new CategoryEntity() { CategoryID = u.category_id },

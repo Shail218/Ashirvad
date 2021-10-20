@@ -80,20 +80,24 @@ $("#CategoryName").change(function () {
 });
 
 function SaveLibraryImage() {
+    var Return;
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
         var frm = $('#flibimage');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');
-        if (item[0].files.length > 0) {
-            formData.append('ImageFile', $('input[type=file]')[0].files[0]);
+        if (item.length > 0) {
+            if (item[0].files.length > 0) {
+                formData.append('ImageFile', $('input[type=file]')[0].files[0]);
+            }
         }
+        
         AjaxCallWithFileUpload(commonData.NewLibrary + 'SaveLibrary', formData, function (data) {
             HideLoader();
             if (data) {
                 ShowMessage("Library Image added Successfully.", "Success");
-                window.location.href = "LibraryMaintenance?LibraryID=0";
+                window.location.href = "LibraryMaintenance?LibraryID=0&Type=2";
             }
             else {
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
@@ -107,13 +111,13 @@ function SaveLibraryImage() {
 function SaveLibraryvideo() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
-        ShowLoader();
-        var postCall = $.post(commonData.Subject + "SaveLibrary", $('#flibvideo').serialize());
+        ShowLoader();      
+        var postCall = $.post(commonData.NewLibrary + 'SaveLibrary', $('#flibvideo').serialize());
         postCall.done(function (data) {
             HideLoader();
-            if (data.Status == true) {
-                ShowMessage(data.Message, "Success");
-                setTimeout(function () { window.location.href = "LibraryMaintenance?LibraryID=0" }, 2000);
+            if (data) {
+                ShowMessage("Library Video added Successfully.", "Success");
+                window.location.href = "LibraryMaintenance?LibraryID=0&Type=1";
             } else {
                 ShowMessage(data.Message, "Error");
             }
@@ -131,7 +135,7 @@ function RemoveLibraryImage(LibraryID) {
         postCall.done(function (data) {
             HideLoader();
             ShowMessage("Library Image Removed Successfully.", "Success");
-            window.location.href = "LibraryMaintenance?LibraryID=0";
+            window.location.href = "LibraryMaintenance?LibraryID=0&Type=2";
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -146,7 +150,7 @@ function RemoveLibraryVideo(LibraryID) {
         postCall.done(function (data) {
             HideLoader();
             ShowMessage("Library video Removed Successfully.", "Success");
-            window.location.href = "LibraryMaintenance?LibraryID=0";
+            window.location.href = "LibraryMaintenance?LibraryID=0&Type=1";
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

@@ -10,7 +10,7 @@ namespace Ashirvad.Data
     public class MarksEntity
     {
         public long MarksID { get; set; }
-        public long MarksDetailID { get; set; }
+        public long MarksDetailID { get; set; }       
         public BranchEntity BranchInfo { get; set; }
         public DateTime MarksDate { get; set; }
         public StandardEntity StandardInfo { get; set; }
@@ -25,6 +25,7 @@ namespace Ashirvad.Data
         public string MarksContentFileName { get; set; }
         public string MarksFilepath { get; set; }
         public TransactionEntity Transaction { get; set; }
+        public TestEntity testEntityInfo { get; set; }
         public RowStatusEntity RowStatus { get; set; }
     }
     public class MarksDetailEntity
