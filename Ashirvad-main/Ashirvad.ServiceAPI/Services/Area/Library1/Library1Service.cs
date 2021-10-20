@@ -73,7 +73,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public async Task<List<LibraryEntity1>> GetAllLibrary(long Type)
+        public async Task<List<LibraryEntity1>> GetAllLibrary(int Type)
         {
             try
             {

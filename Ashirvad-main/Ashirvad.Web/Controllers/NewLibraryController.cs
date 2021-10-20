@@ -30,7 +30,7 @@ namespace Ashirvad.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> LibraryMaintenance(long LibraryID, long Type)
+        public async Task<ActionResult> LibraryMaintenance(long LibraryID, int Type)
         {
             LibraryNewMaintenanceModel Library = new LibraryNewMaintenanceModel();
             if (LibraryID > 0)

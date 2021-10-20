@@ -76,7 +76,6 @@ namespace Ashirvad.Repo.Services.Area
                 LibraryInfo.Transaction.TransactionId = data.LibraryMaster.trans_id;
             }
 
-            LibraryMaster.type = LibraryInfo.Type;
             LibraryMaster.library_content = LibraryInfo.FileContent;
             LibraryMaster.library_id = LibraryInfo.LibraryID;
             LibraryMaster.library_name = LibraryInfo.FileName;        
@@ -93,7 +92,7 @@ namespace Ashirvad.Repo.Services.Area
             return this.context.SaveChanges() > 0 ? LibraryMaster.library_dtl_id : 0;
         }
 
-        public async Task<List<LibraryEntity1>> GetAllLibrary(long Type)
+        public async Task<List<LibraryEntity1>> GetAllLibrary(int Type)
         {
             var data = (from u in this.context.LIBRARY1_MASTER
                         join b in this.context.LIBRARY_MASTER_DTL on u.library_id equals b.library_id
@@ -139,7 +138,6 @@ namespace Ashirvad.Repo.Services.Area
                             },
                             LibraryID = u.library_id,
                             Title = u.library_title,                            
-                            Description = u.description,                            
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             BranchInfo= new BranchEntity() { BranchID = u.branch_id },
                             CategoryInfo= new CategoryEntity() { CategoryID = u.category_id },
