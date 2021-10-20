@@ -93,11 +93,11 @@ namespace Ashirvad.Repo.Services.Area
             return this.context.SaveChanges() > 0 ? LibraryMaster.library_dtl_id : 0;
         }
 
-        public async Task<List<LibraryEntity1>> GetAllLibrary(int Type)
+        public async Task<List<LibraryEntity1>> GetAllLibrary(int Type,int BranchID)
         {
             var data = (from u in this.context.LIBRARY1_MASTER
                         join b in this.context.LIBRARY_MASTER_DTL on u.library_id equals b.library_id
-                        where u.row_sta_cd == 1 && b.type== Type
+                        where (u.row_sta_cd == 1 && b.type== Type)&&(u.branch_id== BranchID || u.branch_id==0)
                         select new LibraryEntity1()
                         {
                             RowStatus = new RowStatusEntity()

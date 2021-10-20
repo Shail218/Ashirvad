@@ -10,7 +10,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
     public interface ILibrary1Service
     {
         Task<LibraryEntity1> LibraryMaintenance(LibraryEntity1 LibraryInfo);
-        Task<List<LibraryEntity1>> GetAllLibrary(int Type);
+        Task<List<LibraryEntity1>> GetAllLibrary(int Type, int BranchID);
     
         Task<List<LibraryEntity1>> GetAllLibraryWithoutImage();
         Task<LibraryEntity1> GetLibraryByLibraryID(long LibraryID);

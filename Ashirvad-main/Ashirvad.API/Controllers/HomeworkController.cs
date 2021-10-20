@@ -4,9 +4,11 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Homework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace Ashirvad.API.Controllers
@@ -124,6 +126,41 @@ namespace Ashirvad.API.Controllers
             result.Completed = true;
             return result;
         }
-        
+        [Route("HomeworkDetailMaintenance")]
+        [HttpGet]
+        public OperationResult<HomeworkDetailEntity> HomeworkDetailMaintenance(HomeworkDetailEntity homeworkDetail)
+        {
+
+            var httpRequest = HttpContext.Current.Request;
+            OperationResult<HomeworkDetailEntity> result = new OperationResult<HomeworkDetailEntity>();
+            try
+            {
+                foreach (string file in httpRequest.Files)
+                {
+                    string fileName;
+                    string extension;
+                    var postedFile = httpRequest.Files[file];
+                    string randomfilename = Common.Common.RandomString(20);
+                    extension = Path.GetExtension(postedFile.FileName);
+                    fileName = Path.GetFileName(postedFile.FileName);
+                    string _Filepath = "~/LibraryImage/" + randomfilename + extension;
+                    var filePath = HttpContext.Current.Server.MapPath("~/LibraryImage/" + randomfilename + extension);
+                    postedFile.SaveAs(filePath);
+                    homeworkDetail.AnswerSheetName = fileName;
+                    homeworkDetail.FilePath = _Filepath;
+                }
+                var data = this._homeworkdetailService.HomeworkdetailMaintenance(homeworkDetail);
+               
+                result.Data = data.Result;
+                result.Completed = true;
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+
+            return result;
+        }
     }
 }

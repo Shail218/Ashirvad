@@ -32,14 +32,18 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<ActionResult> LibraryMaintenance(long LibraryID, int Type)
         {
+            int BranchID = 0;
             LibraryNewMaintenanceModel Library = new LibraryNewMaintenanceModel();
             if (LibraryID > 0)
             {
                 var result = await _LibraryService.GetLibraryByLibraryID(LibraryID);
                 Library.LibraryInfo = result;
             }
-
-            var LibraryData = await _LibraryService.GetAllLibrary(Type);
+            if (SessionContext.Instance.LoginUser.UserType != Enums.UserType.SuperAdmin)
+            {
+                BranchID = (int)SessionContext.Instance.LoginUser.UserType;
+            }
+            var LibraryData = await _LibraryService.GetAllLibrary(Type, BranchID);
             Library.LibraryData = LibraryData;
             if(Type== (int)Enums.GalleryType.Image)
             {
