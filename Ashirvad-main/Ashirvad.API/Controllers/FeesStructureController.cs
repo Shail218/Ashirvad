@@ -20,9 +20,10 @@ namespace Ashirvad.API.Controllers
         }
         // GET: Fees
 
-        [Route("FeesMaintenance")]
+        [Route("FeesMaintenance/{FeesID}/{FeesDetailsID}/{StandardID}/{BranchID}/{Remark}/{SubmitDate}/{CreateId}/{CreateBy}")]
         [HttpPost]
-        public OperationResult<FeesEntity> FeesMaintenance(long FeesID,long FeesDetailsID, long StandardID, long BranchID, string Remark,long CreateId, string CreateBy)
+        public OperationResult<FeesEntity> FeesMaintenance(long FeesID,long FeesDetailsID, long StandardID, long BranchID,
+            string Remark,long CreateId, string CreateBy)
         {
             OperationResult<FeesEntity> result = new OperationResult<FeesEntity>();
             var httpRequest = HttpContext.Current.Request;
@@ -126,7 +127,11 @@ namespace Ashirvad.API.Controllers
         [HttpPost]
         public OperationResult<List<FeesEntity>> GetFeesByBranchID(long BranchID,long StdID)
         {
+<<<<<<< Updated upstream
             var data = this._FeesService.GetFeesByBranchID(BranchID, StdID);
+=======
+            var data = this._FeesService.GetFeesByBranchID(BranchID,StdID);
+>>>>>>> Stashed changes
             OperationResult<List<FeesEntity>> result = new OperationResult<List<FeesEntity>>();
             result.Data = data.Result;
             return result;
