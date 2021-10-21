@@ -13,6 +13,8 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Fees
         Task<List<FeesEntity>> GetAllFees();
         Task<List<FeesEntity>> GetAllFeesWithoutImage();
         Task<FeesEntity> GetFeesByFeesID(long FeesID);
+
+        Task<List<FeesEntity>> GetAllFeesByBranchID(long BranchID,long STDID);
         bool RemoveFees(long FeesID, string lastupdatedby);
        
     }

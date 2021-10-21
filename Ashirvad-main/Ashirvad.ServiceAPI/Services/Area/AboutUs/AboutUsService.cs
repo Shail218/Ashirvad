@@ -88,7 +88,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
             return null;
         }
 
-        public async Task<List<AboutUsEntity>> GetAllAboutUs(long branchID = 0)
+        public async Task<List<AboutUsDetailEntity>> GetAllAboutUs(long branchID = 0)
         {
             try
             {

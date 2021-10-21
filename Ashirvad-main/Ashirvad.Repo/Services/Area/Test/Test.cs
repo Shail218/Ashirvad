@@ -196,6 +196,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestEndTime = u.test_end_time,
                             TestName = u.test_name,
                             TestStartTime = u.test_st_time,
+                            
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
 

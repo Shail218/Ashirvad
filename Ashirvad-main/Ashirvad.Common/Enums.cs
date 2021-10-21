@@ -13,6 +13,11 @@ namespace Ashirvad.Common
             Active = 1,
             Inactive = 2
         }
+        public enum HomeWorkStatus : int
+        {
+            Done = 1,
+            Pending = 2
+        }
         public enum GalleryType : int
         {
             Video = 1,

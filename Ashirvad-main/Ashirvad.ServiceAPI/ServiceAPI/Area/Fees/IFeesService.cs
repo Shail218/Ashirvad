@@ -14,6 +14,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
     
         Task<List<FeesEntity>> GetAllFeesWithoutImage();
         Task<FeesEntity> GetFeesByFeesID(long FeesID);
+        Task<List<FeesEntity>> GetFeesByBranchID(long BranchID,long STDID);
         bool RemoveFees(long FeesID, string lastupdatedby);
         
     }

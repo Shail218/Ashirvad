@@ -72,7 +72,22 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return null;
         }
+        public async Task<List<FeesEntity>> GetFeesByBranchID(long BranchID,long STDID)
+        {
+            try
+            {
+                FeesEntity Fees = new FeesEntity();
+                Fees = await _FeesContext.GetFeesByFeesID(FeesID);
+                return Fees;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
 
+            return null;
+        }
+       
         public async Task<List<FeesEntity>> GetAllFees()
         {
             try

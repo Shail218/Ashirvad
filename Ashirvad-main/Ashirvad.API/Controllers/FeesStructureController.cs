@@ -120,5 +120,16 @@ namespace Ashirvad.API.Controllers
             result.Data = FeesData.Result;
             return result;
         }
+
+
+        [Route("GetFeesByBranchID")]
+        [HttpPost]
+        public OperationResult<FeesEntity> GetFeesByBranchID(long BranchID,long StdID)
+        {
+            var data = this._FeesService.GetFeesByFeesID(FeesID);
+            OperationResult<FeesEntity> result = new OperationResult<FeesEntity>();
+            result.Data = data.Result;
+            return result;
+        }
     }
 }

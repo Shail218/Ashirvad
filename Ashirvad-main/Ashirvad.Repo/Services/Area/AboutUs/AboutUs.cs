@@ -61,44 +61,30 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
             return -1;
         }
 
-        public async Task<List<AboutUsEntity>> GetAllAboutUs(long branchID)
+        public async Task<List<AboutUsDetailEntity>> GetAllAboutUs(long branchID)
         {
-            var data = (from u in this.context.ABOUTUS_MASTER
-                        .Include("BRANCH_MASTER")
-                        join Detail in this.context.ABOUTUS_DETAIL_REL on u.branch_id equals Detail.branch_id
+            var data = (from u in this.context.ABOUTUS_DETAIL_REL
+                        .Include("BRANCH_MASTER")                        
                         where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
-                        select new AboutUsEntity()
+                        select new AboutUsDetailEntity()
                         {
                             RowStatus = new RowStatusEntity()
                             {
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            AboutUsID = u.aboutus_id,
+                            
                             //HeaderImage = u.header_img,
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
-                            ContactNo = u.contact_no,
-                            EmailID = u.email_id,
-                            HeaderImageName = u.header_img_name,
-                            WebsiteURL = u.website,
-                            WhatsAppNo = u.whatsapp_no,
-                            detailEntity = new AboutUsDetailEntity()
-                            {
-                                DetailID = Detail.brand_id,
-                                BrandName = Detail.brand_name
-                                
-                            },
+                            HeaderImageText = u.header_img,
+                            FilePath = u.header_img_path,
+                            BrandName = u.brand_name,
+                            DetailID=u.brand_id
+                            
                         }).ToList();
 
-            if (data?.Count > 0)
-            {
-                foreach (var item in data)
-                {
-                    int idx = data.IndexOf(item);
-                    data[idx].HeaderImageText = data[idx].HeaderImage.Length > 0 ? Convert.ToBase64String(data[idx].HeaderImage) : "";
-                }
-            }
+          
 
             return data;
         }

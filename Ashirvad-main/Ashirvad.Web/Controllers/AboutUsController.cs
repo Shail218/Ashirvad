@@ -38,7 +38,7 @@ namespace Ashirvad.Web.Controllers
             }
 
             var list = await _aboutUsService.GetAllAboutUs(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            model.AboutusData = list;
+            model.detailData = list;
 
             return View("Index", model);
         }
@@ -49,7 +49,7 @@ namespace Ashirvad.Web.Controllers
             AboutUsMaintenanceModel model = new AboutUsMaintenanceModel();
 
             var list = await _aboutUsService.GetAllAboutUs(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            model.AboutusData = list;
+            model.detailData = list;
 
             return View("~/Views/AboutUs/Manage.cshtml", model.AboutusData);
         }
@@ -86,7 +86,7 @@ namespace Ashirvad.Web.Controllers
             }
             if (SessionContext.Instance.LoginUser.UserType != Enums.UserType.SuperAdmin)
             {
-                about.BranchInfo.BranchID = (int)SessionContext.Instance.LoginUser.UserType;
+                about.BranchInfo.BranchID = (int)SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }
             about.TransactionInfo = GetTransactionData(about.AboutUsID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             about.RowStatus = new RowStatusEntity()
@@ -129,7 +129,7 @@ namespace Ashirvad.Web.Controllers
                     if (SessionContext.Instance.LoginUser.UserType != Enums.UserType.SuperAdmin)
                     {
 
-                        entity.BranchInfo.BranchID = (int)SessionContext.Instance.LoginUser.UserType;
+                        entity.BranchInfo.BranchID = (int)SessionContext.Instance.LoginUser.BranchInfo.BranchID;
                     }                   
                     data = await _aboutUsService.AboutUsDetailMaintenance(entity);
                     
