@@ -127,11 +127,7 @@ namespace Ashirvad.API.Controllers
         [HttpPost]
         public OperationResult<List<FeesEntity>> GetFeesByBranchID(long BranchID,long StdID)
         {
-<<<<<<< Updated upstream
-            var data = this._FeesService.GetFeesByBranchID(BranchID, StdID);
-=======
             var data = this._FeesService.GetFeesByBranchID(BranchID,StdID);
->>>>>>> Stashed changes
             OperationResult<List<FeesEntity>> result = new OperationResult<List<FeesEntity>>();
             result.Data = data.Result;
             return result;
