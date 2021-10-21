@@ -24,23 +24,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
             HomeworkDetailEntity homeworkDetailEntity = new HomeworkDetailEntity();
             try
             {
-                if (homeworkDetail.FileInfo != null)
-                {
-                    homeworkDetail.AnswerSheetContent = Common.Common.ReadFully(homeworkDetail.FileInfo.InputStream);
-                    homeworkDetail.AnswerSheetName = Path.GetFileName(homeworkDetail.FileInfo.FileName);
-                }
-                else
-                {
-                    homeworkDetail.AnswerSheetContent = Convert.FromBase64String(homeworkDetail.AnswerSheetContentText);
-                }
                 var data = await _testContext.HomeworkMaintenance(homeworkDetail);
-                if (data > 0)
-                {
-                    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
-                    {
-                        Common.Common.SaveFile(homeworkDetail.AnswerSheetContent, homeworkDetail.AnswerSheetName, "StudentAnswerSheet\\");
-                    }
-                }          
                 return homeworkDetailEntity;
             }
             catch (Exception ex)

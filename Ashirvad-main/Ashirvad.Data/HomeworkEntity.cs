@@ -35,6 +35,7 @@ namespace Ashirvad.Data
         public byte[] AnswerSheetContent { get; set; }
         public string AnswerSheetContentText { get; set; }
         public string AnswerSheetName { get; set; }
+        public string FilePath { get; set; }
         public int Status { get; set; }
         public string StatusText { get; set; }
         public string Remarks { get; set; }

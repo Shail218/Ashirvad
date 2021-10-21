@@ -60,10 +60,10 @@ namespace Ashirvad.Repo.Services.Area.Batch
                 
         }
 
-        public async Task<List<BatchEntity>> GetAllBatches(long branchID)
+        public async Task<List<BatchEntity>> GetAllBatches(long branchID,long STDID=0)
         {
             var data = (from u in this.context.BATCH_MASTER
-                        where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
+                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1 && (STDID == 0 || u.std_id == STDID)
                         select new BatchEntity()
                         {
                             RowStatus = new RowStatusEntity()

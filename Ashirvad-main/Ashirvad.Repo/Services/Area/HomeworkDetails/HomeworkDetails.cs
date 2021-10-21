@@ -37,9 +37,10 @@ namespace Ashirvad.Repo.Services.Area.Homework
             if (homework.homework_sheet_content?.Length > 0)
             {
                 homework.homework_sheet_content = homeworkDetail.AnswerSheetContent;
-                homework.homework_sheet_name = homeworkDetail.AnswerSheetName;
+                
             }
-
+            homework.homework_sheet_name = homeworkDetail.AnswerSheetName;
+            homework.homework_filepath = homeworkDetail.FilePath;
             homework.branch_id = homeworkDetail.BranchInfo.BranchID;
             homework.remarks = homeworkDetail.Remarks;
             homework.status = homeworkDetail.Status;

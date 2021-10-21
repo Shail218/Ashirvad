@@ -33,11 +33,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Batch
             return batch;
         }
 
-        public async Task<List<BatchEntity>> GetAllBatches(long branchID)
+        public async Task<List<BatchEntity>> GetAllBatches(long branchID,long STDID=0)
         {
             try
             {
-                return await this._batchContext.GetAllBatches(branchID);
+                return await this._batchContext.GetAllBatches(branchID, STDID);
             }
             catch (Exception ex)
             {

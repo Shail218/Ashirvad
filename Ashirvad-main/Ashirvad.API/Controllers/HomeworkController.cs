@@ -1,4 +1,5 @@
 ﻿using Ashirvad.API.Filter;
+using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Homework;
@@ -19,10 +20,10 @@ namespace Ashirvad.API.Controllers
     {
         private readonly IHomeworkService _homeworkService = null;
         private readonly IHomeworkDetailService _homeworkdetailService = null;
-        public HomeworkController(IHomeworkService homeworkService ,IHomeworkDetailService homeworkdetailService)
+        public HomeworkController(IHomeworkService homeworkService, IHomeworkDetailService homeworkdetailService)
         {
-            _homeworkService = homeworkService;
-            _homeworkdetailService = homeworkdetailService;
+            this._homeworkService = homeworkService;
+            this._homeworkdetailService = homeworkdetailService;
         }
 
 
@@ -127,11 +128,32 @@ namespace Ashirvad.API.Controllers
             return result;
         }
         [Route("HomeworkDetailMaintenance")]
-        [HttpGet]
-        public OperationResult<HomeworkDetailEntity> HomeworkDetailMaintenance(HomeworkDetailEntity homeworkDetail)
+        [HttpPost]
+        public OperationResult<HomeworkDetailEntity> HomeworkDetailMaintenance(long HomeworkID, long BranchID, long StudentID, string Remarks, int?Status, DateTime SubmitDate,long CreateId,string CreateBy)
         {
-
+            HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
+            HomeworkDetailEntity Response = new HomeworkDetailEntity();
+           
+            homeworkDetail.HomeworkEntity = new HomeworkEntity();
+            homeworkDetail.BranchInfo = new BranchEntity();
+            homeworkDetail.StudentInfo = new StudentEntity();
             var httpRequest = HttpContext.Current.Request;
+            homeworkDetail.HomeworkEntity.HomeworkID = HomeworkID;
+            homeworkDetail.BranchInfo.BranchID = BranchID;
+            homeworkDetail.StudentInfo.StudentID = StudentID;
+            homeworkDetail.Remarks = Remarks;
+            homeworkDetail.Status = Status.HasValue?Status.Value:0;
+            homeworkDetail.SubmitDate = SubmitDate;
+            homeworkDetail.RowStatus = new RowStatusEntity()
+            {
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
+            homeworkDetail.Transaction = new TransactionEntity()
+            {
+                CreatedBy = CreateBy,
+                CreatedId = CreateId,
+                CreatedDate = DateTime.Now,
+            };
             OperationResult<HomeworkDetailEntity> result = new OperationResult<HomeworkDetailEntity>();
             try
             {
@@ -142,19 +164,26 @@ namespace Ashirvad.API.Controllers
                     var postedFile = httpRequest.Files[file];
                     string randomfilename = Common.Common.RandomString(20);
                     extension = Path.GetExtension(postedFile.FileName);
-                    fileName = Path.GetFileName(postedFile.FileName);
-                    string _Filepath = "~/LibraryImage/" + randomfilename + extension;
-                    var filePath = HttpContext.Current.Server.MapPath("~/LibraryImage/" + randomfilename + extension);
+                     fileName = Path.GetFileName(postedFile.FileName);
+                    string _Filepath = "~/HomeWorkDetailImage/" + randomfilename + extension;
+                    var filePath = HttpContext.Current.Server.MapPath("~/HomeWorkDetailImage/" + randomfilename + extension);
                     postedFile.SaveAs(filePath);
                     homeworkDetail.AnswerSheetName = fileName;
                     homeworkDetail.FilePath = _Filepath;
+                   var data = this._homeworkdetailService.HomeworkdetailMaintenance(homeworkDetail);
+                    Response = data.Result;
                 }
-                var data = this._homeworkdetailService.HomeworkdetailMaintenance(homeworkDetail);
+                result.Data = null;
+                result.Completed = false;
+                if (Response.HomeworkDetailID > 0)
+                {
+                    result.Data = Response;
+                    result.Completed = true;
+                    result.Message = "Homework Uploaded Successfully!!";
+                }
                
-                result.Data = data.Result;
-                result.Completed = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }

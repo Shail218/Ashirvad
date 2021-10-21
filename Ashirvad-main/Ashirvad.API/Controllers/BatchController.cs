@@ -53,6 +53,16 @@ namespace Ashirvad.API.Controllers
             result.Data = data;
             return result;
         }
-        
+
+        [Route("GetAllBatchesByStd")]
+        [HttpGet]
+        public OperationResult<List<BatchEntity>> GetAllBatchesByStd(long branchID,long StdID)
+        {
+            var data = this._batchService.GetAllBatches(branchID,StdID);
+            OperationResult<List<BatchEntity>> result = new OperationResult<List<BatchEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
     }
 }

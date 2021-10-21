@@ -81,6 +81,11 @@ using Ashirvad.ServiceAPI.Services.Link;
 using System.Web.Http;
 using Unity;
 using Unity.WebApi;
+using Ashirvad.ServiceAPI.ServiceAPI.Area;
+using Ashirvad.ServiceAPI.Services.Area;
+using Ashirvad.Repo.DataAcceessAPI.Area.Fees;
+using Ashirvad.Repo.Services.Area;
+using Ashirvad.Repo.DataAcceessAPI.Area;
 
 namespace Ashirvad.API
 {
@@ -156,6 +161,21 @@ namespace Ashirvad.API
 
             container.RegisterType<IAboutUsService, AboutUsService>();
             container.RegisterType<IAboutUs, AboutUs>();
+
+            container.RegisterType<IFeesService, FeesService>();
+            container.RegisterType<IFeesAPI, Fees>();
+
+            container.RegisterType<IHomeworkDetailService, HomeworkDetailService>();
+            container.RegisterType<IHomeworkDetailsAPI, HomeworkDetails>();
+
+            container.RegisterType<IMarksAPI, Marks>();
+            container.RegisterType<IMarksService, MarksService>();
+
+            container.RegisterType<ICategoryAPI, Category>();
+            container.RegisterType<ICategoryService, CategoryService>();
+
+            container.RegisterType<ILibrary1API, Library1>();
+            container.RegisterType<ILibrary1Service, Library1Service>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
