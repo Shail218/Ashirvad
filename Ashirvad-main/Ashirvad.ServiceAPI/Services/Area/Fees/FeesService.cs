@@ -76,8 +76,8 @@ namespace Ashirvad.ServiceAPI.Services.Area
         {
             try
             {
-                FeesEntity Fees = new FeesEntity();
-                Fees = await _FeesContext.GetFeesByFeesID(FeesID);
+                List<FeesEntity> Fees = new List<FeesEntity>();
+                Fees = await _FeesContext.GetAllFeesByBranchID(BranchID, STDID);
                 return Fees;
             }
             catch (Exception ex)

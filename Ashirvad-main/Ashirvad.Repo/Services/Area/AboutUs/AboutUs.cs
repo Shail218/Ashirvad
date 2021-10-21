@@ -114,11 +114,11 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
             return data;
         }
 
-        public async Task<AboutUsEntity> GetAboutUsByUniqueID(long uniqueID)
+        public async Task<AboutUsEntity> GetAboutUsByUniqueID(long uniqueID,long BranchID=0)
         {
             var data = (from u in this.context.ABOUTUS_MASTER
                         .Include("BRANCH_MASTER")
-                        where u.aboutus_id == uniqueID
+                        where u.aboutus_id == uniqueID && u.branch_id== BranchID
                         select new AboutUsEntity()
                         {
                             RowStatus = new RowStatusEntity()

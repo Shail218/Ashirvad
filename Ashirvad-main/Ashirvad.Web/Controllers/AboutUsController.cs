@@ -36,6 +36,11 @@ namespace Ashirvad.Web.Controllers
                 var aboutdetail = await _aboutUsService.GetAboutUsDetailByUniqueID(detailid);
                 model.detailInfo = aboutdetail.Data;
             }
+            else
+            {
+                var about = await _aboutUsService.GetAboutUsByUniqueID(aboutID, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                model.AboutusInfo = about.Data;
+            }
 
             var list = await _aboutUsService.GetAllAboutUs(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             model.detailData = list;
