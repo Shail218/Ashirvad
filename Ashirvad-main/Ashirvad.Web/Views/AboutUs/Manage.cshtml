@@ -4,14 +4,10 @@
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
             <th>
-                Email Id
+                Description
             </th>
-            <th>
-                Contact No
-            </th>
-            <th>
-                Brand Name
-            </th>
+
+            
             <th>
                 Header Image
             </th>
@@ -27,15 +23,10 @@
     {
         <tr>
             <td>
-                @item.EmailID
+                @item.BranchInfo.BranchName
                 @Html.HiddenFor(x => item.AboutUsID)
             </td>
-            <td>
-                @item.ContactNo
-            </td>
-            <td>
-                @item.detailEntity.BrandName
-            </td>
+           
             <td>
                 <img src="~/ThemeData/images/Default.png" id="headerImg" style="height:40px;width:40px;margin-left:40px;" />
             </td>

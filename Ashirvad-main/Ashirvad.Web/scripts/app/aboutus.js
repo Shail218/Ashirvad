@@ -23,6 +23,7 @@ $(document).ready(function () {
 });
 
 function SaveAboutUs() {
+    debugger;
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
@@ -30,7 +31,7 @@ function SaveAboutUs() {
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');
         if (item[0].files.length > 0) {
-            formData.append('FileInfo', $('input[type=file]')[0].files[0]);
+            formData.append('ImageFile', $('input[type=file]')[0].files[0]);
         }       
         AjaxCallWithFileUpload(commonData.AboutUs + 'SaveAboutus', formData, function (data) {
             if (data.AboutUsID > 0) {
@@ -47,6 +48,7 @@ function SaveAboutUs() {
 }
 
 function SaveDetail(aboutID) {
+    debugger;
     var isSuccess = ValidateData('dDetailsInformation');
     if (isSuccess) {
         var frm = $('#fDetails');
@@ -54,7 +56,7 @@ function SaveDetail(aboutID) {
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');
         if (item[0].files.length > 0) {
-            formData.append('FileInfo', $('input[type=file]')[0].files[0]);
+            formData.append('ImageFile', $('input[type=file]')[0].files[0]);
         }
         AjaxCallWithFileUpload(commonData.AboutUs + 'SaveDetails', formData, function (data) {
             if (data) {

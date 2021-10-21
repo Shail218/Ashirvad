@@ -84,6 +84,10 @@ namespace Ashirvad.Web.Controllers
                 about.HeaderImageName = _FileName;
                 about.FilePath = _Filepath;
             }
+            if (SessionContext.Instance.LoginUser.UserType != Enums.UserType.SuperAdmin)
+            {
+                about.BranchInfo.BranchID = (int)SessionContext.Instance.LoginUser.UserType;
+            }
             about.TransactionInfo = GetTransactionData(about.AboutUsID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             about.RowStatus = new RowStatusEntity()
             {
@@ -121,8 +125,10 @@ namespace Ashirvad.Web.Controllers
                     {
                         RowStatusId = (int)Enums.RowStatus.Active
                     };
+                    entity.BranchInfo = new BranchEntity();
                     if (SessionContext.Instance.LoginUser.UserType != Enums.UserType.SuperAdmin)
                     {
+
                         entity.BranchInfo.BranchID = (int)SessionContext.Instance.LoginUser.UserType;
                     }                   
                     data = await _aboutUsService.AboutUsDetailMaintenance(entity);
