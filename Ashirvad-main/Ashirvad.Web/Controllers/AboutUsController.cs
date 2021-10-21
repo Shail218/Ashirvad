@@ -39,7 +39,15 @@ namespace Ashirvad.Web.Controllers
             else
             {
                 var about = await _aboutUsService.GetAboutUsByUniqueID(aboutID, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-                model.AboutusInfo = about.Data;
+                if(about.Data==null)
+                {
+                    model.AboutusInfo = new AboutUsEntity();
+                }
+                else
+                {
+                    model.AboutusInfo = about.Data;
+                }
+               
             }
 
             var list = await _aboutUsService.GetAllAboutUs(SessionContext.Instance.LoginUser.BranchInfo.BranchID);

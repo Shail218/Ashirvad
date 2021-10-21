@@ -49,6 +49,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                 aboutUsMaster.website = aboutUsInfo.WebsiteURL;
                 aboutUsMaster.whatsapp_no = aboutUsInfo.WhatsAppNo;
                 aboutUsMaster.contact_no = aboutUsInfo.ContactNo;
+                aboutUsMaster.header_img_path = aboutUsInfo.FilePath;
                 this.context.ABOUTUS_MASTER.Add(aboutUsMaster);
                 if (isUpdate)
                 {
@@ -135,7 +136,8 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                             HeaderImageName = u.header_img_name,
                             WebsiteURL = u.website,
                             WhatsAppNo = u.whatsapp_no,
-                            AboutUsDesc=u.aboutus_desc
+                            AboutUsDesc=u.aboutus_desc,
+                            FilePath=u.header_img_path
                         }).FirstOrDefault();
             
 

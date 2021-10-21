@@ -34,8 +34,12 @@ function SaveAboutUs() {
             formData.append('ImageFile', $('input[type=file]')[0].files[0]);
         }       
         AjaxCallWithFileUpload(commonData.AboutUs + 'SaveAboutus', formData, function (data) {
+            HideLoader();
+
             if (data.AboutUsID > 0) {
-                SaveDetail(data.AboutUsID);
+
+                ShowMessage('About us added Successfully.', 'Success');
+
             }
             else {
                 HideLoader();
