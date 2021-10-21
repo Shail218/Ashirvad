@@ -52,8 +52,7 @@ namespace Ashirvad.Data
         public string FilePath { get; set; }
         public string Description { get; set; }
         public RowStatusEntity RowStatus { get; set; }
-        public TransactionEntity Transaction { get; set; }
-        public LibraryDataEntity LibraryData { get; set; }
+        public TransactionEntity Transaction { get; set; }  
         public BranchEntity BranchInfo { get; set; }
         public CategoryEntity CategoryInfo { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }

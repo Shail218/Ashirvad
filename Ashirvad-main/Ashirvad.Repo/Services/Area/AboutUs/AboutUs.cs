@@ -11,62 +11,61 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
 {
     public class AboutUs : ModelAccess, IAboutUs
     {
+        public async Task<long> CheckBranch(int BranchID)
+        {
+            long result;
+            bool isExists = this.context.ABOUTUS_MASTER.Where(s => (BranchID == 0 || s.branch_id != BranchID) && s.row_sta_cd == 1).FirstOrDefault() != null;
+            result = isExists == true ? -1 : 1;
+            return result;
+        }
         public async Task<long> AboutUsMaintenance(AboutUsEntity aboutUsInfo)
         {
             Model.ABOUTUS_MASTER aboutUsMaster = new Model.ABOUTUS_MASTER();
-            bool isUpdate = true;
-            var data = (from aboutus in this.context.ABOUTUS_MASTER
-                        where aboutus.aboutus_id == aboutUsInfo.AboutUsID
-                        select aboutus).FirstOrDefault();
-            if (data == null)
+            if (CheckBranch((int)aboutUsInfo.BranchInfo.BranchID).Result != -1)
             {
-                data = new Model.ABOUTUS_MASTER();
-                isUpdate = false;
-            }
-            else
-            {
-                aboutUsMaster = data;
-                aboutUsInfo.TransactionInfo.TransactionId = data.trans_id;
-            }
-
-            if (aboutUsInfo.HeaderImage?.Length > 0)
-            {
-                aboutUsMaster.header_img = aboutUsInfo.HeaderImage;
-            }
-            else if (!string.IsNullOrEmpty(aboutUsInfo.HeaderImageText))
-            {
-                aboutUsMaster.header_img = Convert.FromBase64String(aboutUsInfo.HeaderImageText);
-            }
-            else
-            {
-                aboutUsMaster.header_img = null;
-            }
-            aboutUsMaster.header_img_name = aboutUsInfo.HeaderImageName;
+                bool isUpdate = true;
+                var data = (from aboutus in this.context.ABOUTUS_MASTER
+                            where aboutus.aboutus_id == aboutUsInfo.AboutUsID
+                            select aboutus).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.ABOUTUS_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    aboutUsMaster = data;
+                    aboutUsInfo.TransactionInfo.TransactionId = data.trans_id;
+                }
 
 
-            aboutUsMaster.row_sta_cd = aboutUsInfo.RowStatus.RowStatusId;
-            aboutUsMaster.trans_id = this.AddTransactionData(aboutUsInfo.TransactionInfo);
-            aboutUsMaster.branch_id = aboutUsInfo.BranchInfo.BranchID;
-            aboutUsMaster.email_id = aboutUsInfo.EmailID;
-            aboutUsMaster.contact_no = aboutUsInfo.ContactNo;
-            aboutUsMaster.website = aboutUsInfo.WebsiteURL;
-            aboutUsMaster.whatsapp_no = aboutUsInfo.WhatsAppNo;
-            aboutUsMaster.contact_no = aboutUsInfo.ContactNo;
-            this.context.ABOUTUS_MASTER.Add(aboutUsMaster);
-            if (isUpdate)
-            {
-                this.context.Entry(aboutUsMaster).State = System.Data.Entity.EntityState.Modified;
-            }
+                aboutUsMaster.header_img_name = aboutUsInfo.HeaderImageName;
+                aboutUsMaster.aboutus_desc = aboutUsInfo.AboutUsDesc;
+                aboutUsMaster.row_sta_cd = aboutUsInfo.RowStatus.RowStatusId;
+                aboutUsMaster.trans_id = this.AddTransactionData(aboutUsInfo.TransactionInfo);
+                aboutUsMaster.branch_id = aboutUsInfo.BranchInfo.BranchID;
+                aboutUsMaster.email_id = aboutUsInfo.EmailID;
+                aboutUsMaster.contact_no = aboutUsInfo.ContactNo;
+                aboutUsMaster.website = aboutUsInfo.WebsiteURL;
+                aboutUsMaster.whatsapp_no = aboutUsInfo.WhatsAppNo;
+                aboutUsMaster.contact_no = aboutUsInfo.ContactNo;
+                this.context.ABOUTUS_MASTER.Add(aboutUsMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(aboutUsMaster).State = System.Data.Entity.EntityState.Modified;
+                }
 
-            var uniqueID = this.context.SaveChanges() > 0 ? aboutUsMaster.aboutus_id : 0;
-            return uniqueID;
+                var uniqueID = this.context.SaveChanges() > 0 ? aboutUsMaster.aboutus_id : 0;
+                return uniqueID;
+            }
+            return -1;
         }
 
         public async Task<List<AboutUsEntity>> GetAllAboutUs(long branchID)
         {
             var data = (from u in this.context.ABOUTUS_MASTER
                         .Include("BRANCH_MASTER")
-                        join Detail in this.context.ABOUTUS_DETAIL_REL on u.aboutus_id equals Detail.aboutus_id
+                        join Detail in this.context.ABOUTUS_DETAIL_REL on u.branch_id equals Detail.branch_id
                         where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new AboutUsEntity()
                         {
@@ -76,7 +75,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                                 RowStatusId = (int)u.row_sta_cd
                             },
                             AboutUsID = u.aboutus_id,
-                            HeaderImage = u.header_img,
+                            //HeaderImage = u.header_img,
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
                             ContactNo = u.contact_no,
@@ -87,8 +86,8 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                             detailEntity = new AboutUsDetailEntity()
                             {
                                 DetailID = Detail.brand_id,
-                                BrandName = Detail.brand_name,
-                                HeaderImage = Detail.header_img
+                                BrandName = Detail.brand_name
+                                
                             },
                         }).ToList();
 
@@ -142,7 +141,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                                 RowStatusId = (int)u.row_sta_cd
                             },
                             AboutUsID = u.aboutus_id,
-                            HeaderImage = u.header_img,
+                            //HeaderImage = u.header_img,
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
                             ContactNo = u.contact_no,
@@ -169,7 +168,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                 if (removeAboutUsDetail)
                 {
                     var tAboutUs = (from au in this.context.ABOUTUS_DETAIL_REL
-                                  where au.aboutus_id == uniqueID
+                                  where au.branch_id == uniqueID
                                   select au).ToList();
                     if (tAboutUs?.Count > 0)
                     {
@@ -211,19 +210,10 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                 aboutUsDetailInfo.TransactionInfo.TransactionId = data.trans_id;
             }
 
-            if (aboutUsDetailInfo.HeaderImage?.Length > 0)
-            {
-                aboutUsDetailMaster.header_img = aboutUsDetailInfo.HeaderImage;
-            }
-            else if (!string.IsNullOrEmpty(aboutUsDetailInfo.HeaderImageText))
-            {
-                aboutUsDetailMaster.header_img = Convert.FromBase64String(aboutUsDetailInfo.HeaderImageText);
-            }
-            else
-            {
-                aboutUsDetailMaster.header_img = null;
-            }
-            aboutUsDetailMaster.aboutus_id = aboutUsDetailInfo.AboutUsInfo.AboutUsID;
+           
+            aboutUsDetailMaster.branch_id = aboutUsDetailInfo.BranchInfo.BranchID;
+            aboutUsDetailMaster.header_img = aboutUsDetailInfo.HeaderImageText;
+            aboutUsDetailMaster.header_img_path = aboutUsDetailInfo.FilePath;
             aboutUsDetailMaster.row_sta_cd = aboutUsDetailInfo.RowStatus.RowStatusId;
             aboutUsDetailMaster.trans_id = this.AddTransactionData(aboutUsDetailInfo.TransactionInfo);
             aboutUsDetailMaster.brand_name = aboutUsDetailInfo.BrandName;
@@ -241,9 +231,9 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         {
             var data = (from u in this.context.ABOUTUS_DETAIL_REL
                         .Include("ABOUTUS_MASTER")
-                        join branch in this.context.BRANCH_MASTER on u.ABOUTUS_MASTER.branch_id equals branch.branch_id
-                        where (0 == branchID || u.ABOUTUS_MASTER.branch_id == branchID)
-                        && (0 == aboutusID || u.aboutus_id == aboutusID)
+                        join branch in this.context.BRANCH_MASTER on u.branch_id equals branch.branch_id
+                        where (0 == branchID || u.branch_id == branchID)
+
                         select new AboutUsDetailEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -253,18 +243,18 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                             },
                             AboutUsInfo = new AboutUsEntity()
                             {
-                                AboutUsID = u.aboutus_id,
+                               
                                 BranchInfo = new BranchEntity() { BranchID = branch.branch_id, BranchName = branch.branch_name },
-                                TransactionInfo = new TransactionEntity() { TransactionId = u.ABOUTUS_MASTER.trans_id },
-                                ContactNo = u.ABOUTUS_MASTER.contact_no,
-                                EmailID = u.ABOUTUS_MASTER.email_id,
-                                WebsiteURL = u.ABOUTUS_MASTER.website,
-                                WhatsAppNo = u.ABOUTUS_MASTER.whatsapp_no
+                                TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
+                                //ContactNo = u.ABOUTUS_MASTER.contact_no,
+                                //EmailID = u.ABOUTUS_MASTER.email_id,
+                                //WebsiteURL = u.ABOUTUS_MASTER.website,
+                                //WhatsAppNo = u.ABOUTUS_MASTER.whatsapp_no
                             },
                             TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
                             BrandName = u.brand_name,
                             DetailID = u.brand_id,
-                            HeaderImage = u.header_img
+                          
                         }).ToList();
 
             if (data?.Count > 0)
@@ -281,69 +271,71 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
 
         public async Task<List<AboutUsDetailEntity>> GetAllAboutUsDetailWithoutContent(long aboutusID, long branchID)
         {
-            var data = (from u in this.context.ABOUTUS_DETAIL_REL
-                        .Include("ABOUTUS_MASTER")
-                        join branch in this.context.BRANCH_MASTER on u.ABOUTUS_MASTER.branch_id equals branch.branch_id
-                        where (0 == branchID || u.ABOUTUS_MASTER.branch_id == branchID)
-                        && (0 == aboutusID || u.aboutus_id == aboutusID)
-                        select new AboutUsDetailEntity()
-                        {
-                            RowStatus = new RowStatusEntity()
-                            {
-                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = (int)u.row_sta_cd
-                            },
-                            AboutUsInfo = new AboutUsEntity()
-                            {
-                                AboutUsID = u.aboutus_id,
-                                BranchInfo = new BranchEntity() { BranchID = branch.branch_id, BranchName = branch.branch_name },
-                                TransactionInfo = new TransactionEntity() { TransactionId = u.ABOUTUS_MASTER.trans_id },
-                                ContactNo = u.ABOUTUS_MASTER.contact_no,
-                                EmailID = u.ABOUTUS_MASTER.email_id,
-                                WebsiteURL = u.ABOUTUS_MASTER.website,
-                                WhatsAppNo = u.ABOUTUS_MASTER.whatsapp_no
-                            },
-                            TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
-                            BrandName = u.brand_name,
-                            DetailID = u.brand_id
-                        }).ToList();
+           List<AboutUsDetailEntity> data = new List<AboutUsDetailEntity>();
+            //var data = (from u in this.context.ABOUTUS_DETAIL_REL
+            //            .Include("ABOUTUS_MASTER")
+            //            join branch in this.context.BRANCH_MASTER on u.ABOUTUS_MASTER.branch_id equals branch.branch_id
+            //            where (0 == branchID || u.ABOUTUS_MASTER.branch_id == branchID)
+            //            && (0 == aboutusID || u.aboutus_id == aboutusID)
+            //            select new AboutUsDetailEntity()
+            //            {
+            //                RowStatus = new RowStatusEntity()
+            //                {
+            //                    RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+            //                    RowStatusId = (int)u.row_sta_cd
+            //                },
+            //                AboutUsInfo = new AboutUsEntity()
+            //                {
+            //                    AboutUsID = u.aboutus_id,
+            //                    BranchInfo = new BranchEntity() { BranchID = branch.branch_id, BranchName = branch.branch_name },
+            //                    TransactionInfo = new TransactionEntity() { TransactionId = u.ABOUTUS_MASTER.trans_id },
+            //                    ContactNo = u.ABOUTUS_MASTER.contact_no,
+            //                    EmailID = u.ABOUTUS_MASTER.email_id,
+            //                    WebsiteURL = u.ABOUTUS_MASTER.website,
+            //                    WhatsAppNo = u.ABOUTUS_MASTER.whatsapp_no
+            //                },
+            //                TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
+            //                BrandName = u.brand_name,
+            //                DetailID = u.brand_id
+            //            }).ToList();
 
             return data;
         }
 
         public async Task<AboutUsDetailEntity> GetAboutUsDetailByUniqueID(long uniqueID)
         {
-            var data = (from u in this.context.ABOUTUS_DETAIL_REL
-                        .Include("ABOUTUS_MASTER")
-                        join branch in this.context.BRANCH_MASTER on u.ABOUTUS_MASTER.branch_id equals branch.branch_id
-                        where u.brand_id == uniqueID
-                        select new AboutUsDetailEntity()
-                        {
-                            RowStatus = new RowStatusEntity()
-                            {
-                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = (int)u.row_sta_cd
-                            },
-                            AboutUsInfo = new AboutUsEntity()
-                            {
-                                AboutUsID = u.aboutus_id,
-                                BranchInfo = new BranchEntity() { BranchID = branch.branch_id, BranchName = branch.branch_name },
-                                TransactionInfo = new TransactionEntity() { TransactionId = u.ABOUTUS_MASTER.trans_id },
-                                ContactNo = u.ABOUTUS_MASTER.contact_no,
-                                EmailID = u.ABOUTUS_MASTER.email_id,
-                                WebsiteURL = u.ABOUTUS_MASTER.website,
-                                WhatsAppNo = u.ABOUTUS_MASTER.whatsapp_no
-                            },
-                            TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
-                            BrandName = u.brand_name,
-                            DetailID = u.brand_id,
-                            HeaderImage = u.header_img
-                        }).FirstOrDefault();
+            AboutUsDetailEntity data = new AboutUsDetailEntity();
+            //var data = (from u in this.context.ABOUTUS_DETAIL_REL
+            //            .Include("ABOUTUS_MASTER")
+            //            join branch in this.context.BRANCH_MASTER on u.ABOUTUS_MASTER.branch_id equals branch.branch_id
+            //            where u.brand_id == uniqueID
+            //            select new AboutUsDetailEntity()
+            //            {
+            //                RowStatus = new RowStatusEntity()
+            //                {
+            //                    RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+            //                    RowStatusId = (int)u.row_sta_cd
+            //                },
+            //                AboutUsInfo = new AboutUsEntity()
+            //                {
+            //                    AboutUsID = u.aboutus_id,
+            //                    BranchInfo = new BranchEntity() { BranchID = branch.branch_id, BranchName = branch.branch_name },
+            //                    TransactionInfo = new TransactionEntity() { TransactionId = u.ABOUTUS_MASTER.trans_id },
+            //                    ContactNo = u.ABOUTUS_MASTER.contact_no,
+            //                    EmailID = u.ABOUTUS_MASTER.email_id,
+            //                    WebsiteURL = u.ABOUTUS_MASTER.website,
+            //                    WhatsAppNo = u.ABOUTUS_MASTER.whatsapp_no
+            //                },
+            //                TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
+            //                BrandName = u.brand_name,
+            //                DetailID = u.brand_id,
+            //                HeaderImage = u.header_img
+            //            }).FirstOrDefault();
 
-            if (data != null)
-            {
-                data.HeaderImageText = data.HeaderImage.Length > 0 ? Convert.ToBase64String(data.HeaderImage) : "";
-            }
+            //if (data != null)
+            //{
+            //    data.HeaderImageText = data.HeaderImage.Length > 0 ? Convert.ToBase64String(data.HeaderImage) : "";
+            //}
 
             return data;
         }

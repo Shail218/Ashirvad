@@ -1,4 +1,5 @@
-﻿using Ashirvad.Data;
+﻿using Ashirvad.Common;
+using Ashirvad.Data;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,30 @@ namespace Ashirvad.API.Controllers
 
         [Route("FeesMaintenance")]
         [HttpPost]
-        public OperationResult<FeesEntity> FeesMaintenance(FeesEntity feesEntity)
+        public OperationResult<FeesEntity> FeesMaintenance(long FeesID,long FeesDetailsID, long StandardID, long BranchID, string Remark,long CreateId, string CreateBy)
         {
-
+            OperationResult<FeesEntity> result = new OperationResult<FeesEntity>();
             var httpRequest = HttpContext.Current.Request;
+            FeesEntity feesEntity = new FeesEntity();            
+            FeesEntity data = new FeesEntity();            
+            feesEntity.BranchInfo = new BranchEntity();
+            feesEntity.standardInfo = new StandardEntity();         
+            feesEntity.BranchInfo.BranchID = BranchID;
+            feesEntity.standardInfo.StandardID = StandardID;
+            feesEntity.FeesID = FeesID;
+            feesEntity.FeesDetailID = FeesDetailsID;            
+            feesEntity.Remark = Remark;            
+            feesEntity.RowStatus = new RowStatusEntity()
+            {
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
+            feesEntity.Transaction = new TransactionEntity()
+            {
+                CreatedBy = CreateBy,
+                CreatedId = CreateId,
+                CreatedDate = DateTime.Now,
+            };
+            
             if (httpRequest.Files.Count > 0)
             {
                 try
@@ -42,9 +63,24 @@ namespace Ashirvad.API.Controllers
                         postedFile.SaveAs(filePath);                        
                         feesEntity.FileName = fileName;
                         feesEntity.FilePath = _Filepath;
+                        data = this._FeesService.FeesMaintenance(feesEntity).Result;
+                    }
+                    result.Completed = false;
+                    result.Data = null;
+                    if (data.FeesID > 0 || data.FeesDetailID > 0)
+                    {
+                        result.Completed = true;
+                        result.Data = data;
+                        if (FeesID > 0)
+                        {
+                            result.Message = "Fees Structure Updated Successfully";
+                        }
+                        else
+                        {
+                            result.Message = "Fees Structure Created Successfully";
+                        }
                     }
 
-                    
 
                 }
                 catch (Exception ex)
@@ -52,16 +88,7 @@ namespace Ashirvad.API.Controllers
 
                 }
             }
-
-
-          
-            var data = this._FeesService.FeesMaintenance(feesEntity);
-            OperationResult<FeesEntity> result = new OperationResult<FeesEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
             return result;
-
-
         }
 
         [Route("GetFeesByID")]

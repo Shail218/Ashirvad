@@ -1284,6 +1284,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AboutUsDetail\" />
+    <Folder Include="AboutUsHeader\" />
     <Folder Include="App_Data\" />
     <Folder Include="FeesImage\" />
     <Folder Include="LibraryImage\" />

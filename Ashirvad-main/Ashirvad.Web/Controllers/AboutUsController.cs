@@ -4,6 +4,7 @@ using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.AboutUs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -32,7 +33,6 @@ namespace Ashirvad.Web.Controllers
             {
                 var about = await _aboutUsService.GetAboutUsByUniqueID(aboutID);
                 model.AboutusInfo = about.Data;
-
                 var aboutdetail = await _aboutUsService.GetAboutUsDetailByUniqueID(detailid);
                 model.detailInfo = aboutdetail.Data;
             }
@@ -47,7 +47,7 @@ namespace Ashirvad.Web.Controllers
         public async Task<ActionResult> ManageMaintenance(long aboutID)
         {
             AboutUsMaintenanceModel model = new AboutUsMaintenanceModel();
-    
+
             var list = await _aboutUsService.GetAllAboutUs(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             model.AboutusData = list;
 
@@ -71,6 +71,19 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveAboutus(AboutUsEntity about)
         {
+
+            if (about.ImageFile != null)
+            {
+
+                string _FileName = Path.GetFileName(about.ImageFile.FileName);
+                string extension = System.IO.Path.GetExtension(about.ImageFile.FileName);
+                string randomfilename = Common.Common.RandomString(20);
+                string _Filepath = "/AboutUsHeader/" + randomfilename + extension;
+                string _path = Path.Combine(Server.MapPath("~/AboutUsHeader"), randomfilename + extension);
+                about.ImageFile.SaveAs(_path);
+                about.HeaderImageName = _FileName;
+                about.FilePath = _Filepath;
+            }
             about.TransactionInfo = GetTransactionData(about.AboutUsID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             about.RowStatus = new RowStatusEntity()
             {
@@ -88,32 +101,50 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveDetails(AboutUsDetailEntity entity)
         {
-            entity.TransactionInfo = GetTransactionData(entity.DetailID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-            entity.RowStatus = new RowStatusEntity()
+            AboutUsDetailEntity data = new AboutUsDetailEntity();
+            
+            if (entity.ImageFile != null)
             {
-                RowStatusId = (int)Enums.RowStatus.Active
-            };
-            var data = await _aboutUsService.AboutUsDetailMaintenance(entity);
-            if (data != null)
+
+                foreach (var item in entity.ImageFile)
+                {
+                    string _FileName = Path.GetFileName(item.FileName);
+                    string extension = System.IO.Path.GetExtension(item.FileName);
+                    string randomfilename = Common.Common.RandomString(20);
+                    string _Filepath = "/AboutUsDetail/" + randomfilename + extension;
+                    string _path = Path.Combine(Server.MapPath("~/AboutUsDetail"), randomfilename + extension);
+                    item.SaveAs(_path);
+                    entity.HeaderImageText = _FileName;
+                    entity.FilePath = _Filepath;
+                    entity.TransactionInfo = GetTransactionData(entity.DetailID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+                    entity.RowStatus = new RowStatusEntity()
+                    {
+                        RowStatusId = (int)Enums.RowStatus.Active
+                    };
+                    if (SessionContext.Instance.LoginUser.UserType != Enums.UserType.SuperAdmin)
+                    {
+                        entity.BranchInfo.BranchID = (int)SessionContext.Instance.LoginUser.UserType;
+                    }                   
+                    data = await _aboutUsService.AboutUsDetailMaintenance(entity);
+                    
+                }
+
+            }
+            if (data.DetailID >0)
             {
                 return Json(true);
             }
 
             return Json(false);
+
         }
 
-        [HttpPost]
-        public async Task<string> GetHeaderImage(long aboutID)
-        {
-            var data = await _aboutUsService.GetAboutUsByUniqueID(aboutID);
-            var result = data.Data;
-            return "data:image/jpg;base64, " + result.HeaderImageText;
-        }
+        
 
         [HttpPost]
         public JsonResult RemoveAboutUs(long aboutID)
         {
-            var result = _aboutUsService.RemoveAboutUs(aboutID, SessionContext.Instance.LoginUser.Username,true);
+            var result = _aboutUsService.RemoveAboutUs(aboutID, SessionContext.Instance.LoginUser.Username, true);
             return Json(result);
         }
 

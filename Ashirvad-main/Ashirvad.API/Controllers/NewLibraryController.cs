@@ -25,10 +25,34 @@ namespace Ashirvad.API.Controllers
 
         [Route("LibraryMaintenance")]
         [HttpPost]
-        public OperationResult<LibraryEntity1> LibraryMaintenance(LibraryEntity1 libInfo)
+        public OperationResult<LibraryEntity1> LibraryMaintenance(long LibraryID, long LibraryDetailID, 
+             string Title, string link, string FileName, string FilePath, 
+            string Description, long BranchID, long CategoryID,string CreateBy,int CreateId)
         {
+            LibraryEntity1 libInfo = new LibraryEntity1();
             OperationResult<LibraryEntity1> result = new OperationResult<LibraryEntity1>();
             var httpRequest = HttpContext.Current.Request;
+            libInfo.BranchInfo = new BranchEntity();
+            libInfo.CategoryInfo = new CategoryEntity();
+            libInfo.BranchInfo.BranchID = BranchID;
+            libInfo.CategoryInfo.CategoryID = CategoryID;
+            libInfo.LibraryID = LibraryID;
+            libInfo.LibraryDetailID = LibraryDetailID;
+            libInfo.Title = Title;
+            libInfo.link = link;
+            libInfo.FileName = FileName;
+            libInfo.FilePath = FilePath;         
+            libInfo.Description = Description;
+            libInfo.RowStatus = new RowStatusEntity()
+            {
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
+            libInfo.Transaction = new TransactionEntity()
+            {
+                CreatedBy = CreateBy,
+                CreatedId = CreateId,
+                CreatedDate = DateTime.Now,
+            };
             if (httpRequest.Files.Count > 0)
             {
                 try
@@ -64,11 +88,26 @@ namespace Ashirvad.API.Controllers
                     {
                         RowStatusId = (int)Enums.RowStatus.Active
                     };
-                    var data = this._libraryService.LibraryMaintenance(libInfo);
+                    var data = this._libraryService.LibraryMaintenance(libInfo).Result;
                    
-                    result.Completed = true;
-                    result.Data = data.Result;
-                   
+                    result.Completed = false;
+                    result.Data = null;
+                    if (data.LibraryID > 0)
+                    {
+                        result.Completed = false;
+                        result.Data = data;
+                        if (LibraryID > 0)
+                        {
+                            result.Message = "Library Updated Successfully!";
+                        }
+                        else
+                        {
+                            result.Message = "Library Created Successfully!";
+                        }
+                       
+                    }
+
+
 
                 }
                 catch (Exception ex)

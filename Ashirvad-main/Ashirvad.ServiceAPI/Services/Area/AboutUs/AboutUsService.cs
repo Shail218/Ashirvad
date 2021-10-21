@@ -24,33 +24,33 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
             AboutUsEntity aboutus = new AboutUsEntity();
             try
             {
-                if (aboutUsInfo.FileInfo != null)
-                {
-                    aboutUsInfo.HeaderImage = Common.Common.ReadFully(aboutUsInfo.FileInfo.InputStream);
-                    aboutUsInfo.HeaderImageName = Path.GetFileName(aboutUsInfo.FileInfo.FileName);
-                }
-                else
-                {
-                    aboutUsInfo.HeaderImage = Convert.FromBase64String(aboutUsInfo.HeaderImageText);
-                }
-
+                //if (aboutUsInfo.FileInfo != null)
+                //{
+                //    aboutUsInfo.HeaderImage = Common.Common.ReadFully(aboutUsInfo.FileInfo.InputStream);
+                //    aboutUsInfo.HeaderImageName = Path.GetFileName(aboutUsInfo.FileInfo.FileName);
+                //}
+                //else
+                //{
+                //    aboutUsInfo.HeaderImage = Convert.FromBase64String(aboutUsInfo.HeaderImageText);
+                //}
 
                 long uniqueID = await _aboutusContext.AboutUsMaintenance(aboutUsInfo);
-                if (uniqueID > 0)
-                {
-                    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
-                    {
-                        Common.Common.SaveFile(aboutUsInfo.HeaderImage, aboutUsInfo.HeaderImageName, "AboutUs\\");
-                    }
+                aboutus.AboutUsID = uniqueID;
+                //if (uniqueID > 0)
+                //{
+                //    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
+                //    {
+                //        Common.Common.SaveFile(aboutUsInfo.HeaderImage, aboutUsInfo.HeaderImageName, "AboutUs\\");
+                //    }
 
-                    aboutus.AboutUsID = uniqueID;
-                }
+                //    aboutus.AboutUsID = uniqueID;
+                //}
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-
+            
             return aboutus;
         }
 
@@ -122,32 +122,32 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
             AboutUsDetailEntity aboutus = new AboutUsDetailEntity();
             try
             {
-                if (aboutUsInfo.FileInfo != null)
-                {
-                    aboutUsInfo.HeaderImage = Common.Common.ReadFully(aboutUsInfo.FileInfo.InputStream);
-                }
-                else
-                {
-                    aboutUsInfo.HeaderImage = Convert.FromBase64String(aboutUsInfo.HeaderImageText);
-                }
-
+                //if (aboutUsInfo.FileInfo != null)
+                //{
+                //    aboutUsInfo.HeaderImage = Common.Common.ReadFully(aboutUsInfo.FileInfo.InputStream);
+                //}
+                //else
+                //{
+                //    aboutUsInfo.HeaderImage = Convert.FromBase64String(aboutUsInfo.HeaderImageText);
+                //}
 
                 long uniqueID = await _aboutusContext.AboutUsDetailMaintenance(aboutUsInfo);
-                if (uniqueID > 0)
-                {
-                    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
-                    {
-                        Common.Common.SaveFile(aboutUsInfo.HeaderImage, uniqueID.ToString(), "AboutUsDetail\\");
-                    }
+                aboutus.DetailID = uniqueID;
+                //if (uniqueID > 0)
+                //{
+                //    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
+                //    {
+                //        Common.Common.SaveFile(aboutUsInfo.HeaderImage, uniqueID.ToString(), "AboutUsDetail\\");
+                //    }
 
-                    aboutus.DetailID = uniqueID;
-                }
+                //    aboutus.DetailID = uniqueID;
+                //}
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-
+           
             return aboutus;
         }
 

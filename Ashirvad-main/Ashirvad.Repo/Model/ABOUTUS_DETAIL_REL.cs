@@ -15,12 +15,14 @@ namespace Ashirvad.Repo.Model
     public partial class ABOUTUS_DETAIL_REL
     {
         public long brand_id { get; set; }
-        public long aboutus_id { get; set; }
+        public long branch_id { get; set; }
         public string brand_name { get; set; }
-        public byte[] header_img { get; set; }
+        public string header_img { get; set; }
         public int row_sta_cd { get; set; }
         public long trans_id { get; set; }
+        public string header_img_path { get; set; }
     
-        public virtual ABOUTUS_MASTER ABOUTUS_MASTER { get; set; }
+        public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
     }
 }

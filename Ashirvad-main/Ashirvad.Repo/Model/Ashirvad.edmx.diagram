@@ -82,10 +82,6 @@
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_SUBJECT_MASTER" />
-        <EntityTypeShape EntityType="AshirvadModel.ABOUTUS_DETAIL_REL" Width="1.5" PointX="7.5" PointY="45" />
-        <EntityTypeShape EntityType="AshirvadModel.ABOUTUS_MASTER" Width="1.5" PointX="5.25" PointY="44.625" />
-        <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.ANNOUNCE_MASTER" Width="1.5" PointX="7.375" PointY="3.75" />
         <EntityTypeShape EntityType="AshirvadModel.FEE_STRUCTURE_MASTER" Width="1.5" PointX="15.5" PointY="14.625" />
         <EntityTypeShape EntityType="AshirvadModel.STUDENT_PAYMENT_MASTER" Width="1.5" PointX="5.25" PointY="33.25" />
@@ -133,6 +129,11 @@
         <AssociationConnector Association="AshirvadModel.FK_LIBRARY_MASTER_DTL_LIBRARY1_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_LIBRARY_MASTER_DTL_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_LIBRARY1_MASTER_TRANSACTION_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.ABOUTUS_DETAIL_REL" Width="1.5" PointX="10.25" PointY="30.375" />
+        <EntityTypeShape EntityType="AshirvadModel.ABOUTUS_MASTER" Width="1.5" PointX="5.25" PointY="41.125" />
+        <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

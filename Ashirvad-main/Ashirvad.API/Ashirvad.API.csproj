@@ -277,6 +277,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="HomeWorkDetailImage\" />
+    <Folder Include="LibraryImage\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
