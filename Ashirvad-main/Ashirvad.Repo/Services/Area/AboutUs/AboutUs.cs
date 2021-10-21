@@ -118,7 +118,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         {
             var data = (from u in this.context.ABOUTUS_MASTER
                         .Include("BRANCH_MASTER")
-                        where u.aboutus_id == uniqueID && u.branch_id== BranchID
+                        where  u.branch_id== BranchID
                         select new AboutUsEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -134,12 +134,10 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                             EmailID = u.email_id,
                             HeaderImageName = u.header_img_name,
                             WebsiteURL = u.website,
-                            WhatsAppNo = u.whatsapp_no
+                            WhatsAppNo = u.whatsapp_no,
+                            AboutUsDesc=u.aboutus_desc
                         }).FirstOrDefault();
-            if (data != null)
-            {
-                data.HeaderImageText = data.HeaderImage.Length > 0 ? Convert.ToBase64String(data.HeaderImage) : "";
-            }
+            
 
             return data;
         }
