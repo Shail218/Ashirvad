@@ -1291,6 +1291,7 @@
     <Folder Include="LibraryImage\" />
     <Folder Include="MarksImage\" />
     <Folder Include="Models\" />
+    <Folder Include="TestPaper\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

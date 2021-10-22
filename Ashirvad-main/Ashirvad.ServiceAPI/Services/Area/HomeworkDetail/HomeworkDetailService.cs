@@ -25,6 +25,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
             try
             {
                 var data = await _testContext.HomeworkMaintenance(homeworkDetail);
+                homeworkDetailEntity.HomeworkDetailID = data;
                 return homeworkDetailEntity;
             }
             catch (Exception ex)

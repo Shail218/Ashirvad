@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1082
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31605.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ashirvad.Web", "Ashirvad.Web\Ashirvad.Web.csproj", "{B82E8A68-C4D5-40A2-8F69-EF543A3D5B42}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ashirvad.Logger", "Ashirvad.Logger\Ashirvad.Logger.csproj", "{39F31732-B1A8-4525-AA62-CBC3AEA20218}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ashirvad.Data", "Ashirvad.Data\Ashirvad.Data.csproj", "{E1440DA5-3D5A-4C0D-AE15-CBDA5A71ABE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ashirvad.Uploads", "Ashirvad.Uploads\Ashirvad.Uploads.csproj", "{E98D87C7-3A6C-4759-95B0-6D4A98C2A99E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{E1440DA5-3D5A-4C0D-AE15-CBDA5A71ABE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1440DA5-3D5A-4C0D-AE15-CBDA5A71ABE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1440DA5-3D5A-4C0D-AE15-CBDA5A71ABE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E98D87C7-3A6C-4759-95B0-6D4A98C2A99E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E98D87C7-3A6C-4759-95B0-6D4A98C2A99E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E98D87C7-3A6C-4759-95B0-6D4A98C2A99E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E98D87C7-3A6C-4759-95B0-6D4A98C2A99E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

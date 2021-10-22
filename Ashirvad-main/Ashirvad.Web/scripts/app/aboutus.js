@@ -3,8 +3,11 @@
 
 $(document).ready(function () {
 
-    if ($("#AboutUsID").val() > 0 && $("#DetailID").val() > 0) {
+    if ($("#AboutUsID").val() > 0 ) {
         $("#fuHeaderImage").addClass("editForm");
+        
+    }
+    if ($("#DetailID").val() > 0) {
         $("#fuHeaderImageDetail").addClass("editForm");
     }
 

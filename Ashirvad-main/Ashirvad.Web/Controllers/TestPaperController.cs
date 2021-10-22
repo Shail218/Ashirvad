@@ -4,6 +4,7 @@ using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Test;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -34,12 +35,17 @@ namespace Ashirvad.Web.Controllers
                 branch.TestInfo = test.Data;
 
                 var testpaper = await _testService.GetTestPaperByPaperID(paperID);
-                branch.TestPaperInfo = testpaper;
+                branch.TestInfo.test = testpaper;
+            }
+            else
+            {
+                branch.TestInfo = new TestEntity();
+                branch.TestInfo.test = new TestPaperEntity();
             }
 
             var testpaperByBranch = await _testService.GetAllTestByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             branch.TestData = testpaperByBranch.Data;
-
+           
             return View("Index", branch);
         }
 
@@ -54,10 +60,35 @@ namespace Ashirvad.Web.Controllers
             var data = await _testService.TestMaintenance(testEntity);
             if (data != null)
             {
-                return Json(data);
+                testEntity.test.TestID = data.TestID;
+                testEntity.test.RowStatus = new RowStatusEntity()
+                {
+                    RowStatusId = (int)Enums.RowStatus.Active
+                };
+                testEntity.test.Transaction = GetTransactionData(testEntity.test.TestPaperID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+                if (testEntity.FileInfo != null)
+                {
+
+                    
+                    string _FileName = Path.GetFileName(testEntity.FileInfo.FileName);
+                    string extension = System.IO.Path.GetExtension(testEntity.FileInfo.FileName);
+                    string randomfilename = Common.Common.RandomString(20);
+                    string _Filepath = "/TestPaper/" + randomfilename + extension;
+                    string _path = Path.Combine(Server.MapPath("~/TestPaper"), randomfilename + extension);
+                    testEntity.FileInfo.SaveAs(_path);
+                    testEntity.test.FileName = _FileName;
+                    testEntity.test.FilePath = _Filepath;
+                    
+                }
+                if (testEntity.test.FilePath != "")
+                {
+                    var data2 = await _testService.TestPaperMaintenance(testEntity.test);
+                }
+               
+                return Json(true);
             }
 
-            return Json(0);
+            return Json(false);
         }
 
         [HttpPost]

@@ -23,6 +23,7 @@ namespace Ashirvad.Repo.Model
         public int row_sta_cd { get; set; }
         public long trans_id { get; set; }
         public string file_name { get; set; }
+        public string file_path { get; set; }
     
         public virtual TEST_MASTER TEST_MASTER { get; set; }
     }

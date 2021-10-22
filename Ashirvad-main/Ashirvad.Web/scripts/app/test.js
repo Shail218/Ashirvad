@@ -4,7 +4,7 @@
 $(document).ready(function () {
 
     if ($("#TestID").val() > 0 && $("#TestPaperID").val() > 0) {
-        $("#fuPaperDoc").addClass("editForm");
+        $("#test_fuPaperDoc").addClass("editForm");
     }
 
     $("#datepickertest").datepicker({
@@ -39,8 +39,8 @@ $(document).ready(function () {
         $('#BatchTime option[value="' + $("#BatchTimeID").val() + '"]').attr("selected", "selected");
     }
 
-    if ($("#PaperTypeID").val() != "") {
-        var Data = $("#PaperTypeID").val();
+    if ($("#test_PaperTypeID").val() != "") {
+        var Data = $("#test_PaperTypeID").val();
         if (Data == 2) {
             $('#link').show();
             $('#testpaper').hide();
@@ -51,7 +51,7 @@ $(document).ready(function () {
             $('#testpaper').hide();
             $('#link').hide();
         }
-        $('#Type option[value="' + $("#PaperTypeID").val() + '"]').attr("selected", "selected");
+        $('#Type option[value="' + $("#test_PaperTypeID").val() + '"]').attr("selected", "selected");
     }
     if ($("#RowStatus_RowStatusId").val() != "") {
         var Data = $("#RowStatus_RowStatusId").val();     
@@ -122,18 +122,23 @@ function Savetest() {
         ShowLoader();
         //var date1 = $("#TestDate").val();
         //$("#TestDate").val(ConvertData(date1));
-        var postCall = $.post(commonData.TestPaper + "SaveTest", $('#fTestDetail').serialize());
-        postCall.done(function (data) {
-            if (data.TestID > 0) {
-                Savetestpaper(data.TestID, data.TestDate);
+        var frm = $('#fTestDetail');
+        var formData = new FormData(frm[0]);
+        var item = $('input[type=file]');
+        if (item[0].files.length > 0) {
+            formData.append('FileInfo', $('input[type=file]')[0].files[0]);
+        }
+        AjaxCallWithFileUpload(commonData.TestPaper + 'SaveTest', formData, function (data) {
+            if (data) {
+                HideLoader();
+                ShowMessage("Test paper added Successfully.", "Success");
+                window.location.href = "TestPaperMaintenance?testID=0";
             } else {
                 HideLoader();
-                ShowMessage("Test not added.", "Error");
-                window.location.href = "TestPaperMaintenance?testID=0";
+                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
-        }).fail(function () {
+        }, function (xhr) {
             HideLoader();
-            ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }
 }
@@ -228,21 +233,21 @@ $("#SubjectName").change(function () {
 $("#Type").change(function () {
     var Data = $("#Type option:selected").val();
     if (Data == 2) {
-        $("#DocContent").val('');
-        $('#link').show();
-        $('#fuPaperDoc').removeClass("fileRequired");   
-        $('#testpaper').hide();
+        $("#test_DocContent").val('');
+        $('#test_link').show();
+        $('#test_fuPaperDoc').removeClass("fileRequired");
+        $('#test_testpaper').hide();
     } else if (Data == 1) {
-        $("#DocLink").val(' ');
+        $("#test_DocLink").val(' ');
         $('#testpaper').show();
-        $('#fuPaperDoc').addClass("fileRequired");        
+        $('#test_fuPaperDoc').addClass("fileRequired");
         $('#link').hide();
     } else {
         $('#testpaper').hide();
         $('#link').hide();
-        $('#fuPaperDoc').removeClass("fileRequired");
+        $('#test_fuPaperDoc').removeClass("fileRequired");
     }
-    $('#PaperTypeID').val(Data);
+    $('#test_PaperTypeID').val(Data);
 });
 
 $("#Status").change(function () {

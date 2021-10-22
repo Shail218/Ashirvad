@@ -95,7 +95,8 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 DocContent = TestPaper.doc_content,
                                 TestPaperID = TestPaper.test_paper_id,
                                 PaperType = TestPaper.paper_type.ToString(),
-                                DocLink = TestPaper.doc_link.ToString()
+                                DocLink = TestPaper.doc_link.ToString(),
+                                FilePath=TestPaper.file_path
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
@@ -360,9 +361,9 @@ namespace Ashirvad.Repo.Services.Area.Test
             //    testRel.file_name = paperInfo.FileName;
             //}
 
-            testRel.doc_content = paperInfo.DocContent;
+            testRel.doc_content =null;
             testRel.file_name = paperInfo.FileName;
-
+            testRel.file_path = paperInfo.FilePath;
             testRel.doc_link = paperInfo.DocLink;
             testRel.remakrs = paperInfo.Remarks;
             testRel.paper_type = paperInfo.PaperTypeID;
@@ -501,12 +502,10 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestDate = u.TEST_MASTER.test_dt,
                             TestName = u.TEST_MASTER.test_name,
                             TestPaperID = u.test_paper_id,
+                            FilePath = u.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
-            if (data != null)
-            {
-                data.DocContentText = Convert.ToBase64String(data.DocContent);
-            }
+            
 
             return data;
         }

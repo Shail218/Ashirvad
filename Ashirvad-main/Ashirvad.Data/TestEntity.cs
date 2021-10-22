@@ -24,7 +24,7 @@ namespace Ashirvad.Data
         public RowStatusEntity RowStatus { get; set; }
         public TransactionEntity Transaction { get; set; }
         public TestPaperEntity test { get; set; }
-
+        public HttpPostedFileBase FileInfo { get; set; }
     }
 
     public class TestPaperEntity
@@ -38,6 +38,7 @@ namespace Ashirvad.Data
         public string DocContentText { get; set; }
         public byte[] DocContent { get; set; }
         public string FileName { get; set; }
+        public string FilePath { get; set; }
         public string DocLink { get; set; }
         public string Remarks { get; set; }
         public RowStatusEntity RowStatus { get; set; }

@@ -130,7 +130,7 @@ namespace Ashirvad.API.Controllers
         
         [HttpPost]
         [Route("HomeworkDetailMaintenance/{HomeworkID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}")]
-        public OperationResult<HomeworkDetailEntity> post(long HomeworkID, long BranchID, long StudentID, string Remarks, int?Status, DateTime SubmitDate,long CreateId,string CreateBy)
+        public OperationResult<HomeworkDetailEntity> HomeworkDetailMaintenance(long HomeworkID, long BranchID, long StudentID, string Remarks, int?Status, DateTime SubmitDate,long CreateId,string CreateBy)
         {
             HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
             HomeworkDetailEntity Response = new HomeworkDetailEntity();
@@ -171,6 +171,7 @@ namespace Ashirvad.API.Controllers
                     postedFile.SaveAs(filePath);
                     homeworkDetail.AnswerSheetName = fileName;
                     homeworkDetail.FilePath = _Filepath;
+                    homeworkDetail.HomeworkDetailID = 0;
                    var data = this._homeworkdetailService.HomeworkdetailMaintenance(homeworkDetail);
                     Response = data.Result;
                 }

@@ -31,7 +31,7 @@ namespace Ashirvad.Web.Controllers
             AboutUsMaintenanceModel model = new AboutUsMaintenanceModel();
             if (detailid > 0)
             {
-                var about = await _aboutUsService.GetAboutUsByUniqueID(aboutID);
+                var about = await _aboutUsService.GetAboutUsByUniqueID(aboutID, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
                 model.AboutusInfo = about.Data;
                 var aboutdetail = await _aboutUsService.GetAboutUsDetailByUniqueID(detailid);
                 model.detailInfo = aboutdetail.Data;

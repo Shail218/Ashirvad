@@ -304,15 +304,17 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                             TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
                             BrandName = u.brand_name,
                             DetailID = u.brand_id,
+                            FilePath=u.header_img_path,
+                            HeaderImageText=u.header_img
                             
                         }).FirstOrDefault();
 
-            if (data != null)
-            {
-                data.HeaderImageText = data.HeaderImage.Length > 0 ? Convert.ToBase64String(data.HeaderImage) : "";
-            }
+            //if (data != null)
+            //{
+            //    data.HeaderImageText = data.HeaderImage.Length > 0 ? Convert.ToBase64String(data.HeaderImage) : "";
+            //}
 
-            return data;
+            return detaildata;
         }
 
         public bool RemoveAboutUsDetail(long uniqueID, string lastupdatedby)

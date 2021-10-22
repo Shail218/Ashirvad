@@ -67,11 +67,9 @@
         <AssociationConnector Association="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_ATTENDANCE_HDR_STD_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.TEST_MASTER" Width="1.5" PointX="15.5" PointY="18.625" />
-        <EntityTypeShape EntityType="AshirvadModel.TEST_PAPER_REL" Width="1.5" PointX="17.75" PointY="19.375" />
         <AssociationConnector Association="AshirvadModel.FK_TEST_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_TEST_MASTER_STD_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_TEST_MASTER_SUBJECT_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_TEST_PAPER_REL_TEST_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.REMINDER_MASTER" Width="1.5" PointX="5.25" PointY="29.625" />
         <EntityTypeShape EntityType="AshirvadModel.STUDENT_ANS_SHEET" Width="1.5" PointX="18.75" PointY="23.875" />
         <AssociationConnector Association="AshirvadModel.FK_REMINDER_MASTER_BRANCH_MASTER" />
@@ -134,6 +132,8 @@
         <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.TEST_PAPER_REL" Width="1.5" PointX="17.75" PointY="19.375" />
+        <AssociationConnector Association="AshirvadModel.FK_TEST_PAPER_REL_TEST_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
