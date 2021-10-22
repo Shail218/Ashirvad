@@ -234,9 +234,9 @@ $("#Type").change(function () {
     var Data = $("#Type option:selected").val();
     if (Data == 2) {
         $("#test_DocContent").val('');
-        $('#test_link').show();
+        $('#link').show();
         $('#test_fuPaperDoc').removeClass("fileRequired");
-        $('#test_testpaper').hide();
+        $('#testpaper').hide();
     } else if (Data == 1) {
         $("#test_DocLink").val(' ');
         $('#testpaper').show();
