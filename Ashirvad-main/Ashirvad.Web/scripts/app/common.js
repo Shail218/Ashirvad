@@ -39,6 +39,8 @@
     ResultEntry: $("#hdnFldVDName").val() + "ResultEntry/",
     Category: $("#hdnFldVDName").val() + "Category/",
     NewLibrary: $("#hdnFldVDName").val() + "NewLibrary/",
+    Page: $("#hdnFldVDName").val() + "Page/",
+    Package: $("#hdnFldVDName").val() + "Package/",
 };
 
 function GetExtention(image){

@@ -244,9 +244,7 @@
                                         <li id="Mr">
                                             <a href="@Url.Action("Index","ResultRegister")">Marks Register</a>
                                         </li>
-                                        <li id="Utp2">
-                                            <a href="@Url.Action("Index","TestPaperLink")">Test Paper Link Entry</a>
-                                        </li>
+                                        
                                     </ul>
                                 </li>
                                 <li class="dropdown" id="Photos" style="margin-left:10px;">
@@ -395,38 +393,34 @@
                                         </li>
                                     </ul>
                                 </li>
-                                @*<li class="dropdown" id="td" visible="true">
+                                <li class="dropdown" id="td" visible="true">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            To-Do
+                                            User Permission
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li class="treeview" id="Li6">
-                                                <a href="@Url.Action("ToDoMaintenance","ToDo",new { @todoID=0 })">
-                                                    To-Do Entry
+                                                <a href="@Url.Action("Index","Page")">
+                                                    Page
                                                 </a>
                                             </li>
                                             <li class="treeview" id="Li7">
-                                                <a href="@Url.Action("ToDoRegisterMaintenance","ToDoRegister",new { @todoID=0 })">
-                                                    To-Do Register
+                                                <a href="@Url.Action("Index","Package")">
+                                                    Package
+                                                </a>
+                                            </li>
+                                            <li class="treeview" id="Li7">
+                                                <a href="@Url.Action("Index","PackageRight")">
+                                                    Package Right
+                                                </a>
+                                            </li>
+                                            <li class="treeview" id="Li7">
+                                                <a href="@Url.Action("Index","BranchWiseRight")">
+                                                    Branch Wise Rights
                                                 </a>
                                             </li>
                                         </ul>
                                     </li>
-                                    <li class="treeview" id="PracticePaper1">
-                                        <a href="@Url.Action("PaperMaintenance","Papers", new { @paperID=0 })">
-                                            Practice Papers
-                                        </a>
-                                    </li>
-                                    <li class="treeview" id="Homework1">
-                                        <a href="@Url.Action("HomeworkMaintenance","Homework", new { @homeworkID=0, @branchID=0 })">
-                                            Homework
-                                        </a>
-                                    </li>
-                                    <li class="treeview" id="Reminder">
-                                        <a href="@Url.Action("ReminderMaintenance","Reminder", new { @reminderID=0 })">
-                                            Reminder
-                                        </a>
-                                    </li>*@
+                                   
                             }
                         </ul>
                     </div>
