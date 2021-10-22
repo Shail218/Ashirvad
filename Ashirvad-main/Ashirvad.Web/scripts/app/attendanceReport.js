@@ -79,8 +79,12 @@ function SaveReport() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        var fromdate = $("#from_date").val();
-        var todate = $("#to_Date").val();
+        //var fromdate = $("#from_date").val();
+        var date1 = $("#from_date").val();
+        var fromdate=$("#AttendanceDate").val(ConvertData(date1));
+        //var todate = $("#to_Date").val();
+        var date2 = $("#to_Date").val();
+        var todate = $("#AttendanceDate").val(ConvertData(date2));
         var branch = $("#Branch_BranchID").val();
         var standard = $("#Standard_StandardID").val();
         var batchtime = $("#BatchTypeID").val();

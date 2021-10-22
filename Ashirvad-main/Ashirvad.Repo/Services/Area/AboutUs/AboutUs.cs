@@ -291,37 +291,26 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         public async Task<AboutUsDetailEntity> GetAboutUsDetailByUniqueID(long uniqueID)
         {
             AboutUsDetailEntity data = new AboutUsDetailEntity();
-            //var data = (from u in this.context.ABOUTUS_DETAIL_REL
-            //            .Include("ABOUTUS_MASTER")
-            //            join branch in this.context.BRANCH_MASTER on u.ABOUTUS_MASTER.branch_id equals branch.branch_id
-            //            where u.brand_id == uniqueID
-            //            select new AboutUsDetailEntity()
-            //            {
-            //                RowStatus = new RowStatusEntity()
-            //                {
-            //                    RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-            //                    RowStatusId = (int)u.row_sta_cd
-            //                },
-            //                AboutUsInfo = new AboutUsEntity()
-            //                {
-            //                    AboutUsID = u.aboutus_id,
-            //                    BranchInfo = new BranchEntity() { BranchID = branch.branch_id, BranchName = branch.branch_name },
-            //                    TransactionInfo = new TransactionEntity() { TransactionId = u.ABOUTUS_MASTER.trans_id },
-            //                    ContactNo = u.ABOUTUS_MASTER.contact_no,
-            //                    EmailID = u.ABOUTUS_MASTER.email_id,
-            //                    WebsiteURL = u.ABOUTUS_MASTER.website,
-            //                    WhatsAppNo = u.ABOUTUS_MASTER.whatsapp_no
-            //                },
-            //                TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
-            //                BrandName = u.brand_name,
-            //                DetailID = u.brand_id,
-            //                HeaderImage = u.header_img
-            //            }).FirstOrDefault();
+            var detaildata = (from u in this.context.ABOUTUS_DETAIL_REL
+                        where u.brand_id == uniqueID
+                        select new AboutUsDetailEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                           
+                            TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
+                            BrandName = u.brand_name,
+                            DetailID = u.brand_id,
+                            
+                        }).FirstOrDefault();
 
-            //if (data != null)
-            //{
-            //    data.HeaderImageText = data.HeaderImage.Length > 0 ? Convert.ToBase64String(data.HeaderImage) : "";
-            //}
+            if (data != null)
+            {
+                data.HeaderImageText = data.HeaderImage.Length > 0 ? Convert.ToBase64String(data.HeaderImage) : "";
+            }
 
             return data;
         }

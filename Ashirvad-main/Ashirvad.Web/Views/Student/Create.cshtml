@@ -125,11 +125,11 @@
                     <tbody>
                         <tr>
                             <td>
-                                <input type="radio" name="rdbResultofLastYear" id="rowStaPass" value="Pass" checked/>
+                                <input type="radio" name="rdbResultofLastYear" onchange="lastyear(this)" id="rowStaPass" value="1" checked/>
                                 <lable for="rowStaPass">Pass</lable>
                             </td>
                             <td>
-                                <input type="radio" name="rdbResultofLastYear" id="rowStaFail" value="Fail" style="margin-left:10px" />
+                                <input type="radio" name="rdbResultofLastYear" onchange="lastyear(this)" id="rowStaFail" value="2" style="margin-left:10px" />
                                 <lable for="rowStaFail">Fail</lable>
                                 @Html.HiddenFor(x => x.LastYearResult)
                             </td>

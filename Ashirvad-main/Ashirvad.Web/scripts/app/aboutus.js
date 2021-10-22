@@ -23,7 +23,7 @@ $(document).ready(function () {
 });
 
 function SaveAboutUs() {
-    debugger;
+    
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
@@ -52,7 +52,7 @@ function SaveAboutUs() {
 }
 
 function SaveDetail(aboutID) {
-    debugger;
+   
     var isSuccess = ValidateData('dDetailsInformation');
     if (isSuccess) {
         var frm = $('#fDetails');
@@ -80,6 +80,7 @@ function SaveDetail(aboutID) {
 }
 
 function RemoveaboutUs(aboutID) {
+    debugger;
     if (confirm('Are you sure want to delete this About Us details?')) {
         ShowLoader();
         var postCall = $.post(commonData.AboutUs + "RemoveAboutUs", { "aboutID": aboutID });
@@ -93,6 +94,23 @@ function RemoveaboutUs(aboutID) {
         });
     }
 }
+
+function RemoveDetails(detailID) {
+    debugger;
+    if (confirm('Are you sure want to delete this About Us details?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.AboutUs + "RemoveDetails", { "detailID": detailID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("About Us Removed Successfully.", "Success");
+            window.location.href = "AboutUsMaintenance?aboutID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
+}
+
 
 
 

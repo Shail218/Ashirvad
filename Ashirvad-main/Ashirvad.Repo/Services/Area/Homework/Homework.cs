@@ -40,7 +40,6 @@ namespace Ashirvad.Repo.Services.Area.Homework
             }
 
             homework.remarks = homeworkInfo.Remarks;
-
             homework.homework_dt = homeworkInfo.HomeworkDate;
             homework.sub_id = homeworkInfo.SubjectInfo.SubjectID;
             homework.std_id = homeworkInfo.StandardInfo.StandardID;

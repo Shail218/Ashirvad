@@ -26,10 +26,10 @@ namespace Ashirvad.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> AboutUsMaintenance(long aboutID, long detailid = 0)
+        public async Task<ActionResult> AboutUsMaintenance(long aboutID=0, long detailid = 0)
         {
             AboutUsMaintenanceModel model = new AboutUsMaintenanceModel();
-            if (aboutID > 0)
+            if (detailid > 0)
             {
                 var about = await _aboutUsService.GetAboutUsByUniqueID(aboutID);
                 model.AboutusInfo = about.Data;

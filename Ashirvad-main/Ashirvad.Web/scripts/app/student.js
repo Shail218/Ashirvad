@@ -142,10 +142,10 @@ function SaveStudent() {
         $("#StudentPassword").val(a);
         var b = $("#parentpass").val();
         $("#StudentMaint_ParentPassword").val(b);
-        //var date1 = $("#DOB").val();
-        //$("#DOB").val(ConvertData(date1));
-        //var date2 = $("#AdmissionDate").val();
-        //$("#AdmissionDate").val(ConvertData(date2));
+        var date1 = $("#DOB").val();
+        $("#DOB").val(ConvertData(date1));
+        var date2 = $("#AdmissionDate").val();
+        $("#AdmissionDate").val(ConvertData(date2));
         var postCall = $.post(commonData.Student + "SaveStudent", $('#fStudentDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
@@ -213,12 +213,16 @@ $('input[type=radio][name=Status]').change(function () {
 
 $('input[type=radio][name=rdbResultofLastYear]').change(function () {   
     if (this.value == 'Pass') {
-        $("#LastYearResult").val(1);
+        $("#lastyearresult").val(1);
     }
     else {
-        $("#LastYearResult").val(2);
+        $("#lastyearresult").val(2);
     }
 });
+
+function lastyear(row) {
+    $("#LastYearResult").val(row.val());
+}
 
 function readURL(input) {
     if (input.files && input.files[0]) {

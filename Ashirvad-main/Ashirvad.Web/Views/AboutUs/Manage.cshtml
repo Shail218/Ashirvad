@@ -23,6 +23,7 @@
     {
         <tr>
             <td>
+                @Html.HiddenFor(x=>item.AboutUsInfo.AboutUsID)
                 @item.BrandName
                
             </td>
@@ -40,12 +41,12 @@
 
             </td>
             <td>
-                <a href="">
+                <a href="@Url.Action("AboutUsMaintenance", "AboutUs", new { detailid = item.DetailID })">
                     <img src="~/ThemeData/images/viewIcon.png" />
                 </a>
             </td>
             <td>
-                <a href="#" onclick="RemoveaboutUs();">
+                <a href="#" onclick="RemoveDetails(@item.DetailID);">
                     <img src="~/ThemeData/images/delete.png" />
                 </a>
             </td>
