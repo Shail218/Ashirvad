@@ -23,7 +23,7 @@ namespace Ashirvad.API.Controllers
             _libraryService = libraryService;
         }
 
-        [Route("LibraryMaintenance")]
+        [Route("LibraryMaintenance/{LibraryID}/{LibraryDetailID}/{Title}/{link}/{FileName}/{FilePath}/{Description}/{BranchID}/{CategoryID}/{CreateId}/{CreateBy}")]
         [HttpPost]
         public OperationResult<LibraryEntity1> LibraryMaintenance(long LibraryID, long LibraryDetailID, 
              string Title, string link, string FileName, string FilePath, 
