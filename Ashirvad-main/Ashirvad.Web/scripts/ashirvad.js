@@ -311,3 +311,23 @@ function arrayBufferToBase64(buffer) {
     }
     return window.btoa(binary);
 }
+
+
+function ConvertDateFrom(date) {
+    if (date != null) {
+        
+        
+        var sd = date.split("/Date(");
+        var sd2 = sd[1].split(")/");
+        var date1 = new Date(parseInt(sd2[0]));
+        
+        return date1;
+    }
+    return "";;
+}
+
+function convertddmmyyyy(inputFormat) {
+    function pad(s) { return (s < 10) ? '0' + s : s; }
+    var d = new Date(inputFormat)
+    return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join('/')
+}

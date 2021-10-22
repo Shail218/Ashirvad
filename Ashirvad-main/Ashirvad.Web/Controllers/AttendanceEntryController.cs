@@ -30,23 +30,31 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> AttendanceMaintenance(AttendanceEntity aInfo)
         {
-            aInfo.Transaction = GetTransactionData(aInfo.AttendanceID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-            aInfo.RowStatus = new RowStatusEntity()
+            try
             {
-                RowStatusId = (int)Enums.RowStatus.Active
-            };
-            //aInfo.AttendanceDetail = attendanceDetailEntities;
-            var line = JsonConvert.DeserializeObject<List<AttendanceDetailEntity>>(aInfo.JsonData);
-            aInfo.AttendanceDetail = line;
-            long attendanceID = await _attendanceContext.AttendanceMaintenance(aInfo);
-            if(attendanceID > 0)
-            {
-                return Json(true);
+                aInfo.Transaction = GetTransactionData(aInfo.AttendanceID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+                aInfo.RowStatus = new RowStatusEntity()
+                {
+                    RowStatusId = (int)Enums.RowStatus.Active
+                };
+                //aInfo.AttendanceDetail = attendanceDetailEntities;
+                var line = JsonConvert.DeserializeObject<List<AttendanceDetailEntity>>(aInfo.JsonData);
+                aInfo.AttendanceDetail = line;
+                long attendanceID = await _attendanceContext.AttendanceMaintenance(aInfo);
+                if (attendanceID > 0)
+                {
+                    return Json(true);
+                }
+                else
+                {
+                    return Json(false);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                return Json(false);
+                throw;
             }
+           
         }
 
         [HttpPost]

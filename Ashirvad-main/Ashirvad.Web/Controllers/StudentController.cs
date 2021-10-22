@@ -44,14 +44,10 @@ namespace Ashirvad.Web.Controllers
 
             StudentEntity data = new StudentEntity();
             branch.GrNo = "Gr 1";
-            
-          for(int i = 1; i <= 10000; i++)
-            {
-                branch.StudentID = 0;
-                branch.Transaction = GetTransactionData(branch.StudentID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-                data = await _studentService.StudentMaintenance(branch);
-                
-            }
+
+            branch.StudentID = 0;
+            branch.Transaction = GetTransactionData(branch.StudentID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            data = await _studentService.StudentMaintenance(branch);
 
             if (data != null)
             {

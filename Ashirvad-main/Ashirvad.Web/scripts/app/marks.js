@@ -153,8 +153,11 @@ function LoadTestDates(BatchType) {
             $('#testddl').empty();
             $('#testddl').select2();
             $("#testddl").append("<option value=" + 0 + ">---Select Test Date---</option>");
-            for (i = 0; i < data.length; i++) {
-                $("#testddl").append("<option value='" + data[i].BranchID + "'>" + data[i].BranchName + "</option>");
+            for (i = 0; i < data.length; i++)
+            {
+                var test = ConvertDateFrom(data[i].TestDate);
+                var TestDate = convertddmmyyyy(test);
+                $("#testddl").append("<option value='" + data[i].TestID + "'>" + TestDate+ "</option>");
             }
             if (onLoaded != undefined) {
                 onLoaded();

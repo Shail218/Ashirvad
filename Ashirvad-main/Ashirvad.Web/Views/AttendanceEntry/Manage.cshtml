@@ -14,48 +14,51 @@
         width: 70%;
     }
 </style>
-<table style="width: 100%;" id="attendancetable" class="table table-striped dataTable no-footer">
-    <thead>
-        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
-            <th>
-                Student G.R.No
-            </th>
-            <th>
-                Student Name
-            </th>
-            <th>
-                Present / Absent
-            </th>
-            <th>
-                Remarks
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            foreach (var item in Model)
+<div style="height:300px;overflow-y:scroll">
+    <table style="width: 100%;" id="attendancetable" class="table table-striped dataTable no-footer">
+        <thead>
+            <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+                <th>
+                    Student G.R.No
+                </th>
+                <th>
+                    Student Name
+                </th>
+                <th>
+                    Present / Absent
+                </th>
+                <th>
+                    Remarks
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
             {
-                <tr>
-                    <td>
-                        @item.GrNo
-                        @Html.HiddenFor(x => item.GrNo)
-                        @Html.HiddenFor(x => item.StudentID)
-                    </td>
-                    <td>
-                        @item.FirstName @item.LastName
-                    </td>
-                    <td>
-                        <input type="checkbox" name="cb" value="@item.StudentID" id="cb" />  Absent
-                    </td>
-                    <td>
-                        @Html.TextBox("Remarks", null, new { @id = "Remarks", @class = "remark", @alt = "Remarks", autocomplete = "off" })
-                    </td>
-                </tr>
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.GrNo
+                            @Html.HiddenFor(x => item.GrNo)
+                            @Html.HiddenFor(x => item.StudentID)
+                        </td>
+                        <td>
+                            @item.FirstName @item.LastName
+                        </td>
+                        <td>
+                            <input type="checkbox" name="cb" value="@item.StudentID" id="cb" />  Absent
+                        </td>
+                        <td>
+                            @Html.TextBox("Remarks", null, new { @id = "Remarks", @class = "remark", @alt = "Remarks", autocomplete = "off" })
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
+
 
 <div class="form-group">
     <div class="col-md-12" style="text-align: right;">
