@@ -134,6 +134,11 @@
         <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.TEST_PAPER_REL" Width="1.5" PointX="17.75" PointY="19.375" />
         <AssociationConnector Association="AshirvadModel.FK_TEST_PAPER_REL_TEST_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.TEST_MASTER_DTL" Width="1.5" PointX="21.75" PointY="24.75" />
+        <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_TRANSACTION_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

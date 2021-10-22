@@ -779,7 +779,49 @@ namespace Ashirvad.Repo.Services.Area.Test
 
             return false;
         }
-        
+
         #endregion
+
+        public async Task<long> TestMaintenance(TestDetailEntity TestDetail)
+        {
+            Model.TEST_MASTER_DTL Test = new Model.TEST_MASTER_DTL();
+            bool isUpdate = true;
+            var data = (from t in this.context.TEST_MASTER_DTL
+                        where t.Test_master_dtl_id == TestDetail.TestDetailID
+                        select t).FirstOrDefault();
+            if (data == null)
+            {
+                data = new Model.TEST_MASTER_DTL();
+                isUpdate = false;
+            }
+            else
+            {
+                Test = data;
+                TestDetail.Transaction.TransactionId = data.trans_id;
+            }
+
+            Test.row_sta_cd = TestDetail.RowStatus.RowStatusId;
+            Test.trans_id = this.AddTransactionData(TestDetail.Transaction);
+            Test.Test_id = TestDetail.TestEntity.TestID;
+            if (Test.Test_sheet_content?.Length > 0)
+            {
+                Test.Test_sheet_content = TestDetail.AnswerSheetContent;
+
+            }
+            Test.Test_sheet_name = TestDetail.AnswerSheetName;
+            Test.Test_filepath = TestDetail.FilePath;
+            Test.branch_id = TestDetail.BranchInfo.BranchID;
+            Test.remarks = TestDetail.Remarks;
+            Test.status = TestDetail.Status;
+            Test.stud_id = TestDetail.StudentInfo.StudentID;
+            Test.submit_dt = TestDetail.SubmitDate;
+            this.context.TEST_MASTER_DTL.Add(Test);
+            if (isUpdate)
+            {
+                this.context.Entry(Test).State = System.Data.Entity.EntityState.Modified;
+            }
+
+            return this.context.SaveChanges() > 0 ? Test.Test_master_dtl_id : 0;
+        }
     }
 }

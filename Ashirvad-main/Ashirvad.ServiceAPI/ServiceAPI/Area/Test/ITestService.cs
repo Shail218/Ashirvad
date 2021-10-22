@@ -32,5 +32,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Test
 
         Task<OperationResult<List<TestEntity>>> GetAllTest(DateTime testDate, string searchParam);
         Task<List<StudentAnswerSheetEntity>> BulkStudentAnswerSheetMaintenance(List<StudentAnswerSheetEntity> ansSheetInfo);
+
+        Task<TestDetailEntity> TestdetailMaintenance(TestDetailEntity testInfo);
     }
 }

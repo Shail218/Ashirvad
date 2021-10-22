@@ -75,6 +75,7 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<ABOUTUS_DETAIL_REL> ABOUTUS_DETAIL_REL { get; set; }
         public virtual DbSet<ABOUTUS_MASTER> ABOUTUS_MASTER { get; set; }
         public virtual DbSet<TEST_PAPER_REL> TEST_PAPER_REL { get; set; }
+        public virtual DbSet<TEST_MASTER_DTL> TEST_MASTER_DTL { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

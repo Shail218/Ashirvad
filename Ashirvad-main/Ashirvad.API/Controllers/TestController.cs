@@ -1,12 +1,15 @@
 ﻿using Ashirvad.API.Filter;
+using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Test;
 using Ashirvad.ServiceAPI.Services.Area.Test;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace Ashirvad.API.Controllers
@@ -212,6 +215,73 @@ namespace Ashirvad.API.Controllers
             OperationResult<bool> result = new OperationResult<bool>();
             result.Completed = true;
             result.Data = data;
+            return result;
+        }
+
+
+        [HttpPost]
+        [Route("TestDetailMaintenance/{TestID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}")]
+        public OperationResult<TestDetailEntity> TestDetailMaintenance(long TestID, long BranchID, long StudentID, string Remarks, int? Status, DateTime SubmitDate, long CreateId, string CreateBy)
+        {
+            TestDetailEntity TestDetail = new TestDetailEntity();
+            TestDetailEntity Response = new TestDetailEntity();
+
+            TestDetail.TestEntity = new TestEntity();
+            TestDetail.BranchInfo = new BranchEntity();
+            TestDetail.StudentInfo = new StudentEntity();
+            var httpRequest = HttpContext.Current.Request;
+            TestDetail.TestEntity.TestID = TestID;
+            TestDetail.BranchInfo.BranchID = BranchID;
+            TestDetail.StudentInfo.StudentID = StudentID;
+            TestDetail.Remarks = "";
+            TestDetail.Status = Status.HasValue ? Status.Value : 0;
+            TestDetail.SubmitDate = SubmitDate;
+            TestDetail.RowStatus = new RowStatusEntity()
+            {
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
+            TestDetail.Transaction = new TransactionEntity()
+            {
+                CreatedBy = CreateBy,
+                CreatedId = CreateId,
+                CreatedDate = DateTime.Now,
+            };
+            OperationResult<TestDetailEntity> result = new OperationResult<TestDetailEntity>();
+            try
+            {
+                foreach (string file in httpRequest.Files)
+                {
+                    string fileName;
+                    string extension;
+                    var postedFile = httpRequest.Files[file];
+                    string randomfilename = Common.Common.RandomString(20);
+                    extension = Path.GetExtension(postedFile.FileName);
+                    fileName = Path.GetFileName(postedFile.FileName);
+                    string _Filepath = "~/TestDetailImage/" + randomfilename + extension;
+                    var filePath = HttpContext.Current.Server.MapPath("~/TestDetailImage/" + randomfilename + extension);
+                    postedFile.SaveAs(filePath);
+                    TestDetail.AnswerSheetName = fileName;
+                    TestDetail.FilePath = _Filepath;
+                    TestDetail.TestDetailID = 0;
+                    var data = this._testService.TestdetailMaintenance(TestDetail);
+                    Response = data.Result;
+                }
+                result.Data = null;
+                result.Completed = false;
+                if (Response.TestDetailID > 0)
+                {
+                    result.Data = Response;
+                    result.Completed = true;
+                    result.Message = "Test Uploaded Successfully!!";
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
             return result;
         }
     }

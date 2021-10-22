@@ -30,5 +30,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Test
         Task<StudentAnswerSheetEntity> GetTestAnswerSheetPaperByAnswerSheetID(long ansID);
         bool RemoveAnswerSheet(long ansID, string lastupdatedby);
         Task<List<TestEntity>> GetAllTest(DateTime testDate, string searchParam);
+
+        Task<long> TestMaintenance(TestDetailEntity TestDetail);
     }
 }

@@ -36,6 +36,7 @@ namespace Ashirvad.Repo.Model
             this.LIBRARY_MASTER_DTL = new HashSet<LIBRARY_MASTER_DTL>();
             this.LIBRARY1_MASTER = new HashSet<LIBRARY1_MASTER>();
             this.ABOUTUS_DETAIL_REL = new HashSet<ABOUTUS_DETAIL_REL>();
+            this.TEST_MASTER_DTL = new HashSet<TEST_MASTER_DTL>();
         }
     
         public long trans_id { get; set; }
@@ -84,5 +85,7 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<LIBRARY1_MASTER> LIBRARY1_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ABOUTUS_DETAIL_REL> ABOUTUS_DETAIL_REL { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TEST_MASTER_DTL> TEST_MASTER_DTL { get; set; }
     }
 }

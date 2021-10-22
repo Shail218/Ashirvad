@@ -397,6 +397,24 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
 
             return false;
         }
+
         #endregion
+
+        public async Task<TestDetailEntity> TestdetailMaintenance(TestDetailEntity TestDetail)
+        {
+            TestDetailEntity TestDetailEntity = new TestDetailEntity();
+            try
+            {
+                var data = await _testContext.TestMaintenance(TestDetail);
+                TestDetailEntity.TestDetailID = data;
+                return TestDetailEntity;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return TestDetailEntity;
+        }
     }
 }

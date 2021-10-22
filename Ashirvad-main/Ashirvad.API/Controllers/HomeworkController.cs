@@ -142,7 +142,7 @@ namespace Ashirvad.API.Controllers
             homeworkDetail.HomeworkEntity.HomeworkID = HomeworkID;
             homeworkDetail.BranchInfo.BranchID = BranchID;
             homeworkDetail.StudentInfo.StudentID = StudentID;
-            homeworkDetail.Remarks = Remarks;
+            homeworkDetail.Remarks = "";
             homeworkDetail.Status = Status.HasValue?Status.Value:0;
             homeworkDetail.SubmitDate = SubmitDate;
             homeworkDetail.RowStatus = new RowStatusEntity()
