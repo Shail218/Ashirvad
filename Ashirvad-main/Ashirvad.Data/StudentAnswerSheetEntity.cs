@@ -20,6 +20,7 @@ namespace Ashirvad.Data
         public int Status { get; set; }
         public string StatusText { get; set; }
         public string Remarks { get; set; }
+        public string FilePath { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public TransactionEntity Transaction { get; set; }
         public DateTime SubmitDate { get; set; }

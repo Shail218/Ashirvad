@@ -251,25 +251,25 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             StudentAnswerSheetEntity paper = new StudentAnswerSheetEntity();
             try
             {
-                if (ansSheetInfo.FileInfo != null)
-                {
-                    ansSheetInfo.AnswerSheetContent = Common.Common.ReadFully(ansSheetInfo.FileInfo.InputStream);
-                    ansSheetInfo.AnswerSheetName = Path.GetFileName(ansSheetInfo.FileInfo.FileName);
-                }
-                else
-                {
-                    ansSheetInfo.AnswerSheetContent = Convert.FromBase64String(ansSheetInfo.AnswerSheetContentText);
-                }
-
+                //if (ansSheetInfo.FileInfo != null)
+                //{
+                //    ansSheetInfo.AnswerSheetContent = Common.Common.ReadFully(ansSheetInfo.FileInfo.InputStream);
+                //    ansSheetInfo.AnswerSheetName = Path.GetFileName(ansSheetInfo.FileInfo.FileName);
+                //}
+                //else
+                //{
+                //    ansSheetInfo.AnswerSheetContent = Convert.FromBase64String(ansSheetInfo.AnswerSheetContentText);
+                //}
 
                 var data = await _testContext.AnswerSheetMaintenance(ansSheetInfo);
-                if (data > 0)
-                {
-                    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
-                    {
-                        Common.Common.SaveFile(ansSheetInfo.AnswerSheetContent, ansSheetInfo.AnswerSheetName, "StudentAnswerSheet\\");
-                    }
-                }
+
+                //if (data > 0)
+                //{
+                //    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
+                //    {
+                //        Common.Common.SaveFile(ansSheetInfo.AnswerSheetContent, ansSheetInfo.AnswerSheetName, "StudentAnswerSheet\\");
+                //    }
+                //}
 
                 paper = ansSheetInfo;
                 paper.AnsSheetID = data;

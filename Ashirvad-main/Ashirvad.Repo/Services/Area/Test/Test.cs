@@ -197,7 +197,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestEndTime = u.test_end_time,
                             TestName = u.test_name,
                             TestStartTime = u.test_st_time,
-                            
+                           
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
 
@@ -550,17 +550,14 @@ namespace Ashirvad.Repo.Services.Area.Test
             ansSheet.row_sta_cd = studAnswerSheet.RowStatus.RowStatusId;
             ansSheet.trans_id = this.AddTransactionData(studAnswerSheet.Transaction);
             ansSheet.test_id = studAnswerSheet.TestInfo.TestID;
-            if (studAnswerSheet.AnswerSheetContent?.Length > 0)
-            {
-                ansSheet.ans_sheet_content = studAnswerSheet.AnswerSheetContent;
-                ansSheet.ans_sheet_name = studAnswerSheet.AnswerSheetName;
-            }
-
+            ansSheet.ans_sheet_content = null;
+            ansSheet.ans_sheet_name = studAnswerSheet.AnswerSheetName;
             ansSheet.branch_id = studAnswerSheet.BranchInfo.BranchID;
             ansSheet.remarks = studAnswerSheet.Remarks;
             ansSheet.status = studAnswerSheet.Status;
             ansSheet.stud_id = studAnswerSheet.StudentInfo.StudentID;
             ansSheet.submit_dt = studAnswerSheet.SubmitDate;
+            ansSheet.ans_sheet_filepath = studAnswerSheet.FilePath;
             this.context.STUDENT_ANS_SHEET.Add(ansSheet);
             if (isUpdate)
             {
@@ -784,44 +781,44 @@ namespace Ashirvad.Repo.Services.Area.Test
 
         public async Task<long> TestMaintenance(TestDetailEntity TestDetail)
         {
-            Model.TEST_MASTER_DTL Test = new Model.TEST_MASTER_DTL();
-            bool isUpdate = true;
-            var data = (from t in this.context.TEST_MASTER_DTL
-                        where t.Test_master_dtl_id == TestDetail.TestDetailID
-                        select t).FirstOrDefault();
-            if (data == null)
-            {
-                data = new Model.TEST_MASTER_DTL();
-                isUpdate = false;
-            }
-            else
-            {
-                Test = data;
-                TestDetail.Transaction.TransactionId = data.trans_id;
-            }
+            //Model.TEST_MASTER_DTL Test = new Model.TEST_MASTER_DTL();
+            //bool isUpdate = true;
+            //var data = (from t in this.context.TEST_MASTER_DTL
+            //            where t.Test_master_dtl_id == TestDetail.TestDetailID
+            //            select t).FirstOrDefault();
+            //if (data == null)
+            //{
+            //    data = new Model.TEST_MASTER_DTL();
+            //    isUpdate = false;
+            //}
+            //else
+            //{
+            //    Test = data;
+            //    TestDetail.Transaction.TransactionId = data.trans_id;
+            //}
 
-            Test.row_sta_cd = TestDetail.RowStatus.RowStatusId;
-            Test.trans_id = this.AddTransactionData(TestDetail.Transaction);
-            Test.Test_id = TestDetail.TestEntity.TestID;
-            if (Test.Test_sheet_content?.Length > 0)
-            {
-                Test.Test_sheet_content = TestDetail.AnswerSheetContent;
+            //Test.row_sta_cd = TestDetail.RowStatus.RowStatusId;
+            //Test.trans_id = this.AddTransactionData(TestDetail.Transaction);
+            //Test.Test_id = TestDetail.TestEntity.TestID;
+            //if (Test.Test_sheet_content?.Length > 0)
+            //{
+            //    Test.Test_sheet_content = TestDetail.AnswerSheetContent;
 
-            }
-            Test.Test_sheet_name = TestDetail.AnswerSheetName;
-            Test.Test_filepath = TestDetail.FilePath;
-            Test.branch_id = TestDetail.BranchInfo.BranchID;
-            Test.remarks = TestDetail.Remarks;
-            Test.status = TestDetail.Status;
-            Test.stud_id = TestDetail.StudentInfo.StudentID;
-            Test.submit_dt = TestDetail.SubmitDate;
-            this.context.TEST_MASTER_DTL.Add(Test);
-            if (isUpdate)
-            {
-                this.context.Entry(Test).State = System.Data.Entity.EntityState.Modified;
-            }
+            //}
+            //Test.Test_sheet_name = TestDetail.AnswerSheetName;
+            //Test.Test_filepath = TestDetail.FilePath;
+            //Test.branch_id = TestDetail.BranchInfo.BranchID;
+            //Test.remarks = TestDetail.Remarks;
+            //Test.status = TestDetail.Status;
+            //Test.stud_id = TestDetail.StudentInfo.StudentID;
+            //Test.submit_dt = TestDetail.SubmitDate;
+            //this.context.TEST_MASTER_DTL.Add(Test);
+            //if (isUpdate)
+            //{
+            //    this.context.Entry(Test).State = System.Data.Entity.EntityState.Modified;
+            //}
 
-            return this.context.SaveChanges() > 0 ? Test.Test_master_dtl_id : 0;
+            return 1;
         }
     }
 }

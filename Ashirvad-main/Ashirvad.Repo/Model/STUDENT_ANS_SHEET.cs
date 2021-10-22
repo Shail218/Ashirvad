@@ -25,6 +25,7 @@ namespace Ashirvad.Repo.Model
         public int row_sta_cd { get; set; }
         public long trans_id { get; set; }
         public System.DateTime submit_dt { get; set; }
+        public string ans_sheet_filepath { get; set; }
     
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         public virtual STUDENT_MASTER STUDENT_MASTER { get; set; }

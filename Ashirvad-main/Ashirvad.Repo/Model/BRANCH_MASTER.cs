@@ -30,7 +30,6 @@ namespace Ashirvad.Repo.Model
             this.ATTENDANCE_HDR = new HashSet<ATTENDANCE_HDR>();
             this.TEST_MASTER = new HashSet<TEST_MASTER>();
             this.REMINDER_MASTER = new HashSet<REMINDER_MASTER>();
-            this.STUDENT_ANS_SHEET = new HashSet<STUDENT_ANS_SHEET>();
             this.HOMEWORK_MASTER = new HashSet<HOMEWORK_MASTER>();
             this.FEE_STRUCTURE_MASTER = new HashSet<FEE_STRUCTURE_MASTER>();
             this.STUDENT_PAYMENT_MASTER = new HashSet<STUDENT_PAYMENT_MASTER>();
@@ -44,7 +43,7 @@ namespace Ashirvad.Repo.Model
             this.LIBRARY1_MASTER = new HashSet<LIBRARY1_MASTER>();
             this.ABOUTUS_DETAIL_REL = new HashSet<ABOUTUS_DETAIL_REL>();
             this.ABOUTUS_MASTER = new HashSet<ABOUTUS_MASTER>();
-            this.TEST_MASTER_DTL = new HashSet<TEST_MASTER_DTL>();
+            this.STUDENT_ANS_SHEET = new HashSet<STUDENT_ANS_SHEET>();
         }
     
         public long branch_id { get; set; }
@@ -86,8 +85,6 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<REMINDER_MASTER> REMINDER_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<STUDENT_ANS_SHEET> STUDENT_ANS_SHEET { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HOMEWORK_MASTER> HOMEWORK_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FEE_STRUCTURE_MASTER> FEE_STRUCTURE_MASTER { get; set; }
@@ -114,6 +111,6 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ABOUTUS_MASTER> ABOUTUS_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TEST_MASTER_DTL> TEST_MASTER_DTL { get; set; }
+        public virtual ICollection<STUDENT_ANS_SHEET> STUDENT_ANS_SHEET { get; set; }
     }
 }

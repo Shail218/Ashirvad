@@ -17,9 +17,8 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TEST_MASTER()
         {
-            this.STUDENT_ANS_SHEET = new HashSet<STUDENT_ANS_SHEET>();
             this.TEST_PAPER_REL = new HashSet<TEST_PAPER_REL>();
-            this.TEST_MASTER_DTL = new HashSet<TEST_MASTER_DTL>();
+            this.STUDENT_ANS_SHEET = new HashSet<STUDENT_ANS_SHEET>();
         }
     
         public long test_id { get; set; }
@@ -41,10 +40,8 @@ namespace Ashirvad.Repo.Model
         public virtual STD_MASTER STD_MASTER { get; set; }
         public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<STUDENT_ANS_SHEET> STUDENT_ANS_SHEET { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TEST_PAPER_REL> TEST_PAPER_REL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TEST_MASTER_DTL> TEST_MASTER_DTL { get; set; }
+        public virtual ICollection<STUDENT_ANS_SHEET> STUDENT_ANS_SHEET { get; set; }
     }
 }

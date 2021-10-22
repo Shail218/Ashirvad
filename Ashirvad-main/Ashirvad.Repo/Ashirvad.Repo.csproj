@@ -232,9 +232,6 @@
     <Compile Include="Model\TEST_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TEST_MASTER_DTL.cs">
-      <DependentUpon>Ashirvad.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\TEST_PAPER_REL.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>

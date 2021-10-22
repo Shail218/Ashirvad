@@ -71,11 +71,7 @@
         <AssociationConnector Association="AshirvadModel.FK_TEST_MASTER_STD_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_TEST_MASTER_SUBJECT_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.REMINDER_MASTER" Width="1.5" PointX="5.25" PointY="29.625" />
-        <EntityTypeShape EntityType="AshirvadModel.STUDENT_ANS_SHEET" Width="1.5" PointX="18.75" PointY="23.875" />
         <AssociationConnector Association="AshirvadModel.FK_REMINDER_MASTER_BRANCH_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_STUDENT_ANS_SHEET_BRANCH_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.HOMEWORK_MASTER" Width="1.5" PointX="15.5" PointY="28.25" />
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER" />
@@ -134,11 +130,10 @@
         <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.TEST_PAPER_REL" Width="1.5" PointX="17.75" PointY="19.375" />
         <AssociationConnector Association="AshirvadModel.FK_TEST_PAPER_REL_TEST_MASTER" />
-        <EntityTypeShape EntityType="AshirvadModel.TEST_MASTER_DTL" Width="1.5" PointX="21.75" PointY="24.75" />
-        <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_TRANSACTION_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.STUDENT_ANS_SHEET" Width="1.5" PointX="24.75" PointY="23.125" />
+        <AssociationConnector Association="AshirvadModel.FK_STUDENT_ANS_SHEET_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
