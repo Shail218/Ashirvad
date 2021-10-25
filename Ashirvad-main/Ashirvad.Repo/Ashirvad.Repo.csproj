@@ -74,6 +74,8 @@
     <Compile Include="DataAcceessAPI\Area\Library\ILibraryAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Link\ILinkAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Notification\INotificationAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\Package\IPackageAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\Page\IPageAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Paper\IPaperAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Payment\IStudentPaymentAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Reminder\IReminderAPI.cs" />
@@ -187,6 +189,18 @@
     <Compile Include="Model\NOTIFICATION_TYPE_REL.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\PACKAGE_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PACKAGE_RIGHTS_DTL.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PACKAGE_RIGHTS_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PAGE_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\PRACTICE_PAPER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -232,6 +246,9 @@
     <Compile Include="Model\TEST_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\TEST_MASTER_DTL.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\TEST_PAPER_REL.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -273,6 +290,8 @@
     <Compile Include="Services\Area\Library\Library.cs" />
     <Compile Include="Services\Area\Link\LinkMGMT.cs" />
     <Compile Include="Services\Area\Notification\Notification.cs" />
+    <Compile Include="Services\Area\Package\Package.cs" />
+    <Compile Include="Services\Area\Page\Pages.cs" />
     <Compile Include="Services\Area\Paper\Paper.cs" />
     <Compile Include="Services\Area\Payment\StudentPayment.cs" />
     <Compile Include="Services\Area\Reminder\Reminder.cs" />

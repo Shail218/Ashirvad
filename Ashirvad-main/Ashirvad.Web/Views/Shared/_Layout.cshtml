@@ -398,22 +398,22 @@
                                             User Permission
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li class="treeview" id="Li6">
-                                                <a href="@Url.Action("Index","Page")">
+                                            <li class="treeview" id="pg">
+                                                <a href="@Url.Action("PageMaintenance","Page", new { @branchID=0 })">
                                                     Page
                                                 </a>
                                             </li>
-                                            <li class="treeview" id="Li7">
-                                                <a href="@Url.Action("Index","Package")">
+                                            <li class="treeview" id="pack">
+                                                <a href="@Url.Action("PackageMaintenance","Package", new { @branchID=0 })">
                                                     Package
                                                 </a>
                                             </li>
-                                            <li class="treeview" id="Li7">
+                                            <li class="treeview" id="pright">
                                                 <a href="@Url.Action("Index","PackageRight")">
                                                     Package Right
                                                 </a>
                                             </li>
-                                            <li class="treeview" id="Li7">
+                                            <li class="treeview" id="bwr">
                                                 <a href="@Url.Action("Index","BranchWiseRight")">
                                                     Branch Wise Rights
                                                 </a>

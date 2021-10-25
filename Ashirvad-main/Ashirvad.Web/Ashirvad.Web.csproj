@@ -209,6 +209,7 @@
     <Content Include="scripts\app\batch.js" />
     <Content Include="scripts\app\branch.js" />
     <Content Include="scripts\app\branchdata.js" />
+    <Content Include="scripts\app\branchwiseright.js" />
     <Content Include="scripts\app\Category.js" />
     <Content Include="scripts\app\common.js" />
     <Content Include="scripts\app\fees.js" />
@@ -221,6 +222,9 @@
     <Content Include="scripts\app\managestudent.js" />
     <Content Include="scripts\app\marks.js" />
     <Content Include="scripts\app\notification.js" />
+    <Content Include="scripts\app\package.js" />
+    <Content Include="scripts\app\packageright.js" />
+    <Content Include="scripts\app\page.js" />
     <Content Include="scripts\app\paper.js" />
     <Content Include="scripts\app\reminder.js" />
     <Content Include="scripts\app\school.js" />
@@ -1047,7 +1051,6 @@
     <Compile Include="Controllers\BatchWiseChartController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BranchWiseRightController.cs" />
-    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\NewLibraryController.cs" />
     <Compile Include="Controllers\FeesStructureController.cs" />
@@ -1282,6 +1285,18 @@
     <Content Include="Views\NewLibrary\VideoIndex.cshtml" />
     <Content Include="Views\NewLibrary\VideoCreate.cshtml" />
     <Content Include="Views\NewLibrary\VideoManage.cshtml" />
+    <Content Include="Views\BranchWiseRight\Create.cshtml" />
+    <Content Include="Views\BranchWiseRight\Index.cshtml" />
+    <Content Include="Views\BranchWiseRight\Manage.cshtml" />
+    <Content Include="Views\PackageRight\Create.cshtml" />
+    <Content Include="Views\PackageRight\Index.cshtml" />
+    <Content Include="Views\PackageRight\Manage.cshtml" />
+    <Content Include="Views\Package\Create.cshtml" />
+    <Content Include="Views\Package\Index.cshtml" />
+    <Content Include="Views\Package\Manage.cshtml" />
+    <Content Include="Views\Page\Create.cshtml" />
+    <Content Include="Views\Page\Index.cshtml" />
+    <Content Include="Views\Page\Manage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

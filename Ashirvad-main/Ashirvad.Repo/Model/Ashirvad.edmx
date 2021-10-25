@@ -358,6 +358,52 @@
           <Property Name="sub_type_id" Type="int" Nullable="false" />
           <Property Name="notif_id" Type="bigint" Nullable="false" />
         </EntityType>
+        <EntityType Name="PACKAGE_MASTER">
+          <Key>
+            <PropertyRef Name="package_id" />
+          </Key>
+          <Property Name="package_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="package" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="branch_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PACKAGE_RIGHTS_DTL">
+          <Key>
+            <PropertyRef Name="package_rights_dtl_id" />
+          </Key>
+          <Property Name="package_rights_dtl_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="packagerights_id" Type="bigint" Nullable="false" />
+          <Property Name="createstatus" Type="bigint" Nullable="false" />
+          <Property Name="viewstatus" Type="bigint" Nullable="false" />
+          <Property Name="deletestatus" Type="bigint" Nullable="false" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PACKAGE_RIGHTS_MASTER">
+          <Key>
+            <PropertyRef Name="packagerights_id" />
+          </Key>
+          <Property Name="packagerights_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="page_id" Type="bigint" Nullable="false" />
+          <Property Name="package_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" />
+          <Property Name="about_us" Type="nvarchar(max)" />
+          <Property Name="contact_no" Type="nvarchar" MaxLength="50" />
+          <Property Name="mobile_no" Type="nvarchar" MaxLength="50" />
+          <Property Name="email_id" Type="nvarchar" MaxLength="50" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PAGE_MASTER">
+          <Key>
+            <PropertyRef Name="page_id" />
+          </Key>
+          <Property Name="page_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="page" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="branch_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="PRACTICE_PAPER">
           <Key>
             <PropertyRef Name="paper_id" />
@@ -528,6 +574,23 @@
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="file_name" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="TEST_MASTER_DTL">
+          <Key>
+            <PropertyRef Name="Test_master_dtl_id" />
+          </Key>
+          <Property Name="Test_master_dtl_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Test_id" Type="bigint" Nullable="false" />
+          <Property Name="branch_id" Type="bigint" Nullable="false" />
+          <Property Name="stud_id" Type="bigint" Nullable="false" />
+          <Property Name="Test_sheet_content" Type="varbinary(max)" />
+          <Property Name="Test_sheet_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Test_filepath" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="remarks" Type="nvarchar(max)" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="submit_dt" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="TEST_PAPER_REL">
           <Key>
@@ -1163,6 +1226,96 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PACKAGE_MASTER_BRANCH_MASTER">
+          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+          <End Role="PACKAGE_MASTER" Type="Self.PACKAGE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PACKAGE_MASTER_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="PACKAGE_MASTER" Type="Self.PACKAGE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
+          <End Role="PACKAGE_MASTER" Type="Self.PACKAGE_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PACKAGE_RIGHTS_MASTER" Type="Self.PACKAGE_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACKAGE_MASTER">
+              <PropertyRef Name="package_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_RIGHTS_MASTER">
+              <PropertyRef Name="package_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER">
+          <End Role="PAGE_MASTER" Type="Self.PAGE_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PACKAGE_RIGHTS_MASTER" Type="Self.PACKAGE_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAGE_MASTER">
+              <PropertyRef Name="page_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_RIGHTS_MASTER">
+              <PropertyRef Name="page_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PACKAGE_RIGHTS_MASTER" Type="Self.PACKAGE_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_RIGHTS_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PAGE_MASTER_BRANCH_MASTER">
+          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+          <End Role="PAGE_MASTER" Type="Self.PAGE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="PAGE_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PAGE_MASTER_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="PAGE_MASTER" Type="Self.PAGE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="PAGE_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PRACTICE_PAPER_BRANCH_MASTER">
           <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
           <End Role="PRACTICE_PAPER" Type="Self.PRACTICE_PAPER" Multiplicity="*" />
@@ -1439,6 +1592,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Test_MASTER_DTL_BRANCH_MASTER">
+          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+          <End Role="TEST_MASTER_DTL" Type="Self.TEST_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER_DTL">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Test_MASTER_DTL_STUDENT_MASTER">
+          <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="1" />
+          <End Role="TEST_MASTER_DTL" Type="Self.TEST_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT_MASTER">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER_DTL">
+              <PropertyRef Name="stud_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Test_MASTER_DTL_Test_MASTER">
+          <End Role="TEST_MASTER" Type="Self.TEST_MASTER" Multiplicity="1" />
+          <End Role="TEST_MASTER_DTL" Type="Self.TEST_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEST_MASTER">
+              <PropertyRef Name="test_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER_DTL">
+              <PropertyRef Name="Test_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Test_MASTER_DTL_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="TEST_MASTER_DTL" Type="Self.TEST_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER_DTL">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TEST_MASTER_STD_MASTER">
           <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
           <End Role="TEST_MASTER" Type="Self.TEST_MASTER" Multiplicity="*" />
@@ -1632,6 +1833,10 @@
           <EntitySet Name="MARKS_MASTER_DTL" EntityType="Self.MARKS_MASTER_DTL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NOTIFICATION_MASTER" EntityType="Self.NOTIFICATION_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NOTIFICATION_TYPE_REL" EntityType="Self.NOTIFICATION_TYPE_REL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PACKAGE_MASTER" EntityType="Self.PACKAGE_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PACKAGE_RIGHTS_DTL" EntityType="Self.PACKAGE_RIGHTS_DTL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PACKAGE_RIGHTS_MASTER" EntityType="Self.PACKAGE_RIGHTS_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PAGE_MASTER" EntityType="Self.PAGE_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PRACTICE_PAPER" EntityType="Self.PRACTICE_PAPER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PRACTICE_PAPER_REL" EntityType="Self.PRACTICE_PAPER_REL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REMINDER_MASTER" EntityType="Self.REMINDER_MASTER" Schema="dbo" store:Type="Tables" />
@@ -1645,6 +1850,7 @@
           <EntitySet Name="SUBJECT_MASTER" EntityType="Self.SUBJECT_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TEST_MASTER" EntityType="Self.TEST_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TEST_MASTER_DTL" EntityType="Self.TEST_MASTER_DTL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TEST_PAPER_REL" EntityType="Self.TEST_PAPER_REL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TODO_MASTER" EntityType="Self.TODO_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TRANSACTION_MASTER" EntityType="Self.TRANSACTION_MASTER" Schema="dbo" store:Type="Tables" />
@@ -1832,6 +2038,34 @@
             <End Role="NOTIFICATION_MASTER" EntitySet="NOTIFICATION_MASTER" />
             <End Role="NOTIFICATION_TYPE_REL" EntitySet="NOTIFICATION_TYPE_REL" />
           </AssociationSet>
+          <AssociationSet Name="FK_PACKAGE_MASTER_BRANCH_MASTER" Association="Self.FK_PACKAGE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PACKAGE_MASTER_TRANSACTION_MASTER" Association="Self.FK_PACKAGE_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" Association="Self.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
+            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+            <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" Association="Self.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER">
+            <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
+            <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" Association="Self.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PAGE_MASTER_BRANCH_MASTER" Association="Self.FK_PAGE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PAGE_MASTER_TRANSACTION_MASTER" Association="Self.FK_PAGE_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
+          </AssociationSet>
           <AssociationSet Name="FK_PRACTICE_PAPER_BRANCH_MASTER" Association="Self.FK_PRACTICE_PAPER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
@@ -1923,6 +2157,22 @@
           <AssociationSet Name="FK_TEST_MASTER_BRANCH_MASTER" Association="Self.FK_TEST_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_MASTER_DTL_BRANCH_MASTER" Association="Self.FK_Test_MASTER_DTL_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_MASTER_DTL_STUDENT_MASTER" Association="Self.FK_Test_MASTER_DTL_STUDENT_MASTER">
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_MASTER_DTL_Test_MASTER" Association="Self.FK_Test_MASTER_DTL_Test_MASTER">
+            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_MASTER_DTL_TRANSACTION_MASTER" Association="Self.FK_Test_MASTER_DTL_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
           </AssociationSet>
           <AssociationSet Name="FK_TEST_MASTER_STD_MASTER" Association="Self.FK_TEST_MASTER_STD_MASTER">
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
@@ -2377,6 +2627,55 @@
             <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
             <End Role="STUDENT_ANS_SHEET" EntitySet="STUDENT_ANS_SHEET" />
           </AssociationSet>
+          <EntitySet Name="PACKAGE_MASTER" EntityType="AshirvadModel.PACKAGE_MASTER" />
+          <EntitySet Name="PACKAGE_RIGHTS_DTL" EntityType="AshirvadModel.PACKAGE_RIGHTS_DTL" />
+          <EntitySet Name="PACKAGE_RIGHTS_MASTER" EntityType="AshirvadModel.PACKAGE_RIGHTS_MASTER" />
+          <EntitySet Name="PAGE_MASTER" EntityType="AshirvadModel.PAGE_MASTER" />
+          <EntitySet Name="TEST_MASTER_DTL" EntityType="AshirvadModel.TEST_MASTER_DTL" />
+          <AssociationSet Name="FK_PACKAGE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PAGE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_MASTER_DTL_BRANCH_MASTER" Association="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PACKAGE_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_PACKAGE_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
+            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+            <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER">
+            <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
+            <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PAGE_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_PAGE_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_MASTER_DTL_STUDENT_MASTER" Association="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER">
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_MASTER_DTL_Test_MASTER" Association="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER">
+            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_MASTER_DTL_TRANSACTION_MASTER" Association="AshirvadModel.FK_Test_MASTER_DTL_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_MASTER">
           <Key>
@@ -2482,6 +2781,9 @@
           <NavigationProperty Name="ABOUTUS_DETAIL_REL" Relationship="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" FromRole="BRANCH_MASTER" ToRole="ABOUTUS_DETAIL_REL" />
           <NavigationProperty Name="ABOUTUS_MASTER" Relationship="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="ABOUTUS_MASTER" />
           <NavigationProperty Name="STUDENT_ANS_SHEET" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_ANS_SHEET" />
+          <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PACKAGE_MASTER" />
+          <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PAGE_MASTER" />
+          <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TEST_MASTER_DTL" />
         </EntityType>
         <EntityType Name="BRANCH_STAFF">
           <Key>
@@ -2602,6 +2904,7 @@
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="STUDENT_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
           <NavigationProperty Name="STUDENT_ANS_SHEET" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="STUDENT_ANS_SHEET" />
+          <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="TEST_MASTER_DTL" />
         </EntityType>
         <EntityType Name="SUBJECT_MASTER">
           <Key>
@@ -2649,6 +2952,10 @@
           <NavigationProperty Name="LIBRARY_MASTER_DTL" Relationship="AshirvadModel.FK_LIBRARY_MASTER_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="LIBRARY_MASTER_DTL" />
           <NavigationProperty Name="LIBRARY1_MASTER" Relationship="AshirvadModel.FK_LIBRARY1_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="LIBRARY1_MASTER" />
           <NavigationProperty Name="ABOUTUS_DETAIL_REL" Relationship="AshirvadModel.FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="ABOUTUS_DETAIL_REL" />
+          <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="PACKAGE_MASTER" />
+          <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
+          <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="PAGE_MASTER" />
+          <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="TEST_MASTER_DTL" />
         </EntityType>
         <EntityType Name="TYPE_DESC">
           <Key>
@@ -3245,6 +3552,7 @@
           <Property Name="file_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TEST_PAPER_REL" Relationship="AshirvadModel.FK_TEST_PAPER_REL_TEST_MASTER" FromRole="TEST_MASTER" ToRole="TEST_PAPER_REL" />
           <NavigationProperty Name="STUDENT_ANS_SHEET" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER" FromRole="TEST_MASTER" ToRole="STUDENT_ANS_SHEET" />
+          <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER" FromRole="TEST_MASTER" ToRole="TEST_MASTER_DTL" />
         </EntityType>
         <Association Name="FK_TEST_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -4146,6 +4454,220 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PACKAGE_MASTER">
+          <Key>
+            <PropertyRef Name="package_id" />
+          </Key>
+          <Property Name="package_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="package" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="PACKAGE_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_TRANSACTION_MASTER" FromRole="PACKAGE_MASTER" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
+        </EntityType>
+        <EntityType Name="PACKAGE_RIGHTS_DTL">
+          <Key>
+            <PropertyRef Name="package_rights_dtl_id" />
+          </Key>
+          <Property Name="package_rights_dtl_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="packagerights_id" Type="Int64" Nullable="false" />
+          <Property Name="createstatus" Type="Int64" Nullable="false" />
+          <Property Name="viewstatus" Type="Int64" Nullable="false" />
+          <Property Name="deletestatus" Type="Int64" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PACKAGE_RIGHTS_MASTER">
+          <Key>
+            <PropertyRef Name="packagerights_id" />
+          </Key>
+          <Property Name="packagerights_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="page_id" Type="Int64" Nullable="false" />
+          <Property Name="package_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" />
+          <Property Name="about_us" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="contact_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="mobile_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="PACKAGE_MASTER" />
+          <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="PAGE_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <EntityType Name="PAGE_MASTER">
+          <Key>
+            <PropertyRef Name="page_id" />
+          </Key>
+          <Property Name="page_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="page" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER" FromRole="PAGE_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" FromRole="PAGE_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_TRANSACTION_MASTER" FromRole="PAGE_MASTER" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <EntityType Name="TEST_MASTER_DTL">
+          <Key>
+            <PropertyRef Name="Test_master_dtl_id" />
+          </Key>
+          <Property Name="Test_master_dtl_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Test_id" Type="Int64" Nullable="false" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="stud_id" Type="Int64" Nullable="false" />
+          <Property Name="Test_sheet_content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Test_sheet_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Test_filepath" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="submit_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER" FromRole="TEST_MASTER_DTL" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" FromRole="TEST_MASTER_DTL" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER" FromRole="TEST_MASTER_DTL" ToRole="TEST_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_TRANSACTION_MASTER" FromRole="TEST_MASTER_DTL" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <Association Name="FK_PACKAGE_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PAGE_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.PAGE_MASTER" Role="PAGE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="PAGE_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Test_MASTER_DTL_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.TEST_MASTER_DTL" Role="TEST_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER_DTL">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PACKAGE_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
+          <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.PACKAGE_RIGHTS_MASTER" Role="PACKAGE_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACKAGE_MASTER">
+              <PropertyRef Name="package_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_RIGHTS_MASTER">
+              <PropertyRef Name="package_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER">
+          <End Type="AshirvadModel.PAGE_MASTER" Role="PAGE_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.PACKAGE_RIGHTS_MASTER" Role="PACKAGE_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAGE_MASTER">
+              <PropertyRef Name="page_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_RIGHTS_MASTER">
+              <PropertyRef Name="page_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.PACKAGE_RIGHTS_MASTER" Role="PACKAGE_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_RIGHTS_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PAGE_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.PAGE_MASTER" Role="PAGE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="PAGE_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Test_MASTER_DTL_STUDENT_MASTER">
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.TEST_MASTER_DTL" Role="TEST_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT_MASTER">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER_DTL">
+              <PropertyRef Name="stud_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Test_MASTER_DTL_Test_MASTER">
+          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.TEST_MASTER_DTL" Role="TEST_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEST_MASTER">
+              <PropertyRef Name="test_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER_DTL">
+              <PropertyRef Name="Test_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Test_MASTER_DTL_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.TEST_MASTER_DTL" Role="TEST_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER_DTL">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4843,6 +5365,74 @@
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="test_id" ColumnName="test_id" />
                 <ScalarProperty Name="ans_sheet_id" ColumnName="ans_sheet_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PACKAGE_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.PACKAGE_MASTER">
+              <MappingFragment StoreEntitySet="PACKAGE_MASTER">
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="package" ColumnName="package" />
+                <ScalarProperty Name="package_id" ColumnName="package_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PACKAGE_RIGHTS_DTL">
+            <EntityTypeMapping TypeName="AshirvadModel.PACKAGE_RIGHTS_DTL">
+              <MappingFragment StoreEntitySet="PACKAGE_RIGHTS_DTL">
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="deletestatus" ColumnName="deletestatus" />
+                <ScalarProperty Name="viewstatus" ColumnName="viewstatus" />
+                <ScalarProperty Name="createstatus" ColumnName="createstatus" />
+                <ScalarProperty Name="packagerights_id" ColumnName="packagerights_id" />
+                <ScalarProperty Name="package_rights_dtl_id" ColumnName="package_rights_dtl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PACKAGE_RIGHTS_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.PACKAGE_RIGHTS_MASTER">
+              <MappingFragment StoreEntitySet="PACKAGE_RIGHTS_MASTER">
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="email_id" ColumnName="email_id" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="contact_no" ColumnName="contact_no" />
+                <ScalarProperty Name="about_us" ColumnName="about_us" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="package_id" ColumnName="package_id" />
+                <ScalarProperty Name="page_id" ColumnName="page_id" />
+                <ScalarProperty Name="packagerights_id" ColumnName="packagerights_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PAGE_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.PAGE_MASTER">
+              <MappingFragment StoreEntitySet="PAGE_MASTER">
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="page" ColumnName="page" />
+                <ScalarProperty Name="page_id" ColumnName="page_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TEST_MASTER_DTL">
+            <EntityTypeMapping TypeName="AshirvadModel.TEST_MASTER_DTL">
+              <MappingFragment StoreEntitySet="TEST_MASTER_DTL">
+                <ScalarProperty Name="submit_dt" ColumnName="submit_dt" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="Test_filepath" ColumnName="Test_filepath" />
+                <ScalarProperty Name="Test_sheet_name" ColumnName="Test_sheet_name" />
+                <ScalarProperty Name="Test_sheet_content" ColumnName="Test_sheet_content" />
+                <ScalarProperty Name="stud_id" ColumnName="stud_id" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="Test_id" ColumnName="Test_id" />
+                <ScalarProperty Name="Test_master_dtl_id" ColumnName="Test_master_dtl_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -71,6 +71,8 @@
     <Compile Include="ServiceAPI\Area\Library\ILibraryService.cs" />
     <Compile Include="ServiceAPI\Area\Link\ILinkService.cs" />
     <Compile Include="ServiceAPI\Area\Notification\INotificationService.cs" />
+    <Compile Include="ServiceAPI\Area\Package\IPackageService.cs" />
+    <Compile Include="ServiceAPI\Area\Page\IPageService.cs" />
     <Compile Include="ServiceAPI\Area\Paper\IPaperService.cs" />
     <Compile Include="ServiceAPI\Area\Payment\IStudentPaymentService.cs" />
     <Compile Include="ServiceAPI\Area\Reminder\IReminderService.cs" />
@@ -97,6 +99,8 @@
     <Compile Include="Services\Area\Homework\HomeworkService.cs" />
     <Compile Include="Services\Area\Library\LibraryService.cs" />
     <Compile Include="Services\Area\Notification\NotificationService.cs" />
+    <Compile Include="Services\Area\Package\PackageService.cs" />
+    <Compile Include="Services\Area\Page\PageService.cs" />
     <Compile Include="Services\Area\Paper\PaperService.cs" />
     <Compile Include="Services\Area\Payment\StudentPaymentService.cs" />
     <Compile Include="Services\Area\Reminder\ReminderService.cs" />
