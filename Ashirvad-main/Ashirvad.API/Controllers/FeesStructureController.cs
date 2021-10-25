@@ -53,23 +53,23 @@ namespace Ashirvad.API.Controllers
             {
                 try
                 {
-                    //foreach (string file in httpRequest.Files)
-                    //{
-                    //    string fileName;
-                    //    string extension;
-                    //    var postedFile = httpRequest.Files[file];
-                    //    string randomfilename = Common.Common.RandomString(20);
-                    //    extension = Path.GetExtension(postedFile.FileName);
-                    //    fileName = Path.GetFileName(postedFile.FileName);
-                    //    string _Filepath = "~/FeesImage/" + randomfilename + extension;
-                    //    var filePath = HttpContext.Current.Server.MapPath("~/FeesImage/" + randomfilename + extension);
-                    //    postedFile.SaveAs(filePath);                        
-                    //    
-                    //}
-                    fileModel = fileUploadCommon.SaveFileUploadAPK("FeesImage").Result;
-                    feesEntity.FileName = fileModel.FileName;
-                    feesEntity.FilePath = fileModel.FilePath;
-                    data = this._FeesService.FeesMaintenance(feesEntity).Result;
+                    foreach (string file in httpRequest.Files)
+                    {
+                        string fileName;
+                        string extension;
+                        var postedFile = httpRequest.Files[file];
+                        string randomfilename = Common.Common.RandomString(20);
+                        extension = Path.GetExtension(postedFile.FileName);
+                        fileName = Path.GetFileName(postedFile.FileName);
+                        string _Filepath = "~/FeesImage/" + randomfilename + extension;
+                        string _path = "http://localhost:88" + _Filepath; 
+                        postedFile.SaveAs(_path);
+                        feesEntity.FileName = fileName;
+                        feesEntity.FilePath = _path;
+                        data = this._FeesService.FeesMaintenance(feesEntity).Result;
+                    }
+                   
+                  
                     result.Completed = false;
                     result.Data = null;
                     if (data.FeesID > 0 || data.FeesDetailID > 0)

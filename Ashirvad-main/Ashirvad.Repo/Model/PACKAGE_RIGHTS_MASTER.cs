@@ -18,10 +18,6 @@ namespace Ashirvad.Repo.Model
         public long page_id { get; set; }
         public long package_id { get; set; }
         public Nullable<int> row_sta_cd { get; set; }
-        public string about_us { get; set; }
-        public string contact_no { get; set; }
-        public string mobile_no { get; set; }
-        public string email_id { get; set; }
         public long trans_id { get; set; }
     
         public virtual PACKAGE_MASTER PACKAGE_MASTER { get; set; }

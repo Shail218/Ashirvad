@@ -19,15 +19,20 @@ namespace Ashirvad.Uploads
             {
                 if (ImageFile != null)
                 {
+                   
                     string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                     string UpdatedPath = currentDir.Replace("Ashirvad.Web", "Ashirvad.Uploads");
                     string _FileName = Path.GetFileName(ImageFile.FileName);
                     string extension = System.IO.Path.GetExtension(ImageFile.FileName);
                     string randomfilename = Common.Common.RandomString(20);
-                    string _Filepath =  Folderpath + "\\" + randomfilename + extension;
-                    string _path = UpdatedPath+ _Filepath;
+                    //string _Filepath =  Folderpath + "\\" + randomfilename + extension;
+                    //string _path = UpdatedPath+ _Filepath;
+                    
+                    string _Filepath = "" + Folderpath + "/" + randomfilename + extension;
+                    string Directory = "pack://application:,,/Ashirvad.Uploads;"+ _Filepath;
+                    string _path = UpdatedPath + _Filepath;
                     ImageFile.SaveAs(_path);
-                    fileModel.FilePath = _path;
+                    fileModel.FilePath = Directory;
                     fileModel.FileName = _FileName;
                 }
             }

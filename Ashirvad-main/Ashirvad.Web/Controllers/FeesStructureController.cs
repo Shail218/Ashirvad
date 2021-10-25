@@ -50,16 +50,16 @@ namespace Ashirvad.Web.Controllers
             FileModel fileModel = new FileModel();
             if (Fees.ImageFile != null)
             {
-                fileModel= fileUploadCommon.SaveFileUploadweb(Fees.ImageFile, "FeesImage").Result;
+                //fileModel= fileUploadCommon.SaveFileUploadweb(Fees.ImageFile, "FeesImage").Result;
                 //Fees.Fees_Content = Common.Common.ReadFully(Fees.ImageFile.InputStream);
-                //string _FileName = Path.GetFileName(Fees.ImageFile.FileName);
-                //string extension = System.IO.Path.GetExtension(Fees.ImageFile.FileName);
-                //string randomfilename = Common.Common.RandomString(20);
-                //string _Filepath = "/FeesImage/"+randomfilename + extension;
-                //string _path = Path.Combine(Server.MapPath("~/FeesImage"), randomfilename + extension);
-                //Fees.ImageFile.SaveAs(_path);
+                string _FileName = Path.GetFileName(Fees.ImageFile.FileName);
+                string extension = System.IO.Path.GetExtension(Fees.ImageFile.FileName);
+                string randomfilename = Common.Common.RandomString(20);
+                string _Filepath = "/FeesImage/" + randomfilename + extension;
+                string _path = "http://localhost:88" + _Filepath;               
+                Fees.ImageFile.SaveAs(_path);
                 Fees.FileName= fileModel.FileName;
-                Fees.FilePath = fileModel.FilePath;
+                Fees.FilePath = _path;
             }
 
             Fees.Transaction = GetTransactionData(Fees.FeesID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);

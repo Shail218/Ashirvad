@@ -136,20 +136,20 @@
         <AssociationConnector Association="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.PACKAGE_MASTER" Width="1.5" PointX="13.625" PointY="10.75" />
         <EntityTypeShape EntityType="AshirvadModel.PACKAGE_RIGHTS_DTL" Width="1.5" PointX="0.75" PointY="10.75" />
-        <EntityTypeShape EntityType="AshirvadModel.PACKAGE_RIGHTS_MASTER" Width="1.5" PointX="18.875" PointY="23.875" />
         <EntityTypeShape EntityType="AshirvadModel.PAGE_MASTER" Width="1.5" PointX="13.625" PointY="31.75" />
-        <EntityTypeShape EntityType="AshirvadModel.TEST_MASTER_DTL" Width="1.5" PointX="21.125" PointY="24" />
         <AssociationConnector Association="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_PACKAGE_MASTER_TRANSACTION_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_PAGE_MASTER_TRANSACTION_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.TEST_MASTER_DTL" Width="1.5" PointX="21.75" PointY="24" />
+        <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_TRANSACTION_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.PACKAGE_RIGHTS_MASTER" Width="1.5" PointX="18.875" PointY="24.25" />
+        <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
