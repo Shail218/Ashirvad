@@ -430,6 +430,17 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
+                            testinfo = new TestEntity()
+                            {
+                                Subject = new SubjectEntity()
+                                {
+                                    Subject = u.TEST_MASTER.SUBJECT_MASTER.subject
+                                },
+                                BatchTimeID = u.TEST_MASTER.batch_time_id,
+                                Marks = u.TEST_MASTER.total_marks,
+                                TestStartTime = u.TEST_MASTER.test_st_time,
+                                TestEndTime = u.TEST_MASTER.test_end_time
+                            },
                             DocContent = u.doc_content,
                             DocLink = u.doc_link,
                             PaperType = u.paper_type == 1 ? "" : "",
@@ -442,14 +453,14 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestPaperID = u.test_paper_id,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
-            if (data?.Count > 0)
-            {
-                foreach (var item in data)
-                {
-                    int idx = data.IndexOf(item);
-                    data[idx].DocContentText = Convert.ToBase64String(data[idx].DocContent);
-                }
-            }
+            //if (data?.Count > 0)
+            //{
+            //    foreach (var item in data)
+            //    {
+            //        int idx = data.IndexOf(item);
+            //        data[idx].DocContentText = Convert.ToBase64String(data[idx].DocContent);
+            //    }
+            //}
             return data;
         }
 

@@ -29,6 +29,7 @@ namespace Ashirvad.Data
 
     public class TestPaperEntity
     {
+        public TestEntity testinfo { get; set; }
         public long TestPaperID { get; set; }
         public long TestID { get; set; }
         public string TestName { get; set; }
