@@ -23,6 +23,7 @@ namespace Ashirvad.Data
         public string HomeworkContentFileName { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }
+        public HomeworkDetailEntity homeworkDetailEntity { get; set; }
     }
     public class HomeworkDetailEntity
     {

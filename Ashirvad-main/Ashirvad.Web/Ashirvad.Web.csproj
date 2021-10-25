@@ -1046,6 +1046,7 @@
     <Compile Include="Controllers\BatchController.cs" />
     <Compile Include="Controllers\BatchWiseChartController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\BranchWiseRightController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\NewLibraryController.cs" />
@@ -1059,6 +1060,9 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageStudentController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\PackageController.cs" />
+    <Compile Include="Controllers\PackageRightController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\PapersController.cs" />
     <Compile Include="Controllers\PermissionRegController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
@@ -1314,6 +1318,10 @@
     <ProjectReference Include="..\Ashirvad.ServiceAPI\Ashirvad.ServiceAPI.csproj">
       <Project>{25b39f47-859a-43b3-9e71-225e89944488}</Project>
       <Name>Ashirvad.ServiceAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ashirvad.Uploads\Ashirvad.Uploads.csproj">
+      <Project>{E98D87C7-3A6C-4759-95B0-6D4A98C2A99E}</Project>
+      <Name>Ashirvad.Uploads</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

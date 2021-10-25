@@ -303,6 +303,10 @@
       <Project>{25b39f47-859a-43b3-9e71-225e89944488}</Project>
       <Name>Ashirvad.ServiceAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ashirvad.Uploads\Ashirvad.Uploads.csproj">
+      <Project>{e98d87c7-3a6c-4759-95b0-6d4a98c2a99e}</Project>
+      <Name>Ashirvad.Uploads</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

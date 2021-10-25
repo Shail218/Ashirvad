@@ -48,6 +48,7 @@
     <Compile Include="BatchEntity.cs" />
     <Compile Include="BranchAgreementEntity.cs" />
     <Compile Include="BranchEntity.cs" />
+    <Compile Include="BranchWiseRightEntity.cs" />
     <Compile Include="CategoryEntity.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="DataUsageEntity.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Model\AttendanceMaintenanceModel.cs" />
     <Compile Include="Model\BannerMaintenanceModel.cs" />
     <Compile Include="Model\BatchMaintenanceModel.cs" />
+    <Compile Include="Model\BranchWiseRightMaintenanceModel.cs" />
     <Compile Include="Model\CategoryMaintenanceModel.cs" />
     <Compile Include="Model\MarksMaintenanceModel.cs" />
     <Compile Include="Model\FeesMaintenanceModel.cs" />
@@ -73,6 +75,9 @@
     <Compile Include="Model\LibraryMaintenanceModel.cs" />
     <Compile Include="Model\LinkMaintenanceModel.cs" />
     <Compile Include="Model\NotificationMaintenanceModel.cs" />
+    <Compile Include="Model\PackageMaintenanceModel.cs" />
+    <Compile Include="Model\PackageRightMaintenanceModel.cs" />
+    <Compile Include="Model\PageMaintenanceModel.cs" />
     <Compile Include="Model\PaperMaintenanceModel.cs" />
     <Compile Include="Model\ReminderMaintenanceModel.cs" />
     <Compile Include="Model\SchoolMaintainanceModel.cs" />
@@ -86,6 +91,9 @@
     <Compile Include="Model\UserPermissionMaintenanceModel.cs" />
     <Compile Include="NotificationEntity.cs" />
     <Compile Include="OperationResult.cs" />
+    <Compile Include="PackageEntity.cs" />
+    <Compile Include="PackageRightEntity.cs" />
+    <Compile Include="PageEntity.cs" />
     <Compile Include="PaperEntity.cs" />
     <Compile Include="PaymentEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

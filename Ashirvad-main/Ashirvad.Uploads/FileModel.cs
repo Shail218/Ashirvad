@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Ashirvad.Uploads
 {
-    public class Class1
+    public class FileModel
     {
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
+  
     }
 }

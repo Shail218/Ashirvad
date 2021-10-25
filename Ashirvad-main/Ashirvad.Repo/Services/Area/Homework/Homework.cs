@@ -58,6 +58,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
+                        join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id
                         where u.branch_id == branchID
                         && (0 == stdID || u.std_id == stdID)
                         && (0 == batchTime || u.batch_time_id == batchTime)
@@ -90,6 +91,13 @@ namespace Ashirvad.Repo.Services.Area.Homework
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
+                            homeworkDetailEntity = new HomeworkDetailEntity()
+                            {
+                                StatusText = hd.status== (int)Enums.HomeWorkStatus.Done? "Done": "Pending",
+                                Remarks = hd.remarks,
+                                Status=hd.status
+                            },
+                            
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
             if (data?.Count > 0)

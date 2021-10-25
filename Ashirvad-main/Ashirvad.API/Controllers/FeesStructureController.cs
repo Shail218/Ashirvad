@@ -1,6 +1,7 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
+using Ashirvad.Uploads;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +13,7 @@ namespace Ashirvad.API.Controllers
     [RoutePrefix("api/FeesStructure/v1")]
     public class FeesStructureController : ApiController
     {
-
+        private readonly FileUploadCommon fileUploadCommon = new FileUploadCommon();
         private readonly IFeesService _FeesService;
         public FeesStructureController(IFeesService FeesService)
         {
@@ -25,6 +26,7 @@ namespace Ashirvad.API.Controllers
         public OperationResult<FeesEntity> FeesMaintenance(long FeesID,long FeesDetailsID, long StandardID, long BranchID,
             string Remark,long CreateId, string CreateBy)
         {
+            FileModel fileModel = new FileModel();
             OperationResult<FeesEntity> result = new OperationResult<FeesEntity>();
             var httpRequest = HttpContext.Current.Request;
             FeesEntity feesEntity = new FeesEntity();            
@@ -51,21 +53,23 @@ namespace Ashirvad.API.Controllers
             {
                 try
                 {
-                    foreach (string file in httpRequest.Files)
-                    {
-                        string fileName;
-                        string extension;
-                        var postedFile = httpRequest.Files[file];
-                        string randomfilename = Common.Common.RandomString(20);
-                        extension = Path.GetExtension(postedFile.FileName);
-                        fileName = Path.GetFileName(postedFile.FileName);
-                        string _Filepath = "~/FeesImage/" + randomfilename + extension;
-                        var filePath = HttpContext.Current.Server.MapPath("~/FeesImage/" + randomfilename + extension);
-                        postedFile.SaveAs(filePath);                        
-                        feesEntity.FileName = fileName;
-                        feesEntity.FilePath = _Filepath;
-                        data = this._FeesService.FeesMaintenance(feesEntity).Result;
-                    }
+                    //foreach (string file in httpRequest.Files)
+                    //{
+                    //    string fileName;
+                    //    string extension;
+                    //    var postedFile = httpRequest.Files[file];
+                    //    string randomfilename = Common.Common.RandomString(20);
+                    //    extension = Path.GetExtension(postedFile.FileName);
+                    //    fileName = Path.GetFileName(postedFile.FileName);
+                    //    string _Filepath = "~/FeesImage/" + randomfilename + extension;
+                    //    var filePath = HttpContext.Current.Server.MapPath("~/FeesImage/" + randomfilename + extension);
+                    //    postedFile.SaveAs(filePath);                        
+                    //    
+                    //}
+                    fileModel = fileUploadCommon.SaveFileUploadAPK("FeesImage").Result;
+                    feesEntity.FileName = fileModel.FileName;
+                    feesEntity.FilePath = fileModel.FilePath;
+                    data = this._FeesService.FeesMaintenance(feesEntity).Result;
                     result.Completed = false;
                     result.Data = null;
                     if (data.FeesID > 0 || data.FeesDetailID > 0)

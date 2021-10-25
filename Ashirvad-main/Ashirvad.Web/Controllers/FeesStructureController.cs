@@ -2,6 +2,7 @@
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
+using Ashirvad.Uploads;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,8 @@ namespace Ashirvad.Web.Controllers
     {
         // GET: FeesStructure
         private readonly IFeesService _FeesService;
+        private readonly FileUploadCommon  fileUploadCommon = new FileUploadCommon();
+ 
         public FeesStructureController(IFeesService FeesService)
         {
             _FeesService = FeesService;
@@ -39,31 +42,24 @@ namespace Ashirvad.Web.Controllers
             Fees.FeesData = FeesData;
 
             return View("Index", Fees);
-        }
-
-        //[HttpPost]
-        //public async Task<string> GetFeesLogo(long FeesID)
-        //{
-        //    var data = await _FeesService.GetFeesByFeesID(FeesID);
-        //    var result = data.Data;
-        //    return "data:image/jpg;base64, " + Convert.ToBase64String(result.FeesMaint.FeesLogo, 0, result.FeesMaint.FeesLogo.Length);
-        //}
+        }       
 
         [HttpPost]
         public async Task<JsonResult> SaveFees(FeesEntity Fees)
         {
+            FileModel fileModel = new FileModel();
             if (Fees.ImageFile != null)
             {
-                
-                Fees.Fees_Content = Common.Common.ReadFully(Fees.ImageFile.InputStream);
-                string _FileName = Path.GetFileName(Fees.ImageFile.FileName);
-                string extension = System.IO.Path.GetExtension(Fees.ImageFile.FileName);
-                string randomfilename = Common.Common.RandomString(20);
-                string _Filepath = "/FeesImage/"+randomfilename + extension;
-                string _path = Path.Combine(Server.MapPath("~/FeesImage"), randomfilename + extension);
-                Fees.ImageFile.SaveAs(_path);
-                Fees.FileName= _FileName;
-                Fees.FilePath = _Filepath;
+                fileModel= fileUploadCommon.SaveFileUploadweb(Fees.ImageFile, "FeesImage").Result;
+                //Fees.Fees_Content = Common.Common.ReadFully(Fees.ImageFile.InputStream);
+                //string _FileName = Path.GetFileName(Fees.ImageFile.FileName);
+                //string extension = System.IO.Path.GetExtension(Fees.ImageFile.FileName);
+                //string randomfilename = Common.Common.RandomString(20);
+                //string _Filepath = "/FeesImage/"+randomfilename + extension;
+                //string _path = Path.Combine(Server.MapPath("~/FeesImage"), randomfilename + extension);
+                //Fees.ImageFile.SaveAs(_path);
+                Fees.FileName= fileModel.FileName;
+                Fees.FilePath = fileModel.FilePath;
             }
 
             Fees.Transaction = GetTransactionData(Fees.FeesID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
