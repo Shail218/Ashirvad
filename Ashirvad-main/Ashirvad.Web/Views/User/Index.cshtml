@@ -4,10 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="content-header">
-    <h1><i class="fa fa-edit" style="margin-right: 5px;"></i>User Master</h1>
-</section>
-<hr />
 
 <section class="content">
     <div class="row">
@@ -15,7 +11,7 @@
         <section class="col-md-5">
             <div class="box box-warning">
                 <div class="box-header with-border">
-                    <h3 class="box-title">User Entry</h3>
+                    <h3 class="box-title h3">User Entry</h3>
                 </div>
                 <div class="box-body">
                     @{
@@ -27,10 +23,8 @@
         <section class="col-md-7">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">User Details</h3>
-                </div>
-                <div class="box-body">
-                    @{
+                    <h3 class="col-md-6 h3">User Details</h3>
+                  @{
                         Html.RenderPartial("Manage", new ViewDataDictionary(Model.StaffData));
                     }
                 </div>

@@ -1828,12 +1828,13 @@ a {
 .box-header {
     color: #444;
     display: block;
-    padding: 2px !important;
+    padding: 3px !important;
     position: relative;
 }
 
     .box-header.with-border {
         border-bottom: 1px solid #f4f4f4;
+        padding:7px !important;
     }
 
 .collapsed-box .box-header.with-border {
@@ -1890,7 +1891,9 @@ a {
     border-top-right-radius: 0;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
-    padding: 10px;
+    padding: -5px;
+    padding-bottom:10px !important;
+    height:auto !important;
 }
 
 .no-header .box-body {

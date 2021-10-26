@@ -4,10 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 
-<section class="content-header">
-    <h1><i class="fa fa-edit" style="margin-right: 5px;"></i>Student Answer Sheet</h1>
-</section>
-<hr />
+
 <section class="content">
     <div class="row">
         <div class="messagealert" id="alert_container"></div>
@@ -51,36 +48,36 @@
                         {
                             foreach (var item in Model)
                             {
-            <tr>
-                <td>
-                    @item.SubmitDate
-                </td>
+                                <tr>
+                                    <td>
+                                        @item.SubmitDate
+                                    </td>
 
-                <td>
-                    @item.StudentInfo.FirstName @item.StudentInfo.LastName
-                </td>
+                                    <td>
+                                        @item.StudentInfo.FirstName @item.StudentInfo.LastName
+                                    </td>
 
-                <td>
-                    @item.StudentInfo.StudentID
-                </td>
-                <td style="text-align:center">
-                    <a href="#">
-                        <img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" style="height:35px;width:35px" />
-                    </a>
-                </td>
-                <td></td>
-                <td>
-                    @Html.TextBoxFor(x => item.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
-                </td>
-                <td>
-                    <a class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
-                        <span class="ladda-label">
-                            Save
-                        </span>
-                        <span class="ladda-spinner"></span>
-                    </a>
-                </td>
-            </tr>}
+                                    <td>
+                                        @item.StudentInfo.StudentID
+                                    </td>
+                                    <td style="text-align:center">
+                                        <a href="#">
+                                            <img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" style="height:35px;width:35px" />
+                                        </a>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        @Html.TextBoxFor(x => item.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
+                                    </td>
+                                    <td>
+                                        <a class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                                            <span class="ladda-label">
+                                                Save
+                                            </span>
+                                            <span class="ladda-spinner"></span>
+                                        </a>
+                                    </td>
+                                </tr>}
                         }
                     </table>
                 </div>

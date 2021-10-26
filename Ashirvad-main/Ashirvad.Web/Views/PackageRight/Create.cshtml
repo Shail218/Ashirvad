@@ -4,6 +4,8 @@
     <form id="fPackageRightDetail">
         <div id="drights">
             <div class="col-md-6">
+                @Html.HiddenFor(x => x.PackageRightsId)
+                @Html.HiddenFor(x => x.JasonData)
                 @Html.Label("Package", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <select name="PackageName" id="PackageName" class="form-control requiredDDL" alt="Package">
                     <option value="0">--Select Package--</option>

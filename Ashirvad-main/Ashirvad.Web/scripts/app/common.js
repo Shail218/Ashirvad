@@ -41,6 +41,7 @@
     NewLibrary: $("#hdnFldVDName").val() + "NewLibrary/",
     Page: $("#hdnFldVDName").val() + "Page/",
     Package: $("#hdnFldVDName").val() + "Package/",
+    PackageRight: $("#hdnFldVDName").val() + "PackageRight/",
 };
 
 function GetExtention(image){

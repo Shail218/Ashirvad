@@ -38,14 +38,19 @@ namespace Ashirvad.Web.Controllers
         {
             PackageRightMaintenanceModel PackageRight = new PackageRightMaintenanceModel();
             PackageRight.PackageRightsInfo = new PackageRightEntity();
+            PackageRight.PackageRightsInfo.list = new List<PackageRightEntity>();
             if (PackageRightID > 0)
             {
                 var result = await _PackageRightService.GetPackageRightsByPackageRightsID(PackageRightID);
                 PackageRight.PackageRightsInfo = result;
             }
-
             var PackageRightData = await _PackageRightService.GetAllPackageRights();
-            PackageRight.PackageRightsInfo.list = PackageRightData;
+            if (PackageRightID>0)
+            {
+                
+                PackageRight.PackageRightsInfo.list = PackageRightData;
+            }
+            
             PackageRight.PackageRightsData = PackageRightData;
 
             var branchData = await _pageService.GetAllPages(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
@@ -56,7 +61,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SavePackageRight(PackageRightEntity PackageRight)
         {
-
+            long rightsID = PackageRight.PackageRightsId;
             PackageRightEntity packageRightEntity = new PackageRightEntity();
             PackageRight.Transaction = GetTransactionData(PackageRight.PackageRightsId > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             PackageRight.RowStatus = new RowStatusEntity()
@@ -66,7 +71,8 @@ namespace Ashirvad.Web.Controllers
             var List = JsonConvert.DeserializeObject<List<PackageRightEntity>>(PackageRight.JasonData);
             foreach (var item in List)
             {
-                PackageRight.Packageinfo = item.Packageinfo;
+                PackageRight.PackageRightsId = rightsID;                
+                PackageRight.PageInfo = item.PageInfo;                
                 PackageRight.PackageRightsId = item.PackageRightsId;
                 PackageRight.Createstatus = item.Createstatus;
                 PackageRight.Viewstatus = item.Viewstatus;

@@ -103,7 +103,7 @@ function LoadBranch(onLoaded) {
 }
 
 function LoadPackage(branchID) {
-    var postCall = $.post(commonData.Package + "PackageDataByBranch", { "branchID": branchID });
+    var postCall = $.post(commonData.Package + "PackageData");
     postCall.done(function (data) {
 
         $('#PackageName').empty();
@@ -140,7 +140,7 @@ function SavePackageRight() {
         ShowLoader();
         Array = GetData();
         var test = $("#JasonData").val(JSON.stringify(Array))
-        var postCall = $.post(GetSiteURL() + "/PackageRight/SavePackageRight", $('#fPackageRightDetail').serialize());
+        var postCall = $.post(commonData.PackageRight + "SavePackageRight", $('#fPackageRightDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
             if (data.Status == true) {
