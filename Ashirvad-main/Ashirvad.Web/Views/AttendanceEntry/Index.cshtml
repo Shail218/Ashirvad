@@ -11,7 +11,7 @@
         <div class="messagealert" id="alert_container"></div>
         <section class="col-md-12">
             <div class="box box-warning">
-                <div class="box-body">
+                <div class="box-body"  style="padding:10px">
                     @{
                         Html.RenderPartial("Create", new ViewDataDictionary(Model.AttendanceInfo));
                     }
@@ -20,7 +20,7 @@
         </section>
         <section class="col-md-12">
             <div class="box box-primary">
-                <div class="box-body" id="AttendanceData">
+                <div class="box-body" id="AttendanceData"  style="padding:10px">
                     @{
                         Html.RenderPartial("Manage", new ViewDataDictionary(Model.StudentData));
                     }

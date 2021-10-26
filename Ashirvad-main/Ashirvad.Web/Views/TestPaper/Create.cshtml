@@ -1,6 +1,6 @@
 ﻿﻿@model Ashirvad.Data.TestEntity
 <form id="fTestDetail">
-    <div class="row" id="dInformation">
+    <div class="row" id="dInformation" style="padding-top:15px">
         @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
         {
             <div class="col-md-12">
@@ -183,7 +183,7 @@
                 @Html.HiddenFor(x => x.RowStatus.RowStatusId)
             </div>
         </div>
-        <div class="col-md-12" style="text-align: right; margin-top: 27PX">
+        <div class="col-md-12" style="text-align: right; margin-top: 5PX">
             <a onclick="return Savetest();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                 <span class="ladda-label">
                     Save

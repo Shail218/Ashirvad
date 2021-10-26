@@ -24,9 +24,8 @@
         <section class="col-md-7">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Standard Details<h3>
-                </div>
-                <div class="box-body">
+                    <h3 class="col-md-6">Standard Details</h3>
+              
                     @{
                         Html.RenderPartial("Manage", new ViewDataDictionary(Model.StandardData));
                     }

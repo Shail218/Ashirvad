@@ -1,5 +1,6 @@
 ﻿@using Ashirvad.Web.Controllers;
 @model List<Ashirvad.Data.AboutUsDetailEntity>
+
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
@@ -7,7 +8,7 @@
                 Description
             </th>
 
-            
+
             <th>
                 Header Image
             </th>
@@ -23,11 +24,11 @@
     {
         <tr>
             <td>
-                @Html.HiddenFor(x=>item.AboutUsInfo.AboutUsID)
+                @Html.HiddenFor(x => item.AboutUsInfo.AboutUsID)
                 @item.BrandName
-               
+
             </td>
-           
+
             <td>
                 @if (item.FilePath != "")
                 {
