@@ -29,6 +29,15 @@ $(document).ready(function () {
         $('#BatchTime option[value="' + $("#BatchTypeID").val() + '"]').attr("selected", "selected");
     }
 
+    if ($("#packageinfo_PackageID").val() != "") {
+        $('#package option[value="' + $("#packageinfo_PackageID").val() + '"]').attr("selected", "selected");
+    }
+
+    var Id = $("#BranchWiseRightsID").val();
+    if (Id > 0) {
+        checkstatus();
+    }
+
 });
 
 function LoadBranch(onLoaded) {
@@ -61,7 +70,7 @@ function LoadPackage(branchID) {
 
         $('#PackageName').empty();
         $('#PackageName').select2();
-        $("#PackageName").append("<option value=" + 0 + ">---Select Package Name---</option>");
+        $("#PackageName").append("<option value=" + 0 + ">--Select Package Name--</option>");
         for (i = 0; i < data.length; i++) {
             $("#PackageName").append("<option value=" + data[i].PackageID + ">" + data[i].Package + "</option>");
         }
@@ -84,3 +93,128 @@ $("#PackageName").change(function () {
     var Data = $("#PackageName option:selected").val();
     $('#Package_PackageID').val(Data);
 });
+
+function checkstatus() {
+    var Create = true;
+    var Delete = true;
+    var View = true;
+
+    $('#choiceList .createStatus').each(function () {
+        if ($(this)[0].checked == false) {
+            Create = false;
+        }
+    });
+    
+    $('#choiceList .deletestatus').each(function () {
+        if ($(this)[0].checked == false) {
+            Delete = false;
+        }
+    });
+    $('#choiceList .viewstatus').each(function () {
+        if ($(this)[0].checked == false) {
+            View = false;
+        }
+    });
+
+    $('#choiceList thead').each(function () {
+
+        if (Create == true) {
+            $(this).find("#allcreate")[0].checked = true;
+        
+        
+         if (Delete == true) {
+            $(this).find("#alldelete")[0].checked = true;
+        } if (View == true) {
+            $(this).find("#allview")[0].checked = true;
+        }
+    });
+
+}
+
+function OnSelectStatus(Data, classData) {
+    if (Data.checked == true) {
+        $('#choiceList .' + classData).each(function () {
+            $(this)[0].checked = true;
+
+        });
+    }
+    else {
+        $('#choiceList .' + classData).each(function () {
+            $(this)[0].checked = false;
+
+        });
+    }
+}
+
+function GetData() {
+    var CreateArray = [];
+    var DeleteArray = [];
+    var ViewArray = [];
+    var PageArray = [];
+    var PackageIDArray = [];
+    var MainArray = [];
+
+    $('#choiceList .createStatus').each(function () {
+        var Create = $(this)[0].checked;
+        CreateArray.push(Create);
+    });
+
+   
+    $('#choiceList .deletestatus').each(function () {
+        var Delete = $(this)[0].checked;
+        DeleteArray.push(Delete);
+    });
+    $('#choiceList .viewstatus').each(function () {
+        var View = $(this)[0].checked;
+        ViewArray.push(View);
+    });
+
+    $('#choiceList .pagename').each(function () {
+        var Page = $(this).val();
+        PageArray.push(Page);
+    });
+
+    $('#choiceList .BranchWiseRightsIDlist').each(function () {
+        var Package = $(this).val();
+        PackageIDArray.push(Package);
+    });
+    for (var i = 0; i < PageArray.length; i++) {
+        var Page = PageArray[i];
+        var Create = CreateArray[i];
+        var Delete = DeleteArray[i];
+        var View = ViewArray[i];
+        var Package = PackageIDArray[i];
+        MainArray.push({
+            "PageInfo": { "PageID": Page },
+            "Createstatus": Create,
+            "Deletestatus": Delete,
+            "Viewstatus": View,
+            "BranchWiseRightsID": Package
+
+        })
+    }
+    return MainArray;
+}
+
+
+function SetBranchWiseRightDetails() {
+    var Data = $("#BranchName option:selected").val();
+    if (Data > 0) {
+        var postCall = $.post(GetSiteURL() + "/LeaveApplication/LeaveData", { "BranchID": Data, "IsUpdate": false });
+        postCall.done(function (data) {
+            $("#BranchWiseRightDetails").html(data);
+            $("#Branch").val(Data);
+
+
+
+        }).fail(function () {
+        });
+    }
+    else {
+        $("#BranchWiseRightDetails").html("");
+        $("#Branch").val(0);
+
+    }
+}
+
+

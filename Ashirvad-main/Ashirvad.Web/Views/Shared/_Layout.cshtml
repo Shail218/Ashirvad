@@ -244,7 +244,7 @@
                                         <li id="Mr">
                                             <a href="@Url.Action("Index","ResultRegister")">Marks Register</a>
                                         </li>
-                                        
+
                                     </ul>
                                 </li>
                                 <li class="dropdown" id="Photos" style="margin-left:10px;">
@@ -296,20 +296,20 @@
                                             </a>
                                         </li>
                                         @*<li class="treeview"
-                                                <a href="@Url.Action("LibraryMaintenance","Library", new { @libraryID=0 })">
-                                                    Library Entry
-                                                </a>
-                                            </li>
-                                            <li class="treeview">
-                                                <a href="#">
-                                                    Show Library
-                                                </a>
-                                            </li>
-                                            <li class="treeview" id="manageLibrary">
-                                                <a href="@Url.Action("Index","LibraryManage")">
-                                                    Manage Library
-                                                </a>
-                                            </li>*@
+                                <a href="@Url.Action("LibraryMaintenance","Library", new { @libraryID=0 })">
+                                    Library Entry
+                                </a>
+                            </li>
+                            <li class="treeview">
+                                <a href="#">
+                                    Show Library
+                                </a>
+                            </li>
+                            <li class="treeview" id="manageLibrary">
+                                <a href="@Url.Action("Index","LibraryManage")">
+                                    Manage Library
+                                </a>
+                            </li>*@
                                     </ul>
                                 </li>
                                 <li class="dropdown" id="role" visible="false" style="margin-left:10px;">
@@ -394,36 +394,37 @@
                                     </ul>
                                 </li>
                                 <li class="dropdown" id="td" visible="true">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            User Permission
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li class="treeview" id="pg">
-                                                <a href="@Url.Action("PageMaintenance","Page", new { @branchID=0 })">
-                                                    Page
-                                                </a>
-                                            </li>
-                                            <li class="treeview" id="pack">
-                                                <a href="@Url.Action("PackageMaintenance","Package", new { @branchID=0 })">
-                                                    Package
-                                                </a>
-                                            </li>
-                                            <li class="treeview" id="pright">
-                                                <a href="@Url.Action("Index","PackageRight")">
-                                                    Package Right
-                                                </a>
-                                            </li>
-                                            <li class="treeview" id="bwr">
-                                                <a href="@Url.Action("Index","BranchWiseRight")">
-                                                    Branch Wise Rights
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                   
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        User Permission
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="treeview" id="pg">
+                                            <a href="@Url.Action("PageMaintenance","Page", new { @branchID=0 })">
+                                                Page
+                                            </a>
+                                        </li>
+                                        <li class="treeview" id="pack">
+                                            <a href="@Url.Action("PackageMaintenance","Package", new { @branchID=0 })">
+                                                Package
+                                            </a>
+                                        </li>
+                                        <li class="treeview" id="pright">
+                                            <a href="@Url.Action("PackageRightMaintenance","PackageRight",new { @PackageRightID=0 })">
+                                                Package Right
+                                            </a>
+                                        </li>
+                                        <li class="treeview" id="bwr">
+                                            <a href="@Url.Action("Index","BranchWiseRight")">
+                                                Branch Wise Rights
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
                             }
                         </ul>
                     </div>
+
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
 
@@ -445,12 +446,9 @@
                             </li>
                         </ul>
                     </div>
+                    
                 </div>
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <h4 style="color: white;" id="lblBranchName">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</h4>
-                    </div>
-                </div>
+                
             </nav>
         </header>
         <div class="content-wrapper">

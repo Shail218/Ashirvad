@@ -22,7 +22,7 @@
 
         <div class="col-md-12">
             @Html.Label("Select Category Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <select name="CategoryName" id="CategoryName" class="form-control requiredDDL select2" alt="School Name">
+            <select name="CategoryName" id="CategoryName" class="form-control requiredDDL select2" alt="Category Name">
                 <option value="0">--Select Category Name--</option>
             </select>
             @Html.HiddenFor(x => x.CategoryInfo.CategoryID)

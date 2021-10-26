@@ -23,9 +23,7 @@ namespace Ashirvad.Web.Controllers
         // GET: PackageRight
         public ActionResult Index()
         {
-            PackageRightMaintenanceModel packageRightMaintenance = new PackageRightMaintenanceModel();
-            packageRightMaintenance.PackageRightsData = new List<PackageRightEntity>();
-            return View(packageRightMaintenance);
+            return View();
         }
 
         public async Task<ActionResult> PackageRightMaintenance(long PackageRightID)
@@ -39,6 +37,7 @@ namespace Ashirvad.Web.Controllers
 
             var PackageRightData = await _PackageRightService.GetAllPackageRights();
             PackageRight.PackageRightsData = PackageRightData;
+            PackageRight.PackageRightsInfo = new PackageRightEntity();
 
             return View("Index", PackageRight);
         }
@@ -46,7 +45,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SavePackageRight(PackageRightEntity PackageRight)
         {
-            
+
 
             PackageRight.Transaction = GetTransactionData(PackageRight.PackageRightsId > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             PackageRight.RowStatus = new RowStatusEntity()

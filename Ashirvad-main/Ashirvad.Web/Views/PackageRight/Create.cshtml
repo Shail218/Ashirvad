@@ -2,48 +2,50 @@
 
 <div class="col-md-12">
     <form id="fPackageRightDetail">
+        <div class="form-group" id="dInformation">
 
-        <div class="col-md-6" >
-            @Html.Label("Package", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <select name="PackageName" id="PackageName" class="form-control requiredDDL" alt="Package">
-                <option value="0">--Select Package--</option>
-            </select>
-        </div>
-        @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
-        {
-            <div class="col-md-12">
-                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="BranchName" id="BranchName" class="form-control requiredDDL select2" alt="Branch">
-                    <option value="0">--Select Branch--</option>
+            <div class="col-md-6">
+                @Html.Label("Package", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="PackageName" id="PackageName" class="form-control requiredDDL" alt="Package">
+                    <option value="0">--Select Package--</option>
                 </select>
-                @Html.HiddenFor(x => x.BranchInfo.BranchID)
             </div>
-        }
-        else
-        {
-            <div class="col-md-12" style="display: none;">
-                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="BranchName" id="BranchName" class="form-control" alt="Branch">
-                    <option value="0">--Select Branch--</option>
-                </select>
-                @Html.HiddenFor(x => x.BranchInfo.BranchID)
-            </div>
-        }
-        <div class="form-group">
-            <div class="col-md-6" style="text-align: right;">
-                <br />
-                <a onclick="return SavePackageRight();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
-                    <span class="ladda-label">
-                        Save
-                    </span>
-                    <span class="ladda-spinner"></span>
-                </a>
-                <a href="@Url.Action("SubjectMaintenance","Subject", new { @branchID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
-                    <span class="ladda-label">
-                        Cancel
-                    </span>
-                    <span class="ladda-spinner"></span>
-                </a>
+            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
+                <div class="col-md-12">
+                    @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                    <select name="BranchName" id="BranchName" class="form-control requiredDDL select2" alt="Branch">
+                        <option value="0">--Select Branch--</option>
+                    </select>
+                    @Html.HiddenFor(x => x.BranchInfo.BranchID)
+                </div>
+            }
+            else
+            {
+                <div class="col-md-12" style="display: none;">
+                    @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                    <select name="BranchName" id="BranchName" class="form-control" alt="Branch">
+                        <option value="0">--Select Branch--</option>
+                    </select>
+                    @Html.HiddenFor(x => x.BranchInfo.BranchID)
+                </div>
+            }
+            <div class="form-group">
+                <div class="col-md-6" style="text-align: right;">
+                    <br />
+                    <a onclick="return SavePackageRight();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                        <span class="ladda-label">
+                            Save
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>
+                    <a href="@Url.Action("SubjectMaintenance","Subject", new { @branchID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                        <span class="ladda-label">
+                            Cancel
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>
+                </div>
             </div>
         </div>
     </form>
@@ -58,9 +60,6 @@
                 </th>
 
                 <th>
-                    <input type="checkbox" onchange="OnSelectStatus(this,'editstatus');" Id="alledit" />  Edit Status
-                </th>
-                <th>
                     <input type="checkbox" onchange="OnSelectStatus(this,'deletestatus');" Id="alldelete" /> Delete Status
                 </th>
                 <th>
@@ -68,61 +67,57 @@
                 </th>
             </tr>
         </thead>
-        @*<tbody>
-            @if (Model.list.Count > 0)
-            {
-                for (int i = 0; i < Model.list.Count; i++)
+        <tbody>
+                @if (Model.list.Count > 0)
                 {
+                    for (int i = 0; i < Model.list.Count; i++)
+                    {
 
-                    <tr>
-                        <td>
-                            @Model.list[i].PageInfo.Page
-                            <input type="hidden" value="@Model.list[i].PageInfo.PageID" class="pagename" />
-                            <input type="hidden" value="@Model.list[i].PackageRightsId" class="RoleRightsIdlist" />
-                        </td>
-                        <td class="js-export-checkbox">
-                            @Html.CheckBoxFor(m => m.list[i].Createstatus, new { @class = "createStatus" })
-                        </td>
-                        <td class="js-export-checkbox">
-                            @Html.CheckBoxFor(m => m.list[i].Editstatus, new { @class = "editstatus" })
-                        </td>
-                        <td class="js-export-checkbox">
-                            @Html.CheckBoxFor(m => m.list[i].Deletestatus, new { @class = "deletestatus" })
-                        </td>
-                        <td class="js-export-checkbox">
-                            @Html.CheckBoxFor(m => m.list[i].Viewstatus, new { @class = "viewstatus" })
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                @Model.list[i].PageInfo.Page
+                                <input type="hidden" value="@Model.list[i].PageInfo.PageID" class="pagename" />
+                                <input type="hidden" value="@Model.list[i].PackageRightsId" class="RoleRightsIdlist" />
+                            </td>
+                            <td class="js-export-checkbox">
+                                @Html.CheckBoxFor(m => m.list[i].Createstatus, new { @class = "createStatus" })
+                            </td>
+
+                            <td class="js-export-checkbox">
+                                @Html.CheckBoxFor(m => m.list[i].Deletestatus, new { @class = "deletestatus" })
+                            </td>
+                            <td class="js-export-checkbox">
+                                @Html.CheckBoxFor(m => m.list[i].Viewstatus, new { @class = "viewstatus" })
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-            else
-            {
-                for (int i = 0; i < Model.PageList.Count; i++)
+                else
                 {
+                    for (int i = 0; i < Model.PageList.Count; i++)
+                    {
 
-                    <tr>
-                        <td>
-                            @Model.PageList[i].Page
-                            <input type="hidden" value="@Model.PageList[i].PageID" class="pagename" />
-                            <input type="hidden" value="0" class="RoleRightsIdlist" />
-                        </td>
-                        <td class="js-export-checkbox">
-                            <input type="checkbox" id="Createstatus" class="createStatus" />
-                        </td>
-                        <td class="js-export-checkbox">
-                            <input type="checkbox" id="Editstatus" class="editstatus" />
-                        </td>
-                        <td class="js-export-checkbox">
-                            <input type="checkbox" id="Deletestatus" class="deletestatus" />
-                        </td>
-                        <td class="js-export-checkbox">
-                            <input type="checkbox" id="Viewstatus" class="viewstatus" />
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                @Model.PageList[i].Page
+                                <input type="hidden" value="@Model.PageList[i].PageID" class="pagename" />
+                                <input type="hidden" value="0" class="RoleRightsIdlist" />
+                            </td>
+                            <td class="js-export-checkbox">
+                                <input type="checkbox" id="Createstatus" class="createStatus" />
+                            </td>
+
+                            <td class="js-export-checkbox">
+                                <input type="checkbox" id="Deletestatus" class="deletestatus" />
+                            </td>
+                            <td class="js-export-checkbox">
+                                <input type="checkbox" id="Viewstatus" class="viewstatus" />
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-            }
-        </tbody>*@
+                
+            </tbody>
 
     </table>
 </div>

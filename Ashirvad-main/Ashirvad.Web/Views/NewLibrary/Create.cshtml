@@ -10,19 +10,19 @@
 
         <div class="col-md-12" style="margin-bottom:10px">
             @Html.Label("Upload Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <input class="file-upload" alt="Student Image" id="fuStudentImage" name="ImageFile" type="file" accept="image/*" />
+            <input class="file-upload fileRequired" alt="Library Image" id="fuStudentImage" name="ImageFile" type="file" accept="image/*" />
             @Html.HiddenFor(x => x.ImageFile)
         </div>
         <div class="col-md-12">
             @Html.Label("Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextAreaFor(x => x.Description, new { @class = "form-control required", @alt = "Category Name", autocomplete = "off" })
+            @Html.TextAreaFor(x => x.Description, new { @class = "form-control required", @alt = "Description", autocomplete = "off" })
             @Html.HiddenFor(x => x.LibraryID)
             @Html.HiddenFor(x => x.LibraryDetailID)
         </div>
 
         <div class="col-md-12">
             @Html.Label("Select Category Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <select name="CategoryName" id="CategoryName" class="form-control requiredDDL select2" alt="School Name">
+            <select name="CategoryName" id="CategoryName" class="form-control requiredDDL select2" alt="Category Name">
                 <option value="0">--Select Category Name--</option>
             </select>
             @Html.HiddenFor(x => x.CategoryInfo.CategoryID)
