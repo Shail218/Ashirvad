@@ -66,7 +66,7 @@ function SavePackage() {
 function RemovePackage(packageID) {
     if (confirm('Are you sure want to delete this Package?')) {
         ShowLoader();
-        var postCall = $.post(commonData.Subject + "RemovePackage", { "packageID": packageID });
+        var postCall = $.post(commonData.Package + "RemovePackage", { "packageID": packageID });
         postCall.done(function (data) {
             HideLoader();
             ShowMessage("Package Removed Successfully.", "Success");

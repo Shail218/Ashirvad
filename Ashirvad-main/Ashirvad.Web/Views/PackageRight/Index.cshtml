@@ -6,10 +6,6 @@
 }
 
 
-<section class="content-header">
-    <h1><i class="fa fa-edit" style="margin-right: 5px;"></i>Package Master</h1>
-</section>
-<hr />
 
 <section class="content">
     <div class="messagealert" id="alert_container"></div>
@@ -46,16 +42,22 @@
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
         <script>
-            $(document).ready(function () {
+            $('#subcategorytbl').DataTable({
+                "bPaginate": true,
+                "bLengthChange": false,
+                "bFilter": true,
+                "bInfo": false,
+                "bAutoWidth": true,
 
-                $('#studenttbl').DataTable({
-                    "bPaginate": true,
-                    "bLengthChange": false,
-                    "bFilter": true,
-                    "bInfo": true,
-                    "bAutoWidth": true
-                });
-
+            });
+            $('#choiceList').DataTable({
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": true,
+                "scrollY": '30vh',
+                "scrollCollapse": true
 
             });
         </script>
