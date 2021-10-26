@@ -212,9 +212,6 @@ namespace Ashirvad.Web
             container.RegisterType<IPackageAPI, Package>();
             container.RegisterType<IPackageService, PackageService>();
 
-            container.RegisterType<IPackageRightsAPI, PackageRights>();
-            container.RegisterType<IPackageRightsService, PackageRightsService>();
-
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

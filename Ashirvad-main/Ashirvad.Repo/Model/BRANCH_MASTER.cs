@@ -44,9 +44,9 @@ namespace Ashirvad.Repo.Model
             this.ABOUTUS_DETAIL_REL = new HashSet<ABOUTUS_DETAIL_REL>();
             this.ABOUTUS_MASTER = new HashSet<ABOUTUS_MASTER>();
             this.STUDENT_ANS_SHEET = new HashSet<STUDENT_ANS_SHEET>();
-            this.PACKAGE_MASTER = new HashSet<PACKAGE_MASTER>();
             this.PAGE_MASTER = new HashSet<PAGE_MASTER>();
             this.TEST_MASTER_DTL = new HashSet<TEST_MASTER_DTL>();
+            this.PACKAGE_MASTER = new HashSet<PACKAGE_MASTER>();
         }
     
         public long branch_id { get; set; }
@@ -116,10 +116,10 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<STUDENT_ANS_SHEET> STUDENT_ANS_SHEET { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PACKAGE_MASTER> PACKAGE_MASTER { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PAGE_MASTER> PAGE_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TEST_MASTER_DTL> TEST_MASTER_DTL { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PACKAGE_MASTER> PACKAGE_MASTER { get; set; }
     }
 }

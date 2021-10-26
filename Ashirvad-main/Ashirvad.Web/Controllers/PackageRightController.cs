@@ -2,6 +2,7 @@
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,9 @@ namespace Ashirvad.Web.Controllers
         // GET: PackageRight
         public ActionResult Index()
         {
-            return View();
+            PackageRightMaintenanceModel packageRightMaintenance = new PackageRightMaintenanceModel();
+            packageRightMaintenance.PackageRightsData = new List<PackageRightEntity>();
+            return View(packageRightMaintenance);
         }
 
         public async Task<ActionResult> PackageRightMaintenance(long PackageRightID)
@@ -37,7 +40,6 @@ namespace Ashirvad.Web.Controllers
 
             var PackageRightData = await _PackageRightService.GetAllPackageRights();
             PackageRight.PackageRightsData = PackageRightData;
-            PackageRight.PackageRightsInfo = new PackageRightEntity();
 
             return View("Index", PackageRight);
         }
@@ -46,14 +48,24 @@ namespace Ashirvad.Web.Controllers
         public async Task<JsonResult> SavePackageRight(PackageRightEntity PackageRight)
         {
 
-
+            PackageRightEntity packageRightEntity = new PackageRightEntity();
             PackageRight.Transaction = GetTransactionData(PackageRight.PackageRightsId > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             PackageRight.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            var data = await _PackageRightService.PackageRightsMaintenance(PackageRight);
-            if (data != null)
+            var List= JsonConvert.DeserializeObject<List<PackageRightEntity>>(PackageRight.JasonData);
+            foreach(var item in List)
+            {
+                PackageRight.Packageinfo = item.Packageinfo;
+                PackageRight.PackageRightsId = item.PackageRightsId;
+                PackageRight.Createstatus = item.Createstatus;
+                PackageRight.Viewstatus = item.Viewstatus;
+                PackageRight.Deletestatus = item.Deletestatus;                
+                packageRightEntity = await _PackageRightService.PackageRightsMaintenance(PackageRight);
+            }
+            
+            if (packageRightEntity != null)
             {
                 return Json(true);
             }

@@ -17,6 +17,9 @@ namespace Ashirvad.Repo.Model
         public long packagerights_id { get; set; }
         public long page_id { get; set; }
         public long package_id { get; set; }
+        public bool createstatus { get; set; }
+        public bool viewstatus { get; set; }
+        public bool deletestatus { get; set; }
         public Nullable<int> row_sta_cd { get; set; }
         public long trans_id { get; set; }
     

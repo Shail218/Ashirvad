@@ -8,7 +8,7 @@ namespace Ashirvad.Data
 {
    public class PackageRightEntity
     {
-        public long PackageRightsId { get; set; }
+        public long PackageRightsId { get; set; }        
         public PackageEntity Packageinfo { get; set; } = new PackageEntity();
         public bool Createstatus { get; set; }
         public bool Editstatus { get; set; }

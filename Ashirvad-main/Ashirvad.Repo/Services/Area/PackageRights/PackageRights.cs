@@ -47,6 +47,9 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 RightsMaster.package_id = RightsInfo.Packageinfo.PackageID;
                 RightsMaster.page_id = RightsInfo.PageInfo.PageID;                
                 RightsMaster.row_sta_cd = RightsInfo.RowStatus.RowStatusId;
+                RightsMaster.createstatus = RightsInfo.Createstatus;
+                RightsMaster.viewstatus = RightsInfo.Viewstatus;
+                RightsMaster.deletestatus = RightsInfo.Deletestatus;
                 RightsMaster.trans_id = this.AddTransactionData(RightsInfo.Transaction);
                 this.context.PACKAGE_RIGHTS_MASTER.Add(RightsMaster);
                 if (isUpdate)
@@ -57,7 +60,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 if (result > 0)
                 {
                     RightsInfo.PackageRightsId = RightsMaster.packagerights_id;
-                    //var result2 = FeesDetailMaintenance(FeesInfo).Result;
+                    //var result2 = PackageDetailMaintenance(PackageInfo).Result;
                     return result > 0 ? RightsInfo.PackageRightsId : 0;
                 }
                 return this.context.SaveChanges() > 0 ? RightsInfo.PackageRightsId : 0;
@@ -69,8 +72,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
                         .Include("PACKAGE_MASTER")
-                        .Include("PAGE_MASTER")
-                        join b in this.context.PACKAGE_RIGHTS_DTL on u.packagerights_id equals b.packagerights_id
+                        .Include("PAGE_MASTER")                        
                         where u.row_sta_cd == 1
                         select new PackageRightEntity()
                         {
@@ -84,9 +86,9 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 Page = u.PAGE_MASTER.page,
                                 PageID = u.page_id
                             },
-                            Createstatus =b.createstatus==1?true:false,
-                            Viewstatus = b.viewstatus == 1 ? true : false,
-                            Deletestatus = b.deletestatus == 1 ? true : false,
+                            Createstatus =u.createstatus,
+                            Viewstatus = u.viewstatus,
+                            Deletestatus = u.deletestatus,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },                            
                         }).ToList();
 
@@ -94,12 +96,12 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
         }
 
+        
         public async Task<PackageRightEntity> GetRightsByRightsID(long RightsID)
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
                        .Include("PACKAGE_MASTER")
-                       .Include("PAGE_MASTER")
-                        join b in this.context.PACKAGE_RIGHTS_DTL on u.packagerights_id equals b.packagerights_id
+                       .Include("PAGE_MASTER")                       
                         where u.row_sta_cd == 1 && u.packagerights_id== RightsID
                         select new PackageRightEntity()
                         {
@@ -113,9 +115,9 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 Page = u.PAGE_MASTER.page,
                                 PageID = u.page_id
                             },
-                            Createstatus = b.createstatus == 1 ? true : false,
-                            Viewstatus = b.viewstatus == 1 ? true : false,
-                            Deletestatus = b.deletestatus == 1 ? true : false,
+                            Createstatus = u.createstatus,
+                            Viewstatus = u.viewstatus ,
+                            Deletestatus = u.deletestatus,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                         }).FirstOrDefault();
             return data;

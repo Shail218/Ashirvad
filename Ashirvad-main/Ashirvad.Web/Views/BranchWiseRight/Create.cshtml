@@ -4,14 +4,10 @@
     <form id="fPackageRightDetail">
 
         <div class="col-md-4">
-            @Html.HiddenFor(x => x.BranchWiseRightsID)
-            @Html.HiddenFor(x => x.JasonData)
             @Html.Label("Package", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <select name="PackageName" id="PackageName" class="form-control requiredDDL" alt="Package">
                 <option value="0">--Select Package--</option>
             </select>
-            @Html.HiddenFor(x => x.Packageinfo.PackageID)
-            @Html.HiddenFor(x => x.BranchID)
         </div>
         <div class="col-md-4">
             @Html.Label("Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -42,13 +38,13 @@
         <div class="form-group">
             <div class="col-md-4" style="text-align: right;">
                 <br />
-                <a onclick="return SaveBranchWiseRight();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                <a onclick="return SavePackageRight();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                     <span class="ladda-label">
                         Save
                     </span>
                     <span class="ladda-spinner"></span>
                 </a>
-                <a href="@Url.Action("BranchWiseRightMaintenance","BranchWiseRight", new { @branchID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                <a href="@Url.Action("SubjectMaintenance","Subject", new { @branchID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
                     <span class="ladda-label">
                         Cancel
                     </span>
