@@ -117,9 +117,6 @@ namespace Ashirvad.API.Controllers
             }
 
             return result;
-
-
-
         }
 
         [Route("GetAllLibrary")]

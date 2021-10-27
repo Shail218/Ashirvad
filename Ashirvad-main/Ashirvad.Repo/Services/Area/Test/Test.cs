@@ -451,6 +451,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestDate = u.TEST_MASTER.test_dt,
                             TestName = u.TEST_MASTER.test_name,
                             TestPaperID = u.test_paper_id,
+                            FilePath = u.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
             //if (data?.Count > 0)
@@ -830,6 +831,24 @@ namespace Ashirvad.Repo.Services.Area.Test
             //}
 
             return 1;
+        }
+
+        public async Task<List<TestPaperEntity>> GetAllTestDocLinks(long branchID, long stdID, int batchTime)
+        {
+            var data = (from u in this.context.TEST_PAPER_REL
+                        .Include("TEST_MASTER")
+                        .Include("BRANCH_MASTER")
+                        .Include("STD_MASTER")
+                        where u.TEST_MASTER.branch_id == branchID && u.TEST_MASTER.std_id == stdID
+                        && (batchTime == 0 || u.TEST_MASTER.batch_time_id == batchTime) && !u.doc_link.Equals(" ")
+                        select new TestPaperEntity()
+                        {
+                            TestID = u.test_id,
+                            Remarks = u.remakrs,
+                            DocLink = u.doc_link
+                        }).ToList();
+
+            return data;
         }
     }
 }

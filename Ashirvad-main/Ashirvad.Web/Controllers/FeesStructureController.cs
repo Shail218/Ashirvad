@@ -56,10 +56,10 @@ namespace Ashirvad.Web.Controllers
                 string extension = System.IO.Path.GetExtension(Fees.ImageFile.FileName);
                 string randomfilename = Common.Common.RandomString(20);
                 string _Filepath = "/FeesImage/" + randomfilename + extension;
-                string _path = "http://localhost:88" + _Filepath;               
+                string _path = Path.Combine(Server.MapPath("~/FeesImage"), randomfilename + extension);
                 Fees.ImageFile.SaveAs(_path);
-                Fees.FileName= fileModel.FileName;
-                Fees.FilePath = _path;
+                Fees.FileName = _FileName;
+                Fees.FilePath = _Filepath;
             }
 
             Fees.Transaction = GetTransactionData(Fees.FeesID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);

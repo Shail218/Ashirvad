@@ -34,5 +34,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Test
         Task<List<StudentAnswerSheetEntity>> BulkStudentAnswerSheetMaintenance(List<StudentAnswerSheetEntity> ansSheetInfo);
 
         Task<TestDetailEntity> TestdetailMaintenance(TestDetailEntity testInfo);
+        Task<OperationResult<List<TestPaperEntity>>> GetAllTestDocLinks(long branchID, long stdID, int batchTime);
     }
 }

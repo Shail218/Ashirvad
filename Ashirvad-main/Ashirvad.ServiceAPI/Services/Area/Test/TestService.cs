@@ -176,6 +176,24 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
+        public async Task<OperationResult<List<TestPaperEntity>>> GetAllTestDocLinks(long branchID, long stdID, int batchTime)
+        {
+            try
+            {
+                var data = await _testContext.GetAllTestDocLinks(branchID, stdID, batchTime);
+                OperationResult<List<TestPaperEntity>> res = new OperationResult<List<TestPaperEntity>>();
+                res.Data = data;
+                res.Completed = true;
+                return res;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
 
         public async Task<OperationResult<List<TestEntity>>> GetAllTest(DateTime testDate, string searchParam)
         {
