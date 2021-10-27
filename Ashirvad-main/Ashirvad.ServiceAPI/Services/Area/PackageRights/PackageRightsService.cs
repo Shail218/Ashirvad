@@ -24,12 +24,8 @@ namespace Ashirvad.ServiceAPI.Services.Area
             try
             {
                 long PackageRightsID = await _PackageRightsContext.RightsMaintenance(PackageRightsInfo);
-                if (PackageRightsID > 0)
-                {
-                    //Add User
-                    //Get PackageRights
-                    PackageRights.PackageRightsId = PackageRightsID;
-                }
+                PackageRights.PackageRightsId = PackageRightsID;
+
             }
             catch (Exception ex)
             {

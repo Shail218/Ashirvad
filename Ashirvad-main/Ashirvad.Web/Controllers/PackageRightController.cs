@@ -19,7 +19,7 @@ namespace Ashirvad.Web.Controllers
         private readonly IPackageRightsService _PackageRightService;
         private readonly IPageService _pageService;
 
-
+        ResponseModel response = new ResponseModel();
         public PackageRightController(IPackageRightsService PackageRightService, IPageService pageService)
         {
 
@@ -61,9 +61,11 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SavePackageRight(PackageRightEntity PackageRight)
         {
+            response.Status = false;
+            
             long rightsID = PackageRight.PackageRightsId;
             PackageRightEntity packageRightEntity = new PackageRightEntity();
-            PackageRight.Transaction = GetTransactionData(PackageRight.PackageRightsId > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            
             PackageRight.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
@@ -71,21 +73,36 @@ namespace Ashirvad.Web.Controllers
             var List = JsonConvert.DeserializeObject<List<PackageRightEntity>>(PackageRight.JasonData);
             foreach (var item in List)
             {
+                PackageRight.Transaction = GetTransactionData(rightsID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
                 PackageRight.PackageRightsId = rightsID;                
-                PackageRight.PageInfo = item.PageInfo;                
-                PackageRight.PackageRightsId = item.PackageRightsId;
+                PackageRight.PageInfo = item.PageInfo;             
                 PackageRight.Createstatus = item.Createstatus;
                 PackageRight.Viewstatus = item.Viewstatus;
                 PackageRight.Deletestatus = item.Deletestatus;
                 packageRightEntity = await _PackageRightService.PackageRightsMaintenance(PackageRight);
+                if (packageRightEntity.PackageRightsId < 0)
+                {
+                    break;
+                }
             }
-
-            if (packageRightEntity != null)
+            if (packageRightEntity.PackageRightsId > 0)
             {
-                return Json(true);
-            }
+                response.Status = true;
+                response.Message = PackageRight.PackageRightsId>0?"Updated Successfully!!":"Created Successfully!!";
 
-            return Json(false);
+
+            }
+            else if (packageRightEntity.PackageRightsId < 0)
+            {
+                response.Status = false;
+                response.Message = "Already Exists!!";
+            }
+            else
+            {
+                response.Status = false;
+                response.Message = PackageRight.PackageRightsId > 0 ? "Failed To Update!!" : "Failed To Create!!";
+            }
+            return Json(response);
         }
 
         [HttpPost]

@@ -235,7 +235,7 @@
     <Compile Include="Controllers\BatchController.cs" />
     <Compile Include="Controllers\AboutUsController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
-    <Compile Include="Controllers\FeesStructureController.cs" />
+    <Compile Include="Controllers\FeesStructureWebAPIController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeworkController.cs" />
     <Compile Include="Controllers\NewLibraryController.cs" />

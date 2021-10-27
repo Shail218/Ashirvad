@@ -14,6 +14,12 @@ namespace Ashirvad.Repo.Model
     
     public partial class PACKAGE_RIGHTS_MASTER
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PACKAGE_RIGHTS_MASTER()
+        {
+            this.BRANCH_RIGHTS_MASTER = new HashSet<BRANCH_RIGHTS_MASTER>();
+        }
+    
         public long packagerights_id { get; set; }
         public long page_id { get; set; }
         public long package_id { get; set; }
@@ -26,5 +32,7 @@ namespace Ashirvad.Repo.Model
         public virtual PACKAGE_MASTER PACKAGE_MASTER { get; set; }
         public virtual PAGE_MASTER PAGE_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BRANCH_RIGHTS_MASTER> BRANCH_RIGHTS_MASTER { get; set; }
     }
 }

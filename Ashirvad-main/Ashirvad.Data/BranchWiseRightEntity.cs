@@ -10,7 +10,7 @@ namespace Ashirvad.Data
     {
         public long BranchWiseRightsID { get; set; }
         public long BranchID { get; set; }
-        public PackageEntity Packageinfo { get; set; } = new PackageEntity();
+        public PackageRightEntity Packageinfo { get; set; } = new PackageRightEntity();
         public BranchEntity branchinfo { get; set; } = new BranchEntity();
         public bool Createstatus { get; set; }
         public bool Editstatus { get; set; }
