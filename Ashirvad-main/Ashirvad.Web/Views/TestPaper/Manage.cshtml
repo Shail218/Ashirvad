@@ -1,4 +1,4 @@
-﻿﻿@using Ashirvad.Web.Controllers;
+﻿@using Ashirvad.Web.Controllers;
 @model List<Ashirvad.Data.TestEntity>
 
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
@@ -42,63 +42,59 @@
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @item.Standard.Standard
-        </td>
-
-        <td>
-            @item.BatchTimeText
-        </td>
-
-        <td>
-            @item.TestDate.ToString("dd/MM/yyyy")
-        </td>
-        <td>
-            @item.TestStartTime - @item.TestEndTime
-        </td>
-        <td>
-            @item.Subject.Subject
-        </td>
-        <td>
-            @item.Marks
-        </td>
-        <td>@item.test.DocLink</td>
-        @if (item.test.DocContent == null)
-        {
-            <td></td>
-        }
-        else
-        {
+        <tr>
             <td>
-                <a onclick="DownloadTestPaper('@item.test.TestPaperID')" id="paperdownload" download><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
-                @Html.HiddenFor(x => item.test.TestPaperID)
-                <input hidden id="UniqID" value="@item.test.TestPaperID" />
+                @item.Standard.Standard
             </td>
-        }
 
-        <td>
-            <a href="@Url.Action("TestPaperMaintenance", "TestPaper", new { testID = item.TestID, paperID = item.test.TestPaperID})">
-                <img src="~/ThemeData/images/viewIcon.png" />
-            </a>
-        </td>
-        <td style="text-align:center">
-            <a href="@Url.Action("StudentAnswerSheetMaintenance", "TestPaper", new { testID = item.TestID})">
-                <img src="~/ThemeData/images/tick.png" style="height:35px;width:35px" />
-            </a>
-        </td>
-        <td>
-            <a style="margin-left:20px;" href="#" onclick="RemoveTest(@item.TestID);">
-                <img src="~/ThemeData/images/delete.png" />
-            </a>
-        </td>
-    </tr>
+            <td>
+                @item.BatchTimeText
+            </td>
+
+            <td>
+                @item.TestDate.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @item.TestStartTime - @item.TestEndTime
+            </td>
+            <td>
+                @item.Subject.Subject
+            </td>
+            <td>
+                @item.Marks
+            </td>
+            <td>@item.test.DocLink</td>
+            @if (item.test.DocContent == null)
+            {
+                <td></td>
+            }
+            else
+            {
+                <td>
+                    <a onclick="DownloadTestPaper('@item.test.TestPaperID')" id="paperdownload" download><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
+                    @Html.HiddenFor(x => item.test.TestPaperID)
+                    <input hidden id="UniqID" value="@item.test.TestPaperID" />
+                </td>
+            }
+
+            <td>
+                <a href="@Url.Action("TestPaperMaintenance", "TestPaper", new { testID = item.TestID, paperID = item.test.TestPaperID})">
+                    <img src="~/ThemeData/images/viewIcon.png" />
+                </a>
+            </td>
+            <td style="text-align:center">
+                <a href="@Url.Action("StudentAnswerSheetMaintenance", "TestPaper", new { testID = item.TestID})">
+                    <img src="~/ThemeData/images/tick.png" style="height:35px;width:35px" />
+                </a>
+            </td>
+            <td>
+                <a style="margin-left:20px;" href="#" onclick="RemoveTest(@item.TestID);">
+                    <img src="~/ThemeData/images/delete.png" />
+                </a>
+            </td>
+        </tr>
     }
 
 </table>
-
-
-
-
 
 

@@ -1,6 +1,5 @@
 ﻿@using Ashirvad.Web.Controllers;
 @model List<Ashirvad.Data.AboutUsDetailEntity>
-
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
@@ -12,6 +11,7 @@
             <th>
                 Header Image
             </th>
+
             <th>
                 Edit
             </th>
@@ -22,36 +22,33 @@
     </thead>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.HiddenFor(x => item.AboutUsInfo.AboutUsID)
-                @item.BrandName
+    <tr>
+        <td>
+            @item.BrandName
+            @Html.HiddenFor(x => item.AboutUsInfo.AboutUsID)
 
-            </td>
+        </td>
+        <td>
+            @if (item.FilePath != null && item.FilePath != "")
+            {
+                <img src="@item.FilePath" id="FeeImg" style="height:40px;width:40px;margin-left:40px;" />
+            }
+            else
+            {
+                <img src="~/ThemeData/images/Default.png" id="FeeImg" style="height:40px;width:40px;margin-left:40px;" />
+            }
+        </td>
 
-            <td>
-                @if (item.FilePath != "")
-                {
-                    <img src="@item.FilePath" id="headerImg" style="height:40px;width:40px;margin-left:40px;" />
-
-                }
-                else
-                {
-                    <img src="~/ThemeData/images/Default.png" id="headerImg" style="height:40px;width:40px;margin-left:40px;" />
-                }
-
-            </td>
-            <td>
-                <a href="@Url.Action("AboutUsMaintenance", "AboutUs", new { detailid = item.DetailID })">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
-            </td>
-            <td>
-                <a href="#" onclick="RemoveDetails(@item.DetailID);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-        </tr>
+        <td>
+            <a href="@Url.Action("AboutUsMaintenance", "AboutUs", new { detailid = item.DetailID })">
+                <img src="~/ThemeData/images/viewIcon.png" />
+            </a>
+        </td>
+        <td>
+            <a href="#" onclick="RemoveDetails(@item.DetailID);">
+                <img src="~/ThemeData/images/delete.png" />
+            </a>
+        </td>
+    </tr>
     }
 </table>
-

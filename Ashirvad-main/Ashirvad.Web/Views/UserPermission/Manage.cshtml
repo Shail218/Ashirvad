@@ -1,4 +1,5 @@
-﻿﻿@model Dictionary<string, int>
+﻿@using Ashirvad.Web.Controllers;
+﻿@model Dictionary<string, int>
 
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
@@ -11,8 +12,8 @@
                 @Html.CheckBox("RequestForSample", false, htmlAttributes: new { @class = "radioboxlist" }) Pending
                 Permission
             </th>
-        </tr>
-    </thead>
+</thead>
+
     <tbody>
         @foreach (var item in Model)
         {
@@ -30,8 +31,8 @@
             </tr>
         }
     </tbody>
-
 </table>
+
 <div class="form-group">
     <div class="col-md-12" style="text-align: right;">
         <a href="#" onclick="return SaveUserPermission();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
@@ -49,11 +50,3 @@
 
     </div>
 </div>
-
-
-
-
-
-
-
-

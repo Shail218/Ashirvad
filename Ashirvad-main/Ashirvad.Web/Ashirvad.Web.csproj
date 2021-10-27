@@ -587,13 +587,13 @@
     <Content Include="ThemeData\images\icons8-desktop-download-24 %281%29.png" />
     <Content Include="ThemeData\images\icons8-desktop-download-24.png" />
     <Content Include="ThemeData\images\icons8-preview-pane-24.png" />
-    <Content Include="ThemeData\images\loading.gif" />
     <Content Include="ThemeData\images\login.jpg" />
     <Content Include="ThemeData\images\logo.png" />
     <Content Include="ThemeData\images\logo1.png" />
     <Content Include="ThemeData\images\minus.png" />
     <Content Include="ThemeData\images\pdf.jpg" />
     <Content Include="ThemeData\images\plus.png" />
+    <Content Include="ThemeData\images\preview.gif" />
     <Content Include="ThemeData\images\price-tag.png" />
     <Content Include="ThemeData\images\report-icon.png" />
     <Content Include="ThemeData\images\secure.jpg" />
@@ -1056,6 +1056,7 @@
     <Compile Include="Controllers\BatchWiseChartController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BranchWiseRightController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\FeesStructureWebAPIController.cs" />
     <Compile Include="Controllers\NewLibraryController.cs" />

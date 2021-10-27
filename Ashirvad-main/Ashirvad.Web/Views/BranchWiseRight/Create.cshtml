@@ -38,7 +38,7 @@
         <div class="form-group">
             <div class="col-md-4" style="text-align: right;">
                 <br />
-                <a onclick="return SavePackageRight();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                <a onclick="return SaveBranchWiseRight();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                     <span class="ladda-label">
                         Save
                     </span>
@@ -56,7 +56,7 @@
 </div>
 
 <div class="col-md-12">
-    <table style="width: 100%;" id="subcategorytbl" class="table table-striped dataTable no-footer">
+    <table style="width: 100%;" id="choiceList" class="table table-striped dataTable no-footer">
         <thead>
             <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
                 <th>Page</th>
@@ -64,9 +64,7 @@
                     <input type="checkbox" onchange="OnSelectStatus(this,'createStatus');" Id="allcreate" /> Create Status
                 </th>
 
-                <th>
-                    <input type="checkbox" onchange="OnSelectStatus(this,'editstatus');" Id="alledit" />  Edit Status
-                </th>
+             
                 <th>
                     <input type="checkbox" onchange="OnSelectStatus(this,'deletestatus');" Id="alldelete" /> Delete Status
                 </th>
@@ -90,9 +88,7 @@
                         <td class="js-export-checkbox">
                             @Html.CheckBoxFor(m => m.list[i].Createstatus, new { @class = "createStatus" })
                         </td>
-                        <td class="js-export-checkbox">
-                            @Html.CheckBoxFor(m => m.list[i].Editstatus, new { @class = "editstatus" })
-                        </td>
+                        
                         <td class="js-export-checkbox">
                             @Html.CheckBoxFor(m => m.list[i].Deletestatus, new { @class = "deletestatus" })
                         </td>
@@ -116,9 +112,7 @@
                         <td class="js-export-checkbox">
                             <input type="checkbox" id="Createstatus" class="createStatus" />
                         </td>
-                        <td class="js-export-checkbox">
-                            <input type="checkbox" id="Editstatus" class="editstatus" />
-                        </td>
+                       
                         <td class="js-export-checkbox">
                             <input type="checkbox" id="Deletestatus" class="deletestatus" />
                         </td>

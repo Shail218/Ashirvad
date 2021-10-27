@@ -1,10 +1,10 @@
-﻿﻿@model Ashirvad.Data.Model.PaperMaintenanceModel
-
+﻿@model Ashirvad.Data.Model.PaperMaintenanceModel
 @{
-
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
 
 <section class="content">
     <div class="messagealert" id="alert_container"></div>
@@ -13,7 +13,7 @@
             <div class="box box-warning">
                 <div class="box-header with-border">
                     <h3 class="box-title">Paper Entry</h3>
-              
+                
                     @{
                         Html.RenderPartial("Create", new ViewDataDictionary(Model.PaperInfo));
                     }
@@ -24,7 +24,7 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="col-md-6">Paper Details</h3>
-             
+
                     @{
                         Html.RenderPartial("Manage", new ViewDataDictionary(Model.PaperData));
                     }
@@ -32,6 +32,7 @@
             </div>
         </section>
     </div>
+
     @section Scripts {
         <script src="~/scripts/app/paper.js"></script>
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -46,7 +47,7 @@
                     "bInfo": true,
                     "bAutoWidth": true
                 });
-                
+
             });
         </script>
         <script type="text/javascript">
@@ -59,7 +60,6 @@
         </script>
 
     }
-
 
 </section>
 

@@ -29,94 +29,94 @@
             foreach (var item in Model[0].list)
             {
 
-        <tr>
+                <tr>
 
 
-            <td>
+                    <td>
 
-                <img src="~/ThemeData/images/plus.png" height="20"/>
-                                <div style="display:none">
-                                    <div style="max-height: 200px; overflow-y: scroll !important">
-                                        <table style="width: 100%;" id="subcategorytbl2" class="table table-bordered dataTable no-footer">
-                                            <thead>
-                                                <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+                        <img src="~/ThemeData/images/plus.png" height="20" />
+                        <div style="display:none">
+                            <div style="max-height: 200px; overflow-y: scroll !important">
+                                <table style="width: 100%;" id="subcategorytbl2" class="table table-bordered dataTable no-footer">
+                                    <thead>
+                                        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
 
-                                                    <th>
-                                                        Page
-                                                    </th>
-                                                    <th>
-                                                        Create Status
-                                                    </th>
-                                                    <th>
-                                                        Edit Status
-                                                    </th>
-                                                    <th>
-                                                        Delete Status
-                                                    </th>
-                                                    <th>
-                                                        View Status
-                                                    </th>
+                                            <th>
+                                                Page
+                                            </th>
+                                            <th>
+                                                Create Status
+                                            </th>
+                                            <th>
+                                                Edit Status
+                                            </th>
+                                            <th>
+                                                Delete Status
+                                            </th>
+                                            <th>
+                                                View Status
+                                            </th>
 
-                                                </tr>
-                                            </thead>
+                                        </tr>
+                                    </thead>
 
-                                            <tbody>
-                                                @foreach (var item1 in Model)
+                                    <tbody>
+                                        @foreach (var item1 in Model)
+                                        {
+
+                                            <tr>
+
+                                                @if (item.Packageinfo.PackageID == item1.Packageinfo.PackageID)
                                                 {
-
-                                                    <tr>
-
-                                                        @if (item.Packageinfo.PackageID == item1.Packageinfo.PackageID)
-                                                        {
-                                                            <td>
-                                                                @item1.PageInfo.Page
-                                                            </td>
-                                                            <td>
-                                                                @item1.Createstatus
-                                                            </td>
-                                                            <td>
-                                                                @item1.Editstatus
-                                                            </td>
-                                                            <td>
-                                                                @item1.Deletestatus
-                                                            </td>
-                                                            <td>
-                                                                @item1.Viewstatus
-                                                            </td>
-                                                        }
-
-
-
-                                                    </tr>
-
+                                                    <td>
+                                                        @item1.PageInfo.Page
+                                                    </td>
+                                                    <td>
+                                                        @item1.Createstatus
+                                                    </td>
+                                                    <td>
+                                                        @item1.Editstatus
+                                                    </td>
+                                                    <td>
+                                                        @item1.Deletestatus
+                                                    </td>
+                                                    <td>
+                                                        @item1.Viewstatus
+                                                    </td>
                                                 }
-                                            </tbody>
 
 
 
-                                        </table>
-                                    </div>
-                    
-                </div>
-            </td>
-            <td>
-                @item.Packageinfo.Package
-            </td>
-           
-                <td>
-                    <a href="@Url.Action("RoleMaintenance", "RoleRights", new { @deptID = item.Packageinfo.PackageID })">
-                        <img src="/ThemeData/images/viewIcon.png" />
-                    </a>
-                </td>
+                                            </tr>
+
+                                        }
+                                    </tbody>
 
 
-                <td>
-                    <a href="javascript:void(0)" onclick="RemovePackageRight('@item.Packageinfo.PackageID')">
-                        <img src="~/ThemeData/images/Delete.png" />
-                    </a>
-                </td>
 
-            </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td>
+                        @item.Packageinfo.Package
+                    </td>
+
+                    <td>
+                        <a href="@Url.Action("RoleMaintenance", "RoleRights", new { @deptID = item.Packageinfo.PackageID })">
+                            <img src="/ThemeData/images/viewIcon.png" />
+                        </a>
+                    </td>
+
+
+                    <td>
+                        <a href="javascript:void(0)" onclick="RemovePackageRight('@item.Packageinfo.PackageID')">
+                            <img src="~/ThemeData/images/Delete.png" />
+                        </a>
+                    </td>
+
+                </tr>
             }
         }
     </tbody>

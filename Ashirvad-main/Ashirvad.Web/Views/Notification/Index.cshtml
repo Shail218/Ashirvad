@@ -1,9 +1,10 @@
-﻿﻿@model Ashirvad.Data.Model.NotificationMaintenanceModel
-
+﻿@model Ashirvad.Data.Model.NotificationMaintenanceModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
 
 <section class="content">
     <div class="messagealert" id="alert_container"></div>
@@ -12,7 +13,8 @@
             <div class="box box-warning">
                 <div class="box-header with-border">
                     <h3 class="box-title">Notification Entry</h3>
-              
+                </div>
+                <div class="box-body">
                     @{
                         Html.RenderPartial("Create", new ViewDataDictionary(Model.NotificationInfo));
                     }
@@ -31,8 +33,10 @@
             </div>
         </section>
     </div>
+
     @section Scripts {
-        <script src="~/scripts/app/notification.js"></script>
+        <script type="text/javascript" src="~/scripts/app/subject.js"></script>
+        @*<script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>*@
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
         <script>
@@ -46,6 +50,7 @@
                     "bAutoWidth": true
                 });
 
+
             });
         </script>
         <script type="text/javascript">
@@ -56,6 +61,8 @@
                     return false;
             }
         </script>
+
     }
 
 </section>
+
