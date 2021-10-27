@@ -113,7 +113,8 @@ namespace Ashirvad.Repo.Services.Area
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            FeesID = u.fee_struct_mst_id,                           
+                            FeesID = u.fee_struct_mst_id,
+                            FeesDetailID = b.fee_struct_dtl_id,
                             Remark = u.remarks,
                             FilePath= b.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
@@ -128,7 +129,7 @@ namespace Ashirvad.Repo.Services.Area
         {
             var data = (from u in this.context.FEE_STRUCTURE_MASTER
                         join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
-                        where u.row_sta_cd == 1 && u.branch_id== BranchID && (u.std_id == StdID || u.std_id ==0)
+                        where u.row_sta_cd == 1 && u.branch_id== BranchID || (u.std_id == StdID || u.std_id ==0)
                         select new FeesEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -137,6 +138,7 @@ namespace Ashirvad.Repo.Services.Area
                                 RowStatusId = (int)u.row_sta_cd
                             },
                             FeesID = u.fee_struct_mst_id,
+                            FeesDetailID = b.fee_struct_dtl_id,
                             Remark = u.remarks,
                             FilePath = b.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
@@ -166,11 +168,11 @@ namespace Ashirvad.Repo.Services.Area
                                 RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
                             },
                             FeesID = u.fee_struct_mst_id,
-                            Remark = u.remarks,                            
+                            Remark = u.remarks,
+                            FeesDetailID = b.fee_struct_dtl_id,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             BranchInfo= new BranchEntity() { BranchID = u.branch_id },
                             standardInfo= new StandardEntity() { StandardID = u.std_id },
-                            FeesDetailID= b.fee_struct_dtl_id,
                             FilePath = b.file_path,
                             FileName=b.file_name,
                             Fees_Content=b.fee_content
@@ -194,8 +196,5 @@ namespace Ashirvad.Repo.Services.Area
 
             return false;
         }        
-
-      
-
     }
 }
