@@ -1,5 +1,7 @@
 ﻿@using Ashirvad.Web.Controllers;
+﻿
 @model List<Ashirvad.Data.PackageRightEntity>
+
 
 <table style="width: 100%;" id="subcategorytbl" class="table table-striped dataTable no-footer">
     <thead>
@@ -16,13 +18,15 @@
             <th>
                 Delete
             </th>
+
         </tr>
     </thead>
+
 
     <tbody>
         @if (Model.Count > 0)
         {
-            foreach (var item in Model)
+            foreach (var item in Model[0].list)
             {
 
                 <tr>
@@ -30,66 +34,69 @@
 
                     <td>
 
-                        <img src="~/ThemeData/images/plus.png" height="30" />
+                        <img src="~/ThemeData/images/plus.png" height="20" />
                         <div style="display:none">
-                            <table style="width: 100%;" id="subcategorytbl2" class="table table-bordered dataTable no-footer">
-                                <thead>
-                                    <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+                            <div style="max-height: 200px; overflow-y: scroll !important">
+                                <table style="width: 100%;" id="subcategorytbl2" class="table table-bordered dataTable no-footer">
+                                    <thead>
+                                        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
 
-                                        <th>
-                                            Page
-                                        </th>
-                                        <th>
-                                            Create Status
-                                        </th>
-                                        <th>
-                                            Edit Status
-                                        </th>
-                                        <th>
-                                            Delete Status
-                                        </th>
-                                        <th>
-                                            View Status
-                                        </th>
-
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    @foreach (var item1 in Model)
-                                    {
-
-                                        <tr>
-
-                                            @if (item.Packageinfo.PackageID == item1.Packageinfo.PackageID)
-                                            {
-                                                <td>
-                                                    @item1.PageInfo.Page
-                                                </td>
-                                                <td>
-                                                    @item1.Createstatus
-                                                </td>
-                                                <td>
-                                                    @item1.Editstatus
-                                                </td>
-                                                <td>
-                                                    @item1.Deletestatus
-                                                </td>
-                                                <td>
-                                                    @item1.Viewstatus
-                                                </td>
-                                            }
-
-
+                                            <th>
+                                                Page
+                                            </th>
+                                            <th>
+                                                Create Status
+                                            </th>
+                                            <th>
+                                                Edit Status
+                                            </th>
+                                            <th>
+                                                Delete Status
+                                            </th>
+                                            <th>
+                                                View Status
+                                            </th>
 
                                         </tr>
+                                    </thead>
 
-                                    }
-                                </tbody>
+                                    <tbody>
+                                        @foreach (var item1 in Model)
+                                        {
+
+                                            <tr>
+
+                                                @if (item.Packageinfo.PackageID == item1.Packageinfo.PackageID)
+                                                {
+                                                    <td>
+                                                        @item1.PageInfo.Page
+                                                    </td>
+                                                    <td>
+                                                        @item1.Createstatus
+                                                    </td>
+                                                    <td>
+                                                        @item1.Editstatus
+                                                    </td>
+                                                    <td>
+                                                        @item1.Deletestatus
+                                                    </td>
+                                                    <td>
+                                                        @item1.Viewstatus
+                                                    </td>
+                                                }
 
 
 
-                            </table>
+                                            </tr>
+
+                                        }
+                                    </tbody>
+
+
+
+                                </table>
+                            </div>
+
                         </div>
                     </td>
                     <td>
@@ -98,7 +105,7 @@
 
                     <td>
                         <a href="@Url.Action("RoleMaintenance", "RoleRights", new { @deptID = item.Packageinfo.PackageID })">
-                            <img src="~/ThemeData/images/viewIcon.png" />
+                            <img src="/ThemeData/images/viewIcon.png" />
                         </a>
                     </td>
 
@@ -113,7 +120,6 @@
             }
         }
     </tbody>
-
 </table>
 
 
@@ -130,5 +136,3 @@
         $(this).closest("tr").next().remove();
     });
 </script>
-
-
