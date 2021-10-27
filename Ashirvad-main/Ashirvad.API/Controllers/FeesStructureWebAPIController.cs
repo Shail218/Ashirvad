@@ -189,8 +189,8 @@ namespace Ashirvad.API.Controllers
 
 
         [Route("GetFeesByBranchID")]
-        [HttpPost]
-        public OperationResult<List<FeesEntity>> GetFeesByBranchID(long BranchID, long StdID)
+        [HttpGet]
+        public OperationResult<List<FeesEntity>> GetFeesByBranchID(long BranchID, long StdID = 0)
         {
             var data = this._FeesService.GetFeesByBranchID(BranchID, StdID);
             OperationResult<List<FeesEntity>> result = new OperationResult<List<FeesEntity>>();

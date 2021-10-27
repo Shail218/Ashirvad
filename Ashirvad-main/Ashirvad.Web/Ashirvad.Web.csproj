@@ -1058,7 +1058,6 @@
     <Compile Include="Controllers\BranchWiseRightController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
-    <Compile Include="Controllers\FeesStructureWebAPIController.cs" />
     <Compile Include="Controllers\NewLibraryController.cs" />
     <Compile Include="Controllers\FeesStructureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
