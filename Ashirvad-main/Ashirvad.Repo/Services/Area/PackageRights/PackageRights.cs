@@ -14,17 +14,17 @@ namespace Ashirvad.Repo.Services.Area.Branch
     public class PackageRights : ModelAccess, IPackageRightsAPI
     {
 
-        public async Task<long> CheckRights(int RightsID, int packageID)
+        public async Task<long> CheckRights(int RightsID, int packageID, int PageID)
         {
             long result;
-            bool isExists = this.context.PACKAGE_RIGHTS_MASTER.Where(s => (RightsID == 0 || s.packagerights_id != RightsID) &&s.package_id== packageID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.PACKAGE_RIGHTS_MASTER.Where(s => (RightsID == 0 || s.packagerights_id != RightsID) && s.package_id == packageID && s.page_id == PageID && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
         public async Task<long> RightsMaintenance(PackageRightEntity RightsInfo)
         {
             Model.PACKAGE_RIGHTS_MASTER RightsMaster = new Model.PACKAGE_RIGHTS_MASTER();
-            if (CheckRights((int)RightsInfo.PackageRightsId, (int)RightsInfo.Packageinfo.PackageID).Result != -1)
+            if (CheckRights((int)RightsInfo.PackageRightsId, (int)RightsInfo.Packageinfo.PackageID, (int)RightsInfo.PageInfo.PageID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from package in this.context.PACKAGE_RIGHTS_MASTER
@@ -45,7 +45,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 }
 
                 RightsMaster.package_id = RightsInfo.Packageinfo.PackageID;
-                RightsMaster.page_id = RightsInfo.PageInfo.PageID;                
+                RightsMaster.page_id = RightsInfo.PageInfo.PageID;
                 RightsMaster.row_sta_cd = RightsInfo.RowStatus.RowStatusId;
                 RightsMaster.createstatus = RightsInfo.Createstatus;
                 RightsMaster.viewstatus = RightsInfo.Viewstatus;
@@ -72,7 +72,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
                         .Include("PACKAGE_MASTER")
-                        .Include("PAGE_MASTER")                        
+                        .Include("PAGE_MASTER")
                         where u.row_sta_cd == 1
                         select new PackageRightEntity()
                         {
@@ -86,23 +86,49 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 Page = u.PAGE_MASTER.page,
                                 PageID = u.page_id
                             },
-                            Createstatus =u.createstatus,
+                            Packageinfo = new PackageEntity()
+                            {
+                                Package = u.PACKAGE_MASTER.package,
+                                PackageID = u.PACKAGE_MASTER.package_id
+                            },
+                            Createstatus = u.createstatus,
                             Viewstatus = u.viewstatus,
                             Deletestatus = u.deletestatus,
-                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },                            
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                         }).ToList();
-
+            if (data.Count > 0)
+            {
+                data[0].list = (from u in this.context.PACKAGE_RIGHTS_MASTER
+                            .Include("PACKAGE_MASTER")
+                        .Include("PAGE_MASTER")
+                                where u.row_sta_cd == 1
+                                select new PackageRightEntity()
+                                {
+                                    Packageinfo = new PackageEntity()
+                                    {
+                                        Package = u.PACKAGE_MASTER.package,
+                                        PackageID = u.PACKAGE_MASTER.package_id
+                                    },
+                                    
+                                }).Distinct().ToList();
+            }
+            else
+            {
+                PackageRightEntity entity = new PackageRightEntity();
+                entity.list = new List<PackageRightEntity>();
+                data.Add(entity);
+            }
             return data;
 
         }
 
-        
+
         public async Task<PackageRightEntity> GetRightsByRightsID(long RightsID)
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
                        .Include("PACKAGE_MASTER")
-                       .Include("PAGE_MASTER")                       
-                        where u.row_sta_cd == 1 && u.packagerights_id== RightsID
+                       .Include("PAGE_MASTER")
+                        where u.row_sta_cd == 1 && u.packagerights_id == RightsID
                         select new PackageRightEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -116,7 +142,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 PageID = u.page_id
                             },
                             Createstatus = u.createstatus,
-                            Viewstatus = u.viewstatus ,
+                            Viewstatus = u.viewstatus,
                             Deletestatus = u.deletestatus,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                         }).FirstOrDefault();
@@ -139,7 +165,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return false;
         }
 
-      
+
 
     }
 }

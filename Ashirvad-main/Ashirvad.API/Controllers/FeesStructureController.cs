@@ -61,15 +61,14 @@ namespace Ashirvad.API.Controllers
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(postedFile.FileName);
                         fileName = Path.GetFileName(postedFile.FileName);
-                        string _Filepath = "~/FeesImage/" + randomfilename + extension;
-                        string _path = "http://localhost:88" + _Filepath; 
+                        string _Filepath = "/FeesImage/" + randomfilename + extension;
+                        string _path = "http://192.168.29.154" + _Filepath; 
                         postedFile.SaveAs(_path);
                         feesEntity.FileName = fileName;
                         feesEntity.FilePath = _path;
                         data = this._FeesService.FeesMaintenance(feesEntity).Result;
                     }
-                   
-                  
+                                 
                     result.Completed = false;
                     result.Data = null;
                     if (data.FeesID > 0 || data.FeesDetailID > 0)

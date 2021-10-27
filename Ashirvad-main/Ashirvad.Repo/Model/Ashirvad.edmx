@@ -145,6 +145,15 @@
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="branch_type" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="BRANCH_RIGHTS_MASTER">
+          <Key>
+            <PropertyRef Name="branchrights_id" />
+          </Key>
+          <Property Name="branchrights_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="packagerights_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="BRANCH_STAFF">
           <Key>
             <PropertyRef Name="staff_id" />
@@ -849,6 +858,32 @@
               <PropertyRef Name="trans_id" />
             </Principal>
             <Dependent Role="BRANCH_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER">
+          <End Role="PACKAGE_RIGHTS_MASTER" Type="Self.PACKAGE_RIGHTS_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BRANCH_RIGHTS_MASTER" Type="Self.BRANCH_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACKAGE_RIGHTS_MASTER">
+              <PropertyRef Name="packagerights_id" />
+            </Principal>
+            <Dependent Role="BRANCH_RIGHTS_MASTER">
+              <PropertyRef Name="packagerights_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="BRANCH_RIGHTS_MASTER" Type="Self.BRANCH_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="BRANCH_RIGHTS_MASTER">
               <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1804,6 +1839,7 @@
           <EntitySet Name="BRANCH_LICENSE" EntityType="Self.BRANCH_LICENSE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BRANCH_MAINT" EntityType="Self.BRANCH_MAINT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BRANCH_MASTER" EntityType="Self.BRANCH_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BRANCH_RIGHTS_MASTER" EntityType="Self.BRANCH_RIGHTS_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BRANCH_STAFF" EntityType="Self.BRANCH_STAFF" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CATEGORY_MASTER" EntityType="Self.CATEGORY_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FEE_STRUCTURE_DTL" EntityType="Self.FEE_STRUCTURE_DTL" Schema="dbo" store:Type="Tables" />
@@ -1903,6 +1939,14 @@
           <AssociationSet Name="FK_BRANCH_MASTER_TRANSACTION_MASTER" Association="Self.FK_BRANCH_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER" Association="Self.FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER">
+            <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+            <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" Association="Self.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_BRANCH_STAFF_TRANSACTION_MASTER" Association="Self.FK_BRANCH_STAFF_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
@@ -2661,6 +2705,15 @@
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
           </AssociationSet>
+          <EntitySet Name="BRANCH_RIGHTS_MASTER" EntityType="AshirvadModel.BRANCH_RIGHTS_MASTER" />
+          <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER" Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER">
+            <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+            <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_MASTER">
           <Key>
@@ -2941,6 +2994,7 @@
           <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="TEST_MASTER_DTL" />
           <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="PACKAGE_MASTER" />
           <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
+          <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
         </EntityType>
         <EntityType Name="TYPE_DESC">
           <Key>
@@ -4573,6 +4627,7 @@
           <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="PACKAGE_MASTER" />
           <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="PAGE_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
         </EntityType>
         <Association Name="FK_PACKAGE_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -4636,6 +4691,43 @@
               <PropertyRef Name="trans_id" />
             </Principal>
             <Dependent Role="PACKAGE_RIGHTS_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BRANCH_RIGHTS_MASTER">
+          <Key>
+            <PropertyRef Name="branchrights_id" />
+          </Key>
+          <Property Name="branchrights_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="packagerights_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER" FromRole="BRANCH_RIGHTS_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="BRANCH_RIGHTS_MASTER" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <Association Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER">
+          <End Type="AshirvadModel.PACKAGE_RIGHTS_MASTER" Role="PACKAGE_RIGHTS_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.BRANCH_RIGHTS_MASTER" Role="BRANCH_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACKAGE_RIGHTS_MASTER">
+              <PropertyRef Name="packagerights_id" />
+            </Principal>
+            <Dependent Role="BRANCH_RIGHTS_MASTER">
+              <PropertyRef Name="packagerights_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.BRANCH_RIGHTS_MASTER" Role="BRANCH_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="BRANCH_RIGHTS_MASTER">
               <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -5391,6 +5483,16 @@
                 <ScalarProperty Name="package_id" ColumnName="package_id" />
                 <ScalarProperty Name="page_id" ColumnName="page_id" />
                 <ScalarProperty Name="packagerights_id" ColumnName="packagerights_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BRANCH_RIGHTS_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.BRANCH_RIGHTS_MASTER">
+              <MappingFragment StoreEntitySet="BRANCH_RIGHTS_MASTER">
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="packagerights_id" ColumnName="packagerights_id" />
+                <ScalarProperty Name="branchrights_id" ColumnName="branchrights_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

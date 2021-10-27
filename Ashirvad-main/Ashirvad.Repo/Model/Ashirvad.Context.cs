@@ -79,6 +79,7 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<TEST_MASTER_DTL> TEST_MASTER_DTL { get; set; }
         public virtual DbSet<PACKAGE_MASTER> PACKAGE_MASTER { get; set; }
         public virtual DbSet<PACKAGE_RIGHTS_MASTER> PACKAGE_RIGHTS_MASTER { get; set; }
+        public virtual DbSet<BRANCH_RIGHTS_MASTER> BRANCH_RIGHTS_MASTER { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

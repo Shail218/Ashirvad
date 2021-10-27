@@ -61,7 +61,7 @@ namespace Ashirvad.Repo.Services.Area.Page
         public async Task<List<PageEntity>> GetAllPages(long branchID)
         {
             var data = (from u in this.context.PAGE_MASTER
-                        where /*branchID == 0 || u.branch_id == branchID && */u.row_sta_cd == 1
+                        where u.row_sta_cd == 1/*branchID == 0 || u.branch_id == branchID && */
                         select new PageEntity()
                         {
                             RowStatus = new RowStatusEntity()

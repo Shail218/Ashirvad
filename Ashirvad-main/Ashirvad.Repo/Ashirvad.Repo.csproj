@@ -64,6 +64,7 @@
     <Compile Include="DataAcceessAPI\Area\Attendance\IAttendanceAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Banner\IBannerAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Batch\IBatchAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\BranchRights\IBranchRightsAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\PackageRights\IPackageRightsAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Branch\IBranchAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Library1\ILibrary1API.cs" />
@@ -140,6 +141,9 @@
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\BRANCH_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\BRANCH_RIGHTS_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\BRANCH_STAFF.cs">
@@ -278,6 +282,7 @@
     <Compile Include="Services\Area\Attendance\Attendance.cs" />
     <Compile Include="Services\Area\Banner\Banner.cs" />
     <Compile Include="Services\Area\Batch\Batch.cs" />
+    <Compile Include="Services\Area\BranchRights\BranchRights.cs" />
     <Compile Include="Services\Area\PackageRights\PackageRights.cs" />
     <Compile Include="Services\Area\Branch\Branch.cs" />
     <Compile Include="Services\Area\Library1\Library1.cs" />

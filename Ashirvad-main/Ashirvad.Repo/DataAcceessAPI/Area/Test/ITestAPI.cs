@@ -32,5 +32,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Test
         Task<List<TestEntity>> GetAllTest(DateTime testDate, string searchParam);
 
         Task<long> TestMaintenance(TestDetailEntity TestDetail);
+        Task<List<TestPaperEntity>> GetAllTestDocLinks(long branchID, long stdID, int batchTime);
     }
 }

@@ -354,5 +354,14 @@ namespace Ashirvad.API.Controllers
 
 
         }
+
+        [Route("GetAllDocLinks")]
+        [HttpGet]
+        public OperationResult<List<TestPaperEntity>> GetAllDocLinks(long branchID, long stdID, int batchTime)
+        {
+            var data = this._testService.GetAllTestDocLinks(branchID, stdID,batchTime);
+            return data.Result;
+           
+        }
     }
 }
