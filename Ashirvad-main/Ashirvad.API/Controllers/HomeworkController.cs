@@ -162,15 +162,18 @@ namespace Ashirvad.API.Controllers
                 {
                     string fileName;
                     string extension;
+                    string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                    string UpdatedPath = currentDir.Replace("ashirvadapi", "ashivadproduct");
                     var postedFile = httpRequest.Files[file];
                     string randomfilename = Common.Common.RandomString(20);
                     extension = Path.GetExtension(postedFile.FileName);
                      fileName = Path.GetFileName(postedFile.FileName);
-                    string _Filepath = "~/HomeWorkDetailImage/" + randomfilename + extension;
+                    string _Filepath = "/HomeWorkDetailImage/" + randomfilename + extension;
                     var filePath = HttpContext.Current.Server.MapPath("~/HomeWorkDetailImage/" + randomfilename + extension);
-                    postedFile.SaveAs(filePath);
+                    string _path = UpdatedPath + _Filepath;
+                    postedFile.SaveAs(_path);
                     homeworkDetail.AnswerSheetName = fileName;
-                    homeworkDetail.FilePath = _Filepath;
+                    homeworkDetail.FilePath = "http://highpack-001-site12.dtempurl.com" + _Filepath;
                     homeworkDetail.HomeworkDetailID = 0;
                    var data = this._homeworkdetailService.HomeworkdetailMaintenance(homeworkDetail);
                     Response = data.Result;

@@ -57,16 +57,18 @@ namespace Ashirvad.API.Controllers
                     {
                         string fileName;
                         string extension;
+                        string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                        string UpdatedPath = currentDir.Replace("ashirvadapi", "ashivadproduct");
                         var postedFile = httpRequest.Files[file];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(postedFile.FileName);
                         fileName = Path.GetFileName(postedFile.FileName);
                         string _Filepath = "/FeesImage/" + randomfilename + extension;
                         var filePath = HttpContext.Current.Server.MapPath("~/FeesImage/" + randomfilename + extension);
-                        string _path = "http://192.168.29.212" + _Filepath; 
+                        string _path = UpdatedPath + _Filepath;
                         postedFile.SaveAs(_path);
                         feesEntity.FileName = fileName;
-                        feesEntity.FilePath = _path;
+                        feesEntity.FilePath = "http://highpack-001-site12.dtempurl.com"+ _Filepath;
                         data = this._FeesService.FeesMaintenance(feesEntity).Result;
                     }
                    
