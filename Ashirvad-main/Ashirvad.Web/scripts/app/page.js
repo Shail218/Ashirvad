@@ -52,7 +52,7 @@ function SavePage() {
             HideLoader();
             if (data.Status == true) {
                 ShowMessage(data.Message, "Success");
-                setTimeout(function () { window.location.href = "PageMaintenance?branchID=0" }, 2000);
+                setTimeout(function () { window.location.href = "PageMaintenance?branchID=0" }, 20);
             } else {
                 ShowMessage(data.Message, "Error");
             }
@@ -66,7 +66,7 @@ function SavePage() {
 function RemovePage(pageID) {
     if (confirm('Are you sure want to delete this Page?')) {
         ShowLoader();
-        var postCall = $.post(commonData.Subject + "RemovePage", { "pageID": pageID });
+        var postCall = $.post(commonData.Page + "RemovePage", { "pageID": pageID });
         postCall.done(function (data) {
             HideLoader();
             ShowMessage("Page Removed Successfully.", "Success");

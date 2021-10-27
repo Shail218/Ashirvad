@@ -194,8 +194,11 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="FeesImage\empty_cart.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="LibraryImage\empty_cart.png" />
+    <Content Include="MarksImage\empty_cart.png" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="scripts\app\aboutus.js" />
@@ -260,6 +263,7 @@
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\select2.js" />
     <Content Include="scripts\select2.min.js" />
+    <Content Include="TestPaper\empty_cart.png" />
     <Content Include="ThemeData\bootstrap\css\bootstrap-theme.css" />
     <Content Include="ThemeData\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="ThemeData\bootstrap\css\bootstrap.css" />
@@ -1038,6 +1042,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AboutUsController.cs" />
     <Compile Include="Controllers\AdminReportController.cs" />
     <Compile Include="Controllers\AgreementController.cs" />
@@ -1052,6 +1057,7 @@
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BranchWiseRightController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
+    <Compile Include="Controllers\FeesStructureWebAPIController.cs" />
     <Compile Include="Controllers\NewLibraryController.cs" />
     <Compile Include="Controllers\FeesStructureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1306,14 +1312,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="FeesImage\" />
-    <Folder Include="LibraryImage\" />
-    <Folder Include="MarksImage\" />
     <Folder Include="Models\" />
-    <Folder Include="TestPaper\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="WebAPI\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ashirvad.API\Ashirvad.API.csproj">
+      <Project>{79611A9C-66DE-4142-9595-26EC695118F1}</Project>
+      <Name>Ashirvad.API</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ashirvad.Common\Ashirvad.Common.csproj">
       <Project>{3d5fd5ef-7dc9-4214-85c8-5d6e3c6c2800}</Project>
       <Name>Ashirvad.Common</Name>

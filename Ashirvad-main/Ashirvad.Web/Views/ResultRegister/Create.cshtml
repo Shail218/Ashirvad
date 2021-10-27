@@ -25,6 +25,8 @@
                         new SelectListItem{ Text="Evening", Value = "3" },
                         }, new { @class = "form-control", id = "BatchTime" })
     </div>
+
+
     <div class="col-md-3">
         @Html.Label("Test Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
         @Html.DropDownList("TestDate", new List<SelectListItem>
@@ -33,6 +35,8 @@
                         new SelectListItem{ Text="Test Date", Value = "1" },
                         }, new { @class = "form-control", id = "TestDate" })
     </div>
+</div>
+<div class="row">
     <div class="col-md-3">
         <label>Subject<span class="required">*</span></label>
         @Html.DropDownList("Subject", new List<SelectListItem>
@@ -41,7 +45,7 @@
                         new SelectListItem{ Text="Subject", Value = "1" },
                         }, new { @class = "form-control", id = "BatchTime" })
     </div>
-    <div class="col-md-12" style="text-align: right;">
+    <div class="col-md-9" style="padding-left:60%;padding-top:20px">
         <button class="btn btn-bitbucket btn-flat" OnClick="btnFilter_Click"><i class="fa fa-filter"></i>&nbsp;Filter</button>
         <button class="btn btn-bitbucket bg-gray btn-flat" OnClick="btnReset_Click"><i class="fa fa-times"></i>&nbsp;Reset</button>
     </div>

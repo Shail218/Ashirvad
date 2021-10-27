@@ -2,10 +2,10 @@
 @{ if (Model.Branch == null)
     {
         Model.Branch = new Ashirvad.Data.BranchEntity();
-    } }
+    }
+   }
 <form id="fNotificationDetail">
-    <div class="row" id="dInformation">
-        <div class="form-group">
+       <div class="form-group" id="dInformation">
             <div class="col-md-12">
                 @Html.Label("Select type", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
                 <table id="rdbType" class="radioboxlist form-control">
@@ -65,7 +65,7 @@
                                 {
                                     <input type="checkbox" name="Subtype" id="rowStaTeacher" value="Teacher" style="margin-left:10px" />
                                 }
-                                
+
                                 <lable for="rowStaTeacher">Teacher</lable>
                             </td>
                             <td>
@@ -104,5 +104,4 @@
 
             </div>
         </div>
-    </div>
 </form>

@@ -128,7 +128,7 @@ namespace Ashirvad.Repo.Services.Area
         {
             var data = (from u in this.context.FEE_STRUCTURE_MASTER
                         join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
-                        where u.row_sta_cd == 1 && u.branch_id== BranchID && u.std_id == StdID
+                        where u.row_sta_cd == 1 && u.branch_id== BranchID && (u.std_id == StdID || u.std_id ==0)
                         select new FeesEntity()
                         {
                             RowStatus = new RowStatusEntity()

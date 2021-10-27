@@ -193,9 +193,6 @@
     <Compile Include="Model\PACKAGE_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\PACKAGE_RIGHTS_DTL.cs">
-      <DependentUpon>Ashirvad.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\PACKAGE_RIGHTS_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
