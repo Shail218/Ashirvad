@@ -1,14 +1,17 @@
-﻿﻿@model Ashirvad.Data.Model.MarksMaintenanceModel
+﻿@model Ashirvad.Data.Model.MarksMaintenanceModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
+
 <section class="content">
+    <div class="messagealert" id="alert_container"></div>
     <div class="row">
         <section class="col-md-12">
             <div class="box box-warning">
+
                 <div class="box-body" style="padding:8px">
                     @{
                         Html.RenderPartial("Create", new ViewDataDictionary(Model.MarksInfo));
@@ -18,7 +21,8 @@
         </section>
         <section class="col-md-12">
             <div class="box box-primary">
-                <div class="box-body"  style="padding:8px">
+                <div class="box-header with-border">
+
                     @{
                         Html.RenderPartial("Manage", new ViewDataDictionary(Model.MarksData));
                     }
@@ -26,6 +30,7 @@
             </div>
         </section>
     </div>
+
     @section Scripts {
         @*<script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>*@
         <script type="text/javascript" src="~/scripts/app/marks.js"></script>

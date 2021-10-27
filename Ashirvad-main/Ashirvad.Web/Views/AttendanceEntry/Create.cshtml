@@ -1,10 +1,6 @@
-﻿﻿@model Ashirvad.Data.AttendanceEntity
-@{
-
-    Layout = null;
-}
-<form id="fAttendanceDetail">
-    <div class="row" id="dInformation">
+﻿@model Ashirvad.Data.AttendanceEntity
+<form id="fAttendanceReportDetail">
+    <div class="form-group" id="dInformation">
         @Html.Hidden("JsonData", new { @Id = "JsonData" })
         @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
         {

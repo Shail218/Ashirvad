@@ -10,9 +10,9 @@ $(document).ready(function () {
         if (commonData.BranchID != "0") {
             $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
             $("#BranchInfo_BranchID").val(commonData.BranchID);
+            LoadCategory(commonData.BranchID);
         }
 
-        LoadCategory($("#BranchInfo_BranchID").val());
     });
 
     if ($("#BranchInfo_BranchID").val() != "") {

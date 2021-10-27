@@ -11,35 +11,34 @@
 <section class="content">
     <div class="row">
         <div class="messagealert" id="alert_container"></div>
-            <section class="col-md-12">
-                <div class="box box-warning">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Test Paper Entry</h3>
-                  
-                   
-                        @{
-                            Html.RenderPartial("Create", new ViewDataDictionary(Model.TestInfo));
-                        }
-                    </div>
+        <section class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Test Paper Entry</h3>
                 </div>
-            </section>
-            @*<section class="col-md-12">
-                <div class="box box-warning">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Test Paper Entry<h3>
-                    </div>
-                    <div class="box-body">
-                        @{
-                            Html.RenderPartial("PaperEntry", new ViewDataDictionary(Model.TestPaperInfo));
-                        }
-                    </div>
+                <div class="box-body">
+                    @{
+                        Html.RenderPartial("Create", new ViewDataDictionary(Model.TestInfo));
+                    }
                 </div>
-            </section>*@
+            </div>
+        </section>
+        @*<section class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Test Paper Entry<h3>
+                </div>
+                <div class="box-body">
+                    @{
+                        Html.RenderPartial("PaperEntry", new ViewDataDictionary(Model.TestPaperInfo));
+                    }
+                </div>
+            </div>
+        </section>*@
         <section class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="col-md-6">Test Details</h3>
-              
+                    <h3 class="col-md-6">Test Paper Details</h3>
                     @{
                         Html.RenderPartial("Manage", new ViewDataDictionary(Model.TestData));
                     }

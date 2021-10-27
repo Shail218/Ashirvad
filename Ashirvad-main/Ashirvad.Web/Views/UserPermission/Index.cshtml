@@ -1,15 +1,16 @@
-﻿﻿@model Ashirvad.Data.Model.UserPermissionMaintenanceModel
+﻿@model Ashirvad.Data.Model.UserPermissionMaintenanceModel
 
 @{
+    /**/
+
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-
 <section class="content">
-    <div class="messagealert" id="alert_container"></div>
     <div class="row">
+        <div class="messagealert" id="alert_container"></div>
         <section class="col-md-12">
             <div class="box box-warning">
                 <div class="box-body" style="padding:5px;padding-top:1px">
@@ -19,16 +20,17 @@
                 </div>
             </div>
         </section>
+
         <section class="col-md-12">
-            <div class="box box-primary">
-                <div class="box-body" style="padding:5px">
+            <div class="box box-primary" style="padding:5px;padding-top:0px!important">
+            
                     @{
                         Html.RenderPartial("Manage", new ViewDataDictionary(Model.RolesData));
                     }
-                </div>
             </div>
         </section>
     </div>
+
     @section Scripts {
         <script type="text/javascript" src="~/scripts/app/userpermission.js"></script>
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -56,7 +58,6 @@
         </script>
 
     }
-
-
 </section>
+
 

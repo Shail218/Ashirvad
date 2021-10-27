@@ -1,4 +1,5 @@
-﻿@model List<Ashirvad.Data.ToDoEntity>
+﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.ToDoEntity>
 <div class="modal modal_multi anaesthetics-modal" id="myModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -33,8 +34,8 @@
             <th>
                 Edit
             </th>
-        </tr>
     </thead>
+
     @foreach (var item in Model)
     {
         <tr>
@@ -62,7 +63,5 @@
         </tr>
     }
 </table>
-
-
 
 
