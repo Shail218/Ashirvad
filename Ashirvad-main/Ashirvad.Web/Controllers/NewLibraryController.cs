@@ -41,7 +41,7 @@ namespace Ashirvad.Web.Controllers
             }
             if (SessionContext.Instance.LoginUser.UserType != Enums.UserType.SuperAdmin)
             {
-                BranchID = (int)SessionContext.Instance.LoginUser.UserType;
+                BranchID = (int)SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }
             var LibraryData = await _LibraryService.GetAllLibrary(Type, BranchID);
             Library.LibraryData = LibraryData;

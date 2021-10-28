@@ -96,5 +96,13 @@ namespace Ashirvad.Web.Controllers
 
             return Json(BranchRightData);
         }
+
+        public async Task<ActionResult> BranchRightUniqueData(long PackageRightID)
+        {
+            var BranchRightData = await _BranchRightService.GetAllBranchRightsUniqData(PackageRightID);
+
+            return View("~/Views/BranchWiseRight/RightsDataTable.cshtml",BranchRightData);
+        }
+
     }
 }

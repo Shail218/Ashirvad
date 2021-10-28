@@ -49,6 +49,20 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
+        public async Task<List<BranchWiseRightEntity>> GetAllBranchRightsUniqData(long PackageRightID)
+        {
+            try
+            {
+                return await this._BranchRightsContext.GetAllRightsUniqData(PackageRightID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public bool RemoveBranchRights(long BranchRightsID, string lastupdatedby)
         {
             try

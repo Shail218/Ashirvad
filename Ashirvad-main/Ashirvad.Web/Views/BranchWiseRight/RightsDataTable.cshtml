@@ -1,0 +1,59 @@
+﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.BranchWiseRightEntity>
+@{
+    Layout = null;
+}
+
+
+
+<table style="width: 100%;" id="subcategorytbl2" class="table table-bordered dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+
+            <th>
+                Page
+            </th>
+            <th>
+                Create Status
+            </th>
+
+            <th>
+                Delete Status
+            </th>
+            <th>
+                View Status
+            </th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item1 in Model)
+        {
+
+            <tr>
+                <td>
+                    @item1.Packageinfo.PageInfo.Page
+                </td>
+                <td>
+                    @item1.Packageinfo.Createstatus
+                </td>
+
+                <td>
+                    @item1.Packageinfo.Deletestatus
+                </td>
+                <td>
+                    @item1.Packageinfo.Viewstatus
+                </td>
+
+
+
+
+            </tr>
+
+        }
+    </tbody>
+
+
+
+</table>

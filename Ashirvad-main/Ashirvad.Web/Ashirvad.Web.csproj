@@ -1303,6 +1303,7 @@
     <Content Include="Views\Page\Create.cshtml" />
     <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Views\Page\Manage.cshtml" />
+    <Content Include="Views\BranchWiseRight\RightsDataTable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

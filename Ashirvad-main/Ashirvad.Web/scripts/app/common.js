@@ -42,6 +42,7 @@
     Page: $("#hdnFldVDName").val() + "Page/",
     Package: $("#hdnFldVDName").val() + "Package/",
     PackageRight: $("#hdnFldVDName").val() + "PackageRight/",
+    BranchWiseRight: $("#hdnFldVDName").val() + "BranchWiseRight/",
 };
 
 function GetExtention(image){
