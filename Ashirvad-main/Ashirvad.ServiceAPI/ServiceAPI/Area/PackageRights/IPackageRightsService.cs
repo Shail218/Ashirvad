@@ -13,7 +13,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
         Task<List<PackageRightEntity>> GetAllPackageRights();
 
         Task<List<PackageRightEntity>> GetPackageRightsByPackageRightsID(long PackageRightsID);
-        Task<PackageRightEntity> GetPackaegrightsByID(long PackageRightsID);
+            Task<PackageRightEntity> GetPackaegrightsByID(long PackageRightsID);
         bool RemovePackageRights(long PackageRightsID, string lastupdatedby);
         
     }
