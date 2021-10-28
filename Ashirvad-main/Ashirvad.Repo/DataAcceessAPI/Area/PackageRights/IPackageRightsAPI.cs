@@ -12,8 +12,8 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
         Task<long> RightsMaintenance(PackageRightEntity RightsInfo);
         Task<List<PackageRightEntity>> GetAllRights();
         Task<List<PackageRightEntity>> GetRightsByRightsID(long RightsID);
-        Task<PackageRightEntity> GetPackagebyID(long PackageRightsID);
         bool RemoveRights(long RightsID, string lastupdatedby);
- 
+        Task<PackageRightEntity> GetPackagebyID(long RightsID);
+
     }
 }

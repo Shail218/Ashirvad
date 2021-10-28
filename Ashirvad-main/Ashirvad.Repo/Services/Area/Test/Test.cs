@@ -546,7 +546,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             Model.STUDENT_ANS_SHEET ansSheet = new Model.STUDENT_ANS_SHEET();
             bool isUpdate = true;
             var data = (from t in this.context.STUDENT_ANS_SHEET
-                        where t.ans_sheet_id == studAnswerSheet.AnsSheetID
+                        where t.test_id == studAnswerSheet.TestInfo.TestID && t.stud_id==studAnswerSheet.StudentInfo.StudentID
                         select t).FirstOrDefault();
             if (data == null)
             {
@@ -555,8 +555,9 @@ namespace Ashirvad.Repo.Services.Area.Test
             }
             else
             {
-                ansSheet = data;
-                studAnswerSheet.Transaction.TransactionId = data.trans_id;
+                bool restult = RemoveTestAnswerSheetdetail(studAnswerSheet.TestInfo.TestID, studAnswerSheet.StudentInfo.StudentID);
+                ansSheet = new Model.STUDENT_ANS_SHEET(); ;
+                
             }
 
             ansSheet.row_sta_cd = studAnswerSheet.RowStatus.RowStatusId;
@@ -849,6 +850,23 @@ namespace Ashirvad.Repo.Services.Area.Test
                         }).ToList();
 
             return data;
+        }
+
+
+        public bool RemoveTestAnswerSheetdetail(long TestID,long studid)
+        {
+            var data = (from u in this.context.STUDENT_ANS_SHEET
+                        where u.test_id == TestID && u.stud_id== studid
+                        select u).ToList();
+
+            if (data != null)
+            {
+                this.context.STUDENT_ANS_SHEET.RemoveRange(data);
+                this.context.SaveChanges();
+                return true;
+            }
+
+            return false;
         }
     }
 }
