@@ -99,8 +99,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
             if (data.Count > 0)
             {
                 data[0].list = (from u in this.context.PACKAGE_RIGHTS_MASTER
-                            .Include("PACKAGE_MASTER")
-                        .Include("PAGE_MASTER")
+                              .Include("PACKAGE_MASTER")
+                               .Include("PAGE_MASTER")
                                 where u.row_sta_cd == 1
                                 select new PackageRightEntity()
                                 {
@@ -123,12 +123,12 @@ namespace Ashirvad.Repo.Services.Area.Branch
         }
 
 
-        public async Task<PackageRightEntity> GetRightsByRightsID(long RightsID)
+        public async Task<List<PackageRightEntity>> GetRightsByRightsID(long RightsID)
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
                        .Include("PACKAGE_MASTER")
                        .Include("PAGE_MASTER")
-                        where u.row_sta_cd == 1 && u.packagerights_id == RightsID
+                        where u.row_sta_cd == 1 && u.package_id == RightsID
                         select new PackageRightEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -141,9 +141,28 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 Page = u.PAGE_MASTER.page,
                                 PageID = u.page_id
                             },
+                            PackageRightsId=u.packagerights_id,
                             Createstatus = u.createstatus,
                             Viewstatus = u.viewstatus,
                             Deletestatus = u.deletestatus,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                        }).ToList();
+            return data;
+        }
+        public async Task<PackageRightEntity> GetPackagebyID(long RightsID)
+        {
+            var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
+                       .Include("PACKAGE_MASTER")                       
+                        where u.row_sta_cd == 1 && u.package_id == RightsID
+                        select new PackageRightEntity()
+                        {
+                            PackageRightsId=u.packagerights_id,
+                            Packageinfo = new PackageEntity()
+                            {
+                                PackageID = u.PACKAGE_MASTER.package_id,
+                                Package = u.PACKAGE_MASTER.package
+                            },
+                            
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                         }).FirstOrDefault();
             return data;
@@ -152,13 +171,17 @@ namespace Ashirvad.Repo.Services.Area.Branch
         public bool RemoveRights(long RightsID, string lastupdatedby)
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
-                        where u.packagerights_id == RightsID
-                        select u).FirstOrDefault();
+                        where u.package_id == RightsID
+                        select u).ToList();
             if (data != null)
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
+                foreach(var item in data)
+                {
+                    item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                }
+               
                 return true;
             }
 

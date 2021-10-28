@@ -37,11 +37,11 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
         
 
-        public async Task<PackageRightEntity> GetPackageRightsByPackageRightsID(long PackageRightsID)
+        public async Task<List<PackageRightEntity>> GetPackageRightsByPackageRightsID(long PackageRightsID)
         {
             try
             {
-                PackageRightEntity PackageRights = new PackageRightEntity();
+                List<PackageRightEntity> PackageRights = new List<PackageRightEntity>();
                 PackageRights = await _PackageRightsContext.GetRightsByRightsID(PackageRightsID);                
                 return PackageRights;
             }
@@ -52,8 +52,24 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return null;
         }
-       
-       
+
+
+        public async Task<PackageRightEntity> GetPackaegrightsByID(long PackageRightsID)
+        {
+            try
+            {
+               PackageRightEntity PackageRights = new PackageRightEntity();
+                PackageRights = await _PackageRightsContext.GetPackagebyID(PackageRightsID);
+                return PackageRights;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<List<PackageRightEntity>> GetAllPackageRights()
         {
             try

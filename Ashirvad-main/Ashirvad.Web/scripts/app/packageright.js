@@ -4,35 +4,7 @@
 
 $(document).ready(function () {
 
-    if ($("#PackageID").val() > 0) {
-    }
-
-    LoadBranch(function () {
-        if ($("#Branch_BranchID").val() != "") {
-            $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-            LoadPackage($("#Branch_BranchID").val());
-        }
-
-        if (commonData.BranchID != "0") {
-            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
-            $("#Branch_BranchID").val(commonData.BranchID);
-            LoadPackage(commonData.BranchID);
-        }
-    });
-
-    if ($("#Branch_BranchID").val() != "") {
-        $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-        LoadPackage($("#Branch_BranchID").val());
-    }
-
-    if ($("#BatchTypeID").val() != "") {
-        $('#BatchTime option[value="' + $("#BatchTypeID").val() + '"]').attr("selected", "selected");
-    }
-
-    if ($("#Packageinfo_PackageID").val() != "") {
-        $('#PackageName option[value="' + $("#Packageinfo_PackageID").val() + '"]').attr("selected", "selected");
-    }
-
+    LoadPackage();
     var Id = $("#PackageRightsId").val();
     if (Id > 0) {
         checkstatus();
@@ -65,6 +37,7 @@ function checkstatus() {
     $('#choiceList thead').each(function () {
 
         if (Create == true) {
+            var te = $(this).find("#allcreate");
             $(this).find("#allcreate")[0].checked = true;
         }
        
@@ -102,18 +75,19 @@ function LoadBranch(onLoaded) {
     });
 }
 
-function LoadPackage(branchID) {
+function LoadPackage() {
     var postCall = $.post(commonData.Package + "PackageData");
     postCall.done(function (data) {
-
+       
         $('#PackageName').empty();
         $('#PackageName').select2();
         $("#PackageName").append("<option value=" + 0 + ">---Select Package Name---</option>");
         for (i = 0; i < data.length; i++) {
             $("#PackageName").append("<option value=" + data[i].PackageID + ">" + data[i].Package + "</option>");
         }
-        if ($("#Package_PackageID").val() != "") {
-            $('#PackageName option[value="' + $("#Package_PackageID").val() + '"]').attr("selected", "selected");
+        var t = $("#Packageinfo_PackageID").val();
+        if ($("#Packageinfo_PackageID").val() != "") {
+            $('#PackageName option[value="' + $("#Packageinfo_PackageID").val() + '"]').attr("selected", "selected");
         }
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -129,7 +103,7 @@ $("#BranchName").change(function () {
 
 $("#PackageName").change(function () {
     var Data = $("#PackageName option:selected").val();
-    $('#Package_PackageID').val(Data);
+    $('#Packageinfo_PackageID').val(Data);
 });
 
 
@@ -168,16 +142,16 @@ $("#PackageName").change(function () {
 function RemovePackageRight(PackageRightID) {
     if (confirm('Are you sure want to delete this?')) {
         ShowLoader();
-        var postCall = $.post(GetSiteURL() + "/PackageRightMaintenance/RemovePackageRight", { "PackageRightID": PackageRightID });
+        var postCall = $.post(commonData.PackageRight + "RemovePackageRight", { "PackageRightID": PackageRightID });
         postCall.done(function (data) {
             HideLoader();
-            if (data.Status == true) {
-                ShowMessage(data.Message, 'Success');
-                setTimeout(function () { window.location.href = "PackageRightMaintenance?deptID=0"; }, 2000);
+            if (data == true) {
+                ShowMessage("Rights Deleted Successfully!!", 'Success');
+                setTimeout(function () { window.location.href = "PackageRightMaintenance?PackageRightID=0"; }, 2000);
 
             }
             else {
-                ShowMessage(data.Message, 'Error');
+                ShowMessage("Rights Can not Deleted!!", 'Error');
             }
 
 

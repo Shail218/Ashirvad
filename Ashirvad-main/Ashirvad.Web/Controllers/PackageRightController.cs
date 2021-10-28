@@ -41,16 +41,14 @@ namespace Ashirvad.Web.Controllers
             PackageRight.PackageRightsInfo.list = new List<PackageRightEntity>();
             if (PackageRightID > 0)
             {
-                var result = await _PackageRightService.GetPackageRightsByPackageRightsID(PackageRightID);
+                var result = await _PackageRightService.GetPackaegrightsByID(PackageRightID);
+                var result2 = await _PackageRightService.GetPackageRightsByPackageRightsID(PackageRightID);
                 PackageRight.PackageRightsInfo = result;
+                PackageRight.PackageRightsInfo.list = result2;
             }
             var PackageRightData = await _PackageRightService.GetAllPackageRights();
-            if (PackageRightID>0)
-            {
-                
-                PackageRight.PackageRightsInfo.list = PackageRightData;
-            }
-            
+
+
             PackageRight.PackageRightsData = PackageRightData;
 
             var branchData = await _pageService.GetAllPages(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
@@ -62,10 +60,10 @@ namespace Ashirvad.Web.Controllers
         public async Task<JsonResult> SavePackageRight(PackageRightEntity PackageRight)
         {
             response.Status = false;
-            
+
             long rightsID = PackageRight.PackageRightsId;
             PackageRightEntity packageRightEntity = new PackageRightEntity();
-            
+
             PackageRight.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
@@ -74,8 +72,8 @@ namespace Ashirvad.Web.Controllers
             foreach (var item in List)
             {
                 PackageRight.Transaction = GetTransactionData(rightsID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-                PackageRight.PackageRightsId = rightsID;                
-                PackageRight.PageInfo = item.PageInfo;             
+                PackageRight.PackageRightsId = rightsID == 0 ? rightsID : item.PackageRightsId;
+                PackageRight.PageInfo = item.PageInfo;
                 PackageRight.Createstatus = item.Createstatus;
                 PackageRight.Viewstatus = item.Viewstatus;
                 PackageRight.Deletestatus = item.Deletestatus;
@@ -88,7 +86,7 @@ namespace Ashirvad.Web.Controllers
             if (packageRightEntity.PackageRightsId > 0)
             {
                 response.Status = true;
-                response.Message = PackageRight.PackageRightsId>0?"Updated Successfully!!":"Created Successfully!!";
+                response.Message = PackageRight.PackageRightsId > 0 ? "Updated Successfully!!" : "Created Successfully!!";
 
 
             }
@@ -106,7 +104,7 @@ namespace Ashirvad.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult RemovePackageRight(long PackageRightID)
+        public async Task<JsonResult> RemovePackageRight(long PackageRightID)
         {
             var result = _PackageRightService.RemovePackageRights(PackageRightID, SessionContext.Instance.LoginUser.Username);
             return Json(result);

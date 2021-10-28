@@ -47,9 +47,7 @@
                                             <th>
                                                 Create Status
                                             </th>
-                                            <th>
-                                                Edit Status
-                                            </th>
+                                            
                                             <th>
                                                 Delete Status
                                             </th>
@@ -74,9 +72,7 @@
                                                     <td>
                                                         @item1.Createstatus
                                                     </td>
-                                                    <td>
-                                                        @item1.Editstatus
-                                                    </td>
+                                                    
                                                     <td>
                                                         @item1.Deletestatus
                                                     </td>
@@ -104,7 +100,7 @@
                     </td>
 
                     <td>
-                        <a href="@Url.Action("RoleMaintenance", "RoleRights", new { @deptID = item.Packageinfo.PackageID })">
+                        <a href="@Url.Action("PackageRightMaintenance", "PackageRight", new { @PackageRightID = item.Packageinfo.PackageID })">
                             <img src="/ThemeData/images/viewIcon.png" />
                         </a>
                     </td>
