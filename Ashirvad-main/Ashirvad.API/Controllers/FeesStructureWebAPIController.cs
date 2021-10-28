@@ -74,7 +74,7 @@ namespace Ashirvad.API.Controllers
                             var filePath = HttpContext.Current.Server.MapPath("~/FeesImage/" + randomfilename + extension);
                             string _path = UpdatedPath + _Filepath;
                             postedFile.SaveAs(_path);
-                            feesEntity.FileName = randomfilename + extension;
+                            feesEntity.FileName = postedFile.FileName;
                             feesEntity.FilePath = _Filepath;
                             data = this._FeesService.FeesMaintenance(feesEntity).Result;
                         }
@@ -127,7 +127,7 @@ namespace Ashirvad.API.Controllers
                                 var filePath = HttpContext.Current.Server.MapPath("~/FeesImage/" + randomfilename + extension);
                                 string _path = UpdatedPath + _Filepath;
                                 postedFile.SaveAs(_path);
-                                feesEntity.FileName = randomfilename + extension;
+                                feesEntity.FileName = postedFile.FileName;
                                 feesEntity.FilePath = _Filepath;
                             }
                         }
