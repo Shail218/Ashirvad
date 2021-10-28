@@ -2,7 +2,7 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-
+    ShowLoader();
     LoadBranch(function () {
         if ($("#hdnBranchID").val() != "") {
             $('#BranchName option[value="' + $("#hdnBranchID").val() + '"]').attr("selected", "selected");
@@ -28,7 +28,7 @@ function LoadBranch(onLoaded) {
         if (onLoaded != undefined) {
             onLoaded();
         }
-
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

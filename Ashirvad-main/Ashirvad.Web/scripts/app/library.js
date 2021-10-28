@@ -2,7 +2,7 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-
+    ShowLoader();
     if ($("#LibraryID").val() > 0 && $("#LibraryData_UniqueID").val() > 0) {
         $("#fuThumbnailImage").addClass("editForm");
         $("#fuDocument").addClass("editForm");
@@ -171,6 +171,7 @@ function LoadStandard(onLoaded) {
         if (onLoaded != undefined) {
             onLoaded();
         }
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

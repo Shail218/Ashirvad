@@ -3,7 +3,7 @@
 
 
 $(document).ready(function () {
-
+    ShowLoader();
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
@@ -12,6 +12,7 @@ $(document).ready(function () {
         if (commonData.BranchID != "0") {
             $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
             $("#BranchInfo_BranchID").val(commonData.BranchID);
+            HideLoader();
         }
     });
 
@@ -37,7 +38,7 @@ function LoadBranch(onLoaded) {
         if (onLoaded != undefined) {
             onLoaded();
         }
-
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

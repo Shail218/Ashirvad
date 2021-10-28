@@ -2,7 +2,7 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-
+    ShowLoader();
     $("#datepickermarks").datepicker({
         autoclose: true,
         todayHighlight: true,
@@ -21,7 +21,7 @@ $(document).ready(function () {
             LoadSchoolName(commonData.BranchID);
             LoadStandard(commonData.BranchID);
             LoadSubject(commonData.BranchID);
-
+            HideLoader();
         }
     });
 
@@ -30,6 +30,7 @@ $(document).ready(function () {
         LoadSchoolName($("#BranchInfo_BranchID").val());
         LoadStandard($("#BranchInfo_BranchID").val());
         LoadSubject(commonData.BranchID);
+        
         ($("#BranchInfo_BranchID").val());
     }
 
@@ -43,6 +44,7 @@ $(document).ready(function () {
 });
 
 function LoadBranch(onLoaded) {
+    ShowLoader();
     var postCall = $.post(commonData.Branch + "BranchData");
     postCall.done(function (data) {
         $('#BranchName').empty();
@@ -111,6 +113,7 @@ function LoadSubject(branchID) {
         if ($("#SubjectInfo_SubjectID").val() != "") {
             $('#SubjectName option[value="' + $("#SubjectInfo_SubjectID").val() + '"]').attr("selected", "selected");
         }
+      
     }).fail(function () {
         //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
@@ -162,7 +165,7 @@ function LoadTestDates(BatchType) {
             if (onLoaded != undefined) {
                 onLoaded();
             }
-
+            HideLoader();
         }).fail(function () {
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });

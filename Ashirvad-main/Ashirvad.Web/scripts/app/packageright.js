@@ -3,7 +3,7 @@
 
 
 $(document).ready(function () {
-
+    ShowLoader();
     LoadPackage();
     var Id = $("#PackageRightsId").val();
     if (Id > 0) {
@@ -47,6 +47,7 @@ function checkstatus() {
             $(this).find("#allview")[0].checked = true;
         }
     });
+    HideLoader();
 
 }
 
@@ -89,6 +90,7 @@ function LoadPackage() {
         if ($("#Packageinfo_PackageID").val() != "") {
             $('#PackageName option[value="' + $("#Packageinfo_PackageID").val() + '"]').attr("selected", "selected");
         }
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

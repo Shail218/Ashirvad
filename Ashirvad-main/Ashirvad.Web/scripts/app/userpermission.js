@@ -3,6 +3,7 @@
 
 
 $(document).ready(function () {
+    ShowLoader();
     LoadUser(commonData.BranchID);
 });
 
@@ -15,6 +16,7 @@ function LoadUser(branchId) {
         for (i = 0; i < data.length; i++) {
             $("#UserName").append("<option value=" + data[i].UserID + ">" + data[i].Username + "</option>");
         }
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

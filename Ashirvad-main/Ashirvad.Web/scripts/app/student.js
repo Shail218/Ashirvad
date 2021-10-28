@@ -2,7 +2,7 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-
+    ShowLoader();
     $("#datepickeradmission").datepicker({
         autoclose: true,
         todayHighlight: true,
@@ -122,6 +122,7 @@ function LoadStandard(branchID) {
         if ($("#StandardInfo_StandardID").val() != "") {
             $('#StandardName option[value="' + $("#StandardInfo_StandardID").val() + '"]').attr("selected", "selected");
         }
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

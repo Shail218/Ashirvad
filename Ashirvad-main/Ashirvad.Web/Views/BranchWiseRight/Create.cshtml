@@ -3,38 +3,21 @@
 <div class="col-md-12">
     <form id="fPackageRightDetail">
 
-        <div class="col-md-4">
+        <div class="col-md-4" id="drights">
             @Html.Label("Package", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <select name="PackageName" id="PackageName" class="form-control requiredDDL" alt="Package">
                 <option value="0">--Select Package--</option>
             </select>
+            @Html.HiddenFor(x=>x.Packageinfo.PackageID)
         </div>
         <div class="col-md-4">
             @Html.Label("Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <select name="BranchName" id="BranchName" class="form-control requiredDDL" alt="Branch">
                 <option value="0">--Select Branch--</option>
             </select>
+            @Html.HiddenFor(x=>x.BranchID)
         </div>
-        @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
-        {
-            <div class="col-md-12">
-                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="BranchName" id="BranchName" class="form-control requiredDDL select2" alt="Branch">
-                    <option value="0">--Select Branch--</option>
-                </select>
-                @Html.HiddenFor(x => x.branchinfo.BranchID)
-            </div>
-        }
-        else
-        {
-            <div class="col-md-12" style="display: none;">
-                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="BranchName" id="BranchName" class="form-control" alt="Branch">
-                    <option value="0">--Select Branch--</option>
-                </select>
-                @Html.HiddenFor(x => x.branchinfo.BranchID)
-            </div>
-        }
+       
         <div class="form-group">
             <div class="col-md-4" style="text-align: right;">
                 <br />
@@ -44,7 +27,7 @@
                     </span>
                     <span class="ladda-spinner"></span>
                 </a>
-                <a href="@Url.Action("SubjectMaintenance","Subject", new { @branchID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                <a href="@Url.Action("BranchRightMaintenance","BranchWiseRight", new { @BranchRightID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
                     <span class="ladda-label">
                         Cancel
                     </span>

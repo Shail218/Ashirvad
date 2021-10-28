@@ -3,7 +3,7 @@
 
 
 $(document).ready(function () {
-
+    ShowLoader();
     if ($("#HomeworkID").val() > 0) {
         $("#fuHomeworkDoc").addClass("editForm");
     }
@@ -101,6 +101,7 @@ function LoadSubject(branchID) {
         if ($("#SubjectInfo_SubjectID").val() != "") {
             $('#SubjectName option[value="' + $("#SubjectInfo_SubjectID").val() + '"]').attr("selected", "selected");
         }
+        HideLoader();
     }).fail(function () {
         //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

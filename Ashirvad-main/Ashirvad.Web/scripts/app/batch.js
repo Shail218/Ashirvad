@@ -2,6 +2,7 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
+    ShowLoader();
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
@@ -63,7 +64,7 @@ function LoadStandard(branchID) {
             
             $('#StandardName option[value="' + $("#StandardInfo_StandardID").val() + '"]').attr("selected", "selected");
         }
-
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

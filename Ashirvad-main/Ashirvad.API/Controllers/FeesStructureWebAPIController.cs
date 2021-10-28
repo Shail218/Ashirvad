@@ -3,7 +3,7 @@ using Ashirvad.Data;
 using Ashirvad.Repo.Services.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.Services.Area;
-using Ashirvad.Uploads;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +15,7 @@ namespace Ashirvad.API.Controllers
     [RoutePrefix("api/FeesStructure/v1")]
     public class FeesStructureWebAPIController : ApiController
     {
-        private readonly FileUploadCommon fileUploadCommon = new FileUploadCommon();
+       
         private readonly IFeesService _FeesService;
         public FeesStructureWebAPIController(IFeesService FeesService)
         {

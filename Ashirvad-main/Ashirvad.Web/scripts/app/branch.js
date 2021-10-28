@@ -3,6 +3,7 @@
 
 
 $(document).ready(function () {
+    ShowLoader();
     $('input[type=radio][name=Status]').change(function () {
         if (this.value == 'Active') {
             $("#RowStatus_RowStatusId").val(1);
@@ -38,6 +39,7 @@ $(document).ready(function () {
                 $(elemImg).attr('src', "../ThemeData/images/Default.png");
             });
         }
+        HideLoader();
     });
 
 });

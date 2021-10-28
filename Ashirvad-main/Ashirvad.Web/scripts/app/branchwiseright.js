@@ -6,7 +6,7 @@ $(document).ready(function () {
     
     //if ($("#PackageID").val() > 0) {
     //}
-
+    ShowLoader();
     LoadBranch(function () {
         if ($("#Branch_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
@@ -70,6 +70,7 @@ function LoadPackage(branchID) {
         if ($("#Package_PackageID").val() != "") {
             $('#PackageName option[value="' + $("#Package_PackageID").val() + '"]').attr("selected", "selected");
         }
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
@@ -209,4 +210,31 @@ function GetData() {
         })
     }
     return MainArray;
+}
+
+function SaveBranchWiseRight() {
+    debugger;
+    var Array = [];
+    var isSuccess = ValidateData('drights');
+    if (isSuccess) {
+        ShowLoader();
+        Array = GetData();
+        var test = $("#JasonData").val(JSON.stringify(Array))
+        var postCall = $.post(commonData.BranchWiseRight + "SaveBranchRight", $('#fPackageRightDetail').serialize());
+        postCall.done(function (data) {
+            HideLoader();
+            if (data.Status == true) {
+                ShowMessage(data.Message, 'Success');
+                setTimeout(function () { window.location.href = "BranchRightMaintenance?BranchRightID=0"; }, 2000);
+
+            }
+            else {
+                ShowMessage(data.Message, 'Error');
+            }
+
+        }).fail(function () {
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+
+    }
 }

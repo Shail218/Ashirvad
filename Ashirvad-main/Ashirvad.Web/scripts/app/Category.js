@@ -2,7 +2,7 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-
+    ShowLoader();
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
@@ -13,13 +13,14 @@ $(document).ready(function () {
             $("#BranchInfo_BranchID").val(commonData.BranchID);
         }
     });
-
+   
     if ($("#BranchInfo_BranchID").val() != "") {
         $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
     }
 });
 
 function LoadBranch(onLoaded) {
+    ShowLoader();
     var postCall = $.post(commonData.Branch + "BranchData");
     postCall.done(function (data) {
         $('#BranchName').empty();
@@ -31,7 +32,7 @@ function LoadBranch(onLoaded) {
         if (onLoaded != undefined) {
             onLoaded();
         }
-
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

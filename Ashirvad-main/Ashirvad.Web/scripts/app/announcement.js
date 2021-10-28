@@ -2,6 +2,7 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
+    ShowLoader();
     LoadBranch(function () {
         if ($("#BranchData_BranchID").val() != "") {
             if ($("#BranchData_BranchID").val() != "0") {
@@ -58,7 +59,7 @@ function LoadBranch(onLoaded) {
         if (onLoaded != undefined) {
             onLoaded();
         }
-
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

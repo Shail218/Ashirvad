@@ -54,13 +54,14 @@ namespace Ashirvad.Repo.Services.Area.Homework
 
         public async Task<List<HomeworkEntity>> GetAllHomeworkByBranch(long branchID, long stdID, int batchTime)
         {
-            var data = (from u in this.context.HOMEWORK_MASTER_DTL
+            var data = (from u in this.context.HOMEWORK_MASTER
                         .Include("BRANCH_MASTER")
-                        .Include("STUDENT_MASTER")
-                        .Include("HOMEWORK_MASTER")
+                        .Include("STD_MASTER")
+                        .Include("SUBJECT_MASTER")
+                        join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id
                         where u.branch_id == branchID
-                        && (0 == stdID || u.HOMEWORK_MASTER.std_id == stdID)
-                        && (0 == batchTime || u.HOMEWORK_MASTER.batch_time_id == batchTime)
+                        && (0 == stdID || u.std_id == stdID)
+                        && (0 == batchTime || u.batch_time_id == batchTime)
                         select new HomeworkEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -68,18 +69,23 @@ namespace Ashirvad.Repo.Services.Area.Homework
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            
+                            HomeworkContent = u.homework_content,
                             HomeworkID = u.homework_id,
-                            HomeworkContentFileName = u.HOMEWORK_MASTER.homework_file,
-                            HomeworkDate = u.HOMEWORK_MASTER.homework_dt,
-                            Remarks = u.HOMEWORK_MASTER.remarks,
-                           
+                            HomeworkContentFileName = u.homework_file,
+                            HomeworkDate = u.homework_dt,
+                            Remarks = u.remarks,
+                            StandardInfo = new StandardEntity()
+                            {
+                                Standard = u.STD_MASTER.standard,
+                                StandardID = u.STD_MASTER.std_id
+                            },
                             SubjectInfo = new SubjectEntity()
                             {
-                                Subject = u.HOMEWORK_MASTER.SUBJECT_MASTER.subject,
-                                SubjectID = u.HOMEWORK_MASTER.SUBJECT_MASTER.subject_id
+                                Subject = u.SUBJECT_MASTER.subject,
+                                SubjectID = u.SUBJECT_MASTER.subject_id
                             },
-                          
+                            BatchTimeID = u.batch_time_id,
+                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
                             BranchInfo = new BranchEntity()
                             {
                                 BranchID = u.BRANCH_MASTER.branch_id,
@@ -87,14 +93,21 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             },
                             homeworkDetailEntity = new HomeworkDetailEntity()
                             {
-                                StatusText = u.status== (int)Enums.HomeWorkStatus.Done? "Done": "Pending",
-                                Remarks = u.remarks,
-                                Status= u.status
+                                StatusText = hd.status== (int)Enums.HomeWorkStatus.Done? "Done": "Pending",
+                                Remarks = hd.remarks,
+                                Status=hd.status
                             },
                             
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
-            
+            if (data?.Count > 0)
+            {
+                foreach (var item in data)
+                {
+                    int idx = data.IndexOf(item);
+                    data[idx].HomeworkContentText = Convert.ToBase64String(data[idx].HomeworkContent);
+                }
+            }
             return data;
         }
 

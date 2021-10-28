@@ -3,7 +3,7 @@
 
 
 $(document).ready(function () {
-
+    ShowLoader();
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
@@ -33,7 +33,7 @@ function LoadBranch(onLoaded) {
         if (onLoaded != undefined) {
             onLoaded();
         }
-        
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
@@ -45,13 +45,14 @@ function SaveSchool() {
         ShowLoader();
         var postCall = $.post(commonData.School + "SaveSchool", $('#fSchoolDetail').serialize());
         postCall.done(function (data) {
-            HideLoader();
+           
             if (data.Status == true) {
                 ShowMessage(data.Message, "Success");
                 setTimeout(function () { window.location.href = "SchoolMaintenance?branchID=0"; }, 2000);
             } else {
                 ShowMessage(data.Message, "Error");
-            }                 
+            }  
+            HideLoader();
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

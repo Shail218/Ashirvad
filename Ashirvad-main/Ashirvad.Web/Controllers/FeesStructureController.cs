@@ -2,7 +2,6 @@
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
-using Ashirvad.Uploads;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,7 +16,6 @@ namespace Ashirvad.Web.Controllers
     {
         // GET: FeesStructure
         private readonly IFeesService _FeesService;
-        private readonly FileUploadCommon  fileUploadCommon = new FileUploadCommon();
  
         public FeesStructureController(IFeesService FeesService)
         {
@@ -47,7 +45,6 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveFees(FeesEntity Fees)
         {
-            FileModel fileModel = new FileModel();
             if (Fees.ImageFile != null)
             {
                 //fileModel= fileUploadCommon.SaveFileUploadweb(Fees.ImageFile, "FeesImage").Result;

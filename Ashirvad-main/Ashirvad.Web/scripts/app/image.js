@@ -3,7 +3,7 @@
 
 
 $(document).ready(function () {
-
+    ShowLoader();
     if ($("#UniqueID").val() > 0) {
         $("#fuImage").addClass("editForm");
     }
@@ -51,7 +51,7 @@ function LoadBranch(onLoaded) {
         if (onLoaded != undefined) {
             onLoaded();
         }
-
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

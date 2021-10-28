@@ -2,7 +2,7 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-
+    ShowLoader();
     if ($("#ToDoID").val() > 0) {
         $("#fuDocument").addClass("editForm");
     }
@@ -22,6 +22,7 @@ $(document).ready(function () {
             $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
             $("#BranchInfo_BranchID").val(commonData.BranchID);
             LoadUser(commonData.BranchID);
+            HideLoader();
         }
     });
 
@@ -65,6 +66,7 @@ function LoadUser(branchID) {
         if ($("#UserInfo_UserID").val() != "") {
             $('#UserName option[value="' + $("#UserInfo_UserID").val() + '"]').attr("selected", "selected");
         }
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

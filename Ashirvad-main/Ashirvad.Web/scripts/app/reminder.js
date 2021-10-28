@@ -2,13 +2,14 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-
+    ShowLoader();
     $("#datepickerreminder").datepicker({
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
 
     });
+    HideLoader();
 });
 
 function SaveReminder() {   

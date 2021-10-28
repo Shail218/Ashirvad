@@ -2,15 +2,17 @@
 /// <reference path="../ashirvad.js" />
 
 function Savetodo(myModal) {
+    ShowLoader();
+
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
-        ShowLoader();
         var postCall = $.post(commonData.ToDoRegister + 'SaveToDo', $('#fToDoRegisterDetail').serialize())
         postCall.done(function (data) {
-            HideLoader();
+          
             document.getElementById("" + myModal).style.display = "none";
             ShowMessage('ToDo details saved!', 'Success');
             window.location.href = "ToDoRegisterMaintenance?todoID=0";
+            HideLoader();
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

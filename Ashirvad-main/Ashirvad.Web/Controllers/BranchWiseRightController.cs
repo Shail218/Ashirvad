@@ -64,16 +64,8 @@ namespace Ashirvad.Web.Controllers
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            var List = JsonConvert.DeserializeObject<List<BranchWiseRightEntity>>(BranchRight.JasonData);
-            foreach (var item in List)
-            {
-                BranchRight.branchinfo = item.branchinfo;
-                BranchRight.BranchWiseRightsID = item.BranchWiseRightsID;
-                BranchRight.Createstatus = item.Createstatus;
-                BranchRight.Viewstatus = item.Viewstatus;
-                BranchRight.Deletestatus = item.Deletestatus;
-                BranchRightEntity = await _BranchRightService.BranchRightsMaintenance(BranchRight);
-            }
+            
+            BranchRightEntity = await _BranchRightService.BranchRightsMaintenance(BranchRight);
 
             if (BranchRightEntity != null)
             {

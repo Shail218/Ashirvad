@@ -2,7 +2,7 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-
+    ShowLoader();
     if ($("#AboutUsID").val() > 0 ) {
         $("#fuHeaderImage").addClass("editForm");
         
@@ -10,19 +10,24 @@ $(document).ready(function () {
     if ($("#DetailID").val() > 0) {
         $("#fuHeaderImageDetail").addClass("editForm");
     }
-
-    $("#studenttbl tr").each(function () {
-        var elemImg = $(this).find("#headerImg");
-        var aboutID = $(this).find("#item_AboutUsID").val();
-        if (elemImg.length > 0 && aboutID.length > 0) {
-            var postCall = $.post(commonData.AboutUs + "GetHeaderImage", { "aboutID": aboutID });
-            postCall.done(function (data) {
-                $(elemImg).attr('src', data);
-            }).fail(function () {
-                $(elemImg).attr('src', "../ThemeData/images/Default.png");
-            });
-        }
-    });
+    HideLoader();
+ 
+    //$("#studenttbl tr").each(function () {
+       
+    //    var elemImg = $(this).find("#headerImg");
+    //    var aboutID = $(this).find("#item_AboutUsID").val();
+     
+    //    if (elemImg.length > 0 && aboutID.length > 0) {
+    //        var postCall = $.post(commonData.AboutUs + "GetHeaderImage", { "aboutID": aboutID });
+           
+    //        postCall.done(function (data) {
+             
+    //            $(elemImg).attr('src', data);
+    //        }).fail(function () {
+    //            $(elemImg).attr('src', "../ThemeData/images/Default.png");
+    //        });
+    //    }
+    //});
 });
 
 function SaveAboutUs() {

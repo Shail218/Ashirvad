@@ -2,11 +2,13 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
+    ShowLoader();
     LoadBranch();
     /*arrayBufferToBase64()*/
 });
 
 function LoadBranch() {
+   
     var postCall = $.post(commonData.Branch + "BranchData");
     postCall.done(function (data) {
         $('#BranchName').empty();
