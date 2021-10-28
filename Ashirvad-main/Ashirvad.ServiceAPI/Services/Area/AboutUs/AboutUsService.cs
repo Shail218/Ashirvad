@@ -71,14 +71,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
             return null;
         }
 
-        public async Task<OperationResult<AboutUsEntity>> GetAboutUsByUniqueID(long uniqueID,long BranchID=0)
+        public async Task<AboutUsEntity> GetAboutUsByUniqueID(long uniqueID,long BranchID=0)
         {
             try
             {
-                OperationResult<AboutUsEntity> banner = new OperationResult<AboutUsEntity>();
-                banner.Data = await _aboutusContext.GetAboutUsByUniqueID(uniqueID, BranchID);
-                banner.Completed = true;
-                return banner;
+                return await this._aboutusContext.GetAboutUsByUniqueID(uniqueID, BranchID);
             }
             catch (Exception ex)
             {

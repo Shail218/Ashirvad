@@ -11,7 +11,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.AboutUs
     {
         Task<AboutUsEntity> AboutUsMaintenance(AboutUsEntity aboutUsInfo);
         Task<OperationResult<List<AboutUsEntity>>> GetAllAboutUsWithoutContent(long branchID = 0);
-        Task<OperationResult<AboutUsEntity>> GetAboutUsByUniqueID(long uniqueID, long branchID = 0);
+        Task<AboutUsEntity> GetAboutUsByUniqueID(long uniqueID, long branchID = 0);
         Task<List<AboutUsDetailEntity>> GetAllAboutUs(long branchID = 0);
         bool RemoveAboutUs(long aboutUsID, string lastupdatedby, bool remomveAboutUsDetail);
         Task<AboutUsDetailEntity> AboutUsDetailMaintenance(AboutUsDetailEntity aboutUsInfo);
