@@ -47,12 +47,24 @@ namespace Ashirvad.API.Controllers
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            libInfo.Transaction = new TransactionEntity()
+            if (LibraryID > 0)
             {
-                CreatedBy = CreateBy,
-                CreatedId = CreateId,
-                CreatedDate = DateTime.Now,
-            };
+                libInfo.Transaction = new TransactionEntity()
+                {
+                    LastUpdateBy = CreateBy,
+                    LastUpdateId = CreateId,
+                    LastUpdateDate = DateTime.Now,
+                };
+            }
+            else
+            {
+                libInfo.Transaction = new TransactionEntity()
+                {
+                    CreatedBy = CreateBy,
+                    CreatedId = CreateId,
+                    CreatedDate = DateTime.Now,
+                };
+            }
             if (httpRequest.Files.Count > 0)
             {
                 try
@@ -62,7 +74,10 @@ namespace Ashirvad.API.Controllers
                         string fileName;
                         string extension;
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                        string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        // for live server
+                        //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        // for local server
+                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                         var postedFile = httpRequest.Files[file];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(postedFile.FileName);
@@ -73,7 +88,7 @@ namespace Ashirvad.API.Controllers
                         string _path = UpdatedPath + _Filepath1;
                         postedFile.SaveAs(_path);
                         libInfo.FileName = fileName;
-                        libInfo.FilePath = _Filepath;
+                        libInfo.FilePath =  _Filepath1;
                     }
 
                     if (libInfo.link != "" && libInfo.link != null)
@@ -119,7 +134,43 @@ namespace Ashirvad.API.Controllers
                     throw;
                 }
             }
+            else
+            {
+                if (libInfo.link != "" && libInfo.link != null)
+                {
+                    libInfo.Type = (int)Enums.GalleryType.Video;
+                    libInfo.FileName = "";
+                    libInfo.FilePath = "";
+                }
+                else
+                {
+                    libInfo.Type = (int)Enums.GalleryType.Image;
+                    libInfo.link = "";
+                }
 
+                libInfo.RowStatus = new RowStatusEntity()
+                {
+                    RowStatusId = (int)Enums.RowStatus.Active
+                };
+                var data = this._libraryService.LibraryMaintenance(libInfo).Result;
+
+                result.Completed = false;
+                result.Data = null;
+                if (data.LibraryID > 0)
+                {
+                    result.Completed = false;
+                    result.Data = data;
+                    if (LibraryID > 0)
+                    {
+                        result.Message = "Library Updated Successfully!";
+                    }
+                    else
+                    {
+                        result.Message = "Library Created Successfully!";
+                    }
+
+                }
+            }
             return result;
         }
 

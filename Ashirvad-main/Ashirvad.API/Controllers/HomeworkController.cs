@@ -129,8 +129,9 @@ namespace Ashirvad.API.Controllers
         }
         
         [HttpPost]
-        [Route("HomeworkDetailMaintenance/{HomeworkID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}")]
-        public OperationResult<HomeworkDetailEntity> HomeworkDetailMaintenance(long HomeworkID, long BranchID, long StudentID, string Remarks, int?Status, DateTime SubmitDate,long CreateId,string CreateBy)
+        [Route("HomeworkDetailMaintenance/{HomeworkID}/{HomeworkDetailID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}/{FileName}/{Filepath}")]
+        public OperationResult<HomeworkDetailEntity> HomeworkDetailMaintenance(long HomeworkID, long HomeworkDetailID, long BranchID, long StudentID, 
+            string Remarks, int?Status, DateTime SubmitDate,long CreateId,string CreateBy,string FileName,string Filepath)
         {
             HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
             HomeworkDetailEntity Response = new HomeworkDetailEntity();
@@ -140,15 +141,37 @@ namespace Ashirvad.API.Controllers
             homeworkDetail.StudentInfo = new StudentEntity();
             var httpRequest = HttpContext.Current.Request;
             homeworkDetail.HomeworkEntity.HomeworkID = HomeworkID;
+            homeworkDetail.HomeworkDetailID = HomeworkDetailID;
             homeworkDetail.BranchInfo.BranchID = BranchID;
             homeworkDetail.StudentInfo.StudentID = StudentID;
             homeworkDetail.Remarks = "";
             homeworkDetail.Status = Status.HasValue?Status.Value:0;
             homeworkDetail.SubmitDate = SubmitDate;
+            homeworkDetail.AnswerSheetContentText = FileName;
+            homeworkDetail.FilePath = Filepath;
             homeworkDetail.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
+            if (HomeworkID > 0)
+            {
+                homeworkDetail.Transaction = new TransactionEntity()
+                {
+                    LastUpdateBy = CreateBy,
+                    LastUpdateId = CreateId,
+                    LastUpdateDate = DateTime.Now,
+                };
+            }
+            else
+            {
+                homeworkDetail.Transaction = new TransactionEntity()
+                {
+                    CreatedBy = CreateBy,
+                    CreatedId = CreateId,
+                    CreatedDate = DateTime.Now,
+                };
+            }
+
             homeworkDetail.Transaction = new TransactionEntity()
             {
                 CreatedBy = CreateBy,
@@ -156,29 +179,54 @@ namespace Ashirvad.API.Controllers
                 CreatedDate = DateTime.Now,
             };
             OperationResult<HomeworkDetailEntity> result = new OperationResult<HomeworkDetailEntity>();
-            try
+            if (httpRequest.Files.Count > 0)
             {
-                foreach (string file in httpRequest.Files)
+                try
                 {
-                    string fileName;
-                    string extension;
-                    string currentDir = AppDomain.CurrentDomain.BaseDirectory;                    
-                    string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
-                    var postedFile = httpRequest.Files[file];
-                    string randomfilename = Common.Common.RandomString(20);
-                    extension = Path.GetExtension(postedFile.FileName);
-                     fileName = Path.GetFileName(postedFile.FileName);
-                    string _Filepath = "/HomeWorkDetailImage/" + randomfilename + extension;
-                    string _Filepath1 = "HomeWorkDetailImage/" + randomfilename + extension;
-                    var filePath = HttpContext.Current.Server.MapPath("~/HomeWorkDetailImage/" + randomfilename + extension);
-                    string _path = UpdatedPath + _Filepath1;
-                    postedFile.SaveAs(_path);
-                    homeworkDetail.AnswerSheetName = fileName;
-                    homeworkDetail.FilePath = _Filepath;
-                    homeworkDetail.HomeworkDetailID = 0;
-                   var data = this._homeworkdetailService.HomeworkdetailMaintenance(homeworkDetail);
-                    Response = data.Result;
+                    foreach (string file in httpRequest.Files)
+                    {
+                        homeworkDetail.HomeworkDetailID = HomeworkDetailID;
+                        string fileName;
+                        string extension;
+                        string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                        // for live server
+                        //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        // for local server
+                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        var postedFile = httpRequest.Files[file];
+                        string randomfilename = Common.Common.RandomString(20);
+                        extension = Path.GetExtension(postedFile.FileName);
+                        fileName = Path.GetFileName(postedFile.FileName);
+                        string _Filepath = "/HomeWorkDetailImage/" + randomfilename + extension;
+                        string _Filepath1 = "HomeWorkDetailImage/" + randomfilename + extension;
+                        var filePath = HttpContext.Current.Server.MapPath("~/HomeWorkDetailImage/" + randomfilename + extension);
+                        string _path = UpdatedPath + _Filepath1;
+                        postedFile.SaveAs(_path);
+                        homeworkDetail.AnswerSheetName = fileName;
+                        homeworkDetail.FilePath = _Filepath1;                        
+                        var data = this._homeworkdetailService.HomeworkdetailMaintenance(homeworkDetail);
+                        Response = data.Result;
+                    }
+                    result.Data = null;
+                    result.Completed = false;
+                    if (Response.HomeworkDetailID > 0)
+                    {
+                        result.Data = Response;
+                        result.Completed = true;
+                        result.Message = "Homework Uploaded Successfully!!";
+                    }
+
                 }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
+            else
+            {
+                var data = this._homeworkdetailService.HomeworkdetailMaintenance(homeworkDetail);
+                Response = data.Result;
                 result.Data = null;
                 result.Completed = false;
                 if (Response.HomeworkDetailID > 0)
@@ -187,14 +235,7 @@ namespace Ashirvad.API.Controllers
                     result.Completed = true;
                     result.Message = "Homework Uploaded Successfully!!";
                 }
-               
             }
-            catch (Exception ex)
-            {
-
-            }
-
-
             return result;
         }
     }

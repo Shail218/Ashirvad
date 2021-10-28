@@ -17,142 +17,123 @@ namespace Ashirvad.API.Controllers
     {
         private readonly FileUploadCommon fileUploadCommon = new FileUploadCommon();
         private readonly IFeesService _FeesService;
-        //public FeesStructureWebAPIController(IFeesService FeesService)
-        //{
-        //    _FeesService = FeesService;
-        //}
-        public FeesStructureWebAPIController()
+        public FeesStructureWebAPIController(IFeesService FeesService)
         {
-            _FeesService = new FeesService(new Fees());
+            _FeesService = FeesService;
         }
         // GET: Fees
 
-        [Route("FeesMaintenance/{FeesID}/{FeesDetailsID}/{StandardID}/{BranchID}/{Remark}/{SubmitDate}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("FeesMaintenance/{FeesID}/{FeesDetailsID}/{StandardID}/{BranchID}/{Remark}/{SubmitDate}/{CreateId}/{CreateBy}/{Filename}/{Filepath}")]
         [HttpPost]
         public OperationResult<FeesEntity> FeesMaintenance(long FeesID, long FeesDetailsID, long StandardID, long BranchID,
-            string Remark, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+            string Remark, long CreateId, string CreateBy,string Filename,string Filepath)
         {
-            FileModel fileModel = new FileModel();
+            
             OperationResult<FeesEntity> result = new OperationResult<FeesEntity>();
+            var httpRequest = HttpContext.Current.Request;
             FeesEntity feesEntity = new FeesEntity();
             FeesEntity data = new FeesEntity();
-            if (FeesID == 0)
+            feesEntity.BranchInfo = new BranchEntity();
+            feesEntity.standardInfo = new StandardEntity();
+            feesEntity.BranchInfo.BranchID = BranchID;
+            feesEntity.standardInfo.StandardID = StandardID;
+            feesEntity.FeesID = FeesID;
+            feesEntity.FeesDetailID = FeesDetailsID;
+            feesEntity.Remark = Remark;
+            feesEntity.FileName = Filename;
+            feesEntity.FilePath = Filepath;
+            feesEntity.RowStatus = new RowStatusEntity()
             {
-                var httpRequest = HttpContext.Current.Request;
-                feesEntity.BranchInfo = new BranchEntity();
-                feesEntity.standardInfo = new StandardEntity();
-                feesEntity.BranchInfo.BranchID = BranchID;
-                feesEntity.standardInfo.StandardID = StandardID;
-                feesEntity.FeesID = FeesID;
-                feesEntity.FeesDetailID = FeesDetailsID;
-                feesEntity.Remark = Remark;
-                feesEntity.RowStatus = new RowStatusEntity()
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
+            if (FeesID > 0)
+            {
+                feesEntity.Transaction = new TransactionEntity()
                 {
-                    RowStatusId = (int)Enums.RowStatus.Active
+                    LastUpdateBy = CreateBy,
+                    LastUpdateId = CreateId,
+                    LastUpdateDate = DateTime.Now,
                 };
+            }
+            else
+            {
                 feesEntity.Transaction = new TransactionEntity()
                 {
                     CreatedBy = CreateBy,
                     CreatedId = CreateId,
                     CreatedDate = DateTime.Now,
                 };
-                if (httpRequest.Files.Count > 0)
+            }
+
+            if (httpRequest.Files.Count > 0)
+            {
+                try
                 {
-                    try
+                    foreach (string file in httpRequest.Files)
                     {
-                        foreach (string file in httpRequest.Files)
+                        feesEntity.FeesDetailID = FeesDetailsID;
+                        string fileName;
+                        string extension;
+                        string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                        // for live server
+                        //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        // for local server
+                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        var postedFile = httpRequest.Files[file];
+                        string randomfilename = Common.Common.RandomString(20);
+                        extension = Path.GetExtension(postedFile.FileName);
+                        fileName = Path.GetFileName(postedFile.FileName);
+                        string _Filepath = "/FeesImage/" + randomfilename + extension;
+                        string _Filepath1 = "FeesImage/" + randomfilename + extension;
+                        var filePath = HttpContext.Current.Server.MapPath("~/FeesImage/" + randomfilename + extension);
+                        string _path = UpdatedPath + _Filepath1;
+                        postedFile.SaveAs(_path);
+                        feesEntity.FileName = fileName;
+                        feesEntity.FilePath =  _Filepath;
+                        data = this._FeesService.FeesMaintenance(feesEntity).Result;
+                    }
+
+
+                    result.Completed = false;
+                    result.Data = null;
+                    if (data.FeesID > 0 || data.FeesDetailID > 0)
+                    {
+                        result.Completed = true;
+                        result.Data = data;
+                        if (FeesID > 0)
                         {
-                            string fileName;
-                            string extension;
-                            string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
-                            var postedFile = httpRequest.Files[file];
-                            string randomfilename = Common.Common.RandomString(20);
-                            extension = Path.GetExtension(postedFile.FileName);
-                            fileName = Path.GetFileName(postedFile.FileName);
-                            string _Filepath = "/FeesImage/" + randomfilename + extension;
-                            string _Filepath1 = "FeesImage/" + randomfilename + extension;
-                            var filePath = HttpContext.Current.Server.MapPath("~/FeesImage/" + randomfilename + extension);
-                            string _path = UpdatedPath + _Filepath1;
-                            postedFile.SaveAs(_path);
-                            feesEntity.FileName = postedFile.FileName;
-                            feesEntity.FilePath = _Filepath;
-                            data = this._FeesService.FeesMaintenance(feesEntity).Result;
+                            result.Message = "Fees Structure Updated Successfully";
+                        }
+                        else
+                        {
+                            result.Message = "Fees Structure Created Successfully";
                         }
                     }
-                    catch (Exception ex)
-                    {
 
-                    }
+
+                }
+                catch (Exception ex)
+                {
+
                 }
             }
             else
             {
-                var httpRequest = HttpContext.Current.Request;
-                feesEntity.BranchInfo = new BranchEntity();
-                feesEntity.standardInfo = new StandardEntity();
-                feesEntity.BranchInfo.BranchID = BranchID;
-                feesEntity.standardInfo.StandardID = StandardID;
-                feesEntity.FeesID = FeesID;
-                feesEntity.FeesDetailID = FeesDetailsID;
-                feesEntity.Remark = Remark;
-                feesEntity.Transaction = new TransactionEntity()
-                {
-                    TransactionId = TransactionId,
-                    LastUpdateBy = CreateBy,
-                    LastUpdateId = CreateId
-                };
-                feesEntity.RowStatus = new RowStatusEntity()
-                {
-                    RowStatusId = (int)Enums.RowStatus.Active
-                };
-                feesEntity.FileName = FileName + "." + Extension;
-                feesEntity.FilePath = "/FeesImage/" + FileName + "." + Extension;
-                if (HasFile)
-                {
-                    if (httpRequest.Files.Count > 0)
-                    {
-                        try
-                        {
-                            foreach (string file in httpRequest.Files)
-                            {
-                                string fileName;
-                                string extension;
-                                string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                                string UpdatedPath = currentDir.Replace("ashirvadapi", "ashivadproduct");
-                                var postedFile = httpRequest.Files[file];
-                                string randomfilename = Common.Common.RandomString(20);
-                                extension = Path.GetExtension(postedFile.FileName);
-                                fileName = Path.GetFileName(postedFile.FileName);
-                                string _Filepath = "/FeesImage/" + randomfilename + extension;
-                                var filePath = HttpContext.Current.Server.MapPath("~/FeesImage/" + randomfilename + extension);
-                                string _path = UpdatedPath + _Filepath;
-                                postedFile.SaveAs(_path);
-                                feesEntity.FileName = postedFile.FileName;
-                                feesEntity.FilePath = _Filepath;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-
-                        }
-                    }
-                }
                 data = this._FeesService.FeesMaintenance(feesEntity).Result;
-            }
-            result.Completed = false;
-            result.Data = null;
-            if (data.FeesID > 0 || data.FeesDetailID > 0)
-            {
-                result.Completed = true;
-                result.Data = data;
-                if (FeesID > 0)
+                result.Completed = false;
+                result.Data = null;
+                if (data.FeesID > 0 || data.FeesDetailID > 0)
                 {
-                    result.Message = "Fees Structure Updated Successfully";
-                }
-                else
-                {
-                    result.Message = "Fees Structure Created Successfully";
+                    result.Completed = true;
+                    result.Data = data;
+                    if (FeesID > 0)
+                    {
+                        result.Message = "Fees Structure Updated Successfully";
+                    }
+                    else
+                    {
+                        result.Message = "Fees Structure Created Successfully";
+                    }
                 }
             }
             return result;
@@ -165,7 +146,6 @@ namespace Ashirvad.API.Controllers
             var data = this._FeesService.GetFeesByFeesID(FeesID);
             OperationResult<FeesEntity> result = new OperationResult<FeesEntity>();
             result.Data = data.Result;
-            result.Completed = true;
             return result;
         }
 
@@ -179,7 +159,6 @@ namespace Ashirvad.API.Controllers
             response.Data = result;
             return response;
         }
-
         [Route("GetAllFees")]
         [HttpPost]
         public OperationResult<List<FeesEntity>> GetAllFees()
@@ -190,14 +169,14 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+
         [Route("GetFeesByBranchID")]
-        [HttpGet]
-        public OperationResult<List<FeesEntity>> GetFeesByBranchID(long BranchID, long StdID = 0)
+        [HttpPost]
+        public OperationResult<List<FeesEntity>> GetFeesByBranchID(long BranchID, long StdID)
         {
             var data = this._FeesService.GetFeesByBranchID(BranchID, StdID);
             OperationResult<List<FeesEntity>> result = new OperationResult<List<FeesEntity>>();
             result.Data = data.Result;
-            result.Completed = true;
             return result;
         }
     }

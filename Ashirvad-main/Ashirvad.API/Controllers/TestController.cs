@@ -285,9 +285,10 @@ namespace Ashirvad.API.Controllers
         //    return result;
         //}
 
-        [Route("TestAnswerSheetMaintenance/{TestID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}")]
+        [Route("TestAnswerSheetMaintenance/{TestID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}/{FileName}/{Filepath}")]
         [HttpPost]
-        public OperationResult<StudentAnswerSheetEntity> TestAnswerSheetMaintenance(long TestID, long BranchID, long StudentID, string Remarks, int? Status, DateTime SubmitDate, long CreateId, string CreateBy)
+        public OperationResult<StudentAnswerSheetEntity> TestAnswerSheetMaintenance(long TestID, long BranchID, long StudentID, 
+            string Remarks, int? Status, DateTime SubmitDate, long CreateId, string CreateBy,string FileName,string Filepath)
         {
             OperationResult<StudentAnswerSheetEntity> result = new OperationResult<StudentAnswerSheetEntity>();
 
@@ -304,39 +305,79 @@ namespace Ashirvad.API.Controllers
             TestDetail.Remarks = "";
             TestDetail.Status = Status.HasValue ? Status.Value : 0;
             TestDetail.SubmitDate = SubmitDate;
+            TestDetail.AnswerSheetContentText = FileName;
+            TestDetail.FilePath = Filepath;
             TestDetail.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            TestDetail.Transaction = new TransactionEntity()
+            if (TestID > 0)
             {
-                CreatedBy = CreateBy,
-                CreatedId = CreateId,
-                CreatedDate = DateTime.Now,
-            };
-            
-            try
-            {
-                foreach (string file in httpRequest.Files)
+                TestDetail.Transaction = new TransactionEntity()
                 {
-                    string fileName;
-                    string extension;
-                    string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                    string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
-                    var postedFile = httpRequest.Files[file];
-                    string randomfilename = Common.Common.RandomString(20);
-                    extension = Path.GetExtension(postedFile.FileName);
-                    fileName = Path.GetFileName(postedFile.FileName);
-                    string _Filepath = "/TestDetailImage/" + randomfilename + extension;
-                    string _Filepath1 = "TestDetailImage/" + randomfilename + extension;
-                    var filePath = HttpContext.Current.Server.MapPath("~/TestDetailImage/" + randomfilename + extension);
-                    string _path = UpdatedPath + _Filepath1;
-                    postedFile.SaveAs(_path);
-                    TestDetail.AnswerSheetName = fileName;
-                    TestDetail.FilePath = _Filepath;
-                    var data = this._testService.StudentAnswerSheetMaintenance(TestDetail);
-                    Response = data.Result;
+                    LastUpdateBy = CreateBy,
+                    LastUpdateId = CreateId,
+                    LastUpdateDate = DateTime.Now,
+                };
+            }
+            else
+            {
+                TestDetail.Transaction = new TransactionEntity()
+                {
+                    CreatedBy = CreateBy,
+                    CreatedId = CreateId,
+                    CreatedDate = DateTime.Now,
+                };
+            }
+            if (httpRequest.Files.Count > 0)
+            {
+                try
+                {
+                    foreach (string file in httpRequest.Files)
+                    {
+                        string fileName;
+                        string extension;
+                        string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                        // for live server
+                        //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        // for local server
+                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        var postedFile = httpRequest.Files[file];
+                        string randomfilename = Common.Common.RandomString(20);
+                        extension = Path.GetExtension(postedFile.FileName);
+                        fileName = Path.GetFileName(postedFile.FileName);
+                        string _Filepath = "/TestDetailImage/" + randomfilename + extension;
+                        string _Filepath1 = "TestDetailImage/" + randomfilename + extension;
+                        var filePath = HttpContext.Current.Server.MapPath("~/TestDetailImage/" + randomfilename + extension);
+                        string _path = UpdatedPath + _Filepath1;
+                        postedFile.SaveAs(_path);
+                        TestDetail.AnswerSheetName = fileName;
+                        TestDetail.FilePath = _Filepath;
+                        var data = this._testService.StudentAnswerSheetMaintenance(TestDetail);
+                        Response = data.Result;
+                    }
+                    result.Data = null;
+                    result.Completed = false;
+                    if (Response.AnsSheetID > 0)
+                    {
+                        result.Data = Response;
+                        result.Completed = true;
+                        result.Message = "Test Uploaded Successfully!!";
+                    }
+
                 }
+                catch (Exception ex)
+                {
+                    result.Data = Response;
+                    result.Completed = false;
+                    result.Message = ex.Message.ToString();
+                }
+
+            }
+            else
+            {
+                var data = this._testService.StudentAnswerSheetMaintenance(TestDetail);
+                Response = data.Result;
                 result.Data = null;
                 result.Completed = false;
                 if (Response.AnsSheetID > 0)
@@ -345,16 +386,7 @@ namespace Ashirvad.API.Controllers
                     result.Completed = true;
                     result.Message = "Test Uploaded Successfully!!";
                 }
-
             }
-            catch (Exception ex)
-            {
-                result.Data = Response;
-                result.Completed = false;
-                result.Message = ex.Message.ToString();
-            }
-
-
             return result;
 
 
