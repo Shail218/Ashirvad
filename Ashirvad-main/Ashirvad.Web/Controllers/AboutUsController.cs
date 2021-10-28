@@ -32,20 +32,20 @@ namespace Ashirvad.Web.Controllers
             if (detailid > 0)
             {
                 var about = await _aboutUsService.GetAboutUsByUniqueID(aboutID, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-                model.AboutusInfo = about.Data;
+                model.AboutusInfo = about;
                 var aboutdetail = await _aboutUsService.GetAboutUsDetailByUniqueID(detailid);
                 model.detailInfo = aboutdetail.Data;
             }
             else
             {
                 var about = await _aboutUsService.GetAboutUsByUniqueID(aboutID, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-                if(about.Data==null)
+                if(about==null)
                 {
                     model.AboutusInfo = new AboutUsEntity();
                 }
                 else
                 {
-                    model.AboutusInfo = about.Data;
+                    model.AboutusInfo = about;
                 }
                
             }
@@ -75,7 +75,7 @@ namespace Ashirvad.Web.Controllers
             if (aboutID > 0)
             {
                 var about = await _aboutUsService.GetAboutUsByUniqueID(aboutID);
-                model.AboutusInfo = about.Data;
+                model.AboutusInfo = about;
             }
 
             return View("~/Views/AboutUs/DetailCreate.cshtml", model.detailInfo);

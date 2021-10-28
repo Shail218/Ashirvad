@@ -26,20 +26,20 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllAboutUs")]
         [HttpGet]
-        public async Task<OperationResult<List<AboutUsEntity>>> GetAllAboutUs(long BranchID)
+        public async Task<OperationResult<AboutUsEntity>> GetAllAboutUs(long BranchID)
         {
             var data =  this._aboutUsService.GetAboutUsByUniqueID(0, BranchID).Result;
-            OperationResult<List<AboutUsEntity>> result = new OperationResult<List<AboutUsEntity>>();
+            OperationResult<AboutUsEntity> result = new OperationResult<AboutUsEntity>();
             result.Completed = false;
             result.Data = null;
-            if (data.Data.AboutUsID > 0)
+            if (data.AboutUsID > 0)
             {
                 result.Completed = true;
-                result.Data.Add(data.Data);
+                result.Data = data;
             }
-            
             return result;
         }
+
         [Route("GetAllAboutusDetails")]
         [HttpGet]
         public async Task<OperationResult<List<AboutUsDetailEntity>>> GetAllAboutusDetails(long BranchID)

@@ -65,14 +65,15 @@ namespace Ashirvad.API.Controllers
                             string fileName;
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            string UpdatedPath = currentDir.Replace("ashirvadapi", "ashivadproduct");
+                            string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
                             fileName = Path.GetFileName(postedFile.FileName);
                             string _Filepath = "/FeesImage/" + randomfilename + extension;
+                            string _Filepath1 = "FeesImage/" + randomfilename + extension;
                             var filePath = HttpContext.Current.Server.MapPath("~/FeesImage/" + randomfilename + extension);
-                            string _path = UpdatedPath + _Filepath;
+                            string _path = UpdatedPath + _Filepath1;
                             postedFile.SaveAs(_path);
                             feesEntity.FileName = postedFile.FileName;
                             feesEntity.FilePath = _Filepath;

@@ -322,17 +322,18 @@ namespace Ashirvad.API.Controllers
                     string fileName;
                     string extension;
                     string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                    string UpdatedPath = currentDir.Replace("ashirvadapi", "ashivadproduct");
+                    string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                     var postedFile = httpRequest.Files[file];
                     string randomfilename = Common.Common.RandomString(20);
                     extension = Path.GetExtension(postedFile.FileName);
                     fileName = Path.GetFileName(postedFile.FileName);
                     string _Filepath = "/TestDetailImage/" + randomfilename + extension;
+                    string _Filepath1 = "TestDetailImage/" + randomfilename + extension;
                     var filePath = HttpContext.Current.Server.MapPath("~/TestDetailImage/" + randomfilename + extension);
-                    string _path = UpdatedPath + _Filepath;
+                    string _path = UpdatedPath + _Filepath1;
                     postedFile.SaveAs(_path);
                     TestDetail.AnswerSheetName = fileName;
-                    TestDetail.FilePath = "http://highpack-001-site12.dtempurl.com" + _Filepath;
+                    TestDetail.FilePath = _Filepath;
                     var data = this._testService.StudentAnswerSheetMaintenance(TestDetail);
                     Response = data.Result;
                 }
@@ -348,7 +349,9 @@ namespace Ashirvad.API.Controllers
             }
             catch (Exception ex)
             {
-
+                result.Data = Response;
+                result.Completed = false;
+                result.Message = ex.Message.ToString();
             }
 
 
