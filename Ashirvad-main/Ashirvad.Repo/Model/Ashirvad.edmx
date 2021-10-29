@@ -150,7 +150,7 @@
             <PropertyRef Name="branchrights_id" />
           </Key>
           <Property Name="branchrights_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="packagerights_id" Type="bigint" Nullable="false" />
+          <Property Name="package_id" Type="bigint" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
         </EntityType>
@@ -470,7 +470,7 @@
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="submit_dt" Type="datetime" Nullable="false" />
-          <Property Name="ans_sheet_filepath" Type="nvarchar" MaxLength="50" />
+          <Property Name="ans_sheet_filepath" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="STUDENT_MAINT">
           <Key>
@@ -862,17 +862,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER">
-          <End Role="PACKAGE_RIGHTS_MASTER" Type="Self.PACKAGE_RIGHTS_MASTER" Multiplicity="1">
+        <Association Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER">
+          <End Role="PACKAGE_MASTER" Type="Self.PACKAGE_MASTER" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="BRANCH_RIGHTS_MASTER" Type="Self.BRANCH_RIGHTS_MASTER" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PACKAGE_RIGHTS_MASTER">
-              <PropertyRef Name="packagerights_id" />
+            <Principal Role="PACKAGE_MASTER">
+              <PropertyRef Name="package_id" />
             </Principal>
             <Dependent Role="BRANCH_RIGHTS_MASTER">
-              <PropertyRef Name="packagerights_id" />
+              <PropertyRef Name="package_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1940,8 +1940,8 @@
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
           </AssociationSet>
-          <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER" Association="Self.FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER">
-            <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+          <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" Association="Self.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER">
+            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
             <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" Association="Self.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER">
@@ -2706,8 +2706,8 @@
             <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
           </AssociationSet>
           <EntitySet Name="BRANCH_RIGHTS_MASTER" EntityType="AshirvadModel.BRANCH_RIGHTS_MASTER" />
-          <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER" Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER">
-            <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+          <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER">
+            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
             <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER">
@@ -4452,7 +4452,7 @@
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="submit_dt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ans_sheet_filepath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ans_sheet_filepath" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_BRANCH_MASTER" FromRole="STUDENT_ANS_SHEET" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER" FromRole="STUDENT_ANS_SHEET" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER" FromRole="STUDENT_ANS_SHEET" ToRole="TEST_MASTER" />
@@ -4611,6 +4611,7 @@
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="PACKAGE_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_TRANSACTION_MASTER" FromRole="PACKAGE_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
+          <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
         </EntityType>
         <EntityType Name="PACKAGE_RIGHTS_MASTER">
           <Key>
@@ -4627,7 +4628,6 @@
           <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="PACKAGE_MASTER" />
           <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="PAGE_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="TRANSACTION_MASTER" />
-          <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
         </EntityType>
         <Association Name="FK_PACKAGE_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -4700,23 +4700,23 @@
             <PropertyRef Name="branchrights_id" />
           </Key>
           <Property Name="branchrights_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="packagerights_id" Type="Int64" Nullable="false" />
+          <Property Name="package_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER" FromRole="BRANCH_RIGHTS_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
+          <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="BRANCH_RIGHTS_MASTER" ToRole="PACKAGE_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="BRANCH_RIGHTS_MASTER" ToRole="TRANSACTION_MASTER" />
         </EntityType>
-        <Association Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER">
-          <End Type="AshirvadModel.PACKAGE_RIGHTS_MASTER" Role="PACKAGE_RIGHTS_MASTER" Multiplicity="1">
+        <Association Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER">
+          <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Type="AshirvadModel.BRANCH_RIGHTS_MASTER" Role="BRANCH_RIGHTS_MASTER" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PACKAGE_RIGHTS_MASTER">
-              <PropertyRef Name="packagerights_id" />
+            <Principal Role="PACKAGE_MASTER">
+              <PropertyRef Name="package_id" />
             </Principal>
             <Dependent Role="BRANCH_RIGHTS_MASTER">
-              <PropertyRef Name="packagerights_id" />
+              <PropertyRef Name="package_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5491,7 +5491,7 @@
               <MappingFragment StoreEntitySet="BRANCH_RIGHTS_MASTER">
                 <ScalarProperty Name="trans_id" ColumnName="trans_id" />
                 <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="packagerights_id" ColumnName="packagerights_id" />
+                <ScalarProperty Name="package_id" ColumnName="package_id" />
                 <ScalarProperty Name="branchrights_id" ColumnName="branchrights_id" />
               </MappingFragment>
             </EntityTypeMapping>

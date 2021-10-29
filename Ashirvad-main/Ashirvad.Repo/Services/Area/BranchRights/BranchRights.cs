@@ -14,17 +14,17 @@ namespace Ashirvad.Repo.Services.Area
     public class BranchRights : ModelAccess, IBranchRightsAPI
     {
 
-        public async Task<long> CheckRights(int RightsID, int BranchID)
+        public async Task<long> CheckRights(int RightsID, int PackageID)
         {
             long result;
-            bool isExists = this.context.BRANCH_RIGHTS_MASTER.Where(s => (RightsID == 0 || s.branchrights_id != RightsID) &&s.packagerights_id== BranchID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.BRANCH_RIGHTS_MASTER.Where(s => (RightsID == 0 || s.branchrights_id != RightsID) &&s.PACKAGE_MASTER.package_id== PackageID && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
         public async Task<long> RightsMaintenance(BranchWiseRightEntity RightsInfo)
         {
             Model.BRANCH_RIGHTS_MASTER RightsMaster = new Model.BRANCH_RIGHTS_MASTER();
-            if (CheckRights((int)RightsInfo.BranchWiseRightsID, (int)RightsInfo.Packageinfo.PackageRightsId).Result != -1)
+            if (CheckRights((int)RightsInfo.BranchWiseRightsID, (int)RightsInfo.Packageinfo.PackageID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from Branch in this.context.BRANCH_RIGHTS_MASTER
@@ -45,7 +45,7 @@ namespace Ashirvad.Repo.Services.Area
                 }
 
                 RightsMaster.branchrights_id = RightsInfo.BranchWiseRightsID;
-                RightsMaster.packagerights_id = RightsInfo.Packageinfo.PackageRightsId;                
+                RightsMaster.package_id = RightsInfo.Packageinfo.PackageID;                
                 RightsMaster.row_sta_cd = RightsInfo.RowStatus.RowStatusId;
                 
                 RightsMaster.trans_id = this.AddTransactionData(RightsInfo.Transaction);
@@ -69,7 +69,9 @@ namespace Ashirvad.Repo.Services.Area
         public async Task<List<BranchWiseRightEntity>> GetAllRights()
         {
             var data = (from u in this.context.BRANCH_RIGHTS_MASTER                        
-                        .Include("PACKAGE_RIGHTS_MASTER")                        
+                        .Include("PACKAGE_MASTER")
+                        join PM in this.context.PACKAGE_RIGHTS_MASTER on u.package_id equals PM.package_id
+                        join page in this.context.PAGE_MASTER on PM.package_id equals page.page_id
                         where u.row_sta_cd == 1
                         select new BranchWiseRightEntity()
                         {
@@ -78,20 +80,21 @@ namespace Ashirvad.Repo.Services.Area
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            Packageinfo = new PackageRightEntity()
+                            PackageRightinfo = new PackageRightEntity()
                             {
-                                PageInfo = new PageEntity()
-                                {
-                                    Page = u.PACKAGE_RIGHTS_MASTER.PAGE_MASTER.page,
-                                    PageID = u.PACKAGE_RIGHTS_MASTER.PAGE_MASTER.page_id,
-                                },
-                                PackageRightsId = u.packagerights_id,
-                                Createstatus = u.PACKAGE_RIGHTS_MASTER.createstatus,
-                                Viewstatus = u.PACKAGE_RIGHTS_MASTER.viewstatus,
-                                Deletestatus = u.PACKAGE_RIGHTS_MASTER.deletestatus,
+                               
+                                PackageRightsId = PM.packagerights_id,
+                                Createstatus = PM.createstatus,
+                                Viewstatus = PM.viewstatus,
+                                Deletestatus = PM.deletestatus,
 
                             },
-                           
+                            PageInfo = new PageEntity()
+                            {
+                                Page = page.page,
+                                PageID = page.page_id,
+                            },
+
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },                            
                         }).ToList();
 
@@ -103,8 +106,10 @@ namespace Ashirvad.Repo.Services.Area
         public async Task<BranchWiseRightEntity> GetRightsByRightsID(long RightsID)
         {
             var data = (from u in this.context.BRANCH_RIGHTS_MASTER
-                         .Include("PACKAGE_RIGHTS_MASTER")
-                        where u.row_sta_cd == 1 && u.packagerights_id== RightsID
+                         .Include("PACKAGE_MASTER")
+                        join PM in this.context.PACKAGE_RIGHTS_MASTER on u.package_id equals PM.package_id
+                        join page in this.context.PAGE_MASTER on PM.package_id equals page.page_id
+                        where u.row_sta_cd == 1 && u.package_id== RightsID
                         select new BranchWiseRightEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -112,18 +117,19 @@ namespace Ashirvad.Repo.Services.Area
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            Packageinfo = new PackageRightEntity()
+                            PackageRightinfo = new PackageRightEntity()
                             {
-                                PageInfo = new PageEntity()
-                                {
-                                    Page = u.PACKAGE_RIGHTS_MASTER.PAGE_MASTER.page,
-                                    PageID = u.PACKAGE_RIGHTS_MASTER.PAGE_MASTER.page_id,
-                                },
-                                PackageRightsId = u.packagerights_id,
-                                Createstatus = u.PACKAGE_RIGHTS_MASTER.createstatus,
-                                Viewstatus = u.PACKAGE_RIGHTS_MASTER.viewstatus,
-                                Deletestatus = u.PACKAGE_RIGHTS_MASTER.deletestatus,
 
+                                PackageRightsId = PM.packagerights_id,
+                                Createstatus = PM.createstatus,
+                                Viewstatus = PM.viewstatus,
+                                Deletestatus = PM.deletestatus,
+
+                            },
+                            PageInfo = new PageEntity()
+                            {
+                                Page = page.page,
+                                PageID = page.page_id,
                             },
 
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
@@ -135,12 +141,12 @@ namespace Ashirvad.Repo.Services.Area
         public bool RemoveRights(long RightsID, string lastupdatedby)
         {
             var data = (from u in this.context.BRANCH_RIGHTS_MASTER
-                        where u.packagerights_id == RightsID
-                        select u).FirstOrDefault();
+                        where u.package_id == RightsID
+                        select u).ToList();
             if (data != null)
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                this.context.BRANCH_RIGHTS_MASTER.RemoveRange(data);
+                this.context.SaveChanges();
                 this.context.SaveChanges();
                 return true;
             }

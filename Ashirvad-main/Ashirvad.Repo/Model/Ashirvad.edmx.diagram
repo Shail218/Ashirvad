@@ -149,8 +149,8 @@
         <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" />
-        <EntityTypeShape EntityType="AshirvadModel.BRANCH_RIGHTS_MASTER" Width="1.5" PointX="23.125" PointY="15.625" />
-        <AssociationConnector Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_RIGHTS_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.BRANCH_RIGHTS_MASTER" Width="1.5" PointX="15.5" PointY="10.75" />
+        <AssociationConnector Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" />
         </Diagram>
     </edmx:Diagrams>

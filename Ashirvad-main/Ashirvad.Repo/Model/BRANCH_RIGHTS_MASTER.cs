@@ -15,11 +15,11 @@ namespace Ashirvad.Repo.Model
     public partial class BRANCH_RIGHTS_MASTER
     {
         public long branchrights_id { get; set; }
-        public long packagerights_id { get; set; }
+        public long package_id { get; set; }
         public Nullable<int> row_sta_cd { get; set; }
         public long trans_id { get; set; }
     
-        public virtual PACKAGE_RIGHTS_MASTER PACKAGE_RIGHTS_MASTER { get; set; }
+        public virtual PACKAGE_MASTER PACKAGE_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
     }
 }
