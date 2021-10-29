@@ -555,9 +555,8 @@ namespace Ashirvad.Repo.Services.Area.Test
             }
             else
             {
-                bool restult = RemoveTestAnswerSheetdetail(studAnswerSheet.TestInfo.TestID, studAnswerSheet.StudentInfo.StudentID);
-                ansSheet = new Model.STUDENT_ANS_SHEET(); ;
-                
+                ansSheet = new Model.STUDENT_ANS_SHEET();
+                isUpdate = false;
             }
 
             ansSheet.row_sta_cd = studAnswerSheet.RowStatus.RowStatusId;
@@ -577,7 +576,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                 this.context.Entry(ansSheet).State = System.Data.Entity.EntityState.Modified;
             }
 
-            return this.context.SaveChanges() > 0 ? ansSheet.test_id : 0;
+            return this.context.SaveChanges() > 0 ? ansSheet.ans_sheet_id : 0;
         }
 
         public async Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetByTestStudent(long testID)

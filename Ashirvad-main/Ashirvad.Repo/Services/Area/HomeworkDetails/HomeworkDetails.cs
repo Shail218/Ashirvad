@@ -18,7 +18,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
             Model.HOMEWORK_MASTER_DTL homework = new Model.HOMEWORK_MASTER_DTL();
             bool isUpdate = true;
             var data = (from t in this.context.HOMEWORK_MASTER_DTL
-                        where t.homework_master_dtl_id == homeworkDetail.HomeworkDetailID && t.stud_id== homeworkDetail.StudentInfo.StudentID
+                        where t.homework_id == homeworkDetail.HomeworkEntity.HomeworkID && t.stud_id== homeworkDetail.StudentInfo.StudentID
                         select t).FirstOrDefault();
             if (data == null)
             {
@@ -27,7 +27,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
             }
             else
             {
-                bool result = RemoveHomeworkdetail(homeworkDetail.HomeworkEntity.HomeworkID, homeworkDetail.StudentInfo.StudentID);
+                //bool result = RemoveHomeworkdetail(homeworkDetail.HomeworkEntity.HomeworkID, homeworkDetail.StudentInfo.StudentID);
                 data = new Model.HOMEWORK_MASTER_DTL();
                 isUpdate = false;
 

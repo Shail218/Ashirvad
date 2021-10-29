@@ -130,9 +130,9 @@ namespace Ashirvad.API.Controllers
         }
         
         [HttpPost]
-        [Route("HomeworkDetailMaintenance/{HomeworkID}/{HomeworkDetailID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}/{FileName}/{Filepath}")]
-        public OperationResult<HomeworkDetailEntity> HomeworkDetailMaintenance(long HomeworkID, long HomeworkDetailID, long BranchID, long StudentID, 
-            string Remarks, int?Status, DateTime SubmitDate,long CreateId,string CreateBy,string FileName,string Filepath)
+        [Route("HomeworkDetailMaintenance/{HomeworkID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}")]
+        public OperationResult<HomeworkDetailEntity> HomeworkDetailMaintenance(long HomeworkID, long BranchID, long StudentID, 
+            string Remarks, int?Status, DateTime SubmitDate,long CreateId,string CreateBy)
         {
             HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
             HomeworkDetailEntity Response = new HomeworkDetailEntity();
@@ -142,43 +142,22 @@ namespace Ashirvad.API.Controllers
             homeworkDetail.StudentInfo = new StudentEntity();
             var httpRequest = HttpContext.Current.Request;
             homeworkDetail.HomeworkEntity.HomeworkID = HomeworkID;
-            homeworkDetail.HomeworkDetailID = HomeworkDetailID;
             homeworkDetail.BranchInfo.BranchID = BranchID;
             homeworkDetail.StudentInfo.StudentID = StudentID;
             homeworkDetail.Remarks = "";
             homeworkDetail.Status = Status.HasValue?Status.Value:0;
             homeworkDetail.SubmitDate = SubmitDate;
-            homeworkDetail.AnswerSheetContentText = FileName;
-            homeworkDetail.FilePath = Filepath;
             homeworkDetail.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            if (HomeworkID > 0)
-            {
-                homeworkDetail.Transaction = new TransactionEntity()
-                {
-                    LastUpdateBy = CreateBy,
-                    LastUpdateId = CreateId,
-                    LastUpdateDate = DateTime.Now,
-                };
-            }
-            else
-            {
-                homeworkDetail.Transaction = new TransactionEntity()
-                {
-                    CreatedBy = CreateBy,
-                    CreatedId = CreateId,
-                    CreatedDate = DateTime.Now,
-                };
-            }
-
             homeworkDetail.Transaction = new TransactionEntity()
             {
                 CreatedBy = CreateBy,
                 CreatedId = CreateId,
                 CreatedDate = DateTime.Now,
             };
+            var data1 = this._homeworkdetailService.RemoveHomeworkdetail(HomeworkID,StudentID);
             OperationResult<HomeworkDetailEntity> result = new OperationResult<HomeworkDetailEntity>();
             if (httpRequest.Files.Count > 0)
             {
@@ -186,7 +165,6 @@ namespace Ashirvad.API.Controllers
                 {
                     foreach (string file in httpRequest.Files)
                     {
-                        homeworkDetail.HomeworkDetailID = HomeworkDetailID;
                         string fileName;
                         string extension;
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
@@ -204,7 +182,7 @@ namespace Ashirvad.API.Controllers
                         string _path = UpdatedPath + _Filepath1;
                         postedFile.SaveAs(_path);
                         homeworkDetail.AnswerSheetName = fileName;
-                        homeworkDetail.FilePath = _Filepath1;                        
+                        homeworkDetail.FilePath = _Filepath;                        
                         var data = this._homeworkdetailService.HomeworkdetailMaintenance(homeworkDetail);
                         Response = data.Result;
                     }

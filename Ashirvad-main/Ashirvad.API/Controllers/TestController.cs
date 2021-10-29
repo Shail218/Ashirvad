@@ -285,10 +285,10 @@ namespace Ashirvad.API.Controllers
         //    return result;
         //}
 
-        [Route("TestAnswerSheetMaintenance/{TestID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}/{FileName}/{Filepath}")]
+        [Route("TestAnswerSheetMaintenance/{TestID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}")]
         [HttpPost]
         public OperationResult<StudentAnswerSheetEntity> TestAnswerSheetMaintenance(long TestID, long BranchID, long StudentID, 
-            string Remarks, int? Status, DateTime SubmitDate, long CreateId, string CreateBy,string FileName,string Filepath)
+            string Remarks, int? Status, DateTime SubmitDate, long CreateId, string CreateBy)
         {
             OperationResult<StudentAnswerSheetEntity> result = new OperationResult<StudentAnswerSheetEntity>();
 
@@ -305,30 +305,17 @@ namespace Ashirvad.API.Controllers
             TestDetail.Remarks = "";
             TestDetail.Status = Status.HasValue ? Status.Value : 0;
             TestDetail.SubmitDate = SubmitDate;
-            TestDetail.AnswerSheetContentText = FileName;
-            TestDetail.FilePath = Filepath;
             TestDetail.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            if (TestID > 0)
+            TestDetail.Transaction = new TransactionEntity()
             {
-                TestDetail.Transaction = new TransactionEntity()
-                {
-                    LastUpdateBy = CreateBy,
-                    LastUpdateId = CreateId,
-                    LastUpdateDate = DateTime.Now,
-                };
-            }
-            else
-            {
-                TestDetail.Transaction = new TransactionEntity()
-                {
-                    CreatedBy = CreateBy,
-                    CreatedId = CreateId,
-                    CreatedDate = DateTime.Now,
-                };
-            }
+                CreatedBy = CreateBy,
+                CreatedId = CreateId,
+                CreatedDate = DateTime.Now,
+            };
+            var data1 = this._testService.RemoveTestAnswerSheetdetail(TestID, StudentID);
             if (httpRequest.Files.Count > 0)
             {
                 try

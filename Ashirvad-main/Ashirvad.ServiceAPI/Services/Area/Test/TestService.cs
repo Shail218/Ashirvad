@@ -434,5 +434,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
 
             return TestDetailEntity;
         }
+
+        public bool RemoveTestAnswerSheetdetail(long TestID, long studid)
+        {
+            try
+            {
+                var data = _testContext.RemoveTestAnswerSheetdetail(TestID, studid);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return false;
+        }
     }
 }

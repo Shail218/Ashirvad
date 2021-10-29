@@ -110,6 +110,21 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return false;
         }
-  
+
+        public bool RemoveHomeworkdetail(long homeworkdetailID, long UserID)
+        {
+            try
+            {
+                var data = _testContext.RemoveHomeworkdetail(homeworkdetailID, UserID);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return false;
+        }
+
     }
 }
