@@ -17,14 +17,14 @@ namespace Ashirvad.Repo.Services.Area
         public async Task<long> CheckRights(int RightsID, int PackageID)
         {
             long result;
-            bool isExists = this.context.BRANCH_RIGHTS_MASTER.Where(s => (RightsID == 0 || s.branchrights_id != RightsID) &&s.PACKAGE_MASTER.package_id== PackageID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.BRANCH_RIGHTS_MASTER.Where(s => (RightsID == 0 || s.branchrights_id != RightsID) &&s.branch_id== PackageID && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
         public async Task<long> RightsMaintenance(BranchWiseRightEntity RightsInfo)
         {
             Model.BRANCH_RIGHTS_MASTER RightsMaster = new Model.BRANCH_RIGHTS_MASTER();
-            if (CheckRights((int)RightsInfo.BranchWiseRightsID, (int)RightsInfo.Packageinfo.PackageID).Result != -1)
+            if (CheckRights((int)RightsInfo.BranchWiseRightsID, (int)RightsInfo.BranchID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from Branch in this.context.BRANCH_RIGHTS_MASTER
@@ -47,6 +47,7 @@ namespace Ashirvad.Repo.Services.Area
                 RightsMaster.branchrights_id = RightsInfo.BranchWiseRightsID;
                 RightsMaster.package_id = RightsInfo.Packageinfo.PackageID;                
                 RightsMaster.row_sta_cd = RightsInfo.RowStatus.RowStatusId;
+                RightsMaster.branch_id = RightsInfo.BranchID;
                 
                 RightsMaster.trans_id = this.AddTransactionData(RightsInfo.Transaction);
                 this.context.BRANCH_RIGHTS_MASTER.Add(RightsMaster);
@@ -70,9 +71,9 @@ namespace Ashirvad.Repo.Services.Area
         {
             var data = (from u in this.context.BRANCH_RIGHTS_MASTER                        
                         .Include("PACKAGE_MASTER")
+                         .Include("BRANCH_MASTER")
                         join PM in this.context.PACKAGE_RIGHTS_MASTER on u.package_id equals PM.package_id
-                        join page in this.context.PAGE_MASTER on PM.package_id equals page.page_id
-                        join b in this.context.BRANCH_MASTER on page.branch_id equals b.branch_id
+                        join page in this.context.PAGE_MASTER on PM.package_id equals page.page_id                        
                         where u.row_sta_cd == 1
                         select new BranchWiseRightEntity()
                         {
@@ -95,7 +96,27 @@ namespace Ashirvad.Repo.Services.Area
 
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },                            
                         }).ToList();
+            if (data.Count > 0)
+            {
+                data[0].list = (from u in this.context.BRANCH_RIGHTS_MASTER
+                              .Include("BRANCH_MASTER")                       
+                                where u.row_sta_cd == 1
+                                select new BranchWiseRightEntity()
+                                {
+                                    branchinfo = new BranchEntity()
+                                    {
+                                        BranchName = u.BRANCH_MASTER.branch_name,
+                                        
+                                    },
 
+                                }).Distinct().ToList();
+            }
+            else
+            {
+                BranchWiseRightEntity entity = new BranchWiseRightEntity();
+                entity.list = new List<BranchWiseRightEntity>();
+                data.Add(entity);
+            }
             return data;
 
         }
@@ -139,13 +160,13 @@ namespace Ashirvad.Repo.Services.Area
         public bool RemoveRights(long RightsID, string lastupdatedby)
         {
             var data = (from u in this.context.BRANCH_RIGHTS_MASTER
-                        where u.package_id == RightsID
+                        where u.branchrights_id == RightsID
                         select u).ToList();
             if (data != null)
             {
                 this.context.BRANCH_RIGHTS_MASTER.RemoveRange(data);
                 this.context.SaveChanges();
-                this.context.SaveChanges();
+        
                 return true;
             }
 

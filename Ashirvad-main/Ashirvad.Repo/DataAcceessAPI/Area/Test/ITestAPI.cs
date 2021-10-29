@@ -33,6 +33,8 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Test
 
         Task<long> TestMaintenance(TestDetailEntity TestDetail);
         Task<List<TestPaperEntity>> GetAllTestDocLinks(long branchID, long stdID, int batchTime);
+
+        Task<TestEntity> GetTestDetails(long TestID,long SubjectID);
         bool RemoveTestAnswerSheetdetail(long TestID, long studid);
     }
 }

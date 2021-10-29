@@ -14,7 +14,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
         public async Task<long> CheckSubject(string name, long branch, long Id)
         {
             long result;
-            bool isExists = this.context.SUBJECT_MASTER.Where(s => (Id == 0 || s.subject_id != Id) && s.subject == name &&  s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.SUBJECT_MASTER.Where(s => (Id == 0 || s.subject_id != Id) && s.subject == name && s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -55,7 +55,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
             {
                 return -1;
             }
-               
+
         }
 
         public async Task<List<SubjectEntity>> GetAllSubjects(long branchID)
@@ -140,6 +140,32 @@ namespace Ashirvad.Repo.Services.Area.Subject
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
+
+            return data;
+        }
+
+        public async Task<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate)
+        {
+            DateTime dateTime = Convert.ToDateTime(TestDate);
+            var data = (from u in this.context.TEST_MASTER
+                        join sm in this.context.SUBJECT_MASTER on u.sub_id equals sm.subject_id
+                        where (u.test_dt == dateTime && u.row_sta_cd == 1)
+                        select new SubjectEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            Subject = sm.subject,
+                            SubjectID = sm.subject_id,
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
 
             return data;
         }

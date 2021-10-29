@@ -557,6 +557,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             {
                 ansSheet = new Model.STUDENT_ANS_SHEET();
                 isUpdate = false;
+
             }
 
             ansSheet.row_sta_cd = studAnswerSheet.RowStatus.RowStatusId;
@@ -576,7 +577,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                 this.context.Entry(ansSheet).State = System.Data.Entity.EntityState.Modified;
             }
 
-            return this.context.SaveChanges() > 0 ? ansSheet.ans_sheet_id : 0;
+            return this.context.SaveChanges() > 0 ? ansSheet.test_id : 0;
         }
 
         public async Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetByTestStudent(long testID)
@@ -867,5 +868,24 @@ namespace Ashirvad.Repo.Services.Area.Test
 
             return false;
         }
+
+        public async Task<TestEntity> GetTestDetails(long TestID, long SubjectID)
+        {
+            var data = (from u in this.context.TEST_MASTER                      
+                        where u.test_id == TestID && u.sub_id==SubjectID
+                        select new TestEntity()
+                        {
+                            TestID = u.test_id,
+                            Remarks = u.remarks,
+                            Marks = u.total_marks,
+                            TestDate = u.test_dt,
+                            TestEndTime = u.test_end_time,
+                            TestName = u.test_name,
+                            TestStartTime = u.test_st_time,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).FirstOrDefault();
+            return data;
+        }
+       
     }
 }
