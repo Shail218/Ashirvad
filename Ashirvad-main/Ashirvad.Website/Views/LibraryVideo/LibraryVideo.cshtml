@@ -1,0 +1,258 @@
+﻿
+@{
+    ViewBag.Title = "LibraryVideo";
+}
+<style>
+    .gallery_content {
+        visibility: visible !important;
+        opacity: 100 !important;
+        top: 32px !important;
+    }
+
+    .gallery_content, .ripple {
+        top: 20px !important;
+    }
+
+        .ripple::before, .ripple::after {
+            -webkit-animation: none !important;
+            animation: none !important;
+        }
+</style>
+<section class="page-title-light breadcrumb_section parallax_bg overlay_bg_50" data-parallax-bg-image="../../Themedata/assets/images/pexels-max-fischer-5212326.jpg">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-sm-6">
+                <div class="page-title">
+                    <h1>Library Videos</h1>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-sm-end">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Library Videos</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="list_none grid_filter">
+                    <li><a href="#" class="current" data-filter="*">All</a></li>
+                    <li><a href="#" data-filter=".library">Hindi</a></li>
+                    <li><a href="#" data-filter=".campus">English</a></li>
+                    <li><a href="#" data-filter=".events">Maths</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="grid_container gutter_medium grid_col4">
+                    <li class="grid-sizer"></li>
+                    <!-- START PORTFOLIO ITEM -->
+                    <li class="grid_item events">
+                        <div class="gallery_item">
+                            <a href="#" class="image_link">
+                                <img src="~/Themedata/assets/images/gallery_item_small1_360X240.jpg" alt="image">
+                            </a>
+                            <div class="gallery_content">
+                                <div class="link_container">
+                                    <a href="~/Themedata/assets/images/gallery_item1.jpg" class="image_popup"><span class="ripple"><i class="ion-social-youtube"></i></span></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- END PORTFOLIO ITEM -->
+                    <!-- START PORTFOLIO ITEM -->
+                    <li class="grid_item library campus">
+                        <div class="gallery_item">
+                            <a href="#" class="image_link">
+                                <img src="~/Themedata/assets/images/gallery_item_small2_360X240.jpg" alt="image">
+                            </a>
+                            <div class="gallery_content">
+                                <div class="link_container">
+                                    <a href="~/Themedata/assets/images/gallery_item2.jpg" class="image_popup"><span class="ripple"><i class="ion-social-youtube"></i></span></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- END PORTFOLIO ITEM -->
+                    <!-- START PORTFOLIO ITEM -->
+                    <li class="grid_item library">
+                        <div class="gallery_item">
+                            <div class="carousel_slider owl-carousel owl-theme dots_white" data-autoplay="true" data-loop="true" data-autoplay-timeout="3000" data-items="1">
+                                <a href="#" class="image_link">
+                                    <img src="~/Themedata/assets/images/gallery_item_small3_360X240.jpg" alt="image">
+                                </a>
+                                @*<a href="#" class="image_link">
+                                        <img src="~/Themedata/assets/images/gallery_item_small4_360X240.jpg" alt="image">
+                                    </a>*@
+                            </div>
+                            <div class="gallery_content">
+                                <div class="link_container">
+                                    <a href="~/Themedata/assets/images/gallery_item3.jpg" class="image_popup"><span class="ripple"><i class="ion-social-youtube"></i></span></a>
+                                    <a href="~/Themedata/assets/images/gallery_item4.jpg" class="image_popup d-none"></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- END PORTFOLIO ITEM -->
+                    <!-- START PORTFOLIO ITEM -->
+                    <li class="grid_item campus">
+                        <div class="gallery_item">
+                            <a href="#" class="image_link">
+                                <img src="~/Themedata/assets/images/gallery_item_small5_360X240.jpg" alt="image">
+                            </a>
+                            <div class="gallery_content">
+                                <div class="link_container">
+                                    <a href="~/Themedata/assets/images/gallery_item5.jpg" class="image_popup"><span class="ripple"><i class="ion-social-youtube"></i></span></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- END PORTFOLIO ITEM -->
+                    <!-- START PORTFOLIO ITEM -->
+                    <li class="grid_item events">
+                        <div class="gallery_item">
+                            <div class="carousel_slider owl-carousel owl-theme dots_white" data-autoplay="true" data-loop="true" data-animate-in="fadeIn" data-animate-out="fadeOut" data-autoplay-timeout="3500" data-items="1">
+                                <a href="#" class="image_link">
+                                    <img src="~/Themedata/assets/images/gallery_item_small6_360X240.jpg" alt="image">
+                                </a>
+                                @*<a href="#" class="image_link">
+                                        <img src="~/Themedata/assets/images/gallery_item_small7_360X240.jpg" alt="image">
+                                    </a>*@
+                            </div>
+                            <div class="gallery_content">
+                                <div class="link_container">
+                                    <a href="~/Themedata/assets/images/gallery_item6.jpg" class="image_popup"><span class="ripple"><i class="ion-social-youtube"></i></span></a>
+                                    <a href="~/Themedata/assets/images/gallery_item7.jpg" class="image_popup d-none"><i class="ion-image"></i></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- END PORTFOLIO ITEM -->
+                    <!-- START PORTFOLIO ITEM -->
+                    <li class="grid_item library campus">
+                        <div class="gallery_item">
+                            <a href="#" class="image_link">
+                                <img src="~/Themedata/assets/images/gallery_item_small8_360X240.jpg" alt="image">
+                            </a>
+                            <div class="gallery_content">
+                                <div class="link_container">
+                                    <a href="~/Themedata/assets/images/gallery_item8.jpg" class="image_popup"><span class="ripple"><i class="ion-social-youtube"></i></span></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- END PORTFOLIO ITEM -->
+                    <!-- START PORTFOLIO ITEM -->
+                    <li class="grid_item campus">
+                        <div class="gallery_item">
+                            <a href="#" class="image_link">
+                                <img src="~/Themedata/assets/images/gallery_item_small9_360X240.jpg" alt="image">
+                            </a>
+                            <div class="gallery_content">
+                                <div class="link_container">
+                                    <a href="~/Themedata/assets/images/gallery_item9.jpg" class="image_popup"><span class="ripple"><i class="ion-social-youtube"></i></span></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- END PORTFOLIO ITEM -->
+                    <!-- START PORTFOLIO ITEM -->
+                    <li class="grid_item library">
+                        <div class="gallery_item">
+                            <a href="#" class="image_link">
+                                <img src="~/Themedata/assets/images/gallery_item_small10_360X240.jpg" alt="image">
+                            </a>
+                            <div class="gallery_content">
+                                <div class="link_container">
+                                    <a href="~/Themedata/assets/images/gallery_item10.jpg" class="image_popup"><span class="ripple"><i class="ion-social-youtube"></i></span></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- END PORTFOLIO ITEM -->
+                    <!-- START PORTFOLIO ITEM -->
+                    <li class="grid_item events">
+                        <div class="gallery_item">
+                            <a href="#" class="image_link">
+                                <img src="~/Themedata/assets/images/gallery_item_small11_360X240.jpg" alt="image">
+                            </a>
+                            <div class="gallery_content">
+                                <div class="link_container">
+                                    <a href="~/Themedata/assets/images/gallery_item11.jpg" class="image_popup"><span class="ripple"><i class="ion-social-youtube"></i></span></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- END PORTFOLIO ITEM -->
+                    <!-- START PORTFOLIO ITEM -->
+                    <li class="grid_item events">
+                        <div class="gallery_item">
+                            <div class="carousel_slider owl-carousel owl-theme dots_white" data-autoplay="true" data-loop="true" data-autoplay-timeout="4000" data-items="1">
+                                <a href="#" class="image_link">
+                                    <img src="~/Themedata/assets/images/gallery_item_small12_360X240.jpg" alt="image">
+                                </a>
+                                @*<a href="#" class="image_link">
+                                        <img src="~/Themedata/assets/images/gallery_item_small13_360X240.jpg" alt="image">
+                                    </a>*@
+                            </div>
+                            <div class="gallery_content">
+                                <div class="link_container">
+                                    <a href="~/Themedata/assets/images/gallery_item12.jpg" class="image_popup"><span class="ripple"><i class="ion-social-youtube"></i></span></a>
+                                    <a href="~/Themedata/assets/images/gallery_item13.jpg" class="image_popup d-none"></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- END PORTFOLIO ITEM -->
+                    <!-- START PORTFOLIO ITEM -->
+                    <li class="grid_item library">
+                        <div class="gallery_item">
+                            <a href="#" class="image_link">
+                                <img src="~/Themedata/assets/images/gallery_item_small14_360X240.jpg" alt="image">
+                            </a>
+                            <div class="gallery_content">
+                                <div class="link_container">
+                                    <a href="~/Themedata/assets/images/gallery_item14.jpg" class="image_popup"><span class="ripple"><i class="ion-social-youtube"></i></span></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- END PORTFOLIO ITEM -->
+                    <!-- START PORTFOLIO ITEM -->
+                    <li class="grid_item events">
+                        <div class="gallery_item">
+                            <a href="#" class="image_link">
+                                <img src="~/Themedata/assets/images/gallery_item_small15_360X240.jpg" alt="image">
+                            </a>
+                            <div class="gallery_content">
+                                <div class="link_container">
+                                    <a href="~/Themedata/assets/images/gallery_item15.jpg" class="image_popup"><span class="ripple"><i class="ion-social-youtube"></i></span></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- END PORTFOLIO ITEM -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
