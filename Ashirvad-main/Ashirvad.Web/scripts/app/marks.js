@@ -9,38 +9,10 @@ $(document).ready(function () {
         format: 'dd/mm/yyyy',
 
     });
-
-    LoadBranch(function () {
-        if ($("#BranchInfo_BranchID").val() != "") {
-            $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
-        }
-
-        if (commonData.BranchID != "0") {
-            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
-            $("#BranchInfo_BranchID").val(commonData.BranchID);
-            LoadSchoolName(commonData.BranchID);
-            LoadStandard(commonData.BranchID);
-            LoadSubject(commonData.BranchID);
-            HideLoader();
-        }
-    });
-
-    if ($("#BranchInfo_BranchID").val() != "") {
-        $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
-        LoadSchoolName($("#BranchInfo_BranchID").val());
-        LoadStandard($("#BranchInfo_BranchID").val());
-        LoadSubject(commonData.BranchID);
-        
-        ($("#BranchInfo_BranchID").val());
-    }
-
-    if ($("#SchoolTime").val() != "") {
-        $('#SchoolTimeDDL option[value="' + $("#SchoolTime").val() + '"]').attr("selected", "selected");
-    }
-
-    if ($("#batchEntityInfo_BatchID").val() != "") {
-        $('#BatchTime option[value="' + $("#batchEntityInfo_BatchID").val() + '"]').attr("selected", "selected");
-    }
+   
+    var BrandID = $("#Branch_Name").val();
+    LoadStandard(BrandID);
+    
 });
 
 function LoadBranch(onLoaded) {
@@ -85,6 +57,7 @@ function LoadStandard(branchID) {
 
     var postCall = $.post(commonData.Standard + "StandardData", { "branchID": branchID });
     postCall.done(function (data) {
+
         $('#StandardName').empty();
         $('#StandardName').select2();
         $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
@@ -94,13 +67,14 @@ function LoadStandard(branchID) {
         if ($("#StandardInfo_StandardID").val() != "") {
             $('#StandardName option[value="' + $("#StandardInfo_StandardID").val() + '"]').attr("selected", "selected");
         }
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
 function LoadSubject(branchID) {
-    var postCall = $.post(commonData.Subject + "SubjectDataByBranch", { "branchID": branchID });
+    var postCall = $.post(commonData.Subject + "SubjectDataByTestDate", { "TestDate": branchID });
     postCall.done(function (data) {
 
         $('#SubjectName').empty();
@@ -118,6 +92,20 @@ function LoadSubject(branchID) {
         //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
+
+function LoadTestDetails(TestID,Subject) {
+    var postCall = $.post(commonData.TestPaper + "GetTestDetails", { "TestID": TestID, "SubjectID": Subject});
+    postCall.done(function (data) {
+        $("#TotalMarks").val(data.Marks);
+        $("#Remarks").val(data.Remarks);
+        
+      
+
+    }).fail(function () {
+        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
 
 function SaveMarks() {
     var isSuccess = ValidateData('dInformation');
@@ -162,9 +150,7 @@ function LoadTestDates(BatchType) {
                 var TestDate = convertddmmyyyy(test);
                 $("#testddl").append("<option value='" + data[i].TestID + "'>" + TestDate+ "</option>");
             }
-            if (onLoaded != undefined) {
-                onLoaded();
-            }
+           
             HideLoader();
         }).fail(function () {
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -192,11 +178,19 @@ $("#StandardName").change(function () {
 
 $("#SubjectName").change(function () {
     var Data = $("#SubjectName option:selected").val();
+    var Data1= $("#testddl option:selected").val();
     $('#SubjectInfo_SubjectID').val(Data);
+    LoadTestDetails(Data1, Data);
 });
 
 $("#BatchTime").change(function () {
     var Data = $("#BatchTime option:selected").val();
     $('#batchEntityInfo_BatchID').val(Data);
     LoadTestDates(Data);
+});
+$("#testddl").change(function () {
+    var Data = $("#testddl option:selected").val();
+    var Text = $("#testddl option:selected").text();
+    $('#testEntityInfo_TestID').val(Data);
+    LoadSubject(Text);
 });

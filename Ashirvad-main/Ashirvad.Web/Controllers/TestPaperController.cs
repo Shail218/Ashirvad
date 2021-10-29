@@ -193,6 +193,13 @@ namespace Ashirvad.Web.Controllers
             return Json(testpaperByBranch.Data);
         }
 
+        public async Task<JsonResult> GetTestDetails(long TestID, long SubjectID)
+        {
+            var test = await _testService.GetTestDetails(TestID, SubjectID); 
+            return Json(test);
+        }
+        
+
 
     }
 }

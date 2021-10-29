@@ -76,10 +76,11 @@ $("#PackageName").change(function () {
         ShowLoader();
         var postCall = $.post(commonData.BranchWiseRight + "BranchRightUniqueData", { "PackageRightID": Data });
         postCall.done(function (data) {
+            HideLoader();
             $("#rightsdiv").html(data);
             var test = $('#Packageinfo_PackageID').val();
             checkstatus();
-            HideLoader();
+           
         }).fail(function () {
             HideLoader();
         });
@@ -202,14 +203,14 @@ function SaveBranchWiseRight() {
         var postCall = $.post(commonData.BranchWiseRight + "SaveBranchRight", $('#fPackageRightDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            //if (data.Status == true) {
-            //    ShowMessage(data.Message, 'Success');
-            //    setTimeout(function () { window.location.href = "BranchRightMaintenance?BranchRightID=0"; }, 2000);
+            if (data == true) {
+                ShowMessage("Created Successfully!!", 'Success');
+                setTimeout(function () { window.location.href = "BranchRightMaintenance?BranchRightID=0"; }, 2000);
 
-            //}
-            //else {
-            //    ShowMessage(data.Message, 'Error');
-            //}
+            }
+            else {
+                ShowMessage("Failed to Create!!", 'Error');
+            }
 
         }).fail(function () {
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

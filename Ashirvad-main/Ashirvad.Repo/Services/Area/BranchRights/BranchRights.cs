@@ -73,7 +73,7 @@ namespace Ashirvad.Repo.Services.Area
                         .Include("PACKAGE_MASTER")
                          .Include("BRANCH_MASTER")
                         join PM in this.context.PACKAGE_RIGHTS_MASTER on u.package_id equals PM.package_id
-                        join page in this.context.PAGE_MASTER on PM.package_id equals page.page_id                        
+                        join page in this.context.PAGE_MASTER on PM.page_id equals page.page_id                        
                         where u.row_sta_cd == 1
                         select new BranchWiseRightEntity()
                         {
@@ -93,7 +93,9 @@ namespace Ashirvad.Repo.Services.Area
                                 Package = u.PACKAGE_MASTER.package,
                                 PackageID = u.package_id,
                             },
-
+                            Createstatus= PM.createstatus,
+                            Viewstatus= PM.viewstatus,
+                            Deletestatus= PM.deletestatus,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },                            
                         }).ToList();
             if (data.Count > 0)
@@ -108,6 +110,10 @@ namespace Ashirvad.Repo.Services.Area
                                         BranchName = u.BRANCH_MASTER.branch_name,
                                         
                                     },
+                                    Packageinfo= new PackageEntity()
+                                    {
+                                        Package=u.PACKAGE_MASTER.package
+                                    }
 
                                 }).Distinct().ToList();
             }
@@ -128,7 +134,7 @@ namespace Ashirvad.Repo.Services.Area
                          .Include("PACKAGE_MASTER")
                         join PM in this.context.PACKAGE_RIGHTS_MASTER on u.package_id equals PM.package_id
                         join page in this.context.PAGE_MASTER on PM.package_id equals page.page_id
-                        where u.row_sta_cd == 1 && u.package_id== RightsID
+                        where u.row_sta_cd == 1 && u.branch_id== RightsID
                         select new BranchWiseRightEntity()
                         {
                             RowStatus = new RowStatusEntity()

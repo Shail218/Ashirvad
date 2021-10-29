@@ -48,6 +48,7 @@
                 <select name="Test" id="testddl" class="form-control requiredDDL select2" alt="Standard">
                     <option value="0">--Select Test Date--</option>
                 </select>
+                @Html.HiddenFor(x => x.testEntityInfo.TestID)
             </div>
 
             <div class="col-md-3">
@@ -63,11 +64,11 @@
         <div class="row">
             <div class="col-md-3">
                 @Html.Label("Total Marks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.TotalMarks, null, new { @class = "form-control required", autocomplete = "off" })
+                @Html.TextBoxFor(x => x.TotalMarks, null, new { @class = "form-control required", autocomplete = "off",@readonly="readonly" })
             </div>
             <div class="col-md-3">
                 @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.Remarks, null, new { @class = "form-control required", autocomplete = "off" })
+                @Html.TextBoxFor(x => x.Remarks, null, new { @class = "form-control required", autocomplete = "off", @readonly = "readonly" })
             </div>
             <div class="col-md-3">
                 @Html.Label("Solution Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
