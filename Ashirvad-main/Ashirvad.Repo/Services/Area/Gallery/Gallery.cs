@@ -29,30 +29,17 @@ namespace Ashirvad.Repo.Services.Area.Gallery
                 galleryInfo.Transaction.TransactionId = data.trans_id;
             }
 
-            if (galleryInfo.FileInfo?.Length > 0)
-            {
-                galleryMaster.file_info = galleryInfo.FileInfo;
-            }
-            else if (!string.IsNullOrEmpty(galleryInfo.FileEncoded))
-            {
-                galleryMaster.file_info = Convert.FromBase64String(galleryInfo.FileEncoded);
-            }
-            else
-            {
-                galleryMaster.file_info = null;
-            }
-
-
             galleryMaster.row_sta_cd = galleryInfo.RowStatus.RowStatusId;
             galleryMaster.trans_id = this.AddTransactionData(galleryInfo.Transaction);
             galleryMaster.branch_id = galleryInfo.Branch.BranchID;
             galleryMaster.uplaod_type = galleryInfo.GalleryType;
             galleryMaster.remarks = galleryInfo.Remarks;
+            galleryMaster.file_name = galleryInfo.FileName;
+            galleryMaster.file_path = galleryInfo.FilePath;
             if (!isUpdate)
             {
                 this.context.GALLERY_MASTER.Add(galleryMaster);
             }
-
             var uniqueID = this.context.SaveChanges() > 0 ? galleryMaster.unique_id : 0;
             return uniqueID;
         }
@@ -71,7 +58,8 @@ namespace Ashirvad.Repo.Services.Area.Gallery
                                 RowStatusId = (int)u.row_sta_cd
                             },
                             UniqueID = u.unique_id,
-                            FileInfo = u.file_info,
+                            FilePath = u.file_path,
+                            FileName = u.file_name,
                             Branch = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             GalleryType = u.uplaod_type,
@@ -126,7 +114,8 @@ namespace Ashirvad.Repo.Services.Area.Gallery
                                 RowStatusId = (int)u.row_sta_cd
                             },
                             UniqueID = u.unique_id,
-                            FileInfo = u.file_info,
+                            FilePath = u.file_path,
+                            FileName = u.file_name,
                             Branch = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             GalleryType = u.uplaod_type,

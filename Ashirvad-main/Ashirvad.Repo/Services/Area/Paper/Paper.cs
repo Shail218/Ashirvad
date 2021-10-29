@@ -53,7 +53,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                 paperData.paper_id = paperMaster.paper_id;
             }
 
-            paperData.paper_content = !string.IsNullOrEmpty(paperInfo.PaperData.PaperContentText) ? Convert.FromBase64String(paperInfo.PaperData.PaperContentText) : paperInfo.PaperData.PaperContent;
+            paperData.file_path = paperInfo.PaperData.FilePath;
             paperData.paper_file = paperInfo.PaperData.PaperPath;
             this.context.PRACTICE_PAPER_REL.Add(paperData);
             if (isUpdate)
@@ -100,7 +100,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             PaperData = new PaperData()
                             {
-                                PaperContent = u.PRACTICE_PAPER_REL.FirstOrDefault().paper_content,
+                                FilePath = u.PRACTICE_PAPER_REL.FirstOrDefault().file_path,
                                 PaperID = u.PRACTICE_PAPER_REL.FirstOrDefault().paper_id,
                                 PaperPath = u.PRACTICE_PAPER_REL.FirstOrDefault().paper_file,
                                 UniqueID = u.PRACTICE_PAPER_REL.FirstOrDefault().unique_id
@@ -176,7 +176,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             PaperData = new PaperData()
                             {
-                                PaperContent = u.PRACTICE_PAPER_REL.FirstOrDefault().paper_content,
+                                FilePath = u.PRACTICE_PAPER_REL.FirstOrDefault().file_path,
                                 PaperID = u.PRACTICE_PAPER_REL.FirstOrDefault().paper_id,
                                 PaperPath = u.PRACTICE_PAPER_REL.FirstOrDefault().paper_file,
                                 UniqueID = u.PRACTICE_PAPER_REL.FirstOrDefault().unique_id
@@ -279,7 +279,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             PaperData = new PaperData()
                             {
-                                PaperContent = u.PRACTICE_PAPER_REL.FirstOrDefault().paper_content,
+                                FilePath = u.PRACTICE_PAPER_REL.FirstOrDefault().file_path,
                                 PaperID = u.PRACTICE_PAPER_REL.FirstOrDefault().paper_id,
                                 PaperPath = u.PRACTICE_PAPER_REL.FirstOrDefault().paper_file,
                                 UniqueID = u.PRACTICE_PAPER_REL.FirstOrDefault().unique_id

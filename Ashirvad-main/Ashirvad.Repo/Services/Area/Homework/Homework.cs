@@ -33,12 +33,8 @@ namespace Ashirvad.Repo.Services.Area.Homework
             homework.trans_id = this.AddTransactionData(homeworkInfo.Transaction);
             homework.branch_id = homeworkInfo.BranchInfo.BranchID;
             homework.batch_time_id = homeworkInfo.BatchTimeID;
-            if (homeworkInfo.HomeworkContent?.Length > 0)
-            {
-                homework.homework_content = homeworkInfo.HomeworkContent;
-                homework.homework_file = homeworkInfo.HomeworkContentFileName;
-            }
-
+            homework.homework_file = homeworkInfo.HomeworkContentFileName;
+            homework.file_path = homeworkInfo.FilePath;
             homework.remarks = homeworkInfo.Remarks;
             homework.homework_dt = homeworkInfo.HomeworkDate;
             homework.sub_id = homeworkInfo.SubjectInfo.SubjectID;
@@ -60,8 +56,8 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         .Include("SUBJECT_MASTER")
                         join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id
                         where u.branch_id == branchID
-                        && (0 == stdID || u.std_id == stdID)
-                        && (0 == batchTime || u.batch_time_id == batchTime)
+                        && (u.std_id == stdID)
+                        && ( u.batch_time_id == batchTime) && u.row_sta_cd == 1
                         select new HomeworkEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -69,7 +65,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            HomeworkContent = u.homework_content,
+                            FilePath = u.file_path,
                             HomeworkID = u.homework_id,
                             HomeworkContentFileName = u.homework_file,
                             HomeworkDate = u.homework_dt,
@@ -132,7 +128,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            HomeworkContent = u.homework_content,
+                            FilePath = u.file_path,
                             HomeworkID = u.homework_id,
                             HomeworkContentFileName = u.homework_file,
                             HomeworkDate = u.homework_dt,
@@ -223,7 +219,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            HomeworkContent = u.homework_content,
+                            FilePath = u.file_path,
                             HomeworkID = u.homework_id,
                             HomeworkContentFileName = u.homework_file,
                             HomeworkDate = u.homework_dt,

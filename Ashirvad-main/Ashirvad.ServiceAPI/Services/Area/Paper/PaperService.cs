@@ -23,24 +23,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Paper
         {
             PaperEntity paper = new PaperEntity();
             try
-            {
-                if (paperInfo.PaperData != null)
-                {
-                    if (paperInfo.PaperData.PaperFile != null)
-                    {
-                        paperInfo.PaperData.PaperContent = Common.Common.ReadFully(paperInfo.PaperData.PaperFile.InputStream);
-                        paperInfo.PaperData.PaperPath = Path.GetFileName(paperInfo.PaperData.PaperFile.FileName);
-                    }
-                }
-
+            {               
                 long paperID = await _paperContext.PaperMaintenance(paperInfo);
                 if (paperID > 0)
                 {
-                    paper.PaperID = paperID;
-                    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
-                    {
-                        Common.Common.SaveFile(paperInfo.PaperData.PaperContent, paperInfo.PaperData.PaperPath, "Paper\\");
-                    }
+                    paper.PaperID = paperID;                   
                 }
             }
             catch (Exception ex)

@@ -128,7 +128,95 @@ namespace Ashirvad.API.Controllers
             result.Completed = true;
             return result;
         }
-        
+
+        [Route("HomeworkMaintenance/{HomeworkID}/{Homework_Date}/{BranchID}/{StandardID}/{SubjectID}/{Batch_TimeID}/{Remark}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [HttpPost]
+        public OperationResult<HomeworkEntity> HomeworkMaintenance(long HomeworkID, DateTime Homework_Date, long BranchID, long StandardID,long SubjectID,int Batch_TimeID,
+            string Remark, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        {
+            OperationResult<HomeworkEntity> result = new OperationResult<HomeworkEntity>();
+            var httpRequest = HttpContext.Current.Request;
+            HomeworkEntity homeworkEntity = new HomeworkEntity();
+            HomeworkEntity data = new HomeworkEntity();
+            homeworkEntity.BranchInfo = new BranchEntity();
+            homeworkEntity.StandardInfo = new StandardEntity();
+            homeworkEntity.SubjectInfo = new SubjectEntity();
+            homeworkEntity.HomeworkID = HomeworkID;
+            homeworkEntity.HomeworkDate = Homework_Date;
+            homeworkEntity.BranchInfo.BranchID = BranchID;
+            homeworkEntity.StandardInfo.StandardID = StandardID;
+            homeworkEntity.SubjectInfo.SubjectID = SubjectID;
+            homeworkEntity.BatchTimeID = Batch_TimeID;
+            homeworkEntity.Remarks = Remark;
+            homeworkEntity.HomeworkContentFileName = FileName;
+            homeworkEntity.FilePath = "/HomeworkDocument/" + FileName + "." + Extension;
+            homeworkEntity.RowStatus = new RowStatusEntity()
+            {
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
+            homeworkEntity.Transaction = new TransactionEntity()
+            {
+                TransactionId = TransactionId,
+                LastUpdateBy = CreateBy,
+                LastUpdateId = CreateId,
+                CreatedBy = CreateBy,
+                CreatedId = CreateId,
+            };
+            if (HasFile)
+            {
+                try
+                {
+                    if (httpRequest.Files.Count > 0)
+                    {
+                        foreach (string file in httpRequest.Files)
+                        {
+                            string fileName;
+                            string extension;
+                            string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                            // for live server
+                            //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                            // for local server
+                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            var postedFile = httpRequest.Files[file];
+                            string randomfilename = Common.Common.RandomString(20);
+                            extension = Path.GetExtension(postedFile.FileName);
+                            fileName = Path.GetFileName(postedFile.FileName);
+                            string _Filepath = "/HomeworkDocument/" + randomfilename + extension;
+                            string _Filepath1 = "HomeworkDocument/" + randomfilename + extension;
+                            var filePath = HttpContext.Current.Server.MapPath("~/HomeworkDocument/" + randomfilename + extension);
+                            string _path = UpdatedPath + _Filepath1;
+                            postedFile.SaveAs(_path);
+                            homeworkEntity.HomeworkContentFileName = fileName;
+                            homeworkEntity.FilePath = _Filepath;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.Completed = false;
+                    result.Data = null;
+                    result.Message = ex.ToString();
+                }
+            }
+            data = this._homeworkService.HomeworkMaintenance(homeworkEntity).Result;
+            result.Completed = false;
+            result.Data = null;
+            if (data.HomeworkID > 0)
+            {
+                result.Completed = true;
+                result.Data = data;
+                if (HomeworkID > 0)
+                {
+                    result.Message = "Homework Updated Successfully";
+                }
+                else
+                {
+                    result.Message = "Homework Created Successfully";
+                }
+            }
+            return result;
+        }
+
         [HttpPost]
         [Route("HomeworkDetailMaintenance/{HomeworkID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}")]
         public OperationResult<HomeworkDetailEntity> HomeworkDetailMaintenance(long HomeworkID, long BranchID, long StudentID, 
