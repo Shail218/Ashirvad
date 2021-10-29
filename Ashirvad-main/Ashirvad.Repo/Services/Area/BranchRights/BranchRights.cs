@@ -72,27 +72,25 @@ namespace Ashirvad.Repo.Services.Area
                         .Include("PACKAGE_MASTER")
                         join PM in this.context.PACKAGE_RIGHTS_MASTER on u.package_id equals PM.package_id
                         join page in this.context.PAGE_MASTER on PM.package_id equals page.page_id
+                        join b in this.context.BRANCH_MASTER on page.branch_id equals b.branch_id
                         where u.row_sta_cd == 1
                         select new BranchWiseRightEntity()
                         {
-                            RowStatus = new RowStatusEntity()
-                            {
-                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = (int)u.row_sta_cd
-                            },
-                            PackageRightinfo = new PackageRightEntity()
-                            {
-                               
-                                PackageRightsId = PM.packagerights_id,
-                                Createstatus = PM.createstatus,
-                                Viewstatus = PM.viewstatus,
-                                Deletestatus = PM.deletestatus,
-
-                            },
+                            
                             PageInfo = new PageEntity()
                             {
                                 Page = page.page,
                                 PageID = page.page_id,
+                            },
+                            branchinfo = new BranchEntity()
+                            {
+                                BranchName = page.BRANCH_MASTER.branch_name,
+                                BranchID = page.branch_id,
+                            },
+                            Packageinfo = new PackageEntity()
+                            {
+                                Package = u.PACKAGE_MASTER.package,
+                                PackageID = u.package_id,
                             },
 
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },                            
@@ -154,9 +152,38 @@ namespace Ashirvad.Repo.Services.Area
             return false;
         }
 
-        public Task<List<BranchWiseRightEntity>> GetAllRightsUniqData(long PackageRightID)
+        public async Task<List<BranchWiseRightEntity>> GetAllRightsUniqData(long PackageRightID)
         {
-            throw new NotImplementedException();
+            var data = (from u in this.context.PACKAGE_RIGHTS_MASTER                        
+                        .Include("PAGE_MASTER")
+                       
+                        where u.row_sta_cd == 1 && u.package_id==PackageRightID
+                        select new BranchWiseRightEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            PackageRightinfo = new PackageRightEntity()
+                            {
+
+                                PackageRightsId = u.packagerights_id,
+                                Createstatus = u.createstatus,
+                                Viewstatus = u.viewstatus,
+                                Deletestatus = u.deletestatus,
+
+                            },
+                            PageInfo = new PageEntity()
+                            {
+                                Page = u.PAGE_MASTER.page,
+                                PageID = u.page_id,
+                            },
+
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },                            
+                        }).ToList();
+
+            return data;
         }
     }
 }

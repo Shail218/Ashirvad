@@ -7,33 +7,18 @@ $(document).ready(function () {
     //if ($("#PackageID").val() > 0) {
     //}
     ShowLoader();
-    LoadBranch(function () {
-        if ($("#Branch_BranchID").val() != "") {
-            $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-            LoadPackage($("#Branch_BranchID").val());
-        }
-
-        if (commonData.BranchID != "0") {
-            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
-            $("#Branch_BranchID").val(commonData.BranchID);
-            LoadPackage(commonData.BranchID);
-        }
-    });
-
-   
+    LoadBranch();
+    LoadPackage();
     
     //if ($("#Branch_BranchID").val() != "") {
     //    $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
     //    LoadPackage($("#Branch_BranchID").val());
     //}
 
-    if ($("#BatchTypeID").val() != "") {
-        $('#BatchTime option[value="' + $("#BatchTypeID").val() + '"]').attr("selected", "selected");
-    }
-
+   
 });
 
-function LoadBranch(onLoaded) {
+function LoadBranch() {
     var postCall = $.post(commonData.Branch + "BranchData");
     postCall.done(function (data) {
 
@@ -44,21 +29,14 @@ function LoadBranch(onLoaded) {
             $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
         }
 
-        //$.each(data, function (i) {
-        //    $("#BranchName").append($("<option></option>").val(data[i].BranchID).html(data[i].BranchName));
-        //});
-
-        if (onLoaded != undefined) {
-            onLoaded();
-        }
-
+        
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
-function LoadPackage(branchID) {
-    var postCall = $.post(commonData.Package + "PackageDataByBranch", { "branchID": branchID });
+function LoadPackage() {
+    var postCall = $.post(commonData.Package + "PackageDataByBranch", { "branchID": 0 });
     postCall.done(function (data) {
 
         $('#PackageName').empty();
@@ -67,8 +45,8 @@ function LoadPackage(branchID) {
         for (i = 0; i < data.length; i++) {
             $("#PackageName").append("<option value=" + data[i].PackageID + ">" + data[i].Package + "</option>");
         }
-        if ($("#Package_PackageID").val() != "") {
-            $('#PackageName option[value="' + $("#Package_PackageID").val() + '"]').attr("selected", "selected");
+        if ($("#Packageinfo_PackageID").val() != "") {
+            $('#PackageName option[value="' + $("#Packageinfo_PackageID").val() + '"]').attr("selected", "selected");
         }
         HideLoader();
     }).fail(function () {
@@ -79,7 +57,7 @@ function LoadPackage(branchID) {
 $("#BranchName").change(function () {
 
     var Data = $("#BranchName option:selected").val();
-    $('#Branch_BranchID').val(Data);
+    $('#BranchID').val(Data);
     LoadPackage(Data);
 });
 
@@ -91,7 +69,7 @@ $("#BranchName").change(function () {
 $("#PackageName").change(function () {
     debugger;
     var Data = $("#PackageName option:selected").val();
-    $('#Package_PackageID').val(Data);
+    $('#Packageinfo_PackageID').val(Data);
 
     var Data = $("#PackageName option:selected").val();
     if (Data > 0) {
@@ -99,6 +77,7 @@ $("#PackageName").change(function () {
         var postCall = $.post(commonData.BranchWiseRight + "BranchRightUniqueData", { "PackageRightID": Data });
         postCall.done(function (data) {
             $("#rightsdiv").html(data);
+            var test = $('#Packageinfo_PackageID').val();
             checkstatus();
             HideLoader();
         }).fail(function () {
@@ -223,14 +202,14 @@ function SaveBranchWiseRight() {
         var postCall = $.post(commonData.BranchWiseRight + "SaveBranchRight", $('#fPackageRightDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            if (data.Status == true) {
-                ShowMessage(data.Message, 'Success');
-                setTimeout(function () { window.location.href = "BranchRightMaintenance?BranchRightID=0"; }, 2000);
+            //if (data.Status == true) {
+            //    ShowMessage(data.Message, 'Success');
+            //    setTimeout(function () { window.location.href = "BranchRightMaintenance?BranchRightID=0"; }, 2000);
 
-            }
-            else {
-                ShowMessage(data.Message, 'Error');
-            }
+            //}
+            //else {
+            //    ShowMessage(data.Message, 'Error');
+            //}
 
         }).fail(function () {
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -238,3 +217,27 @@ function SaveBranchWiseRight() {
 
     }
 }
+
+function RemoveBranchRight(BranchWiseRightsID) {
+    if (confirm('Are you sure want to delete this?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.BranchWiseRight + "RemoveBranchRight", { "BranchWiseRightsID": BranchWiseRightsID });
+        postCall.done(function (data) {
+            HideLoader();
+            if (data == true) {
+                ShowMessage("Rights Deleted Successfully!!", 'Success');
+                setTimeout(function () { window.location.href = "BranchRightMaintenance?BranchWiseRightsID=0"; }, 2000);
+
+            }
+            else {
+                ShowMessage("Rights Can not Deleted!!", 'Error');
+            }
+
+
+        }).fail(function () {
+
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
+}
+
