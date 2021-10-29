@@ -14,6 +14,8 @@ namespace Ashirvad.Data
         public byte[] FileInfo { get; set; }
         public string FileEncoded { get; set; }
         public string Remarks { get; set; }
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public TransactionEntity Transaction { get; set; }
         public int GalleryType { get; set; }

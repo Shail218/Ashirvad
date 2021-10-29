@@ -28,6 +28,7 @@ namespace Ashirvad.Data
         public string PaperPath { get; set; }
         public byte[] PaperContent { get; set; }
         public string PaperContentText { get; set; }
+        public string FilePath { get; set; }
         public HttpPostedFileBase PaperFile { get; set; }
     }
 }
