@@ -23,11 +23,11 @@ namespace Ashirvad.API.Controllers
             _libraryService = libraryService;
         }
 
-        [Route("LibraryMaintenance/{LibraryID}/{LibraryDetailID}/{Title}/{link}/{FileName}/{FilePath}/{Description}/{BranchID}/{CategoryID}/{CreateId}/{CreateBy}")]
+        [Route("LibraryMaintenance/{LibraryID}/{LibraryDetailID}/{Title}/{link}/{FileName}/{Extension}/{Description}/{BranchID}/{CategoryID}/{CreateId}/{CreateBy}/{TransactionId}/{HasFile}")]
         [HttpPost]
-        public OperationResult<LibraryEntity1> LibraryMaintenance(long LibraryID, long LibraryDetailID, 
-             string Title, string link, string FileName, string FilePath, 
-            string Description, long BranchID, long CategoryID,string CreateBy,int CreateId)
+        public OperationResult<LibraryEntity1> LibraryMaintenance(long LibraryID, long LibraryDetailID,
+             string Title, string link, string FileName, string Extension,
+            string Description, long BranchID, long CategoryID, int CreateId, string CreateBy, long TransactionId, bool HasFile)
         {
             LibraryEntity1 libInfo = new LibraryEntity1();
             OperationResult<LibraryEntity1> result = new OperationResult<LibraryEntity1>();
@@ -41,155 +41,101 @@ namespace Ashirvad.API.Controllers
             libInfo.Title = Title;
             libInfo.link = link;
             libInfo.FileName = FileName;
-            libInfo.FilePath = FilePath;         
+            libInfo.FilePath = "/LibraryImage/" + FileName + "." + Extension;
             libInfo.Description = Description;
             libInfo.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            if (LibraryID > 0)
+            libInfo.Transaction = new TransactionEntity()
             {
-                libInfo.Transaction = new TransactionEntity()
+                TransactionId = TransactionId,
+                LastUpdateBy = CreateBy,
+                LastUpdateId = CreateId,
+                CreatedBy = CreateBy,
+                CreatedId = CreateId,
+            };
+            if (HasFile)
+            {
+                if (httpRequest.Files.Count > 0)
                 {
-                    LastUpdateBy = CreateBy,
-                    LastUpdateId = CreateId,
-                    LastUpdateDate = DateTime.Now,
-                };
+                    try
+                    {
+                        foreach (string file in httpRequest.Files)
+                        {
+                            string fileName;
+                            string extension;
+                            string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                            // for live server
+                            //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                            // for local server
+                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            var postedFile = httpRequest.Files[file];
+                            string randomfilename = Common.Common.RandomString(20);
+                            extension = Path.GetExtension(postedFile.FileName);
+                            fileName = Path.GetFileName(postedFile.FileName);
+                            string _Filepath = "/LibraryImage/" + randomfilename + extension;
+                            string _Filepath1 = "LibraryImage/" + randomfilename + extension;
+                            var filePath = HttpContext.Current.Server.MapPath("~/LibraryImage/" + randomfilename + extension);
+                            string _path = UpdatedPath + _Filepath1;
+                            postedFile.SaveAs(_path);
+                            libInfo.FileName = fileName;
+                            libInfo.FilePath = _Filepath1;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+            }
+            if (libInfo.link != "" && libInfo.link != null)
+            {
+                libInfo.Type = (int)Enums.GalleryType.Video;
+                libInfo.FileName = "";
+                libInfo.FilePath = "";
             }
             else
             {
-                libInfo.Transaction = new TransactionEntity()
-                {
-                    CreatedBy = CreateBy,
-                    CreatedId = CreateId,
-                    CreatedDate = DateTime.Now,
-                };
+                libInfo.Type = (int)Enums.GalleryType.Image;
+                libInfo.link = "";
             }
-            if (httpRequest.Files.Count > 0)
+
+            libInfo.RowStatus = new RowStatusEntity()
             {
-                try
-                {
-                    foreach (string file in httpRequest.Files)
-                    {
-                        string fileName;
-                        string extension;
-                        string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                        // for live server
-                        //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
-                        // for local server
-                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
-                        var postedFile = httpRequest.Files[file];
-                        string randomfilename = Common.Common.RandomString(20);
-                        extension = Path.GetExtension(postedFile.FileName);
-                        fileName = Path.GetFileName(postedFile.FileName);
-                        string _Filepath = "/LibraryImage/" + randomfilename + extension;
-                        string _Filepath1 = "LibraryImage/" + randomfilename + extension;
-                        var filePath = HttpContext.Current.Server.MapPath("~/LibraryImage/" + randomfilename + extension);
-                        string _path = UpdatedPath + _Filepath1;
-                        postedFile.SaveAs(_path);
-                        libInfo.FileName = fileName;
-                        libInfo.FilePath =  _Filepath1;
-                    }
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
+            var data = this._libraryService.LibraryMaintenance(libInfo).Result;
 
-                    if (libInfo.link != "" && libInfo.link != null)
-                    {
-                        libInfo.Type = (int)Enums.GalleryType.Video;
-                        libInfo.FileName = "";
-                        libInfo.FilePath = "";
-                    }
-                    else
-                    {
-                        libInfo.Type = (int)Enums.GalleryType.Image;
-                        libInfo.link = "";
-                    }
-
-                    libInfo.RowStatus = new RowStatusEntity()
-                    {
-                        RowStatusId = (int)Enums.RowStatus.Active
-                    };
-                    var data = this._libraryService.LibraryMaintenance(libInfo).Result;
-                   
-                    result.Completed = false;
-                    result.Data = null;
-                    if (data.LibraryID > 0)
-                    {
-                        result.Completed = false;
-                        result.Data = data;
-                        if (LibraryID > 0)
-                        {
-                            result.Message = "Library Updated Successfully!";
-                        }
-                        else
-                        {
-                            result.Message = "Library Created Successfully!";
-                        }
-                       
-                    }
-
-
-
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
-            }
-            else
+            result.Completed = false;
+            result.Data = null;
+            if (data.LibraryID > 0)
             {
-                if (libInfo.link != "" && libInfo.link != null)
+                result.Completed = false;
+                result.Data = data;
+                if (LibraryID > 0)
                 {
-                    libInfo.Type = (int)Enums.GalleryType.Video;
-                    libInfo.FileName = "";
-                    libInfo.FilePath = "";
+                    result.Message = "Library Updated Successfully!";
                 }
                 else
                 {
-                    libInfo.Type = (int)Enums.GalleryType.Image;
-                    libInfo.link = "";
+                    result.Message = "Library Created Successfully!";
                 }
 
-                libInfo.RowStatus = new RowStatusEntity()
-                {
-                    RowStatusId = (int)Enums.RowStatus.Active
-                };
-                var data = this._libraryService.LibraryMaintenance(libInfo).Result;
-
-                result.Completed = false;
-                result.Data = null;
-                if (data.LibraryID > 0)
-                {
-                    result.Completed = false;
-                    result.Data = data;
-                    if (LibraryID > 0)
-                    {
-                        result.Message = "Library Updated Successfully!";
-                    }
-                    else
-                    {
-                        result.Message = "Library Created Successfully!";
-                    }
-
-                }
             }
             return result;
         }
 
         [Route("GetAllLibrary")]
         [HttpGet]
-        public OperationResult<List<LibraryEntity1>> GetAllLibrary(int Type,int BranchID,int UserType)
+        public OperationResult<List<LibraryEntity1>> GetAllLibrary(int Type, int BranchID)
         {
-            if (UserType == (int)Enums.UserType.SuperAdmin)
-            {
-                BranchID = 0;
-            }
             var data = this._libraryService.GetAllLibrary(Type, BranchID);
             OperationResult<List<LibraryEntity1>> result = new OperationResult<List<LibraryEntity1>>();
             result.Completed = true;
             result.Data = data.Result;
             return result;
         }
-
-        
 
         [Route("GetLibraryByLibraryID")]
         [HttpGet]
@@ -206,7 +152,7 @@ namespace Ashirvad.API.Controllers
         [HttpPost]
         public OperationResult<bool> RemoveLibrary(long libraryID, string lastupdatedby)
         {
-            var data =this._libraryService.RemoveLibrary(libraryID, lastupdatedby);
+            var data = this._libraryService.RemoveLibrary(libraryID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
             result.Completed = true;
             result.Data = data;
