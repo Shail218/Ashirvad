@@ -35,6 +35,10 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Test
 
         Task<TestDetailEntity> TestdetailMaintenance(TestDetailEntity testInfo);
         Task<OperationResult<List<TestPaperEntity>>> GetAllTestDocLinks(long branchID, long stdID, int batchTime);
+
+        #region New
+        Task<TestEntity> GetTestDetails(long testID,long SubjectID);
         bool RemoveTestAnswerSheetdetail(long TestID, long studid);
+        #endregion
     }
 }

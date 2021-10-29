@@ -435,6 +435,23 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return TestDetailEntity;
         }
 
+        public async Task<TestEntity> GetTestDetails(long testID,long SubjectID)
+        {
+            try
+            {
+                OperationResult<TestEntity> lib = new OperationResult<TestEntity>();
+                lib.Data = await _testContext.GetTestDetails(testID, SubjectID);
+                lib.Completed = true;
+                return lib.Data;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public bool RemoveTestAnswerSheetdetail(long TestID, long studid)
         {
             try

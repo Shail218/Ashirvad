@@ -46,7 +46,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.Subject
 
             return null;
         }
+        public async Task<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate)
+        {
+            try
+            {
+                return await this._subjectContext.GetAllSubjectsByTestDate(TestDate);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
 
+            return null;
+        }
         public async Task<List<SubjectEntity>> GetAllSubjects()
         {
             try
