@@ -99,10 +99,11 @@ function LoadStandard(branchID) {
 
 
 function SavePaper() {
-    debugger;
+    ShowLoader();
     var isSuccess = ValidateData('dInformation');
+   
+
     if (isSuccess) {
-        ShowLoader();
         var frm = $('#fPaperDetail');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');
@@ -110,7 +111,7 @@ function SavePaper() {
             formData.append('PaperData.PaperFile', $('input[type=file]')[0].files[0]);
         }
         AjaxCallWithFileUpload(commonData.Paper + 'SavePaper', formData, function (data) {
-            HideLoader();
+           
             if (data) {
                 ShowMessage("Paper added Successfully.", "Success");
                 window.location.href = "PaperMaintenance?paperID=0";
@@ -118,6 +119,7 @@ function SavePaper() {
             else {
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
+            HideLoader();
         }, function (xhr) {
             HideLoader();
         });

@@ -119,11 +119,13 @@ function LoadSubject(branchID) {
 }
 
 function Savetest() {
+
     var isSuccess = ValidateData('dInformation');    
     if (isSuccess) {
         ShowLoader();
-        //var date1 = $("#TestDate").val();
-        //$("#TestDate").val(ConvertData(date1));
+
+        var date1 = $("#TestDate").val();
+        $("#TestDate").val(ConvertData(date1));
         var frm = $('#fTestDetail');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');
@@ -132,13 +134,12 @@ function Savetest() {
         }
         AjaxCallWithFileUpload(commonData.TestPaper + 'SaveTest', formData, function (data) {
             if (data) {
-                HideLoader();
                 ShowMessage("Test paper added Successfully.", "Success");
                 window.location.href = "TestPaperMaintenance?testID=0";
             } else {
-                HideLoader();
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
+            HideLoader();
         }, function (xhr) {
             HideLoader();
         });
@@ -148,6 +149,7 @@ function Savetest() {
 function Savetestpaper(testID,date) {
     var isSuccess = ValidateData('dpaperInformation');
     if (isSuccess) {
+        ShowLoader();
         var frm = $('#fTestPaperDetail');
         TestID: $("#test_id").val(testID);
         var sd = date.split("/Date(");
