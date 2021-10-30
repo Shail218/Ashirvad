@@ -96,6 +96,7 @@ namespace Ashirvad.Repo.Services.Area
                             Createstatus= PM.createstatus,
                             Viewstatus= PM.viewstatus,
                             Deletestatus= PM.deletestatus,
+                            BranchWiseRightsID = u.branchrights_id,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },                            
                         }).ToList();
             if (data.Count > 0)
@@ -113,7 +114,8 @@ namespace Ashirvad.Repo.Services.Area
                                     Packageinfo= new PackageEntity()
                                     {
                                         Package=u.PACKAGE_MASTER.package
-                                    }
+                                    },
+                                    BranchWiseRightsID = u.branchrights_id,
 
                                 }).Distinct().ToList();
             }
@@ -132,9 +134,10 @@ namespace Ashirvad.Repo.Services.Area
         {
             var data = (from u in this.context.BRANCH_RIGHTS_MASTER
                          .Include("PACKAGE_MASTER")
+                         .Include("BRANCH_MASTER")
                         join PM in this.context.PACKAGE_RIGHTS_MASTER on u.package_id equals PM.package_id
                         join page in this.context.PAGE_MASTER on PM.package_id equals page.page_id
-                        where u.row_sta_cd == 1 && u.branch_id== RightsID
+                        where u.row_sta_cd == 1 && u.branchrights_id== RightsID
                         select new BranchWiseRightEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -144,7 +147,7 @@ namespace Ashirvad.Repo.Services.Area
                             },
                             PackageRightinfo = new PackageRightEntity()
                             {
-
+                               
                                 PackageRightsId = PM.packagerights_id,
                                 Createstatus = PM.createstatus,
                                 Viewstatus = PM.viewstatus,
@@ -156,7 +159,18 @@ namespace Ashirvad.Repo.Services.Area
                                 Page = page.page,
                                 PageID = page.page_id,
                             },
-
+                           
+                            BranchWiseRightsID = u.branchrights_id,
+                            Packageinfo = new PackageEntity()
+                            {
+                                Package = u.PACKAGE_MASTER.package,
+                                PackageID = u.package_id,
+                            },
+                            branchinfo = new BranchEntity()
+                            {
+                                BranchName = u.BRANCH_MASTER.branch_name,
+                                BranchID = u.branch_id,
+                            },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                         }).FirstOrDefault();
 
