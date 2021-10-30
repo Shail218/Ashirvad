@@ -55,7 +55,8 @@ namespace Ashirvad.Repo.Services.Area.Student
             studentMaster.last_yr_class_name = studentInfo.LastYearClassName;
             studentMaster.contact_no = studentInfo.ContactNo;
             studentMaster.admission_date = studentInfo.AdmissionDate;
-            studentMaster.stud_img = studentInfo.StudImage != "" ? Convert.FromBase64String(studentInfo.StudImage) : null;
+            studentMaster.file_name = studentInfo.FileName;
+            studentMaster.file_path = studentInfo.FilePath;
             studentMaster.row_sta_cd = studentInfo.RowStatus.RowStatusId;
             studentMaster.trans_id = this.AddTransactionData(studentInfo.Transaction);
             this.context.STUDENT_MASTER.Add(studentMaster);
@@ -108,7 +109,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                             AdmissionDate = u.admission_date,
                             GrNo = u.gr_no,
                             SchoolTime = u.school_time,
-                            StudentImgByte = u.stud_img,
+                            FilePath = u.file_path,
+                            FileName = u.file_name,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
@@ -161,8 +163,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                             AdmissionDate = u.admission_date,
                             GrNo = u.gr_no,
                             SchoolTime = u.school_time,
-                            StudentImgByte = u.stud_img,
-
+                            FileName = u.file_name,
+                            FilePath = u.file_path,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
@@ -211,8 +213,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                             AdmissionDate = u.admission_date,
                             GrNo = u.gr_no,
                             SchoolTime = u.school_time,
-                            StudentImgByte = u.stud_img,
-
+                            FileName = u.file_name,
+                            FilePath = u.file_path,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
@@ -257,7 +259,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
-                        .Include("BRANCH_MASTER")                        
+                        .Include("BRANCH_MASTER")
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
                         join usr in this.context.USER_DEF on u.student_id equals usr.student_id into tempUser
                         from user in tempUser.DefaultIfEmpty()
@@ -282,7 +284,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                             AdmissionDate = u.admission_date,
                             GrNo = u.gr_no,
                             SchoolTime = u.school_time,
-                            StudentImgByte = u.stud_img,
+                            FileName = u.file_name,
+                            FilePath = u.file_path,
                             StudentPassword = user.password,
                             StudentPassword2 = user.password,
                             UserID = user.user_id,
