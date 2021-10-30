@@ -21,6 +21,8 @@ namespace Ashirvad.Data
         public string LastYearClassName { get; set; }
         public string ContactNo { get; set; }
         public string StudImage { get; set; }
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
         public byte[] StudentImgByte { get; set; }
         public StandardEntity StandardInfo { get; set; }
         public SchoolEntity SchoolInfo { get; set; }

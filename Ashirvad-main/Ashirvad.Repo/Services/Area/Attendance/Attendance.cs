@@ -101,8 +101,8 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             AdmissionDate = u.admission_date,
                             GrNo = u.gr_no,
                             SchoolTime = u.school_time,
-                            StudentImgByte = u.stud_img,
-
+                            FilePath = u.file_path,
+                            FileName = u.file_name,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
