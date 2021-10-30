@@ -11,15 +11,14 @@ namespace Ashirvad.Website.Controllers
     {
         // GET: LibraryVideo
         private readonly ILibrary1Service _LibraryService;
-        public NewLibraryController(ILibrary1Service LibraryService)
+        public LibraryVideoController(ILibrary1Service LibraryService)
         {
             _LibraryService = LibraryService;
         }
         public ActionResult LibraryVideo()
         {
-            int BranchID = 0;
-            var LibraryData = await _LibraryService.GetAllLibrary(Type, BranchID);
-            return LibraryData;
+           
+            return View();
         }
     }
 }
