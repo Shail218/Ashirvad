@@ -108,7 +108,7 @@ namespace Ashirvad.Repo.Services.Area
                             LibraryID = u.library_id,
                             link = u.video_link,
                             Title = u.library_title,
-                            Description = u.library_title,
+                            Description = u.description,
                             FilePath = b.library_filepath,
                             LibraryDetailID = b.library_dtl_id,
                             FileName = b.library_name,
