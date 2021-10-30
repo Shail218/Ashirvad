@@ -107,31 +107,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             TestPaperEntity paper = new TestPaperEntity();
             try
             {
-                //if (paperInfo.FileInfo != null)
-                //{
-                //    paperInfo.DocContent = Common.Common.ReadFully(paperInfo.FileInfo.InputStream);
-                //    paperInfo.FileName = Path.GetFileName(paperInfo.FileInfo.FileName);
-                //}
-                //else
-                //{
-                //    if (paperInfo.DocContentText != null)
-                //    {
-                //        paperInfo.DocContent = Convert.FromBase64String(paperInfo.DocContentText);
-                //    }
-                //}
-
-                var data = await _testContext.TestPaperMaintenance(paperInfo);
-                //if (data > 0)
-                //{
-                //    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
-                //    {
-                //        Common.Common.SaveFile(paperInfo.DocContent, paperInfo.FileName, "TestPaper\\");
-                //    }
-                //}
-
-                paper = paperInfo;
-                paper.TestID = data;
-                return paper;
+                long TestID = await _testContext.TestPaperMaintenance(paperInfo);
+                if (TestID > 0)
+                {
+                    paper = paperInfo;
+                    paper.TestID = TestID;
+                }              
             }
             catch (Exception ex)
             {

@@ -123,6 +123,7 @@ namespace Ashirvad.API.Controllers
             paperEntity.Branch = new BranchEntity();
             paperEntity.Standard = new StandardEntity();
             paperEntity.Subject = new SubjectEntity();
+            paperEntity.PaperData = new PaperData();
             paperEntity.PaperID = PaperID;
             paperEntity.PaperData.UniqueID = UniqID;
             paperEntity.Branch.BranchID = BranchID;

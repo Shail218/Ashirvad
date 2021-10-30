@@ -35,14 +35,9 @@ namespace Ashirvad.Repo.Services.Area.ToDo
             todo.reg_status = todoInfo.Registerstatus;
             todo.remark = todoInfo.Remark;
             todo.branch_id = todoInfo.BranchInfo.BranchID;
-            if (todoInfo.ToDoContent?.Length > 0)
-            {
-                todo.todo_doc_content = todoInfo.ToDoContent;
-                todo.todo_doc_name = todoInfo.ToDoFileName;
-            }
-
             todo.todo_desc = todoInfo.ToDoDescription;
-
+            todo.todo_doc_name = todoInfo.ToDoFileName;
+            todo.file_path = todoInfo.FilePath;
             todo.todo_dt = todoInfo.ToDoDate;
             todo.user_id = todoInfo.UserInfo.UserID;
             this.context.TODO_MASTER.Add(todo);
@@ -68,7 +63,7 @@ namespace Ashirvad.Repo.Services.Area.ToDo
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            ToDoContent = u.todo_doc_content,
+                            FilePath = u.file_path,
                             ToDoID = u.todo_id,
                             ToDoFileName = u.todo_doc_name,
                             ToDoDate = u.todo_dt,
@@ -143,7 +138,7 @@ namespace Ashirvad.Repo.Services.Area.ToDo
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            ToDoContent = u.todo_doc_content,
+                            FilePath = u.file_path,
                             ToDoID = u.todo_id,
                             ToDoFileName = u.todo_doc_name,
                             ToDoDate = u.todo_dt,
