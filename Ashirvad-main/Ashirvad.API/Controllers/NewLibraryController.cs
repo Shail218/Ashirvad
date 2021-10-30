@@ -25,11 +25,11 @@ namespace Ashirvad.API.Controllers
             _CategoryService = categoryService;
         }
 
-        [Route("LibraryMaintenance/{LibraryID}/{LibraryDetailID}/{Title}/{link}/{FileName}/{Extension}/{Description}/{BranchID}/{CategoryID}/{CreateId}/{CreateBy}/{TransactionId}/{HasFile}")]
+        [Route("LibraryMaintenance/{LibraryID}/{LibraryDetailID}/{Title}/{link}/{FileName}/{Extension}/{Description}/{BranchID}/{CategoryID}/{CreateId}/{CreateBy}/{TransactionId}/{HasFile}/{Type}")]
         [HttpPost]
         public OperationResult<LibraryEntity1> LibraryMaintenance(long LibraryID, long LibraryDetailID,
              string Title, string link, string FileName, string Extension,
-            string Description, long BranchID, long CategoryID, int CreateId, string CreateBy, long TransactionId, bool HasFile)
+            string Description, long BranchID, long CategoryID, int CreateId, string CreateBy, long TransactionId, bool HasFile, int Type)
         {
             LibraryEntity1 libInfo = new LibraryEntity1();
             OperationResult<LibraryEntity1> result = new OperationResult<LibraryEntity1>();
@@ -91,7 +91,7 @@ namespace Ashirvad.API.Controllers
                     }
                 }
             }
-            if (libInfo.link != "" && libInfo.link != null)
+            if (Type == 1)
             {
                 libInfo.Type = (int)Enums.GalleryType.Video;
                 libInfo.FileName = "";
@@ -103,17 +103,13 @@ namespace Ashirvad.API.Controllers
                 libInfo.link = "";
             }
 
-            libInfo.RowStatus = new RowStatusEntity()
-            {
-                RowStatusId = (int)Enums.RowStatus.Active
-            };
             var data = this._libraryService.LibraryMaintenance(libInfo).Result;
 
             result.Completed = false;
             result.Data = null;
             if (data.LibraryID > 0)
             {
-                result.Completed = false;
+                result.Completed = true;
                 result.Data = data;
                 if (LibraryID > 0)
                 {
