@@ -58,5 +58,16 @@ namespace Ashirvad.Data
         public HttpPostedFileBase ImageFile { get; set; }
     }
 
+    public class LibraryImageEntity
+    {
+        public List<LibraryEntity1> imagelist { get; set; } = new List<LibraryEntity1>();
+        public List<CategoryEntity> Categorylist { get; set; } = new List<CategoryEntity>();
+    }
+
+    public class LibraryVideoEntity
+    {
+        public List<LibraryEntity1> Videolist { get; set; } = new List<LibraryEntity1>();
+        public List<CategoryEntity> Categorylist { get; set; } = new List<CategoryEntity>();
+    }
 
 }
