@@ -3,19 +3,17 @@
 
 
 $(document).ready(function () {
-    
-    //if ($("#PackageID").val() > 0) {
-    //}
+
+
     ShowLoader();
     LoadBranch();
     LoadPackage();
-    
-    //if ($("#Branch_BranchID").val() != "") {
-    //    $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-    //    LoadPackage($("#Branch_BranchID").val());
-    //}
 
-   
+    var Id = $("#BranchWiseRightsID").val();
+    if (Id > 0) {
+        update();
+
+    }
 });
 
 function LoadBranch() {
@@ -28,8 +26,11 @@ function LoadBranch() {
         for (i = 0; i < data.length; i++) {
             $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
         }
+        var t = $("#branchinfo_BranchID").val();
+        if ($("#branchinfo_BranchID").val() != "") {
+            $('#BranchName option[value="' + $("#branchinfo_BranchID").val() + '"]').attr("selected", "selected");
+        }
 
-        
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
@@ -45,6 +46,7 @@ function LoadPackage() {
         for (i = 0; i < data.length; i++) {
             $("#PackageName").append("<option value=" + data[i].PackageID + ">" + data[i].Package + "</option>");
         }
+        var t = $("#Packageinfo_PackageID").val();
         if ($("#Packageinfo_PackageID").val() != "") {
             $('#PackageName option[value="' + $("#Packageinfo_PackageID").val() + '"]').attr("selected", "selected");
         }
@@ -57,17 +59,16 @@ function LoadPackage() {
 $("#BranchName").change(function () {
 
     var Data = $("#BranchName option:selected").val();
-    $('#BranchID').val(Data);
-    LoadPackage(Data);
+    $('#branchinfo_BranchID').val(Data);
+    //LoadPackage(Data);
 });
 
 //$("#PackageName").change(function () {
 //    var Data = $("#PackageName option:selected").val();
-//    $('#Package_PackageID').val(Data);
+//    $('#Packageinfo_PackageID').val(Data);
 //});
 
 $("#PackageName").change(function () {
-    debugger;
     var Data = $("#PackageName option:selected").val();
     $('#Packageinfo_PackageID').val(Data);
 
@@ -80,7 +81,7 @@ $("#PackageName").change(function () {
             $("#rightsdiv").html(data);
             var test = $('#Packageinfo_PackageID').val();
             checkstatus();
-           
+
         }).fail(function () {
             HideLoader();
         });
@@ -89,8 +90,28 @@ $("#PackageName").change(function () {
         $("#UserDetails").html("");
 
     }
-}); 
+});
 
+function update() {
+    var Data = $("#PackageName option:selected").val();
+    if (Data > 0) {
+        ShowLoader();
+        var postCall = $.post(commonData.BranchWiseRight + "BranchRightUniqueData", { "PackageRightID": Data });
+        postCall.done(function (data) {
+            HideLoader();
+            $("#rightsdiv").html(data);
+            var test = $('#Packageinfo_PackageID').val();
+            checkstatus();
+
+        }).fail(function () {
+            HideLoader();
+        });
+    }
+    else {
+        $("#UserDetails").html("");
+
+    }
+}
 function checkstatus() {
     var Create = true;
     var Delete = true;
@@ -219,24 +240,16 @@ function SaveBranchWiseRight() {
     }
 }
 
-function RemoveBranchRight(BranchWiseRightsID) {
+function RemoveBranchRight(BranchRightID) {
     if (confirm('Are you sure want to delete this?')) {
         ShowLoader();
-        var postCall = $.post(commonData.BranchWiseRight + "RemoveBranchRight", { "BranchWiseRightsID": BranchWiseRightsID });
+        var postCall = $.post(commonData.BranchWiseRight + "RemoveBranchRight", { "BranchRightID": BranchRightID });
         postCall.done(function (data) {
             HideLoader();
-            if (data == true) {
-                ShowMessage("Rights Deleted Successfully!!", 'Success');
-                setTimeout(function () { window.location.href = "BranchRightMaintenance?BranchWiseRightsID=0"; }, 2000);
-
-            }
-            else {
-                ShowMessage("Rights Can not Deleted!!", 'Error');
-            }
-
-
+            ShowMessage("Branch Right Removed Successfully.", "Success");
+            window.location.href = "BranchRightMaintenance?BranchRightID=0";
         }).fail(function () {
-
+            HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }

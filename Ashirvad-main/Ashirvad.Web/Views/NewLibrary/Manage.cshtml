@@ -28,55 +28,55 @@
 
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        @item.Title
-        @Html.HiddenFor(x => item.LibraryID)
-    </td>
-    @if (item.FilePath != "" && item.FilePath != null)
-    {
-<td>
-    <img src="@item.FilePath" onerror="this.src = 'http://localhost:4995//ThemeData/images/Default.png';" id="Img" style="height:40px;width:40px;margin-left:10px;" />
-</td>
+        <tr>
+            <td>
+                @item.Title
+                @Html.HiddenFor(x => item.LibraryID)
+            </td>
+            @if (item.FilePath != "" && item.FilePath != null)
+            {
+                <td>
+                    <img src="@item.FilePath" onerror="this.src = 'http://localhost:4995//ThemeData/images/Default.png';" id="Img" style="height:40px;width:40px;margin-left:10px;" />
+                </td>
 
-    }
-    else
-    {
-<td>
+            }
+            else
+            {
+                <td>
 
-    <img src="~/ThemeData/images/Default.png" id="Img" style="height:40px;width:40px;margin-left:10px;" />
-</td>
-    }
+                    <img src="~/ThemeData/images/Default.png" id="Img" style="height:40px;width:40px;margin-left:10px;" />
+                </td>
+            }
 
-    <td>
-        @item.Description
-        @Html.HiddenFor(x => item.LibraryID)
-    </td>
-    <td>
-        @item.CategoryInfo.Category
-        @Html.HiddenFor(x => item.CategoryInfo.CategoryID)
-    </td>
-    @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
-    {
-        <td>
-            @item.BranchInfo.BranchName
-            @Html.HiddenFor(x => item.BranchInfo.BranchID)
-        </td>
-    }
-    @*<td>
-            @item.RowStatus.RowStatus
-        </td>*@
-    <td>
-        <a href="@Url.Action("LibraryMaintenance", "NewLibrary", new { LibraryID = item.LibraryID ,Type=2})">
-            <img src="~/ThemeData/images/viewIcon.png" />
-        </a>
-    </td>
-    <td>
-        <a href="#" onclick="RemoveLibraryImage(@item.LibraryID);">
-            <img src="~/ThemeData/images/delete.png" />
-        </a>
-    </td>
-</tr>
+            <td>
+                @item.Description
+                @Html.HiddenFor(x => item.LibraryID)
+            </td>
+            <td>
+                @item.CategoryInfo.Category
+                @Html.HiddenFor(x => item.CategoryInfo.CategoryID)
+            </td>
+            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
+                <td>
+                    @item.BranchInfo.BranchName
+                    @Html.HiddenFor(x => item.BranchInfo.BranchID)
+                </td>
+            }
+            @*<td>
+                    @item.RowStatus.RowStatus
+                </td>*@
+            <td>
+                <a href="@Url.Action("LibraryMaintenance", "NewLibrary", new { LibraryID = item.LibraryID ,Type=2})">
+                    <img src="~/ThemeData/images/viewIcon.png" />
+                </a>
+            </td>
+            <td>
+                <a href="#" onclick="RemoveLibraryImage(@item.LibraryID);">
+                    <img src="~/ThemeData/images/delete.png" />
+                </a>
+            </td>
+        </tr>
     }
 
 </table>
