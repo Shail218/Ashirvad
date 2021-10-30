@@ -18,9 +18,11 @@ namespace Ashirvad.API.Controllers
     public class NewLibraryController : ApiController
     {
         private readonly ILibrary1Service _libraryService = null;
-        public NewLibraryController(ILibrary1Service libraryService)
+        private readonly ICategoryService _CategoryService = null;
+        public NewLibraryController(ILibrary1Service libraryService, ICategoryService categoryService)
         {
             _libraryService = libraryService;
+            _CategoryService = categoryService;
         }
 
         [Route("LibraryMaintenance/{LibraryID}/{LibraryDetailID}/{Title}/{link}/{FileName}/{Extension}/{Description}/{BranchID}/{CategoryID}/{CreateId}/{CreateBy}/{TransactionId}/{HasFile}")]
@@ -156,6 +158,17 @@ namespace Ashirvad.API.Controllers
             OperationResult<bool> result = new OperationResult<bool>();
             result.Completed = true;
             result.Data = data;
+            return result;
+        }
+
+        [Route("GetAllCategory")]
+        [HttpGet]
+        public OperationResult<List<CategoryEntity>> GetAllCategory(long BranchID)
+        {
+            var data = this._CategoryService.GetAllCategorys(BranchID);
+            OperationResult<List<CategoryEntity>> result = new OperationResult<List<CategoryEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
             return result;
         }
     }

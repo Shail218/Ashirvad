@@ -285,6 +285,96 @@ namespace Ashirvad.API.Controllers
         //    return result;
         //}
 
+        [Route("TestPaperMaintenance/{TestID}/{TestPaperID}/{Paper_Type}/{Doc_Link}/{Paper_Remark}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [HttpPost]
+        public OperationResult<TestPaperEntity> TestPaperMaintenance(long TestID, long TestPaperID, int Paper_Type ,string Doc_Link,string Paper_Remark, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        {
+            OperationResult<TestPaperEntity> result = new OperationResult<TestPaperEntity>();
+            var httpRequest = HttpContext.Current.Request;
+            TestPaperEntity testPaperEntity = new TestPaperEntity();
+            TestPaperEntity data = new TestPaperEntity();
+            testPaperEntity.TestID = TestID;
+            testPaperEntity.TestPaperID = TestPaperID;
+            testPaperEntity.PaperTypeID = Paper_Type;
+            testPaperEntity.DocLink = Doc_Link == "none" ? "" : Doc_Link;
+            testPaperEntity.Remarks = Paper_Remark;
+            testPaperEntity.FileName = FileName == "none" ? "" : FileName;
+            if(Extension == "none")
+            {
+                testPaperEntity.FilePath = "";
+            }
+            else
+            {
+                testPaperEntity.FilePath = "/TestPaper/" + FileName + "." + Extension;
+            }
+            testPaperEntity.RowStatus = new RowStatusEntity()
+            {
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
+            testPaperEntity.Transaction = new TransactionEntity()
+            {
+                TransactionId = TransactionId,
+                LastUpdateBy = CreateBy,
+                LastUpdateId = CreateId,
+                CreatedBy = CreateBy,
+                CreatedId = CreateId,
+            };
+            if (HasFile)
+            {
+                try
+                {
+                    if (httpRequest.Files.Count > 0)
+                    {
+                        foreach (string file in httpRequest.Files)
+                        {
+                            string fileName;
+                            string extension;
+                            string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                            // for live server
+                            //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                            // for local server
+                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            var postedFile = httpRequest.Files[file];
+                            string randomfilename = Common.Common.RandomString(20);
+                            extension = Path.GetExtension(postedFile.FileName);
+                            fileName = Path.GetFileName(postedFile.FileName);
+                            string _Filepath = "/TestPaper/" + randomfilename + extension;
+                            string _Filepath1 = "TestPaper/" + randomfilename + extension;
+                            var filePath = HttpContext.Current.Server.MapPath("~/TestPaper/" + randomfilename + extension);
+                            string _path = UpdatedPath + _Filepath1;
+                            postedFile.SaveAs(_path);
+                            testPaperEntity.FileName = fileName;
+                            testPaperEntity.FilePath = _Filepath;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.Completed = false;
+                    result.Data = null;
+                    result.Message = ex.ToString();
+                }
+            }
+            data = this._testService.TestPaperMaintenance(testPaperEntity).Result;
+            result.Completed = false;
+            result.Data = null;
+            if (data.TestID > 0)
+            {
+                result.Completed = true;
+                result.Data = data;
+                if (TestID > 0)
+                {
+                    result.Message = "Test Paper Updated Successfully.";
+                }
+                else
+                {
+                    result.Message = "Test Paper Created Successfully.";
+                }
+            }
+            return result;
+        }
+     
+
         [Route("TestAnswerSheetMaintenance/{TestID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}")]
         [HttpPost]
         public OperationResult<StudentAnswerSheetEntity> TestAnswerSheetMaintenance(long TestID, long BranchID, long StudentID, 

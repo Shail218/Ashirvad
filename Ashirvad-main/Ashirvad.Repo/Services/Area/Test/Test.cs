@@ -355,12 +355,6 @@ namespace Ashirvad.Repo.Services.Area.Test
             testRel.row_sta_cd = paperInfo.RowStatus.RowStatusId;
             testRel.trans_id = this.AddTransactionData(paperInfo.Transaction);
             testRel.test_id = paperInfo.TestID;
-            //if (paperInfo.DocContent?.Length > 0)
-            //{
-            //    testRel.doc_content = paperInfo.DocContent;
-            //    testRel.file_name = paperInfo.FileName;
-            //}
-
             testRel.doc_content =null;
             testRel.file_name = paperInfo.FileName;
             testRel.file_path = paperInfo.FilePath;

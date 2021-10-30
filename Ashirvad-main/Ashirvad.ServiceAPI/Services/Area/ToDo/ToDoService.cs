@@ -24,29 +24,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.ToDo
             ToDoEntity td = new ToDoEntity();
             try
             {
-                if (todo.FileInfo != null)
+                long ToDoID = await _todoContext.ToDoMaintenance(todo);
+                if (ToDoID > 0)
                 {
-                    todo.ToDoContent = Common.Common.ReadFully(todo.FileInfo.InputStream);
-                    todo.ToDoFileName = Path.GetFileName(todo.FileInfo.FileName);
+                    td.ToDoID = ToDoID;
                 }
-                else
-                {
-                    todo.ToDoContent = Convert.FromBase64String(todo.ToDoContentText);
-                }
-
-
-                var data = await _todoContext.ToDoMaintenance(todo);
-                if (data > 0)
-                {
-                    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
-                    {
-                        Common.Common.SaveFile(todo.ToDoContent, todo.ToDoFileName, "ToDo\\");
-                    }
-                }
-
-                td = todo;
-                td.ToDoID = data;
-                return td;
             }
             catch (Exception ex)
             {
