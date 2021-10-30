@@ -128,6 +128,18 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("LibraryLinkMaintenance")]
+        [HttpPost]
+        public OperationResult<LibraryEntity1> LibraryLinkMaintenance(LibraryEntity1 libraryEntity1)
+        {
+            OperationResult<LibraryEntity1> result = new OperationResult<LibraryEntity1>();
+            var data = this._libraryService.LibraryMaintenance(libraryEntity1).Result;
+            result.Completed = true;
+            result.Data = data;
+            result.Message = "Success";
+            return result;
+        }
+
         [Route("GetAllLibrary")]
         [HttpGet]
         public OperationResult<List<LibraryEntity1>> GetAllLibrary(int Type, int BranchID)
@@ -146,6 +158,7 @@ namespace Ashirvad.API.Controllers
             var data = this._libraryService.GetLibraryByLibraryID(libraryID);
             OperationResult<LibraryEntity1> result = new OperationResult<LibraryEntity1>();
             result.Data = data.Result;
+            result.Completed = true;
             return result;
         }
 

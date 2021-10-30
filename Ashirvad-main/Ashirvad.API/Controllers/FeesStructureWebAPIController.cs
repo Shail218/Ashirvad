@@ -116,6 +116,7 @@ namespace Ashirvad.API.Controllers
             var data = this._FeesService.GetFeesByFeesID(FeesID);
             OperationResult<FeesEntity> result = new OperationResult<FeesEntity>();
             result.Data = data.Result;
+            result.Completed = true;
             return result;
         }
 
@@ -136,6 +137,7 @@ namespace Ashirvad.API.Controllers
             var FeesData = this._FeesService.GetAllFees();
             OperationResult<List<FeesEntity>> result = new OperationResult<List<FeesEntity>>();
             result.Data = FeesData.Result;
+            result.Completed = true;
             return result;
         }
 
@@ -146,6 +148,7 @@ namespace Ashirvad.API.Controllers
             var data = this._FeesService.GetFeesByBranchID(BranchID, StdID);
             OperationResult<List<FeesEntity>> result = new OperationResult<List<FeesEntity>>();
             result.Data = data.Result;
+            result.Completed = true;
             return result;
         }
     }
