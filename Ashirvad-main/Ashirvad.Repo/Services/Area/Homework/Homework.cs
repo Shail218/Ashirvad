@@ -243,10 +243,10 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
-            if (data != null)
-            {
-                data.HomeworkContentText = Convert.ToBase64String(data.HomeworkContent);
-            }
+            //if (data != null)
+            //{
+            //    data.HomeworkContentText = Convert.ToBase64String(data.HomeworkContent);
+            //}
             return data;
         }
 

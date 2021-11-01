@@ -23,6 +23,13 @@ namespace Ashirvad.Common
             Video = 1,
             Image = 2
         }
+
+        public enum BoardType : int
+        {
+            GujaratBoard = 1,
+            CBSC = 2,
+            Both = 3
+        }
         public enum Gender : int {
             Male =1,
             Female =2,
