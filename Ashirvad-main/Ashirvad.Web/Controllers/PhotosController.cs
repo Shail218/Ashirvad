@@ -4,6 +4,7 @@ using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Gallery;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -45,7 +46,15 @@ namespace Ashirvad.Web.Controllers
         {
             if (photos.ImageFile != null)
             {
-                photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
+                //photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
+                string _FileName = Path.GetFileName(photos.ImageFile.FileName);
+                string extension = System.IO.Path.GetExtension(photos.ImageFile.FileName);
+                string randomfilename = Common.Common.RandomString(20);
+                string _Filepath = "/GalleryImage/" + randomfilename + extension;
+                string _path = Path.Combine(Server.MapPath("~/GalleryImage"), randomfilename + extension);
+                photos.ImageFile.SaveAs(_path);
+                photos.FileName = _FileName;
+                photos.FilePath = _Filepath;
             }
 
             photos.GalleryType = 1;

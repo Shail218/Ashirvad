@@ -4,6 +4,7 @@ using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.ToDo;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -43,6 +44,19 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveToDo(ToDoEntity toDoEntity)
         {
+            if (toDoEntity.FileInfo != null)
+            {
+                //fileModel= fileUploadCommon.SaveFileUploadweb(Fees.ImageFile, "FeesImage").Result;
+                //Fees.Fees_Content = Common.Common.ReadFully(Fees.ImageFile.InputStream);
+                string _FileName = Path.GetFileName(toDoEntity.FileInfo.FileName);
+                string extension = System.IO.Path.GetExtension(toDoEntity.FileInfo.FileName);
+                string randomfilename = Common.Common.RandomString(20);
+                string _Filepath = "/ToDoDocument/" + randomfilename + extension;
+                string _path = Path.Combine(Server.MapPath("~/ToDoDocument"), randomfilename + extension);
+                toDoEntity.FileInfo.SaveAs(_path);
+                toDoEntity.ToDoFileName = _FileName;
+                toDoEntity.FilePath = _Filepath;
+            }
             toDoEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active

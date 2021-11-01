@@ -44,6 +44,19 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SavePaper(PaperEntity paperEntity)
         {
+            if (paperEntity.PaperData.PaperFile != null)
+            {
+                //fileModel= fileUploadCommon.SaveFileUploadweb(Fees.ImageFile, "FeesImage").Result;
+                //Fees.Fees_Content = Common.Common.ReadFully(Fees.ImageFile.InputStream);
+                string _FileName = Path.GetFileName(paperEntity.PaperData.PaperFile.FileName);
+                string extension = System.IO.Path.GetExtension(paperEntity.PaperData.PaperFile.FileName);
+                string randomfilename = Common.Common.RandomString(20);
+                string _Filepath = "/PaperDocument/" + randomfilename + extension;
+                string _path = Path.Combine(Server.MapPath("~/PaperDocument"), randomfilename + extension);
+                paperEntity.PaperData.PaperFile.SaveAs(_path);
+                paperEntity.PaperData.PaperPath = _FileName;
+                paperEntity.PaperData.FilePath = _Filepath;
+            }
             paperEntity.Transaction = GetTransactionData(paperEntity.PaperID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             paperEntity.RowStatus = new RowStatusEntity()
             {

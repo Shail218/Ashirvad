@@ -5,6 +5,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Homework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -55,6 +56,19 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveHomework(HomeworkEntity homeworkEntity)
         {
+            if (homeworkEntity.FileInfo != null)
+            {
+                //photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
+                string _FileName = Path.GetFileName(homeworkEntity.FileInfo.FileName);
+                string extension = System.IO.Path.GetExtension(homeworkEntity.FileInfo.FileName);
+                string randomfilename = Common.Common.RandomString(20);
+                string _Filepath = "/HomeworkDocument/" + randomfilename + extension;
+                string _path = Path.Combine(Server.MapPath("~/HomeworkDocument"), randomfilename + extension);
+                homeworkEntity.FileInfo.SaveAs(_path);
+                homeworkEntity.HomeworkContentFileName = _FileName;
+                homeworkEntity.FilePath = _Filepath;
+            }
+
             homeworkEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
