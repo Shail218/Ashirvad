@@ -71,12 +71,13 @@ function SaveFeeStructure() {
         }
         AjaxCallWithFileUpload(commonData.FeesStructure + 'SaveFees', formData, function (data) {
             HideLoader();
-            if (data) {
+            if (data.FeesID>=0) {
                 ShowMessage("Fee Structure added Successfully.", "Success");
                 window.location.href = "FeesMaintenance?FeesID=0";
             }
+
             else {
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+                ShowMessage("Fee Structure Already Exist. ","Error");
             }
         }, function (xhr) {
             HideLoader();
