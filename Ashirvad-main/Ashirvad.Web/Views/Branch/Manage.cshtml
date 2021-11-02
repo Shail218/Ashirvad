@@ -13,26 +13,29 @@
                 Logo
             </th>
             <th>
+                Board Type
+            </th>
+            <th>
                 Status
             </th>
             <th>
                 Edit
             </th>
             @*<th>
-                Delete
-            </th>*@
+            Delete
+        </th>*@
         </tr>
     </thead>
 
     @foreach (var item in Model)
     {
-        <tr>
+    <tr>
 
-            <td>
-                @item.BranchName
+        <td>
+            @item.BranchName
 
-                @Html.HiddenFor(x => item.BranchID)
-            </td>
+            @Html.HiddenFor(x => item.BranchID)
+        </td>
 
             <td>
                 @if (item.BranchMaint.FilePath != null && item.BranchMaint.FilePath != "")

@@ -131,7 +131,30 @@ function SaveMarks() {
         });
     }
 }
-
+function GetStudentDetail() {
+    var isSuccess = ValidateData('dInformation');
+    if (isSuccess) {
+        ShowLoader();
+        var frm = $('#fMarks');
+        var formData = new FormData(frm[0]);
+        var item = $('input[type=file]');
+        if (item[0].files.length > 0) {
+            formData.append('FileInfo', $('input[type=file]')[0].files[0]);
+        }
+        AjaxCallWithFileUpload(commonData.ResultEntry + 'SaveMarks', formData, function (data) {
+            HideLoader();
+            if (data) {
+                ShowMessage("Marks added Successfully.", "Success");
+                window.location.href = "MarksMaintenance?MarksID=0";
+            }
+            else {
+                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+            }
+        }, function (xhr) {
+            HideLoader();
+        });
+    }
+}
 function LoadTestDates(BatchType) {
 
     var BranchID = $("#Branch_Name").val();

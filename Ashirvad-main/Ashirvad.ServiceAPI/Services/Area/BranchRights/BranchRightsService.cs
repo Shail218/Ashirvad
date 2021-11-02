@@ -90,5 +90,19 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return null;
         }
+
+        public async Task<List<BranchWiseRightEntity>> GetBranchRightsByBranchID(long PackageRightID)
+        {
+            try
+            {
+                return await this._BranchRightsContext.GetAllRightsByBranch(PackageRightID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
     }
 }

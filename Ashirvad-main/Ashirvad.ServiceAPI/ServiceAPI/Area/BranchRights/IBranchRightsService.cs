@@ -14,5 +14,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
         Task<List<BranchWiseRightEntity>> GetAllBranchRightss();
         Task<List<BranchWiseRightEntity>> GetAllBranchRightsUniqData(long PackageRightID);
         Task<BranchWiseRightEntity> GetBranchRightsByID(long standardID);
+        Task<List<BranchWiseRightEntity>> GetBranchRightsByBranchID(long PackageRightID);
     }
 }

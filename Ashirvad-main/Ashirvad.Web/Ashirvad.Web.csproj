@@ -250,6 +250,7 @@
     <Content Include="scripts\app\branchwiseright.js" />
     <Content Include="scripts\app\Category.js" />
     <Content Include="scripts\app\common.js" />
+    <Content Include="scripts\app\faculty.js" />
     <Content Include="scripts\app\fees.js" />
     <Content Include="scripts\app\homework.js" />
     <Content Include="scripts\app\image.js" />
@@ -1094,10 +1095,11 @@
     <Compile Include="Controllers\BranchWiseRightController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
+    <Compile Include="Controllers\FacultyController.cs" />
+    <Compile Include="Controllers\HomeWorkController.cs" />
     <Compile Include="Controllers\NewLibraryController.cs" />
     <Compile Include="Controllers\FeesStructureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\HomeWorkController.cs" />
     <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="Controllers\LibraryManageController.cs" />
     <Compile Include="Controllers\ListOfStudentController.cs" />
@@ -1340,9 +1342,11 @@
     <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Views\Page\Manage.cshtml" />
     <Content Include="Views\BranchWiseRight\RightsDataTable.cshtml" />
-    <Content Include="ToDoDocument\AFFK51M07FHRSQH2W1Z3.pdf" />
-    <Content Include="ToDoDocument\GQQ8WJT5QGMTNAD3WZGQ.xlsx" />
-    <Content Include="ToDoDocument\RN4ZI39180YEQZPRORVB.docx" />
+
+   
+    <Content Include="Views\Faculty\Index.cshtml" />
+    <Content Include="Views\Faculty\Create.cshtml" />
+    <Content Include="Views\Faculty\Manage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

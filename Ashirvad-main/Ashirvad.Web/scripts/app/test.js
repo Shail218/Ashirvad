@@ -124,8 +124,8 @@ function Savetest() {
     if (isSuccess) {
         ShowLoader();
 
-        var date1 = $("#TestDate").val();
-        $("#TestDate").val(ConvertData(date1));
+        //var date1 = $("#TestDate").val();
+        //$("#TestDate").val(ConvertData(date1));
         var frm = $('#fTestDetail');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');
@@ -135,7 +135,7 @@ function Savetest() {
         AjaxCallWithFileUpload(commonData.TestPaper + 'SaveTest', formData, function (data) {
             if (data) {
                 ShowMessage("Test paper added Successfully.", "Success");
-                window.location.href = "TestPaperMaintenance?testID=0";
+                setTimeout(function () { window.location.href = "TestPaperMaintenance?testID=0" }, 2000);
             } else {
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }

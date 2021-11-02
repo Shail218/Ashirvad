@@ -10,7 +10,8 @@
         }
     });
     ApplyNumeric();
-    $(".select2").select2();
+    //$(".select2").select2();
+    CheckRights();
 });
 
 function ShowLoader() {
@@ -330,5 +331,64 @@ function convertddmmyyyy(inputFormat) {
     function pad(s) { return (s < 10) ? '0' + s : s; }
     var d = new Date(inputFormat)
     return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join('/')
+}
+
+
+function CheckRights() {
+    var rightslist = $("#rightslist").val();
+    var data = $.parseJSON(rightslist);
+    for (var i = 0; i < data.length; i++) {
+        var Page = data[i].PageInfo.Page;
+        var Createstatus = data[i].PackageRightinfo.Createstatus;
+        var Deletestatus = data[i].PackageRightinfo.Deletestatus;
+        var Viewstatus = data[i].PackageRightinfo.Viewstatus;
+        var SplitPage = Page.split(' ');
+        var Count = 0;
+        var classname = "";
+        for (var j = 0; j < SplitPage.length; j++) {
+            Count++;
+            if (Count == SplitPage.length) {
+                classname = '.' + SplitPage[j] + ' ';
+                $('#main-menu ' + classname + '').each(function () {
+                    if (!Viewstatus) {
+                        $(this).addClass("displayNone");
+                    }
+                });
+            }
+            else {
+                classname = classname + '.' + SplitPage[j] + ' ';
+            }
+
+        }
+
+    }
+    var classarray = [];
+    classarray.push("MasterMenu");
+    classarray.push("StudentMenu");
+    classarray.push("AttendanceMenu");
+    classarray.push("TestMenu");
+    classarray.push("GalleryMenu");
+    classarray.push("LibraryMenu");
+    classarray.push("MoreMenu");
+    for (var i = 0; i < classarray.length; i++)
+    {
+        var Status=false;
+        var Count = 0;
+        var T = $('#' + classarray[i] + ' ul li');
+        for (var j = 0; j < T.length; j++)
+        {
+            var OP = T[j];
+            var Check = OP.classList.contains('displayNone');
+            if (Check)
+            {
+                Status = true
+                break;
+            }
+        }
+
+        if (Status == false) {
+            $('#' + classarray[i]).addClass('displayNone');
+        }
+    }
 }
 

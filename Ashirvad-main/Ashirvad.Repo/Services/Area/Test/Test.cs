@@ -58,7 +58,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
                         join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
-                        where u.branch_id == branchID
+                        where u.branch_id == branchID && u.row_sta_cd==1
                         select new TestEntity()
                         {
                             RowStatus = new RowStatusEntity()

@@ -43,6 +43,7 @@
     Package: $("#hdnFldVDName").val() + "Package/",
     PackageRight: $("#hdnFldVDName").val() + "PackageRight/",
     BranchWiseRight: $("#hdnFldVDName").val() + "BranchWiseRight/",
+    Faculty: $("#hdnFldVDName").val() + "Faculty/",
 };
 
 function GetExtention(image){

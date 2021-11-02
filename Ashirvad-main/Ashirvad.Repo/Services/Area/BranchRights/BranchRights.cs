@@ -226,5 +226,41 @@ namespace Ashirvad.Repo.Services.Area
 
             return data;
         }
+
+        public async Task<List<BranchWiseRightEntity>> GetAllRightsByBranch(long PackageRightID)
+        {
+            var data = (from u in this.context.BRANCH_RIGHTS_MASTER
+                        .Include("PACKAGE_MASTER")
+                         .Include("BRANCH_MASTER")
+                        join PM in this.context.PACKAGE_RIGHTS_MASTER on u.package_id equals PM.package_id
+                        join page in this.context.PAGE_MASTER on PM.page_id equals page.page_id
+                        where u.row_sta_cd == 1 && u.branch_id== PackageRightID
+                        select new BranchWiseRightEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            PackageRightinfo = new PackageRightEntity()
+                            {
+
+                                PackageRightsId = PM.packagerights_id,
+                                Createstatus = PM.createstatus,
+                                Viewstatus = PM.viewstatus,
+                                Deletestatus = PM.deletestatus,
+
+                            },
+                            PageInfo = new PageEntity()
+                            {
+                                Page = PM.PAGE_MASTER.page,
+                                PageID = PM.page_id,
+                            },
+
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                        }).ToList();
+
+            return data;
+        }
     }
 }
