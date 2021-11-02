@@ -337,54 +337,75 @@ function convertddmmyyyy(inputFormat) {
 function CheckRights() {
     var rightslist = $("#rightslist").val();
     var data = $.parseJSON(rightslist);
-    for (var i = 0; i < data.length; i++) {
-        var Page = data[i].PageInfo.Page;
-        var Createstatus = data[i].PackageRightinfo.Createstatus;
-        var Deletestatus = data[i].PackageRightinfo.Deletestatus;
-        var Viewstatus = data[i].PackageRightinfo.Viewstatus;
-        var ClassName = '.'+Page.replace(/\s/g, '');
-        var Count = 0;
-        var classname = "";
-        $('#main-menu' + ClassName).each(function () {
-            if (!Viewstatus) {
-                $(this).addClass("displayNone");
-            }
-            else {
-                var test = $(this);
-            }
-        });
+    if (data.length > 0) {
+        for (var i = 0; i < data.length; i++) {
+            debugger;
+            var Page = data[i].PageInfo.Page;
+            var Createstatus = data[i].PackageRightinfo.Createstatus;
+            var Deletestatus = data[i].PackageRightinfo.Deletestatus;
+            var Viewstatus = data[i].PackageRightinfo.Viewstatus;
+            var ClassName = '.' + Page.replace(/\s/g, '');
+            var CreateClass = '.' + Page.replace(/\s/g, '') + 'Create';
+            var DeleteClass = '.' + Page.replace(/\s/g, '') + 'Delete';
+            var Count = 0;
+            var classname = "";
+            var Ts = $('#main-menu ' + ClassName);
+            $('#main-menu ' + ClassName).each(function () {
+                if (!Viewstatus) {
+                    //$(this).addClass("displayNone");
+                    $(this).html("");
+                }
+                else {
+                    var test = $(this);
+                }
+            });
+            $('#main-menu ' + CreateClass).each(function () {
+                if (!Createstatus) {
+                    //$(this).addClass("displayNone");
+                    $(this).html("");
+                }
+                else {
+                    var test = $(this);
+                }
+            });
+            $('#main-menu ' + DeleteClass).each(function () {
+                if (!DeleteClass) {
+                    //$(this).addClass("displayNone");
+                    $(this).html("");
+                }
+                else {
+                    var test = $(this);
+                }
+            });
+        }
+        var classarray = [];
+        classarray.push("MasterMenu");
+        classarray.push("StudentMenu");
+        classarray.push("AttendanceMenu");
+        classarray.push("TestMenu");
+        classarray.push("GalleryMenu");
+        classarray.push("LibraryMenu");
+        classarray.push("MoreMenu");
+        for (var i = 0; i < classarray.length; i++) {
+            var Status = false;
+            var Count = 0;
+            var T = $('#' + classarray[i] + ' ul li');
+            for (var j = 0; j < T.length; j++) {
+                var OP = T[j];
+                var Check = OP.classList.contains('displayNone');
+                if (!Check) {
+                    Count++;
+                    Status = true
+                    break;
 
+                }
+            }
+
+            if (!Status) {
+                $('#' + classarray[i]).addClass('displayNone');
+            }
+        }
     }
-    var classarray = [];
-    classarray.push("MasterMenu");
-    classarray.push("StudentMenu");
-    classarray.push("AttendanceMenu");
-    classarray.push("TestMenu");
-    classarray.push("GalleryMenu");
-    classarray.push("LibraryMenu");
-    classarray.push("MoreMenu");
-    //for (var i = 0; i < classarray.length; i++)
-    //{
-    //    var Status=false;
-    //    var Count = 0;
-    //    var T = $('#' + classarray[i] + ' ul li');
-    //    for (var j = 0; j < T.length; j++)
-    //    {
-    //        var OP = T[j];
-    //        var Check = OP.classList.contains('displayNone');
-    //        if (!Check)
-    //        {
-    //            Count++;
-    //            Status = true
-    //            break;
-
-    //        }
-    //    }
-
-    //    if (!Status)
-    //    {
-    //        $('#' + classarray[i]).addClass('displayNone');
-    //    }
-    //}
+   
 }
 

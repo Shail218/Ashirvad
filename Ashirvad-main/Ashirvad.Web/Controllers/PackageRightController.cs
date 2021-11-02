@@ -33,27 +33,38 @@ namespace Ashirvad.Web.Controllers
             packageRightMaintenance.PackageRightsData = new List<PackageRightEntity>();
             return View(packageRightMaintenance);
         }
-
+        public ActionResult NoRights()
+        {
+            
+            return View();
+        }
         public async Task<ActionResult> PackageRightMaintenance(long PackageRightID)
         {
-            PackageRightMaintenanceModel PackageRight = new PackageRightMaintenanceModel();
-            PackageRight.PackageRightsInfo = new PackageRightEntity();
-            PackageRight.PackageRightsInfo.list = new List<PackageRightEntity>();
-            if (PackageRightID > 0)
+            if(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin)
             {
-                var result = await _PackageRightService.GetPackaegrightsByID(PackageRightID);
-                var result2 = await _PackageRightService.GetPackageRightsByPackageRightsID(PackageRightID);
-                PackageRight.PackageRightsInfo = result;
-                PackageRight.PackageRightsInfo.list = result2;
+                PackageRightMaintenanceModel PackageRight = new PackageRightMaintenanceModel();
+                PackageRight.PackageRightsInfo = new PackageRightEntity();
+                PackageRight.PackageRightsInfo.list = new List<PackageRightEntity>();
+                if (PackageRightID > 0)
+                {
+                    var result = await _PackageRightService.GetPackaegrightsByID(PackageRightID);
+                    var result2 = await _PackageRightService.GetPackageRightsByPackageRightsID(PackageRightID);
+                    PackageRight.PackageRightsInfo = result;
+                    PackageRight.PackageRightsInfo.list = result2;
+                }
+                var PackageRightData = await _PackageRightService.GetAllPackageRights();
+
+
+                PackageRight.PackageRightsData = PackageRightData;
+
+                var branchData = await _pageService.GetAllPages(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                PackageRight.PackageRightsInfo.PageList = branchData;
+                return View("Index", PackageRight);
             }
-            var PackageRightData = await _PackageRightService.GetAllPackageRights();
-
-
-            PackageRight.PackageRightsData = PackageRightData;
-
-            var branchData = await _pageService.GetAllPages(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            PackageRight.PackageRightsInfo.PageList = branchData;
-            return View("Index", PackageRight);
+            else
+            {
+                return View("NoRights");
+            }
         }
 
         [HttpPost]

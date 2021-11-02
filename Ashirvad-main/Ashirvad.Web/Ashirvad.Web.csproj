@@ -1231,12 +1231,6 @@
     <Content Include="Views\AttendanceReport\Index.cshtml" />
     <Content Include="Views\AttendanceReport\Create.cshtml" />
     <Content Include="Views\AttendanceReport\Manage.cshtml" />
-    <Content Include="Views\TestEntry\Index.cshtml" />
-    <Content Include="Views\TestEntry\Create.cshtml" />
-    <Content Include="Views\TestEntry\Manage.cshtml" />
-    <Content Include="Views\TestRegister\Index.cshtml" />
-    <Content Include="Views\TestRegister\Create.cshtml" />
-    <Content Include="Views\TestRegister\Manage.cshtml" />
     <Content Include="Views\ResultEntry\Index.cshtml" />
     <Content Include="Views\ResultEntry\Create.cshtml" />
     <Content Include="Views\ResultEntry\Manage.cshtml" />
@@ -1246,9 +1240,6 @@
     <Content Include="Views\TestPaper\Index.cshtml" />
     <Content Include="Views\TestPaper\Create.cshtml" />
     <Content Include="Views\TestPaper\Manage.cshtml" />
-    <Content Include="Views\TestPaperLink\Index.cshtml" />
-    <Content Include="Views\TestPaperLink\Create.cshtml" />
-    <Content Include="Views\TestPaperLink\Manage.cshtml" />
     <Content Include="Views\Photos\Index.cshtml" />
     <Content Include="Views\Photos\Create.cshtml" />
     <Content Include="Views\Photos\Manage.cshtml" />
@@ -1342,11 +1333,10 @@
     <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Views\Page\Manage.cshtml" />
     <Content Include="Views\BranchWiseRight\RightsDataTable.cshtml" />
-
-   
     <Content Include="Views\Faculty\Index.cshtml" />
     <Content Include="Views\Faculty\Create.cshtml" />
     <Content Include="Views\Faculty\Manage.cshtml" />
+    <Content Include="Views\PackageRight\NoRights.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

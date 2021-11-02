@@ -30,7 +30,7 @@
             @Html.Label("Announcement", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextBoxFor(x => x.AnnouncementText, new { @class = "form-control required", @alt = "Announcement", autocomplete = "off" })
         </div>
-        <div class="form-group">
+        <div class="form-group AnnouncementMasterCreate">
             <div class="col-md-12" style="text-align: right;">
                 <br />
                 <a onclick="return SaveAnnouncement();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
