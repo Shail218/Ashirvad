@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -54,9 +55,16 @@ namespace Ashirvad.Web.Controllers
             bannerEntity.BannerType = banner;
             if (bannerEntity.ImageFile != null)
             {
-                bannerEntity.BannerImage = Common.Common.ReadFully(bannerEntity.ImageFile.InputStream);
+                //photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
+                string _FileName = Path.GetFileName(bannerEntity.ImageFile.FileName);
+                string extension = System.IO.Path.GetExtension(bannerEntity.ImageFile.FileName);
+                string randomfilename = Common.Common.RandomString(20);
+                string _Filepath = "/BannerImage/" + randomfilename + extension;
+                string _path = Path.Combine(Server.MapPath("~/BannerImage"), randomfilename + extension);
+                bannerEntity.ImageFile.SaveAs(_path);
+                bannerEntity.FileName = _FileName;
+                bannerEntity.FilePath = _Filepath;
             }
-
             bannerEntity.Transaction = GetTransactionData(bannerEntity.BannerID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             bannerEntity.RowStatus = new RowStatusEntity()
             {

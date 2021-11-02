@@ -197,6 +197,41 @@
     <Content Include="FeesImage\empty_cart.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="HomeWorkDetailImage\05CH9VE3HFIX0P6CYDSS.jpg" />
+    <Content Include="HomeWorkDetailImage\38BL2MIGFU4ZFH8KSI8Z.png" />
+    <Content Include="HomeWorkDetailImage\4G41XA305GL2WFA90WVO.jpg" />
+    <Content Include="HomeWorkDetailImage\4WH4HYG7BLJ7B1JO7Q11.jpg" />
+    <Content Include="HomeWorkDetailImage\4Y4Z9H5OPU5FYRYJIF9U.jpg" />
+    <Content Include="HomeWorkDetailImage\54M94DGTD51BQDMJXHN4.jpg" />
+    <Content Include="HomeWorkDetailImage\AMKT33YUFOWB1E5RGF2T.jpg" />
+    <Content Include="HomeWorkDetailImage\CBSZOYMP0RKB3490BMYL.jpg" />
+    <Content Include="HomeWorkDetailImage\DDBPKFD7D8J0LBD7LIQF.png" />
+    <Content Include="HomeWorkDetailImage\DJ2SW7C525D7GFRB1LG6.jpg" />
+    <Content Include="HomeWorkDetailImage\empty_cart.png" />
+    <Content Include="HomeWorkDetailImage\EPWRQRWR9IJZXR7NCQMS.jpg" />
+    <Content Include="HomeWorkDetailImage\F1DEVZPU9J4VMH1QCBXR.jpg" />
+    <Content Include="HomeWorkDetailImage\FONOGR4Z3DXIHRDJ2P3L.png" />
+    <Content Include="HomeWorkDetailImage\H3JI77XIP1J7OQQJC357.png" />
+    <Content Include="HomeWorkDetailImage\HMECHAI3YK6P2P4UMTEE.jpg" />
+    <Content Include="HomeWorkDetailImage\I8LM5MTUBV0U4ZHL8VLY.jpg" />
+    <Content Include="HomeWorkDetailImage\IOLZZI4YNTXW916IWTQG.jpg" />
+    <Content Include="HomeWorkDetailImage\J27USNL39BLCUNHW2920.jpg" />
+    <Content Include="HomeWorkDetailImage\K8KSJSGZBH6QUYCOV1V4.png" />
+    <Content Include="HomeWorkDetailImage\KYQ0MO8G24X5QOZ2KGB6.jpg" />
+    <Content Include="HomeWorkDetailImage\L5R6CUII3YH0XOY6025I.png" />
+    <Content Include="HomeWorkDetailImage\LKXB6WKH2L2XQ4NQJMHG.png" />
+    <Content Include="HomeWorkDetailImage\OHOQPR2AEXX98YEZGRGA.jpg" />
+    <Content Include="HomeWorkDetailImage\SOZ0QKDEGOHM79MNMR60.jpg" />
+    <Content Include="HomeWorkDetailImage\TXQLYQITCN5MRD1TI2T8.jpg" />
+    <Content Include="HomeWorkDetailImage\U6NS1S1DGG0TZBHGP5C6.jpg" />
+    <Content Include="HomeWorkDetailImage\UR2E8SCBID4UFFJXNF9C.jpg" />
+    <Content Include="HomeWorkDetailImage\URIRA1MS7QE81XCBYKEZ.jpg" />
+    <Content Include="HomeWorkDetailImage\UVAYOBX8GZ01H60DOW66.jpg" />
+    <Content Include="HomeWorkDetailImage\VJYXCNHNNGFQEVTBA6P1.png" />
+    <Content Include="HomeWorkDetailImage\XMPCKS8NXM4JHCBN1DQU.jpg" />
+    <Content Include="HomeWorkDetailImage\YNYGHLQWQ0KXPIUAM446.jpg" />
+    <Content Include="HomeWorkDetailImage\ZQ425O88QISPTWL2X7PX.jpg" />
+    <Content Include="HomeWorkDetailImage\ZVQDUOMNA9F6PW8UC0TR.jpg" />
     <Content Include="LibraryImage\empty_cart.png" />
     <Content Include="MarksImage\empty_cart.png" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
@@ -1035,6 +1070,7 @@
     <Content Include="ThemeData\plugins\timepicker\bootstrap-timepicker.min.js" />
     <Content Include="ThemeData\plugins\timepicker\jquery.timepicker.min.css" />
     <Content Include="ThemeData\plugins\timepicker\jquery.timepicker.min.js" />
+    <Content Include="ToDoDocument\75PILTAVRILZ0B84HY7Z.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1306,6 +1342,8 @@
     <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Views\Page\Manage.cshtml" />
     <Content Include="Views\BranchWiseRight\RightsDataTable.cshtml" />
+
+   
     <Content Include="Views\Faculty\Index.cshtml" />
     <Content Include="Views\Faculty\Create.cshtml" />
     <Content Include="Views\Faculty\Manage.cshtml" />
@@ -1318,10 +1356,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="BannerImage\" />
+    <Folder Include="BranchImage\" />
     <Folder Include="GalleryImage\" />
     <Folder Include="HomeworkDocument\" />
     <Folder Include="Models\" />
     <Folder Include="PaperDocument\" />
+    <Folder Include="StudentImage\" />
     <Folder Include="Views\Base\" />
     <Folder Include="WebAPI\" />
   </ItemGroup>

@@ -35,6 +35,10 @@ public partial class BANNER_MASTER
 
     public byte[] banner_img { get; set; }
 
+    public string file_name { get; set; }
+
+    public string file_path { get; set; }
+
     public int row_sta_cd { get; set; }
 
 

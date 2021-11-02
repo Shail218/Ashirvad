@@ -35,15 +35,11 @@ public partial class AshirvadDBEntities1 : DbContext
     }
 
 
-    public virtual DbSet<BANNER_MASTER> BANNER_MASTER { get; set; }
-
     public virtual DbSet<BANNER_TYPE_REL> BANNER_TYPE_REL { get; set; }
 
     public virtual DbSet<BATCH_MASTER> BATCH_MASTER { get; set; }
 
     public virtual DbSet<BRANCH_LICENSE> BRANCH_LICENSE { get; set; }
-
-    public virtual DbSet<BRANCH_MAINT> BRANCH_MAINT { get; set; }
 
     public virtual DbSet<BRANCH_MASTER> BRANCH_MASTER { get; set; }
 
@@ -140,6 +136,10 @@ public partial class AshirvadDBEntities1 : DbContext
     public virtual DbSet<TODO_MASTER> TODO_MASTER { get; set; }
 
     public virtual DbSet<STUDENT_MASTER> STUDENT_MASTER { get; set; }
+
+    public virtual DbSet<BANNER_MASTER> BANNER_MASTER { get; set; }
+
+    public virtual DbSet<BRANCH_MAINT> BRANCH_MAINT { get; set; }
 
 
     public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)

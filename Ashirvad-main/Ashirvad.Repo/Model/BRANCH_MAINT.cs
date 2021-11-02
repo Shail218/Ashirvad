@@ -30,6 +30,10 @@ public partial class BRANCH_MAINT
 
     public string header_logo_ext { get; set; }
 
+    public string file_path { get; set; }
+
+    public string file_name { get; set; }
+
 
 
     public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }

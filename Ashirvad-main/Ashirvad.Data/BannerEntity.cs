@@ -18,6 +18,9 @@ namespace Ashirvad.Data
         public string BannerImageText { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
         public string JSONData { get; set; }
+        public string FilePath { get; set; }
+        public string FileName { get; set; }
+
     }
 
     public class BannerTypeEntity

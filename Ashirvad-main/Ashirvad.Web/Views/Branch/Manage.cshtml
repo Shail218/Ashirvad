@@ -37,33 +37,31 @@
             @Html.HiddenFor(x => item.BranchID)
         </td>
 
-        <td>
-            @if (!item.BranchMaint.HasImage)
-            {
-                <img src="~/ThemeData/images/Default.png" id="branchImg" style="height:50px;width:50px" />
-            }
-            else
-            {
-                @*<img src="data:image/jpg;base64, @Convert.ToBase64String(item.BranchMaint.BranchLogo, 0, item.BranchMaint.BranchLogo.Length)" id="branchImg" style="height:50px;width:50px" />*@
-                <img src="~/ThemeData/images/loading.gif" id="branchImg" style="height:50px;width:50px" />
-            }
-        </td>
-        <td>
-        </td>
-        <td>
-            @item.RowStatus.RowStatusText
-        </td>
-        <td>
-            <a href="@Url.Action("BranchMaintenance", "Branch", new { branchID = item.BranchID })">
-                <img src="~/ThemeData/images/viewIcon.png" />
-            </a>
-        </td>
-        @*<td>
-            <a href="#" onclick="RemoveBranch(@item.BranchID);">
-                <img src="~/ThemeData/images/delete.png" />
-            </a>
-        </td>*@
-    </tr>
+            <td>
+                @if (item.BranchMaint.FilePath != null && item.BranchMaint.FilePath != "")
+                {
+                    <img src="@item.BranchMaint.FilePath" id="bannerImg" style="height:40px;width:40px;margin-left:40px;" />
+                }
+                else
+                {
+                    <img src="~/ThemeData/images/Default.png" id="bannerImg" style="height:40px;width:40px;margin-left:40px;" />
+                }
+            </td>
+
+            <td>
+                @item.RowStatus.RowStatusText
+            </td>
+            <td>
+                <a href="@Url.Action("BranchMaintenance", "Branch", new { branchID = item.BranchID })">
+                    <img src="~/ThemeData/images/viewIcon.png" />
+                </a>
+            </td>
+            @*<td>
+                <a href="#" onclick="RemoveBranch(@item.BranchID);">
+                    <img src="~/ThemeData/images/delete.png" />
+                </a>
+            </td>*@
+        </tr>
     }
 
 </table>

@@ -41,23 +41,20 @@ namespace Ashirvad.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<string> GetBranchLogo(long branchID)
-        {
-            var data = await _branchService.GetBranchByBranchID(branchID);
-            var result = data.Data;
-            return "data:image/jpg;base64, " + Convert.ToBase64String(result.BranchMaint.BranchLogo, 0, result.BranchMaint.BranchLogo.Length);
-        }
-
-        [HttpPost]
         public async Task<JsonResult> SaveBranch(BranchEntity branch)
         {
             if (branch.ImageFile != null)
             {
-                branch.BranchMaint = new BranchMaint();
-                branch.BranchMaint.BranchLogo = Common.Common.ReadFully(branch.ImageFile.InputStream);
-                branch.BranchMaint.BranchLogoExt = Path.GetExtension(branch.ImageFile.FileName);
+                //photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
+                string _FileName = Path.GetFileName(branch.ImageFile.FileName);
+                string extension = System.IO.Path.GetExtension(branch.ImageFile.FileName);
+                string randomfilename = Common.Common.RandomString(20);
+                string _Filepath = "/BranchImage/" + randomfilename + extension;
+                string _path = Path.Combine(Server.MapPath("~/BranchImage"), randomfilename + extension);
+                branch.ImageFile.SaveAs(_path);
+                branch.BranchMaint.FileName = _FileName;
+                branch.BranchMaint.FilePath = _Filepath;
             }
-
             branch.Transaction = GetTransactionData(branch.BranchID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             var data = await _branchService.BranchMaintenance(branch);
             if (data != null)

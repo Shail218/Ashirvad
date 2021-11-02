@@ -24,10 +24,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.UPI
             try
             {
                 long upiID = await _upiContext.UPIMaintenance(upiInfo);
-                if (upiID > 0)
-                {
-                    upi.UPIId = upiID;
-                }
+                upi.UPIId = upiID;
+                //if (upiID > 0)
+                //{
+                    
+                //}
             }
             catch (Exception ex)
             {

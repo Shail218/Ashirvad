@@ -66,9 +66,9 @@ $(document).ready(function () {
         $('#BatchTime option[value="' + $("#BatchInfo_BatchTime").val() + '"]').attr("selected", "selected");
     }
 
-    if ($("#StudImage").val() != "") {
-        $('#imgStud').attr('src', "data:image/jpg;base64," + $("#StudImage").val());
-    }
+    //if ($("#StudImage").val() != "") {
+    //    $('#imgStud').attr('src', "data:image/jpg;base64," + $("#StudImage").val());
+    //}
 
 });
 
@@ -147,8 +147,13 @@ function SaveStudent() {
         $("#DOB").val(ConvertData(date1));
         var date2 = $("#AdmissionDate").val();
         $("#AdmissionDate").val(ConvertData(date2));
-        var postCall = $.post(commonData.Student + "SaveStudent", $('#fStudentDetail').serialize());
-        postCall.done(function (data) {
+        var frm = $('#fStudentDetail');
+        var formData = new FormData(frm[0]);
+        var item = $('input[type=file]');
+        if (item[0].files.length > 0) {
+            formData.append('ImageFile', $('input[type=file]')[0].files[0]);
+        }
+        AjaxCallWithFileUpload(commonData.Student + 'SaveStudent', formData, function (data) {
             HideLoader();
             ShowMessage("Student added Successfully.", "Success");
             window.location.href = "StudentMaintenance?studentID=0";

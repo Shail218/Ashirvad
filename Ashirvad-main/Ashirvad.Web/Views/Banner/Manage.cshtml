@@ -29,7 +29,14 @@
             @Html.HiddenFor(x => item.BranchInfo.BranchID)
         </td>
         <td>
-            <img src="~/ThemeData/images/Default.png" id="bannerImg" style="height:40px;width:40px;margin-left:40px;" />
+            @if (item.FilePath != null && item.FilePath != "")
+            {
+                <img src="@item.FilePath" id="bannerImg" style="height:40px;width:40px;margin-left:40px;" />
+            }
+            else
+            {
+                <img src="~/ThemeData/images/Default.png" id="bannerImg" style="height:40px;width:40px;margin-left:40px;" />
+            }
         </td>
         <td>
             @foreach (var subtype in item.BannerType)

@@ -4,6 +4,7 @@ using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Student;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -44,7 +45,18 @@ namespace Ashirvad.Web.Controllers
 
             StudentEntity data = new StudentEntity();
             branch.GrNo = "Gr 1";
-
+            if (branch.ImageFile != null)
+            {
+                //photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
+                string _FileName = Path.GetFileName(branch.ImageFile.FileName);
+                string extension = System.IO.Path.GetExtension(branch.ImageFile.FileName);
+                string randomfilename = Common.Common.RandomString(20);
+                string _Filepath = "/StudentImage/" + randomfilename + extension;
+                string _path = Path.Combine(Server.MapPath("~/StudentImage"), randomfilename + extension);
+                branch.ImageFile.SaveAs(_path);
+                branch.FileName = _FileName;
+                branch.FilePath = _Filepath;
+            }
             branch.StudentID = 0;
             branch.Transaction = GetTransactionData(branch.StudentID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             data = await _studentService.StudentMaintenance(branch);

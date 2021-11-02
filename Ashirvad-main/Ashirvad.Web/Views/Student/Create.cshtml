@@ -194,9 +194,18 @@
                 @Html.Label("Upload Photo", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <input class="file-upload fileRequired" alt="Student Image" id="fuStudentImage" name="ImageFile" type="file" accept="image/*" />
                 @Html.HiddenFor(x => x.StudImage)
+                @Html.HiddenFor(x => x.FileName)
+                @Html.HiddenFor(x => x.FilePath)
             </div>
             <div class="col-md-1" style="margin-top:5px;">
-                <img CssClass="imgStud" Style="width: 80px; height: 80px; border: 1px solid #000;" id="imgStud" />
+                @if (Model.FilePath != "" && Model.FilePath != null)
+                {
+                    <img CssClass="imgStud" src="@Model.FilePath" Style="width: 80px; height: 80px; border: 1px solid #000;" id="imgStud" />
+                }
+                else
+                {
+                    <img CssClass="imgStud" Style="width: 80px; height: 80px; border: 1px solid #000;" id="imgStud" />
+                }
             </div>
         </div>
         <br />

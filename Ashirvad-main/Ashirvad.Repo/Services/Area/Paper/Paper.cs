@@ -107,14 +107,14 @@ namespace Ashirvad.Repo.Services.Area.Paper
                             }
                         }).ToList();
 
-            if (data?.Count > 0)
-            {
-                foreach (var item in data)
-                {
-                    int idx = data.IndexOf(item);
-                    data[idx].PaperData.PaperContentText = data[idx].PaperData.PaperContent.Length > 0 ? Convert.ToBase64String(data[idx].PaperData.PaperContent) : "";
-                }
-            }
+            //if (data?.Count > 0)
+            //{
+            //    foreach (var item in data)
+            //    {
+            //        int idx = data.IndexOf(item);
+            //        data[idx].PaperData.PaperContentText = data[idx].PaperData.PaperContent.Length > 0 ? Convert.ToBase64String(data[idx].PaperData.PaperContent) : "";
+            //    }
+            //}
 
             return data;
         }
@@ -233,6 +233,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             PaperData = new PaperData()
                             {
+                                FilePath = "http://highpack-001-site12.dtempurl.com" + u.PRACTICE_PAPER_REL.FirstOrDefault().file_path,
                                 PaperID = u.PRACTICE_PAPER_REL.FirstOrDefault().paper_id,
                                 PaperPath = u.PRACTICE_PAPER_REL.FirstOrDefault().paper_file,
                                 UniqueID = u.PRACTICE_PAPER_REL.FirstOrDefault().unique_id
@@ -286,10 +287,10 @@ namespace Ashirvad.Repo.Services.Area.Paper
                             }
                         }).FirstOrDefault();
 
-            if (data != null)
-            {
-                data.PaperData.PaperContentText = data.PaperData.PaperContent.Length > 0 ? Convert.ToBase64String(data.PaperData.PaperContent) : "";
-            }
+            //if (data != null)
+            //{
+            //    data.PaperData.PaperContentText = data.PaperData.PaperContent.Length > 0 ? Convert.ToBase64String(data.PaperData.PaperContent) : "";
+            //}
 
             return data;
         }

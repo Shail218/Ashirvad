@@ -5,6 +5,7 @@ using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Gallery;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -45,12 +46,16 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveVideos(GalleryEntity videos)
         {
+            //photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
+            string _FileName = Path.GetFileName(videos.ImageFile.FileName);
+            string extension = System.IO.Path.GetExtension(videos.ImageFile.FileName);
+            string randomfilename = Common.Common.RandomString(20);
+            string _Filepath = "/GalleryImage/" + randomfilename + extension;
+            string _path = Path.Combine(Server.MapPath("~/GalleryImage"), randomfilename + extension);
+            videos.ImageFile.SaveAs(_path);
+            videos.FileName = _FileName;
+            videos.FilePath = _Filepath;
             videos.GalleryType = 2;
-            if (videos.ImageFile != null)
-            {
-                videos.FileInfo = Common.Common.ReadFully(videos.ImageFile.InputStream);
-            }
-
             videos.Transaction = GetTransactionData(videos.UniqueID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             videos.RowStatus = new RowStatusEntity()
             {

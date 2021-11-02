@@ -80,14 +80,6 @@ namespace Ashirvad.Repo.Services.Area.ToDo
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
-            if (data?.Count > 0)
-            {
-                foreach (var item in data)
-                {
-                    int idx = data.IndexOf(item);
-                    data[idx].ToDoContentText = data[idx].ToDoContent.Length > 0 ? Convert.ToBase64String(data[idx].ToDoContent) : "";
-                }
-            }
             return data;
         }
 
@@ -157,10 +149,10 @@ namespace Ashirvad.Repo.Services.Area.ToDo
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
-            if (data != null)
-            {
-                data.ToDoContentText = data.ToDoContent.Length > 0 ? Convert.ToBase64String(data.ToDoContent) : "";
-            }
+            //if (data != null)
+            //{
+            //    data.ToDoContentText = data.ToDoContent.Length > 0 ? Convert.ToBase64String(data.ToDoContent) : "";
+            //}
             return data;
         }
 
