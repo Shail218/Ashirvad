@@ -40,6 +40,17 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("GetAllHomeworkByBranchStudent")]
+        [HttpGet]
+        public OperationResult<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID, long stdID, int batchTime, long studentId)
+        {
+            var data = this._homeworkService.GetAllHomeworkByBranchStudent(branchID, stdID, batchTime, studentId);
+            OperationResult<List<HomeworkEntity>> result = new OperationResult<List<HomeworkEntity>>();
+            result.Data = data.Result;
+            result.Completed = true;
+            return result;
+        }
+
         [Route("GetAllHomeworkByBranch")]
         [HttpGet]
         public OperationResult<List<HomeworkEntity>> GetAllHomeworkByBranch(long branchID)

@@ -63,12 +63,13 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 {
                     branchMaster.BRANCH_MAINT.branch_id = branchMaster.branch_id;
                 }
-
-                branchMaster.BRANCH_MAINT.branch_logo = branchInfo.BranchMaint.BranchLogo;
-                branchMaster.BRANCH_MAINT.header_logo = branchInfo.BranchMaint.HeaderLogo;
+                branchMaster.BRANCH_MAINT.file_name = branchInfo.BranchMaint.FileName;
+                branchMaster.BRANCH_MAINT.file_path = branchInfo.BranchMaint.FilePath;
+                branchMaster.BRANCH_MAINT.branch_logo = null;
+                branchMaster.BRANCH_MAINT.header_logo = null;
                 branchMaster.BRANCH_MAINT.website = branchInfo.BranchMaint.Website;
-                branchMaster.BRANCH_MAINT.branch_logo_ext = branchInfo.BranchMaint.BranchLogoExt;
-                branchMaster.BRANCH_MAINT.header_logo_ext = branchInfo.BranchMaint.HeaderLogoExt;
+                branchMaster.BRANCH_MAINT.branch_logo_ext = null;
+                branchMaster.BRANCH_MAINT.header_logo_ext = null;
                 this.context.BRANCH_MAINT.Add(branchMaster.BRANCH_MAINT);
                 if (isUpdate)
                 {
@@ -133,6 +134,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             {
                                 BranchId = u.BRANCH_MAINT.branch_id,
                                 Website = u.BRANCH_MAINT.website,
+                                FileName = u.BRANCH_MAINT.file_name,
+                                FilePath = u.BRANCH_MAINT.file_path
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
@@ -162,8 +165,10 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             BranchMaint = new BranchMaint()
                             {
                                 BranchId = u.BRANCH_MAINT.branch_id,
-                                HasImage = u.BRANCH_MAINT.branch_logo != null,
-                                BranchLogo = u.BRANCH_MAINT.branch_logo,
+                                FilePath = u.BRANCH_MAINT.file_path,
+                                FileName = u.BRANCH_MAINT.file_name,
+                                //HasImage = u.BRANCH_MAINT.branch_logo != null,
+                                //BranchLogo = u.BRANCH_MAINT.branch_logo,
                                 //HeaderLogo = u.BRANCH_MAINT.header_logo,
                                 Website = u.BRANCH_MAINT.website,
                             },

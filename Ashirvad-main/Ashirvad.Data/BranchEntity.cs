@@ -38,5 +38,7 @@ namespace Ashirvad.Data
         public string HeaderLogoExt { get; set; }
         public byte[] HeaderLogo { get; set; }
         public string Website { get; set; }
+        public string FilePath { get; set; }
+        public string FileName { get; set; }
     }
 }

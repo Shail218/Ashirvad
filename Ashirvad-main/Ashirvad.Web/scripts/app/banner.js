@@ -72,18 +72,18 @@ $(document).ready(function () {
         }
     }
 
-    $("#studenttbl tr").each(function () {
-        var elemImg = $(this).find("#bannerImg");
-        var BannerID = $(this).find("#item_BannerID").val();
-        if (elemImg.length > 0 && BannerID.length > 0) {
-            var postCall = $.post(commonData.Banner + "GetBannerImage", { "bannerID": BannerID });
-            postCall.done(function (data) {
-                $(elemImg).attr('src', data);
-            }).fail(function () {
-                $(elemImg).attr('src', "../ThemeData/images/Default.png");
-            });
-        }
-    });
+    //$("#studenttbl tr").each(function () {
+    //    var elemImg = $(this).find("#bannerImg");
+    //    var BannerID = $(this).find("#item_BannerID").val();
+    //    if (elemImg.length > 0 && BannerID.length > 0) {
+    //        var postCall = $.post(commonData.Banner + "GetBannerImage", { "bannerID": BannerID });
+    //        postCall.done(function (data) {
+    //            $(elemImg).attr('src', data);
+    //        }).fail(function () {
+    //            $(elemImg).attr('src', "../ThemeData/images/Default.png");
+    //        });
+    //    }
+    //});
 
 });
 

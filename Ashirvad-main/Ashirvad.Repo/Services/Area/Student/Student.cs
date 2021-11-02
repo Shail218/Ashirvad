@@ -127,10 +127,10 @@ namespace Ashirvad.Repo.Services.Area.Student
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
-            foreach (var item in data)
-            {
-                data[data.IndexOf(item)].StudImage = item.StudentImgByte != null && item.StudentImgByte.Length > 0 ? Convert.ToBase64String(item.StudentImgByte) : "";
-            }
+            //foreach (var item in data)
+            //{
+            //    data[data.IndexOf(item)].StudImage = item.StudentImgByte != null && item.StudentImgByte.Length > 0 ? Convert.ToBase64String(item.StudentImgByte) : "";
+            //}
             return data;
         }
 

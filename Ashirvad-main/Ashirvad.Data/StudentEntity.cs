@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Ashirvad.Data
 {
@@ -35,6 +36,7 @@ namespace Ashirvad.Data
         public string StudentPassword { get; set; }
         public string StudentPassword2 { get; set; }
         public long? UserID { get; set; } = 0;
+        public HttpPostedFileBase ImageFile { get; set; }
     }
     public class StudentMaint
     {

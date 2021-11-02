@@ -43,12 +43,13 @@ function SaveUPI() {
         ShowLoader();
         var postCall = $.post(commonData.UPI + "SaveUPI", $('#fUPIDetail').serialize());
         postCall.done(function (data) {
-            if (data) {
+            if (data.UPIId >= 0) {
                 HideLoader();
                 ShowMessage("UPI ID Inserted Successfully.", "Success");
                 setTimeout(function () { window.location.href = "UPIMaintenance?upiID=0"; }, 2000);
             } else {
                 HideLoader();
+                ShowMessage("UPI ID Already exists!!", "Error");
             }
         }).fail(function () {
             HideLoader();

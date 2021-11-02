@@ -24,7 +24,14 @@
     {
         <tr>
             <td>
-                <img src="~/ThemeData/images/Default.png" id="Img" style="height:50px;width:50px" />
+                @if (item.FilePath != null && item.FilePath != "")
+                {
+                    <img src="@item.FilePath" id="Img" style="height:40px;width:40px;margin-left:40px;" />
+                }
+                else
+                {
+                    <img src="~/ThemeData/images/Default.png" id="Img" style="height:40px;width:40px;margin-left:40px;" />
+                }
                 @Html.HiddenFor(x => item.UniqueID)
             </td>
             <td>

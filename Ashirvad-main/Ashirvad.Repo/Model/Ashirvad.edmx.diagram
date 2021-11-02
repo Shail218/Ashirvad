@@ -5,11 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="8ba798802a0b4e888f4bb7e1b31d697f" Name="Diagram1">
-        <EntityTypeShape EntityType="AshirvadModel.BANNER_MASTER" Width="1.5" PointX="2.75" PointY="3.875" />
         <EntityTypeShape EntityType="AshirvadModel.BANNER_TYPE_REL" Width="1.5" PointX="5" PointY="4.125" />
         <EntityTypeShape EntityType="AshirvadModel.BATCH_MASTER" Width="1.5" PointX="5.25" PointY="18.125" />
         <EntityTypeShape EntityType="AshirvadModel.BRANCH_LICENSE" Width="1.5" PointX="8.25" PointY="18.625" />
-        <EntityTypeShape EntityType="AshirvadModel.BRANCH_MAINT" Width="1.5" PointX="5.25" PointY="37.125" />
         <EntityTypeShape EntityType="AshirvadModel.BRANCH_MASTER" Width="1.5" PointX="3" PointY="21.125" />
         <EntityTypeShape EntityType="AshirvadModel.BRANCH_STAFF" Width="1.5" PointX="5.25" PointY="12.625" />
         <EntityTypeShape EntityType="AshirvadModel.NOTIFICATION_MASTER" Width="1.5" PointX="0.75" PointY="0.875" />
@@ -22,13 +20,11 @@
         <EntityTypeShape EntityType="AshirvadModel.TYPE_DESC" Width="1.5" PointX="5.75" PointY="0.75" />
         <EntityTypeShape EntityType="AshirvadModel.USER_DEF" Width="1.5" PointX="10.5" PointY="13.625" />
         <EntityTypeShape EntityType="AshirvadModel.USER_ROLE" Width="1.5" PointX="12.75" PointY="14.25" />
-        <AssociationConnector Association="AshirvadModel.FK_BANNER_TYPE_REL_BANNER_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BATCH_MASTER_STD_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_LICENSE_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_STAFF_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_SCHOOL_MASTER_BRANCH_MASTER" />
@@ -153,6 +149,10 @@
         <AssociationConnector Association="AshirvadModel.FK_STUDENT_MAINT_STUDENT_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.BANNER_MASTER" Width="1.5" PointX="2.75" PointY="31.75" />
+        <AssociationConnector Association="AshirvadModel.FK_BANNER_TYPE_REL_BANNER_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.BRANCH_MAINT" Width="1.5" PointX="5.25" PointY="37.25" />
+        <AssociationConnector Association="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

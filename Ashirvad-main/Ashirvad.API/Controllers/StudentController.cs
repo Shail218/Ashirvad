@@ -4,10 +4,12 @@ using Ashirvad.Data;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Student;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 
 namespace Ashirvad.API.Controllers
@@ -131,6 +133,133 @@ namespace Ashirvad.API.Controllers
             result.Data = data;
             return result;
         }
+
+        [Route("StudentMaintenance/{StudentID}/{ParentID}/{Gr_No}/{First_Name}/{Middle_Name}/{Last_Name}/{Birth_Date}/{Address}/{BranchID}/{StandardID}/{SchoolID}/{School_TimeID}/{Batch_TimeID}/{Last_Year_Result}/{Grade}/{Class_Name}/{Student_Contact_No}/{Admission_Date}/{Parent_Name}/{Father_Occupation}/{Mother_Occupation}/{Parent_Contact_No}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [HttpPost]
+        public OperationResult<StudentEntity> StudentMaintenance(long StudentID, long ParentID, string Gr_No, string First_Name, string Middle_Name, string Last_Name, DateTime Birth_Date, string Address, long BranchID, long StandardID, long SchoolID, int School_TimeID, int Batch_TimeID, int Last_Year_Result, string Grade, string Class_Name, string Student_Contact_No,
+           DateTime Admission_Date, string Parent_Name, string Father_Occupation, string Mother_Occupation, string Parent_Contact_No, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        {
+            OperationResult<StudentEntity> result = new OperationResult<StudentEntity>();
+            var httpRequest = HttpContext.Current.Request;
+            StudentEntity studentEntity = new StudentEntity();
+            StudentEntity data = new StudentEntity();
+            studentEntity.BranchInfo = new BranchEntity();
+            studentEntity.StandardInfo = new StandardEntity();
+            studentEntity.SchoolInfo = new SchoolEntity();
+            studentEntity.StudentMaint = new StudentMaint();
+            studentEntity.BatchInfo = new BatchEntity();
+            studentEntity.StudentID = StudentID;
+            studentEntity.StudentMaint.ParentID = ParentID;
+            studentEntity.GrNo = Gr_No;
+            studentEntity.FileName = First_Name;
+            studentEntity.MiddleName = Middle_Name;
+            studentEntity.LastName = Last_Name;
+            if (Birth_Date.Equals("01-01-0001"))
+            {
+                studentEntity.DOB = null;
+            }
+            else
+            {
+                studentEntity.DOB = Birth_Date;
+            }
+            studentEntity.Address = Address;
+            studentEntity.BranchInfo.BranchID = BranchID;
+            studentEntity.StandardInfo.StandardID = StandardID;
+            studentEntity.SchoolInfo.SchoolID = SchoolID == -1 ? 0 : SchoolID;
+            studentEntity.SchoolTime = School_TimeID == -1 ? 0 : School_TimeID;
+            studentEntity.BatchInfo.BatchTime = Batch_TimeID;
+            studentEntity.LastYearResult = Last_Year_Result == -1 ? 0 : Last_Year_Result;
+            studentEntity.Grade = Grade == "none" ? "" : Grade;
+            studentEntity.LastYearClassName = Class_Name == "none" ? "" : Class_Name;
+            studentEntity.ContactNo = Student_Contact_No == "none" ? "" : Student_Contact_No;
+            if (Admission_Date.Equals("01-01-0001"))
+            {
+                studentEntity.AdmissionDate = null;
+            }
+            else
+            {
+                studentEntity.AdmissionDate = Admission_Date;
+            }
+            studentEntity.StudentMaint.ParentName = Parent_Name;
+            studentEntity.StudentMaint.FatherOccupation = Father_Occupation == "none" ? "" : Father_Occupation;
+            studentEntity.StudentMaint.MotherOccupation = Mother_Occupation == "none" ? "" : Mother_Occupation;
+            studentEntity.StudentMaint.ContactNo = Parent_Contact_No;
+            studentEntity.FileName = FileName == "none" ? "" : FileName;
+            if (Extension == "none")
+            {
+                studentEntity.FilePath = "";
+            }
+            else
+            {
+                studentEntity.FilePath = "/StudentImage/" + FileName + "." + Extension;
+            }
+            studentEntity.RowStatus = new RowStatusEntity()
+            {
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
+            studentEntity.Transaction = new TransactionEntity()
+            {
+                TransactionId = TransactionId,
+                LastUpdateBy = CreateBy,
+                LastUpdateId = CreateId,
+                CreatedBy = CreateBy,
+                CreatedId = CreateId,
+            };
+            if (HasFile)
+            {
+                try
+                {
+                    if (httpRequest.Files.Count > 0)
+                    {
+                        foreach (string file in httpRequest.Files)
+                        {
+                            string fileName;
+                            string extension;
+                            string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                            // for live server
+                            //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                            // for local server
+                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            var postedFile = httpRequest.Files[file];
+                            string randomfilename = Common.Common.RandomString(20);
+                            extension = Path.GetExtension(postedFile.FileName);
+                            fileName = Path.GetFileName(postedFile.FileName);
+                            string _Filepath = "/StudentImage/" + randomfilename + extension;
+                            string _Filepath1 = "StudentImage/" + randomfilename + extension;
+                            var filePath = HttpContext.Current.Server.MapPath("~/StudentImage/" + randomfilename + extension);
+                            string _path = UpdatedPath + _Filepath1;
+                            postedFile.SaveAs(_path);
+                            studentEntity.FileName = fileName;
+                            studentEntity.FilePath = _Filepath;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.Completed = false;
+                    result.Data = null;
+                    result.Message = ex.ToString();
+                }
+            }
+            data = this._studentService.StudentMaintenance(studentEntity).Result;
+            result.Completed = false;
+            result.Data = null;
+            if (data.StudentID > 0)
+            {
+                result.Completed = true;
+                result.Data = data;
+                if (StudentID > 0)
+                {
+                    result.Message = "Student Updated Successfully";
+                }
+                else
+                {
+                    result.Message = "Student Created Successfully";
+                }
+            }
+            return result;
+        }
+
 
     }
 

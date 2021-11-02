@@ -66,14 +66,14 @@ namespace Ashirvad.Repo.Services.Area.Gallery
                             Remarks = u.remarks
                         }).ToList();
 
-            if (data?.Count > 0)
-            {
-                foreach (var item in data)
-                {
-                    int idx = data.IndexOf(item);
-                    data[idx].FileEncoded = data[idx].FileInfo.Length > 0 ? Convert.ToBase64String(data[idx].FileInfo) : "";
-                }
-            }
+            //if (data?.Count > 0)
+            //{
+            //    foreach (var item in data)
+            //    {
+            //        int idx = data.IndexOf(item);
+            //        data[idx].FileEncoded = data[idx].FileInfo.Length > 0 ? Convert.ToBase64String(data[idx].FileInfo) : "";
+            //    }
+            //}
 
             return data;
         }
@@ -92,6 +92,8 @@ namespace Ashirvad.Repo.Services.Area.Gallery
                                 RowStatusId = (int)u.row_sta_cd
                             },
                             UniqueID = u.unique_id,
+                            FileName = u.file_name,
+                            FilePath = u.file_path,
                             Branch = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             GalleryType = u.uplaod_type,
@@ -122,10 +124,10 @@ namespace Ashirvad.Repo.Services.Area.Gallery
                             Remarks = u.remarks
                         }).FirstOrDefault();
 
-            if (data != null)
-            {
-                data.FileEncoded = data.FileInfo.Length > 0 ? Convert.ToBase64String(data.FileInfo) : "";
-            }
+            //if (data != null)
+            //{
+            //    data.FileEncoded = data.FileInfo.Length > 0 ? Convert.ToBase64String(data.FileInfo) : "";
+            //}
 
             return data;
         }

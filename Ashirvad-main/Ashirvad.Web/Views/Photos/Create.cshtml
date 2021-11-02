@@ -26,9 +26,11 @@
             </div>
             }
             <div class="col-md-12" style="margin-top:10px;">
-                @Html.Label("Document", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.Label("Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <input class="file-upload fileRequired" alt="Document" id="fuImage" name="ImageFile" type="file" accept="image/*" />
                 @Html.HiddenFor(x => x.FileEncoded)
+                @Html.HiddenFor(x => x.FileName)
+                @Html.HiddenFor(x => x.FilePath)
             </div>
             <div class="col-md-12" style="margin-top:10px;">
                 @Html.Label("Image Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>

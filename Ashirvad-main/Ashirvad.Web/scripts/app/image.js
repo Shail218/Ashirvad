@@ -23,18 +23,18 @@ $(document).ready(function () {
         $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
     }
 
-    $("#studenttbl tr").each(function () {       
-        var elemImg = $(this).find("#Img");
-        var photoID = $(this).find("#item_UniqueID").val();
-        if (elemImg.length > 0 && photoID.length > 0) {
-            var postCall = $.post(commonData.Photos + "GetPhoto", { "photoID": photoID });
-            postCall.done(function (data) {
-                $(elemImg).attr('src', data);
-            }).fail(function () {
-                $(elemImg).attr('src', "../ThemeData/images/Default.png");
-            });
-        }
-    });
+    //$("#studenttbl tr").each(function () {       
+    //    var elemImg = $(this).find("#Img");
+    //    var photoID = $(this).find("#item_UniqueID").val();
+    //    if (elemImg.length > 0 && photoID.length > 0) {
+    //        var postCall = $.post(commonData.Photos + "GetPhoto", { "photoID": photoID });
+    //        postCall.done(function (data) {
+    //            $(elemImg).attr('src', data);
+    //        }).fail(function () {
+    //            $(elemImg).attr('src', "../ThemeData/images/Default.png");
+    //        });
+    //    }
+    //});
 
 });
 

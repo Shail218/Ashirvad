@@ -3,7 +3,11 @@
 
 
 $(document).ready(function () {
-    ShowLoader();
+
+    if ($("#BranchID").val() > 0) {
+        $("#fuBranchImage").addClass("editForm");
+    }
+
     $('input[type=radio][name=Status]').change(function () {
         if (this.value == 'Active') {
             $("#RowStatus_RowStatusId").val(1);
@@ -22,25 +26,6 @@ $(document).ready(function () {
             $("#rowStaInactive").attr('checked', 'checked');
         }
     }
-
-    $("#studenttbl tr").each(function () {
-        var elemImg = $(this).find("#branchImg");
-        var branchID = $(this).find("#item_BranchID").val();
-        if (elemImg.length > 0 && branchID.length > 0) {
-            //AjaxCall(commonData.Branch + "GetBranchLogo", '{ "branchID": ' + branchID +'}', function (data) {
-            //    $(elemImg).attr('src', data);
-            //}, function (xhr) {
-            //    $(elemImg).attr('src', "../ThemeData/images/Default.png");
-            //});
-            var postCall = $.post(commonData.Branch + "GetBranchLogo", { "branchID": branchID });
-            postCall.done(function (data) {
-                $(elemImg).attr('src', data);
-            }).fail(function () {
-                $(elemImg).attr('src', "../ThemeData/images/Default.png");
-            });
-        }
-        HideLoader();
-    });
 
 });
 

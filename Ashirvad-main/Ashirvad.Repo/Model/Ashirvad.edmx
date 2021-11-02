@@ -74,6 +74,8 @@
           <Property Name="branch_id" Type="bigint" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="banner_img" Type="varbinary(max)" />
+          <Property Name="file_name" Type="nvarchar(max)" />
+          <Property Name="file_path" Type="varchar(max)" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="BANNER_TYPE_REL">
@@ -130,6 +132,8 @@
           <Property Name="website" Type="nvarchar(max)" />
           <Property Name="branch_logo_ext" Type="nvarchar" MaxLength="255" />
           <Property Name="header_logo_ext" Type="nvarchar" MaxLength="255" />
+          <Property Name="file_path" Type="varchar(max)" />
+          <Property Name="file_name" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="BRANCH_MASTER">
           <Key>
@@ -2273,11 +2277,9 @@
     <edmx:ConceptualModels>
       <Schema Namespace="AshirvadModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="AshirvadDBEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="BANNER_MASTER" EntityType="AshirvadModel.BANNER_MASTER" />
           <EntitySet Name="BANNER_TYPE_REL" EntityType="AshirvadModel.BANNER_TYPE_REL" />
           <EntitySet Name="BATCH_MASTER" EntityType="AshirvadModel.BATCH_MASTER" />
           <EntitySet Name="BRANCH_LICENSE" EntityType="AshirvadModel.BRANCH_LICENSE" />
-          <EntitySet Name="BRANCH_MAINT" EntityType="AshirvadModel.BRANCH_MAINT" />
           <EntitySet Name="BRANCH_MASTER" EntityType="AshirvadModel.BRANCH_MASTER" />
           <EntitySet Name="BRANCH_STAFF" EntityType="AshirvadModel.BRANCH_STAFF" />
           <EntitySet Name="NOTIFICATION_MASTER" EntityType="AshirvadModel.NOTIFICATION_MASTER" />
@@ -2290,10 +2292,6 @@
           <EntitySet Name="TYPE_DESC" EntityType="AshirvadModel.TYPE_DESC" />
           <EntitySet Name="USER_DEF" EntityType="AshirvadModel.USER_DEF" />
           <EntitySet Name="USER_ROLE" EntityType="AshirvadModel.USER_ROLE" />
-          <AssociationSet Name="FK_BANNER_TYPE_REL_BANNER_MASTER" Association="AshirvadModel.FK_BANNER_TYPE_REL_BANNER_MASTER">
-            <End Role="BANNER_MASTER" EntitySet="BANNER_MASTER" />
-            <End Role="BANNER_TYPE_REL" EntitySet="BANNER_TYPE_REL" />
-          </AssociationSet>
           <AssociationSet Name="FK_BATCH_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
@@ -2313,10 +2311,6 @@
           <AssociationSet Name="FK_BRANCH_LICENSE_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BRANCH_LICENSE" EntitySet="BRANCH_LICENSE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BRANCH_MAINT_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="BRANCH_MAINT" EntitySet="BRANCH_MAINT" />
           </AssociationSet>
           <AssociationSet Name="FK_BRANCH_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
@@ -2737,18 +2731,17 @@
             <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
             <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
           </AssociationSet>
+          <EntitySet Name="BANNER_MASTER" EntityType="AshirvadModel.BANNER_MASTER" />
+          <AssociationSet Name="FK_BANNER_TYPE_REL_BANNER_MASTER" Association="AshirvadModel.FK_BANNER_TYPE_REL_BANNER_MASTER">
+            <End Role="BANNER_MASTER" EntitySet="BANNER_MASTER" />
+            <End Role="BANNER_TYPE_REL" EntitySet="BANNER_TYPE_REL" />
+          </AssociationSet>
+          <EntitySet Name="BRANCH_MAINT" EntityType="AshirvadModel.BRANCH_MAINT" />
+          <AssociationSet Name="FK_BRANCH_MAINT_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="BRANCH_MAINT" EntitySet="BRANCH_MAINT" />
+          </AssociationSet>
           </EntityContainer>
-        <EntityType Name="BANNER_MASTER">
-          <Key>
-            <PropertyRef Name="banner_id" />
-          </Key>
-          <Property Name="banner_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="branch_id" Type="Int64" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <Property Name="banner_img" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BANNER_TYPE_REL" Relationship="AshirvadModel.FK_BANNER_TYPE_REL_BANNER_MASTER" FromRole="BANNER_MASTER" ToRole="BANNER_TYPE_REL" />
-        </EntityType>
         <EntityType Name="BANNER_TYPE_REL">
           <Key>
             <PropertyRef Name="unique_id" />
@@ -2788,18 +2781,6 @@
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_LICENSE_BRANCH_MASTER" FromRole="BRANCH_LICENSE" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER" FromRole="BRANCH_LICENSE" ToRole="TRANSACTION_MASTER" />
         </EntityType>
-        <EntityType Name="BRANCH_MAINT">
-          <Key>
-            <PropertyRef Name="branch_id" />
-          </Key>
-          <Property Name="branch_id" Type="Int64" Nullable="false" />
-          <Property Name="branch_logo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="header_logo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="website" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="branch_logo_ext" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="header_logo_ext" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER" FromRole="BRANCH_MAINT" ToRole="BRANCH_MASTER" />
-        </EntityType>
         <EntityType Name="BRANCH_MASTER">
           <Key>
             <PropertyRef Name="branch_id" />
@@ -2814,7 +2795,6 @@
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BATCH_MASTER" />
           <NavigationProperty Name="BRANCH_LICENSE" Relationship="AshirvadModel.FK_BRANCH_LICENSE_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_LICENSE" />
-          <NavigationProperty Name="BRANCH_MAINT" Relationship="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_MAINT" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER" FromRole="BRANCH_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_BRANCH_STAFF_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_STAFF" />
           <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_SCHOOL_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="SCHOOL_MASTER" />
@@ -2846,6 +2826,7 @@
           <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
           <NavigationProperty Name="TODO_MASTER" Relationship="AshirvadModel.FK_TODO_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TODO_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="BRANCH_MAINT" Relationship="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_MAINT" />
         </EntityType>
         <EntityType Name="BRANCH_STAFF">
           <Key>
@@ -3028,18 +3009,6 @@
           <Property Name="has_priv" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="USER_DEF" Relationship="AshirvadModel.FK_USER_ROLE_USER_DEF" FromRole="USER_ROLE" ToRole="USER_DEF" />
         </EntityType>
-        <Association Name="FK_BANNER_TYPE_REL_BANNER_MASTER">
-          <End Type="AshirvadModel.BANNER_MASTER" Role="BANNER_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.BANNER_TYPE_REL" Role="BANNER_TYPE_REL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BANNER_MASTER">
-              <PropertyRef Name="banner_id" />
-            </Principal>
-            <Dependent Role="BANNER_TYPE_REL">
-              <PropertyRef Name="banner_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_BATCH_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.BATCH_MASTER" Role="BATCH_MASTER" Multiplicity="*" />
@@ -3097,20 +3066,6 @@
             </Principal>
             <Dependent Role="BRANCH_LICENSE">
               <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BRANCH_MAINT_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="AshirvadModel.BRANCH_MAINT" Role="BRANCH_MAINT" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="BRANCH_MAINT">
-              <PropertyRef Name="branch_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4772,23 +4727,65 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BANNER_MASTER">
+          <Key>
+            <PropertyRef Name="banner_id" />
+          </Key>
+          <Property Name="banner_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branch_id" Type="Int64" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="banner_img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BANNER_TYPE_REL" Relationship="AshirvadModel.FK_BANNER_TYPE_REL_BANNER_MASTER" FromRole="BANNER_MASTER" ToRole="BANNER_TYPE_REL" />
+        </EntityType>
+        <Association Name="FK_BANNER_TYPE_REL_BANNER_MASTER">
+          <End Type="AshirvadModel.BANNER_MASTER" Role="BANNER_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.BANNER_TYPE_REL" Role="BANNER_TYPE_REL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BANNER_MASTER">
+              <PropertyRef Name="banner_id" />
+            </Principal>
+            <Dependent Role="BANNER_TYPE_REL">
+              <PropertyRef Name="banner_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BRANCH_MAINT">
+          <Key>
+            <PropertyRef Name="branch_id" />
+          </Key>
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="branch_logo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="header_logo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="website" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="branch_logo_ext" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="header_logo_ext" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER" FromRole="BRANCH_MAINT" ToRole="BRANCH_MASTER" />
+        </EntityType>
+        <Association Name="FK_BRANCH_MAINT_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.BRANCH_MAINT" Role="BRANCH_MAINT" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="BRANCH_MAINT">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AshirvadModelStoreContainer" CdmEntityContainer="AshirvadDBEntities1">
-          <EntitySetMapping Name="BANNER_MASTER">
-            <EntityTypeMapping TypeName="AshirvadModel.BANNER_MASTER">
-              <MappingFragment StoreEntitySet="BANNER_MASTER">
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="banner_img" ColumnName="banner_img" />
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
-                <ScalarProperty Name="banner_id" ColumnName="banner_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BANNER_TYPE_REL">
             <EntityTypeMapping TypeName="AshirvadModel.BANNER_TYPE_REL">
               <MappingFragment StoreEntitySet="BANNER_TYPE_REL">
@@ -4821,18 +4818,6 @@
                 <ScalarProperty Name="license_key" ColumnName="license_key" />
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="license_id" ColumnName="license_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BRANCH_MAINT">
-            <EntityTypeMapping TypeName="AshirvadModel.BRANCH_MAINT">
-              <MappingFragment StoreEntitySet="BRANCH_MAINT">
-                <ScalarProperty Name="header_logo_ext" ColumnName="header_logo_ext" />
-                <ScalarProperty Name="branch_logo_ext" ColumnName="branch_logo_ext" />
-                <ScalarProperty Name="website" ColumnName="website" />
-                <ScalarProperty Name="header_logo" ColumnName="header_logo" />
-                <ScalarProperty Name="branch_logo" ColumnName="branch_logo" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5536,6 +5521,33 @@
                 <ScalarProperty Name="first_name" ColumnName="first_name" />
                 <ScalarProperty Name="gr_no" ColumnName="gr_no" />
                 <ScalarProperty Name="student_id" ColumnName="student_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BANNER_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.BANNER_MASTER">
+              <MappingFragment StoreEntitySet="BANNER_MASTER">
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="banner_img" ColumnName="banner_img" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="banner_id" ColumnName="banner_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BRANCH_MAINT">
+            <EntityTypeMapping TypeName="AshirvadModel.BRANCH_MAINT">
+              <MappingFragment StoreEntitySet="BRANCH_MAINT">
+                <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="header_logo_ext" ColumnName="header_logo_ext" />
+                <ScalarProperty Name="branch_logo_ext" ColumnName="branch_logo_ext" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="header_logo" ColumnName="header_logo" />
+                <ScalarProperty Name="branch_logo" ColumnName="branch_logo" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

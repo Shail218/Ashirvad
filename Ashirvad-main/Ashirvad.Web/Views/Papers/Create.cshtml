@@ -53,12 +53,13 @@
             @Html.TextBoxFor(x => x.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
         </div>
         <div class="col-md-12" style="margin-top: 3px">
-            @Html.Label("Paper", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.Label("Upload Paper", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <input class="file-upload fileRequired" alt="Document" id="fuPaperImage" name="PaperFile" type="file" />
             @Html.HiddenFor(x => x.PaperData.PaperContentText)
             @Html.HiddenFor(x => x.PaperData.PaperFile)
             @Html.HiddenFor(x => x.PaperData.PaperContent)
             @Html.HiddenFor(x => x.PaperData.PaperPath)
+            @Html.HiddenFor(x => x.PaperData.FilePath)
         </div>
         <div class="form-group">
             <div class="col-md-12" style="text-align: right;">

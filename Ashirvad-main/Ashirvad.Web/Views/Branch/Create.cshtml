@@ -6,10 +6,13 @@
             @Html.TextBoxFor(x => x.BranchName, new { @class = "form-control required", @alt = "Branch Name", autocomplete = "off" })
             @Html.HiddenFor(x => x.BranchID)
         </div>
-        <div class="col-md-12">
-            @Html.Label("Document", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        <div class="col-md-12" style="margin-bottom:10px;">
+            @Html.Label("Upload Logo", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <input class="file-upload fileRequired" alt="Branch Image" id="fuBranchImage" name="ImageFile" type="file" accept="image/*" />
             @Html.HiddenFor(x => x.ImagePath)
+            @Html.HiddenFor(x => x.ImageFile)
+            @Html.HiddenFor(x => x.BranchMaint.FileName)
+            @Html.HiddenFor(x => x.BranchMaint.FilePath)
         </div>
         <div class="form-group">
             <div class="col-md-12">
