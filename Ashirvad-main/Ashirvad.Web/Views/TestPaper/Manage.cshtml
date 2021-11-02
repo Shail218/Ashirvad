@@ -66,7 +66,7 @@
             <td>
                 @item.test.DocLink
             </td>
-            @if (item.test.DocContent != null)
+            @if (item.test.FilePath != null && item.test.FilePath!="")
             {
                 <td>
                     <a onclick="DownloadTestPaper('@item.test.TestPaperID')" id="paperdownload" download><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
