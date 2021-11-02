@@ -23,6 +23,7 @@ namespace Ashirvad.Web.Controllers
         // GET: AboutUs
         public ActionResult Index()
         {
+
             return View();
         }
 

@@ -39,15 +39,17 @@ namespace Ashirvad.Web.Controllers
         {
             BranchWiseRightMaintenanceModel BranchRight = new BranchWiseRightMaintenanceModel();
             BranchRight.BranchWiseRightInfo = new BranchWiseRightEntity();
-            if (BranchRightID > 0)
-            {
-                var result = await _BranchRightService.GetBranchRightsByID(BranchRightID);
-                BranchRight.BranchWiseRightInfo = result;
-            }
-
             var BranchRightData = await _BranchRightService.GetAllBranchRightss();
             BranchRight.BranchWiseRightData = BranchRightData;
             
+            if (BranchRightID > 0)
+            {
+                var result = await _BranchRightService.GetBranchRightsByID(BranchRightID);
+                var BranchRightData1 = await _BranchRightService.GetAllBranchRightsUniqData(result.Packageinfo.PackageID);
+                BranchRight.BranchWiseRightInfo = result;
+                BranchRight.BranchWiseRightInfo.list= BranchRightData1;
+                
+            }
 
             var branchData = await _pageService.GetAllPages(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             BranchRight.BranchWiseRightInfo.PageList = branchData;
@@ -64,7 +66,10 @@ namespace Ashirvad.Web.Controllers
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            
+            if (BranchRight.BranchID == 0)
+            {
+                BranchRight.BranchID = BranchRight.branchinfo.BranchID;
+            }
             BranchRightEntity = await _BranchRightService.BranchRightsMaintenance(BranchRight);
 
             if (BranchRightEntity != null)

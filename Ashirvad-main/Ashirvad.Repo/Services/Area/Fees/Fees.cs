@@ -13,17 +13,17 @@ namespace Ashirvad.Repo.Services.Area
     public class Fees : ModelAccess, IFeesAPI
     {
 
-        public async Task<long> CheckFees(int BranchID, int StdID)
+        public async Task<long> CheckFees(int BranchID, int StdID,int feesid)
         {
             long result;
-            bool isExists = this.context.FEE_STRUCTURE_MASTER.Where(s => (BranchID == 0 || s.branch_id != BranchID) && s.std_id == StdID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.FEE_STRUCTURE_MASTER.Where(s => (feesid == 0 || s.fee_struct_mst_id != feesid) && s.branch_id == BranchID && s.std_id == StdID && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
         public async Task<long> FeesMaintenance(FeesEntity FeesInfo)
         {
             Model.FEE_STRUCTURE_MASTER FeesMaster = new Model.FEE_STRUCTURE_MASTER();
-            if (CheckFees((int)FeesInfo.BranchInfo.BranchID, (int)FeesInfo.standardInfo.StandardID).Result != -1)
+            if (CheckFees((int)FeesInfo.BranchInfo.BranchID, (int)FeesInfo.standardInfo.StandardID, (int)FeesInfo.FeesID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from Fees in this.context.FEE_STRUCTURE_MASTER

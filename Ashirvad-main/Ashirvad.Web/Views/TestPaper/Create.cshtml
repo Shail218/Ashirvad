@@ -47,7 +47,7 @@
                 <div class="col-md-3">
                     @Html.Label("Test Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                     <div id="datepickertest" class="input-group date" data-date-format="dd/mm/yyyy">
-                        @if (Model == null || Model.TestDate.ToString("dd/MM/yyyy") == "01/01/2021")
+                        @if (Model == null || Model.TestDate.ToString("dd/MM/yyyy") == "01/01/0001")
                         {
                             @Html.TextBoxFor(x => x.TestDate, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "Test Date", autocomplete = "off", @readonly = "readonly" })
                         }
@@ -119,7 +119,7 @@
                 <div class="col-md-3">
                     @Html.Label("Test Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                     <div id="datepickertest" class="input-group date" data-date-format="dd/mm/yyyy">
-                        @if (Model == null || Model.TestDate.ToString("dd/MM/yyyy") == "01/01/2021")
+                        @if (Model == null || Model.TestDate.ToString("dd/MM/yyyy") == "01/01/0001")
                         {
                             @Html.TextBoxFor(x => x.TestDate, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "Test Date", autocomplete = "off", @readonly = "readonly" })
                         }

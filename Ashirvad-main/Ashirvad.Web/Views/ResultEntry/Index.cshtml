@@ -22,10 +22,12 @@
         <section class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-
-                    @{
-                        Html.RenderPartial("Manage", new ViewDataDictionary(Model.MarksData));
-                    }
+                    <div class="box-body" style="padding:8px">
+                        @{
+                            Html.RenderPartial("Manage", new ViewDataDictionary(Model.MarksData));
+                        }
+                    </div>
+                   
                 </div>
             </div>
         </section>

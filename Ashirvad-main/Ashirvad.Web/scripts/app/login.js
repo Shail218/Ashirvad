@@ -8,11 +8,13 @@ function login() {
         ShowLoader();
         $.post(commonData.Login + 'ValidateUser', $('#FormItem').serialize(), function (data) {
             HideLoader();
-            if (data == true) {
-                window.location.href = commonData.VDName + 'Home/Index';
+            if (data.Status == true) {
+                ShowMessage(data.Message, 'Success');
+                setTimeout(function () { window.location.href = commonData.VDName + 'Home/Index';}, 2000);
+                
             }
             else {
-                ShowMessage('Invalid Username or Password!', 'Error', 'error');
+                ShowMessage(data.Message,'Error');
             }
         }).fail(function (xhr) {
             HideLoader();

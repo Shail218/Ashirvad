@@ -11,10 +11,10 @@ namespace Ashirvad.Repo.Services.Area.Package
 {
    public class Package : ModelAccess, IPackageAPI
     {
-        public async Task<long> CheckPackage(string name, long branch, long Id)
+        public async Task<long> CheckPackage(string name, long Id)
         {
             long result;
-            bool isExists = this.context.PACKAGE_MASTER.Where(s => (Id == 0 || s.package_id != Id) && s.package == name && s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.PACKAGE_MASTER.Where(s => (Id == 0 || s.package_id != Id) && s.package == name && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -22,7 +22,7 @@ namespace Ashirvad.Repo.Services.Area.Package
         public async Task<long> PackageMaintenance(PackageEntity packageInfo)
         {
             Model.PACKAGE_MASTER packageMaster = new Model.PACKAGE_MASTER();
-            if (CheckPackage(packageInfo.Package, packageInfo.BranchInfo.BranchID, packageInfo.PackageID).Result != -1)
+            if (CheckPackage(packageInfo.Package, packageInfo.PackageID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from package in this.context.PACKAGE_MASTER

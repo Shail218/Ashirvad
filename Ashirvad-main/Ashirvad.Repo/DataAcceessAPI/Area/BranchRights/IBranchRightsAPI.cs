@@ -14,6 +14,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
         Task<List<BranchWiseRightEntity>> GetAllRightsUniqData(long PackageRightID);
         Task<BranchWiseRightEntity> GetRightsByRightsID(long RightsID);
         bool RemoveRights(long RightsID, string lastupdatedby);
- 
+        Task<List<BranchWiseRightEntity>> GetAllRightsByBranch(long PackageRightID);
+
     }
 }
