@@ -322,7 +322,65 @@ namespace Ashirvad.Repo.Services.Area.Homework
             return data;
         }
 
+        public async Task<List<HomeworkEntity>> GetStudentHomeworkChecking(long homeworkID)
+        {
 
+            var data = (from u in this.context.HOMEWORK_MASTER_DTL
+                        .Include("HOMEWORK_MASTER")
+                        .Include("STD_MASTER")
+
+                        where u.homework_id == homeworkID
+                        select new HomeworkEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive",
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            HomeworkID = u.homework_id,
+                            HomeworkContentFileName = u.homework_filepath,
+                            HomeworkDate = u.submit_dt,
+                            Remarks = u.remarks,
+                            StandardInfo = new StandardEntity()
+                            {
+                                Standard = u.HOMEWORK_MASTER.STD_MASTER.standard,
+                                StandardID = u.HOMEWORK_MASTER.std_id
+                            },
+                            SubjectInfo = new SubjectEntity()
+                            {
+                                Subject = u.STUDENT_MASTER.first_name,
+                                SubjectID = u.HOMEWORK_MASTER.sub_id
+                            },
+                            homeworkDetailEntity = new HomeworkDetailEntity()
+                            {
+                                StudentInfo = new StudentEntity()
+                                {
+                                    FirstName = u.STUDENT_MASTER.first_name,
+                                    MiddleName = u.STUDENT_MASTER.first_name,
+                                    LastName = u.STUDENT_MASTER.first_name
+                                },
+                                HomeworkDetailID =u.homework_master_dtl_id,
+                                AnswerSheetName =u.homework_sheet_name,
+                                FilePath =u.homework_filepath,
+                                Status =u.status,
+                                Remarks =u.remarks,
+                                RowStatus = new RowStatusEntity()
+                                {
+                                    RowStatusText = u.row_sta_cd == 1 ? "Active" :"Inactive",
+                                    RowStatusId = (int)u.row_sta_cd
+                                },
+                                SubmitDate = u.submit_dt
+                            },
+                            BatchTimeID = u.HOMEWORK_MASTER.batch_time_id,
+                            BatchTimeText = u.HOMEWORK_MASTER.batch_time_id == 1 ? "Morning" : u.HOMEWORK_MASTER.batch_time_id == 2 ? "Afternoon" : "Evening",
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+            //if (data != null)
+            //{
+            //    data.HomeworkContentText = Convert.ToBase64String(data.HomeworkContent);
+            //}
+            return data;
+        }
 
         public bool RemoveHomework(long homeworkID, string lastupdatedby)
         {

@@ -112,6 +112,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
 
             return null;
         }
+        public async Task<List<HomeworkEntity>> GetStudentHomeworkChecking(long hwID)
+        {
+            try
+            {
+                var data = await _homeworkContext.GetStudentHomeworkChecking(hwID);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
 
         public bool RemoveHomework(long hwID, string lastupdatedby)
         {

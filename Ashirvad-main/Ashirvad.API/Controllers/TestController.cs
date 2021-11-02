@@ -117,6 +117,17 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("GetTestPaperChecking")]
+        [HttpGet]
+        public OperationResult<List<TestEntity>> GetTestPaperChecking(long paperID)
+        {
+            var data = this._testService.GetTestPaperChecking(paperID);
+            OperationResult<List<TestEntity>> result = new OperationResult<List<TestEntity>>();
+            result.Data = data.Result;
+            result.Completed = true;
+            return result;
+        }
+
         [Route("GetAllTestPapaerByBranchStdDate")]
         [HttpGet]
         public OperationResult<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID, long stdID, DateTime dt, int batchTime)

@@ -317,6 +317,15 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-     
+        [Route("GetStudentHomeworkChecking")]
+        [HttpGet]
+        public OperationResult<List<HomeworkEntity>> GetStudentHomeworkChecking(long hwID)
+        {
+            var data = this._homeworkService.GetStudentHomeworkChecking(hwID);
+            OperationResult<List<HomeworkEntity>> result = new OperationResult<List<HomeworkEntity>>();
+            result.Data = data.Result;
+            result.Completed = true;
+            return result;
+        }
     }
 }
