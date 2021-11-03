@@ -25,12 +25,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
             try
             {
                 long FeesID = await _FeesContext.FeesMaintenance(FeesInfo);
-                if (FeesID > 0)
-                {
-                    //Add User
-                    //Get Fees
-                    Fees.FeesID = FeesID;
-                }
+                Fees.FeesID = FeesID;
             }
             catch (Exception ex)
             {

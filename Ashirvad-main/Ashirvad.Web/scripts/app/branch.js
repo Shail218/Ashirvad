@@ -27,7 +27,34 @@ $(document).ready(function () {
         }
     }
 
+    if ($("#board").val() != "") {
+        var rowStatus = $("#board").val();
+        if (rowStatus == "1") {
+            $("#rowStaGujarat").attr('checked', 'checked');
+        }
+        else if (rowStatus == "2") {
+            $("#rowStaCBSC").attr('checked', 'checked');
+
+        }
+        else {
+            $("#rowStaBoth").attr('checked', 'checked');
+        }
+    }
+
 });
+
+$('input[type=radio][name=Board]').change(function () {
+    if (this.value == 1) {
+        $("#board").val(parseInt(1));
+    }
+    else if (this.value == 2) {
+        $("#board").val(parseInt(2));
+    }
+    else {
+        $("#board").val(parseInt(3));
+    }
+});
+
 
 function SaveBranch() {
     

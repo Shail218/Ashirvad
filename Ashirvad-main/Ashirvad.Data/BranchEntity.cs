@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ashirvad.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,9 @@ namespace Ashirvad.Data
         public string ImagePath { get; set; }
         public int BranchType { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
+
+        public Enums.BoardType board { get; set; }
+        public string boardtype { get; set; }
     }
 
     public class BranchMaint

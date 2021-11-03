@@ -1352,6 +1352,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="BannerImage\" />
     <Folder Include="BranchImage\" />
+    <Folder Include="FacultyImage\" />
     <Folder Include="GalleryImage\" />
     <Folder Include="HomeworkDocument\" />
     <Folder Include="Models\" />

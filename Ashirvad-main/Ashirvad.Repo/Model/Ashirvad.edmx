@@ -148,6 +148,7 @@
           <Property Name="email_id" Type="nvarchar" MaxLength="50" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="branch_type" Type="int" Nullable="false" />
+          <Property Name="board_type" Type="int" />
         </EntityType>
         <EntityType Name="BRANCH_RIGHTS_MASTER">
           <Key>
@@ -187,6 +188,22 @@
           <Property Name="branch_id" Type="bigint" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FACULTY_MASTER">
+          <Key>
+            <PropertyRef Name="faculty_id" />
+          </Key>
+          <Property Name="faculty_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="staff_id" Type="bigint" />
+          <Property Name="branch_id" Type="bigint" />
+          <Property Name="subject_id" Type="bigint" />
+          <Property Name="std_id" Type="bigint" />
+          <Property Name="board_type" Type="int" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar(max)" />
+          <Property Name="file_name" Type="nvarchar(max)" />
+          <Property Name="file_path" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="FEE_STRUCTURE_DTL">
           <Key>
@@ -939,6 +956,66 @@
               <PropertyRef Name="trans_id" />
             </Principal>
             <Dependent Role="CATEGORY_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FACULTY_MASTER_BRANCH_MASTER">
+          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="0..1" />
+          <End Role="FACULTY_MASTER" Type="Self.FACULTY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="FACULTY_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FACULTY_MASTER_BRANCH_STAFF">
+          <End Role="BRANCH_STAFF" Type="Self.BRANCH_STAFF" Multiplicity="0..1" />
+          <End Role="FACULTY_MASTER" Type="Self.FACULTY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_STAFF">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="FACULTY_MASTER">
+              <PropertyRef Name="staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FACULTY_MASTER_STD_MASTER">
+          <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="0..1" />
+          <End Role="FACULTY_MASTER" Type="Self.FACULTY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STD_MASTER">
+              <PropertyRef Name="std_id" />
+            </Principal>
+            <Dependent Role="FACULTY_MASTER">
+              <PropertyRef Name="std_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FACULTY_MASTER_SUBJECT_MASTER">
+          <End Role="SUBJECT_MASTER" Type="Self.SUBJECT_MASTER" Multiplicity="0..1" />
+          <End Role="FACULTY_MASTER" Type="Self.FACULTY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBJECT_MASTER">
+              <PropertyRef Name="subject_id" />
+            </Principal>
+            <Dependent Role="FACULTY_MASTER">
+              <PropertyRef Name="subject_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FACULTY_MASTER_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="FACULTY_MASTER" Type="Self.FACULTY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="FACULTY_MASTER">
               <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1861,6 +1938,7 @@
           <EntitySet Name="BRANCH_RIGHTS_MASTER" EntityType="Self.BRANCH_RIGHTS_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BRANCH_STAFF" EntityType="Self.BRANCH_STAFF" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CATEGORY_MASTER" EntityType="Self.CATEGORY_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FACULTY_MASTER" EntityType="Self.FACULTY_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FEE_STRUCTURE_DTL" EntityType="Self.FEE_STRUCTURE_DTL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FEE_STRUCTURE_MASTER" EntityType="Self.FEE_STRUCTURE_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GALLERY_MASTER" EntityType="Self.GALLERY_MASTER" Schema="dbo" store:Type="Tables" />
@@ -1982,6 +2060,26 @@
           <AssociationSet Name="FK_CATEGORY_MASTER_TRANSACTION_MASTER" Association="Self.FK_CATEGORY_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FACULTY_MASTER_BRANCH_MASTER" Association="Self.FK_FACULTY_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FACULTY_MASTER_BRANCH_STAFF" Association="Self.FK_FACULTY_MASTER_BRANCH_STAFF">
+            <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
+            <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FACULTY_MASTER_STD_MASTER" Association="Self.FK_FACULTY_MASTER_STD_MASTER">
+            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+            <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FACULTY_MASTER_SUBJECT_MASTER" Association="Self.FK_FACULTY_MASTER_SUBJECT_MASTER">
+            <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
+            <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FACULTY_MASTER_TRANSACTION_MASTER" Association="Self.FK_FACULTY_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" Association="Self.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
             <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
@@ -2280,7 +2378,6 @@
           <EntitySet Name="BANNER_TYPE_REL" EntityType="AshirvadModel.BANNER_TYPE_REL" />
           <EntitySet Name="BATCH_MASTER" EntityType="AshirvadModel.BATCH_MASTER" />
           <EntitySet Name="BRANCH_LICENSE" EntityType="AshirvadModel.BRANCH_LICENSE" />
-          <EntitySet Name="BRANCH_MASTER" EntityType="AshirvadModel.BRANCH_MASTER" />
           <EntitySet Name="BRANCH_STAFF" EntityType="AshirvadModel.BRANCH_STAFF" />
           <EntitySet Name="NOTIFICATION_MASTER" EntityType="AshirvadModel.NOTIFICATION_MASTER" />
           <EntitySet Name="NOTIFICATION_TYPE_REL" EntityType="AshirvadModel.NOTIFICATION_TYPE_REL" />
@@ -2292,10 +2389,6 @@
           <EntitySet Name="TYPE_DESC" EntityType="AshirvadModel.TYPE_DESC" />
           <EntitySet Name="USER_DEF" EntityType="AshirvadModel.USER_DEF" />
           <EntitySet Name="USER_ROLE" EntityType="AshirvadModel.USER_ROLE" />
-          <AssociationSet Name="FK_BATCH_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_BATCH_MASTER_STD_MASTER" Association="AshirvadModel.FK_BATCH_MASTER_STD_MASTER">
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
             <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
@@ -2304,33 +2397,9 @@
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
           </AssociationSet>
-          <AssociationSet Name="FK_BRANCH_LICENSE_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_LICENSE_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="BRANCH_LICENSE" EntitySet="BRANCH_LICENSE" />
-          </AssociationSet>
           <AssociationSet Name="FK_BRANCH_LICENSE_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BRANCH_LICENSE" EntitySet="BRANCH_LICENSE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BRANCH_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER">
-            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BRANCH_STAFF_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_STAFF_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SCHOOL_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_SCHOOL_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="SCHOOL_MASTER" EntitySet="SCHOOL_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_STD_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_STD_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SUBJECT_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_SUBJECT_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_BRANCH_STAFF_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_STAFF_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
@@ -2365,20 +2434,12 @@
             <End Role="USER_ROLE" EntitySet="USER_ROLE" />
           </AssociationSet>
           <EntitySet Name="LINK_MASTER" EntityType="AshirvadModel.LINK_MASTER" />
-          <AssociationSet Name="FK_VIDEO_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_VIDEO_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_VIDEO_MASTER_STD_MASTER" Association="AshirvadModel.FK_VIDEO_MASTER_STD_MASTER">
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
             <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
           </AssociationSet>
           <EntitySet Name="LIBRARY_DATA" EntityType="AshirvadModel.LIBRARY_DATA" />
           <EntitySet Name="PRACTICE_PAPER" EntityType="AshirvadModel.PRACTICE_PAPER" />
-          <AssociationSet Name="FK_PRACTICE_PAPER_BRANCH_MASTER" Association="AshirvadModel.FK_PRACTICE_PAPER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
-          </AssociationSet>
           <AssociationSet Name="FK_PRACTICE_PAPER_STD_MASTER" Association="AshirvadModel.FK_PRACTICE_PAPER_STD_MASTER">
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
             <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
@@ -2394,19 +2455,11 @@
             <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
             <End Role="ATTENDANCE_DTL" EntitySet="ATTENDANCE_DTL" />
           </AssociationSet>
-          <AssociationSet Name="FK_ATTENDANCE_HDR_BRANCH_MASTER" Association="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
-          </AssociationSet>
           <AssociationSet Name="FK_ATTENDANCE_HDR_STD_MASTER" Association="AshirvadModel.FK_ATTENDANCE_HDR_STD_MASTER">
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
             <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
           </AssociationSet>
           <EntitySet Name="TEST_MASTER" EntityType="AshirvadModel.TEST_MASTER" />
-          <AssociationSet Name="FK_TEST_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_TEST_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_TEST_MASTER_STD_MASTER" Association="AshirvadModel.FK_TEST_MASTER_STD_MASTER">
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
             <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
@@ -2416,10 +2469,6 @@
             <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
           </AssociationSet>
           <EntitySet Name="REMINDER_MASTER" EntityType="AshirvadModel.REMINDER_MASTER" />
-          <AssociationSet Name="FK_REMINDER_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_REMINDER_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="REMINDER_MASTER" EntitySet="REMINDER_MASTER" />
-          </AssociationSet>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -2456,18 +2505,6 @@
           <EntitySet Name="STUDENT_PAYMENT_MASTER" EntityType="AshirvadModel.STUDENT_PAYMENT_MASTER" />
           <EntitySet Name="STUDENT_PAYMENT_REL" EntityType="AshirvadModel.STUDENT_PAYMENT_REL" />
           <EntitySet Name="UPI_MASTER" EntityType="AshirvadModel.UPI_MASTER" />
-          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="STUDENT_PAYMENT_MASTER" EntitySet="STUDENT_PAYMENT_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UPI_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="UPI_MASTER" EntitySet="UPI_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_STD_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER">
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
             <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
@@ -2489,10 +2526,6 @@
             <End Role="UPI_MASTER" EntitySet="UPI_MASTER" />
           </AssociationSet>
           <EntitySet Name="BRANCH_AGREEMENT" EntityType="AshirvadModel.BRANCH_AGREEMENT" />
-          <AssociationSet Name="FK_BRANCH_AGREEMENT_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="BRANCH_AGREEMENT" EntitySet="BRANCH_AGREEMENT" />
-          </AssociationSet>
           <EntitySet Name="FEE_STRUCTURE_DTL" EntityType="AshirvadModel.FEE_STRUCTURE_DTL" />
           <AssociationSet Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
             <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
@@ -2503,10 +2536,6 @@
             <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
           </AssociationSet>
           <EntitySet Name="HOMEWORK_MASTER_DTL" EntityType="AshirvadModel.HOMEWORK_MASTER_DTL" />
-          <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
-          </AssociationSet>
           <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
@@ -2522,10 +2551,6 @@
           </AssociationSet>
           <EntitySet Name="CATEGORY_MASTER" EntityType="AshirvadModel.CATEGORY_MASTER" />
           <EntitySet Name="LIBRARY_MASTER" EntityType="AshirvadModel.LIBRARY_MASTER" />
-          <AssociationSet Name="FK_CATEGORY_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_CATEGORY_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_CATEGORY_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
@@ -2537,10 +2562,6 @@
           <EntitySet Name="MARKS_MASTER" EntityType="AshirvadModel.MARKS_MASTER" />
           <AssociationSet Name="FK_MARKS_MASTER_MARKS_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_MARKS_MASTER">
             <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
-            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MARKS_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL1" Association="AshirvadModel.FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL1">
@@ -2557,14 +2578,6 @@
           </AssociationSet>
           <EntitySet Name="LIBRARY_MASTER_DTL" EntityType="AshirvadModel.LIBRARY_MASTER_DTL" />
           <EntitySet Name="LIBRARY1_MASTER" EntityType="AshirvadModel.LIBRARY1_MASTER" />
-          <AssociationSet Name="FK_LIBRARY_MASTER_DTL_BRANCH_MASTER" Association="AshirvadModel.FK_LIBRARY_MASTER_DTL_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="LIBRARY_MASTER_DTL" EntitySet="LIBRARY_MASTER_DTL" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LIBRARY1_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_LIBRARY1_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="LIBRARY1_MASTER" EntitySet="LIBRARY1_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_LIBRARY1_MASTER_CATEGORY_MASTER" Association="AshirvadModel.FK_LIBRARY1_MASTER_CATEGORY_MASTER">
             <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
             <End Role="LIBRARY1_MASTER" EntitySet="LIBRARY1_MASTER" />
@@ -2583,17 +2596,9 @@
           </AssociationSet>
           <EntitySet Name="ABOUTUS_DETAIL_REL" EntityType="AshirvadModel.ABOUTUS_DETAIL_REL" />
           <EntitySet Name="ABOUTUS_MASTER" EntityType="AshirvadModel.ABOUTUS_MASTER" />
-          <AssociationSet Name="FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" Association="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="ABOUTUS_DETAIL_REL" EntitySet="ABOUTUS_DETAIL_REL" />
-          </AssociationSet>
           <AssociationSet Name="FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER" Association="AshirvadModel.FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="ABOUTUS_DETAIL_REL" EntitySet="ABOUTUS_DETAIL_REL" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ABOUTUS_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="ABOUTUS_MASTER" EntitySet="ABOUTUS_MASTER" />
           </AssociationSet>
           <EntitySet Name="TEST_PAPER_REL" EntityType="AshirvadModel.TEST_PAPER_REL" />
           <AssociationSet Name="FK_TEST_PAPER_REL_TEST_MASTER" Association="AshirvadModel.FK_TEST_PAPER_REL_TEST_MASTER">
@@ -2601,28 +2606,16 @@
             <End Role="TEST_PAPER_REL" EntitySet="TEST_PAPER_REL" />
           </AssociationSet>
           <EntitySet Name="STUDENT_ANS_SHEET" EntityType="AshirvadModel.STUDENT_ANS_SHEET" />
-          <AssociationSet Name="FK_STUDENT_ANS_SHEET_BRANCH_MASTER" Association="AshirvadModel.FK_STUDENT_ANS_SHEET_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="STUDENT_ANS_SHEET" EntitySet="STUDENT_ANS_SHEET" />
-          </AssociationSet>
           <AssociationSet Name="FK_STUDENT_ANS_SHEET_TEST_MASTER" Association="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER">
             <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
             <End Role="STUDENT_ANS_SHEET" EntitySet="STUDENT_ANS_SHEET" />
           </AssociationSet>
           <EntitySet Name="PAGE_MASTER" EntityType="AshirvadModel.PAGE_MASTER" />
-          <AssociationSet Name="FK_PAGE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_PAGE_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_PAGE_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
           </AssociationSet>
           <EntitySet Name="TEST_MASTER_DTL" EntityType="AshirvadModel.TEST_MASTER_DTL" />
-          <AssociationSet Name="FK_Test_MASTER_DTL_BRANCH_MASTER" Association="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
-          </AssociationSet>
           <AssociationSet Name="FK_Test_MASTER_DTL_Test_MASTER" Association="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER">
             <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
             <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
@@ -2633,10 +2626,6 @@
           </AssociationSet>
           <EntitySet Name="PACKAGE_MASTER" EntityType="AshirvadModel.PACKAGE_MASTER" />
           <EntitySet Name="PACKAGE_RIGHTS_MASTER" EntityType="AshirvadModel.PACKAGE_RIGHTS_MASTER" />
-          <AssociationSet Name="FK_PACKAGE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_PACKAGE_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_PACKAGE_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
@@ -2654,15 +2643,7 @@
             <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
           </AssociationSet>
           <EntitySet Name="GALLERY_MASTER" EntityType="AshirvadModel.GALLERY_MASTER" />
-          <AssociationSet Name="FK_GALLERY_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_GALLERY_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="GALLERY_MASTER" EntitySet="GALLERY_MASTER" />
-          </AssociationSet>
           <EntitySet Name="HOMEWORK_MASTER" EntityType="AshirvadModel.HOMEWORK_MASTER" />
-          <AssociationSet Name="FK_HOMEWORK_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER">
             <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
             <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
@@ -2681,10 +2662,6 @@
             <End Role="PRACTICE_PAPER_REL" EntitySet="PRACTICE_PAPER_REL" />
           </AssociationSet>
           <EntitySet Name="BRANCH_RIGHTS_MASTER" EntityType="AshirvadModel.BRANCH_RIGHTS_MASTER" />
-          <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER">
             <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
             <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
@@ -2694,15 +2671,7 @@
             <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
           </AssociationSet>
           <EntitySet Name="TODO_MASTER" EntityType="AshirvadModel.TODO_MASTER" />
-          <AssociationSet Name="FK_TODO_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_TODO_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="TODO_MASTER" EntitySet="TODO_MASTER" />
-          </AssociationSet>
           <EntitySet Name="STUDENT_MASTER" EntityType="AshirvadModel.STUDENT_MASTER" />
-          <AssociationSet Name="FK_STUDENT_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER">
             <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
             <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
@@ -2737,9 +2706,155 @@
             <End Role="BANNER_TYPE_REL" EntitySet="BANNER_TYPE_REL" />
           </AssociationSet>
           <EntitySet Name="BRANCH_MAINT" EntityType="AshirvadModel.BRANCH_MAINT" />
+          <EntitySet Name="FACULTY_MASTER" EntityType="AshirvadModel.FACULTY_MASTER" />
+          <AssociationSet Name="FK_FACULTY_MASTER_BRANCH_STAFF" Association="AshirvadModel.FK_FACULTY_MASTER_BRANCH_STAFF">
+            <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
+            <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FACULTY_MASTER_STD_MASTER" Association="AshirvadModel.FK_FACULTY_MASTER_STD_MASTER">
+            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+            <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FACULTY_MASTER_SUBJECT_MASTER" Association="AshirvadModel.FK_FACULTY_MASTER_SUBJECT_MASTER">
+            <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
+            <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FACULTY_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_FACULTY_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+          </AssociationSet>
+          <EntitySet Name="BRANCH_MASTER" EntityType="AshirvadModel.BRANCH_MASTER" />
+          <AssociationSet Name="FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" Association="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="ABOUTUS_DETAIL_REL" EntitySet="ABOUTUS_DETAIL_REL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ABOUTUS_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="ABOUTUS_MASTER" EntitySet="ABOUTUS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ATTENDANCE_HDR_BRANCH_MASTER" Association="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BATCH_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BRANCH_AGREEMENT_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="BRANCH_AGREEMENT" EntitySet="BRANCH_AGREEMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BRANCH_LICENSE_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_LICENSE_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="BRANCH_LICENSE" EntitySet="BRANCH_LICENSE" />
+          </AssociationSet>
           <AssociationSet Name="FK_BRANCH_MAINT_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="BRANCH_MAINT" EntitySet="BRANCH_MAINT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BRANCH_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CATEGORY_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FACULTY_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_FACULTY_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GALLERY_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_GALLERY_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="GALLERY_MASTER" EntitySet="GALLERY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HOMEWORK_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LIBRARY_MASTER_DTL_BRANCH_MASTER" Association="AshirvadModel.FK_LIBRARY_MASTER_DTL_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="LIBRARY_MASTER_DTL" EntitySet="LIBRARY_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LIBRARY1_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_LIBRARY1_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="LIBRARY1_MASTER" EntitySet="LIBRARY1_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARKS_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PACKAGE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PAGE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRACTICE_PAPER_BRANCH_MASTER" Association="AshirvadModel.FK_PRACTICE_PAPER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REMINDER_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_REMINDER_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="REMINDER_MASTER" EntitySet="REMINDER_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SCHOOL_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_SCHOOL_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="SCHOOL_MASTER" EntitySet="SCHOOL_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STD_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_STD_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_ANS_SHEET_BRANCH_MASTER" Association="AshirvadModel.FK_STUDENT_ANS_SHEET_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="STUDENT_ANS_SHEET" EntitySet="STUDENT_ANS_SHEET" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="STUDENT_PAYMENT_MASTER" EntitySet="STUDENT_PAYMENT_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SUBJECT_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_SUBJECT_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TEST_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_TEST_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_MASTER_DTL_BRANCH_MASTER" Association="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TODO_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_TODO_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="TODO_MASTER" EntitySet="TODO_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UPI_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="UPI_MASTER" EntitySet="UPI_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VIDEO_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_VIDEO_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_TYPE_REL">
@@ -2764,10 +2879,10 @@
           <Property Name="sun_batch_time" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" FromRole="BATCH_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_STD_MASTER" FromRole="BATCH_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER" FromRole="BATCH_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_MARKS_MASTER" FromRole="BATCH_MASTER" ToRole="MARKS_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" FromRole="BATCH_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="BRANCH_LICENSE">
           <Key>
@@ -2778,55 +2893,8 @@
           <Property Name="license_key" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_LICENSE_BRANCH_MASTER" FromRole="BRANCH_LICENSE" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER" FromRole="BRANCH_LICENSE" ToRole="TRANSACTION_MASTER" />
-        </EntityType>
-        <EntityType Name="BRANCH_MASTER">
-          <Key>
-            <PropertyRef Name="branch_id" />
-          </Key>
-          <Property Name="branch_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="branch_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="row_sta_cd" Type="Int32" />
-          <Property Name="about_us" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="contact_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="mobile_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="email_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BATCH_MASTER" />
-          <NavigationProperty Name="BRANCH_LICENSE" Relationship="AshirvadModel.FK_BRANCH_LICENSE_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_LICENSE" />
-          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER" FromRole="BRANCH_MASTER" ToRole="TRANSACTION_MASTER" />
-          <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_BRANCH_STAFF_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_STAFF" />
-          <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_SCHOOL_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="SCHOOL_MASTER" />
-          <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STD_MASTER" />
-          <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="SUBJECT_MASTER" />
-          <NavigationProperty Name="LINK_MASTER" Relationship="AshirvadModel.FK_VIDEO_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="LINK_MASTER" />
-          <NavigationProperty Name="PRACTICE_PAPER" Relationship="AshirvadModel.FK_PRACTICE_PAPER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PRACTICE_PAPER" />
-          <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="ATTENDANCE_HDR" />
-          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TEST_MASTER" />
-          <NavigationProperty Name="REMINDER_MASTER" Relationship="AshirvadModel.FK_REMINDER_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="REMINDER_MASTER" />
-          <Property Name="branch_type" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
-          <NavigationProperty Name="STUDENT_PAYMENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_PAYMENT_MASTER" />
-          <NavigationProperty Name="UPI_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="UPI_MASTER" />
-          <NavigationProperty Name="BRANCH_AGREEMENT" Relationship="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_AGREEMENT" />
-          <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
-          <NavigationProperty Name="CATEGORY_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="CATEGORY_MASTER" />
-          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="MARKS_MASTER" />
-          <NavigationProperty Name="LIBRARY_MASTER_DTL" Relationship="AshirvadModel.FK_LIBRARY_MASTER_DTL_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="LIBRARY_MASTER_DTL" />
-          <NavigationProperty Name="LIBRARY1_MASTER" Relationship="AshirvadModel.FK_LIBRARY1_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="LIBRARY1_MASTER" />
-          <NavigationProperty Name="ABOUTUS_DETAIL_REL" Relationship="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" FromRole="BRANCH_MASTER" ToRole="ABOUTUS_DETAIL_REL" />
-          <NavigationProperty Name="ABOUTUS_MASTER" Relationship="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="ABOUTUS_MASTER" />
-          <NavigationProperty Name="STUDENT_ANS_SHEET" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_ANS_SHEET" />
-          <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PAGE_MASTER" />
-          <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TEST_MASTER_DTL" />
-          <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PACKAGE_MASTER" />
-          <NavigationProperty Name="GALLERY_MASTER" Relationship="AshirvadModel.FK_GALLERY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="GALLERY_MASTER" />
-          <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="HOMEWORK_MASTER" />
-          <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
-          <NavigationProperty Name="TODO_MASTER" Relationship="AshirvadModel.FK_TODO_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TODO_MASTER" />
-          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_MASTER" />
-          <NavigationProperty Name="BRANCH_MAINT" Relationship="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_MAINT" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_LICENSE_BRANCH_MASTER" FromRole="BRANCH_LICENSE" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="BRANCH_STAFF">
           <Key>
@@ -2846,9 +2914,9 @@
           <Property Name="mobile_no" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_STAFF_BRANCH_MASTER" FromRole="BRANCH_STAFF" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_STAFF_TRANSACTION_MASTER" FromRole="BRANCH_STAFF" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="USER_DEF" Relationship="AshirvadModel.FK_USER_DEF_BRANCH_STAFF" FromRole="BRANCH_STAFF" ToRole="USER_DEF" />
+          <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_BRANCH_STAFF" FromRole="BRANCH_STAFF" ToRole="FACULTY_MASTER" />
         </EntityType>
         <EntityType Name="NOTIFICATION_MASTER">
           <Key>
@@ -2879,9 +2947,9 @@
           <Property Name="branch_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_SCHOOL_MASTER_BRANCH_MASTER" FromRole="SCHOOL_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_SCHOOL_MASTER_TRANSACTION_MASTER" FromRole="SCHOOL_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_SCHOOL_MASTER" FromRole="SCHOOL_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_SCHOOL_MASTER_BRANCH_MASTER" FromRole="SCHOOL_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="STD_MASTER">
           <Key>
@@ -2893,7 +2961,6 @@
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="BATCH_MASTER" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_BRANCH_MASTER" FromRole="STD_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_TRANSACTION_MASTER" FromRole="STD_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="LINK_MASTER" Relationship="AshirvadModel.FK_VIDEO_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="LINK_MASTER" />
           <NavigationProperty Name="PRACTICE_PAPER" Relationship="AshirvadModel.FK_PRACTICE_PAPER_STD_MASTER" FromRole="STD_MASTER" ToRole="PRACTICE_PAPER" />
@@ -2903,6 +2970,8 @@
           <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="MARKS_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="HOMEWORK_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="FACULTY_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_BRANCH_MASTER" FromRole="STD_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="STUDENT_MAINT">
           <Key>
@@ -2925,12 +2994,13 @@
           <Property Name="branch_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_BRANCH_MASTER" FromRole="SUBJECT_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_TRANSACTION_MASTER" FromRole="SUBJECT_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="PRACTICE_PAPER" Relationship="AshirvadModel.FK_PRACTICE_PAPER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="PRACTICE_PAPER" />
           <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="TEST_MASTER" />
           <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="MARKS_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="HOMEWORK_MASTER" />
+          <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="FACULTY_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_BRANCH_MASTER" FromRole="SUBJECT_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="TRANSACTION_MASTER">
           <Key>
@@ -2945,7 +3015,6 @@
           <Property Name="last_mod_id" Type="Int64" />
           <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BATCH_MASTER" />
           <NavigationProperty Name="BRANCH_LICENSE" Relationship="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_LICENSE" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_BRANCH_STAFF_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_STAFF" />
           <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_SCHOOL_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="SCHOOL_MASTER" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STD_MASTER" />
@@ -2967,6 +3036,8 @@
           <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
           <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FACULTY_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="TYPE_DESC">
           <Key>
@@ -3009,18 +3080,6 @@
           <Property Name="has_priv" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="USER_DEF" Relationship="AshirvadModel.FK_USER_ROLE_USER_DEF" FromRole="USER_ROLE" ToRole="USER_DEF" />
         </EntityType>
-        <Association Name="FK_BATCH_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.BATCH_MASTER" Role="BATCH_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="BATCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_BATCH_MASTER_STD_MASTER">
           <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.BATCH_MASTER" Role="BATCH_MASTER" Multiplicity="*" />
@@ -3045,18 +3104,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BRANCH_LICENSE_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.BRANCH_LICENSE" Role="BRANCH_LICENSE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="BRANCH_LICENSE">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_BRANCH_LICENSE_TRANSACTION_MASTER">
           <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.BRANCH_LICENSE" Role="BRANCH_LICENSE" Multiplicity="*" />
@@ -3066,68 +3113,6 @@
             </Principal>
             <Dependent Role="BRANCH_LICENSE">
               <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BRANCH_MASTER_TRANSACTION_MASTER">
-          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TRANSACTION_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Principal>
-            <Dependent Role="BRANCH_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BRANCH_STAFF_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.BRANCH_STAFF" Role="BRANCH_STAFF" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="BRANCH_STAFF">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SCHOOL_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.SCHOOL_MASTER" Role="SCHOOL_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="SCHOOL_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_STD_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="STD_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SUBJECT_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.SUBJECT_MASTER" Role="SUBJECT_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="SUBJECT_MASTER">
-              <PropertyRef Name="branch_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3240,21 +3225,9 @@
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="type" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_VIDEO_MASTER_BRANCH_MASTER" FromRole="LINK_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_VIDEO_MASTER_STD_MASTER" FromRole="LINK_MASTER" ToRole="STD_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_VIDEO_MASTER_BRANCH_MASTER" FromRole="LINK_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_VIDEO_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.LINK_MASTER" Role="LINK_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="LINK_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_VIDEO_MASTER_STD_MASTER">
           <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.LINK_MASTER" Role="LINK_MASTER" Multiplicity="*" />
@@ -3293,23 +3266,11 @@
           <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_PRACTICE_PAPER_BRANCH_MASTER" FromRole="PRACTICE_PAPER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_PRACTICE_PAPER_STD_MASTER" FromRole="PRACTICE_PAPER" ToRole="STD_MASTER" />
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_PRACTICE_PAPER_SUBJECT_MASTER" FromRole="PRACTICE_PAPER" ToRole="SUBJECT_MASTER" />
           <NavigationProperty Name="PRACTICE_PAPER_REL" Relationship="AshirvadModel.FK_PRACTICE_PAPER_REL_PRACTICE_PAPER" FromRole="PRACTICE_PAPER" ToRole="PRACTICE_PAPER_REL" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_PRACTICE_PAPER_BRANCH_MASTER" FromRole="PRACTICE_PAPER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_PRACTICE_PAPER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.PRACTICE_PAPER" Role="PRACTICE_PAPER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="PRACTICE_PAPER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PRACTICE_PAPER_STD_MASTER">
           <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.PRACTICE_PAPER" Role="PRACTICE_PAPER" Multiplicity="*" />
@@ -3368,8 +3329,8 @@
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ATTENDANCE_DTL" Relationship="AshirvadModel.FK_ATTENDANCE_DTL_ATTENDANCE_HDR" FromRole="ATTENDANCE_HDR" ToRole="ATTENDANCE_DTL" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER" FromRole="ATTENDANCE_HDR" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_STD_MASTER" FromRole="ATTENDANCE_HDR" ToRole="STD_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER" FromRole="ATTENDANCE_HDR" ToRole="BRANCH_MASTER" />
         </EntityType>
         <Association Name="FK_ATTENDANCE_DTL_ATTENDANCE_HDR">
           <End Type="AshirvadModel.ATTENDANCE_HDR" Role="ATTENDANCE_HDR" Multiplicity="1" />
@@ -3380,18 +3341,6 @@
             </Principal>
             <Dependent Role="ATTENDANCE_DTL">
               <PropertyRef Name="attd_hdr_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ATTENDANCE_HDR_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.ATTENDANCE_HDR" Role="ATTENDANCE_HDR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="ATTENDANCE_HDR">
-              <PropertyRef Name="branch_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3424,26 +3373,14 @@
           <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_BRANCH_MASTER" FromRole="TEST_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_STD_MASTER" FromRole="TEST_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_SUBJECT_MASTER" FromRole="TEST_MASTER" ToRole="SUBJECT_MASTER" />
           <Property Name="file_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TEST_PAPER_REL" Relationship="AshirvadModel.FK_TEST_PAPER_REL_TEST_MASTER" FromRole="TEST_MASTER" ToRole="TEST_PAPER_REL" />
           <NavigationProperty Name="STUDENT_ANS_SHEET" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER" FromRole="TEST_MASTER" ToRole="STUDENT_ANS_SHEET" />
           <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER" FromRole="TEST_MASTER" ToRole="TEST_MASTER_DTL" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_BRANCH_MASTER" FromRole="TEST_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_TEST_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="TEST_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TEST_MASTER_STD_MASTER">
           <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="*" />
@@ -3482,18 +3419,6 @@
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_REMINDER_MASTER_BRANCH_MASTER" FromRole="REMINDER_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_REMINDER_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.REMINDER_MASTER" Role="REMINDER_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="REMINDER_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
           <Property Type="Binary" Name="definition" Nullable="true" />
@@ -3530,10 +3455,10 @@
           <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="FEE_STRUCTURE_DTL" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="FEE_STRUCTURE_DTL" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="STUDENT_PAYMENT_MASTER">
           <Key>
@@ -3547,8 +3472,8 @@
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="branch_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER" FromRole="STUDENT_PAYMENT_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="STUDENT_PAYMENT_REL" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER" FromRole="STUDENT_PAYMENT_MASTER" ToRole="STUDENT_PAYMENT_REL" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER" FromRole="STUDENT_PAYMENT_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="STUDENT_PAYMENT_REL">
           <Key>
@@ -3572,45 +3497,9 @@
           <Property Name="branch_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER" FromRole="UPI_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_TRANSACTION_MASTER" FromRole="UPI_MASTER" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER" FromRole="UPI_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="FEE_STRUCTURE_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.STUDENT_PAYMENT_MASTER" Role="STUDENT_PAYMENT_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="STUDENT_PAYMENT_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UPI_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.UPI_MASTER" Role="UPI_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="UPI_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_FEE_STRUCTURE_MASTER_STD_MASTER">
           <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="*" />
@@ -3681,21 +3570,9 @@
           <Property Name="to_dt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER" FromRole="BRANCH_AGREEMENT" ToRole="BRANCH_MASTER" />
           <Property Name="amount" Type="Double" Nullable="false" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER" FromRole="BRANCH_AGREEMENT" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_BRANCH_AGREEMENT_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.BRANCH_AGREEMENT" Role="BRANCH_AGREEMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="BRANCH_AGREEMENT">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="FEE_STRUCTURE_DTL">
           <Key>
             <PropertyRef Name="fee_struct_dtl_id" />
@@ -3750,23 +3627,11 @@
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="submit_dt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="HOMEWORK_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.HOMEWORK_MASTER_DTL" Role="HOMEWORK_MASTER_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="HOMEWORK_MASTER_DTL">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER">
           <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.HOMEWORK_MASTER_DTL" Role="HOMEWORK_MASTER_DTL" Multiplicity="*" />
@@ -3828,9 +3693,9 @@
           <Property Name="branch_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER" FromRole="CATEGORY_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_TRANSACTION_MASTER" FromRole="CATEGORY_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="LIBRARY1_MASTER" Relationship="AshirvadModel.FK_LIBRARY1_MASTER_CATEGORY_MASTER" FromRole="CATEGORY_MASTER" ToRole="LIBRARY1_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER" FromRole="CATEGORY_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="LIBRARY_MASTER">
           <Key>
@@ -3848,18 +3713,6 @@
           <Property Name="trans_id" Type="Int64" />
           <NavigationProperty Name="LIBRARY_DATA" Relationship="AshirvadModel.FK_LIBRARY_DATA_LIBRARY_MASTER" FromRole="LIBRARY_MASTER" ToRole="LIBRARY_DATA" />
         </EntityType>
-        <Association Name="FK_CATEGORY_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.CATEGORY_MASTER" Role="CATEGORY_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="CATEGORY_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CATEGORY_MASTER_TRANSACTION_MASTER">
           <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.CATEGORY_MASTER" Role="CATEGORY_MASTER" Multiplicity="*" />
@@ -3899,10 +3752,10 @@
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_MARKS_MASTER" FromRole="MARKS_MASTER" ToRole="BATCH_MASTER" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" FromRole="MARKS_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="MARKS_MASTER_DTL" Relationship="AshirvadModel.FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL1" FromRole="MARKS_MASTER" ToRole="MARKS_MASTER_DTL" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_STD_MASTER" FromRole="MARKS_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_SUBJECT_MASTER" FromRole="MARKS_MASTER" ToRole="SUBJECT_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" FromRole="MARKS_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
         <Association Name="FK_MARKS_MASTER_MARKS_MASTER">
           <End Type="AshirvadModel.BATCH_MASTER" Role="BATCH_MASTER" Multiplicity="1" />
@@ -3913,18 +3766,6 @@
             </Principal>
             <Dependent Role="MARKS_MASTER">
               <PropertyRef Name="batch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MARKS_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="MARKS_MASTER">
-              <PropertyRef Name="branch_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3979,9 +3820,9 @@
           <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_LIBRARY_MASTER_DTL_BRANCH_MASTER" FromRole="LIBRARY_MASTER_DTL" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="LIBRARY1_MASTER" Relationship="AshirvadModel.FK_LIBRARY_MASTER_DTL_LIBRARY1_MASTER" FromRole="LIBRARY_MASTER_DTL" ToRole="LIBRARY1_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_LIBRARY_MASTER_DTL_TRANSACTION_MASTER" FromRole="LIBRARY_MASTER_DTL" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_LIBRARY_MASTER_DTL_BRANCH_MASTER" FromRole="LIBRARY_MASTER_DTL" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="LIBRARY1_MASTER">
           <Key>
@@ -3995,35 +3836,11 @@
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="category_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_LIBRARY1_MASTER_BRANCH_MASTER" FromRole="LIBRARY1_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="CATEGORY_MASTER" Relationship="AshirvadModel.FK_LIBRARY1_MASTER_CATEGORY_MASTER" FromRole="LIBRARY1_MASTER" ToRole="CATEGORY_MASTER" />
           <NavigationProperty Name="LIBRARY_MASTER_DTL" Relationship="AshirvadModel.FK_LIBRARY_MASTER_DTL_LIBRARY1_MASTER" FromRole="LIBRARY1_MASTER" ToRole="LIBRARY_MASTER_DTL" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_LIBRARY1_MASTER_TRANSACTION_MASTER" FromRole="LIBRARY1_MASTER" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_LIBRARY1_MASTER_BRANCH_MASTER" FromRole="LIBRARY1_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_LIBRARY_MASTER_DTL_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.LIBRARY_MASTER_DTL" Role="LIBRARY_MASTER_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="LIBRARY_MASTER_DTL">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LIBRARY1_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.LIBRARY1_MASTER" Role="LIBRARY1_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="LIBRARY1_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_LIBRARY1_MASTER_CATEGORY_MASTER">
           <End Type="AshirvadModel.CATEGORY_MASTER" Role="CATEGORY_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.LIBRARY1_MASTER" Role="LIBRARY1_MASTER" Multiplicity="*" />
@@ -4083,8 +3900,8 @@
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="header_img_path" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" FromRole="ABOUTUS_DETAIL_REL" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER" FromRole="ABOUTUS_DETAIL_REL" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" FromRole="ABOUTUS_DETAIL_REL" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="ABOUTUS_MASTER">
           <Key>
@@ -4103,18 +3920,6 @@
           <Property Name="header_img_path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" FromRole="ABOUTUS_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.ABOUTUS_DETAIL_REL" Role="ABOUTUS_DETAIL_REL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="ABOUTUS_DETAIL_REL">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER">
           <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.ABOUTUS_DETAIL_REL" Role="ABOUTUS_DETAIL_REL" Multiplicity="*" />
@@ -4124,18 +3929,6 @@
             </Principal>
             <Dependent Role="ABOUTUS_DETAIL_REL">
               <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ABOUTUS_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.ABOUTUS_MASTER" Role="ABOUTUS_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="ABOUTUS_MASTER">
-              <PropertyRef Name="branch_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4183,22 +3976,10 @@
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="submit_dt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ans_sheet_filepath" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_BRANCH_MASTER" FromRole="STUDENT_ANS_SHEET" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER" FromRole="STUDENT_ANS_SHEET" ToRole="TEST_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER" FromRole="STUDENT_ANS_SHEET" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_BRANCH_MASTER" FromRole="STUDENT_ANS_SHEET" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_STUDENT_ANS_SHEET_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.STUDENT_ANS_SHEET" Role="STUDENT_ANS_SHEET" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="STUDENT_ANS_SHEET">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_STUDENT_ANS_SHEET_TEST_MASTER">
           <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.STUDENT_ANS_SHEET" Role="STUDENT_ANS_SHEET" Multiplicity="*" />
@@ -4220,22 +4001,10 @@
           <Property Name="branch_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER" FromRole="PAGE_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_TRANSACTION_MASTER" FromRole="PAGE_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" FromRole="PAGE_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER" FromRole="PAGE_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_PAGE_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.PAGE_MASTER" Role="PAGE_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="PAGE_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PAGE_MASTER_TRANSACTION_MASTER">
           <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.PAGE_MASTER" Role="PAGE_MASTER" Multiplicity="*" />
@@ -4264,23 +4033,11 @@
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="submit_dt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER" FromRole="TEST_MASTER_DTL" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER" FromRole="TEST_MASTER_DTL" ToRole="TEST_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_TRANSACTION_MASTER" FromRole="TEST_MASTER_DTL" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" FromRole="TEST_MASTER_DTL" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER" FromRole="TEST_MASTER_DTL" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_Test_MASTER_DTL_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.TEST_MASTER_DTL" Role="TEST_MASTER_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="TEST_MASTER_DTL">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Test_MASTER_DTL_Test_MASTER">
           <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.TEST_MASTER_DTL" Role="TEST_MASTER_DTL" Multiplicity="*" />
@@ -4314,10 +4071,10 @@
           <Property Name="branch_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="PACKAGE_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_TRANSACTION_MASTER" FromRole="PACKAGE_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
           <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="PACKAGE_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="PACKAGE_RIGHTS_MASTER">
           <Key>
@@ -4335,18 +4092,6 @@
           <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="PAGE_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="TRANSACTION_MASTER" />
         </EntityType>
-        <Association Name="FK_PACKAGE_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="PACKAGE_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PACKAGE_MASTER_TRANSACTION_MASTER">
           <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="*" />
@@ -4415,18 +4160,6 @@
           <Property Name="uplaod_type" Type="Int32" Nullable="false" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_GALLERY_MASTER_BRANCH_MASTER" FromRole="GALLERY_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_GALLERY_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.GALLERY_MASTER" Role="GALLERY_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="GALLERY_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="HOMEWORK_MASTER">
           <Key>
             <PropertyRef Name="homework_id" />
@@ -4442,23 +4175,11 @@
           <Property Name="homework_file" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_BRANCH_MASTER" FromRole="HOMEWORK_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER" FromRole="HOMEWORK_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER" FromRole="HOMEWORK_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_SUBJECT_MASTER" FromRole="HOMEWORK_MASTER" ToRole="SUBJECT_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_BRANCH_MASTER" FromRole="HOMEWORK_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_HOMEWORK_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.HOMEWORK_MASTER" Role="HOMEWORK_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="HOMEWORK_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER">
           <End Type="AshirvadModel.HOMEWORK_MASTER" Role="HOMEWORK_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.HOMEWORK_MASTER_DTL" Role="HOMEWORK_MASTER_DTL" Multiplicity="*" />
@@ -4526,22 +4247,10 @@
           <Property Name="branch_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER" FromRole="BRANCH_RIGHTS_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="BRANCH_RIGHTS_MASTER" ToRole="PACKAGE_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="BRANCH_RIGHTS_MASTER" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER" FromRole="BRANCH_RIGHTS_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.BRANCH_RIGHTS_MASTER" Role="BRANCH_RIGHTS_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="BRANCH_RIGHTS_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER">
           <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -4585,18 +4294,6 @@
           <Property Name="remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_TODO_MASTER_BRANCH_MASTER" FromRole="TODO_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_TODO_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.TODO_MASTER" Role="TODO_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="TODO_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="STUDENT_MASTER">
           <Key>
             <PropertyRef Name="student_id" />
@@ -4622,7 +4319,6 @@
           <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="admission_date" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" FromRole="STUDENT_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
           <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_SCHOOL_MASTER" FromRole="STUDENT_MASTER" ToRole="SCHOOL_MASTER" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_STD_MASTER" FromRole="STUDENT_MASTER" ToRole="STD_MASTER" />
@@ -4630,19 +4326,8 @@
           <NavigationProperty Name="STUDENT_MAINT" Relationship="AshirvadModel.FK_STUDENT_MAINT_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="STUDENT_MAINT" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="STUDENT_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="TEST_MASTER_DTL" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" FromRole="STUDENT_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_STUDENT_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="STUDENT_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER">
           <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.HOMEWORK_MASTER_DTL" Role="HOMEWORK_MASTER_DTL" Multiplicity="*" />
@@ -4766,6 +4451,195 @@
           <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER" FromRole="BRANCH_MAINT" ToRole="BRANCH_MASTER" />
         </EntityType>
+        <EntityType Name="FACULTY_MASTER">
+          <Key>
+            <PropertyRef Name="faculty_id" />
+          </Key>
+          <Property Name="faculty_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="staff_id" Type="Int64" />
+          <Property Name="branch_id" Type="Int64" />
+          <Property Name="subject_id" Type="Int64" />
+          <Property Name="std_id" Type="Int64" />
+          <Property Name="board_type" Type="Int32" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_FACULTY_MASTER_BRANCH_STAFF" FromRole="FACULTY_MASTER" ToRole="BRANCH_STAFF" />
+          <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_STD_MASTER" FromRole="FACULTY_MASTER" ToRole="STD_MASTER" />
+          <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_SUBJECT_MASTER" FromRole="FACULTY_MASTER" ToRole="SUBJECT_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_TRANSACTION_MASTER" FromRole="FACULTY_MASTER" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_BRANCH_MASTER" FromRole="FACULTY_MASTER" ToRole="BRANCH_MASTER" />
+        </EntityType>
+        <Association Name="FK_FACULTY_MASTER_BRANCH_STAFF">
+          <End Type="AshirvadModel.BRANCH_STAFF" Role="BRANCH_STAFF" Multiplicity="0..1" />
+          <End Type="AshirvadModel.FACULTY_MASTER" Role="FACULTY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_STAFF">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="FACULTY_MASTER">
+              <PropertyRef Name="staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FACULTY_MASTER_STD_MASTER">
+          <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.FACULTY_MASTER" Role="FACULTY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STD_MASTER">
+              <PropertyRef Name="std_id" />
+            </Principal>
+            <Dependent Role="FACULTY_MASTER">
+              <PropertyRef Name="std_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FACULTY_MASTER_SUBJECT_MASTER">
+          <End Type="AshirvadModel.SUBJECT_MASTER" Role="SUBJECT_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.FACULTY_MASTER" Role="FACULTY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBJECT_MASTER">
+              <PropertyRef Name="subject_id" />
+            </Principal>
+            <Dependent Role="FACULTY_MASTER">
+              <PropertyRef Name="subject_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FACULTY_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.FACULTY_MASTER" Role="FACULTY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="FACULTY_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BRANCH_MASTER">
+          <Key>
+            <PropertyRef Name="branch_id" />
+          </Key>
+          <Property Name="branch_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branch_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" />
+          <Property Name="about_us" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="contact_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="mobile_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="branch_type" Type="Int32" Nullable="false" />
+          <Property Name="board_type" Type="Int32" />
+          <NavigationProperty Name="ABOUTUS_DETAIL_REL" Relationship="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" FromRole="BRANCH_MASTER" ToRole="ABOUTUS_DETAIL_REL" />
+          <NavigationProperty Name="ABOUTUS_MASTER" Relationship="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="ABOUTUS_MASTER" />
+          <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="ATTENDANCE_HDR" />
+          <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BATCH_MASTER" />
+          <NavigationProperty Name="BRANCH_AGREEMENT" Relationship="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_AGREEMENT" />
+          <NavigationProperty Name="BRANCH_LICENSE" Relationship="AshirvadModel.FK_BRANCH_LICENSE_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_LICENSE" />
+          <NavigationProperty Name="BRANCH_MAINT" Relationship="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_MAINT" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER" FromRole="BRANCH_MASTER" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
+          <NavigationProperty Name="CATEGORY_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="CATEGORY_MASTER" />
+          <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="FACULTY_MASTER" />
+          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
+          <NavigationProperty Name="GALLERY_MASTER" Relationship="AshirvadModel.FK_GALLERY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="GALLERY_MASTER" />
+          <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="HOMEWORK_MASTER" />
+          <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
+          <NavigationProperty Name="LIBRARY_MASTER_DTL" Relationship="AshirvadModel.FK_LIBRARY_MASTER_DTL_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="LIBRARY_MASTER_DTL" />
+          <NavigationProperty Name="LIBRARY1_MASTER" Relationship="AshirvadModel.FK_LIBRARY1_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="LIBRARY1_MASTER" />
+          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="MARKS_MASTER" />
+          <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PACKAGE_MASTER" />
+          <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PAGE_MASTER" />
+          <NavigationProperty Name="PRACTICE_PAPER" Relationship="AshirvadModel.FK_PRACTICE_PAPER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PRACTICE_PAPER" />
+          <NavigationProperty Name="REMINDER_MASTER" Relationship="AshirvadModel.FK_REMINDER_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="REMINDER_MASTER" />
+          <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_SCHOOL_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="SCHOOL_MASTER" />
+          <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STD_MASTER" />
+          <NavigationProperty Name="STUDENT_ANS_SHEET" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_ANS_SHEET" />
+          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="STUDENT_PAYMENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_PAYMENT_MASTER" />
+          <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="SUBJECT_MASTER" />
+          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TEST_MASTER" />
+          <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TEST_MASTER_DTL" />
+          <NavigationProperty Name="TODO_MASTER" Relationship="AshirvadModel.FK_TODO_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TODO_MASTER" />
+          <NavigationProperty Name="UPI_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="UPI_MASTER" />
+          <NavigationProperty Name="LINK_MASTER" Relationship="AshirvadModel.FK_VIDEO_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="LINK_MASTER" />
+        </EntityType>
+        <Association Name="FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.ABOUTUS_DETAIL_REL" Role="ABOUTUS_DETAIL_REL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="ABOUTUS_DETAIL_REL">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ABOUTUS_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.ABOUTUS_MASTER" Role="ABOUTUS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="ABOUTUS_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ATTENDANCE_HDR_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.ATTENDANCE_HDR" Role="ATTENDANCE_HDR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="ATTENDANCE_HDR">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BATCH_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.BATCH_MASTER" Role="BATCH_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="BATCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BRANCH_AGREEMENT_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.BRANCH_AGREEMENT" Role="BRANCH_AGREEMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="BRANCH_AGREEMENT">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BRANCH_LICENSE_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.BRANCH_LICENSE" Role="BRANCH_LICENSE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="BRANCH_LICENSE">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BRANCH_MAINT_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -4776,6 +4650,320 @@
               <PropertyRef Name="branch_id" />
             </Principal>
             <Dependent Role="BRANCH_MAINT">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BRANCH_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="BRANCH_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.BRANCH_RIGHTS_MASTER" Role="BRANCH_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="BRANCH_RIGHTS_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CATEGORY_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.CATEGORY_MASTER" Role="CATEGORY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="CATEGORY_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FACULTY_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.FACULTY_MASTER" Role="FACULTY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="FACULTY_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GALLERY_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.GALLERY_MASTER" Role="GALLERY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="GALLERY_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HOMEWORK_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.HOMEWORK_MASTER" Role="HOMEWORK_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="HOMEWORK_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.HOMEWORK_MASTER_DTL" Role="HOMEWORK_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="HOMEWORK_MASTER_DTL">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LIBRARY_MASTER_DTL_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.LIBRARY_MASTER_DTL" Role="LIBRARY_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="LIBRARY_MASTER_DTL">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LIBRARY1_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.LIBRARY1_MASTER" Role="LIBRARY1_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="LIBRARY1_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARKS_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="MARKS_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PACKAGE_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PAGE_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.PAGE_MASTER" Role="PAGE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="PAGE_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRACTICE_PAPER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.PRACTICE_PAPER" Role="PRACTICE_PAPER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="PRACTICE_PAPER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REMINDER_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.REMINDER_MASTER" Role="REMINDER_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="REMINDER_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SCHOOL_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.SCHOOL_MASTER" Role="SCHOOL_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="SCHOOL_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STD_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="STD_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_ANS_SHEET_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.STUDENT_ANS_SHEET" Role="STUDENT_ANS_SHEET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="STUDENT_ANS_SHEET">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="STUDENT_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.STUDENT_PAYMENT_MASTER" Role="STUDENT_PAYMENT_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="STUDENT_PAYMENT_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SUBJECT_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.SUBJECT_MASTER" Role="SUBJECT_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="SUBJECT_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TEST_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Test_MASTER_DTL_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.TEST_MASTER_DTL" Role="TEST_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER_DTL">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TODO_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.TODO_MASTER" Role="TODO_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="TODO_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UPI_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.UPI_MASTER" Role="UPI_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="UPI_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VIDEO_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.LINK_MASTER" Role="LINK_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="LINK_MASTER">
               <PropertyRef Name="branch_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -4818,21 +5006,6 @@
                 <ScalarProperty Name="license_key" ColumnName="license_key" />
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="license_id" ColumnName="license_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BRANCH_MASTER">
-            <EntityTypeMapping TypeName="AshirvadModel.BRANCH_MASTER">
-              <MappingFragment StoreEntitySet="BRANCH_MASTER">
-                <ScalarProperty Name="branch_type" ColumnName="branch_type" />
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="email_id" ColumnName="email_id" />
-                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
-                <ScalarProperty Name="contact_no" ColumnName="contact_no" />
-                <ScalarProperty Name="about_us" ColumnName="about_us" />
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="branch_name" ColumnName="branch_name" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5547,6 +5720,39 @@
                 <ScalarProperty Name="website" ColumnName="website" />
                 <ScalarProperty Name="header_logo" ColumnName="header_logo" />
                 <ScalarProperty Name="branch_logo" ColumnName="branch_logo" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FACULTY_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.FACULTY_MASTER">
+              <MappingFragment StoreEntitySet="FACULTY_MASTER">
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="board_type" ColumnName="board_type" />
+                <ScalarProperty Name="std_id" ColumnName="std_id" />
+                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
+                <ScalarProperty Name="faculty_id" ColumnName="faculty_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BRANCH_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.BRANCH_MASTER">
+              <MappingFragment StoreEntitySet="BRANCH_MASTER">
+                <ScalarProperty Name="board_type" ColumnName="board_type" />
+                <ScalarProperty Name="branch_type" ColumnName="branch_type" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="email_id" ColumnName="email_id" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="contact_no" ColumnName="contact_no" />
+                <ScalarProperty Name="about_us" ColumnName="about_us" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="branch_name" ColumnName="branch_name" />
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
               </MappingFragment>
             </EntityTypeMapping>

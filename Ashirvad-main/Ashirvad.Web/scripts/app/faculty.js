@@ -3,38 +3,48 @@
 
 $(document).ready(function () {
     ShowLoader();
-    
-  
+
+
     LoadBranch(function () {
-        if ($("#Branch_BranchID").val() != "") {
-            $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-            LoadUser($("#Branch_BranchID").val());
-            LoadStandard($("#Branch_BranchID").val());
-            LoadSubject($("#Branch_BranchID").val());
+        if ($("#BranchInfo_BranchID").val() != "") {
+            $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
+            LoadUser($("#BranchInfo_BranchID").val());
+            LoadStandard($("#BranchInfo_BranchID").val());
+            LoadSubject($("#BranchInfo_BranchID").val());
         }
 
         if (commonData.BranchID != "0") {
             $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
-            $("#Branch_BranchID").val(commonData.BranchID);
+            $("#BranchInfo_BranchID").val(commonData.BranchID);
             LoadUser(commonData.BranchID);
             LoadStandard(commonData.BranchID);
             LoadSubject(commonData.BranchID);
         }
     });
 
-    if ($("#Branch_BranchID").val() != "") {
-        $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-        LoadUser($("#Branch_BranchID").val());
-        LoadStandard($("#Branch_BranchID").val());
-        LoadSubject($("#Branch_BranchID").val());
-        HideLoader();
-    }
+    //if ($("#Branch_BranchID").val() != "") {
+    //    $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
+    //    LoadUser($("#Branch_BranchID").val());
+    //    LoadStandard($("#Branch_BranchID").val());
+    //    LoadSubject($("#Branch_BranchID").val());
+    //    HideLoader();
+    //}
 
-    if ($("#BatchTimeID").val() != "") {
-        $('#BatchTime option[value="' + $("#BatchTimeID").val() + '"]').attr("selected", "selected");
-    }
+    if ($("#board").val() != "") {
+        var rowStatus = $("#board").val();
+        if (rowStatus == "1") {
+            $("#rowStaGujarat").attr('checked', 'checked');
+        }
+        else if (rowStatus == "2")
+        {
+            $("#rowStaCBSC").attr('checked', 'checked');
 
-    
+        }
+        else {
+            $("#rowStaBoth").attr('checked', 'checked');
+        }
+    }
+   
 });
 
 function LoadBranch(onLoaded) {
@@ -61,14 +71,14 @@ function LoadUser(branchID) {
     var postCall = $.post(commonData.UserPermission + "GetAllUsers", { "branchID": branchID });
     postCall.done(function (data) {
 
-        $('#BoardName').empty();
-        $('#BoardName').select2();
-        $("#BoardName").append("<option value=" + 0 + ">---Select Faculty---</option>");
+        $('#facultyName').empty();
+        $('#facultyName').select2();
+        $("#facultyName").append("<option value=" + 0 + ">---Select Faculty---</option>");
         for (i = 0; i < data.length; i++) {
-            $("#BoardName").append("<option value=" + data[i].UserID + ">" + data[i].Username + "</option>");
+            $("#facultyName").append("<option value=" + data[i].UserID + ">" + data[i].Username + "</option>");
         }
-        if ($("#Faculty_FacultyID").val() != "") {
-            $('#BoardName option[value="' + $("#Faculty_FacultyID").val() + '"]').attr("selected", "selected");
+        if ($("#staff_StaffID").val() != "") {
+            $('#facultyName option[value="' + $("#staff_StaffID").val() + '"]').attr("selected", "selected");
         }
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -86,8 +96,8 @@ function LoadStandard(branchID) {
         for (i = 0; i < data.length; i++) {
             $("#StandardName").append("<option value=" + data[i].StandardID + ">" + data[i].Standard + "</option>");
         }
-        if ($("#Standard_StandardID").val() != "") {
-            $('#StandardName option[value="' + $("#Standard_StandardID").val() + '"]').attr("selected", "selected");
+        if ($("#standard_StandardID").val() != "") {
+            $('#StandardName option[value="' + $("#standard_StandardID").val() + '"]').attr("selected", "selected");
         }
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -104,8 +114,8 @@ function LoadSubject(branchID) {
         for (i = 0; i < data.length; i++) {
             $("#SubjectName").append("<option value=" + data[i].SubjectID + ">" + data[i].Subject + "</option>");
         }
-        if ($("#Subject_SubjectID").val() != "") {
-            $('#SubjectName option[value="' + $("#Subject_SubjectID").val() + '"]').attr("selected", "selected");
+        if ($("#subject_SubjectID").val() != "") {
+            $('#SubjectName option[value="' + $("#subject_SubjectID").val() + '"]').attr("selected", "selected");
         }
         HideLoader();
     }).fail(function () {
@@ -113,19 +123,90 @@ function LoadSubject(branchID) {
     });
 }
 
-$("#BoardName").change(function () {
-    var Data = $("#BoardName option:selected").val();
-    $('#Faculty_FacultyID').val(Data);
+$("#BranchName").change(function () {
+    var Data = $("#BranchName option:selected").val();
+    $('#BranchInfo_BranchID').val(Data);
+});
+
+
+$("#facultyName").change(function () {
+    var Data = $("#facultyName option:selected").val();
+    $('#staff_StaffID').val(Data);
 });
 
 
 $("#SubjectName").change(function () {
     var Data = $("#SubjectName option:selected").val();
-    $('#Subject_SubjectID').val(Data);
+    $('#subject_SubjectID').val(Data);
 });
 
 
 $("#StandardName").change(function () {
     var Data = $("#StandardName option:selected").val();
-    $('#Standard_StandardID').val(Data);
+    $('#standard_StandardID').val(Data);
 });
+
+$('input[type=radio][name=Board]').change(function () {
+    if (this.value == 1) {
+        $("#board").val(1);
+    }
+    else if (this.value==2) {
+        $("#board").val(2);
+    }
+    else {
+        $("#board").val(parseInt(3));
+    }
+});
+
+function SaveFaculty() {
+    debugger;
+    var isSuccess = ValidateData('dInformation');
+
+    if (isSuccess) {
+        ShowLoader();
+        var frm = $('#ffacultydetail');
+        var formData = new FormData(frm[0]);
+        var item = $('input[type=file]');
+        if (item[0].files.length > 0) {
+            formData.append('FileInfo', $('input[type=file]')[0].files[0]);
+        }
+        AjaxCallWithFileUpload(commonData.Faculty + 'SaveFaculty', formData, function (data) {
+            if (data) {
+                HideLoader();
+                ShowMessage("Faculty added Successfully.", "Success");
+                window.location.href = "FacultyMaintenance?facultyID=0";
+            } else {
+                HideLoader();
+                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+            }
+        }, function (xhr) {
+            HideLoader();
+        });
+        //var postCall = $.post(commonData.Faculty + "SaveFaculty", $('#ffacultydetail').serialize());
+        //postCall.done(function (data) {
+        //    HideLoader();
+        //    ShowMessage('Faculty details saved!', 'Success');
+        //    window.location.href = "FacultyMaintenance?facultyID=0";
+        //}).fail(function () {
+        //    HideLoader();
+        //    ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        //});
+
+    }
+}
+
+function RemoveFaculty(facultyID) {
+    if (confirm('Are you sure want to delete this Faculty?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.Faculty + "RemoveFaculty", { "FacultyID": facultyID });
+        postCall.done(function (data) {
+            HideLoader();
+            ShowMessage("Faculty Removed Successfully.", "Success");
+            window.location.href = "FacultyMaintenance?facultyID=0";
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
+}
+

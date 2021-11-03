@@ -54,6 +54,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 branchMaster.mobile_no = branchInfo.MobileNo;
                 branchMaster.row_sta_cd = branchInfo.RowStatus.RowStatusId;
                 branchMaster.trans_id = this.AddTransactionData(branchInfo.Transaction);
+                branchMaster.board_type = (int)branchInfo.board;
+
                 this.context.BRANCH_MASTER.Add(branchMaster);
                 if (isUpdate)
                 {
@@ -105,7 +107,9 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 HeaderLogo = u.BRANCH_MAINT.header_logo,
                                 Website = u.BRANCH_MAINT.website,
                             },
-                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            board = u.board_type == 1 ? Enums.BoardType.GujaratBoard : u.board_type == 2 ? Enums.BoardType.CBSC : Enums.BoardType.Both
+
                         }).ToList();
 
             return data;
@@ -137,7 +141,9 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 FileName = u.BRANCH_MAINT.file_name,
                                 FilePath = u.BRANCH_MAINT.file_path
                             },
-                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            board = u.board_type == 1 ? Enums.BoardType.GujaratBoard : u.board_type == 2 ? Enums.BoardType.CBSC : Enums.BoardType.Both
+
                         }).ToList();
 
             return data;
@@ -172,6 +178,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 //HeaderLogo = u.BRANCH_MAINT.header_logo,
                                 Website = u.BRANCH_MAINT.website,
                             },
+                            board = u.board_type == 1 ? Enums.BoardType.GujaratBoard : u.board_type == 2 ? Enums.BoardType.CBSC : Enums.BoardType.Both,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
 

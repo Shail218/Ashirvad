@@ -6,6 +6,7 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Attendance;
 using Ashirvad.Repo.DataAcceessAPI.Area.Banner;
 using Ashirvad.Repo.DataAcceessAPI.Area.Batch;
 using Ashirvad.Repo.DataAcceessAPI.Area.Branch;
+using Ashirvad.Repo.DataAcceessAPI.Area.Faculty;
 using Ashirvad.Repo.DataAcceessAPI.Area.Fees;
 using Ashirvad.Repo.DataAcceessAPI.Area.Gallery;
 using Ashirvad.Repo.DataAcceessAPI.Area.Homework;
@@ -33,6 +34,7 @@ using Ashirvad.Repo.Services.Area.Attendance;
 using Ashirvad.Repo.Services.Area.Banner;
 using Ashirvad.Repo.Services.Area.Batch;
 using Ashirvad.Repo.Services.Area.Branch;
+using Ashirvad.Repo.Services.Area.Faculty;
 using Ashirvad.Repo.Services.Area.Gallery;
 using Ashirvad.Repo.Services.Area.Homework;
 using Ashirvad.Repo.Services.Area.Library;
@@ -59,6 +61,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Attendance;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Banner;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Batch;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Branch;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Faculty;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Gallery;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Homework;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Library;
@@ -85,6 +88,7 @@ using Ashirvad.ServiceAPI.Services.Area.Attendance;
 using Ashirvad.ServiceAPI.Services.Area.Banner;
 using Ashirvad.ServiceAPI.Services.Area.Batch;
 using Ashirvad.ServiceAPI.Services.Area.Branch;
+using Ashirvad.ServiceAPI.Services.Area.Faculty;
 using Ashirvad.ServiceAPI.Services.Area.Homework;
 using Ashirvad.ServiceAPI.Services.Area.Library;
 using Ashirvad.ServiceAPI.Services.Area.Notification;
@@ -217,6 +221,9 @@ namespace Ashirvad.Web
 
             container.RegisterType<IBranchRightsAPI, BranchRights>();
             container.RegisterType<IBranchRightsService, BranchRightsService>();
+
+            container.RegisterType<IFacultyAPI, Faculty>();
+            container.RegisterType<IFacultyService, FacultyService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
