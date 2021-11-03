@@ -17,6 +17,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Test
         Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID);
         Task<List<TestPaperEntity>> GetAllTestPapaerWithoutContentByTest(long testID);
         Task<TestPaperEntity> GetTestPaperByPaperID(long paperID);
+        Task<List<TestEntity>> GetTestPaperChecking(long paperID);
         bool RemoveTestPaper(long paperID, string lastupdatedby);
 
         Task<StudentAnswerSheetEntity> StudentAnswerSheetMaintenance(StudentAnswerSheetEntity ansSheetInfo);

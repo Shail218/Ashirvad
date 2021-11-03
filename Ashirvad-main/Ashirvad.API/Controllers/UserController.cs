@@ -1,7 +1,9 @@
 ﻿using Ashirvad.API.Filter;
 using Ashirvad.Common;
 using Ashirvad.Data;
+using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.User;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +18,12 @@ namespace Ashirvad.API.Controllers
     public class UserController : ApiController
     {
         private readonly IUserService _userService = null;
+        private readonly IBranchRightsService _BranchRightService;
         public ResponseModel res = new ResponseModel();
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IBranchRightsService branchRightsService)
         {
             this._userService = userService;
+            this._BranchRightService = branchRightsService;
         }
 
         [Route("ValidateUser")]
@@ -28,10 +32,24 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._userService.ValidateUser(userName, password);
             OperationResult<UserEntity> result = new OperationResult<UserEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            if (data.Result != null)
+            {
+                var BranchRightData = _BranchRightService.GetBranchRightsByBranchID(data.Result.BranchInfo.BranchID);
+                result.Permission = JsonConvert.SerializeObject(BranchRightData);
+                result.Completed = true;
+                result.Data = data.Result;
+                
+                if (result.Permission == null)
+                {
+                    result.Message = "You have no permission";
+                }
+            }
+              
+            
             return result;
         }
+
+       
 
         [Route("UserMaintenance")]
         [HttpPost]

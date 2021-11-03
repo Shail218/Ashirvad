@@ -58,7 +58,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
                         join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
-                        where u.branch_id == branchID && u.row_sta_cd==1
+                        where u.branch_id == branchID && u.row_sta_cd == 1
                         select new TestEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -96,7 +96,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 TestPaperID = TestPaper.test_paper_id,
                                 PaperType = TestPaper.paper_type.ToString(),
                                 DocLink = TestPaper.doc_link.ToString(),
-                                FilePath=TestPaper.file_path
+                                FilePath = TestPaper.file_path
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
@@ -105,7 +105,7 @@ namespace Ashirvad.Repo.Services.Area.Test
         }
 
 
-        public async Task<List<TestEntity>> GetAllTestByBranchType(long branchID,long BatchType)
+        public async Task<List<TestEntity>> GetAllTestByBranchType(long branchID, long BatchType)
         {
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
@@ -113,7 +113,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
                         join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
-                        where u.branch_id == branchID && u.batch_time_id==BatchType
+                        where u.branch_id == branchID && u.batch_time_id == BatchType
                         select new TestEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -197,7 +197,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestEndTime = u.test_end_time,
                             TestName = u.test_name,
                             TestStartTime = u.test_st_time,
-                           
+
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
 
@@ -355,7 +355,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             testRel.row_sta_cd = paperInfo.RowStatus.RowStatusId;
             testRel.trans_id = this.AddTransactionData(paperInfo.Transaction);
             testRel.test_id = paperInfo.TestID;
-            testRel.doc_content =null;
+            testRel.doc_content = null;
             testRel.file_name = paperInfo.FileName;
             testRel.file_path = paperInfo.FilePath;
             testRel.doc_link = paperInfo.DocLink;
@@ -511,11 +511,65 @@ namespace Ashirvad.Repo.Services.Area.Test
                             FilePath = u.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
-            
+
 
             return data;
         }
+        public async Task<List<TestEntity>> GetTestPaperChecking(long paperID)
+        {
+            var data = (from u in this.context.TEST_MASTER_DTL
+                        .Include("TEST_MASTER")
+                        where u.Test_id == paperID
+                        select new TestEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            Standard = new StandardEntity()
+                            {
+                                Standard = u.TEST_MASTER.STD_MASTER.standard,
+                                StandardID = u.TEST_MASTER.std_id
+                            },
+                            Subject = new SubjectEntity()
+                            {
+                                Subject = u.STUDENT_MASTER.first_name,
+                                SubjectID = u.TEST_MASTER.sub_id
+                            },
+                            Marks = u.TEST_MASTER.total_marks,
+                            TestStartTime = u.TEST_MASTER.test_st_time,
+                            TestEndTime = u.TEST_MASTER.test_end_time,
+                            Remarks = u.remarks,
+                            TestDate = u.TEST_MASTER.test_dt,
+                            TestName = u.TEST_MASTER.test_name,
 
+                            testdtl = new TestDetailEntity()
+                            {
+                                TestDetailID= u.Test_master_dtl_id,
+                                BranchInfo = new BranchEntity()
+                                {
+                                    BranchID =u.branch_id,
+                                    BranchName =u.TEST_MASTER.BRANCH_MASTER.branch_name,
+                                },
+                                StudentInfo = new StudentEntity()
+                                {
+                                    FirstName = u.STUDENT_MASTER.first_name,
+                                    MiddleName = u.STUDENT_MASTER.first_name,
+                                    LastName = u.STUDENT_MASTER.first_name
+                                },
+                                AnswerSheetName = u.Test_sheet_name,
+                                FilePath = u.Test_filepath,
+                                Status = u.status,
+                                Remarks = u.remarks,
+                                SubmitDate = u.submit_dt
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+
+
+            return data;
+        }
 
         public bool RemoveTestPaper(long paperID, string lastupdatedby)
         {
@@ -540,7 +594,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             Model.STUDENT_ANS_SHEET ansSheet = new Model.STUDENT_ANS_SHEET();
             bool isUpdate = true;
             var data = (from t in this.context.STUDENT_ANS_SHEET
-                        where t.test_id == studAnswerSheet.TestInfo.TestID && t.stud_id==studAnswerSheet.StudentInfo.StudentID
+                        where t.test_id == studAnswerSheet.TestInfo.TestID && t.stud_id == studAnswerSheet.StudentInfo.StudentID
                         select t).FirstOrDefault();
             if (data == null)
             {
@@ -624,7 +678,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             }
             return data;
         }
-        
+
         public async Task<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID, long studentID)
         {
             var data = (from u in this.context.STUDENT_ANS_SHEET
@@ -766,7 +820,7 @@ namespace Ashirvad.Repo.Services.Area.Test
 
             return data;
         }
-        
+
         public bool RemoveAnswerSheet(long ansID, string lastupdatedby)
         {
             var data = (from u in this.context.STUDENT_ANS_SHEET
@@ -847,10 +901,10 @@ namespace Ashirvad.Repo.Services.Area.Test
         }
 
 
-        public bool RemoveTestAnswerSheetdetail(long TestID,long studid)
+        public bool RemoveTestAnswerSheetdetail(long TestID, long studid)
         {
             var data = (from u in this.context.STUDENT_ANS_SHEET
-                        where u.test_id == TestID && u.stud_id== studid
+                        where u.test_id == TestID && u.stud_id == studid
                         select u).ToList();
 
             if (data != null)
@@ -865,8 +919,8 @@ namespace Ashirvad.Repo.Services.Area.Test
 
         public async Task<TestEntity> GetTestDetails(long TestID, long SubjectID)
         {
-            var data = (from u in this.context.TEST_MASTER                      
-                        where u.test_id == TestID && u.sub_id==SubjectID
+            var data = (from u in this.context.TEST_MASTER
+                        where u.test_id == TestID && u.sub_id == SubjectID
                         select new TestEntity()
                         {
                             TestID = u.test_id,
@@ -880,6 +934,6 @@ namespace Ashirvad.Repo.Services.Area.Test
                         }).FirstOrDefault();
             return data;
         }
-       
+
     }
 }

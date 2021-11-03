@@ -159,7 +159,7 @@
                                                 Category Master
                                             </a>
                                         </li>
-                                        <li id="Notification">
+                                        <li id="NotificationMaster">
                                             <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
                                         </li>
                                         <li id="StM">
@@ -256,13 +256,13 @@
 
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li id="Utp" class="Test Paper Entry">
+                                        <li id="Utp" class="TestPaperEntry">
                                             <a href="@Url.Action("TestPaperMaintenance","TestPaper", new { @testID=0 })">Test Paper Entry</a>
                                         </li>
-                                        <li id="Me" class="Marks Entry">
+                                        <li id="Me" class="MarksEntry">
                                             <a href="@Url.Action("MarksMaintenance","ResultEntry", new { @MarksID=0 })">Marks Entry</a>
                                         </li>
-                                        <li id="Mr" class="Marks Register">
+                                        <li id="Mr" class="MarksRegister">
                                             <a href="@Url.Action("Index","ResultRegister")">Marks Register</a>
                                         </li>
 
@@ -283,12 +283,12 @@
                                                 Video
                                             </a>
                                         </li>
-                                        <li class="treeview Live Videos" id="LiveVideos">
+                                        <li class="treeview LiveVideos" id="LiveVideos">
                                             <a href="@Url.Action("LiveVideoMaintenance","LiveVideo", new { @linkID=0 })">
                                                 Live Videos
                                             </a>
                                         </li>
-                                        <li class="treeview Youtube Videos" id="Li1">
+                                        <li class="treeview YoutubeVideos" id="Li1">
                                             <a href="@Url.Action("YoutubeMaintenance","Youtube", new { @linkID=0 })">
                                                 Youtube Videos
                                             </a>
@@ -301,12 +301,12 @@
                                     </a>
                                     <ul class="dropdown-menu">
 
-                                        <li class="treeview Image">
+                                        <li class="treeview LibraryImage">
                                             <a href="@Url.Action("LibraryMaintenance","NewLibrary",new { @LibraryID=0,Type=2 })">
                                                 Image
                                             </a>
                                         </li>
-                                        <li class="treeview Video">
+                                        <li class="treeview LibraryVideo">
                                             <a href="@Url.Action("LibraryMaintenance","NewLibrary",new { @LibraryID=0,Type=1 })">
                                                 Video
                                             </a>
@@ -347,9 +347,9 @@
                                         More
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li class="treeview Practice Papers" id="PracticePaper">
+                                        <li class="treeview PracticePapers" id="PracticePaper">
                                             <a href="@Url.Action("PaperMaintenance","Papers", new { @paperID=0 })">
-                                                Practice Papers
+                                                Practice Papers                                               
                                             </a>
                                         </li>
                                         <li class="treeview Homework" id="Homework">
@@ -357,17 +357,17 @@
                                                 Homework
                                             </a>
                                         </li>
-                                        <li class="treeview To-Do Entry" id="tde">
+                                        <li class="treeview To-DoEntry" id="tde">
                                             <a href="@Url.Action("ToDoMaintenance","ToDo",new { @todoID=0 })">
                                                 To-Do Entry
                                             </a>
                                         </li>
-                                        <li class="treeview To-Do Register" id="tdr">
+                                        <li class="treeview To-DoRegister" id="tdr">
                                             <a href="@Url.Action("ToDoRegisterMaintenance","ToDoRegister",new { @todoID=0 })">
                                                 To-Do Register
                                             </a>
                                         </li>
-                                        <li class="treeview Reminder Entry" id="Li3">
+                                        <li class="treeview ReminderEntry" id="Li3">
                                             <a href="@Url.Action("ReminderMaintenance","Reminder", new { @reminderID=0 })">
                                                 Reminder Entry
                                             </a>

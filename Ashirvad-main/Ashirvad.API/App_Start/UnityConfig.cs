@@ -86,6 +86,14 @@ using Ashirvad.ServiceAPI.Services.Area;
 using Ashirvad.Repo.DataAcceessAPI.Area.Fees;
 using Ashirvad.Repo.Services.Area;
 using Ashirvad.Repo.DataAcceessAPI.Area;
+using Ashirvad.Repo.DataAcceessAPI.Area.Page;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Page;
+using Ashirvad.Repo.DataAcceessAPI.Area.Package;
+using Ashirvad.Repo.Services.Area.Package;
+using Ashirvad.ServiceAPI.Services.Area.Page;
+using Ashirvad.Repo.Services.Area.Page;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Package;
+using Ashirvad.ServiceAPI.Services.Area.Package;
 
 namespace Ashirvad.API
 {
@@ -176,6 +184,18 @@ namespace Ashirvad.API
 
             container.RegisterType<ILibrary1API, Library1>();
             container.RegisterType<ILibrary1Service, Library1Service>();
+
+            container.RegisterType<IPageAPI, Pages>();
+            container.RegisterType<IPageService, PageService>();
+
+            container.RegisterType<IPackageAPI, Package>();
+            container.RegisterType<IPackageService, PackageService>();
+
+            container.RegisterType<IPackageRightsAPI, PackageRights>();
+            container.RegisterType<IPackageRightsService, PackageRightsService>();
+
+            container.RegisterType<IBranchRightsAPI, BranchRights>();
+            container.RegisterType<IBranchRightsService, BranchRightsService>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

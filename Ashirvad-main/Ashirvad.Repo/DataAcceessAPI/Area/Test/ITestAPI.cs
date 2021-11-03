@@ -20,6 +20,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Test
         Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID);
         Task<List<TestPaperEntity>> GetAllTestPapaerWithoutContentByTest(long testID);
         Task<TestPaperEntity> GetTestPaperByPaperID(long paperID);
+        Task<List<TestEntity>> GetTestPaperChecking(long paperID);
         Task<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID, long stdID, DateTime dt, int batchTime);
         bool RemoveTestPaper(long paperID, string lastupdatedby);
 

@@ -14,6 +14,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Homework
         Task<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID, long stdID, int batchTime, long studentId = 0);
         Task<List<HomeworkEntity>> GetAllHomeworkWithoutContentByBranch(long branchID, long stdID = 0);
         Task<HomeworkEntity> GetHomeworkByHomeworkID(long hwID);
+        Task<List<HomeworkEntity>> GetStudentHomeworkChecking(long hwID);
         bool RemoveHomework(long hwID, string lastupdatedby);
         Task<List<HomeworkEntity>> GetAllHomeworks(DateTime hwDate, string searchParam);
     }

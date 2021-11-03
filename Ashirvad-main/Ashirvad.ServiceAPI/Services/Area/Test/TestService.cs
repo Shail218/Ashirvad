@@ -223,6 +223,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
 
             return null;
         }
+        public async Task<List<TestEntity>> GetTestPaperChecking(long paperID)
+        {
+            try
+            {
+                var data = await _testContext.GetTestPaperChecking(paperID);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
 
         public bool RemoveTestPaper(long paperID, string lastupdatedby)
         {
