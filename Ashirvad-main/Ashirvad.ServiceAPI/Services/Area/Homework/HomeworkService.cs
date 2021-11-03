@@ -25,10 +25,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
             try
             {
                 long HomeworkID = await _homeworkContext.HomeworkMaintenance(homework);
-                if (HomeworkID > 0)
-                {
-                    hw.HomeworkID = HomeworkID;
-                }
+                hw.HomeworkID = HomeworkID;
+
+
             }
             catch (Exception ex)
             {

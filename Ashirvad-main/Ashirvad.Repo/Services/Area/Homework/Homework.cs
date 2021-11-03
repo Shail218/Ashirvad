@@ -11,40 +11,56 @@ namespace Ashirvad.Repo.Services.Area.Homework
 {
     public class Homework : ModelAccess, IHomeworkAPI
     {
+
+        public async Task<long> CheckHomework(HomeworkEntity homeworkInfo)
+        {
+            long result;
+            bool isExists = this.context.HOMEWORK_MASTER.Where(s => (homeworkInfo.HomeworkID == 0 || s.homework_id != homeworkInfo.HomeworkID) && 
+            s.homework_dt == homeworkInfo.HomeworkDate && s.branch_id == homeworkInfo.BranchInfo.BranchID && s.std_id == homeworkInfo.StandardInfo.StandardID 
+            && s.sub_id == homeworkInfo.SubjectInfo.SubjectID && s.batch_time_id== homeworkInfo.BatchTimeID && s.row_sta_cd==1).FirstOrDefault() != null;
+            result = isExists == true ? -1 : 1;
+            return result;
+        }
         public async Task<long> HomeworkMaintenance(HomeworkEntity homeworkInfo)
         {
             Model.HOMEWORK_MASTER homework = new Model.HOMEWORK_MASTER();
-            bool isUpdate = true;
-            var data = (from t in this.context.HOMEWORK_MASTER
-                        where t.homework_id == homeworkInfo.HomeworkID
-                        select t).FirstOrDefault();
-            if (data == null)
+            if (CheckHomework(homeworkInfo).Result != -1)
             {
-                data = new Model.HOMEWORK_MASTER();
-                isUpdate = false;
+                bool isUpdate = true;
+                var data = (from t in this.context.HOMEWORK_MASTER
+                            where t.homework_id == homeworkInfo.HomeworkID
+                            select t).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.HOMEWORK_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    homework = data;
+                    homeworkInfo.Transaction.TransactionId = data.trans_id;
+                }
+
+                homework.row_sta_cd = homeworkInfo.RowStatus.RowStatusId;
+                homework.trans_id = this.AddTransactionData(homeworkInfo.Transaction);
+                homework.branch_id = homeworkInfo.BranchInfo.BranchID;
+                homework.batch_time_id = homeworkInfo.BatchTimeID;
+                homework.homework_file = homeworkInfo.HomeworkContentFileName;
+                homework.file_path = homeworkInfo.FilePath;
+                homework.remarks = homeworkInfo.Remarks;
+                homework.homework_dt = homeworkInfo.HomeworkDate;
+                homework.sub_id = homeworkInfo.SubjectInfo.SubjectID;
+                homework.std_id = homeworkInfo.StandardInfo.StandardID;
+                this.context.HOMEWORK_MASTER.Add(homework);
+                if (isUpdate)
+                {
+                    this.context.Entry(homework).State = System.Data.Entity.EntityState.Modified;
+                }
             }
             else
             {
-                homework = data;
-                homeworkInfo.Transaction.TransactionId = data.trans_id;
+                return -1;
             }
-
-            homework.row_sta_cd = homeworkInfo.RowStatus.RowStatusId;
-            homework.trans_id = this.AddTransactionData(homeworkInfo.Transaction);
-            homework.branch_id = homeworkInfo.BranchInfo.BranchID;
-            homework.batch_time_id = homeworkInfo.BatchTimeID;
-            homework.homework_file = homeworkInfo.HomeworkContentFileName;
-            homework.file_path = homeworkInfo.FilePath;
-            homework.remarks = homeworkInfo.Remarks;
-            homework.homework_dt = homeworkInfo.HomeworkDate;
-            homework.sub_id = homeworkInfo.SubjectInfo.SubjectID;
-            homework.std_id = homeworkInfo.StandardInfo.StandardID;
-            this.context.HOMEWORK_MASTER.Add(homework);
-            if (isUpdate)
-            {
-                this.context.Entry(homework).State = System.Data.Entity.EntityState.Modified;
-            }
-
             return this.context.SaveChanges() > 0 ? homework.homework_id : 0;
         }
 
@@ -332,13 +348,8 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         where u.homework_id == homeworkID
                         select new HomeworkEntity()
                         {
-                            RowStatus = new RowStatusEntity()
-                            {
-                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive",
-                                RowStatusId = (int)u.row_sta_cd
-                            },
-                            HomeworkID = u.homework_id,
-                            HomeworkContentFileName = u.homework_filepath,
+                            
+                            HomeworkID = u.homework_id,                            
                             HomeworkDate = u.submit_dt,
                             Remarks = u.remarks,
                             StandardInfo = new StandardEntity()
@@ -351,30 +362,14 @@ namespace Ashirvad.Repo.Services.Area.Homework
                                 Subject = u.STUDENT_MASTER.first_name,
                                 SubjectID = u.HOMEWORK_MASTER.sub_id
                             },
-                            homeworkDetailEntity = new HomeworkDetailEntity()
+                            StudentInfo = new StudentEntity()
                             {
-                                StudentInfo = new StudentEntity()
-                                {
-                                    FirstName = u.STUDENT_MASTER.first_name,
-                                    MiddleName = u.STUDENT_MASTER.first_name,
-                                    LastName = u.STUDENT_MASTER.first_name
-                                },
-                                HomeworkDetailID =u.homework_master_dtl_id,
-                                AnswerSheetName =u.homework_sheet_name,
-                                FilePath =u.homework_filepath,
-                                Status =u.status,
-                                Remarks =u.remarks,
-                                RowStatus = new RowStatusEntity()
-                                {
-                                    RowStatusText = u.row_sta_cd == 1 ? "Active" :"Inactive",
-                                    RowStatusId = (int)u.row_sta_cd
-                                },
-                                SubmitDate = u.submit_dt
+                                StudentID=u.stud_id,
+                                Name=u.STUDENT_MASTER.first_name+" "+ u.STUDENT_MASTER.last_name
                             },
-                            BatchTimeID = u.HOMEWORK_MASTER.batch_time_id,
                             BatchTimeText = u.HOMEWORK_MASTER.batch_time_id == 1 ? "Morning" : u.HOMEWORK_MASTER.batch_time_id == 2 ? "Afternoon" : "Evening",
-                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).ToList();
+                           
+                        }).Distinct().ToList();
             //if (data != null)
             //{
             //    data.HomeworkContentText = Convert.ToBase64String(data.HomeworkContent);

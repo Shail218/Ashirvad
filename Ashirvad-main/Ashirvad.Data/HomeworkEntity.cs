@@ -25,6 +25,7 @@ namespace Ashirvad.Data
         public RowStatusEntity RowStatus { get; set; }
         public HomeworkDetailEntity homeworkDetailEntity { get; set; }
         public string FilePath { get; set; }
+        public StudentEntity StudentInfo { get; set; }
     }
     public class HomeworkDetailEntity
     {

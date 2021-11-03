@@ -126,5 +126,22 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return false;
         }
 
+        public async Task<HomeworkDetailEntity> Homeworkdetailupdate(HomeworkDetailEntity homeworkDetail)
+        {
+            HomeworkDetailEntity homeworkDetailEntity = new HomeworkDetailEntity();
+            try
+            {
+                var data = await _testContext.HomeworkDetailUpdate(homeworkDetail);
+                homeworkDetailEntity.HomeworkDetailID = data;
+                return homeworkDetailEntity;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return homeworkDetailEntity;
+        }
+
     }
 }

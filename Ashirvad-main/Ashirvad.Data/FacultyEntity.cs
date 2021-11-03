@@ -11,7 +11,7 @@ namespace Ashirvad.Data
     {
 
         public Enums.BoardType board { get; set; }
-       
+        public long boardtype { get; set; }
         public StandardEntity standard { get; set; }
         public SubjectEntity subject { get; set; }
         public UserEntity user { get; set; }

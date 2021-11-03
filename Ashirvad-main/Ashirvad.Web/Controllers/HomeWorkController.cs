@@ -6,6 +6,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Homework;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -17,6 +18,7 @@ namespace Ashirvad.Web.Controllers
     {
         private readonly IHomeworkService _homeworkService = null;
         private readonly IHomeworkDetailService _homeworkdetailService = null;
+        ResponseModel response = new ResponseModel();
         public HomeWorkController(IHomeworkService homeworkService, IHomeworkDetailService homeworkdetailService)
         {
             _homeworkService = homeworkService;
@@ -75,12 +77,25 @@ namespace Ashirvad.Web.Controllers
             };
             homeworkEntity.Transaction = GetTransactionData(homeworkEntity.HomeworkID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             var data = await _homeworkService.HomeworkMaintenance(homeworkEntity);
-            if (data != null)
+            if (data.HomeworkID>0)
             {
-                return Json(true);
+                response.Status = true;
+                response.Message = "Homework Created Successfully!!";
+                
             }
+            else if(data.HomeworkID < 0)
+            {
+                response.Status = false;
+                response.Message = "Homework Already Exisist!!";
 
-            return Json(false);
+            }
+            else
+            {
+                response.Status = false;
+                response.Message = "Homework Failed To Create!!";
+
+            }
+            return Json(response);
         }
 
         [HttpPost]
@@ -155,10 +170,49 @@ namespace Ashirvad.Web.Controllers
 
         public ActionResult StudentHomeworkDetails(long StudhID)
         {
-            var result = _homeworkdetailService.GetAllHomeworkdetailByHomeWork(StudhID);
+           // var result = _homeworkdetailService.GetAllHomeworkdetailByHomeWork(StudhID);
+            var result1 = _homeworkService.GetStudentHomeworkChecking(StudhID);
 
             
-            return View(result.Result);
+            return View(result1.Result);
+        }
+        public ActionResult Updatehomeworkdetails(long HomeworkID,long StudentID,string Remark,int Status)
+        {
+            // var result = _homeworkdetailService.GetAllHomeworkdetailByHomeWork(StudhID);
+            HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
+            homeworkDetail.HomeworkEntity.HomeworkID = HomeworkID;
+            homeworkDetail.StudentInfo.StudentID = StudentID;
+            homeworkDetail.Remarks = Remark;
+            homeworkDetail.Status = Status;
+            var result1 = _homeworkdetailService.Homeworkdetailupdate(homeworkDetail);
+
+
+            return View(result1.Result);
+        }
+
+        public void SaveZipFile(List<string> fileName)
+        {
+            string randomfilename = Common.Common.RandomString(20);
+            string Ex = ".pdf";
+            if (System.IO.File.Exists(Server.MapPath
+                           ("~/ZipFiles/" + randomfilename + ".zip")))
+            {
+                System.IO.File.Delete(Server.MapPath
+                              ("~/ZipFiles/" + randomfilename + ".zip"));
+            }
+            ZipArchive zip = System.IO.Compression.ZipFile.Open(Server.MapPath
+                     ("~/ZipFiles/" + randomfilename + ".zip"), ZipArchiveMode.Create);
+            
+            foreach (var item in fileName)
+            {
+                zip.CreateEntryFromFile(Server.MapPath
+                   ("~/HomeWorkDetailImage/" + item), item);
+               
+            }
+
+            zip.Dispose();
+            //return File(Server.MapPath("~/ZipFiles/bundle.zip"),
+            //          "application/zip", "Satya.zip");
         }
 
     }

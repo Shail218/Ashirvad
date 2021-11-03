@@ -111,8 +111,8 @@ function SaveHomework() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        var date1 = $("#HomeworkDate").val();
-        $("#HomeworkDate").val(ConvertData(date1));
+        //var date1 = $("#HomeworkDate").val();
+        //$("#HomeworkDate").val(ConvertData(date1));
         var frm = $('#fHomeworkDetail');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');
@@ -120,13 +120,15 @@ function SaveHomework() {
             formData.append('FileInfo', $('input[type=file]')[0].files[0]);
         }
         AjaxCallWithFileUpload(commonData.Homework + 'SaveHomework', formData, function (data) {
-            if (data) {
-                HideLoader();
-                ShowMessage("Homework added Successfully.", "Success");
-                window.location.href = "HomeworkMaintenance?homeworkID=0&branchID=0";
+            HideLoader();
+            if (data.Status) {
+                
+                ShowMessage(data.Message, "Success");
+                setTimeout(function () { window.location.href = "HomeworkMaintenance?homeworkID=0&branchID=0"; }, 2000);
             } else {
-                HideLoader();
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+                
+                ShowMessage(data.Message, "Error");
+                
             }
         }, function (xhr) {
             HideLoader();

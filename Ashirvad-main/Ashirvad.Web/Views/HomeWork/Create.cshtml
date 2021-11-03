@@ -117,8 +117,8 @@
     </div>
 
     <div class="col-md-12" style="margin-top:10px;">
-        @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-        @Html.TextBoxFor(x => x.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
+        @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })
+        @Html.TextBoxFor(x => x.Remarks, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
     </div>
     <div class="col-md-12" style="margin-top: 5px">
         @Html.Label("Upload HomeWork", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>

@@ -16,5 +16,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
         Task<HomeworkDetailEntity> GetHomeworkByHomeworkID(long homeworkdetailID);
         bool RemoveHomework(long homeworkdetailID, string lastupdatedby);
         bool RemoveHomeworkdetail(long homeworkdetailID, long UserID);
+
+        Task<long> HomeworkDetailUpdate(HomeworkDetailEntity homeworkDetail);
     }
 }

@@ -1,4 +1,4 @@
-﻿@model List<Ashirvad.Data.HomeworkDetailEntity>
+﻿@model List<Ashirvad.Data.HomeworkEntity>
 
 @{ ViewBag.Title = "StudentHomeworkDetails";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
@@ -11,7 +11,7 @@
         <section class="col-md-12">
             <div class="box box-warning">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Student Answer Sheet Detail</h3>
+                    <h3 class="box-title">Homework Entry</h3>
                 </div>
                 <div class="box-body">
                     <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
@@ -25,10 +25,7 @@
                                 </th>
                                 <th>
                                     Student Name
-                                </th>
-                                <th>
-                                    Student No
-                                </th>
+                                </th>                                
                                 <th>
                                     Download
                                 </th>
@@ -39,7 +36,7 @@
                                     Remarks
                                 </th>
                                 <th>
-                                    Edit
+                                    Action
                                 </th>
                             </tr>
                         </thead>
@@ -50,22 +47,38 @@
                             {
                                 <tr>
                                     <td>
-                                        @item.SubmitDate
+                                        @item.HomeworkDate.ToString("dd/MM/yyyy")
                                     </td>
 
                                     <td>
-                                        @item.StudentInfo.FirstName @item.StudentInfo.LastName
+                                        @item.StandardInfo.Standard
                                     </td>
 
                                     <td>
-                                        @item.StudentInfo.StudentID
+                                        @item.StudentInfo.Name
                                     </td>
                                     <td style="text-align:center">
                                         <a href="#">
                                             <img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" style="height:35px;width:35px" />
                                         </a>
                                     </td>
-                                    <td></td>
+                                    <td>
+                                        <table id="rdbResult" class="radioboxlist form-control">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <input type="radio" name="Board" id="statusPending" value="0" />
+                                                        <lable for="statusPending">Pending</lable>
+                                                    </td>
+                                                    <td>
+                                                        <input type="radio" name="Board" id="statusDone" value="1" style="margin:5px" />
+                                                        <lable for="statusDone">Done</lable>
+                                                    </td>
+                                                    
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
                                     <td>
                                         @Html.TextBoxFor(x => item.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
                                     </td>

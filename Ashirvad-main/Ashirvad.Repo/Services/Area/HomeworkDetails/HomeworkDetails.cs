@@ -97,14 +97,14 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
-            if (data?.Count > 0)
-            {
-                foreach (var item in data)
-                {
-                    int idx = data.IndexOf(item);
-                    data[idx].AnswerSheetContentText = Convert.ToBase64String(data[idx].AnswerSheetContent);
-                }
-            }
+            //if (data?.Count > 0)
+            //{
+            //    foreach (var item in data)
+            //    {
+            //        int idx = data.IndexOf(item);
+            //        data[idx].AnswerSheetContentText = Convert.ToBase64String(data[idx].AnswerSheetContent);
+            //    }
+            //}
             return data;
         }
 
@@ -276,6 +276,28 @@ namespace Ashirvad.Repo.Services.Area.Homework
             }
 
             return false;
+        }
+
+        public async Task<long> HomeworkDetailUpdate(HomeworkDetailEntity homeworkDetail)
+        {
+            Model.HOMEWORK_MASTER_DTL homework = new Model.HOMEWORK_MASTER_DTL();
+            bool isUpdate = true;
+            var data = (from t in this.context.HOMEWORK_MASTER_DTL
+                        where t.homework_id == homeworkDetail.HomeworkEntity.HomeworkID && t.stud_id == homeworkDetail.StudentInfo.StudentID
+                        select t).ToList();
+           
+           
+            foreach(var item in data)
+            {
+                homework.trans_id = this.AddTransactionData(homeworkDetail.Transaction);            
+                homework.remarks = homeworkDetail.Remarks;
+                homework.status = homeworkDetail.Status;               
+                this.context.HOMEWORK_MASTER_DTL.Add(homework);
+                this.context.Entry(homework).State = System.Data.Entity.EntityState.Modified;
+            }
+           
+
+            return this.context.SaveChanges() > 0 ? homework.homework_master_dtl_id : 0;
         }
 
     }
