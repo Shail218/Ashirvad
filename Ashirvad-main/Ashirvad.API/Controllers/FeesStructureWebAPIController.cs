@@ -105,6 +105,9 @@ namespace Ashirvad.API.Controllers
                 {
                     result.Message = "Fees Structure Created Successfully";
                 }
+            }else
+            {
+                result.Message = "Fees Structure Already Exists!!";
             }
             return result;
         }
