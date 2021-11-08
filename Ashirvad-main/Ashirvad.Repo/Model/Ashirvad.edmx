@@ -267,6 +267,7 @@
           <Property Name="stud_id" Type="bigint" Nullable="false" />
           <Property Name="homework_sheet_content" Type="varbinary(max)" />
           <Property Name="homework_sheet_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="student_filepath" Type="varchar" MaxLength="250" />
           <Property Name="homework_filepath" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="status" Type="int" Nullable="false" />
           <Property Name="remarks" Type="nvarchar(max)" />
@@ -921,6 +922,18 @@
             </Principal>
             <Dependent Role="BRANCH_RIGHTS_MASTER">
               <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BRANCH_STAFF_BRANCH_MASTER">
+          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+          <End Role="BRANCH_STAFF" Type="Self.BRANCH_STAFF" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="BRANCH_STAFF">
+              <PropertyRef Name="branch_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2049,6 +2062,10 @@
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
           </AssociationSet>
+          <AssociationSet Name="FK_BRANCH_STAFF_BRANCH_MASTER" Association="Self.FK_BRANCH_STAFF_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
+          </AssociationSet>
           <AssociationSet Name="FK_BRANCH_STAFF_TRANSACTION_MASTER" Association="Self.FK_BRANCH_STAFF_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
@@ -2378,7 +2395,6 @@
           <EntitySet Name="BANNER_TYPE_REL" EntityType="AshirvadModel.BANNER_TYPE_REL" />
           <EntitySet Name="BATCH_MASTER" EntityType="AshirvadModel.BATCH_MASTER" />
           <EntitySet Name="BRANCH_LICENSE" EntityType="AshirvadModel.BRANCH_LICENSE" />
-          <EntitySet Name="BRANCH_STAFF" EntityType="AshirvadModel.BRANCH_STAFF" />
           <EntitySet Name="NOTIFICATION_MASTER" EntityType="AshirvadModel.NOTIFICATION_MASTER" />
           <EntitySet Name="NOTIFICATION_TYPE_REL" EntityType="AshirvadModel.NOTIFICATION_TYPE_REL" />
           <EntitySet Name="SCHOOL_MASTER" EntityType="AshirvadModel.SCHOOL_MASTER" />
@@ -2400,14 +2416,6 @@
           <AssociationSet Name="FK_BRANCH_LICENSE_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BRANCH_LICENSE" EntitySet="BRANCH_LICENSE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BRANCH_STAFF_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_STAFF_TRANSACTION_MASTER">
-            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
-            <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
-          </AssociationSet>
-          <AssociationSet Name="FK_USER_DEF_BRANCH_STAFF" Association="AshirvadModel.FK_USER_DEF_BRANCH_STAFF">
-            <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
-            <End Role="USER_DEF" EntitySet="USER_DEF" />
           </AssociationSet>
           <AssociationSet Name="FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER" Association="AshirvadModel.FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER">
             <End Role="NOTIFICATION_MASTER" EntitySet="NOTIFICATION_MASTER" />
@@ -2535,11 +2543,6 @@
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
           </AssociationSet>
-          <EntitySet Name="HOMEWORK_MASTER_DTL" EntityType="AshirvadModel.HOMEWORK_MASTER_DTL" />
-          <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER">
-            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
-            <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
-          </AssociationSet>
           <EntitySet Name="MARKS_MASTER_DTL" EntityType="AshirvadModel.MARKS_MASTER_DTL" />
           <AssociationSet Name="FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL" Association="AshirvadModel.FK_MARKS_MASTER_DTL_MARKS_MASTER_DTL">
             <End Role="MARKS_MASTER_DTL" EntitySet="MARKS_MASTER_DTL" />
@@ -2643,19 +2646,6 @@
             <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
           </AssociationSet>
           <EntitySet Name="GALLERY_MASTER" EntityType="AshirvadModel.GALLERY_MASTER" />
-          <EntitySet Name="HOMEWORK_MASTER" EntityType="AshirvadModel.HOMEWORK_MASTER" />
-          <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER">
-            <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
-            <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HOMEWORK_MASTER_STD_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER">
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
-            <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HOMEWORK_MASTER_SUBJECT_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_SUBJECT_MASTER">
-            <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
-            <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
-          </AssociationSet>
           <EntitySet Name="PRACTICE_PAPER_REL" EntityType="AshirvadModel.PRACTICE_PAPER_REL" />
           <AssociationSet Name="FK_PRACTICE_PAPER_REL_PRACTICE_PAPER" Association="AshirvadModel.FK_PRACTICE_PAPER_REL_PRACTICE_PAPER">
             <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
@@ -2672,10 +2662,6 @@
           </AssociationSet>
           <EntitySet Name="TODO_MASTER" EntityType="AshirvadModel.TODO_MASTER" />
           <EntitySet Name="STUDENT_MASTER" EntityType="AshirvadModel.STUDENT_MASTER" />
-          <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER">
-            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
-            <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
-          </AssociationSet>
           <AssociationSet Name="FK_STUDENT_MASTER_SCHOOL_MASTER" Association="AshirvadModel.FK_STUDENT_MASTER_SCHOOL_MASTER">
             <End Role="SCHOOL_MASTER" EntitySet="SCHOOL_MASTER" />
             <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
@@ -2707,10 +2693,6 @@
           </AssociationSet>
           <EntitySet Name="BRANCH_MAINT" EntityType="AshirvadModel.BRANCH_MAINT" />
           <EntitySet Name="FACULTY_MASTER" EntityType="AshirvadModel.FACULTY_MASTER" />
-          <AssociationSet Name="FK_FACULTY_MASTER_BRANCH_STAFF" Association="AshirvadModel.FK_FACULTY_MASTER_BRANCH_STAFF">
-            <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
-            <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_FACULTY_MASTER_STD_MASTER" Association="AshirvadModel.FK_FACULTY_MASTER_STD_MASTER">
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
             <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
@@ -2723,7 +2705,30 @@
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
           </AssociationSet>
+          <EntitySet Name="HOMEWORK_MASTER" EntityType="AshirvadModel.HOMEWORK_MASTER" />
+          <EntitySet Name="HOMEWORK_MASTER_DTL" EntityType="AshirvadModel.HOMEWORK_MASTER_DTL" />
+          <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER">
+            <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
+            <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HOMEWORK_MASTER_STD_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER">
+            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+            <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HOMEWORK_MASTER_SUBJECT_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_SUBJECT_MASTER">
+            <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
+            <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER">
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+            <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
+          </AssociationSet>
           <EntitySet Name="BRANCH_MASTER" EntityType="AshirvadModel.BRANCH_MASTER" />
+          <EntitySet Name="BRANCH_STAFF" EntityType="AshirvadModel.BRANCH_STAFF" />
           <AssociationSet Name="FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" Association="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="ABOUTUS_DETAIL_REL" EntitySet="ABOUTUS_DETAIL_REL" />
@@ -2759,6 +2764,10 @@
           <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BRANCH_STAFF_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_STAFF_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
           </AssociationSet>
           <AssociationSet Name="FK_CATEGORY_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
@@ -2856,6 +2865,18 @@
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
           </AssociationSet>
+          <AssociationSet Name="FK_BRANCH_STAFF_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_STAFF_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FACULTY_MASTER_BRANCH_STAFF" Association="AshirvadModel.FK_FACULTY_MASTER_BRANCH_STAFF">
+            <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
+            <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_DEF_BRANCH_STAFF" Association="AshirvadModel.FK_USER_DEF_BRANCH_STAFF">
+            <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
+            <End Role="USER_DEF" EntitySet="USER_DEF" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_TYPE_REL">
           <Key>
@@ -2895,28 +2916,6 @@
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER" FromRole="BRANCH_LICENSE" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_LICENSE_BRANCH_MASTER" FromRole="BRANCH_LICENSE" ToRole="BRANCH_MASTER" />
-        </EntityType>
-        <EntityType Name="BRANCH_STAFF">
-          <Key>
-            <PropertyRef Name="staff_id" />
-          </Key>
-          <Property Name="staff_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="education" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="dob" Type="DateTime" Precision="3" />
-          <Property Name="gender" Type="Int32" />
-          <Property Name="address" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="appt_dt" Type="DateTime" Precision="3" />
-          <Property Name="join_dt" Type="DateTime" Precision="3" />
-          <Property Name="leaving_dt" Type="DateTime" Precision="3" />
-          <Property Name="email_id" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="branch_id" Type="Int64" Nullable="false" />
-          <Property Name="mobile_no" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_STAFF_TRANSACTION_MASTER" FromRole="BRANCH_STAFF" ToRole="TRANSACTION_MASTER" />
-          <NavigationProperty Name="USER_DEF" Relationship="AshirvadModel.FK_USER_DEF_BRANCH_STAFF" FromRole="BRANCH_STAFF" ToRole="USER_DEF" />
-          <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_BRANCH_STAFF" FromRole="BRANCH_STAFF" ToRole="FACULTY_MASTER" />
         </EntityType>
         <EntityType Name="NOTIFICATION_MASTER">
           <Key>
@@ -2968,9 +2967,9 @@
           <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="TEST_MASTER" />
           <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
           <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="MARKS_MASTER" />
-          <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="HOMEWORK_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="FACULTY_MASTER" />
+          <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="HOMEWORK_MASTER" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_BRANCH_MASTER" FromRole="STD_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="STUDENT_MAINT">
@@ -2998,8 +2997,8 @@
           <NavigationProperty Name="PRACTICE_PAPER" Relationship="AshirvadModel.FK_PRACTICE_PAPER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="PRACTICE_PAPER" />
           <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="TEST_MASTER" />
           <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="MARKS_MASTER" />
-          <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="HOMEWORK_MASTER" />
           <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="FACULTY_MASTER" />
+          <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="HOMEWORK_MASTER" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_BRANCH_MASTER" FromRole="SUBJECT_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
         <EntityType Name="TRANSACTION_MASTER">
@@ -3015,7 +3014,6 @@
           <Property Name="last_mod_id" Type="Int64" />
           <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BATCH_MASTER" />
           <NavigationProperty Name="BRANCH_LICENSE" Relationship="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_LICENSE" />
-          <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_BRANCH_STAFF_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_STAFF" />
           <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_SCHOOL_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="SCHOOL_MASTER" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="SUBJECT_MASTER" />
@@ -3024,7 +3022,6 @@
           <NavigationProperty Name="STUDENT_PAYMENT_REL" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STUDENT_PAYMENT_REL" />
           <NavigationProperty Name="UPI_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="UPI_MASTER" />
           <NavigationProperty Name="FEE_STRUCTURE_DTL" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FEE_STRUCTURE_DTL" />
-          <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
           <NavigationProperty Name="MARKS_MASTER_DTL" Relationship="AshirvadModel.FK_MARKS_MASTER_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="MARKS_MASTER_DTL" />
           <NavigationProperty Name="CATEGORY_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="CATEGORY_MASTER" />
           <NavigationProperty Name="LIBRARY_MASTER_DTL" Relationship="AshirvadModel.FK_LIBRARY_MASTER_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="LIBRARY_MASTER_DTL" />
@@ -3037,7 +3034,9 @@
           <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FACULTY_MASTER" />
+          <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_BRANCH_STAFF_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_STAFF" />
         </EntityType>
         <EntityType Name="TYPE_DESC">
           <Key>
@@ -3064,9 +3063,9 @@
           <Property Name="user_type" Type="Int32" Nullable="false" />
           <Property Name="student_id" Type="Int64" />
           <Property Name="parent_id" Type="Int64" />
-          <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_USER_DEF_BRANCH_STAFF" FromRole="USER_DEF" ToRole="BRANCH_STAFF" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_USER_DEF_TRANSACTION_MASTER" FromRole="USER_DEF" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="USER_ROLE" Relationship="AshirvadModel.FK_USER_ROLE_USER_DEF" FromRole="USER_DEF" ToRole="USER_ROLE" />
+          <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_USER_DEF_BRANCH_STAFF" FromRole="USER_DEF" ToRole="BRANCH_STAFF" />
         </EntityType>
         <EntityType Name="USER_ROLE">
           <Key>
@@ -3113,30 +3112,6 @@
             </Principal>
             <Dependent Role="BRANCH_LICENSE">
               <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BRANCH_STAFF_TRANSACTION_MASTER">
-          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.BRANCH_STAFF" Role="BRANCH_STAFF" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TRANSACTION_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Principal>
-            <Dependent Role="BRANCH_STAFF">
-              <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_USER_DEF_BRANCH_STAFF">
-          <End Type="AshirvadModel.BRANCH_STAFF" Role="BRANCH_STAFF" Multiplicity="0..1" />
-          <End Type="AshirvadModel.USER_DEF" Role="USER_DEF" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_STAFF">
-              <PropertyRef Name="staff_id" />
-            </Principal>
-            <Dependent Role="USER_DEF">
-              <PropertyRef Name="staff_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3607,39 +3582,6 @@
               <PropertyRef Name="trans_id" />
             </Principal>
             <Dependent Role="FEE_STRUCTURE_DTL">
-              <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="HOMEWORK_MASTER_DTL">
-          <Key>
-            <PropertyRef Name="homework_master_dtl_id" />
-          </Key>
-          <Property Name="homework_master_dtl_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="homework_id" Type="Int64" Nullable="false" />
-          <Property Name="branch_id" Type="Int64" Nullable="false" />
-          <Property Name="stud_id" Type="Int64" Nullable="false" />
-          <Property Name="homework_sheet_content" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="homework_sheet_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="homework_filepath" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="status" Type="Int32" Nullable="false" />
-          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <Property Name="submit_dt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="TRANSACTION_MASTER" />
-          <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="HOMEWORK_MASTER" />
-          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="STUDENT_MASTER" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="BRANCH_MASTER" />
-        </EntityType>
-        <Association Name="FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER">
-          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.HOMEWORK_MASTER_DTL" Role="HOMEWORK_MASTER_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TRANSACTION_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Principal>
-            <Dependent Role="HOMEWORK_MASTER_DTL">
               <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -4160,62 +4102,6 @@
           <Property Name="uplaod_type" Type="Int32" Nullable="false" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_GALLERY_MASTER_BRANCH_MASTER" FromRole="GALLERY_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <EntityType Name="HOMEWORK_MASTER">
-          <Key>
-            <PropertyRef Name="homework_id" />
-          </Key>
-          <Property Name="homework_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="homework_dt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="branch_id" Type="Int64" Nullable="false" />
-          <Property Name="std_id" Type="Int64" Nullable="false" />
-          <Property Name="sub_id" Type="Int64" Nullable="false" />
-          <Property Name="batch_time_id" Type="Int32" Nullable="false" />
-          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="file_path" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="homework_file" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER" FromRole="HOMEWORK_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
-          <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER" FromRole="HOMEWORK_MASTER" ToRole="STD_MASTER" />
-          <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_SUBJECT_MASTER" FromRole="HOMEWORK_MASTER" ToRole="SUBJECT_MASTER" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_BRANCH_MASTER" FromRole="HOMEWORK_MASTER" ToRole="BRANCH_MASTER" />
-        </EntityType>
-        <Association Name="FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER">
-          <End Type="AshirvadModel.HOMEWORK_MASTER" Role="HOMEWORK_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.HOMEWORK_MASTER_DTL" Role="HOMEWORK_MASTER_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="HOMEWORK_MASTER">
-              <PropertyRef Name="homework_id" />
-            </Principal>
-            <Dependent Role="HOMEWORK_MASTER_DTL">
-              <PropertyRef Name="homework_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_HOMEWORK_MASTER_STD_MASTER">
-          <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.HOMEWORK_MASTER" Role="HOMEWORK_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STD_MASTER">
-              <PropertyRef Name="std_id" />
-            </Principal>
-            <Dependent Role="HOMEWORK_MASTER">
-              <PropertyRef Name="std_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_HOMEWORK_MASTER_SUBJECT_MASTER">
-          <End Type="AshirvadModel.SUBJECT_MASTER" Role="SUBJECT_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.HOMEWORK_MASTER" Role="HOMEWORK_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SUBJECT_MASTER">
-              <PropertyRef Name="subject_id" />
-            </Principal>
-            <Dependent Role="HOMEWORK_MASTER">
-              <PropertyRef Name="sub_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="PRACTICE_PAPER_REL">
           <Key>
             <PropertyRef Name="unique_id" />
@@ -4319,27 +4205,15 @@
           <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="admission_date" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
           <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_SCHOOL_MASTER" FromRole="STUDENT_MASTER" ToRole="SCHOOL_MASTER" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_STD_MASTER" FromRole="STUDENT_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="STUDENT_ANS_SHEET" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="STUDENT_ANS_SHEET" />
           <NavigationProperty Name="STUDENT_MAINT" Relationship="AshirvadModel.FK_STUDENT_MAINT_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="STUDENT_MAINT" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="STUDENT_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="TEST_MASTER_DTL" />
+          <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" FromRole="STUDENT_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER">
-          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.HOMEWORK_MASTER_DTL" Role="HOMEWORK_MASTER_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STUDENT_MASTER">
-              <PropertyRef Name="student_id" />
-            </Principal>
-            <Dependent Role="HOMEWORK_MASTER_DTL">
-              <PropertyRef Name="stud_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_STUDENT_MASTER_SCHOOL_MASTER">
           <End Type="AshirvadModel.SCHOOL_MASTER" Role="SCHOOL_MASTER" Multiplicity="0..1" />
           <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="*" />
@@ -4466,24 +4340,12 @@
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_FACULTY_MASTER_BRANCH_STAFF" FromRole="FACULTY_MASTER" ToRole="BRANCH_STAFF" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_STD_MASTER" FromRole="FACULTY_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_SUBJECT_MASTER" FromRole="FACULTY_MASTER" ToRole="SUBJECT_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_TRANSACTION_MASTER" FromRole="FACULTY_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_BRANCH_MASTER" FromRole="FACULTY_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_FACULTY_MASTER_BRANCH_STAFF" FromRole="FACULTY_MASTER" ToRole="BRANCH_STAFF" />
         </EntityType>
-        <Association Name="FK_FACULTY_MASTER_BRANCH_STAFF">
-          <End Type="AshirvadModel.BRANCH_STAFF" Role="BRANCH_STAFF" Multiplicity="0..1" />
-          <End Type="AshirvadModel.FACULTY_MASTER" Role="FACULTY_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_STAFF">
-              <PropertyRef Name="staff_id" />
-            </Principal>
-            <Dependent Role="FACULTY_MASTER">
-              <PropertyRef Name="staff_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_FACULTY_MASTER_STD_MASTER">
           <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="0..1" />
           <End Type="AshirvadModel.FACULTY_MASTER" Role="FACULTY_MASTER" Multiplicity="*" />
@@ -4520,6 +4382,108 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="HOMEWORK_MASTER">
+          <Key>
+            <PropertyRef Name="homework_id" />
+          </Key>
+          <Property Name="homework_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="homework_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="std_id" Type="Int64" Nullable="false" />
+          <Property Name="sub_id" Type="Int64" Nullable="false" />
+          <Property Name="batch_time_id" Type="Int32" Nullable="false" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="file_path" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="homework_file" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER" FromRole="HOMEWORK_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
+          <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER" FromRole="HOMEWORK_MASTER" ToRole="STD_MASTER" />
+          <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_SUBJECT_MASTER" FromRole="HOMEWORK_MASTER" ToRole="SUBJECT_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_BRANCH_MASTER" FromRole="HOMEWORK_MASTER" ToRole="BRANCH_MASTER" />
+        </EntityType>
+        <EntityType Name="HOMEWORK_MASTER_DTL">
+          <Key>
+            <PropertyRef Name="homework_master_dtl_id" />
+          </Key>
+          <Property Name="homework_master_dtl_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="homework_id" Type="Int64" Nullable="false" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="stud_id" Type="Int64" Nullable="false" />
+          <Property Name="homework_sheet_content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="homework_sheet_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="student_filepath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="homework_filepath" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="submit_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="HOMEWORK_MASTER" />
+          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="BRANCH_MASTER" />
+        </EntityType>
+        <Association Name="FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER">
+          <End Type="AshirvadModel.HOMEWORK_MASTER" Role="HOMEWORK_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.HOMEWORK_MASTER_DTL" Role="HOMEWORK_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HOMEWORK_MASTER">
+              <PropertyRef Name="homework_id" />
+            </Principal>
+            <Dependent Role="HOMEWORK_MASTER_DTL">
+              <PropertyRef Name="homework_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HOMEWORK_MASTER_STD_MASTER">
+          <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.HOMEWORK_MASTER" Role="HOMEWORK_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STD_MASTER">
+              <PropertyRef Name="std_id" />
+            </Principal>
+            <Dependent Role="HOMEWORK_MASTER">
+              <PropertyRef Name="std_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HOMEWORK_MASTER_SUBJECT_MASTER">
+          <End Type="AshirvadModel.SUBJECT_MASTER" Role="SUBJECT_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.HOMEWORK_MASTER" Role="HOMEWORK_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBJECT_MASTER">
+              <PropertyRef Name="subject_id" />
+            </Principal>
+            <Dependent Role="HOMEWORK_MASTER">
+              <PropertyRef Name="sub_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER">
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.HOMEWORK_MASTER_DTL" Role="HOMEWORK_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT_MASTER">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="HOMEWORK_MASTER_DTL">
+              <PropertyRef Name="stud_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.HOMEWORK_MASTER_DTL" Role="HOMEWORK_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="HOMEWORK_MASTER_DTL">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="BRANCH_MASTER">
           <Key>
             <PropertyRef Name="branch_id" />
@@ -4543,6 +4507,7 @@
           <NavigationProperty Name="BRANCH_MAINT" Relationship="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_MAINT" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER" FromRole="BRANCH_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
+          <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_BRANCH_STAFF_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_STAFF" />
           <NavigationProperty Name="CATEGORY_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="CATEGORY_MASTER" />
           <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="FACULTY_MASTER" />
           <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
@@ -4567,6 +4532,29 @@
           <NavigationProperty Name="TODO_MASTER" Relationship="AshirvadModel.FK_TODO_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TODO_MASTER" />
           <NavigationProperty Name="UPI_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="UPI_MASTER" />
           <NavigationProperty Name="LINK_MASTER" Relationship="AshirvadModel.FK_VIDEO_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="LINK_MASTER" />
+        </EntityType>
+        <EntityType Name="BRANCH_STAFF">
+          <Key>
+            <PropertyRef Name="staff_id" />
+          </Key>
+          <Property Name="staff_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="education" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dob" Type="DateTime" Precision="3" />
+          <Property Name="gender" Type="Int32" />
+          <Property Name="address" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="appt_dt" Type="DateTime" Precision="3" />
+          <Property Name="join_dt" Type="DateTime" Precision="3" />
+          <Property Name="leaving_dt" Type="DateTime" Precision="3" />
+          <Property Name="email_id" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="mobile_no" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_STAFF_BRANCH_MASTER" FromRole="BRANCH_STAFF" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_STAFF_TRANSACTION_MASTER" FromRole="BRANCH_STAFF" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_BRANCH_STAFF" FromRole="BRANCH_STAFF" ToRole="FACULTY_MASTER" />
+          <NavigationProperty Name="USER_DEF" Relationship="AshirvadModel.FK_USER_DEF_BRANCH_STAFF" FromRole="BRANCH_STAFF" ToRole="USER_DEF" />
         </EntityType>
         <Association Name="FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -4676,6 +4664,18 @@
               <PropertyRef Name="branch_id" />
             </Principal>
             <Dependent Role="BRANCH_RIGHTS_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BRANCH_STAFF_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.BRANCH_STAFF" Role="BRANCH_STAFF" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="BRANCH_STAFF">
               <PropertyRef Name="branch_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -4968,6 +4968,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_BRANCH_STAFF_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.BRANCH_STAFF" Role="BRANCH_STAFF" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="BRANCH_STAFF">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FACULTY_MASTER_BRANCH_STAFF">
+          <End Type="AshirvadModel.BRANCH_STAFF" Role="BRANCH_STAFF" Multiplicity="0..1" />
+          <End Type="AshirvadModel.FACULTY_MASTER" Role="FACULTY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_STAFF">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="FACULTY_MASTER">
+              <PropertyRef Name="staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_DEF_BRANCH_STAFF">
+          <End Type="AshirvadModel.BRANCH_STAFF" Role="BRANCH_STAFF" Multiplicity="0..1" />
+          <End Type="AshirvadModel.USER_DEF" Role="USER_DEF" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_STAFF">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="USER_DEF">
+              <PropertyRef Name="staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5006,26 +5042,6 @@
                 <ScalarProperty Name="license_key" ColumnName="license_key" />
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="license_id" ColumnName="license_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BRANCH_STAFF">
-            <EntityTypeMapping TypeName="AshirvadModel.BRANCH_STAFF">
-              <MappingFragment StoreEntitySet="BRANCH_STAFF">
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
-                <ScalarProperty Name="email_id" ColumnName="email_id" />
-                <ScalarProperty Name="leaving_dt" ColumnName="leaving_dt" />
-                <ScalarProperty Name="join_dt" ColumnName="join_dt" />
-                <ScalarProperty Name="appt_dt" ColumnName="appt_dt" />
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="gender" ColumnName="gender" />
-                <ScalarProperty Name="dob" ColumnName="dob" />
-                <ScalarProperty Name="education" ColumnName="education" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5378,24 +5394,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="HOMEWORK_MASTER_DTL">
-            <EntityTypeMapping TypeName="AshirvadModel.HOMEWORK_MASTER_DTL">
-              <MappingFragment StoreEntitySet="HOMEWORK_MASTER_DTL">
-                <ScalarProperty Name="submit_dt" ColumnName="submit_dt" />
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="remarks" ColumnName="remarks" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="homework_filepath" ColumnName="homework_filepath" />
-                <ScalarProperty Name="homework_sheet_name" ColumnName="homework_sheet_name" />
-                <ScalarProperty Name="homework_sheet_content" ColumnName="homework_sheet_content" />
-                <ScalarProperty Name="stud_id" ColumnName="stud_id" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
-                <ScalarProperty Name="homework_id" ColumnName="homework_id" />
-                <ScalarProperty Name="homework_master_dtl_id" ColumnName="homework_master_dtl_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MARKS_MASTER_DTL">
             <EntityTypeMapping TypeName="AshirvadModel.MARKS_MASTER_DTL">
               <MappingFragment StoreEntitySet="MARKS_MASTER_DTL">
@@ -5615,23 +5613,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="HOMEWORK_MASTER">
-            <EntityTypeMapping TypeName="AshirvadModel.HOMEWORK_MASTER">
-              <MappingFragment StoreEntitySet="HOMEWORK_MASTER">
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="homework_file" ColumnName="homework_file" />
-                <ScalarProperty Name="file_path" ColumnName="file_path" />
-                <ScalarProperty Name="remarks" ColumnName="remarks" />
-                <ScalarProperty Name="batch_time_id" ColumnName="batch_time_id" />
-                <ScalarProperty Name="sub_id" ColumnName="sub_id" />
-                <ScalarProperty Name="std_id" ColumnName="std_id" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
-                <ScalarProperty Name="homework_dt" ColumnName="homework_dt" />
-                <ScalarProperty Name="homework_id" ColumnName="homework_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PRACTICE_PAPER_REL">
             <EntityTypeMapping TypeName="AshirvadModel.PRACTICE_PAPER_REL">
               <MappingFragment StoreEntitySet="PRACTICE_PAPER_REL">
@@ -5741,6 +5722,42 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="HOMEWORK_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.HOMEWORK_MASTER">
+              <MappingFragment StoreEntitySet="HOMEWORK_MASTER">
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="homework_file" ColumnName="homework_file" />
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="batch_time_id" ColumnName="batch_time_id" />
+                <ScalarProperty Name="sub_id" ColumnName="sub_id" />
+                <ScalarProperty Name="std_id" ColumnName="std_id" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="homework_dt" ColumnName="homework_dt" />
+                <ScalarProperty Name="homework_id" ColumnName="homework_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HOMEWORK_MASTER_DTL">
+            <EntityTypeMapping TypeName="AshirvadModel.HOMEWORK_MASTER_DTL">
+              <MappingFragment StoreEntitySet="HOMEWORK_MASTER_DTL">
+                <ScalarProperty Name="submit_dt" ColumnName="submit_dt" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="homework_filepath" ColumnName="homework_filepath" />
+                <ScalarProperty Name="student_filepath" ColumnName="student_filepath" />
+                <ScalarProperty Name="homework_sheet_name" ColumnName="homework_sheet_name" />
+                <ScalarProperty Name="homework_sheet_content" ColumnName="homework_sheet_content" />
+                <ScalarProperty Name="stud_id" ColumnName="stud_id" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="homework_id" ColumnName="homework_id" />
+                <ScalarProperty Name="homework_master_dtl_id" ColumnName="homework_master_dtl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="BRANCH_MASTER">
             <EntityTypeMapping TypeName="AshirvadModel.BRANCH_MASTER">
               <MappingFragment StoreEntitySet="BRANCH_MASTER">
@@ -5754,6 +5771,26 @@
                 <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
                 <ScalarProperty Name="branch_name" ColumnName="branch_name" />
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BRANCH_STAFF">
+            <EntityTypeMapping TypeName="AshirvadModel.BRANCH_STAFF">
+              <MappingFragment StoreEntitySet="BRANCH_STAFF">
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="email_id" ColumnName="email_id" />
+                <ScalarProperty Name="leaving_dt" ColumnName="leaving_dt" />
+                <ScalarProperty Name="join_dt" ColumnName="join_dt" />
+                <ScalarProperty Name="appt_dt" ColumnName="appt_dt" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="education" ColumnName="education" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

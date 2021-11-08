@@ -19,7 +19,6 @@ namespace Ashirvad.Repo.Model
         {
             this.BATCH_MASTER = new HashSet<BATCH_MASTER>();
             this.BRANCH_LICENSE = new HashSet<BRANCH_LICENSE>();
-            this.BRANCH_STAFF = new HashSet<BRANCH_STAFF>();
             this.SCHOOL_MASTER = new HashSet<SCHOOL_MASTER>();
             this.STD_MASTER = new HashSet<STD_MASTER>();
             this.SUBJECT_MASTER = new HashSet<SUBJECT_MASTER>();
@@ -28,7 +27,6 @@ namespace Ashirvad.Repo.Model
             this.STUDENT_PAYMENT_REL = new HashSet<STUDENT_PAYMENT_REL>();
             this.UPI_MASTER = new HashSet<UPI_MASTER>();
             this.FEE_STRUCTURE_DTL = new HashSet<FEE_STRUCTURE_DTL>();
-            this.HOMEWORK_MASTER_DTL = new HashSet<HOMEWORK_MASTER_DTL>();
             this.MARKS_MASTER_DTL = new HashSet<MARKS_MASTER_DTL>();
             this.CATEGORY_MASTER = new HashSet<CATEGORY_MASTER>();
             this.LIBRARY_MASTER_DTL = new HashSet<LIBRARY_MASTER_DTL>();
@@ -41,7 +39,9 @@ namespace Ashirvad.Repo.Model
             this.BRANCH_RIGHTS_MASTER = new HashSet<BRANCH_RIGHTS_MASTER>();
             this.STUDENT_MASTER = new HashSet<STUDENT_MASTER>();
             this.FACULTY_MASTER = new HashSet<FACULTY_MASTER>();
+            this.HOMEWORK_MASTER_DTL = new HashSet<HOMEWORK_MASTER_DTL>();
             this.BRANCH_MASTER = new HashSet<BRANCH_MASTER>();
+            this.BRANCH_STAFF = new HashSet<BRANCH_STAFF>();
         }
     
         public long trans_id { get; set; }
@@ -56,8 +56,6 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<BATCH_MASTER> BATCH_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BRANCH_LICENSE> BRANCH_LICENSE { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BRANCH_STAFF> BRANCH_STAFF { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SCHOOL_MASTER> SCHOOL_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -74,8 +72,6 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<UPI_MASTER> UPI_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HOMEWORK_MASTER_DTL> HOMEWORK_MASTER_DTL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MARKS_MASTER_DTL> MARKS_MASTER_DTL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -101,6 +97,10 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FACULTY_MASTER> FACULTY_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HOMEWORK_MASTER_DTL> HOMEWORK_MASTER_DTL { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BRANCH_MASTER> BRANCH_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BRANCH_STAFF> BRANCH_STAFF { get; set; }
     }
 }

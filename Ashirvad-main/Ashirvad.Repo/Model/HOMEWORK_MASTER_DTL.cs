@@ -20,6 +20,7 @@ namespace Ashirvad.Repo.Model
         public long stud_id { get; set; }
         public byte[] homework_sheet_content { get; set; }
         public string homework_sheet_name { get; set; }
+        public string student_filepath { get; set; }
         public string homework_filepath { get; set; }
         public int status { get; set; }
         public string remarks { get; set; }
@@ -27,9 +28,9 @@ namespace Ashirvad.Repo.Model
         public long trans_id { get; set; }
         public System.DateTime submit_dt { get; set; }
     
-        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         public virtual HOMEWORK_MASTER HOMEWORK_MASTER { get; set; }
         public virtual STUDENT_MASTER STUDENT_MASTER { get; set; }
+        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
     }
 }

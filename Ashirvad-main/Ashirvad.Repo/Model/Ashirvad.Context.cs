@@ -30,7 +30,6 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<BANNER_TYPE_REL> BANNER_TYPE_REL { get; set; }
         public virtual DbSet<BATCH_MASTER> BATCH_MASTER { get; set; }
         public virtual DbSet<BRANCH_LICENSE> BRANCH_LICENSE { get; set; }
-        public virtual DbSet<BRANCH_STAFF> BRANCH_STAFF { get; set; }
         public virtual DbSet<NOTIFICATION_MASTER> NOTIFICATION_MASTER { get; set; }
         public virtual DbSet<NOTIFICATION_TYPE_REL> NOTIFICATION_TYPE_REL { get; set; }
         public virtual DbSet<SCHOOL_MASTER> SCHOOL_MASTER { get; set; }
@@ -56,7 +55,6 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<UPI_MASTER> UPI_MASTER { get; set; }
         public virtual DbSet<BRANCH_AGREEMENT> BRANCH_AGREEMENT { get; set; }
         public virtual DbSet<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
-        public virtual DbSet<HOMEWORK_MASTER_DTL> HOMEWORK_MASTER_DTL { get; set; }
         public virtual DbSet<MARKS_MASTER_DTL> MARKS_MASTER_DTL { get; set; }
         public virtual DbSet<CATEGORY_MASTER> CATEGORY_MASTER { get; set; }
         public virtual DbSet<LIBRARY_MASTER> LIBRARY_MASTER { get; set; }
@@ -72,7 +70,6 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<PACKAGE_MASTER> PACKAGE_MASTER { get; set; }
         public virtual DbSet<PACKAGE_RIGHTS_MASTER> PACKAGE_RIGHTS_MASTER { get; set; }
         public virtual DbSet<GALLERY_MASTER> GALLERY_MASTER { get; set; }
-        public virtual DbSet<HOMEWORK_MASTER> HOMEWORK_MASTER { get; set; }
         public virtual DbSet<PRACTICE_PAPER_REL> PRACTICE_PAPER_REL { get; set; }
         public virtual DbSet<BRANCH_RIGHTS_MASTER> BRANCH_RIGHTS_MASTER { get; set; }
         public virtual DbSet<TODO_MASTER> TODO_MASTER { get; set; }
@@ -80,7 +77,10 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<BANNER_MASTER> BANNER_MASTER { get; set; }
         public virtual DbSet<BRANCH_MAINT> BRANCH_MAINT { get; set; }
         public virtual DbSet<FACULTY_MASTER> FACULTY_MASTER { get; set; }
+        public virtual DbSet<HOMEWORK_MASTER> HOMEWORK_MASTER { get; set; }
+        public virtual DbSet<HOMEWORK_MASTER_DTL> HOMEWORK_MASTER_DTL { get; set; }
         public virtual DbSet<BRANCH_MASTER> BRANCH_MASTER { get; set; }
+        public virtual DbSet<BRANCH_STAFF> BRANCH_STAFF { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

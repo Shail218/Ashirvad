@@ -24,6 +24,7 @@ namespace Ashirvad.Repo.Model
             this.BRANCH_AGREEMENT = new HashSet<BRANCH_AGREEMENT>();
             this.BRANCH_LICENSE = new HashSet<BRANCH_LICENSE>();
             this.BRANCH_RIGHTS_MASTER = new HashSet<BRANCH_RIGHTS_MASTER>();
+            this.BRANCH_STAFF = new HashSet<BRANCH_STAFF>();
             this.CATEGORY_MASTER = new HashSet<CATEGORY_MASTER>();
             this.FACULTY_MASTER = new HashSet<FACULTY_MASTER>();
             this.FEE_STRUCTURE_MASTER = new HashSet<FEE_STRUCTURE_MASTER>();
@@ -77,6 +78,8 @@ namespace Ashirvad.Repo.Model
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BRANCH_RIGHTS_MASTER> BRANCH_RIGHTS_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BRANCH_STAFF> BRANCH_STAFF { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CATEGORY_MASTER> CATEGORY_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

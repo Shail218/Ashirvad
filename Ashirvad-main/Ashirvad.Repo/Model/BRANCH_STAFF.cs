@@ -17,8 +17,8 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public BRANCH_STAFF()
         {
-            this.USER_DEF = new HashSet<USER_DEF>();
             this.FACULTY_MASTER = new HashSet<FACULTY_MASTER>();
+            this.USER_DEF = new HashSet<USER_DEF>();
         }
     
         public long staff_id { get; set; }
@@ -35,12 +35,12 @@ namespace Ashirvad.Repo.Model
         public string mobile_no { get; set; }
         public int row_sta_cd { get; set; }
         public long trans_id { get; set; }
-
+    
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<USER_DEF> USER_DEF { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FACULTY_MASTER> FACULTY_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<USER_DEF> USER_DEF { get; set; }
     }
 }

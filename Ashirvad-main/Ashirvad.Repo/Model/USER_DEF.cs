@@ -31,9 +31,9 @@ namespace Ashirvad.Repo.Model
         public Nullable<long> student_id { get; set; }
         public Nullable<long> parent_id { get; set; }
     
-        public virtual BRANCH_STAFF BRANCH_STAFF { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USER_ROLE> USER_ROLE { get; set; }
+        public virtual BRANCH_STAFF BRANCH_STAFF { get; set; }
     }
 }
