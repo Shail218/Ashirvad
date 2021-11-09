@@ -204,9 +204,6 @@
     <Compile Include="Model\MARKS_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MARKS_MASTER_DTL.cs">
-      <DependentUpon>Ashirvad.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\NOTIFICATION_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>

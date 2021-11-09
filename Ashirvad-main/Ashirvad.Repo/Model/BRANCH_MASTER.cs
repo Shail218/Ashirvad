@@ -54,8 +54,6 @@ public partial class BRANCH_MASTER
 
         this.LIBRARY1_MASTER = new HashSet<LIBRARY1_MASTER>();
 
-        this.MARKS_MASTER = new HashSet<MARKS_MASTER>();
-
         this.PACKAGE_MASTER = new HashSet<PACKAGE_MASTER>();
 
         this.PAGE_MASTER = new HashSet<PAGE_MASTER>();
@@ -89,6 +87,8 @@ public partial class BRANCH_MASTER
         this.CLASS_DTL_MASTER = new HashSet<CLASS_DTL_MASTER>();
 
         this.COURSE_DTL_MASTER = new HashSet<COURSE_DTL_MASTER>();
+
+        this.MARKS_MASTER = new HashSet<MARKS_MASTER>();
 
     }
 
@@ -185,10 +185,6 @@ public partial class BRANCH_MASTER
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<MARKS_MASTER> MARKS_MASTER { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
     public virtual ICollection<PACKAGE_MASTER> PACKAGE_MASTER { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -254,6 +250,10 @@ public partial class BRANCH_MASTER
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<COURSE_DTL_MASTER> COURSE_DTL_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<MARKS_MASTER> MARKS_MASTER { get; set; }
 
 }
 

@@ -9,10 +9,10 @@ $(document).ready(function () {
         format: 'dd/mm/yyyy',
 
     });
-   
+
     var BrandID = $("#Branch_Name").val();
     LoadStandard(BrandID);
-    
+
 });
 
 function LoadBranch(onLoaded) {
@@ -30,25 +30,6 @@ function LoadBranch(onLoaded) {
         }
 
     }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
-}
-
-function LoadSchoolName(branchID) {
-    var postCall = $.post(commonData.School + "SchoolData", { "branchID": branchID });
-    postCall.done(function (data) {
-        $('#SchoolName').empty();
-        $('#SchoolName').select2();
-        $("#SchoolName").append("<option value=" + 0 + ">---Select School Name---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#SchoolName").append("<option value=" + data[i].SchoolID + ">" + data[i].SchoolName + "</option>");
-        }
-        if ($("#SchoolInfo_SchoolID").val() != "") {
-            $('#SchoolName option[value="' + $("#SchoolInfo_SchoolID").val() + '"]').attr("selected", "selected");
-        }
-
-    }).fail(function (e) {
-        console.log(e);
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
@@ -87,14 +68,14 @@ function LoadSubject(branchID) {
         if ($("#SubjectInfo_SubjectID").val() != "") {
             $('#SubjectName option[value="' + $("#SubjectInfo_SubjectID").val() + '"]').attr("selected", "selected");
         }
-      
+
     }).fail(function () {
         //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
-function LoadTestDetails(TestID,Subject) {
-    var postCall = $.post(commonData.TestPaper + "GetTestDetails", { "TestID": TestID, "SubjectID": Subject});
+function LoadTestDetails(TestID, Subject) {
+    var postCall = $.post(commonData.TestPaper + "GetTestDetails", { "TestID": TestID, "SubjectID": Subject });
     postCall.done(function (data) {
         $("#TotalMarks").val(data.Marks);
         $("#Remarks").val(data.Remarks);
@@ -102,53 +83,11 @@ function LoadTestDetails(TestID,Subject) {
         var Std = $('#StandardInfo_StandardID').val();
         var Batch = $('#batchEntityInfo_BatchID').val();
         LoadStudentDetails(Std, Batch);
-      
+
 
     }).fail(function () {
         //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
-}
-
-
-function SaveMarks() {
-    var MarksData = [];
-    Map = {};
-    $("#studenttbl tbody tr").each(function () {
-        var StudentID = $(this).find("#item_StudentID").val();
-        var marks = $(this).find("#Marks").val();
-        if (StudentID != null) {
-            Map = {
-                AchieveMarks: marks,
-                student: {
-                    StudentID: StudentID
-                }
-            }
-            MarksData.push(Map);
-        }
-    });
-    $('#JsonData').val(JSON.stringify(MarksData));
-    var isSuccess = ValidateData('dInformation');
-    if (isSuccess) {
-        ShowLoader();
-        var frm = $('#fMarks');
-        var formData = new FormData(frm[0]);
-        var item = $('input[type=file]');
-        if (item[0].files.length > 0) {
-            formData.append('ImageFile', $('input[type=file]')[0].files[0]);
-        }
-        AjaxCallWithFileUpload(commonData.ResultEntry + 'SaveMarks', formData, function (data) {
-            HideLoader();
-            if (data.MarksID >= 0) {
-                ShowMessage("Marks added Successfully.", "Success");
-                window.location.href = "/ResultRegister/Index";
-            }
-            else {
-                ShowMessage('Marks Already added!!', 'Error');
-            }
-        }, function (xhr) {
-            HideLoader();
-        });
-    }
 }
 
 function LoadTestDates(BatchType) {
@@ -157,19 +96,18 @@ function LoadTestDates(BatchType) {
     var STD = $('#StandardInfo_StandardID').val();
     var BatchType = BatchType;
 
-    if (BranchID > 0 && BatchType > 0 && STD>0) {
+    if (BranchID > 0 && BatchType > 0 && STD > 0) {
         var postCall = $.post(commonData.TestPaper + "GetTestDatesByBatch", { "BranchID": BranchID, "BatchType": BatchType, "stdID": STD });
         postCall.done(function (data) {
             $('#testddl').empty();
             $('#testddl').select2();
             $("#testddl").append("<option value=" + 0 + ">---Select Test Date---</option>");
-            for (i = 0; i < data.length; i++)
-            {
+            for (i = 0; i < data.length; i++) {
                 var test = ConvertDateFrom(data[i].TestDate);
                 var TestDate = convertddmmyyyy(test);
-                $("#testddl").append("<option value='" + data[i].TestID + "'>" + TestDate+ "</option>");
+                $("#testddl").append("<option value='" + data[i].TestID + "'>" + TestDate + "</option>");
             }
-           
+
             HideLoader();
         }).fail(function () {
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -178,17 +116,14 @@ function LoadTestDates(BatchType) {
     else {
         $('#testddl').empty();
         $('#testddl').select2();
-       
+
     }
 }
 
-function LoadStudentDetails(Std, Batch)
-{
-    var postCall = $.post(commonData.ResultEntry + "GetStudentByStd", { "Std": Std, "BatchTime": Batch });
+function LoadStudentDetails(Std, Batch) {
+    var postCall = $.post(commonData.MarksRegister + "GetStudentByStd", { "Std": Std, "BatchTime": Batch });
     postCall.done(function (data) {
         $("#StudentDetail").html(data);
-
-
     }).fail(function () {
         //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
@@ -209,10 +144,10 @@ $("#StandardName").change(function () {
 
 $("#SubjectName").change(function () {
     var Data = $("#SubjectName option:selected").val();
-    var Data1= $("#testddl option:selected").val();
+    var Data1 = $("#testddl option:selected").val();
     $('#SubjectInfo_SubjectID').val(Data);
     LoadTestDetails(Data1, Data);
-    
+
 });
 
 $("#BatchTime").change(function () {

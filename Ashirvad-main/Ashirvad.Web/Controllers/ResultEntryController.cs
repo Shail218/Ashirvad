@@ -3,6 +3,7 @@ using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Student;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -56,16 +57,15 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveMarks(MarksEntity Marks)
         {
-            if (Marks.FileInfo != null)
+            var data = new MarksEntity();
+            if (Marks.ImageFile != null)
             {
-
-                Marks.MarksContent = Common.Common.ReadFully(Marks.FileInfo.InputStream);
-                string _FileName = Path.GetFileName(Marks.FileInfo.FileName);
-                string extension = System.IO.Path.GetExtension(Marks.FileInfo.FileName);
+                string _FileName = Path.GetFileName(Marks.ImageFile.FileName);
+                string extension = System.IO.Path.GetExtension(Marks.ImageFile.FileName);
                 string randomfilename = Common.Common.RandomString(20);
                 string _Filepath = "/MarksImage/" + randomfilename + extension;
                 string _path = Path.Combine(Server.MapPath("~/MarksImage"), randomfilename + extension);
-                Marks.FileInfo.SaveAs(_path);
+                Marks.ImageFile.SaveAs(_path);
                 Marks.MarksContentFileName = _FileName;
                 Marks.MarksFilepath = _Filepath;
             }
@@ -75,13 +75,27 @@ namespace Ashirvad.Web.Controllers
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            var data = await _MarksService.MarksMaintenance(Marks);
+            Marks.BranchInfo = new BranchEntity()
+            {
+                BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
+            };
+            Marks.MarksDate = DateTime.Now;
+            var line = JsonConvert.DeserializeObject<List<MarksEntity>>(Marks.JsonData);
+            foreach(var item in line)
+            {
+                Marks.AchieveMarks = item.AchieveMarks;
+                Marks.student = new StudentEntity(){
+                    StudentID = item.student.StudentID
+            };
+                data = await _MarksService.MarksMaintenance(Marks);
+            }
+            
             if (data != null)
             {
-                return Json(true);
+                return Json(data);
             }
 
-            return Json(false);
+            return Json(0);
         }
 
         [HttpPost]

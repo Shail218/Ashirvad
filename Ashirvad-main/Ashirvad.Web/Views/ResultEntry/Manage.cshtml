@@ -20,21 +20,40 @@
             </th>
         </tr>
     </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                    @Html.HiddenFor(x => item.StudentID)
+                </td>
+                <td>
+                    @Html.TextBox("Marks", null, new { @class = "form-control customwidth required", @alt = "Remarks", autocomplete = "off", Id = "Marks" })
+                </td>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.Name
-            </td>
-            <td>
-                @Html.TextBox("Marks", null, new { @class = "form-control customwidth required", @alt = "Remarks", autocomplete = "off", Id = "Marks_" + item.StudentID + ""})
-            </td>
-
-        </tr>
-    }
+            </tr>
+        }
+    </tbody>
 
 </table>
+
+<div class="form-group">
+    <div class="col-md-12" style="text-align: right;">
+        <a href="#" onclick="return SaveMarks();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+            <span class="ladda-label">
+                Save
+            </span>
+            <span class="ladda-spinner"></span>
+        </a>
+        <a href="@Url.Action("Index","AttendanceEntry")" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+            <span class="ladda-label">
+                Cancel
+            </span>
+            <span class="ladda-spinner"></span>
+        </a>
+    </div>
+</div>
 
 
 

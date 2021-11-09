@@ -24,12 +24,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
             try
             {
                 long MarksID = await _MarksContext.MarksMaintenance(MarksInfo);
-                if (MarksID > 0)
-                {
-                    //Add User
-                    //Get Marks
-                    Marks.MarksID = MarksID;
-                }
+                Marks.MarksID = MarksID;
             }
             catch (Exception ex)
                 {

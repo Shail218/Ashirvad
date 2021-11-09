@@ -47,6 +47,7 @@
     Course: $("#hdnFldVDName").val() + "Caurse/",
     Class: $("#hdnFldVDName").val() + "Class/",
     SuperAdminSubject: $("#hdnFldVDName").val() + "SuperAdminSubject/",
+    MarksRegister: $("#hdnFldVDName").val() + "ResultRegister/",
 };
 
 function GetExtention(image){

@@ -277,6 +277,7 @@
     <Content Include="scripts\app\login.js" />
     <Content Include="scripts\app\managestudent.js" />
     <Content Include="scripts\app\marks.js" />
+    <Content Include="scripts\app\marksregister.js" />
     <Content Include="scripts\app\notification.js" />
     <Content Include="scripts\app\package.js" />
     <Content Include="scripts\app\packageright.js" />

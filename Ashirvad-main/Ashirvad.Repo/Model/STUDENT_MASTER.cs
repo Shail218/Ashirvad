@@ -30,6 +30,8 @@ public partial class STUDENT_MASTER
 
         this.HOMEWORK_MASTER_DTL = new HashSet<HOMEWORK_MASTER_DTL>();
 
+        this.MARKS_MASTER = new HashSet<MARKS_MASTER>();
+
     }
 
 
@@ -100,6 +102,14 @@ public partial class STUDENT_MASTER
     public virtual ICollection<HOMEWORK_MASTER_DTL> HOMEWORK_MASTER_DTL { get; set; }
 
     public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<MARKS_MASTER> MARKS_MASTER { get; set; }
+
+    public virtual STUDENT_MASTER STUDENT_MASTER1 { get; set; }
+
+    public virtual STUDENT_MASTER STUDENT_MASTER2 { get; set; }
 
 }
 

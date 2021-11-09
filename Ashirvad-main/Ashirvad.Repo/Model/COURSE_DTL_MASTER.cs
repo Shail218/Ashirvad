@@ -37,6 +37,8 @@ public partial class COURSE_DTL_MASTER
 
     public long trans_id { get; set; }
 
+    public Nullable<bool> is_course { get; set; }
+
 
 
     public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
