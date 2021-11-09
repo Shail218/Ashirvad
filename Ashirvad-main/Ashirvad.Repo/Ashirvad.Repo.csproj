@@ -68,6 +68,7 @@
     <Compile Include="DataAcceessAPI\Area\Class\IClassAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Course\ICourseAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Faculty\IFacultyAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\BranchCourse\IBranchCourseAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\PackageRights\IPackageRightsAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Branch\IBranchAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Library1\ILibrary1API.cs" />
@@ -308,6 +309,7 @@
     <Compile Include="Services\Area\Class\Class.cs" />
     <Compile Include="Services\Area\Course\Course.cs" />
     <Compile Include="Services\Area\Faculty\Faculty.cs" />
+    <Compile Include="Services\Area\BranchCourse\BranchCourse.cs" />
     <Compile Include="Services\Area\PackageRights\PackageRights.cs" />
     <Compile Include="Services\Area\Branch\Branch.cs" />
     <Compile Include="Services\Area\Library1\Library1.cs" />

@@ -1,7 +1,8 @@
-﻿﻿@model List<Ashirvad.Data.BranchCourseEntity>
+﻿﻿@model Ashirvad.Data.BranchCourseEntity
 <div class="col-md-12">
     <form id="fBranchCourseDetail">
         <div>
+            @Html.HiddenFor(x => x.JsonData)
             <div class="col-md-12">
                 <table style="width: 100%;" id="choiceList" class="table table-striped dataTable no-footer">
                     <thead>
@@ -12,21 +13,45 @@
                             <th>Course Name</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
+                    @if (Model.BranchCourseData.Count > 0)
+                    {
+                        <tbody>
+                            @foreach (var item in Model.BranchCourseData)
+                            {
 
-                        <tr>
-                            <td class="js-export-checkbox">
-                                @Html.CheckBoxFor(m => item.iscourse, new { @class = "iscourse" })
-                            </td>
-                            <td>
-                                @item.course.CourseName
-                                <input type="hidden" value="@item.course.CourseID" class="pagename" />
-                            </td>
-                        </tr>
-                        }
-                    </tbody>
+                                <tr>
+                                    <td class="js-export-checkbox">
+                                        @Html.CheckBoxFor(m => item.iscourse, new { @class = "iscourse" })
+                                        <input type="hidden" value="@item.course_dtl_id" class="coursedtlid" />
+                                    </td>
+                                    <td>
+                                        @item.course.CourseName
+                                        <input type="hidden" value="@item.course.CourseID" class="pagename" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                    else
+                    {
+                        <tbody>
+                            @foreach (var item in Model.CourseData)
+                            {
+
+                                <tr>
+                                    <td class="js-export-checkbox">
+                                        @Html.CheckBox("iscourse", new { @class = "iscourse", @Id = "iscourse" })
+                                        <input type="hidden" value="0" class="coursedtlid" />
+                                    </td>
+                                    <td>
+                                        @Html.HiddenFor(x=>item.CourseID, new { @class = "CourseID" })
+                                        @item.CourseName
+                                        
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
                 </table>
             </div>
             <div class="form-group">
