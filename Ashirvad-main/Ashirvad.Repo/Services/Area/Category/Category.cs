@@ -59,7 +59,7 @@ namespace Ashirvad.Repo.Services.Area
         public async Task<List<CategoryEntity>> GetAllCategorys(long branchID)
         {
             var data = (from u in this.context.CATEGORY_MASTER
-                        where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
+                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new CategoryEntity()
                         {
                             RowStatus = new RowStatusEntity()

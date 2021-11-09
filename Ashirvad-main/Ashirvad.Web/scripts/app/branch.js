@@ -1,6 +1,8 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
+const { hide } = require("@popperjs/core");
+
 
 $(document).ready(function () {
 
@@ -61,13 +63,12 @@ function SaveBranch() {
     var isSuccess = ValidateData('dInformation');
 
     if (isSuccess) {
-        
+        ShowLoader();
         var frm = $('#fBranchDetail');
         var formData = new FormData(frm[0]);
         formData.append('ImageFile', $('input[type=file]')[0].files[0]);
-
         AjaxCallWithFileUpload(commonData.Branch + 'SaveBranch', formData, function (data) {
-            
+            HideLoader();
             if (data) {
                 ShowMessage('Branch details saved!', 'Success');
                 window.location.href = "BranchMaintenance?branchID=0";

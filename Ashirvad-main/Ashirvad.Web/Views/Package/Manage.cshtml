@@ -8,15 +8,6 @@
             <th>
                 Package Name
             </th>
-            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
-            {
-                <th>
-                    Branch Name
-                </th>
-            }
-            @*<th>
-                    Status
-                </th>*@
             <th style="text-align:center;">
                 Edit
             </th>
@@ -32,17 +23,8 @@
             <td>
                 @item.Package
                 @Html.HiddenFor(x => item.PackageID)
+                @Html.HiddenFor(x => item.BranchInfo.BranchID)
             </td>
-            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
-            {
-                <td>
-                    @item.BranchInfo.BranchName
-                    @Html.HiddenFor(x => item.BranchInfo.BranchID)
-                </td>
-            }
-            @*<td>
-                    @item.RowStatus.RowStatus
-                </td>*@
             <td style="text-align:center !important;">
                 <a href="@Url.Action("PackageMaintenance", "Package", new { branchID = item.PackageID })">
                     <img src="~/ThemeData/images/viewIcon.png" />

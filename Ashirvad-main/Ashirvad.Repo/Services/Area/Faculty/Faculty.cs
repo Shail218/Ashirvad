@@ -92,6 +92,9 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                             {
                                 TransactionId = u.trans_id
                             },
+                            
+                            FilePath = u.file_path,
+                            FacultyContentFileName = u.file_name,
                             board = u.board_type == 1 ? Enums.BoardType.GujaratBoard : u.board_type == 2 ? Enums.BoardType.CBSC : Enums.BoardType.Both,
                             FacultyID = u.faculty_id,
                         }).ToList();

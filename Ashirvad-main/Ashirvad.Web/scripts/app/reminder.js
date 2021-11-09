@@ -16,8 +16,8 @@ function SaveReminder() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        //var date1 = $("#ReminderDate").val();
-        //$("#ReminderDate").val(ConvertData(date1));
+        var date1 = $("#ReminderDate").val();
+        $("#ReminderDate").val(ConvertData(date1));
         var postCall = $.post(commonData.Reminder + "SaveReminder", $('#fReminderDetail').serialize());
         postCall.done(function (data) {
             HideLoader();

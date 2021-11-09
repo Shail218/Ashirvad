@@ -123,9 +123,8 @@ function Savetest() {
     var isSuccess = ValidateData('dInformation');    
     if (isSuccess) {
         ShowLoader();
-
-        //var date1 = $("#TestDate").val();
-        //$("#TestDate").val(ConvertData(date1));
+        var date1 = $("#TestDate").val();
+        $("#TestDate").val(ConvertData(date1));
         var frm = $('#fTestDetail');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');

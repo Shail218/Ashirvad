@@ -165,7 +165,15 @@
                                         <li id="StM">
                                             <a href="@Url.Action("UserMaintenance","User", new { @branchID=0 })">User Master</a>
                                         </li>
-
+                                        <li>
+                                            <a href="@Url.Action("CourseMaintenance","Caurse", new { @courseID=0 })">Course Master</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("ClassMaintenance","Class", new { @classID=0 })">Class Master</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("SubjectMaintenance","SuperAdminSubject", new { @subjectID=0 })">Subject Master</a>
+                                        </li>
                                     }
                                     else if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
                                     {
@@ -206,6 +214,15 @@
                                         </li>
                                         <li id="fc" class="AboutUsMaster">
                                             <a href="@Url.Action("FacultyMaintenance","Faculty", new { @facultyID=0 })">Faculty Master</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index","BranchCourse")">Branch Course Master</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index","BranchClass")">Branch Class Master</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index","BranchSubject")">Branch Subject Master</a>
                                         </li>
                                     }
 

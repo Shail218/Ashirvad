@@ -3,7 +3,9 @@
 
 $(document).ready(function () {
     ShowLoader();
-
+    if ($("#FacultyID").val() > 0) {
+        $("#fuHeaderImageDetail").addClass("editForm");
+    }
 
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
@@ -22,26 +24,20 @@ $(document).ready(function () {
         }
     });
 
-    //if ($("#Branch_BranchID").val() != "") {
-    //    $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-    //    LoadUser($("#Branch_BranchID").val());
-    //    LoadStandard($("#Branch_BranchID").val());
-    //    LoadSubject($("#Branch_BranchID").val());
-    //    HideLoader();
-    //}
+    if ($("#FacultyID").val() > 0) {
+        if ($("#board").val() != "") {
+            var rowStatus = $("#board").val();
+            debugger;
+            if (rowStatus == "GujaratBoard") {
+                $("#rowStaGujarat").attr('checked', 'checked');
+            }
+            else if (rowStatus == "CBSC") {
+                $("#rowStaCBSC").attr('checked', 'checked');
 
-    if ($("#board").val() != "") {
-        var rowStatus = $("#board").val();
-        if (rowStatus == "1") {
-            $("#rowStaGujarat").attr('checked', 'checked');
-        }
-        else if (rowStatus == "2")
-        {
-            $("#rowStaCBSC").attr('checked', 'checked');
-
-        }
-        else {
-            $("#rowStaBoth").attr('checked', 'checked');
+            }
+            else {
+                $("#rowStaBoth").attr('checked', 'checked');
+            }
         }
     }
    

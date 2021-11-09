@@ -1,0 +1,41 @@
+﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.SuperAdminSubjectEntity>
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Subject Name
+            </th>
+            <th style="text-align:center;">
+                Edit
+            </th>
+            <th style="text-align:center;">
+                Delete
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.SubjectName
+                    @Html.HiddenFor(x => item.SubjectID)
+                </td>
+                <td>
+                    <a style="margin-left:70px;" href="@Url.Action("SubjectMaintenance", "SuperAdminSubject", new { subjectID = item.SubjectID })">
+                        <img src="~/ThemeData/images/viewIcon.png" />
+                    </a>
+                </td>
+                <td class="SchoolMasterDelete">
+                    <a style="margin-left:70px;" href="#" onclick="RemoveSubject(@item.SubjectID);">
+                        <img src="~/ThemeData/images/delete.png" />
+                    </a>
+                </td>
+            </tr>
+        }
+
+</table>
+
+
+

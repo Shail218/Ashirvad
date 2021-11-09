@@ -65,6 +65,8 @@
     <Compile Include="DataAcceessAPI\Area\Banner\IBannerAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Batch\IBatchAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\BranchRights\IBranchRightsAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\Class\IClassAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\Course\ICourseAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Faculty\IFacultyAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\PackageRights\IPackageRightsAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Branch\IBranchAPI.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="DataAcceessAPI\Area\Standard\IStandardAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Student\IStudentAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Subject\ISubjectAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\SuperAdminSubject\ISuperAdminSubjectAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Test\ITestAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\ToDo\IToDoAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\UPI\IUPIAPI.cs" />
@@ -151,6 +154,18 @@
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CATEGORY_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CLASS_DTL_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CLASS_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\COURSE_DTL_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\COURSE_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\FACULTY_MASTER.cs">
@@ -243,6 +258,9 @@
     <Compile Include="Model\STUDENT_PAYMENT_REL.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\SUBJECT_BRANCH_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\SUBJECT_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -287,6 +305,8 @@
     <Compile Include="Services\Area\Banner\Banner.cs" />
     <Compile Include="Services\Area\Batch\Batch.cs" />
     <Compile Include="Services\Area\BranchRights\BranchRights.cs" />
+    <Compile Include="Services\Area\Class\Class.cs" />
+    <Compile Include="Services\Area\Course\Course.cs" />
     <Compile Include="Services\Area\Faculty\Faculty.cs" />
     <Compile Include="Services\Area\PackageRights\PackageRights.cs" />
     <Compile Include="Services\Area\Branch\Branch.cs" />
@@ -310,6 +330,7 @@
     <Compile Include="Services\Area\Standard\Standard.cs" />
     <Compile Include="Services\Area\Student\Student.cs" />
     <Compile Include="Services\Area\Subject\Subject.cs" />
+    <Compile Include="Services\Area\SuperAdminSubject\SuperAdminSubject.cs" />
     <Compile Include="Services\Area\Test\Test.cs" />
     <Compile Include="Services\Area\ToDo\ToDo.cs" />
     <Compile Include="Services\Area\UPI\UPI.cs" />

@@ -193,13 +193,17 @@
   <ItemGroup>
     <Content Include="AboutUsDetail\OOAKCS38F28HH8D2XNQI.jpg" />
     <Content Include="AboutUsHeader\OOAKCS38F28HH8D2XNQI.jpg" />
+    <Content Include="BannerImage\Screenshot %281%29.png" />
+    <Content Include="BranchImage\Screenshot %281%29.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="FacultyImage\Screenshot %281%29.png" />
     <Content Include="FeesImage\empty_cart.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="GalleryImage\Screenshot %281%29.png" />
     <Content Include="Global.asax" />
     <Content Include="HomeWorkDetailImage\05CH9VE3HFIX0P6CYDSS.jpg" />
     <Content Include="HomeWorkDetailImage\38BL2MIGFU4ZFH8KSI8Z.png" />
@@ -236,8 +240,10 @@
     <Content Include="HomeWorkDetailImage\YNYGHLQWQ0KXPIUAM446.jpg" />
     <Content Include="HomeWorkDetailImage\ZQ425O88QISPTWL2X7PX.jpg" />
     <Content Include="HomeWorkDetailImage\ZVQDUOMNA9F6PW8UC0TR.jpg" />
+    <Content Include="HomeworkDocument\Screenshot %281%29.png" />
     <Content Include="LibraryImage\empty_cart.png" />
     <Content Include="MarksImage\empty_cart.png" />
+    <Content Include="PaperDocument\Screenshot %281%29.png" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="scripts\app\aboutus.js" />
@@ -250,9 +256,14 @@
     <Content Include="scripts\app\banner.js" />
     <Content Include="scripts\app\batch.js" />
     <Content Include="scripts\app\branch.js" />
+    <Content Include="scripts\app\branchclass.js" />
+    <Content Include="scripts\app\branchcourse.js" />
     <Content Include="scripts\app\branchdata.js" />
+    <Content Include="scripts\app\branchsubject.js" />
     <Content Include="scripts\app\branchwiseright.js" />
     <Content Include="scripts\app\Category.js" />
+    <Content Include="scripts\app\caurse.js" />
+    <Content Include="scripts\app\class.js" />
     <Content Include="scripts\app\common.js" />
     <Content Include="scripts\app\faculty.js" />
     <Content Include="scripts\app\fees.js" />
@@ -276,6 +287,7 @@
     <Content Include="scripts\app\standard.js" />
     <Content Include="scripts\app\student.js" />
     <Content Include="scripts\app\subject.js" />
+    <Content Include="scripts\app\superadminsubject.js" />
     <Content Include="scripts\app\test.js" />
     <Content Include="scripts\app\todo.js" />
     <Content Include="scripts\app\todoregister.js" />
@@ -288,6 +300,8 @@
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
@@ -1106,10 +1120,15 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BatchController.cs" />
     <Compile Include="Controllers\BatchWiseChartController.cs" />
+    <Compile Include="Controllers\BranchClassController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\BranchCourseController.cs" />
+    <Compile Include="Controllers\BranchSubjectController.cs" />
     <Compile Include="Controllers\BranchWiseRightController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CaurseController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
+    <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\FacultyController.cs" />
     <Compile Include="Controllers\HomeWorkController.cs" />
     <Compile Include="Controllers\NewLibraryController.cs" />
@@ -1139,6 +1158,7 @@
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\OnlinePaymentListController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
+    <Compile Include="Controllers\SuperAdminSubjectController.cs" />
     <Compile Include="Controllers\TestEntryController.cs" />
     <Compile Include="Controllers\TestPaperController.cs" />
     <Compile Include="Controllers\TestPaperLinkController.cs" />
@@ -1352,6 +1372,24 @@
     <Content Include="Views\Faculty\Create.cshtml" />
     <Content Include="Views\Faculty\Manage.cshtml" />
     <Content Include="Views\PackageRight\NoRights.cshtml" />
+    <Content Include="Views\Caurse\Index.cshtml" />
+    <Content Include="Views\Caurse\Create.cshtml" />
+    <Content Include="Views\Caurse\Manage.cshtml" />
+    <Content Include="Views\Class\Index.cshtml" />
+    <Content Include="Views\Class\Create.cshtml" />
+    <Content Include="Views\Class\Manage.cshtml" />
+    <Content Include="Views\SuperAdminSubject\Index.cshtml" />
+    <Content Include="Views\SuperAdminSubject\Create.cshtml" />
+    <Content Include="Views\SuperAdminSubject\Manage.cshtml" />
+    <Content Include="Views\BranchCourse\Index.cshtml" />
+    <Content Include="Views\BranchCourse\Create.cshtml" />
+    <Content Include="Views\BranchCourse\Manage.cshtml" />
+    <Content Include="Views\BranchClass\Index.cshtml" />
+    <Content Include="Views\BranchClass\Create.cshtml" />
+    <Content Include="Views\BranchClass\Manage.cshtml" />
+    <Content Include="Views\BranchSubject\Index.cshtml" />
+    <Content Include="Views\BranchSubject\Create.cshtml" />
+    <Content Include="Views\BranchSubject\Manage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1361,14 +1399,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="BannerImage\" />
-    <Folder Include="BranchImage\" />
-    <Folder Include="FacultyImage\" />
-    <Folder Include="GalleryImage\" />
-    <Folder Include="HomeworkDocument\" />
+    <Folder Include="CourseImage\" />
     <Folder Include="Models\" />
-    <Folder Include="PaperDocument\" />
-    <Folder Include="StudentImage\" />
     <Folder Include="Views\Base\" />
     <Folder Include="WebAPI\" />
     <Folder Include="ZipFiles\HomeworkDetails\" />

@@ -159,6 +159,21 @@
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_STAFF_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_FACULTY_MASTER_BRANCH_STAFF" />
         <AssociationConnector Association="AshirvadModel.FK_USER_DEF_BRANCH_STAFF" />
+        <EntityTypeShape EntityType="AshirvadModel.CLASS_MASTER" Width="1.5" PointX="3" PointY="24.125" />
+        <EntityTypeShape EntityType="AshirvadModel.COURSE_MASTER" Width="1.5" PointX="3" PointY="9" />
+        <EntityTypeShape EntityType="AshirvadModel.SUBJECT_BRANCH_MASTER" Width="1.5" PointX="3" PointY="26.75" />
+        <AssociationConnector Association="AshirvadModel.FK_CLASS_MASTER_TRANSACTION_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_COURSE_MASTER_TRANSACTION_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_SUBJECT_BRANCH_MASTER_TRANSACTION_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.CLASS_DTL_MASTER" Width="1.5" PointX="20.5" PointY="9.875" />
+        <EntityTypeShape EntityType="AshirvadModel.COURSE_DTL_MASTER" Width="1.5" PointX="13.25" PointY="6.5" />
+        <AssociationConnector Association="AshirvadModel.FK_CLASS_DTL_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_COURSE_DTL_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_CLASS_DTL_MASTER_CLASS_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_CLASS_DTL_MASTER_COURSE_DTL_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_CLASS_DTL_MASTER_TRANSACTION_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_COURSE_DTL_MASTER_COURSE_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_COURSE_DTL_MASTER_TRANSACTION_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
