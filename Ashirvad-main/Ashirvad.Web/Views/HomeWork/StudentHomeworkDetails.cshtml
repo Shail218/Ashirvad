@@ -25,7 +25,13 @@
                                 </th>
                                 <th>
                                     Student Name
-                                </th>                                
+                                </th>
+                                <th>
+                                    HomeWork Status
+                                </th>
+                                <th>
+                                    Remarks
+                                </th>
                                 <th>
                                     Download
                                 </th>
@@ -45,9 +51,11 @@
                         {
                             foreach (var item in Model)
                             {
+                                string StatusText = item.Status == 0 ? "Pending" : "Done";
                                 <tr>
                                     <td>
                                         @item.HomeworkDate.ToString("dd/MM/yyyy")
+
                                     </td>
 
                                     <td>
@@ -57,40 +65,48 @@
                                     <td>
                                         @item.StudentInfo.Name
                                     </td>
+                                    <td>
+                                        @StatusText
+                                    </td>
+                                    <td>
+                                        @item.Remarks
+                                    </td>
                                     <td style="text-align:center">
-                                        <a href="#">
+                                        <a onclick="DownloadHomeworkdetail('@item.HomeworkID', '@item.StudentInfo.StudentID','@item.HomeworkDate','@item.StudentInfo.Name','@item.StandardInfo.Standard')">
                                             <img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" style="height:35px;width:35px" />
                                         </a>
                                     </td>
                                     <td>
+                                        @Html.HiddenFor(x => item.homeworkDetailEntity.Status)
                                         <table id="rdbResult" class="radioboxlist form-control">
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <input type="radio" name="Board" id="statusPending" value="0" />
+                                                        @Html.RadioButtonFor(x => item.Status, 0, new { Id = "Pending_" + item.HomeworkID + item.StudentInfo.StudentID + "" })
                                                         <lable for="statusPending">Pending</lable>
                                                     </td>
                                                     <td>
-                                                        <input type="radio" name="Board" id="statusDone" value="1" style="margin:5px" />
+                                                        @Html.RadioButtonFor(x => item.Status, 1, new { Id = "Done_" + item.HomeworkID + item.StudentInfo.StudentID + "" })
                                                         <lable for="statusDone">Done</lable>
                                                     </td>
-                                                    
+
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </td>
                                     <td>
-                                        @Html.TextBoxFor(x => item.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
+                                        @Html.TextBoxFor(x => item.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off", Id = "Remark_" + item.HomeworkID + item.StudentInfo.StudentID + "" })
                                     </td>
                                     <td>
-                                        <a class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                                        <a onclick="UpdateHomework('@item.HomeworkID', '@item.StudentInfo.StudentID')" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                                             <span class="ladda-label">
                                                 Save
                                             </span>
                                             <span class="ladda-spinner"></span>
                                         </a>
                                     </td>
-                                </tr>}
+                                </tr>
+}
                         }
                     </table>
                 </div>
@@ -98,7 +114,7 @@
         </section>
     </div>
     @section Scripts {
-        @*<script type="text/javascript" src="~/scripts/app/test.js"></script>*@
+        <script type="text/javascript" src="~/scripts/app/homeworkdetail.js"></script>
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
         <script>

@@ -19,7 +19,7 @@ namespace Ashirvad.Data
         public string AnswerSheetName { get; set; }
         public int Status { get; set; }
         public string StatusText { get; set; }
-        public string Remarks { get; set; }
+        public string Remarks { get; set; } = string.Empty;
         public string FilePath { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public TransactionEntity Transaction { get; set; }

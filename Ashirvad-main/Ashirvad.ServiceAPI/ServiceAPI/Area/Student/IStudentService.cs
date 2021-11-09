@@ -15,5 +15,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Student
         bool RemoveStudent(long StudentID, string lastupdatedby);
         Task<StudentEntity> GetStudentByID(long studenID);
         Task<List<StudentEntity>> GetAllStudent(string studName, string contactNo);
+
+        Task<List<StudentEntity>> GetStudentByStd(long Std, long BranchID,long BatchTime);
     }
 }

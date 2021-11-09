@@ -57,7 +57,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             studentMaster.admission_date = studentInfo.AdmissionDate;
             studentMaster.file_name = studentInfo.FileName;
             studentMaster.file_path = studentInfo.FilePath;
-            studentMaster.row_sta_cd = studentInfo.RowStatus.RowStatusId;
+            studentMaster.row_sta_cd = 1;
             studentMaster.trans_id = this.AddTransactionData(studentInfo.Transaction);
             this.context.STUDENT_MASTER.Add(studentMaster);
             if (isUpdate)
@@ -133,7 +133,31 @@ namespace Ashirvad.Repo.Services.Area.Student
             //}
             return data;
         }
-
+        public async Task<List<StudentEntity>> GetAllStudentByStd(long Std, long Branch,long Batch)
+        {
+            var data = (from u in this.context.STUDENT_MASTER
+                        .Include("STD_MASTER")
+                        .Include("SCHOOL_MASTER")
+                        .Include("BRANCH_MASTER")                        
+                        where u.std_id == Std && u.branch_id == Branch&& u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active
+                        select new StudentEntity()
+                        {
+                           
+                            StudentID = u.student_id,                            
+                            GrNo = u.gr_no,                           
+                            StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
+                            SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },                           
+                            BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
+                            Name=u.first_name+" "+ u.last_name
+                        }).ToList();
+            //foreach (var item in data)
+            //{
+            //    data[data.IndexOf(item)].StudImage = item.StudentImgByte != null && item.StudentImgByte.Length > 0 ? Convert.ToBase64String(item.StudentImgByte) : "";
+            //}
+            return data;
+        }
+        
         public async Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, int status)
         {
             var data = (from u in this.context.STUDENT_MASTER

@@ -86,7 +86,7 @@ namespace Ashirvad.Web.Controllers
             else if(data.HomeworkID < 0)
             {
                 response.Status = false;
-                response.Message = "Homework Already Exisist!!";
+                response.Message = "Homework Already Exist!!";
 
             }
             else
@@ -176,43 +176,83 @@ namespace Ashirvad.Web.Controllers
             
             return View(result1.Result);
         }
-        public ActionResult Updatehomeworkdetails(long HomeworkID,long StudentID,string Remark,int Status)
+        public async Task<JsonResult> Updatehomeworkdetails(long HomeworkID,long StudentID,string Remark,int Status)
         {
             // var result = _homeworkdetailService.GetAllHomeworkdetailByHomeWork(StudhID);
             HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
+            homeworkDetail.HomeworkEntity = new HomeworkEntity();
+            homeworkDetail.StudentInfo = new StudentEntity();
             homeworkDetail.HomeworkEntity.HomeworkID = HomeworkID;
             homeworkDetail.StudentInfo.StudentID = StudentID;
             homeworkDetail.Remarks = Remark;
             homeworkDetail.Status = Status;
-            var result1 = _homeworkdetailService.Homeworkdetailupdate(homeworkDetail);
-
-
-            return View(result1.Result);
+            homeworkDetail.Transaction = GetTransactionData(Common.Enums.TransactionType.Insert);
+            var result1 = _homeworkdetailService.Homeworkdetailupdate(homeworkDetail).Result;
+            if (result1.HomeworkDetailID > 0)
+            {
+                response.Status = true;
+                response.Message = "Updated Successfully!!";
+            }
+            else
+            {
+                response.Status = false;
+                response.Message = "Failed To Updated!!";
+            }
+            return Json(response);
         }
 
-        public void SaveZipFile(List<string> fileName)
+        
+        public async Task<JsonResult> SaveZipFile(long homeworkid,long StudentID,DateTime Homework,string Student,string Class)
         {
-            string randomfilename = Common.Common.RandomString(20);
-            string Ex = ".pdf";
-            if (System.IO.File.Exists(Server.MapPath
-                           ("~/ZipFiles/" + randomfilename + ".zip")))
+            string[] array = new string[2];
+            string FileName = "";
+            try
             {
-                System.IO.File.Delete(Server.MapPath
-                              ("~/ZipFiles/" + randomfilename + ".zip"));
-            }
-            ZipArchive zip = System.IO.Compression.ZipFile.Open(Server.MapPath
-                     ("~/ZipFiles/" + randomfilename + ".zip"), ZipArchiveMode.Create);
-            
-            foreach (var item in fileName)
-            {
-                zip.CreateEntryFromFile(Server.MapPath
-                   ("~/HomeWorkDetailImage/" + item), item);
+
+                var homeworks = _homeworkService.GetHomeworkdetailsFiles(homeworkid).Result;
+                //string randomfilename = Common.Common.RandomString(20);
+                string randomfilename = "HomeWork_"+ Homework.ToString("ddMMyyyy") + "_Student_"+ Student +"_Class_"+ Class;
+                FileName = "/ZipFiles/HomeworkDetails/" + randomfilename + ".zip";
+                if (homeworks.Count > 0)
+                {
+                   
+                    string Ex = ".pdf";
+                    if (System.IO.File.Exists(Server.MapPath
+                                   ("~/ZipFiles/HomeworkDetails/" + randomfilename + ".zip")))
+                    {
+                        System.IO.File.Delete(Server.MapPath
+                                      ("~/ZipFiles/HomeworkDetails/" + randomfilename + ".zip"));
+                    }
+                    ZipArchive zip = System.IO.Compression.ZipFile.Open(Server.MapPath
+                             ("~/ZipFiles/HomeworkDetails/" + randomfilename + ".zip"), ZipArchiveMode.Create);
+
+                    foreach (var item in homeworks)
+                    {
+                        zip.CreateEntryFromFile(Server.MapPath
+                           ("~/" + item.FilePath), item.HomeworkContentFileName);
+
+                    }
+                    zip.Dispose();
+                }
                
+
+                
+            }
+            catch(Exception ex)
+            {
+
             }
 
-            zip.Dispose();
-            //return File(Server.MapPath("~/ZipFiles/bundle.zip"),
-            //          "application/zip", "Satya.zip");
+            HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
+            homeworkDetail.HomeworkEntity = new HomeworkEntity();
+            homeworkDetail.StudentInfo = new StudentEntity();
+            homeworkDetail.HomeworkEntity.HomeworkID = homeworkid;            
+            homeworkDetail.StudentInfo.StudentID = StudentID;            
+            homeworkDetail.StudentFilePath = FileName;
+            homeworkDetail.Transaction = GetTransactionData(Common.Enums.TransactionType.Insert);
+            var result1 = _homeworkdetailService.HomeworkdetailFileupdate(homeworkDetail);
+            return Json(FileName);
+
         }
 
     }

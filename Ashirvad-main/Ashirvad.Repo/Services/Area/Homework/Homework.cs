@@ -344,6 +344,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
             var data = (from u in this.context.HOMEWORK_MASTER_DTL
                         .Include("HOMEWORK_MASTER")
                         .Include("STD_MASTER")
+                        .Include("STUDENT_MASTER")
 
                         where u.homework_id == homeworkID
                         select new HomeworkEntity()
@@ -351,7 +352,9 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             
                             HomeworkID = u.homework_id,                            
                             HomeworkDate = u.submit_dt,
+                            Status = u.status,
                             Remarks = u.remarks,
+                            StudentFilePath = u.student_filepath,
                             StandardInfo = new StandardEntity()
                             {
                                 Standard = u.HOMEWORK_MASTER.STD_MASTER.standard,
@@ -376,7 +379,27 @@ namespace Ashirvad.Repo.Services.Area.Homework
             //}
             return data;
         }
+        public async Task<List<HomeworkEntity>> GetStudentHomeworkFile(long homeworkID)
+        {
 
+            var data = (from u in this.context.HOMEWORK_MASTER_DTL
+                        .Include("HOMEWORK_MASTER")
+                        .Include("STD_MASTER")
+                        where u.homework_id == homeworkID
+                        select new HomeworkEntity()
+                        {
+                            FilePath=u.homework_filepath,
+                            HomeworkContentFileName=u.homework_sheet_name,
+                           
+
+                        }).ToList();
+            //if (data != null)
+            //{
+            //    data.HomeworkContentText = Convert.ToBase64String(data.HomeworkContent);
+            //}
+            return data;
+        }
+        
         public bool RemoveHomework(long homeworkID, string lastupdatedby)
         {
             var data = (from u in this.context.HOMEWORK_MASTER
@@ -392,5 +415,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
 
             return false;
         }
+
+       
     }
 }

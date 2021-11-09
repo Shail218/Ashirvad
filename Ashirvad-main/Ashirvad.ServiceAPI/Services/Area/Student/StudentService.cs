@@ -95,7 +95,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
 
             return null;
         }
+        public async Task<List<StudentEntity>> GetStudentByStd(long Std, long Branch,long BatchTime)
+        {
+            try
+            {
+                return await this._studentContext.GetAllStudentByStd(Std, Branch, BatchTime);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
 
+            return null;
+        }
+        
         public async Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, int status = 0)
         {
             try

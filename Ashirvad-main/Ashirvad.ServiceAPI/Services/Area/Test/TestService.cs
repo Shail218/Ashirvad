@@ -461,5 +461,51 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
 
             return false;
         }
+        public async Task<List<StudentAnswerSheetEntity>> GetAnswerSheetdata(long testID)
+        {
+            try
+            {
+                var data = await _testContext.GetallAnswerSheetData(testID);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<StudentAnswerSheetEntity>> GetAnswerFiles(long TestID)
+        {
+            try
+            {
+                var data = await _testContext.GetStudentAnsFile(TestID);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<StudentAnswerSheetEntity> Ansdetailupdate(StudentAnswerSheetEntity studentAnswerSheet)
+        {
+            StudentAnswerSheetEntity answerSheetEntity = new StudentAnswerSheetEntity();
+            try
+            {
+                var data = await _testContext.AnsDetailUpdate(studentAnswerSheet);
+                answerSheetEntity.AnsSheetID = data;
+                return answerSheetEntity;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return answerSheetEntity;
+        }
     }
 }

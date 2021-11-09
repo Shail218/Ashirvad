@@ -1,5 +1,14 @@
-﻿@model List<Ashirvad.Data.MarksEntity>
+﻿@model List<Ashirvad.Data.StudentEntity>
 
+@{
+
+    Layout = null;
+}
+<style>
+    .customwidth {
+        width :30% !important;
+    }
+</style>
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
@@ -12,7 +21,18 @@
         </tr>
     </thead>
 
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @Html.TextBox("Marks", null, new { @class = "form-control customwidth required", @alt = "Remarks", autocomplete = "off", Id = "Marks_" + item.StudentID + ""})
+            </td>
 
+        </tr>
+    }
 
 </table>
 

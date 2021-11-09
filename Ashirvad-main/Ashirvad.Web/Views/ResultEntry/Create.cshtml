@@ -67,20 +67,20 @@
                 @Html.TextBoxFor(x => x.TotalMarks, null, new { @class = "form-control required", autocomplete = "off",@readonly="readonly" })
             </div>
             <div class="col-md-3">
-                @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.Remarks, null, new { @class = "form-control required", autocomplete = "off", @readonly = "readonly" })
+                @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(x => x.Remarks, null, new { @class = "form-control", autocomplete = "off", @readonly = "readonly" })
             </div>
             <div class="col-md-3">
                 @Html.Label("Solution Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 @Html.TextBoxFor(x => x.FileInfo, null, new { type = "file", htmlAttributes = new { @class = "form-control fileRequired" } })
             </div>
             <div class="col-md-3" style="text-align: right;margin-top:27px;">
-                <a onclick="return GetStudentDetail();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                @*<a onclick="return GetStudentDetail();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                     <span class="ladda-label">
                         Filter
                     </span>
                     <span class="ladda-spinner"></span>
-                </a>
+                </a>*@
                 @*<a href="@Url.Action("MarksMaintenance","ResultEntry", new { @MarksID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
                     <span class="ladda-label">
                         Cancel

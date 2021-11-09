@@ -88,7 +88,7 @@ function SaveDetail(aboutID) {
 }
 
 function RemoveaboutUs(aboutID) {
-    debugger;
+    
     if (confirm('Are you sure want to delete this About Us details?')) {
         ShowLoader();
         var postCall = $.post(commonData.AboutUs + "RemoveAboutUs", { "aboutID": aboutID });
@@ -104,7 +104,7 @@ function RemoveaboutUs(aboutID) {
 }
 
 function RemoveDetails(detailID) {
-    debugger;
+    
     if (confirm('Are you sure want to delete this About Us details?')) {
         ShowLoader();
         var postCall = $.post(commonData.AboutUs + "RemoveDetails", { "detailID": detailID });

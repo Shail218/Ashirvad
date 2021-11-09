@@ -5,6 +5,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Test;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -15,6 +16,7 @@ namespace Ashirvad.Web.Controllers
     public class TestPaperController : BaseController
     {
         private readonly ITestService _testService = null;
+        ResponseModel response = new ResponseModel();
         public TestPaperController(ITestService testService)
         {
             _testService = testService;
@@ -121,7 +123,7 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<ActionResult> StudentAnswerSheetMaintenance(long testID)
         {
-            return View(await _testService.GetAllAnswerSheetWithoutContentByTest(testID));
+            return View(await _testService.GetAnswerSheetdata(testID));
         }
 
         public async Task<JsonResult> Downloadtestpaper(long paperid)
@@ -198,8 +200,85 @@ namespace Ashirvad.Web.Controllers
             var test = await _testService.GetTestDetails(TestID, SubjectID); 
             return Json(test);
         }
-        
 
+
+        public async Task<JsonResult> SaveZipFile(long testid, long StudentID, DateTime Test, string Student, string Class)
+        {
+            string[] array = new string[2];
+            string FileName = "";
+            try
+            {
+
+                var homeworks = _testService.GetAnswerFiles(testid).Result;
+                //string randomfilename = Common.Common.RandomString(20);
+                string randomfilename = "Test_" + Test.ToString("ddMMyyyy") + "_Student_" + Student + "_Class_" + Class;
+                FileName = "/ZipFiles/TestPaperDetails/" + randomfilename + ".zip";
+                if (homeworks.Count > 0)
+                {
+
+                    string Ex = ".pdf";
+                    if (System.IO.File.Exists(Server.MapPath
+                                   ("~/ZipFiles/TestPaperDetails/" + randomfilename + ".zip")))
+                    {
+                        System.IO.File.Delete(Server.MapPath
+                                      ("~/ZipFiles/TestPaperDetails/" + randomfilename + ".zip"));
+                    }
+                    ZipArchive zip = System.IO.Compression.ZipFile.Open(Server.MapPath
+                             ("~/ZipFiles/TestPaperDetails/" + randomfilename + ".zip"), ZipArchiveMode.Create);
+
+                    foreach (var item in homeworks)
+                    {
+                        zip.CreateEntryFromFile(Server.MapPath
+                           ("~/" + item.FilePath), item.AnswerSheetName);
+
+                    }
+                    zip.Dispose();
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            //HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
+            //homeworkDetail.HomeworkEntity = new HomeworkEntity();
+            //homeworkDetail.StudentInfo = new StudentEntity();
+            //homeworkDetail.HomeworkEntity.HomeworkID = homeworkid;
+            //homeworkDetail.StudentInfo.StudentID = StudentID;
+            //homeworkDetail.StudentFilePath = FileName;
+            //homeworkDetail.Transaction = GetTransactionData(Common.Enums.TransactionType.Insert);
+            //var result1 = _homeworkdetailService.HomeworkdetailFileupdate(homeworkDetail);
+            return Json(FileName);
+
+        }
+
+        public async Task<JsonResult> UpdateAnsdetails(long TestID, long StudentID, string Remark, int Status)
+        {
+            // var result = _homeworkdetailService.GetAllHomeworkdetailByHomeWork(StudhID);
+            StudentAnswerSheetEntity answerSheetEntity = new StudentAnswerSheetEntity();
+            answerSheetEntity.TestInfo = new TestEntity();
+            answerSheetEntity.StudentInfo = new StudentEntity();
+            answerSheetEntity.TestInfo.TestID = TestID;
+            answerSheetEntity.StudentInfo.StudentID = StudentID;
+            answerSheetEntity.Remarks = Remark;
+            answerSheetEntity.Status = Status;
+            answerSheetEntity.Transaction = GetTransactionData(Common.Enums.TransactionType.Insert);
+            var result1 = _testService.Ansdetailupdate(answerSheetEntity).Result;
+            if (result1.AnsSheetID > 0)
+            {
+                response.Status = true;
+                response.Message = "Updated Successfully!!";
+            }
+            else
+            {
+                response.Status = false;
+                response.Message = "Failed To Updated!!";
+            }
+            return Json(response);
+        }
 
     }
 }

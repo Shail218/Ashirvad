@@ -2,6 +2,7 @@
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Student;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,11 +17,13 @@ namespace Ashirvad.Web.Controllers
     {
         // GET: ResultEntry
         private readonly IMarksService _MarksService;
+        private readonly IStudentService _studentService;
         public ResponseModel res = new ResponseModel();
 
-        public ResultEntryController(IMarksService marksService)
+        public ResultEntryController(IMarksService marksService, IStudentService studentService)
         {
             _MarksService = marksService;
+            _studentService = studentService;
         }
         public ActionResult Index()
         {
@@ -35,9 +38,9 @@ namespace Ashirvad.Web.Controllers
                 var result = await _MarksService.GetMarksByMarksID(MarksID);
                 Marks.MarksInfo = result;
             }
-
-            var MarksData = await _MarksService.GetAllMarks();
-            Marks.MarksData = MarksData;
+            Marks.StudentData = new List<StudentEntity>();
+            //var MarksData = await _MarksService.GetAllMarks();
+            //Marks.MarksData = MarksData;
 
             return View("Index", Marks);
         }
@@ -93,6 +96,12 @@ namespace Ashirvad.Web.Controllers
             var MarksData = await _MarksService.GetAllMarksWithoutImage();
 
             return Json(MarksData);
+        }
+
+        public async Task<ActionResult> GetStudentByStd(long Std, long BatchTime)
+        {
+            var result = _studentService.GetStudentByStd(Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime).Result;
+            return View("~/Views/ResultEntry/Manage.cshtml", result);
         }
     }
 }

@@ -679,6 +679,55 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
+        public async Task<List<StudentAnswerSheetEntity>> GetallAnswerSheetData(long testID)
+        {
+            var data = (from u in this.context.STUDENT_ANS_SHEET
+                        .Include("TEST_MASTER")
+                        .Include("STUDENT_MASTER")
+                        .Include("BRANCH_MASTER")
+                        .Include("STD_MASTER")
+                        where u.test_id == testID
+                        select new StudentAnswerSheetEntity()
+                        {
+                            
+                           
+                            Remarks = u.remarks,
+                            Status = u.status,
+                            StatusText = u.status == 1 ? "Pending" : "Done",
+                            StudentInfo = new StudentEntity()
+                            {
+                                StudentID = u.STUDENT_MASTER.student_id,
+                                FirstName = u.STUDENT_MASTER.first_name,
+                                LastName = u.STUDENT_MASTER.last_name,
+                                Name= u.STUDENT_MASTER.first_name+" "+ u.STUDENT_MASTER.last_name
+                            },
+                            
+                            SubmitDate = u.submit_dt,
+                            TestInfo = new TestEntity()
+                            {
+                                TestID = u.test_id,
+                                TestDate = u.TEST_MASTER.test_dt,
+                                TestName = u.TEST_MASTER.test_name,
+                                Standard = new StandardEntity()
+                                {
+                                    Standard = u.TEST_MASTER.STD_MASTER.standard,
+                                    StandardID = u.TEST_MASTER.STD_MASTER.std_id,
+                                    
+                                },
+                            },
+                            
+                        }).Distinct().ToList();
+            //if (data?.Count > 0)
+            //{
+            //    foreach (var item in data)
+            //    {
+            //        int idx = data.IndexOf(item);
+            //        data[idx].AnswerSheetContentText = Convert.ToBase64String(data[idx].AnswerSheetContent);
+            //    }
+            //}
+            return data;
+        }
+        
         public async Task<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID, long studentID)
         {
             var data = (from u in this.context.STUDENT_ANS_SHEET
@@ -933,6 +982,49 @@ namespace Ashirvad.Repo.Services.Area.Test
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
             return data;
+        }
+
+        public async Task<List<StudentAnswerSheetEntity>> GetStudentAnsFile(long TestID)
+        {
+
+            var data = (from u in this.context.STUDENT_ANS_SHEET
+                        .Include("TEST_MASTER")
+                        .Include("STD_MASTER")
+                        where u.test_id == TestID
+                        select new StudentAnswerSheetEntity()
+                        {
+                            FilePath = u.ans_sheet_filepath,
+                            AnswerSheetName = u.ans_sheet_name,
+
+
+                        }).ToList();
+            //if (data != null)
+            //{
+            //    data.HomeworkContentText = Convert.ToBase64String(data.HomeworkContent);
+            //}
+            return data;
+        }
+
+        public async Task<long> AnsDetailUpdate(StudentAnswerSheetEntity homeworkDetail)
+        {
+            Model.STUDENT_ANS_SHEET homework = new Model.STUDENT_ANS_SHEET();
+            bool isUpdate = true;
+            var data = (from t in this.context.STUDENT_ANS_SHEET
+                        where t.test_id == homeworkDetail.TestInfo.TestID && t.stud_id == homeworkDetail.StudentInfo.StudentID
+                        select t).ToList();
+
+
+            foreach (var item in data)
+            {
+
+                item.remarks = homeworkDetail.Remarks;
+                item.status = homeworkDetail.Status;
+                this.context.STUDENT_ANS_SHEET.Add(item);
+                this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+            }
+
+
+            return this.context.SaveChanges() > 0 ? homeworkDetail.TestInfo.TestID : 0;
         }
 
     }

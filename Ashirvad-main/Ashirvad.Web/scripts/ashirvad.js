@@ -339,7 +339,7 @@ function CheckRights() {
     var data = $.parseJSON(rightslist);
     if (data.length > 0) {
         for (var i = 0; i < data.length; i++) {
-            debugger;
+            
             var Page = data[i].PageInfo.Page;
             var Createstatus = data[i].PackageRightinfo.Createstatus;
             var Deletestatus = data[i].PackageRightinfo.Deletestatus;
