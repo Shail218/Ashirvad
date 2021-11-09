@@ -198,13 +198,20 @@
                 @Html.HiddenFor(x => x.FilePath)
             </div>
             <div class="col-md-1" style="margin-top:5px;">
-                @if (Model.FilePath != "" && Model.FilePath != null)
+                @if (Model == null)
                 {
-                    <img CssClass="imgStud" src="@Model.FilePath" Style="width: 80px; height: 80px; border: 1px solid #000;" id="imgStud" />
+                    <img CssClass="imgStud" Style="width: 80px; height: 80px; border: 1px solid #000;" id="imgStud" />
                 }
                 else
                 {
-                    <img CssClass="imgStud" Style="width: 80px; height: 80px; border: 1px solid #000;" id="imgStud" />
+                    if (Model.FilePath != "" && Model.FilePath != null)
+                    {
+                        <img CssClass="imgStud" src="@Model.FilePath" Style="width: 80px; height: 80px; border: 1px solid #000;" id="imgStud" />
+                    }
+                    else
+                    {
+                        <img CssClass="imgStud" Style="width: 80px; height: 80px; border: 1px solid #000;" id="imgStud" />
+                    }
                 }
             </div>
         </div>

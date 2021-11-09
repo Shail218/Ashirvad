@@ -118,7 +118,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         public async Task<List<BranchEntity>> GetAllBranchWithoutImage()
         {
             var data = (from u in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
-                        where u.branch_type == 2
+                        where u.branch_type == 2 && u.row_sta_cd == 1
                         select new BranchEntity()
                         {
                             RowStatus = new RowStatusEntity()

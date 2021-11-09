@@ -88,6 +88,9 @@
             @Html.Label("Faculty Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <input class="file-upload fileRequired" alt="Header Image" id="fuHeaderImageDetail" name="ImageFile" type="file" accept="image/*" />
             @Html.HiddenFor(x => x.HeaderImageText)
+            @Html.HiddenFor(x => x.FileInfo)
+            @Html.HiddenFor(x => x.FilePath)
+            @Html.HiddenFor(x => x.FacultyContentFileName)
         </div>
         <div class="form-group">
             <div class="col-md-12" style="text-align: right;margin-top:10px;">

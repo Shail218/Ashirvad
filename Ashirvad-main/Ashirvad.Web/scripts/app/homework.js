@@ -111,8 +111,8 @@ function SaveHomework() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        //var date1 = $("#HomeworkDate").val();
-        //$("#HomeworkDate").val(ConvertData(date1));
+        var date1 = $("#HomeworkDate").val();
+        $("#HomeworkDate").val(ConvertData(date1));
         var frm = $('#fHomeworkDetail');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');

@@ -51,6 +51,8 @@
     <Compile Include="BranchWiseRightEntity.cs" />
     <Compile Include="CategoryEntity.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="ClassEntity.cs" />
+    <Compile Include="CourseEntity.cs" />
     <Compile Include="DataUsageEntity.cs" />
     <Compile Include="FacultyEntity.cs" />
     <Compile Include="FeesEntity.cs" />
@@ -68,6 +70,8 @@
     <Compile Include="Model\BatchMaintenanceModel.cs" />
     <Compile Include="Model\BranchWiseRightMaintenanceModel.cs" />
     <Compile Include="Model\CategoryMaintenanceModel.cs" />
+    <Compile Include="Model\ClassMaintenanceModel.cs" />
+    <Compile Include="Model\CourseMaintenanceModel.cs" />
     <Compile Include="Model\FacultyMaintenanceModel.cs" />
     <Compile Include="Model\MarksMaintenanceModel.cs" />
     <Compile Include="Model\FeesMaintenanceModel.cs" />
@@ -86,6 +90,7 @@
     <Compile Include="Model\StandardMaintenanceModel.cs" />
     <Compile Include="Model\StudentMaintenanceModel.cs" />
     <Compile Include="Model\SubjectMaintenanceModel.cs" />
+    <Compile Include="Model\SuperAdminSubjectModel.cs" />
     <Compile Include="Model\TestMaintenanceModel.cs" />
     <Compile Include="Model\ToDoMaintenanceModel.cs" />
     <Compile Include="Model\UPIModel.cs" />
@@ -108,6 +113,7 @@
     <Compile Include="StudentAnswerSheetEntity.cs" />
     <Compile Include="StudentEntity.cs" />
     <Compile Include="SubjectEntity.cs" />
+    <Compile Include="SuperAdminSubjectEntity.cs" />
     <Compile Include="TestEntity.cs" />
     <Compile Include="ToDoEntity.cs" />
     <Compile Include="TransactionEntity.cs" />

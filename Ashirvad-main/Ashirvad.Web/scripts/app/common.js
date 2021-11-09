@@ -44,6 +44,9 @@
     PackageRight: $("#hdnFldVDName").val() + "PackageRight/",
     BranchWiseRight: $("#hdnFldVDName").val() + "BranchWiseRight/",
     Faculty: $("#hdnFldVDName").val() + "Faculty/",
+    Course: $("#hdnFldVDName").val() + "Caurse/",
+    Class: $("#hdnFldVDName").val() + "Class/",
+    SuperAdminSubject: $("#hdnFldVDName").val() + "SuperAdminSubject/",
 };
 
 function GetExtention(image){

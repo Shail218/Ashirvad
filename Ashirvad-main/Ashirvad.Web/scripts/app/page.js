@@ -3,7 +3,7 @@
 
 
 $(document).ready(function () {
-    ShowLoader();
+    //ShowLoader();
 
 
     if ($("#BranchInfo_BranchID").val() != "") {

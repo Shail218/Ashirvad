@@ -67,10 +67,10 @@ namespace Ashirvad.Web.Controllers
             var data = await _FeesService.FeesMaintenance(Fees);
             if (data != null)
             {
-                return Json(true);
+                return Json(data);
             }
 
-            return Json(false);
+            return Json(0);
         }
 
         [HttpPost]

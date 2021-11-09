@@ -62,6 +62,8 @@
     <Compile Include="ServiceAPI\Area\Banner\IBannerService.cs" />
     <Compile Include="ServiceAPI\Area\Batch\IBatchService.cs" />
     <Compile Include="ServiceAPI\Area\BranchRights\IBranchRightsService.cs" />
+    <Compile Include="ServiceAPI\Area\Class\IClassService.cs" />
+    <Compile Include="ServiceAPI\Area\Course\ICourseService.cs" />
     <Compile Include="ServiceAPI\Area\Faculty\IFacultyService.cs" />
     <Compile Include="ServiceAPI\Area\PackageRights\IPackageRightsService.cs" />
     <Compile Include="ServiceAPI\Area\Library1\ILibrary1Service.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="ServiceAPI\Area\Standard\IStandardService.cs" />
     <Compile Include="ServiceAPI\Area\Student\IStudentService.cs" />
     <Compile Include="ServiceAPI\Area\Subject\ISubjectService.cs" />
+    <Compile Include="ServiceAPI\Area\SuperAdminSubject\ISuperAdminSubjectService.cs" />
     <Compile Include="ServiceAPI\Area\Test\ITestService.cs" />
     <Compile Include="ServiceAPI\Area\ToDo\IToDoService.cs" />
     <Compile Include="ServiceAPI\Area\UPI\IUPIService.cs" />
@@ -95,6 +98,8 @@
     <Compile Include="Services\Area\Attendance\AttendanceService.cs" />
     <Compile Include="Services\Area\Banner\BannerService.cs" />
     <Compile Include="Services\Area\Batch\BatchService.cs" />
+    <Compile Include="Services\Area\Class\ClassService.cs" />
+    <Compile Include="Services\Area\Course\CourseService.cs" />
     <Compile Include="Services\Area\Faculty\FacultyService.cs" />
     <Compile Include="Services\Area\Library1\Library1Service.cs" />
     <Compile Include="Services\Area\Marks\MarksService.cs" />
@@ -117,6 +122,7 @@
     <Compile Include="Services\Area\Student\StudentService.cs" />
     <Compile Include="Services\Area\Subject\SubjectService.cs" />
     <Compile Include="Services\Area\HomeworkDetail\HomeworkDetailService.cs" />
+    <Compile Include="Services\Area\SuperAdminSubject\SuperAdminSubjectService.cs" />
     <Compile Include="Services\Area\Test\TestService.cs" />
     <Compile Include="Services\Area\ToDo\ToDoService.cs" />
     <Compile Include="Services\Area\UPI\UPIService.cs" />

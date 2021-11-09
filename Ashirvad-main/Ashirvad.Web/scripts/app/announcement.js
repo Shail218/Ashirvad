@@ -17,24 +17,9 @@ $(document).ready(function () {
             }
         } else {
             $("#BranchDiv").hide();
-        }
-    });
-
-    if ($("#BranchData_BranchID").val() != "") {
-        if ($("#BranchData_BranchID").val() != "0") {
-            $("#rowStaBranch").attr('checked', 'checked');
-            $("#BranchDiv").show();
-            $('#BranchName option[value="' + $("#BranchData_BranchID").val() + '"]').attr("selected", "selected");
-        } else {
-            $("#rowStaAll").attr('checked', 'checked');
-            $("#BranchDiv").hide();
-            $('#BranchName option[value="' + $("#BranchData_BranchID").val() + '"]').attr("selected", "selected");
             $("#BranchData_BranchID").val(0);
         }
-    } else {
-        $("#BranchDiv").hide();
-        $("#BranchData_BranchID").val(0);
-    }
+    });
 
     $('input[type=radio][name=Type]').change(function () {
         if (this.value == 'Branch') {
@@ -53,8 +38,16 @@ function LoadBranch(onLoaded) {
         $('#BranchName').empty();
         $('#BranchName').select2();
         $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
+        if ($("#Role_Name").val() == 'SuperAdmin') {
+            for (i = 0; i < data.length; i++) {
+                $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
+            }
+        } else {
+            for (i = 0; i < data.length; i++) {
+                if (data[i].BranchID == $("#Branch_Name").val()) {
+                    $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
+                }
+            }
         }
         if (onLoaded != undefined) {
             onLoaded();
