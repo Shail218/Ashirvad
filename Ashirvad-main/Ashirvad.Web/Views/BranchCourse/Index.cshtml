@@ -1,5 +1,5 @@
 ﻿
-
+@model Ashirvad.Data.Model.BranchCourseMaintenanceModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,7 +15,7 @@
                 </div>
                 <div class="box-body">
                     @{
-                        Html.RenderPartial("Create");
+                        Html.RenderPartial("Create", new ViewDataDictionary(Model.BranchCourseData));
                     }
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     <h3 class="col-md-6">Course Details</h3>
 
                     @{
-                        Html.RenderPartial("Manage");
+                        Html.RenderPartial("Manage", new ViewDataDictionary(Model.BranchCourseData));
                     }
                 </div>
             </div>
