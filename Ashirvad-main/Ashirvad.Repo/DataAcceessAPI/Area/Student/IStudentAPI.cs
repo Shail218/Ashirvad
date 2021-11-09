@@ -11,6 +11,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Student
     {
         Task<long> StudentMaintenance(StudentEntity studentInfo);
         Task<List<StudentEntity>> GetAllStudent(long branchID, int status);
+        Task<List<StudentEntity>> GetAllStudentByStd(long Std, long Branch,long BatchTime);
         Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, int status = 0);
         bool RemoveStudent(long StudentID, string lastupdatedby);
         Task<StudentEntity> GetStudentByID(long studenID);

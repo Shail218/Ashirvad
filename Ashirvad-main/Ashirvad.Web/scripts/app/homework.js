@@ -207,3 +207,20 @@ $("#Type").change(function () {
     $('#PaperTypeID').val(Data);
 });
 
+function DownloadHomeworkdetail(HomeworkID) {
+    ShowLoader();
+    var postCall = $.post(commonData.Homework + "GetHomeworkdetailsFile", { "homeworkid": HomeworkID });
+    postCall.done(function (data) {
+        HideLoader();
+        //if (data != null) {
+        //    var a = document.createElement("a"); //Create <a>
+        //    a.href = "data:" + data[3] + ";base64," + data[1]; //Image Base64 Goes here
+        //    a.download = data[2];//File name Here
+        //    a.click(); //Downloaded file
+        //}
+    }).fail(function () {
+        HideLoader();
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+

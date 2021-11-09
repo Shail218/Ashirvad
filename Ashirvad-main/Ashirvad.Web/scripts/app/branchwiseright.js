@@ -214,7 +214,7 @@ function GetData() {
 }
 
 function SaveBranchWiseRight() {
-    debugger;
+    
     var Array = [];
     var isSuccess = ValidateData('drights');
     if (isSuccess) {

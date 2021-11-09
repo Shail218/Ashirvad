@@ -41,5 +41,10 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Test
         Task<TestEntity> GetTestDetails(long testID,long SubjectID);
         bool RemoveTestAnswerSheetdetail(long TestID, long studid);
         #endregion
+
+        Task<List<StudentAnswerSheetEntity>> GetAnswerSheetdata(long testID);
+        Task<List<StudentAnswerSheetEntity>> GetAnswerFiles(long hwID);
+
+        Task<StudentAnswerSheetEntity> Ansdetailupdate(StudentAnswerSheetEntity answerSheetEntity);
     }
 }

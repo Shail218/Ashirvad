@@ -10,5 +10,7 @@ namespace Ashirvad.Data.Model
     {
         public MarksEntity MarksInfo { get; set; }
         public List<MarksEntity> MarksData { get; set; }
+
+        public List<StudentEntity> StudentData { get; set; }
     }
 }

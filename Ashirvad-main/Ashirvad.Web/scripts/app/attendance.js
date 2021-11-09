@@ -92,7 +92,7 @@ function GetStudentDetail() {
 }
 
 function SaveAttendance() {
-    debugger;
+    
     var AttendanceData = [];
     Map = {};
     $("#attendancetable tbody tr").each(function () {       

@@ -140,5 +140,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
 
             return false;
         }
+
+        public async Task<List<HomeworkEntity>>GetHomeworkdetailsFiles(long hwID)
+        {
+            try
+            {
+                var data = await _homeworkContext.GetStudentHomeworkFile(hwID);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
     }
 }

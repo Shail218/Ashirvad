@@ -17,5 +17,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Homework
         Task<List<HomeworkEntity>> GetStudentHomeworkChecking(long hwID);
         bool RemoveHomework(long hwID, string lastupdatedby);
         Task<List<HomeworkEntity>> GetAllHomeworks(DateTime hwDate, string searchParam);
+
+        Task<List<HomeworkEntity>> GetHomeworkdetailsFiles(long hwID);
     }
 }

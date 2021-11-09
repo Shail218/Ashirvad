@@ -98,7 +98,10 @@ function LoadTestDetails(TestID,Subject) {
     postCall.done(function (data) {
         $("#TotalMarks").val(data.Marks);
         $("#Remarks").val(data.Remarks);
-        
+
+        var Std = $('#StandardInfo_StandardID').val();
+        var Batch = $('#batchEntityInfo_BatchID').val();
+        LoadStudentDetails(Std, Batch);
       
 
     }).fail(function () {
@@ -186,6 +189,18 @@ function LoadTestDates(BatchType) {
     }
 }
 
+function LoadStudentDetails(Std, Batch)
+{
+    var postCall = $.post(commonData.ResultEntry + "GetStudentByStd", { "Std": Std, "BatchTime": Batch });
+    postCall.done(function (data) {
+        $("#StudentDetail").html(data);
+
+
+    }).fail(function () {
+        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
 $("#BranchName").change(function () {
 
     var Data = $("#BranchName option:selected").val();
@@ -204,6 +219,7 @@ $("#SubjectName").change(function () {
     var Data1= $("#testddl option:selected").val();
     $('#SubjectInfo_SubjectID').val(Data);
     LoadTestDetails(Data1, Data);
+    
 });
 
 $("#BatchTime").change(function () {

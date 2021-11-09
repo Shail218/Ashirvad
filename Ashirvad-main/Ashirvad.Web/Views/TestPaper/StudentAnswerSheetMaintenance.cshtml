@@ -24,8 +24,12 @@
                                 <th>
                                     Student Name
                                 </th>
+                                
                                 <th>
-                                    Student No
+                                    Test Status
+                                </th>
+                                <th>
+                                    Remarks
                                 </th>
                                 <th>
                                     Download AnswerSheet
@@ -37,7 +41,7 @@
                                     Remarks
                                 </th>
                                 <th>
-                                    Edit
+                                    Action
                                 </th>
                             </tr>
                         </thead>
@@ -46,36 +50,57 @@
                         {
                             foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>
-                                        @item.SubmitDate
-                                    </td>
+                    <tr>
+                        <td>
+                            @item.SubmitDate.ToString("dd/MM/yyyy")
+                        </td>
 
-                                    <td>
-                                        @item.StudentInfo.FirstName @item.StudentInfo.LastName
-                                    </td>
+                        <td>
+                            @item.StudentInfo.FirstName @item.StudentInfo.LastName
+                        </td>
+                        <td>
+                            @item.StatusText
+                        </td>
+                        <td>
+                            @item.Remarks
+                        </td>
 
-                                    <td>
-                                        @item.StudentInfo.StudentID
-                                    </td>
-                                    <td style="text-align:center">
-                                        <a href="#">
-                                            <img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" style="height:35px;width:35px" />
-                                        </a>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        @Html.TextBoxFor(x => item.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
-                                    </td>
-                                    <td>
-                                        <a onclick="return SaveTest();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
-                                            <span class="ladda-label">
-                                                Save
-                                            </span>
-                                            <span class="ladda-spinner"></span>
-                                        </a>
-                                    </td>
-                                </tr>
+                        <td style="text-align:center">
+                            <a onclick="DownloadAnsdetail('@item.TestInfo.TestID', '@item.StudentInfo.StudentID','@item.TestInfo.TestDate','@item.StudentInfo.Name','@item.TestInfo.Standard.Standard')">
+                                <img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" style="height:35px;width:35px" />
+                            </a>
+                        </td>
+                        <td>
+                            @Html.HiddenFor(x => item.Status)
+                            <table id="rdbResult" class="radioboxlist form-control">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            @Html.RadioButtonFor(x => item.Status, 0, new { Id = "Pending_" + item.TestInfo.TestID + item.StudentInfo.StudentID + "" })
+                                            <lable for="statusPending">Pending</lable>
+                                        </td>
+                                        <td>
+                                            @Html.RadioButtonFor(x => item.Status, 1, new { Id = "Done_" + item.TestInfo.TestID + item.StudentInfo.StudentID + "" })
+                                            <lable for="statusDone">Done</lable>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => item.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off", Id = "Remark_" + item.TestInfo.TestID + item.StudentInfo.StudentID + "" })
+                           
+                        </td>
+                        <td>
+                            <a onclick="UpdateTest('@item.TestInfo.TestID', '@item.StudentInfo.StudentID')" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                                <span class="ladda-label">
+                                    Save
+                                </span>
+                                <span class="ladda-spinner"></span>
+                            </a>
+                        </td>
+                    </tr>
                             }
                         }
                     </table>
@@ -84,7 +109,7 @@
         </section>
     </div>
     @section Scripts {
-        @*<script type="text/javascript" src="~/scripts/app/test.js"></script>*@
+        <script type="text/javascript" src="~/scripts/app/anssheetdetail.js"></script>
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
         <script>

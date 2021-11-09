@@ -289,13 +289,35 @@ namespace Ashirvad.Repo.Services.Area.Homework
            
             foreach(var item in data)
             {
-                homework.trans_id = this.AddTransactionData(homeworkDetail.Transaction);            
-                homework.remarks = homeworkDetail.Remarks;
-                homework.status = homeworkDetail.Status;               
-                this.context.HOMEWORK_MASTER_DTL.Add(homework);
-                this.context.Entry(homework).State = System.Data.Entity.EntityState.Modified;
+
+                item.remarks = homeworkDetail.Remarks;
+                item.status = homeworkDetail.Status;               
+                this.context.HOMEWORK_MASTER_DTL.Add(item);
+                this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
             }
            
+
+            return this.context.SaveChanges() > 0 ? homeworkDetail.HomeworkEntity.HomeworkID : 0;
+        }
+
+        public async Task<long> HomeworkDetailFileUpdate(HomeworkDetailEntity homeworkDetail)
+        {
+
+            Model.HOMEWORK_MASTER_DTL homework = new Model.HOMEWORK_MASTER_DTL();
+            bool isUpdate = true;
+            var data = (from t in this.context.HOMEWORK_MASTER_DTL
+                        where t.homework_id == homeworkDetail.HomeworkEntity.HomeworkID && t.stud_id == homeworkDetail.StudentInfo.StudentID
+                        select t).ToList();
+
+
+            foreach (var item in data)
+            {
+                item.trans_id = this.AddTransactionData(homeworkDetail.Transaction);
+                item.student_filepath = homeworkDetail.StudentFilePath;              
+                this.context.HOMEWORK_MASTER_DTL.Add(item);
+                this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+            }
+
 
             return this.context.SaveChanges() > 0 ? homework.homework_master_dtl_id : 0;
         }
