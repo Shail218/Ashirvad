@@ -94,7 +94,6 @@ namespace Ashirvad.Repo.Services.Area
             var data = (from u in this.context.MARKS_MASTER
                         .Include("STUDENT_MASTER")
                         .Include("TEST_MASTER")
-                        .Include("TEST_MASTER")
                         where u.branch_id == Branch && (u.marks_id == MarksID || MarksID == 0) && (u.TEST_MASTER.std_id == Std || Std == 0) && (u.TEST_MASTER.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1
                         select new MarksEntity()
                         {
@@ -106,9 +105,19 @@ namespace Ashirvad.Repo.Services.Area
                             MarksID = u.marks_id,
                             MarksDate = u.marks_dt,
                             AchieveMarks = u.achive_marks,
+                            MarksContentFileName = u.file_name,
+                            MarksFilepath = u.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id },
-                            testEntityInfo = new TestEntity() { TestID = u.test_id },
+                            testEntityInfo = new TestEntity() {
+                                TestID = u.test_id,
+                                Marks = u.TEST_MASTER.total_marks,
+                                Subject = new SubjectEntity()
+                                {
+                                    Subject = u.TEST_MASTER.SUBJECT_MASTER.subject
+
+                                }
+                            },
                             student = new StudentEntity()
                             {
                                 StudentID = u.student_id,
@@ -159,9 +168,28 @@ namespace Ashirvad.Repo.Services.Area
             }
 
             return false;
-        }        
+        }
 
-      
+        public async Task<long> UpdateMarksDetails(MarksEntity marksEntity)
+        {
+            Model.MARKS_MASTER marks = new Model.MARKS_MASTER();
+            bool isUpdate = true;
+            var data = (from t in this.context.MARKS_MASTER
+                        where t.marks_id == marksEntity.MarksID && t.student_id == marksEntity.student.StudentID
+                        select t).ToList();
+
+
+            foreach (var item in data)
+            {
+
+                item.achive_marks = marksEntity.AchieveMarks;
+                this.context.MARKS_MASTER.Add(item);
+                this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+            }
+
+
+            return this.context.SaveChanges() > 0 ? marksEntity.MarksID : 0;
+        }
 
     }
 }

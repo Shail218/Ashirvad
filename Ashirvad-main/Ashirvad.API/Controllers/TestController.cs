@@ -421,7 +421,7 @@ namespace Ashirvad.API.Controllers
             {
                 try
                 {
-                    foreach (string file in httpRequest.Files)
+                    for (int file = 0; file < httpRequest.Files.Count; file++)
                     {
                         string fileName;
                         string extension;

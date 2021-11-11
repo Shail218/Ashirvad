@@ -74,22 +74,6 @@ function LoadSubject(branchID) {
     });
 }
 
-function LoadTestDetails(TestID, Subject) {
-    var postCall = $.post(commonData.TestPaper + "GetTestDetails", { "TestID": TestID, "SubjectID": Subject });
-    postCall.done(function (data) {
-        $("#TotalMarks").val(data.Marks);
-        $("#Remarks").val(data.Remarks);
-
-        var Std = $('#StandardInfo_StandardID').val();
-        var Batch = $('#batchEntityInfo_BatchID').val();
-        LoadStudentDetails(Std, Batch);
-
-
-    }).fail(function () {
-        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
-}
-
 function LoadTestDates(BatchType) {
 
     var BranchID = $("#Branch_Name").val();
@@ -107,7 +91,6 @@ function LoadTestDates(BatchType) {
                 var TestDate = convertddmmyyyy(test);
                 $("#testddl").append("<option value='" + data[i].TestID + "'>" + TestDate + "</option>");
             }
-
             HideLoader();
         }).fail(function () {
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -120,13 +103,37 @@ function LoadTestDates(BatchType) {
     }
 }
 
-function LoadStudentDetails(Std, Batch) {
-    var postCall = $.post(commonData.MarksRegister + "GetStudentByStd", { "Std": Std, "BatchTime": Batch });
+function LoadStudentDetails() {
+    var postCall = $.post(commonData.MarksRegister + "GetAllAchieveMarks");
     postCall.done(function (data) {
         $("#StudentDetail").html(data);
     }).fail(function () {
         //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
+}
+
+function UpdateMarks(MarksID, StudentID) {
+    ShowLoader();
+    var marks = $("#Marks_" + MarksID).val();
+    if (marks != "" && marks != null) {
+        var postCall = $.post(commonData.MarksRegister + "UpdateMarksDetails", { "MarksID": MarksID, "StudentID": StudentID, "AchieveMarks": marks });
+        postCall.done(function (data) {
+            HideLoader();
+            if (data.Status == true) {
+                ShowMessage(data.Message, "Success");
+                LoadStudentDetails();
+                //setTimeout(function () { window.location.href = "GetAllAchieveMarks" }, 2000);
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    } else {
+        HideLoader();
+        ShowMessage("Please Enter Achieve Marks!!", "Error");
+    }
 }
 
 $("#BranchName").change(function () {
@@ -146,8 +153,7 @@ $("#SubjectName").change(function () {
     var Data = $("#SubjectName option:selected").val();
     var Data1 = $("#testddl option:selected").val();
     $('#SubjectInfo_SubjectID').val(Data);
-    LoadTestDetails(Data1, Data);
-
+    LoadStudentDetails();
 });
 
 $("#BatchTime").change(function () {

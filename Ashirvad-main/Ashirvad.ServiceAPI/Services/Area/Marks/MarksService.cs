@@ -34,8 +34,6 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return Marks;
         }
 
-      
-
         public async Task<MarksEntity> GetMarksByMarksID(long MarksID)
         {
             try
@@ -80,6 +78,36 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return false;
         }
 
-       
+
+        public async Task<List<MarksEntity>> GetAllAchieveMarks(long Std, long Branch, long Batch, long MarksID)
+        {
+            try
+            {
+                return await this._MarksContext.GetAllAchieveMarks(Std,Branch,Batch,MarksID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<MarksEntity> UpdateMarksDetails(MarksEntity marksEntity)
+        {
+            MarksEntity marks = new MarksEntity();
+            try
+            {
+                var data = await _MarksContext.UpdateMarksDetails(marksEntity);
+                marks.MarksID = data;
+                return marks;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return marks;
+        }
     }
 }

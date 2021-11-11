@@ -13,6 +13,7 @@ namespace Ashirvad.Data
         public List<BannerTypeEntity> BannerType { get; set; }
         public BranchEntity BranchInfo { get; set; }
         public RowStatusEntity RowStatus { get; set; }
+        public BannerTypeEntity bannerTypeEntity { get; set; }
         public TransactionEntity Transaction { get; set; }
         public byte[] BannerImage { get; set; }
         public string BannerImageText { get; set; }

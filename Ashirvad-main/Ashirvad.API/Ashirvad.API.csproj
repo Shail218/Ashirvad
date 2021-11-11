@@ -238,6 +238,7 @@
     <Compile Include="Controllers\FeesStructureWebAPIController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeworkController.cs" />
+    <Compile Include="Controllers\MarksController.cs" />
     <Compile Include="Controllers\NewLibraryController.cs" />
     <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="Controllers\LinkController.cs" />
