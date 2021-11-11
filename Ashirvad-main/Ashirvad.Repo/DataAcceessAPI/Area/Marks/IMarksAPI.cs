@@ -11,9 +11,8 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
     {
         Task<long> MarksMaintenance(MarksEntity branchInfo);
         Task<List<MarksEntity>> GetAllMarks();
-        Task<List<MarksEntity>> GetAllMarksWithoutImage();
         Task<MarksEntity> GetMarksByMarksID(long MarksID);
         bool RemoveMarks(long MarksID, string lastupdatedby);
-       
+        Task<List<MarksEntity>> GetAllAchieveMarks(long Std, long Branch, long Batch, long MarksID);
     }
 }

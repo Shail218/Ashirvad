@@ -14,10 +14,17 @@ namespace Ashirvad.Repo.Model
     
     public partial class CLASS_DTL_MASTER
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CLASS_DTL_MASTER()
+        {
+            this.SUBJECT_DTL_MASTER = new HashSet<SUBJECT_DTL_MASTER>();
+        }
+    
         public long class_dtl_id { get; set; }
         public long branch_id { get; set; }
         public long class_id { get; set; }
         public long course_dtl_id { get; set; }
+        public Nullable<bool> is_class { get; set; }
         public Nullable<int> row_sta_cd { get; set; }
         public long trans_id { get; set; }
     
@@ -25,5 +32,7 @@ namespace Ashirvad.Repo.Model
         public virtual CLASS_MASTER CLASS_MASTER { get; set; }
         public virtual COURSE_DTL_MASTER COURSE_DTL_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SUBJECT_DTL_MASTER> SUBJECT_DTL_MASTER { get; set; }
     }
 }

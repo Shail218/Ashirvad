@@ -27,7 +27,6 @@ namespace Ashirvad.Repo.Model
             this.STUDENT_PAYMENT_REL = new HashSet<STUDENT_PAYMENT_REL>();
             this.UPI_MASTER = new HashSet<UPI_MASTER>();
             this.FEE_STRUCTURE_DTL = new HashSet<FEE_STRUCTURE_DTL>();
-            this.MARKS_MASTER_DTL = new HashSet<MARKS_MASTER_DTL>();
             this.CATEGORY_MASTER = new HashSet<CATEGORY_MASTER>();
             this.LIBRARY_MASTER_DTL = new HashSet<LIBRARY_MASTER_DTL>();
             this.LIBRARY1_MASTER = new HashSet<LIBRARY1_MASTER>();
@@ -47,6 +46,7 @@ namespace Ashirvad.Repo.Model
             this.SUBJECT_BRANCH_MASTER = new HashSet<SUBJECT_BRANCH_MASTER>();
             this.COURSE_DTL_MASTER = new HashSet<COURSE_DTL_MASTER>();
             this.CLASS_DTL_MASTER = new HashSet<CLASS_DTL_MASTER>();
+            this.SUBJECT_DTL_MASTER = new HashSet<SUBJECT_DTL_MASTER>();
         }
     
         public long trans_id { get; set; }
@@ -77,8 +77,6 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<UPI_MASTER> UPI_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MARKS_MASTER_DTL> MARKS_MASTER_DTL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CATEGORY_MASTER> CATEGORY_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -117,5 +115,7 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<COURSE_DTL_MASTER> COURSE_DTL_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CLASS_DTL_MASTER> CLASS_DTL_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SUBJECT_DTL_MASTER> SUBJECT_DTL_MASTER { get; set; }
     }
 }

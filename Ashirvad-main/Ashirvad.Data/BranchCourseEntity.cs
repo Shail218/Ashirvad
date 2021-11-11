@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ashirvad.Data
 {
-    public class BranchCourseEntity
+    public class BranchCourseEntity:ResponseModel
     {
         public long course_dtl_id { get; set; }
         public string JsonData { get; set; }

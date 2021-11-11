@@ -24,12 +24,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
             try
             {
                 long MarksID = await _MarksContext.MarksMaintenance(MarksInfo);
-                if (MarksID > 0)
-                {
-                    //Add User
-                    //Get Marks
-                    Marks.MarksID = MarksID;
-                }
+                Marks.MarksID = MarksID;
             }
             catch (Exception ex)
                 {
@@ -39,22 +34,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return Marks;
         }
 
-        public async Task<OperationResult<List<MarksEntity>>> GetAllMarksWithoutImage()
-        {
-            try
-            {
-                OperationResult<List<MarksEntity>> Marks = new OperationResult<List<MarksEntity>>();
-                Marks.Data = await _MarksContext.GetAllMarksWithoutImage();
-                Marks.Completed = true;
-                return Marks;
-            }
-            catch (Exception ex)
-            {
-                EventLogger.WriteEvent(Logger.Severity.Error, ex);
-            }
-
-            return null;
-        }
+      
 
         public async Task<MarksEntity> GetMarksByMarksID(long MarksID)
         {
@@ -100,9 +80,6 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return false;
         }
 
-        Task<List<MarksEntity>> IMarksService.GetAllMarksWithoutImage()
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

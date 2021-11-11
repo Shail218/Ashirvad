@@ -1,54 +1,62 @@
-﻿<div class="row">
-    <div class="col-md-3">
-        @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-        @Html.DropDownList("Branch", new List<SelectListItem>
-                       {
-                       new SelectListItem{ Text="---Select-Branch---", Value = "-1" },
-                        new SelectListItem{ Text="Branch", Value = "1" },
-                        }, new { @class = "form-control", id = "Branch" })
-    </div>
-    <div class="col-md-3">
-        @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-        @Html.DropDownList("Standard", new List<SelectListItem>
-                       {
-                       new SelectListItem{ Text="---Select-Standard---", Value = "-1" },
-                        new SelectListItem{ Text="Standard", Value = "1" },
-                        }, new { @class = "form-control", id = "Standard" })
-    </div>
-    <div class="col-md-3">
-        @Html.Label("Select Batch Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-        @Html.DropDownList("BatchTime", new List<SelectListItem>
-                       {
-                       new SelectListItem{ Text="---Select-Batch-Time---", Value = "-1" },
-                        new SelectListItem{ Text="Morning", Value = "1" },
-                        new SelectListItem{ Text="AfterNoon", Value = "2" },
-                        new SelectListItem{ Text="Evening", Value = "3" },
-                        }, new { @class = "form-control", id = "BatchTime" })
-    </div>
+﻿@model Ashirvad.Data.MarksEntity
+<form id="fMarks">
+    <div class="form-group" id="dInformation">
+        <div class="row">
+            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
+                <div class="col-md-3">
+                    @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                    <select name="BranchName" id="BranchName" class="form-control select2" alt="Branch">
+                        <option value="0">--Select Branch--</option>
+                    </select>
+                    @Html.HiddenFor(x => x.BranchInfo.BranchID)
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3" style="display: none;">
+                    @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                    <select name="BranchName" id="BranchName" class="form-control select2" alt="Branch">
+                        <option value="0">--Select Branch--</option>
+                    </select>
+                    @Html.HiddenFor(x => x.BranchInfo.BranchID)
+                </div>
+            }
+            <div class="col-md-3">
+                @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
+                    <option value="0">--Select Standard--</option>
+                </select>
+                @Html.HiddenFor(x => x.StandardInfo.StandardID)
+                @Html.HiddenFor(x => x.BranchInfo.BranchID)
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Select Batch Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BatchTime" id="BatchTime" class="form-control requiredDDL select2" alt="BatchTime">
+                    <option value="0">--Select Batch Time--</option>
+                    <option value="1">Morning</option>
+                    <option value="2">Afternoon</option>
+                    <option value="3">Evening</option>
+                </select>
+                @Html.HiddenFor(x => x.batchEntityInfo.BatchTime)
+                @Html.HiddenFor(x => x.batchEntityInfo.BatchID)
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Test Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="Test" id="testddl" class="form-control requiredDDL select2" alt="Standard">
+                    <option value="0">--Select Test Date--</option>
+                </select>
+                @Html.HiddenFor(x => x.testEntityInfo.TestID)
+            </div>
 
+            <div class="col-md-3">
+                @Html.Label("Subject Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="SubjectName" id="SubjectName" class="form-control requiredDDL select2" alt="Subject">
+                    <option value="0">--Select Subject--</option>
+                </select>
+                @Html.HiddenFor(x => x.SubjectInfo.SubjectID)
 
-    <div class="col-md-3">
-        @Html.Label("Test Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-        @Html.DropDownList("TestDate", new List<SelectListItem>
-                       {
-                       new SelectListItem{ Text="---Select-Test-Date---", Value = "-1" },
-                        new SelectListItem{ Text="Test Date", Value = "1" },
-                        }, new { @class = "form-control", id = "TestDate" })
+            </div>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-3">
-        <label>Subject<span class="required">*</span></label>
-        @Html.DropDownList("Subject", new List<SelectListItem>
-                       {
-                       new SelectListItem{ Text="---Select-Subject---", Value = "-1" },
-                        new SelectListItem{ Text="Subject", Value = "1" },
-                        }, new { @class = "form-control", id = "BatchTime" })
-    </div>
-    <div class="col-md-9" style="padding-left:60%;padding-top:20px">
-        <button class="btn btn-bitbucket btn-flat" OnClick="btnFilter_Click"><i class="fa fa-filter"></i>&nbsp;Filter</button>
-        <button class="btn btn-bitbucket bg-gray btn-flat" OnClick="btnReset_Click"><i class="fa fa-times"></i>&nbsp;Reset</button>
-    </div>
-</div>
-
-
+</form>

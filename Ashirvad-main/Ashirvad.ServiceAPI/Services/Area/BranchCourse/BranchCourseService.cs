@@ -12,7 +12,8 @@ namespace Ashirvad.ServiceAPI.Services.Area
 {
     public class BranchCourseService : IBranchCourseService
     {
-        private readonly IBranchCourseAPI _BranchCourseContext;
+        private readonly IBranchCourseAPI _BranchCourseContext;        
+
         public BranchCourseService(IBranchCourseAPI BranchCourseContext)
         {
             this._BranchCourseContext = BranchCourseContext;
@@ -24,7 +25,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
             try
             {
                 long BranchCourseID = await _BranchCourseContext.CourseMaintenance(BranchCourseInfo);
-                BranchCourse.course_dtl_id = BranchCourseID;
+                BranchCourse.Data = BranchCourseID;
 
             }
             catch (Exception ex)
@@ -70,11 +71,11 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public async Task<List<BranchCourseEntity>> GetAllBranchCourse()
+        public async Task<List<BranchCourseEntity>> GetAllBranchCourse(long BranchID=0)
         {
             try
             {
-                return await this._BranchCourseContext.GetAllCourse();
+                return await this._BranchCourseContext.GetAllCourse(BranchID);
             }
             catch (Exception ex)
             {

@@ -20,7 +20,7 @@ namespace Ashirvad.Web.Controllers
         ResponseModel response = new ResponseModel();
         private readonly ICourseService _courseService;
         private readonly IBranchCourseService _branchcourseService;
-        public BranchCourseController(ICourseService courseService,IBranchCourseService branchCourseService)
+        public BranchCourseController(ICourseService courseService, IBranchCourseService branchCourseService)
         {
             _courseService = courseService;
             _branchcourseService = branchCourseService;
@@ -33,14 +33,18 @@ namespace Ashirvad.Web.Controllers
         {
             branchCourse.BranchCourseInfo = new BranchCourseEntity();
             branchCourse.BranchCourseInfo.CourseData = new List<CourseEntity>();
-            //if (courseID > 0)
-            //{
-            //    var result = await _courseService.GetCourseByCourseID(courseID);
-            //    branchCourse.BranchCourseData = result.Data;
-            //}
+            if (courseID > 0)
+            {
+                var result = await _branchcourseService.GetBranchCourseByBranchCourseID(courseID);
+                branchCourse.BranchCourseInfo.BranchCourseData = result;
+                branchCourse.BranchCourseInfo.IsEdit = true;
+            }
 
             var courseData = await _courseService.GetAllCourse();
             branchCourse.BranchCourseInfo.CourseData = courseData.Data;
+
+            var BranchCourse = await _branchcourseService.GetAllBranchCourse(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            branchCourse.BranchCourseData = BranchCourse;
             return View("Index", branchCourse);
         }
 
@@ -52,31 +56,32 @@ namespace Ashirvad.Web.Controllers
 
             BranchCourseEntity branchCourseEntity = new BranchCourseEntity();
 
-            branchCourse.RowStatus = new RowStatusEntity()
-            {
-                RowStatusId = (int)Enums.RowStatus.Active
-            };
+
+
             var List = JsonConvert.DeserializeObject<List<BranchCourseEntity>>(branchCourse.JsonData);
             foreach (var item in List)
             {
+                branchCourse.branch = new BranchEntity();
+                branchCourse.course = new CourseEntity();
+                branchCourse.branch.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
                 branchCourse.Transaction = GetTransactionData(item.course_dtl_id > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
                 branchCourse.course_dtl_id = item.course_dtl_id;
                 branchCourse.course.CourseID = item.course.CourseID;
-                branchCourse.iscourse = item.iscourse;               
+                branchCourse.iscourse = item.iscourse;
                 branchCourse = await _branchcourseService.BranchCourseMaintenance(branchCourse);
-                if (branchCourse.course_dtl_id < 0)
+                if ((long)branchCourse.Data < 0)
                 {
                     break;
                 }
             }
-            if (branchCourse.course_dtl_id > 0)
+            if ((long)branchCourse.Data > 0)
             {
                 response.Status = true;
                 response.Message = branchCourse.course_dtl_id > 0 ? "Updated Successfully!!" : "Created Successfully!!";
 
 
             }
-            else if (branchCourse.course_dtl_id < 0)
+            else if ((long)branchCourse.Data < 0)
             {
                 response.Status = false;
                 response.Message = "Already Exists!!";
@@ -87,6 +92,45 @@ namespace Ashirvad.Web.Controllers
                 response.Message = branchCourse.course_dtl_id > 0 ? "Failed To Update!!" : "Failed To Create!!";
             }
             return Json(response);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> RemoveCourseDetail(long PackageRightID)
+        {
+            response.Status = false;
+            response.Message = "Failed To Delete";
+            var result = _branchcourseService.RemoveBranchCourse(PackageRightID, SessionContext.Instance.LoginUser.Username);
+            if (result)
+            {
+                response.Status = true;
+                response.Message = "Successfully Deleted!!";
+            }
+
+            return Json(response);
+        }
+
+        public async Task<JsonResult> GetCourseDDL()
+        {
+            try
+            {
+                var BranchCourse = await _branchcourseService.GetAllBranchCourse(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                branchCourse.BranchCourseData = BranchCourse;
+
+                if (branchCourse.BranchCourseData.Count > 0)
+                {
+                    return Json(branchCourse.BranchCourseData);
+                }
+                else
+                {
+                    return Json(null);
+                }
+
+            }
+            catch(Exception ex)
+            {
+                return Json(null);
+            }
+            
         }
     }
 }

@@ -14,18 +14,18 @@ namespace Ashirvad.Repo.Services.Area.Branch
     public class BranchCourse : ModelAccess, IBranchCourseAPI
     {
 
-        public async Task<long> CheckCourse(int CourseDetailID, int CourseID)
+        public async Task<long> CheckCourse(int CourseDetailID, int CourseID,int BranchID)
         {
             long result;
             bool isExists = this.context.COURSE_DTL_MASTER.Where(s => (CourseDetailID == 0 || s.course_dtl_id != CourseDetailID) 
-            && s.course_id == CourseID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            && s.course_id == CourseID && s.branch_id == BranchID && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
         public async Task<long> CourseMaintenance(BranchCourseEntity CourseInfo)
         {
             Model.COURSE_DTL_MASTER CourseMaster = new Model.COURSE_DTL_MASTER();
-            if (CheckCourse((int)CourseInfo.course_dtl_id, (int)CourseInfo.course.CourseID).Result != -1)
+            if (CheckCourse((int)CourseInfo.course_dtl_id, (int)CourseInfo.course.CourseID, (int)CourseInfo.branch.BranchID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from course in this.context.COURSE_DTL_MASTER
@@ -46,7 +46,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 }
 
                 CourseMaster.course_id = CourseInfo.course.CourseID;                
-                CourseMaster.row_sta_cd = CourseInfo.RowStatus.RowStatusId;
+                CourseMaster.branch_id = CourseInfo.branch.BranchID;
+                CourseMaster.row_sta_cd = (int)Enums.RowStatus.Active;
                 CourseMaster.is_course = CourseInfo.iscourse;               
                 CourseMaster.trans_id = this.AddTransactionData(CourseInfo.Transaction);
                 this.context.COURSE_DTL_MASTER.Add(CourseMaster);
@@ -61,17 +62,17 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     //var result2 = courseDetailMaintenance(courseInfo).Result;
                     return result > 0 ? CourseInfo.course_dtl_id : 0;
                 }
-                return this.context.SaveChanges() > 0 ? CourseInfo.course_dtl_id : 0;
+                return this.context.SaveChanges() > 0 ? 1 : 0;
             }
             return -1;
         }
 
-        public async Task<List<BranchCourseEntity>> GetAllCourse()
+        public async Task<List<BranchCourseEntity>> GetAllCourse(long BranchID)
         {
             var data = (from u in this.context.COURSE_DTL_MASTER
                         .Include("COURSE_MASTER")
-                        
-                        where u.row_sta_cd == 1
+                        .Include("BRANCH_MASTER")
+                        where (BranchID==0|| u.branch_id== BranchID) && u.row_sta_cd == 1 && u.is_course==true
                         select new BranchCourseEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -84,7 +85,11 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 CourseID = u.COURSE_MASTER.course_id,
                                 CourseName = u.COURSE_MASTER.course_name
                             },
-                            
+                            branch=new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
                             iscourse = u.is_course==true?true:false,
                            course_dtl_id=u.course_dtl_id,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
@@ -93,13 +98,14 @@ namespace Ashirvad.Repo.Services.Area.Branch
             {
                 data[0].BranchCourseData = (from u in this.context.COURSE_DTL_MASTER
                               .Include("COURSE_MASTER")                               
-                                where u.row_sta_cd == 1
+                              .Include("BRANCH_MASTER")                               
+                                where (BranchID == 0 || u.branch_id == BranchID) && u.row_sta_cd == 1
                                 select new BranchCourseEntity()
                                 {
-                                    course = new CourseEntity()
+                                    branch = new BranchEntity()
                                     {
-                                        CourseID = u.COURSE_MASTER.course_id,
-                                        CourseName = u.COURSE_MASTER.course_name
+                                        BranchID = u.BRANCH_MASTER.branch_id,
+                                        BranchName = u.BRANCH_MASTER.branch_name
                                     },
                                     
                                 }).Distinct().ToList();
@@ -120,7 +126,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
             var data = (from u in this.context.COURSE_DTL_MASTER
                        .Include("COURSE_MASTER")
                        
-                        where u.row_sta_cd == 1 && u.course_id == CourseID
+                        where u.row_sta_cd == 1 && u.branch_id == CourseID
                         select new BranchCourseEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -143,7 +149,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         {
             var data = (from u in this.context.COURSE_DTL_MASTER
                        .Include("course_MASTER")                       
-                        where u.row_sta_cd == 1 && u.course_id == CourseID
+                        where u.row_sta_cd == 1 && u.branch_id == CourseID
                         select new BranchCourseEntity()
                         {
                             course_dtl_id=u.course_dtl_id,
@@ -161,7 +167,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         public bool RemoveCourse(long CourseID, string lastupdatedby)
         {
             var data = (from u in this.context.COURSE_DTL_MASTER
-                        where u.course_id == CourseID
+                        where u.branch_id == CourseID
                         select u).ToList();
             if (data != null)
             {

@@ -14,12 +14,6 @@ namespace Ashirvad.Repo.Model
     
     public partial class BATCH_MASTER
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public BATCH_MASTER()
-        {
-            this.MARKS_MASTER = new HashSet<MARKS_MASTER>();
-        }
-    
         public long batch_id { get; set; }
         public long branch_id { get; set; }
         public long std_id { get; set; }
@@ -32,8 +26,6 @@ namespace Ashirvad.Repo.Model
     
         public virtual STD_MASTER STD_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MARKS_MASTER> MARKS_MASTER { get; set; }
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
     }
 }

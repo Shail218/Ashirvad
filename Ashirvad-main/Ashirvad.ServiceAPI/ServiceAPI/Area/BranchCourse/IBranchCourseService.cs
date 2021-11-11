@@ -10,7 +10,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
     public interface IBranchCourseService
     {
         Task<BranchCourseEntity> BranchCourseMaintenance(BranchCourseEntity BranchCourseInfo);
-        Task<List<BranchCourseEntity>> GetAllBranchCourse();
+        Task<List<BranchCourseEntity>> GetAllBranchCourse(long BrancchID=0);
 
         Task<List<BranchCourseEntity>> GetBranchCourseByBranchCourseID(long BranchCourseID);
             Task<BranchCourseEntity> GetPackaegBranchCourseByID(long BranchCourseID);

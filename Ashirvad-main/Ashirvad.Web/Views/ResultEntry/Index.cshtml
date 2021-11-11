@@ -27,7 +27,7 @@
                             Html.RenderPartial("Manage", new ViewDataDictionary(Model.StudentData));
                         }
                     </div>
-                   
+
                 </div>
             </div>
         </section>
@@ -45,58 +45,13 @@
             $(document).ready(function () {
 
                 $('#studenttbl').DataTable({
-                    "searching": true,
-                    "orderable": true,
-                    "columnDefs": [
-                        {
-                            "targets": [0],
-                            "searchable": false,
-                            "orderable": false,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [1],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [2],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [3],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [4],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [5],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-
-                    ],
-                    "columns": [
-                        { "data": "" },
-                        { "data": "FirstName" },
-                        { "data": "AdmissionDate" },
-                        { "data": "Standard" },
-                        { "data": "BatchTime" },
-                        { "data": "ContactNo" },
-                    ]
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "bAutoWidth": true
                 });
-            });
-        </script>
+            });</script>
         <script type="text/javascript">
             function ConfirmationDialog() {
                 if (confirm("Are you sure to continue?"))
@@ -105,7 +60,6 @@
                     return false;
             }
         </script>
-
     }
 
 </section>

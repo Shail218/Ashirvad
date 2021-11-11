@@ -111,6 +111,22 @@ function LoadTestDetails(TestID,Subject) {
 
 
 function SaveMarks() {
+    var MarksData = [];
+    Map = {};
+    $("#studenttbl tbody tr").each(function () {
+        var StudentID = $(this).find("#item_StudentID").val();
+        var marks = $(this).find("#Marks").val();
+        if (StudentID != null) {
+            Map = {
+                AchieveMarks: marks,
+                student: {
+                    StudentID: StudentID
+                }
+            }
+            MarksData.push(Map);
+        }
+    });
+    $('#JsonData').val(JSON.stringify(MarksData));
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
@@ -118,46 +134,23 @@ function SaveMarks() {
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');
         if (item[0].files.length > 0) {
-            formData.append('FileInfo', $('input[type=file]')[0].files[0]);
+            formData.append('ImageFile', $('input[type=file]')[0].files[0]);
         }
         AjaxCallWithFileUpload(commonData.ResultEntry + 'SaveMarks', formData, function (data) {
             HideLoader();
-            if (data) {
+            if (data.MarksID >= 0) {
                 ShowMessage("Marks added Successfully.", "Success");
-                window.location.href = "MarksMaintenance?MarksID=0";
+                window.location.href = "/ResultRegister/Index";
             }
             else {
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+                ShowMessage('Marks Already added!!', 'Error');
             }
         }, function (xhr) {
             HideLoader();
         });
     }
 }
-function GetStudentDetail() {
-    var isSuccess = ValidateData('dInformation');
-    if (isSuccess) {
-        ShowLoader();
-        var frm = $('#fMarks');
-        var formData = new FormData(frm[0]);
-        var item = $('input[type=file]');
-        if (item[0].files.length > 0) {
-            formData.append('FileInfo', $('input[type=file]')[0].files[0]);
-        }
-        AjaxCallWithFileUpload(commonData.ResultEntry + 'SaveMarks', formData, function (data) {
-            HideLoader();
-            if (data) {
-                ShowMessage("Marks added Successfully.", "Success");
-                window.location.href = "MarksMaintenance?MarksID=0";
-            }
-            else {
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
-            }
-        }, function (xhr) {
-            HideLoader();
-        });
-    }
-}
+
 function LoadTestDates(BatchType) {
 
     var BranchID = $("#Branch_Name").val();

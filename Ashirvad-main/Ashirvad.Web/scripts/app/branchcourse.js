@@ -1,4 +1,13 @@
-﻿function OnSelectStatus(Data, classData) {
+﻿$(document).ready(function () {
+    var IsEdit = $("#IsEdit").val();
+    if (IsEdit == "True") {
+        checkstatus();
+    }
+    
+    
+});
+
+function OnSelectStatus(Data, classData) {
     if (Data.checked == true) {
         $('#choiceList .' + classData).each(function () {
             $(this)[0].checked = true;
@@ -11,6 +20,8 @@
 
         });
     }
+
+    
 }
 
 
@@ -26,7 +37,7 @@ function SaveCourseDetail() {
             HideLoader();
             if (data.Status == true) {
                 ShowMessage(data.Message, 'Success');
-                setTimeout(function () { window.location.href = "PackageRightMaintenance?PackageRightID=0"; }, 2000);
+                setTimeout(function () { window.location.href = "CourseMaintenance?courseID=0"; }, 2000);
 
             }
             else {
@@ -34,6 +45,7 @@ function SaveCourseDetail() {
             }
 
         }).fail(function () {
+            HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
 
@@ -44,6 +56,7 @@ function GetData() {
     var CourseStatus = [];
     var CourseData = [];
     var CourseDetailData = [];
+    var MainArray = [];
 
     $('#choiceList .iscourse').each(function () {
         var Course = $(this)[0].checked;
@@ -67,7 +80,7 @@ function GetData() {
         
         
         MainArray.push({
-            "course": { "CourseID": IsCourse },
+            "course": { "CourseID": CourseID },
             "course_dtl_id": CourseDetailID,
             "iscourse": IsCourse,
             
@@ -75,4 +88,43 @@ function GetData() {
         })
     }
     return MainArray;
+}
+
+function checkstatus() {
+    var Create = true;  
+    $('#choiceList .iscourse').each(function ()
+    {
+        if ($(this)[0].checked == false)
+        {
+            Create = false;
+        }
+    });
+    if (Create) {
+        $("#allselect").prop('checked', true);
+    }
+    else {
+        $("#allselect").prop('checked', false);
+    }
+}
+
+function RemoveCourse(CourseID) {
+    if (confirm('Are you sure want to delete this?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.BranchCourse + "RemoveCourseDetail", { "PackageRightID": CourseID });
+        postCall.done(function (data) {
+            HideLoader();
+            if (data.Status == true) {
+                ShowMessage(data.Message, 'Success');
+                setTimeout(function () { window.location.href = "CourseMaintenance?courseID=0"; }, 2000);
+
+            }
+            else {
+                ShowMessage(data.Message, 'Error');
+            }
+
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
