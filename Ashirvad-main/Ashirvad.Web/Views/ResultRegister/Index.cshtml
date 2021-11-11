@@ -5,6 +5,7 @@
 }
 
 <section class="content">
+    <div class="messagealert" id="alert_container"></div>
     <div class="row">
         <section class="col-md-12">
             <div class="box box-warning">
@@ -17,9 +18,9 @@
         </section>
         <section class="col-md-12">
             <div class="box box-primary">
-                <div class="box-body" style="padding:8px">
+                <div class="box-body" style="padding:8px" id="StudentDetail">
                     @{
-                        Html.RenderPartial("Manage", new ViewDataDictionary());
+                        Html.RenderPartial("Manage", new ViewDataDictionary(Model.MarksData));
                     }
                 </div>
             </div>

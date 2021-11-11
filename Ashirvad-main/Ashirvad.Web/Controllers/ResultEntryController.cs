@@ -105,13 +105,6 @@ namespace Ashirvad.Web.Controllers
             return Json(result);
         }
 
-        public async Task<JsonResult> MarksData()
-        {
-            var MarksData = await _MarksService.GetAllMarksWithoutImage();
-
-            return Json(MarksData);
-        }
-
         public async Task<ActionResult> GetStudentByStd(long Std, long BatchTime)
         {
             var result = _studentService.GetStudentByStd(Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime).Result;

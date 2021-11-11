@@ -225,6 +225,10 @@ namespace Ashirvad.API.Controllers
                     result.Message = "Homework Created Successfully";
                 }
             }
+            else
+            {
+                result.Message = "Homework Already Exists!!";
+            }
             return result;
         }
 
@@ -262,7 +266,7 @@ namespace Ashirvad.API.Controllers
             {
                 try
                 {
-                    foreach (string file in httpRequest.Files)
+                    for (int file = 0; file < httpRequest.Files.Count; file++)
                     {
                         string fileName;
                         string extension;
@@ -325,6 +329,14 @@ namespace Ashirvad.API.Controllers
             OperationResult<List<HomeworkEntity>> result = new OperationResult<List<HomeworkEntity>>();
             result.Data = data.Result;
             result.Completed = true;
+            return result;
+        }
+
+        [Route("Test/{HomeworkID}")]
+        [HttpPost]
+        public OperationResult<HomeworkDetailEntity> Test(List<long> HomeworkID)
+        {
+            OperationResult<HomeworkDetailEntity> result = new OperationResult<HomeworkDetailEntity>();
             return result;
         }
     }

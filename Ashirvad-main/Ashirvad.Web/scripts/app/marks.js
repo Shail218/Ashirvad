@@ -111,11 +111,16 @@ function LoadTestDetails(TestID,Subject) {
 
 
 function SaveMarks() {
+    var status = true;
     var MarksData = [];
     Map = {};
     $("#studenttbl tbody tr").each(function () {
         var StudentID = $(this).find("#item_StudentID").val();
         var marks = $(this).find("#Marks").val();
+        if (marks == "" || marks == null) {
+            status = false;
+            return false;
+        }
         if (StudentID != null) {
             Map = {
                 AchieveMarks: marks,
@@ -128,7 +133,7 @@ function SaveMarks() {
     });
     $('#JsonData').val(JSON.stringify(MarksData));
     var isSuccess = ValidateData('dInformation');
-    if (isSuccess) {
+    if (status && isSuccess) {
         ShowLoader();
         var frm = $('#fMarks');
         var formData = new FormData(frm[0]);
@@ -143,11 +148,13 @@ function SaveMarks() {
                 window.location.href = "/ResultRegister/Index";
             }
             else {
-                ShowMessage('Marks Already added!!', 'Error');
+                ShowMessage('Achieve Marks Already added!!', 'Error');
             }
         }, function (xhr) {
             HideLoader();
         });
+    } else if(!status){
+        ShowMessage('Please Enter Achieve Marks!!', 'Error');
     }
 }
 

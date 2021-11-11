@@ -32,19 +32,24 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._userService.ValidateUser(userName, password);
             OperationResult<UserEntity> result = new OperationResult<UserEntity>();
-            if (data.Result != null)
+            if(data.Result != null)
             {
                 var BranchRightData = _BranchRightService.GetBranchRightsByBranchID(data.Result.BranchInfo.BranchID);
                 result.Permission = JsonConvert.SerializeObject(BranchRightData);
                 result.Completed = true;
-                result.Data = data.Result;
-                
+                result.Data = data.Result;              
                 if (result.Permission == null)
                 {
-                    result.Message = "You have no permission";
+                    result.Message = "You have no permission!!!";
                 }
+
             }
-              
+            else
+            {
+                result.Completed = false;
+                result.Data = data.Result;
+                result.Message = "Invalid UserName or Password!!!";
+            }
             
             return result;
         }
