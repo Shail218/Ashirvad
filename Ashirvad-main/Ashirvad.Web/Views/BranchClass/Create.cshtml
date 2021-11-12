@@ -1,75 +1,85 @@
-﻿
+﻿﻿@model Ashirvad.Data.BranchClassEntity
 <div class="col-md-12">
     <form id="fBranchClassDetail">
+        @Html.HiddenFor(x => x.JsonData)
+        @Html.HiddenFor(x => x.IsEdit)
+        @Html.HiddenFor(x => x.BranchCourse.course_dtl_id)
         <div style="margin-top:10px;">
             <div class="col-md-6">
-                @Html.Label("Course Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="CourseName" id="CourseName" class="form-control requiredDDL" alt="Course Name">
+                @Html.Label("Class Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="ClassName" id="CourseName" class="form-control requiredDDL" alt="Course Name">
                     <option value="0">--Select Course--</option>
                 </select>
             </div>
         </div>
+
+        <div class="col-md-12">
+            <table style="width: 100%;" id="choiceList" class="table table-striped dataTable no-footer">
+                <thead>
+                    <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+                        <th style="width:13%">
+                            <input type="checkbox" class="allselected" onchange="OnSelectStatus(this,'isClass');" Id="allselect" /> All
+                        </th>
+                        <th>Class Name</th>
+                    </tr>
+                </thead>
+                @if (Model.BranchClassData.Count > 0)
+                {
+                    <tbody>
+                        @foreach (var item in Model.BranchClassData)
+                        {
+
+                            <tr>
+                                <td class="js-export-checkbox">
+                                    @Html.CheckBoxFor(m => item.isClass, new { @class = "isClass", @onchange = "checkstatus()" })
+                                    <input type="hidden" value="@item.Class_dtl_id" class="Classdtlid" />
+                                </td>
+                                <td>
+                                    @item.Class.ClassName
+                                    <input type="hidden" value="@item.Class.ClassID" class="ClassID" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+                else
+                {
+                    <tbody>
+                        @foreach (var item in Model.ClassData)
+                        {
+
+                            <tr>
+                                <td class="js-export-checkbox">
+                                    @Html.CheckBox("isClass", new { @class = "isClass", @Id = "isClass", @onchange = "checkstatus()" })
+                                    <input type="hidden" value="0" class="Classdtlid" />
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(x => item.ClassID, new { @class = "ClassID" })
+                                    @item.ClassName
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+            </table>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12" style="text-align: right;">
+                <br />
+                <a onclick="return SaveClassDetail();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Save
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+                <a href="@Url.Action("ClassMaintenance","BranchClass", new { @ClassID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                    <span class="ladda-label">
+                        Cancel
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+            </div>
+        </div>
     </form>
 </div>
-<div class="col-md-12">
-    <table style="width: 100%;" id="choiceList" class="table table-striped dataTable no-footer">
-        <thead>
-            <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
-                <th style="width:13%">
-                    <input type="checkbox" onchange="OnSelectStatus(this,'createStatus');" Id="allcreate" /> All
-                </th>
-                <th>Class Name</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="js-export-checkbox">
-                    @Html.CheckBox("10", new { @class = "createStatus" })
-                </td>
-                <td>
-                    <label>10</label>
-                </td>
-
-            </tr>
-            <tr>
-                <td class="js-export-checkbox">
-                    @Html.CheckBox("10", new { @class = "createStatus" })
-                </td>
-                <td>
-                    <label>11</label>
-                </td>
-
-            </tr>
-            <tr>
-                <td class="js-export-checkbox">
-                    @Html.CheckBox("10", new { @class = "createStatus" })
-                </td>
-                <td>
-                    <label>12</label>
-                </td>
-
-            </tr>
-
-        </tbody>
-
-    </table>
-</div>
-<div class="form-group">
-    <div class="col-md-12" style="text-align: right;">
-        <br />
-        <a onclick="return SaveBrachClass();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
-            <span class="ladda-label">
-                Save
-            </span>
-            <span class="ladda-spinner"></span>
-        </a>
-        <a href="@Url.Action("PackageRightMaintenance","PackageRight", new { @PackageRightID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
-            <span class="ladda-label">
-                Cancel
-            </span>
-            <span class="ladda-spinner"></span>
-        </a>
-    </div>
-</div>
-

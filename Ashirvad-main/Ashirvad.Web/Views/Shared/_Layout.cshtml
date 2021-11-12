@@ -216,13 +216,13 @@
                                             <a href="@Url.Action("FacultyMaintenance","Faculty", new { @facultyID=0 })">Faculty Master</a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index","BranchCourse")">Branch Course Master</a>
+                                            <a href="@Url.Action("CourseMaintenance","BranchCourse", new { @courseID=0 })">Branch Course Master</a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index","BranchClass")">Branch Class Master</a>
+                                            <a href="@Url.Action("ClassMaintenance","BranchClass", new { @ClassID=0 })">Branch Class Master</a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index","BranchSubject")">Branch Subject Master</a>
+                                            <a href="@Url.Action("SubjectMaintenance","BranchSubject", new { @SubjectID=0,@CourseID=0})">Branch Subject Master</a>
                                         </li>
                                     }
 

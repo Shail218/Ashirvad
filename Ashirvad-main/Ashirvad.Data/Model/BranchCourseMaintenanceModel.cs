@@ -9,6 +9,6 @@ namespace Ashirvad.Data.Model
     public class BranchCourseMaintenanceModel
     {
         public BranchCourseEntity BranchCourseInfo { get; set; }
-        public List<BranchCourseEntity> BranchCourseData { get; set; }
+        public List<BranchCourseEntity> BranchCourseData { get; set; } = new List<BranchCourseEntity>();
     }
 }

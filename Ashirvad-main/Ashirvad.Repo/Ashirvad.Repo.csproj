@@ -64,10 +64,13 @@
     <Compile Include="DataAcceessAPI\Area\Attendance\IAttendanceAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Banner\IBannerAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Batch\IBatchAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\BranchSubject\IBranchSubjectAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\BranchClass\IBranchClassAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\BranchRights\IBranchRightsAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Class\IClassAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Course\ICourseAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Faculty\IFacultyAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\BranchCourse\IBranchCourseAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\PackageRights\IPackageRightsAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Branch\IBranchAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Library1\ILibrary1API.cs" />
@@ -304,10 +307,13 @@
     <Compile Include="Services\Area\Attendance\Attendance.cs" />
     <Compile Include="Services\Area\Banner\Banner.cs" />
     <Compile Include="Services\Area\Batch\Batch.cs" />
+    <Compile Include="Services\Area\BranchSubject\BranchSubject.cs" />
+    <Compile Include="Services\Area\BranchClass\BranchClass.cs" />
     <Compile Include="Services\Area\BranchRights\BranchRights.cs" />
     <Compile Include="Services\Area\Class\Class.cs" />
     <Compile Include="Services\Area\Course\Course.cs" />
     <Compile Include="Services\Area\Faculty\Faculty.cs" />
+    <Compile Include="Services\Area\BranchCourse\BranchCourse.cs" />
     <Compile Include="Services\Area\PackageRights\PackageRights.cs" />
     <Compile Include="Services\Area\Branch\Branch.cs" />
     <Compile Include="Services\Area\Library1\Library1.cs" />

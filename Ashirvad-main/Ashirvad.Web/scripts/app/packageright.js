@@ -38,13 +38,14 @@ function checkstatus() {
 
         if (Create == true) {
             var te = $(this).find("#allcreate");
-            $(this).find("#allcreate")[0].checked = true;
+            $(this).find("#allcreate").prop('checked', true);
+           
         }
        
          if (Delete == true) {
-            $(this).find("#alldelete")[0].checked = true;
+             $(this).find("#alldelete").prop('checked', true);
         } if (View == true) {
-            $(this).find("#allview")[0].checked = true;
+            $(this).find("#allview")[0].prop('checked', true);
         }
     });
     HideLoader();
