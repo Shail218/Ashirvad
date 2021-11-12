@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ashirvad.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,10 +16,9 @@ namespace Ashirvad.Data
         public DateTime MarksDate { get; set; }
         public StandardEntity StandardInfo { get; set; }
         public SubjectEntity SubjectInfo { get; set; }
-        public BatchEntity batchEntityInfo  { get; set; }               
+        public string TotalMarks { get; set; }        
         public HttpPostedFileBase ImageFile { get; set; }
         public string AchieveMarks { get; set; }
-        public string TotalMarks { get; set; }
         public string Remarks { get; set; }
         public string MarksContentFileName { get; set; }
         public string MarksFilepath { get; set; }
@@ -26,5 +26,7 @@ namespace Ashirvad.Data
         public TestEntity testEntityInfo { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public string JsonData { get; set; }
+        public int BatchTime { get; set; }
+        public Enums.BatchType BatchType { get; set; }
     }
 }

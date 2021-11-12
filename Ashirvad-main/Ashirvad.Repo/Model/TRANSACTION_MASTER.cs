@@ -80,6 +80,8 @@ public partial class TRANSACTION_MASTER
 
         this.COURSE_DTL_MASTER = new HashSet<COURSE_DTL_MASTER>();
 
+        this.SUBJECT_DTL_MASTER = new HashSet<SUBJECT_DTL_MASTER>();
+
     }
 
 
@@ -214,6 +216,10 @@ public partial class TRANSACTION_MASTER
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<COURSE_DTL_MASTER> COURSE_DTL_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<SUBJECT_DTL_MASTER> SUBJECT_DTL_MASTER { get; set; }
 
 }
 

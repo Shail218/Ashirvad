@@ -90,6 +90,8 @@ public partial class BRANCH_MASTER
 
         this.MARKS_MASTER = new HashSet<MARKS_MASTER>();
 
+        this.SUBJECT_DTL_MASTER = new HashSet<SUBJECT_DTL_MASTER>();
+
     }
 
 
@@ -254,6 +256,10 @@ public partial class BRANCH_MASTER
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<MARKS_MASTER> MARKS_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<SUBJECT_DTL_MASTER> SUBJECT_DTL_MASTER { get; set; }
 
 }
 

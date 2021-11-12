@@ -109,5 +109,19 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return marks;
         }
+
+        public async Task<List<MarksEntity>> GetAllStudentMarks(long BranchID, long StudentID)
+        {
+            try
+            {
+                return await this._MarksContext.GetAllStudentMarks(BranchID, StudentID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
     }
 }

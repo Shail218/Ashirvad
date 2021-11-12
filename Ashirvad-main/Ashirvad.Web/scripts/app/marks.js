@@ -93,21 +93,40 @@ function LoadSubject(branchID) {
     });
 }
 
-function LoadTestDetails(TestID,Subject) {
-    var postCall = $.post(commonData.TestPaper + "GetTestDetails", { "TestID": TestID, "SubjectID": Subject});
+function LoadTestDetails(TestID, Subject) {
+    var postCall = $.post(commonData.TestPaper + "GetTestDetails", { "TestID": TestID, "SubjectID": Subject, /*"Standard": Standard, "Batch": Batch2*/ });
     postCall.done(function (data) {
         $("#TotalMarks").val(data.Marks);
         $("#Remarks").val(data.Remarks);
+        if (data.marksentered) {
 
-        var Std = $('#StandardInfo_StandardID').val();
-        var Batch = $('#batchEntityInfo_BatchID').val();
-        LoadStudentDetails(Std, Batch);
-      
-
+            ShowMessage("Marks Already inserted for this Test !", "Error");
+            $("#StudentDetail").html('');
+        } else {
+            var Std = $('#StandardInfo_StandardID').val();
+            var Batch = $('#BatchTime').val();
+            LoadStudentDetails(Std, Batch);
+        }
     }).fail(function () {
         //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
+
+//function LoadTestDetails(TestID,Subject) {
+//    var postCall = $.post(commonData.TestPaper + "GetTestDetails", { "TestID": TestID, "SubjectID": Subject});
+//    postCall.done(function (data) {
+//        $("#TotalMarks").val(data.Marks);
+//        $("#Remarks").val(data.Remarks);
+
+//        var Std = $('#StandardInfo_StandardID').val();
+//        var Batch = $('#batchEntityInfo_BatchID').val();
+//        LoadStudentDetails(Std, Batch);
+      
+
+//    }).fail(function () {
+//        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
+//    });
+//}
 
 
 function SaveMarks() {
@@ -222,12 +241,13 @@ $("#SubjectName").change(function () {
     
 });
 
-$("#BatchTime").change(function () {
-    var Data = $("#BatchTime option:selected").val();
-    $('#batchEntityInfo_BatchID').val(Data);
+$("#Batchtime").change(function () {
+    var Data = $("#Batchtime option:selected").val();
+    $('#BatchType').val(Data);
     LoadTestDates(Data);
 });
-$("#testddl").change(function () {
+
+$("#testddl").change(function () {                                                                               
     var Data = $("#testddl option:selected").val();
     var Text = $("#testddl option:selected").text();
     $('#testEntityInfo_TestID').val(Data);

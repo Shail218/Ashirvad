@@ -26,6 +26,7 @@ namespace Ashirvad.Data
         public TestPaperEntity test { get; set; }
         public HttpPostedFileBase FileInfo { get; set; }
         public TestDetailEntity testdtl { get; set; }
+        public bool marksentered { get; set; }
     }
 
     public class TestPaperEntity

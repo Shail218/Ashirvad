@@ -258,6 +258,9 @@
     <Compile Include="Model\SUBJECT_BRANCH_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\SUBJECT_DTL_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\SUBJECT_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>

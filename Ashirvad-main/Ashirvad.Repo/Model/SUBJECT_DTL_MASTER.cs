@@ -15,30 +15,22 @@ namespace Ashirvad.Repo.Model
 using System;
     using System.Collections.Generic;
     
-public partial class MARKS_MASTER
+public partial class SUBJECT_DTL_MASTER
 {
 
-    public long marks_id { get; set; }
-
-    public System.DateTime marks_dt { get; set; }
-
-    public long test_id { get; set; }
+    public long subject_dtl_id { get; set; }
 
     public long branch_id { get; set; }
 
-    public long student_id { get; set; }
-
-    public int batch_time_id { get; set; }
-
     public long subject_id { get; set; }
 
-    public string file_path { get; set; }
+    public long course_dtl_id { get; set; }
 
-    public string file_name { get; set; }
+    public long class_dtl_id { get; set; }
 
-    public string achive_marks { get; set; }
+    public Nullable<bool> is_subject { get; set; }
 
-    public int row_sta_cd { get; set; }
+    public Nullable<int> row_sta_cd { get; set; }
 
     public long trans_id { get; set; }
 
@@ -46,11 +38,13 @@ public partial class MARKS_MASTER
 
     public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
 
-    public virtual STUDENT_MASTER STUDENT_MASTER { get; set; }
+    public virtual CLASS_DTL_MASTER CLASS_DTL_MASTER { get; set; }
 
-    public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
+    public virtual COURSE_DTL_MASTER COURSE_DTL_MASTER { get; set; }
 
-    public virtual TEST_MASTER TEST_MASTER { get; set; }
+    public virtual SUBJECT_BRANCH_MASTER SUBJECT_BRANCH_MASTER { get; set; }
+
+    public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
 
 }
 

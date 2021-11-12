@@ -151,6 +151,8 @@ public partial class AshirvadDBEntities1 : DbContext
 
     public virtual DbSet<MARKS_MASTER> MARKS_MASTER { get; set; }
 
+    public virtual DbSet<SUBJECT_DTL_MASTER> SUBJECT_DTL_MASTER { get; set; }
+
 
     public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
     {

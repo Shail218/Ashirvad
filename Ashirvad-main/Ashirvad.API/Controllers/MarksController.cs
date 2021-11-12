@@ -62,6 +62,28 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("GetAllAchieveMarks")]
+        [HttpPost]
+        public OperationResult<List<MarksEntity>> GetAllAchieveMarks(long Std, long Branch, long Batch, long MarksID)
+        {
+            var data = this._marksService.GetAllAchieveMarks(Std, Branch, Batch, MarksID);
+            OperationResult<List<MarksEntity>> result = new OperationResult<List<MarksEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
+
+        [Route("GetAllStudentMarks")]
+        [HttpPost]
+        public OperationResult<List<MarksEntity>> GetAllStudentMarks(long BranchID, long StudentID)
+        {
+            var data = this._marksService.GetAllStudentMarks(BranchID,StudentID);
+            OperationResult<List<MarksEntity>> result = new OperationResult<List<MarksEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
+
         [Route("MarksMaintenance/{MarksID}/{Marks_Date}/{TestID}/{BranchID}/{StudentID}/{Achieve_Marks}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
         [HttpPost]
         public OperationResult<MarksEntity> MarksMaintenance(long MarksID, DateTime Marks_Date, long TestID, long BranchID, string StudentID, string Achieve_Marks, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)

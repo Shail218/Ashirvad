@@ -15,5 +15,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
         bool RemoveMarks(long MarksID, string lastupdatedby);
         Task<List<MarksEntity>> GetAllAchieveMarks(long Std, long Branch, long Batch, long MarksID);
         Task<long> UpdateMarksDetails(MarksEntity marksEntity);
+        Task<List<MarksEntity>> GetAllStudentMarks(long BranchID, long StudentID);
     }
 }

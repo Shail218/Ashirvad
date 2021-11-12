@@ -15,5 +15,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
         Task<MarksEntity> GetMarksByMarksID(long MarksID);
         bool RemoveMarks(long MarksID, string lastupdatedby);
         Task<MarksEntity> UpdateMarksDetails(MarksEntity marksEntity);
+        Task<List<MarksEntity>> GetAllStudentMarks(long BranchID, long StudentID);
     }
 }

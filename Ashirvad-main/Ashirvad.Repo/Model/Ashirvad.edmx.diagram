@@ -165,11 +165,19 @@
         <AssociationConnector Association="AshirvadModel.FK_CLASS_DTL_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_COURSE_DTL_MASTER_COURSE_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_COURSE_DTL_MASTER_TRANSACTION_MASTER" />
-        <EntityTypeShape EntityType="AshirvadModel.MARKS_MASTER" Width="1.5" PointX="22.75" PointY="13.625" />
-        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_TEST_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_STUDENT_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.MARKS_MASTER" Width="1.5" PointX="22.75" PointY="13.375" />
+        <EntityTypeShape EntityType="AshirvadModel.SUBJECT_DTL_MASTER" Width="1.5" PointX="25.75" PointY="14" />
+        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_SUBJECT_DTL_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_SUBJECT_DTL_MASTER_CLASS_DTL_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_COURSE_DTL_MASTER_COURSE_MASTER1" />
+        <AssociationConnector Association="AshirvadModel.FK_SUBJECT_DTL_MASTER_COURSE_DTL_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_SUBJECT_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_TEST_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_SUBJECT_DTL_MASTER_SUBJECT_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_SUBJECT_DTL_MASTER_TRANSACTION_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

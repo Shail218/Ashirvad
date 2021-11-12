@@ -30,6 +30,8 @@ public partial class SUBJECT_MASTER
 
         this.HOMEWORK_MASTER = new HashSet<HOMEWORK_MASTER>();
 
+        this.MARKS_MASTER = new HashSet<MARKS_MASTER>();
+
     }
 
 
@@ -64,6 +66,10 @@ public partial class SUBJECT_MASTER
     public virtual ICollection<HOMEWORK_MASTER> HOMEWORK_MASTER { get; set; }
 
     public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<MARKS_MASTER> MARKS_MASTER { get; set; }
 
 }
 

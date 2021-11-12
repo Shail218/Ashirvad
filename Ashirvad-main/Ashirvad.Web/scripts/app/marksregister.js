@@ -156,11 +156,12 @@ $("#SubjectName").change(function () {
     LoadStudentDetails();
 });
 
-$("#BatchTime").change(function () {
-    var Data = $("#BatchTime option:selected").val();
-    $('#batchEntityInfo_BatchID').val(Data);
+$("#Batchtime").change(function () {
+    var Data = $("#Batchtime option:selected").val();
+    $('#BatchType').val(Data);
     LoadTestDates(Data);
 });
+
 $("#testddl").change(function () {
     var Data = $("#testddl option:selected").val();
     var Text = $("#testddl option:selected").text();
