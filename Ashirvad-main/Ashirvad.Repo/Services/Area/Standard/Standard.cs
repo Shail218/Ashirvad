@@ -62,6 +62,7 @@ namespace Ashirvad.Repo.Services.Area.Standard
         public async Task<List<StandardEntity>> GetAllStandards(long branchID)
         {
             var data = (from u in this.context.STD_MASTER
+                        .Include("CLASS_DTL_MASTER")
                         where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
                         select new StandardEntity()
                         {
@@ -70,7 +71,7 @@ namespace Ashirvad.Repo.Services.Area.Standard
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = u.row_sta_cd
                             },
-                            Standard = u.standard,
+                            Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
                             StandardID = u.std_id,
                             BranchInfo = new BranchEntity()
                             {
@@ -93,7 +94,7 @@ namespace Ashirvad.Repo.Services.Area.Standard
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = u.row_sta_cd
                             },
-                            Standard = u.standard,
+                            Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
                             StandardID = u.std_id,
                             BranchInfo = new BranchEntity()
                             {
@@ -117,7 +118,7 @@ namespace Ashirvad.Repo.Services.Area.Standard
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = u.row_sta_cd
                             },
-                            Standard = u.standard,
+                            Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
                             StandardID = u.std_id,
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }

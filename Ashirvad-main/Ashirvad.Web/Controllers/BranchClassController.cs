@@ -74,6 +74,7 @@ namespace Ashirvad.Web.Controllers
                 branchClass.Class_dtl_id = item.Class_dtl_id;
                 branchClass.BranchCourse.course_dtl_id = CourseDetailID;
                 branchClass.Class.ClassID = item.Class.ClassID;
+                branchClass.Class.ClassName = item.Class.ClassName;
                 branchClass.isClass = item.isClass;
                 branchClass = await _branchClassService.BranchClassMaintenance(branchClass);
                 if ((long)branchClass.Data < 0)

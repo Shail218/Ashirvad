@@ -54,7 +54,7 @@ namespace Ashirvad.Repo.Services.Area.User
         {
             var user = (from u in this.context.USER_DEF
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
-                        where u.username == userName && u.password == password && u.user_type == (int)Enums.UserType.Admin && u.row_sta_cd== (int)Enums.RowStatus.Active
+                        where u.username == userName && u.password == password && (u.user_type == (int)Enums.UserType.Admin || u.user_type == (int)Enums.UserType.SuperAdmin) && u.row_sta_cd== (int)Enums.RowStatus.Active
                         select new UserEntity()
                         {
                             //ClientSecret = u.client_secret,

@@ -38,8 +38,6 @@ namespace Ashirvad.Repo.Model
         public long trans_id { get; set; }
         public string file_name { get; set; }
     
-        public virtual STD_MASTER STD_MASTER { get; set; }
-        public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TEST_PAPER_REL> TEST_PAPER_REL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -49,5 +47,7 @@ namespace Ashirvad.Repo.Model
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MARKS_MASTER> MARKS_MASTER { get; set; }
+        public virtual STD_MASTER STD_MASTER { get; set; }
+        public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
     }
 }

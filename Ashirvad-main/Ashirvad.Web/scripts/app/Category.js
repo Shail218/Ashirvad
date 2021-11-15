@@ -2,21 +2,8 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-    ShowLoader();
-    LoadBranch(function () {
-        if ($("#BranchInfo_BranchID").val() != "") {
-            $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
-        }
-
-        if (commonData.BranchID != "0") {
-            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
-            $("#BranchInfo_BranchID").val(commonData.BranchID);
-        }
-    });
    
-    if ($("#BranchInfo_BranchID").val() != "") {
-        $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
-    }
+   
 });
 
 function LoadBranch(onLoaded) {

@@ -59,8 +59,24 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 var result = this.context.SaveChanges();
                 if (result > 0)
                 {
+                    StandardEntity standardInfo = new StandardEntity();
+
+                    standardInfo.BranchInfo = new BranchEntity()
+                    {
+                        BranchID = ClassInfo.branch.BranchID,
+
+                    };
+                    standardInfo.Branchclass = new BranchClassEntity();
+                    standardInfo.Transaction = new TransactionEntity();
+                    standardInfo.Transaction.TransactionId = ClassMaster.trans_id;
+                    standardInfo.Standard = ClassInfo.Class.ClassName;                    
                     ClassInfo.Class_dtl_id = ClassMaster.class_dtl_id;
-                    //var result2 = ClassDetailMaintenance(ClassInfo).Result;
+                    standardInfo.Branchclass.Class_dtl_id = ClassInfo.Class_dtl_id;
+                    standardInfo.RowStatus = new RowStatusEntity()
+                    {
+                        RowStatus = ClassInfo.isClass == true ? Enums.RowStatus.Active : Enums.RowStatus.Inactive
+                    };
+                    var Result2 = StandardMaintenance(standardInfo);
                     return result > 0 ? ClassInfo.Class_dtl_id : 0;
                 }
                 return this.context.SaveChanges() > 0 ? 1 : 0;
@@ -199,7 +215,70 @@ namespace Ashirvad.Repo.Services.Area.Branch
         public bool RemoveClass(long ClassID, long BranchID, string lastupdatedby)
         {
             var data = (from u in this.context.CLASS_DTL_MASTER
-                        where u.branch_id == BranchID && u.course_dtl_id == ClassID
+                        where u.branch_id == BranchID && u.course_dtl_id == ClassID && u.row_sta_cd== (int)Enums.RowStatus.Active
+                        select u).ToList();
+            if (data != null)
+            {
+                foreach (var item in data)
+                {
+                    item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    string ClassName = item.CLASS_MASTER.class_name;
+                    bool Status = RemoveStandard(ClassName, BranchID, lastupdatedby);
+                }
+               
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<long> StandardMaintenance(StandardEntity standardInfo)
+        {
+            try
+            {
+                Model.STD_MASTER standardMaster = new Model.STD_MASTER();
+                bool isUpdate = true;
+                var data = (from standard in this.context.STD_MASTER
+                            where standard.class_dtl_id == standardInfo.Branchclass.Class_dtl_id 
+                            && standard.branch_id== standardInfo.BranchInfo.BranchID
+                            select standard).FirstOrDefault();
+                if (data == null)
+                {
+                    standardMaster = new Model.STD_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    standardMaster = data;
+                    standardInfo.Transaction.TransactionId = data.trans_id;
+                }
+
+                standardMaster.standard = standardInfo.Standard;
+                standardMaster.branch_id = standardInfo.BranchInfo.BranchID;
+                standardMaster.row_sta_cd = (int)standardInfo.RowStatus.RowStatus;
+                standardMaster.trans_id = standardInfo.Transaction.TransactionId;
+                standardMaster.class_dtl_id = standardInfo.Branchclass.Class_dtl_id;
+                this.context.STD_MASTER.Add(standardMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(standardMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+                return this.context.SaveChanges() > 0 ? standardMaster.std_id : 0;
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return 0;
+            
+        }
+
+        public bool RemoveStandard(string ClassName, long BranchID, string lastupdatedby)
+        {
+            var data = (from u in this.context.STD_MASTER
+                        where u.branch_id == BranchID && u.standard == ClassName && u.row_sta_cd == (int)Enums.RowStatus.Active
                         select u).ToList();
             if (data != null)
             {
@@ -215,8 +294,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
             return false;
         }
-
-
 
     }
 }

@@ -85,6 +85,7 @@ function SaveClassDetail() {
 function GetData() {
     var ClassStatus = [];
     var ClassData = [];
+    var ClassNameData = [];
     var ClassDetailData = [];
     var MainArray = [];
 
@@ -98,6 +99,10 @@ function GetData() {
         var ClassID = $(this).val();
         ClassData.push(ClassID);
     });
+    $('#choiceList .ClassName').each(function () {
+        var ClassName = $(this).val();
+        ClassNameData.push(ClassName);
+    });
     $('#choiceList .Classdtlid').each(function () {
         var Classdtlid = $(this).val();
         ClassDetailData.push(Classdtlid);
@@ -107,10 +112,10 @@ function GetData() {
         var IsClass = ClassStatus[i];
         var ClassID = ClassData[i];
         var ClassDetailID = ClassDetailData[i];
-
+        var ClassName = ClassNameData[i];
 
         MainArray.push({
-            "Class": { "ClassID": ClassID },
+            "Class": { "ClassID": ClassID, "ClassName": ClassName},
             "Class_dtl_id": ClassDetailID,
             "isClass": IsClass,
 

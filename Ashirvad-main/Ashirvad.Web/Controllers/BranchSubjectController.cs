@@ -75,6 +75,7 @@ namespace Ashirvad.Web.Controllers
                 branchSubject.Subject_dtl_id = item.Subject_dtl_id;
                 branchSubject.BranchCourse.course_dtl_id = CourseDetailID;
                 branchSubject.Subject.SubjectID = item.Subject.SubjectID;
+                branchSubject.Subject.SubjectName = item.Subject.SubjectName;
                 branchSubject.isSubject = item.isSubject;
                 branchSubject.BranchClass.Class_dtl_id = ClassDetailID;
                 branchSubject = await _branchSubjectService.BranchSubjectMaintenance(branchSubject);

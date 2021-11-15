@@ -24,7 +24,7 @@ namespace Ashirvad.Repo.Model
         public string title { get; set; }
         public int type { get; set; }
     
-        public virtual STD_MASTER STD_MASTER { get; set; }
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+        public virtual STD_MASTER STD_MASTER { get; set; }
     }
 }

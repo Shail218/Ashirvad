@@ -29,10 +29,10 @@ namespace Ashirvad.Repo.Model
         public int row_sta_cd { get; set; }
         public long trans_id { get; set; }
     
-        public virtual STD_MASTER STD_MASTER { get; set; }
-        public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRACTICE_PAPER_REL> PRACTICE_PAPER_REL { get; set; }
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+        public virtual STD_MASTER STD_MASTER { get; set; }
+        public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
     }
 }

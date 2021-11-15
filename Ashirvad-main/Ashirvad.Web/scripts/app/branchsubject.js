@@ -108,6 +108,7 @@ function SaveSubjectDetail() {
 function GetData() {
     var SubjectStatus = [];
     var SubjectData = [];
+    var SubjecNameData = [];
     var SubjectDetailData = [];
     var MainArray = [];
 
@@ -116,7 +117,10 @@ function GetData() {
         SubjectStatus.push(Subject);
     });
 
-
+    $('#choiceList .SubjectName').each(function () {
+        var SubjectName = $(this).val();
+        SubjecNameData.push(SubjectName);
+    });
     $('#choiceList .SubjectID').each(function () {
         var SubjectID = $(this).val();
         SubjectData.push(SubjectID);
@@ -130,10 +134,10 @@ function GetData() {
         var IsSubject = SubjectStatus[i];
         var SubjectID = SubjectData[i];
         var SubjectDetailID = SubjectDetailData[i];
-
+        var SubjectName = SubjecNameData[i];
 
         MainArray.push({
-            "Subject": { "SubjectID": SubjectID },
+            "Subject": { "SubjectID": SubjectID, "SubjectName": SubjectName},
             "Subject_dtl_id": SubjectDetailID,
             "isSubject": IsSubject,
 

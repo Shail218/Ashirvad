@@ -34,8 +34,8 @@ namespace Ashirvad.Repo.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HOMEWORK_MASTER_DTL> HOMEWORK_MASTER_DTL { get; set; }
+        public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         public virtual STD_MASTER STD_MASTER { get; set; }
         public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
-        public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
     }
 }

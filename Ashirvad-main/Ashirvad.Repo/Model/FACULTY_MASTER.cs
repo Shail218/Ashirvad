@@ -26,10 +26,10 @@ namespace Ashirvad.Repo.Model
         public string file_name { get; set; }
         public string file_path { get; set; }
     
-        public virtual STD_MASTER STD_MASTER { get; set; }
-        public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         public virtual BRANCH_STAFF BRANCH_STAFF { get; set; }
+        public virtual STD_MASTER STD_MASTER { get; set; }
+        public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
     }
 }

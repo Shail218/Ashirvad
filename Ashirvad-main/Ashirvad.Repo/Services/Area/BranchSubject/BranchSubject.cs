@@ -59,10 +59,29 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     this.context.Entry(SubjectMaster).State = System.Data.Entity.EntityState.Modified;
                 }
                 var result = this.context.SaveChanges();
+                
                 if (result > 0)
                 {
                     SubjectInfo.Subject_dtl_id = SubjectMaster.subject_dtl_id;
-                    //var result2 = SubjectDetailMaintenance(SubjectInfo).Result;
+                    SubjectEntity Subjectmaster = new SubjectEntity();
+
+                    Subjectmaster.BranchInfo = new BranchEntity()
+                    {
+                        BranchID = SubjectInfo.branch.BranchID,
+
+                    };
+
+                    Subjectmaster.BranchSubject = new BranchSubjectEntity();  
+                    Subjectmaster.Transaction = new TransactionEntity();
+                    Subjectmaster.Transaction.TransactionId = SubjectInfo.Transaction.TransactionId;
+                    Subjectmaster.Subject = SubjectInfo.Subject.SubjectName;
+                    Subjectmaster.BranchSubject = SubjectInfo.branchSubject;                    
+                    Subjectmaster.BranchSubject.Subject_dtl_id = SubjectInfo.Subject_dtl_id;                    
+                    Subjectmaster.RowStatus = new RowStatusEntity()
+                    {
+                        RowStatus = SubjectInfo.isSubject == true ? Enums.RowStatus.Active : Enums.RowStatus.Inactive
+                    };
+                    var Result2 = SubjectMasterMaintenance(Subjectmaster);
                     return result > 0 ? SubjectInfo.Subject_dtl_id : 0;
                 }
                 return this.context.SaveChanges() > 0 ? 1 : 0;
@@ -156,7 +175,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
         }
 
-
         public async Task<List<BranchSubjectEntity>> GetSubjectBySubjectID(long SubjectID, long BranchID,long CourseID)
         {
             var data = (from u in this.context.SUBJECT_DTL_MASTER
@@ -242,7 +260,66 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return false;
         }
 
+        public async Task<long> SubjectMasterMaintenance(SubjectEntity subjectInfo)
+        {
+            try
+            {
+                Model.SUBJECT_MASTER subjectMaster = new Model.SUBJECT_MASTER();
+                bool isUpdate = true;
+                var data = (from subject in this.context.SUBJECT_MASTER
+                            where subject.subject_dtl_id== subjectInfo.BranchSubject.Subject_dtl_id
+                            && subject.branch_id == subjectInfo.BranchInfo.BranchID
+                            select subject).FirstOrDefault();
+                if (data == null)
+                {
+                    subjectMaster = new Model.SUBJECT_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    subjectMaster = data;
+                    subjectInfo.Transaction.TransactionId = data.trans_id;
+                }
 
+                subjectMaster.subject = subjectInfo.BranchSubject.Subject.SubjectName;
+                subjectMaster.branch_id = subjectInfo.BranchInfo.BranchID;
+                subjectMaster.row_sta_cd = (int)subjectInfo.RowStatus.RowStatus;
+                subjectMaster.trans_id = subjectInfo.Transaction.TransactionId;
+                subjectMaster.subject_dtl_id = subjectInfo.BranchSubject.Subject_dtl_id;
+                this.context.SUBJECT_MASTER.Add(subjectMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(subjectMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+                return this.context.SaveChanges() > 0 ? subjectMaster.subject_id : 0;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return 0;
+
+        }
+
+        public bool RemoveSubjectMaster(string SubjectName, long BranchID, string lastupdatedby)
+        {
+            var data = (from u in this.context.SUBJECT_MASTER
+                        where u.branch_id == BranchID && u.subject == SubjectName && u.row_sta_cd == (int)Enums.RowStatus.Active
+                        select u).ToList();
+            if (data != null)
+            {
+                foreach (var item in data)
+                {
+                    item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                }
+
+                return true;
+            }
+
+            return false;
+        }
 
     }
 }

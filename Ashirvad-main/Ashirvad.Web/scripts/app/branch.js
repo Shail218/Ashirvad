@@ -1,7 +1,7 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
-const { hide } = require("@popperjs/core");
+
 
 
 $(document).ready(function () {
@@ -29,19 +29,19 @@ $(document).ready(function () {
         }
     }
 
-    if ($("#board").val() != "") {
-        var rowStatus = $("#board").val();
-        if (rowStatus == "1") {
-            $("#rowStaGujarat").attr('checked', 'checked');
-        }
-        else if (rowStatus == "2") {
-            $("#rowStaCBSC").attr('checked', 'checked');
+    //if ($("#board").val() != "") {
+    //    var rowStatus = $("#board").val();
+    //    if (rowStatus == "1") {
+    //        $("#rowStaGujarat").attr('checked', 'checked');
+    //    }
+    //    else if (rowStatus == "2") {
+    //        $("#rowStaCBSC").attr('checked', 'checked');
 
-        }
-        else {
-            $("#rowStaBoth").attr('checked', 'checked');
-        }
-    }
+    //    }
+    //    else {
+    //        $("#rowStaBoth").attr('checked', 'checked');
+    //    }
+    //}
 
 });
 
