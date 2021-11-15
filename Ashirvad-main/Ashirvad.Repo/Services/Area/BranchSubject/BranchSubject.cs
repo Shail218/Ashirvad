@@ -73,9 +73,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
                     Subjectmaster.BranchSubject = new BranchSubjectEntity();  
                     Subjectmaster.Transaction = new TransactionEntity();
-                    Subjectmaster.Transaction.TransactionId = SubjectInfo.Transaction.TransactionId;
-                    Subjectmaster.Subject = SubjectInfo.Subject.SubjectName;
-                    Subjectmaster.BranchSubject = SubjectInfo.branchSubject;                    
+                    Subjectmaster.Transaction.TransactionId = SubjectMaster.trans_id;
+                    Subjectmaster.Subject = SubjectInfo.Subject.SubjectName;                                  
                     Subjectmaster.BranchSubject.Subject_dtl_id = SubjectInfo.Subject_dtl_id;                    
                     Subjectmaster.RowStatus = new RowStatusEntity()
                     {
@@ -243,14 +242,18 @@ namespace Ashirvad.Repo.Services.Area.Branch
         public bool RemoveSubject(long CourseID, long ClassID, long BranchID, string lastupdatedby)
         {
             var data = (from u in this.context.SUBJECT_DTL_MASTER
-                        where u.branch_id == BranchID && u.course_dtl_id == CourseID && u.class_dtl_id==ClassID
-                        select u).ToList();
+                        where u.branch_id == BranchID && 
+                        u.course_dtl_id == CourseID && 
+                        u.class_dtl_id==ClassID &&
+                        u.row_sta_cd== (int)Enums.RowStatus.Active
+            select u).ToList();
             if (data != null)
             {
                 foreach (var item in data)
                 {
                     item.row_sta_cd = (int)Enums.RowStatus.Inactive;
                     item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                    bool Status = RemoveSubjectMaster(item.SUBJECT_BRANCH_MASTER.subject_name, BranchID, lastupdatedby);
                     this.context.SaveChanges();
                 }
 
@@ -281,7 +284,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     subjectInfo.Transaction.TransactionId = data.trans_id;
                 }
 
-                subjectMaster.subject = subjectInfo.BranchSubject.Subject.SubjectName;
+                subjectMaster.subject = subjectInfo.Subject;
                 subjectMaster.branch_id = subjectInfo.BranchInfo.BranchID;
                 subjectMaster.row_sta_cd = (int)subjectInfo.RowStatus.RowStatus;
                 subjectMaster.trans_id = subjectInfo.Transaction.TransactionId;
