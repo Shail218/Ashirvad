@@ -50,7 +50,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 ClassMaster.row_sta_cd = (int)Enums.RowStatus.Active;
                 ClassMaster.is_class = ClassInfo.isClass;
                 ClassMaster.course_dtl_id = ClassInfo.BranchCourse.course_dtl_id;
-                ClassMaster.trans_id = this.AddTransactionData(ClassInfo.Transaction);
+                ClassMaster.trans_id = ClassInfo.Transaction.TransactionId>0? ClassInfo.Transaction.TransactionId:this.AddTransactionData(ClassInfo.Transaction);
                 this.context.CLASS_DTL_MASTER.Add(ClassMaster);
                 if (isUpdate)
                 {

@@ -1,5 +1,6 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
+using Ashirvad.Repo.DataAcceessAPI.Area;
 using Ashirvad.Repo.DataAcceessAPI.Area.Class;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Ashirvad.Repo.Services.Area.Class
 {
     public class Class : ModelAccess, IClassAPI
     {
+        private readonly IBranchClassAPI _BranchClass;
         public async Task<long> CheckClass(string name, long Id)
         {
             long result;
@@ -49,7 +51,14 @@ namespace Ashirvad.Repo.Services.Area.Class
                 {
                     this.context.Entry(classMaster).State = System.Data.Entity.EntityState.Modified;
                 }
-                return this.context.SaveChanges() > 0 ? classMaster.class_id : 0;
+                var Result = this.context.SaveChanges();
+                if (Result > 0)
+                {
+                    classEntity.ClassID = classMaster.class_id;
+                    classEntity.Transaction.TransactionId = classEntity.Transaction.TransactionId;
+                    ClassMasterMaintenance(classEntity);
+                }
+                return Result > 0 ? classEntity.ClassID : 0;
             }
             else
             {
@@ -112,6 +121,72 @@ namespace Ashirvad.Repo.Services.Area.Class
             }
 
             return false;
+        }
+
+        public async Task<long> ClassMasterMaintenance(ClassEntity ClassEntity)
+        {
+            try
+            {
+                long result = 0;
+                var data = (from Class in this.context.CLASS_DTL_MASTER
+                            select new BranchClassEntity
+                            {
+                                branch=new BranchEntity()
+                                {
+                                    BranchID = Class.branch_id
+                                },
+                                Class= new ClassEntity()
+                                {
+                                    ClassID= Class.class_id
+                                },
+                                BranchCourse= new BranchCourseEntity()
+                                {
+                                    course_dtl_id= Class.course_dtl_id
+
+                                }
+                            }).Distinct().ToList();
+
+                BranchClassEntity branchClass = new BranchClassEntity();
+                branchClass.Class = new ClassEntity()
+                {
+                    ClassID = ClassEntity.ClassID,
+                    ClassName = ClassEntity.ClassName
+                };
+                branchClass.Transaction = new TransactionEntity();
+                branchClass.Transaction = ClassEntity.Transaction;
+                branchClass.isClass = false;
+                branchClass.RowStatus = new RowStatusEntity()
+                {
+                    RowStatus = Enums.RowStatus.Active
+                };
+                foreach (var item in data)
+                {
+                    branchClass.branch = new BranchEntity()
+                    {
+                        BranchID = item.branch.BranchID,
+
+                    };
+                    branchClass.BranchCourse = new BranchCourseEntity()
+                    {
+                        course_dtl_id = item.BranchCourse.course_dtl_id,
+
+                    };
+                    branchClass.Class = new ClassEntity()
+                    {
+                        ClassID = item.Class.ClassID,
+
+                    };
+                    result = _BranchClass.ClassMaintenance(branchClass).Result;
+                }
+
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
         }
     }
 }

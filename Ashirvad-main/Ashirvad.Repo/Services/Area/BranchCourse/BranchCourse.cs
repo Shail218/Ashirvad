@@ -47,9 +47,9 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
                 CourseMaster.course_id = CourseInfo.course.CourseID;                
                 CourseMaster.branch_id = CourseInfo.branch.BranchID;
-                CourseMaster.row_sta_cd = (int)Enums.RowStatus.Active;
+                CourseMaster.row_sta_cd = CourseInfo.RowStatus.RowStatus == Enums.RowStatus.Active ?(int)Enums.RowStatus.Active : (int)Enums.RowStatus.Inactive;
                 CourseMaster.is_course = CourseInfo.iscourse;               
-                CourseMaster.trans_id = this.AddTransactionData(CourseInfo.Transaction);
+                CourseMaster.trans_id = CourseInfo.Transaction.TransactionId>0? CourseInfo.Transaction.TransactionId:this.AddTransactionData(CourseInfo.Transaction);
                 this.context.COURSE_DTL_MASTER.Add(CourseMaster);
                 if (isUpdate)
                 {
