@@ -63,7 +63,7 @@ namespace Ashirvad.Repo.Services.Area.ToDo
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            FilePath = u.file_path,
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
                             ToDoID = u.todo_id,
                             ToDoFileName = u.todo_doc_name,
                             ToDoDate = u.todo_dt,

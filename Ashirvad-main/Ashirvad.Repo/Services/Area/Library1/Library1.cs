@@ -109,12 +109,14 @@ namespace Ashirvad.Repo.Services.Area
                             link = u.video_link,
                             Title = u.library_title,
                             Description = u.description,
-                            FilePath = b.library_filepath,
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + b.library_filepath,
                             LibraryDetailID = b.library_dtl_id,
                             FileName = b.library_name,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             CategoryInfo = new CategoryEntity() { CategoryID = u.category_id, Category = u.CATEGORY_MASTER.category_name },
-                            BranchInfo = new BranchEntity() { BranchID = u.branch_id }
+                            BranchInfo = new BranchEntity() {                      
+                                BranchID = u.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name}
                         }).ToList();
 
             return data;

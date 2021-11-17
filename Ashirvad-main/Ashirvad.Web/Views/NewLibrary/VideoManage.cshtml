@@ -17,6 +17,12 @@
             <th>
                 Category
             </th>
+            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
+                <th>
+                    Branch Name
+                </th>
+            }
             <th>
                 Edit
             </th>
@@ -34,7 +40,7 @@
             @Html.HiddenFor(x => item.LibraryID)
         </td>
         <td>
-            @item.link
+            <a href="@item.link" target="_blank" style="color:blue;text-decoration:underline;">Go to link</a>
             @Html.HiddenFor(x => item.LibraryID)
         </td>
         <td>
@@ -52,9 +58,7 @@
                 @Html.HiddenFor(x => item.BranchInfo.BranchID)
             </td>
         }
-        @*<td>
-            @item.RowStatus.RowStatus
-        </td>*@
+       
         <td>
             <a href="@Url.Action("LibraryMaintenance", "NewLibrary", new { LibraryID = item.LibraryID ,Type=1})">
                 <img src="~/ThemeData/images/viewIcon.png" />

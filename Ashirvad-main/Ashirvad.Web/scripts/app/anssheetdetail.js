@@ -59,9 +59,6 @@ function UpdateTest(HomeWorkID,StudentID) {
 function GetData() {
     $('#votetble tbody tr').each(function () {
         var row = $(this);
-
-
-
         var Choice = $(this).find('#Choice').val();
         var ChoiceID = $(this).find('#ChoiceID').val();
         var ID = 0;

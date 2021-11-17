@@ -188,7 +188,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             GrNo = u.gr_no,
                             SchoolTime = u.school_time,
                             FileName = u.file_name,
-                            FilePath = u.file_path,
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },

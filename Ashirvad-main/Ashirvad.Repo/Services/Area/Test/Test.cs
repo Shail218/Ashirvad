@@ -96,7 +96,8 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 TestPaperID = TestPaper.test_paper_id,
                                 PaperType = TestPaper.paper_type.ToString(),
                                 DocLink = TestPaper.doc_link.ToString(),
-                                FilePath = TestPaper.file_path
+                                FilePath = "http://highpack-001-site12.dtempurl.com" + TestPaper.file_path,
+                                FileName = TestPaper.file_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();

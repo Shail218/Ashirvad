@@ -1,5 +1,6 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
+using Ashirvad.Repo.DataAcceessAPI.Area;
 using Ashirvad.Repo.DataAcceessAPI.Area.SuperAdminSubject;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,13 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
 {
     public class SuperAdminSubject : ModelAccess, ISuperAdminSubjectAPI
     {
+        private readonly IBranchSubjectAPI _BranchSubject;
+
+        public SuperAdminSubject(IBranchSubjectAPI branchSubject)
+        {
+            _BranchSubject = branchSubject;
+        }
+
         public async Task<long> CheckSubject(string name, long Id)
         {
             long result;
@@ -49,7 +57,14 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                 {
                     this.context.Entry(subjectMaster).State = System.Data.Entity.EntityState.Modified;
                 }
-                return this.context.SaveChanges() > 0 ? subjectMaster.subject_id : 0;
+                var Result = this.context.SaveChanges();
+                if (Result > 0)
+                {
+                    subjectEntity.SubjectID = subjectMaster.subject_id;
+                    subjectEntity.Transaction.TransactionId = subjectEntity.Transaction.TransactionId;
+                    SubjectMasterMaintenance(subjectEntity);
+                }
+                return this.context.SaveChanges() > 0 ? subjectEntity.SubjectID : 0;
             }
             else
             {
@@ -113,5 +128,75 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
 
             return false;
         }
+
+        public async Task<long> SubjectMasterMaintenance(SuperAdminSubjectEntity subjectentity)
+        {
+            try
+            {
+                long result = 0;
+                var data = (from Subject in this.context.SUBJECT_DTL_MASTER
+                            select new BranchSubjectEntity
+                            {
+                                branch = new BranchEntity()
+                                {
+                                    BranchID = Subject.branch_id
+                                },
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = Subject.subject_id
+                                },
+                                BranchCourse = new BranchCourseEntity()
+                                {
+                                    course_dtl_id = Subject.course_dtl_id
+
+                                },
+                                BranchClass = new BranchClassEntity()
+                                {
+                                    Class_dtl_id = Subject.class_dtl_id
+                                }
+                            }).Distinct().ToList();
+
+                BranchSubjectEntity branchSubject = new BranchSubjectEntity();
+                branchSubject.Subject = new SuperAdminSubjectEntity()
+                {
+                    SubjectID = subjectentity.SubjectID,
+                    SubjectName = subjectentity.SubjectName
+                };
+                branchSubject.Transaction = new TransactionEntity();
+                branchSubject.Transaction = subjectentity.Transaction;
+                branchSubject.isClass = false;
+                branchSubject.RowStatus = new RowStatusEntity()
+                {
+                    RowStatus = Enums.RowStatus.Active
+                };
+                foreach (var item in data)
+                {
+                    branchSubject.branch = new BranchEntity()
+                    {
+                        BranchID = item.branch.BranchID,
+
+                    };
+                    branchSubject.BranchCourse = new BranchCourseEntity()
+                    {
+                        course_dtl_id = item.BranchCourse.course_dtl_id,
+
+                    };
+                    branchSubject.BranchClass = new BranchClassEntity()
+                    {
+                        Class_dtl_id = item.BranchClass.Class_dtl_id
+                    };
+                    result = _BranchSubject.SubjectMaintenance(branchSubject).Result;
+                }
+
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
     }
 }

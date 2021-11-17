@@ -99,7 +99,7 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> CategoryData()
         {
-            var categoryData = await _CategoryService.GetAllCategorys(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            var categoryData = await _CategoryService.GetAllCategorys(0);
             return Json(categoryData);
         }
     }

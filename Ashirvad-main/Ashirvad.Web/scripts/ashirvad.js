@@ -293,13 +293,35 @@ function ShowMessage(message, messagetype, onClose) {
     setTimeout(function () { $("#alert_container").hide(); }, 5000);
 }
 
-function ConvertData(FromDate) {
+function ConvertData(FromDate,Type) {
     var Data = FromDate.split("/");
-    var Date = Data[0];
-    var Month = Data[1];
-    var Year = Data[2];
-    var FromDateupdate = Month + "/" + Date + "/" + Year;
-    return FromDateupdate
+    if (Data.length == 1 && FromDate != "") {
+        Data = FromDate.split("-");
+        var Date = Data[0];
+        var Month = Data[1];
+        var Year = Data[2];
+        if (Type == 'Local') {
+            var FromDateupdate = Date + "-" + Month + "-" + Year;
+            return FromDateupdate
+        }
+        else {
+            var FromDateupdate = Month + "-" + Date + "-" + Year;
+            return FromDateupdate
+        }
+    } else {
+        var Date = Data[0];
+        var Month = Data[1];
+        var Year = Data[2];
+        if (Type == 'Local') {
+            var FromDateupdate = Date + "/" + Month + "/" + Year;
+            return FromDateupdate
+        }
+        else {
+            var FromDateupdate = Month + "/" + Date + "/" + Year;
+            return FromDateupdate
+        }
+    }
+    
 }
 
 
