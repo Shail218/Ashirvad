@@ -11,16 +11,14 @@
                 Faculty Image
             </th>
             <th>
-                Board Type
+                Course Name
             </th>
-
             <th>
                 Standard
             </th>
             <th>
                 Subject
             </th>
-
             <th>
                 Edit
             </th>
@@ -47,9 +45,9 @@
                 <img src="~/ThemeData/images/Default.png" id="FeeImg" style="height:60px;width:50px;" />
             }
         </td>
-        <td>@item.board</td>
-        <td>@item.standard.Standard</td>
-        <td>@item.subject.Subject</td>
+        <td>@item.BranchCourse.course.CourseName</td>
+        <td>@item.BranchClass.Class.ClassName</td>
+        <td>@item.branchSubject.Subject.SubjectName</td>
 
         <td>
             <a href="@Url.Action("FacultyMaintenance", "Faculty", new { facultyID = item.FacultyID })">
@@ -63,9 +61,4 @@
         </td>
     </tr>
     }
-
-
-
-
-
 </table>

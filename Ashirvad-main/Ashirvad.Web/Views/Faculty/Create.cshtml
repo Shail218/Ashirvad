@@ -22,69 +22,41 @@
             </div>
         }
 
-        <div class="col-md-12">
-            @Html.Label("Select Faculty", htmlAttributes: new { @class = "control-label" })
-            <select name="facultyName" id="facultyName" class="form-control select2" alt="Faculty Name">
-                <option value="0">--Select Faculty--</option>
+            <div class="col-md-12" style="margin-bottom:7px;">
+                @Html.Label("Select Faculty", htmlAttributes: new { @class = "control-label" })
+                <select name="facultyName" id="facultyName" class="form-control select2" alt="Faculty Name">
+                    <option value="0">--Select Faculty--</option>
 
-            </select>
-            @Html.HiddenFor(x => x.staff.StaffID)
-            @Html.HiddenFor(x => x.BranchInfo.BranchID)
-            @Html.HiddenFor(x => x.FacultyID)
-
-        </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                @Html.Label("Education Board", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.HiddenFor(x => x.board)
+                </select>
+                @Html.HiddenFor(x => x.staff.StaffID)
+                @Html.HiddenFor(x => x.BranchInfo.BranchID)
+                @Html.HiddenFor(x => x.FacultyID)                
+            </div>
+        <div>
+            <div class="col-md-6">
+                @Html.Label("Course Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="CourseName" id="CourseName" class="form-control requiredDDL" alt="Course Name">
+                    <option value="0">--Select Course Name--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchCourse.course_dtl_id)
+            </div>
+            <div class="col-md-6">
+                @Html.Label("Class Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="ClassName" id="ClassName" class="form-control requiredDDL" alt="Class Name">
+                    <option value="0">--Select Class Name--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchClass.Class_dtl_id)
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                <table id="rdbResult" class="radioboxlist form-control">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <input type="radio" name="Board" id="rowStaGujarat" value="1" />
-                                <lable for="rowStaGujarat">Gujarat</lable>
-                            </td>
-                            <td>
-                                <input type="radio" name="Board" id="rowStaCBSC" value="2" style="margin:5px" />
-                                <lable for="rowStaCBSC">CBSC</lable>
-                            </td>
-                            <td>
-                                <input type="radio" name="Board" id="rowStaBoth" value="3" style="margin-left:10px" />
-                                <lable for="rowStaBoth">Both</lable>
-                                @Html.HiddenFor(x => x.board)
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-md-6">
-            @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })
-            <select name="StandardName" id="StandardName" class="form-control select2" alt="Standard Name">
-                <option value="0">--Select Standard--</option>
-
-            </select>
-            @Html.HiddenFor(x => x.standard.StandardID)
-        </div>
-        <div class="col-md-6">
-            @Html.Label("Select Subject", htmlAttributes: new { @class = "control-label" })
-            <select name="SubjectName" id="SubjectName" class="form-control select2" alt="Subject Name">
+        <div class="col-md-6" style="margin-bottom:7px;">
+            @Html.Label("Select Subject", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="SubjectName" id="SubjectName" class="form-control requiredDDL" alt="Subject Name">
                 <option value="0">--Select Subject--</option>
 
             </select>
-            @Html.HiddenFor(x => x.subject.SubjectID)
+            @Html.HiddenFor(x => x.branchSubject.Subject_dtl_id)
         </div>
-
-        <div class="col-md-12">
-            @Html.Label("Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextAreaFor(x => x.Descripation, new { @class = "form-control required", autocomplete = "off", @alt = "Description" })
-            @Html.HiddenFor(x => x.HeaderImage)
-        </div>
-        <div class="col-md-6">
+        <div class="col-md-6" style="margin-bottom:7px;">
             @Html.Label("Faculty Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <input class="file-upload fileRequired" alt="Header Image" id="fuHeaderImageDetail" name="ImageFile" type="file" accept="image/*" />
             @Html.HiddenFor(x => x.HeaderImageText)
@@ -92,6 +64,12 @@
             @Html.HiddenFor(x => x.FilePath)
             @Html.HiddenFor(x => x.FacultyContentFileName)
         </div>
+
+        <div class="col-md-12">
+            @Html.Label("Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextAreaFor(x => x.Descripation, new { @class = "form-control required", autocomplete = "off", @alt = "Description" })
+
+        </div>        
         <div class="form-group">
             <div class="col-md-12" style="text-align: right;margin-top:10px;">
                 <a onclick="return SaveFaculty();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">

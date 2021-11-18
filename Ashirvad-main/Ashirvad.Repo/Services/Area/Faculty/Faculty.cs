@@ -12,43 +12,55 @@ namespace Ashirvad.Repo.Services.Area.Faculty
 {
     public class Faculty : ModelAccess, IFacultyAPI
     {
+        public async Task<long> CheckFaculty(long staffid, long courseid, long classid,long subjectid,long branchid,long facultyid)
+        {
+            long result;
+            bool isExists = this.context.FACULTY_MASTER.Where(s => (facultyid == 0 || s.faculty_id != facultyid) && s.branch_id == branchid && s.staff_id == staffid && s.course_dtl_id == courseid && s.class_dtl_id == classid && s.subject_dtl_id == subjectid && s.row_sta_cd == 1).FirstOrDefault() != null;
+            result = isExists == true ? -1 : 1;
+            return result;
+        }
+
         public async Task<long> FacultyMaintenance(FacultyEntity facultyInfo)
         {
             Model.FACULTY_MASTER facultymaster = new Model.FACULTY_MASTER();
-            bool isUpdate = true;
-            var data = (from facul in this.context.FACULTY_MASTER
-                        where facul.faculty_id == facultyInfo.FacultyID
-                        select facul).FirstOrDefault();
-            if (data == null)
+            if(CheckFaculty(facultyInfo.staff.StaffID,facultyInfo.BranchCourse.course_dtl_id,facultyInfo.BranchClass.Class_dtl_id,
+                facultyInfo.branchSubject.Subject_dtl_id,facultyInfo.BranchInfo.BranchID,facultyInfo.FacultyID).Result != -1)
             {
-                data = new Model.FACULTY_MASTER();
-                isUpdate = false;
-            }
-            else
-            {
-                facultymaster = data;
-                isUpdate = true;
-                facultyInfo.Transaction.TransactionId = data.trans_id;
+                bool isUpdate = true;
+                var data = (from facul in this.context.FACULTY_MASTER
+                            where facul.faculty_id == facultyInfo.FacultyID
+                            select facul).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.FACULTY_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    facultymaster = data;
+                    isUpdate = true;
+                    facultyInfo.Transaction.TransactionId = data.trans_id;
 
-            }
-            facultymaster.staff_id = facultyInfo.staff.StaffID;
-            facultymaster.board_type = (int)facultyInfo.board;
-            facultymaster.subject_id = facultyInfo.subject.SubjectID;
-            facultymaster.std_id = facultyInfo.standard.StandardID;
-            facultymaster.description = facultyInfo.Descripation;
-            facultymaster.file_name = facultyInfo.FacultyContentFileName;
-            facultymaster.file_path = facultyInfo.FilePath;
-            facultymaster.row_sta_cd = facultyInfo.RowStatus.RowStatusId;
-            facultymaster.trans_id = this.AddTransactionData(facultyInfo.Transaction);
-            facultymaster.branch_id = facultyInfo.BranchInfo.BranchID;
-            if (!isUpdate)
-            {
-                this.context.FACULTY_MASTER.Add(facultymaster);
+                }
+                facultymaster.staff_id = facultyInfo.staff.StaffID;
+                facultymaster.course_dtl_id = facultyInfo.BranchCourse.course_dtl_id;
+                facultymaster.class_dtl_id = facultyInfo.BranchClass.Class_dtl_id;
+                facultymaster.subject_dtl_id = facultyInfo.branchSubject.Subject_dtl_id;
+                facultymaster.description = facultyInfo.Descripation;
+                facultymaster.file_name = facultyInfo.FacultyContentFileName;
+                facultymaster.file_path = facultyInfo.FilePath;
+                facultymaster.row_sta_cd = facultyInfo.RowStatus.RowStatusId;
+                facultymaster.trans_id = this.AddTransactionData(facultyInfo.Transaction);
+                facultymaster.branch_id = facultyInfo.BranchInfo.BranchID;
+                if (!isUpdate)
+                {
+                    this.context.FACULTY_MASTER.Add(facultymaster);
+                }
+
+                return this.context.SaveChanges() > 0 ? facultymaster.faculty_id : 0;
             }
 
-            this.context.SaveChanges();
-            return 0;
-
+            return -1;
         }
 
 
@@ -56,8 +68,9 @@ namespace Ashirvad.Repo.Services.Area.Faculty
         public async Task<List<FacultyEntity>> GetAllFaculty(long branchID)
         {
             var data = (from u in this.context.FACULTY_MASTER
-                          .Include("STD_MASTER")
-                          .Include("SUBJECT_MASTER")
+                          .Include("COURSE_DTL_MASTER")
+                          .Include("CLASS_DTL_MASTER")
+                          .Include("SUBJECT_DTL_MASTER")
                           .Include("BRANCH_MASTER")
                           .Include("BRANCH_STAFF")
                         where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
@@ -68,15 +81,29 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = u.row_sta_cd
                             },
-                            standard = new StandardEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                StandardID = u.STD_MASTER.std_id,
-                                Standard = u.STD_MASTER.standard
+                                course_dtl_id = u.course_dtl_id,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
                             },
-                            subject = new SubjectEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                Class_dtl_id = u.class_dtl_id,
+                                Class = new ClassEntity()
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
+                            },
+                            branchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
+                                }
                             },
                             staff = new StaffEntity()
                             {
@@ -95,7 +122,6 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                             
                             FilePath = u.file_path,
                             FacultyContentFileName = u.file_name,
-                            board = u.board_type == 1 ? Enums.BoardType.GujaratBoard : u.board_type == 2 ? Enums.BoardType.CBSC : Enums.BoardType.Both,
                             FacultyID = u.faculty_id,
                         }).ToList();
 
@@ -105,8 +131,9 @@ namespace Ashirvad.Repo.Services.Area.Faculty
         public async Task<List<FacultyEntity>> GetAllFaculty(long branchID, int typeID)
         {
             var data = (from u in this.context.FACULTY_MASTER
-                         .Include("STD_MASTER")
-                         .Include("SUBJECT_MASTER")
+                         .Include("COURSE_DTL_MASTER")
+                          .Include("CLASS_DTL_MASTER")
+                          .Include("SUBJECT_DTL_MASTER")
                          .Include("BRANCH_MASTER")
                          .Include("BRANCH_STAFF")
                         where branchID == 0 || u.branch_id == branchID && u.row_sta_cd==1
@@ -117,15 +144,29 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = u.row_sta_cd
                             },
-                            standard = new StandardEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                StandardID = u.STD_MASTER.std_id,
-                                Standard = u.STD_MASTER.standard
+                                course_dtl_id = u.course_dtl_id,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
                             },
-                            subject = new SubjectEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                Class_dtl_id = u.class_dtl_id,
+                                Class = new ClassEntity()
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
+                            },
+                            branchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
+                                }
                             },
                             staff = new StaffEntity()
                             {
@@ -141,7 +182,6 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                             {
                                 TransactionId = u.trans_id
                             },
-                            board = u.board_type == 1 ? Enums.BoardType.GujaratBoard : u.board_type == 2 ? Enums.BoardType.CBSC : Enums.BoardType.Both,
                             FacultyID=u.faculty_id,
                             HeaderImageText=u.file_name,
                             FilePath=u.file_path,
@@ -153,8 +193,9 @@ namespace Ashirvad.Repo.Services.Area.Faculty
         public async Task<FacultyEntity> GetFacultyByFacultyID(long facultyID)
         {
             var data = (from u in this.context.FACULTY_MASTER
-                        .Include("STD_MASTER")
-                         .Include("SUBJECT_MASTER")
+                       .Include("COURSE_DTL_MASTER")
+                          .Include("CLASS_DTL_MASTER")
+                          .Include("SUBJECT_DTL_MASTER")
                          .Include("BRANCH_MASTER")
                          .Include("BRANCH_STAFF")
                         where u.faculty_id == facultyID
@@ -169,15 +210,29 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                             Descripation = u.description,
                             FacultyContentFileName=u.file_name,
                             FilePath=u.file_path,
-                            standard = new StandardEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                StandardID = u.STD_MASTER.std_id,
-                                Standard = u.STD_MASTER.standard
+                                course_dtl_id = u.course_dtl_id,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
                             },
-                            subject = new SubjectEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                Class_dtl_id = u.class_dtl_id,
+                                Class = new ClassEntity()
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
+                            },
+                            branchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
+                                }
                             },
                             staff = new StaffEntity()
                             {
@@ -192,12 +247,8 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                             Transaction = new TransactionEntity()
                             {
                                 TransactionId = u.trans_id
-                            },
-                            board = u.board_type == 1 ? Enums.BoardType.GujaratBoard : u.board_type == 2 ? Enums.BoardType.CBSC : Enums.BoardType.Both,
-
+                            },                            
                         }).FirstOrDefault();
-
-
             return data;
         }
 

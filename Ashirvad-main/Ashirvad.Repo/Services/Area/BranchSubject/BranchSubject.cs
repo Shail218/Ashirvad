@@ -26,7 +26,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         {
             Model.SUBJECT_DTL_MASTER SubjectMaster = new Model.SUBJECT_DTL_MASTER();
             if (CheckSubject((int)SubjectInfo.Subject_dtl_id, (int)SubjectInfo.Subject.SubjectID, 
-                (int)SubjectInfo.branch.BranchID, (int)SubjectInfo.BranchCourse.course_dtl_id, (int)SubjectInfo.Class_dtl_id).Result != -1)
+                (int)SubjectInfo.branch.BranchID, (int)SubjectInfo.BranchCourse.course_dtl_id, (int)SubjectInfo.BranchClass.Class_dtl_id).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from Subject in this.context.SUBJECT_DTL_MASTER

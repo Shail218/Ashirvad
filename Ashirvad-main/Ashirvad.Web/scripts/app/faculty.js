@@ -11,36 +11,16 @@ $(document).ready(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
             LoadUser($("#BranchInfo_BranchID").val());
-            LoadStandard($("#BranchInfo_BranchID").val());
-            LoadSubject($("#BranchInfo_BranchID").val());
         }
 
         if (commonData.BranchID != "0") {
             $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
             $("#BranchInfo_BranchID").val(commonData.BranchID);
             LoadUser(commonData.BranchID);
-            LoadStandard(commonData.BranchID);
-            LoadSubject(commonData.BranchID);
         }
     });
 
-    if ($("#FacultyID").val() > 0) {
-        if ($("#board").val() != "") {
-            var rowStatus = $("#board").val();
-            debugger;
-            if (rowStatus == "GujaratBoard") {
-                $("#rowStaGujarat").attr('checked', 'checked');
-            }
-            else if (rowStatus == "CBSC") {
-                $("#rowStaCBSC").attr('checked', 'checked');
-
-            }
-            else {
-                $("#rowStaBoth").attr('checked', 'checked');
-            }
-        }
-    }
-   
+    LoadCourse();
 });
 
 function LoadBranch(onLoaded) {
@@ -81,41 +61,69 @@ function LoadUser(branchID) {
     });
 }
 
-function LoadStandard(branchID) {
-
-    var postCall = $.post(commonData.Standard + "StandardData", { "branchID": branchID });
+function LoadCourse() {
+    var postCall = $.post(commonData.BranchCourse + "GetCourseDDL");
     postCall.done(function (data) {
-
-        $('#StandardName').empty();
-        $('#StandardName').select2();
-        $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#StandardName").append("<option value=" + data[i].StandardID + ">" + data[i].Standard + "</option>");
+        $('#CourseName').empty();
+        $('#CourseName').select2();
+        $("#CourseName").append("<option value=" + 0 + ">---Select Course---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
+            }
         }
-        if ($("#standard_StandardID").val() != "") {
-            $('#StandardName option[value="' + $("#standard_StandardID").val() + '"]').attr("selected", "selected");
+        if ($("#BranchCourse_course_dtl_id").val() != "") {
+            $('#CourseName option[value="' + $("#BranchCourse_course_dtl_id").val() + '"]').attr("selected", "selected");
+            LoadClass($("#BranchCourse_course_dtl_id").val());
         }
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
-function LoadSubject(branchID) {
-    var postCall = $.post(commonData.Subject + "SubjectDataByBranch", { "branchID": branchID });
+function LoadClass(CourseID) {
+    ShowLoader();
+    var postCall = $.post(commonData.BranchClass + "GetClassDDL", { "CourseID": CourseID });
     postCall.done(function (data) {
+        $('#ClassName').empty();
+        $('#ClassName').select2();
+        $("#ClassName").append("<option value=" + 0 + ">---Select Class---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                $("#ClassName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
+            }
+        }
+        if ($("#BranchClass_Class_dtl_id").val() != "") {
+            $('#ClassName option[value="' + $("#BranchClass_Class_dtl_id").val() + '"]').attr("selected", "selected");
+            LoadSubject($("#BranchClass_Class_dtl_id").val(), CourseID);
+        }
 
+        HideLoader();
+    }).fail(function () {
+        
+    });
+}
+
+function LoadSubject(ClassID,CourseID) {
+    ShowLoader();
+    var postCall = $.post(commonData.BranchSubject + "GetSubjectDDL", { "ClassID": ClassID, "CourseID": CourseID});
+    postCall.done(function (data) {
         $('#SubjectName').empty();
         $('#SubjectName').select2();
-        $("#SubjectName").append("<option value=" + 0 + ">---Select Subject Name---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#SubjectName").append("<option value=" + data[i].SubjectID + ">" + data[i].Subject + "</option>");
+        $("#SubjectName").append("<option value=" + 0 + ">---Select Subject---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                $("#SubjectName").append("<option value='" + data[i].Subject_dtl_id + "'>" + data[i].Subject.SubjectName + "</option>");
+            }
         }
-        if ($("#subject_SubjectID").val() != "") {
-            $('#SubjectName option[value="' + $("#subject_SubjectID").val() + '"]').attr("selected", "selected");
+        if ($("#branchSubject_Subject_dtl_id").val() != "") {
+            $('#SubjectName option[value="' + $("#branchSubject_Subject_dtl_id").val() + '"]').attr("selected", "selected");
         }
         HideLoader();
     }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        HideLoader();
+        
     });
 }
 
@@ -130,34 +138,27 @@ $("#facultyName").change(function () {
     $('#staff_StaffID').val(Data);
 });
 
+$("#CourseName").change(function () {
+    var Data = $("#CourseName option:selected").val();
+    $('#BranchCourse_course_dtl_id').val(Data);
+    LoadClass(Data);
+});
+
+$("#ClassName").change(function () {
+    var Data = $("#ClassName option:selected").val();
+    $('#BranchClass_Class_dtl_id').val(Data);
+    LoadSubject(Data, $("#CourseName option:selected").val());
+});
 
 $("#SubjectName").change(function () {
     var Data = $("#SubjectName option:selected").val();
-    $('#subject_SubjectID').val(Data);
-});
+    $('#branchSubject_Subject_dtl_id').val(Data);
 
-
-$("#StandardName").change(function () {
-    var Data = $("#StandardName option:selected").val();
-    $('#standard_StandardID').val(Data);
-});
-
-$('input[type=radio][name=Board]').change(function () {
-    if (this.value == 1) {
-        $("#board").val(1);
-    }
-    else if (this.value==2) {
-        $("#board").val(2);
-    }
-    else {
-        $("#board").val(parseInt(3));
-    }
 });
 
 function SaveFaculty() {
     debugger;
     var isSuccess = ValidateData('dInformation');
-
     if (isSuccess) {
         ShowLoader();
         var frm = $('#ffacultydetail');
@@ -167,27 +168,16 @@ function SaveFaculty() {
             formData.append('FileInfo', $('input[type=file]')[0].files[0]);
         }
         AjaxCallWithFileUpload(commonData.Faculty + 'SaveFaculty', formData, function (data) {
-            if (data) {
-                HideLoader();
+            HideLoader();
+            if (data.FacultyID >= 0) {
                 ShowMessage("Faculty added Successfully.", "Success");
                 window.location.href = "FacultyMaintenance?facultyID=0";
-            } else {
-                HideLoader();
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+            } else {                
+                ShowMessage('Faculty Already inserted!', 'Error');
             }
         }, function (xhr) {
             HideLoader();
         });
-        //var postCall = $.post(commonData.Faculty + "SaveFaculty", $('#ffacultydetail').serialize());
-        //postCall.done(function (data) {
-        //    HideLoader();
-        //    ShowMessage('Faculty details saved!', 'Success');
-        //    window.location.href = "FacultyMaintenance?facultyID=0";
-        //}).fail(function () {
-        //    HideLoader();
-        //    ShowMessage("An unexpected error occcurred while processing request!", "Error");
-        //});
-
     }
 }
 

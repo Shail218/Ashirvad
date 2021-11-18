@@ -118,5 +118,28 @@ namespace Ashirvad.Web.Controllers
 
             return Json(response);
         }
+
+        public async Task<JsonResult> GetSubjectDDL(long ClassID,long CourseID)
+        {
+
+            try
+            {
+                var result = await _branchSubjectService.GetBranchSubjectByBranchSubjectID(ClassID, SessionContext.Instance.LoginUser.BranchInfo.BranchID, CourseID);
+                if (result.Count > 0)
+                {
+                    return Json(result);
+                }
+                else
+                {
+                    return Json(null);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(null);
+            }
+
+        }
     }
 }

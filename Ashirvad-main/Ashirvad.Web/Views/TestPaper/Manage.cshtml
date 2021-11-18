@@ -22,11 +22,8 @@
             <th>
                 Total Marks
             </th>
-            <th>
-                Link
-            </th>
-            <th>
-                Document
+            <th style="text-align:center;">
+                Document / Link
             </th>
             <th>
                 Edit
@@ -42,59 +39,57 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @item.Standard.Standard
-            </td>
+    <tr>
+        <td>
+            @item.Standard.Standard
+        </td>
 
-            <td>
-                @item.BatchTimeText
-            </td>
+        <td>
+            @item.BatchTimeText
+        </td>
 
-            <td>
-                @item.TestDate.ToString("dd/MM/yyyy")
+        <td>
+            @item.TestDate.ToString("dd/MM/yyyy")
+        </td>
+        <td>
+            @item.TestStartTime - @item.TestEndTime
+        </td>
+        <td>
+            @item.Subject.Subject
+        </td>
+        <td style="text-align:center;">
+            @item.Marks
+        </td>
+        @if (item.test.FilePath.Replace("http://highpack-001-site12.dtempurl.com", "") != null && item.test.FilePath.Replace("http://highpack-001-site12.dtempurl.com", "") != "")
+        {
+            <td style="text-align:center;">
+                <a href="@item.test.FilePath.Replace("http://highpack-001-site12.dtempurl.com","")" id="paperdownload" download="@item.test.FileName"><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
+                @Html.HiddenFor(x => item.TestID)
+                <input hidden id="UniqID" value="@item.test.TestPaperID" />
             </td>
-            <td>
-                @item.TestStartTime - @item.TestEndTime
+        }
+        else
+        {
+            <td style="text-align:center;">
+                <a href="@item.test.DocLink" target="_blank" style="color:blue;text-decoration:underline;">Go to link</a>
             </td>
-            <td>
-                @item.Subject.Subject
-            </td>
-            <td>
-                @item.Marks
-            </td>
-            <td>
-                @item.test.DocLink
-            </td>
-            @if (item.test.FilePath != null && item.test.FilePath!="")
-            {
-                <td>
-                    <a href="@item.test.FilePath.Replace("http://highpack-001-site12.dtempurl.com","")" id="paperdownload" download="@item.test.FileName"><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
-                    @Html.HiddenFor(x => item.TestID)
-                    <input hidden id="UniqID" value="@item.test.TestPaperID" />
-                </td>
-            }
-            else
-            {
-                <td></td>
-            }
-
-            <td>
-                <a href="@Url.Action("TestPaperMaintenance", "TestPaper", new { testID = item.TestID, paperID = item.test.TestPaperID})">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
-            </td>
-            <td style="text-align:center">
-                <a href="@Url.Action("StudentAnswerSheetMaintenance", "TestPaper", new { testID = item.TestID})">
-                    <img src="~/ThemeData/images/tick.png" style="height:35px;width:35px" />
-                </a>
-            </td>
-            <td class="TestPaperEntryDelete">
-                <a style="margin-left:20px;" href="#" onclick="RemoveTest(@item.TestID);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-        </tr>
+        }
+        <td>
+            <a href="@Url.Action("TestPaperMaintenance", "TestPaper", new { testID = item.TestID, paperID = item.test.TestPaperID})">
+                <img src="~/ThemeData/images/viewIcon.png" />
+            </a>
+        </td>
+        <td style="text-align:center">
+            <a href="@Url.Action("StudentAnswerSheetMaintenance", "TestPaper", new { testID = item.TestID})">
+                <img src="~/ThemeData/images/tick.png" style="height:35px;width:35px" />
+            </a>
+        </td>
+        <td class="TestPaperEntryDelete">
+            <a style="margin-left:20px;" href="#" onclick="RemoveTest(@item.TestID);">
+                <img src="~/ThemeData/images/delete.png" />
+            </a>
+        </td>
+    </tr>
     }
 
 </table>

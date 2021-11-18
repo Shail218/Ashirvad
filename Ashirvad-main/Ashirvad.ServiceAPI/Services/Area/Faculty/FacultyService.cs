@@ -31,10 +31,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Faculty
             try
             {
                 long faculID = await _facultyContext.FacultyMaintenance(faculInfo);
-                if (faculID > 0)
-                {
-                    notif.FacultyID = faculID;
-                }
+                notif.FacultyID = faculID;
             }
             catch (Exception ex)
             {
