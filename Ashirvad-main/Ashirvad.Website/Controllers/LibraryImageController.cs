@@ -24,7 +24,7 @@ namespace Ashirvad.Website.Controllers
         {
             LibraryImageEntity libraryImageEntity = new LibraryImageEntity();
             libraryImageEntity.imagelist = await _LibraryService.GetAllLibrary(2, 0);
-            libraryImageEntity.Categorylist = await _CategoryService.GetAllCategorys();
+            libraryImageEntity.Categorylist = await _CategoryService.GetAllCategorys(0);
             return View(libraryImageEntity);
         }
         
