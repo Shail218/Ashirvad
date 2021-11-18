@@ -64,16 +64,16 @@
                         <li class="grid_item @image.CategoryInfo.CategoryID">
                             <div class="gallery_item">
                                 <a href="#" class="image_link">
-                                    <img src="@image.FilePath" alt="image" height="240" width="360">
+                                    <img src="@image.FilePath" onerror="this.src='/Themedata/assets/images/noimage.png';" alt="image" height="240" width="360">
                                 </a>
                                 <div class="gallery_content">
                                     <div class="link_container">
-                                       
-                                            <a href="@image.FilePath.Replace("http://highpack-001-site12.dtempurl.com","")" onerror="this.onerror=null;this.src='~/Themedata/assets/images/pexels-nubia-navarro-(nubikini)-1517355.jpg';" id="paperdownload" download="@image.FileName">
-                                                <span class="ripple"><i class="ion-image"></i></span>
-                                            </a>
-                                        
-                                       
+
+                                        <a href="@Url.Action("Download","LibraryImage",new { @filedata=image.FilePath,@FileName=image.FileName})"   id="paperdownload" download="@image.FileName">
+                                            <span class="ripple"><i class="ion-image"></i></span>
+                                        </a>
+
+
                                     </div>
 
                                 </div>
@@ -90,3 +90,7 @@
     </div>
 </section>
 
+<script src="~/Scripts/app/Image.js"></script>
+
+
+z

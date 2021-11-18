@@ -200,6 +200,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\app\Common.js" />
+    <Content Include="Scripts\app\Image.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -409,6 +410,7 @@
     <Content Include="Themedata\assets\images\logo_white.png" />
     <Content Include="Themedata\assets\images\map_icon.png" />
     <Content Include="Themedata\assets\images\music.png" />
+    <Content Include="Themedata\assets\images\noimage.png" />
     <Content Include="Themedata\assets\images\pattern_bg.png" />
     <Content Include="Themedata\assets\images\pattern_bg2.png" />
     <Content Include="Themedata\assets\images\pattern_bg3.png" />
