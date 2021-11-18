@@ -234,7 +234,10 @@
     <Compile Include="Controllers\BannerController.cs" />
     <Compile Include="Controllers\BatchController.cs" />
     <Compile Include="Controllers\AboutUsController.cs" />
+    <Compile Include="Controllers\BranchClassController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\BranchCourseController.cs" />
+    <Compile Include="Controllers\BranchSubjectController.cs" />
     <Compile Include="Controllers\FeesStructureWebAPIController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeworkController.cs" />
