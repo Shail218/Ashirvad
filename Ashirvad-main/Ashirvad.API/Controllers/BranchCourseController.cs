@@ -38,18 +38,18 @@ namespace Ashirvad.Web.Controllers
 
         [Route("GetBranchCourseByBranchCourseID")]
         [HttpPost]
-        public OperationResult<List<BranchCourseEntity>> GetBranchCourseByBranchCourseID(long ClassID)
+        public OperationResult<List<BranchCourseEntity>> GetBranchCourseByBranchCourseID(long BranchCourseID)
         {
-            var data = this._branchcourseService.GetBranchCourseByBranchCourseID(ClassID);
+            var data = this._branchcourseService.GetBranchCourseByBranchCourseID(BranchCourseID);
             OperationResult<List<BranchCourseEntity>> result = new OperationResult<List<BranchCourseEntity>>();
             result.Completed = true;
             result.Data = data.Result;
             return result;
         }
 
-        [Route("GetAllBranchCoursebYBranchID")]
+        [Route("GetAllBranchCourseByBranchID")]
         [HttpPost]
-        public OperationResult<List<BranchCourseEntity>> GetAllBranchCourse(long branchID)
+        public OperationResult<List<BranchCourseEntity>> GetAllBranchCourseByBranchID(long branchID)
         {
             var data = this._branchcourseService.GetAllBranchCourse(branchID);
             OperationResult<List<BranchCourseEntity>> result = new OperationResult<List<BranchCourseEntity>>();

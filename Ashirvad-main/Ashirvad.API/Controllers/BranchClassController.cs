@@ -45,9 +45,9 @@ namespace Ashirvad.Web.Controllers
             return result;
         }
 
-        [Route("GetAllBranchClass")]
+        [Route("GetAllBranchClassByBranchID")]
         [HttpPost]
-        public OperationResult<List<BranchClassEntity>> GetAllBranchClass(long branchID)
+        public OperationResult<List<BranchClassEntity>> GetAllBranchClassByBranchID(long branchID)
         {
             var data = this._branchClassService.GetAllBranchClass(branchID);
             OperationResult<List<BranchClassEntity>> result = new OperationResult<List<BranchClassEntity>>();
