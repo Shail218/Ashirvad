@@ -47,7 +47,7 @@ namespace Ashirvad.Web.Controllers
             return result;
         }
 
-        [Route("GetAllBranchCourse")]
+        [Route("GetAllBranchCoursebYBranchID")]
         [HttpPost]
         public OperationResult<List<BranchCourseEntity>> GetAllBranchCourse(long branchID)
         {
@@ -69,9 +69,9 @@ namespace Ashirvad.Web.Controllers
             return result;
         }
 
-        [Route("RemoveClassDetail")]
+        [Route("RemoveBranchCourse")]
         [HttpPost]
-        public OperationResult<bool> RemoveClassDetail(long BranchCourseID, string lastupdatedby)
+        public OperationResult<bool> RemoveBranchCourse(long BranchCourseID, string lastupdatedby)
         {
             var data = _branchcourseService.RemoveBranchCourse(BranchCourseID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
