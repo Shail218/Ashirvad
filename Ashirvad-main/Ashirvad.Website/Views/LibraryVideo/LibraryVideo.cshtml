@@ -69,15 +69,17 @@
                         <li class="grid_item @item.CategoryInfo.Category">
                             <div class="gallery_item">
                                 <a href="@item.link" class="image_link">
-                                    <img src="~/Themedata/assets/images/blank.jpg" alt="image">
+                                    <iframe src="@item.link"></iframe>
+                                    @*<iframe src="https://www.youtube.com/watch?v=T94PHkuydcw"></iframe>*@
+                                    @*<img src="~/Themedata/assets/images/blank.jpg" alt="image">*@
                                 </a>
                             </div>
-                            <div class="gallery_content">
+                            @*<div class="gallery_content">
                                 <div class="link_container">
                                     <a href="#" class="image_popup"><span class="ripple"><i class="ion-social-youtube"></i></span></a>
                                 </div>
 
-                            </div>
+                            </div>*@
                             <div class="team_title radius_lbrb_10 text-center">
                                 <h5><a href="@item.link" target="_blank">@item.Title</a></h5>
                             </div>
