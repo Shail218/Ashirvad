@@ -299,6 +299,7 @@
     <Content Include="Themedata\assets\images\course_img9.jpg" />
     <Content Include="Themedata\assets\images\course_img_big.jpg" />
     <Content Include="Themedata\assets\images\cta_bg.jpg" />
+    <Content Include="Themedata\assets\images\default.png" />
     <Content Include="Themedata\assets\images\email_icon.png" />
     <Content Include="Themedata\assets\images\email_img.jpg" />
     <Content Include="Themedata\assets\images\event_bg.jpg" />

@@ -53,7 +53,7 @@
                     <li><a href="#" class="current" data-filter="*">All</a></li>
                     @foreach (var category in Model.Categorylist)
                     {
-                        <li><a href="#" data-filter=".@category.Category">@category.Category</a></li>
+                        <li><a href="#" data-filter=".@category.CategoryID">@category.Category</a></li>
 
                     }
                 </ul>
@@ -66,7 +66,7 @@
                     <!-- START PORTFOLIO ITEM -->
                     @foreach (var item in Model.Videolist)
                     {
-                        <li class="grid_item @item.CategoryInfo.Category">
+                        <li class="grid_item @item.CategoryInfo.CategoryID">
                             <div class="gallery_item">
                                 <a href="@item.link" class="image_link">
                                     <iframe id="Videoiframe" class="videolink" src="@item.link"></iframe>
