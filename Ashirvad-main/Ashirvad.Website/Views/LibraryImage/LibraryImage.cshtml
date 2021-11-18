@@ -68,17 +68,12 @@
                                 </a>
                                 <div class="gallery_content">
                                     <div class="link_container">
-                                        @if (image.FilePath != null && image.FilePath != "")
-                                        {
-                                            <a href="@image.FilePath.Replace("http://highpack-001-site12.dtempurl.com","")" id="paperdownload" download="@image.FileName">
+                                       
+                                            <a href="@image.FilePath.Replace("http://highpack-001-site12.dtempurl.com","")" onerror="this.onerror=null;this.src='~/Themedata/assets/images/pexels-nubia-navarro-(nubikini)-1517355.jpg';" id="paperdownload" download="@image.FileName">
                                                 <span class="ripple"><i class="ion-image"></i></span>
                                             </a>
-                                        }
-                                        else
-                                        {
-                                            <img src="~/Themedata/assets/images/pexels-nubia-navarro-(nubikini)-1517355.jpg" id="bannerImg" style="height:40px;width:40px;margin-left:40px;" />
-                                        }
-
+                                        
+                                       
                                     </div>
 
                                 </div>
