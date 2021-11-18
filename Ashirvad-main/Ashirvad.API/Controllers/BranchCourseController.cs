@@ -80,15 +80,5 @@ namespace Ashirvad.Web.Controllers
             return result;
         }
 
-        [Route("GetAllBranchCourse")]
-        [HttpPost]
-        public OperationResult<List<BranchCourseEntity>> GetAllBranchCourse(long BranchID, long CourseID)
-        {
-            var data = _branchcourseService.GetAllBranchCourse(BranchID);
-            OperationResult<List<BranchCourseEntity>> result = new OperationResult<List<BranchCourseEntity>>();
-            result.Completed = true;
-            result.Data = data.Result;
-            return result;
-        }
     }
 }

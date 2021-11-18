@@ -39,9 +39,9 @@ namespace Ashirvad.Web.Controllers
 
         [Route("GetBranchSubjectByBranchSubjectID")]
         [HttpPost]
-        public OperationResult<List<BranchSubjectEntity>> GetBranchSubjectByBranchSubjectID(long SubjectID, long BranchID, long CourseID)
+        public OperationResult<List<BranchSubjectEntity>> GetBranchSubjectByBranchSubjectID(long SubjectID, long BranchID, long ClassID)
         {
-            var data = this._branchSubjectService.GetBranchSubjectByBranchSubjectID(SubjectID, BranchID, CourseID);
+            var data = this._branchSubjectService.GetBranchSubjectByBranchSubjectID(SubjectID, BranchID, ClassID);
             OperationResult<List<BranchSubjectEntity>> result = new OperationResult<List<BranchSubjectEntity>>();
             result.Completed = true;
             result.Data = data.Result;
@@ -81,15 +81,5 @@ namespace Ashirvad.Web.Controllers
             return result;
         }
 
-        [Route("GetBranchSubjectByBranchSubjectID")]
-        [HttpPost]
-        public OperationResult<List<BranchSubjectEntity>> GetSubjectDDL(long ClassID, long branchID, long CourseID)
-        {
-            var data = _branchSubjectService.GetBranchSubjectByBranchSubjectID(ClassID, branchID, CourseID);
-            OperationResult<List<BranchSubjectEntity>> result = new OperationResult<List<BranchSubjectEntity>>();
-            result.Completed = true;
-            result.Data = data.Result;
-            return result;
-        }
     }
 }
