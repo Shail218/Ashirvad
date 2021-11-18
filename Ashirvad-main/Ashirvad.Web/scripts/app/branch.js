@@ -1,7 +1,7 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
-const { hide } = require("@popperjs/core");
+
 
 
 $(document).ready(function () {
@@ -10,38 +10,31 @@ $(document).ready(function () {
         $("#fuBranchImage").addClass("editForm");
     }
 
-    $('input[type=radio][name=Status]').change(function () {
-        if (this.value == 'Active') {
-            $("#RowStatus_RowStatusId").val(1);
-        }
-        else {
-            $("#RowStatus_RowStatusId").val(2);
-        }
-    });
-
     if ($("#RowStatus_RowStatusId").val() != "") {
         var rowStatus = $("#RowStatus_RowStatusId").val();
         if (rowStatus == "1") {
             $("#rowStaActive").attr('checked', 'checked');
+            $("#RowStatus_RowStatusId").val(1);
         }
         else {
             $("#rowStaInactive").attr('checked', 'checked');
+            $("#RowStatus_RowStatusId").val(2);
         }
     }
 
-    if ($("#board").val() != "") {
-        var rowStatus = $("#board").val();
-        if (rowStatus == "1") {
-            $("#rowStaGujarat").attr('checked', 'checked');
-        }
-        else if (rowStatus == "2") {
-            $("#rowStaCBSC").attr('checked', 'checked');
+    //if ($("#board").val() != "") {
+    //    var rowStatus = $("#board").val();
+    //    if (rowStatus == "1") {
+    //        $("#rowStaGujarat").attr('checked', 'checked');
+    //    }
+    //    else if (rowStatus == "2") {
+    //        $("#rowStaCBSC").attr('checked', 'checked');
 
-        }
-        else {
-            $("#rowStaBoth").attr('checked', 'checked');
-        }
-    }
+    //    }
+    //    else {
+    //        $("#rowStaBoth").attr('checked', 'checked');
+    //    }
+    //}
 
 });
 
@@ -57,6 +50,14 @@ $('input[type=radio][name=Board]').change(function () {
     }
 });
 
+$('input[type=radio][name=Status]').change(function () {
+    if (this.value == '1') {
+        $("#RowStatus_RowStatusId").val(1);
+    }
+    else {
+        $("#RowStatus_RowStatusId").val(2);
+    }
+});
 
 function SaveBranch() {
     

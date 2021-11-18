@@ -10,7 +10,9 @@ namespace Ashirvad.Data
     {
         public string Message { get; set; }
         public bool Status { get; set; }
+        public bool IsEdit { get; set; }
         public string Permission { get; set; }
+        public object Data { get; set; }
       
   
     }

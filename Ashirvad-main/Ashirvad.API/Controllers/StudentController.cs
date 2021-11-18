@@ -134,13 +134,21 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-        [Route("StudentMaintenance/{StudentID}/{ParentID}/{Gr_No}/{First_Name}/{Middle_Name}/{Last_Name}/{Birth_Date}/{Address}/{BranchID}/{StandardID}/{SchoolID}/{School_TimeID}/{Batch_TimeID}/{Last_Year_Result}/{Grade}/{Class_Name}/{Student_Contact_No}/{Admission_Date}/{Parent_Name}/{Father_Occupation}/{Mother_Occupation}/{Parent_Contact_No}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("StudentMaintenance/{StudentID}/{ParentID}/{Gr_No}/{Name}" +
+            "/{Birth_Date}/{Address}/{BranchID}/{StandardID}/{SchoolID}/{School_TimeID}/{Batch_TimeID}" +
+            "/{Last_Year_Result}/{Grade}/{Class_Name}/{Student_Contact_No}/{Admission_Date}/{Parent_Name}" +
+            "/{Father_Occupation}/{Mother_Occupation}/{Parent_Contact_No}/{CreateId}/{CreateBy}/{TransactionId}" +
+            "/{std_pwd}/{parent_pwd}/{FileName}/{Extension}/{HasFile}")]
         [HttpPost]
-        public OperationResult<StudentEntity> StudentMaintenance(long StudentID, long ParentID, string Gr_No, string First_Name, string Middle_Name, string Last_Name, DateTime Birth_Date, string Address, long BranchID, long StandardID, long SchoolID, int School_TimeID, int Batch_TimeID, int Last_Year_Result, string Grade, string Class_Name, string Student_Contact_No,
-           DateTime Admission_Date, string Parent_Name, string Father_Occupation, string Mother_Occupation, string Parent_Contact_No, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        public OperationResult<StudentEntity> StudentMaintenance(long StudentID, long ParentID, string Gr_No, string Name, DateTime Birth_Date, string Address, long BranchID, long StandardID,
+            long SchoolID, int School_TimeID, int Batch_TimeID, int Last_Year_Result, string Grade, string Class_Name,
+            string Student_Contact_No, DateTime Admission_Date, string Parent_Name, string Father_Occupation,
+            string Mother_Occupation, string Parent_Contact_No, long CreateId, string CreateBy, long TransactionId,string std_pwd,
+            string parent_pwd, string FileName, string Extension,bool HasFile)
         {
             OperationResult<StudentEntity> result = new OperationResult<StudentEntity>();
             var httpRequest = HttpContext.Current.Request;
+            string[] name = Name.Split(',');
             StudentEntity studentEntity = new StudentEntity();
             StudentEntity data = new StudentEntity();
             studentEntity.BranchInfo = new BranchEntity();
@@ -151,9 +159,9 @@ namespace Ashirvad.API.Controllers
             studentEntity.StudentID = StudentID;
             studentEntity.StudentMaint.ParentID = ParentID;
             studentEntity.GrNo = Gr_No;
-            studentEntity.FileName = First_Name;
-            studentEntity.MiddleName = Middle_Name;
-            studentEntity.LastName = Last_Name;
+            studentEntity.FirstName = name[0];
+            studentEntity.MiddleName = name[1];
+            studentEntity.LastName = name[2];
             if (Birth_Date.Equals("01-01-0001"))
             {
                 studentEntity.DOB = null;
@@ -170,8 +178,8 @@ namespace Ashirvad.API.Controllers
             studentEntity.BatchInfo.BatchTime = Batch_TimeID;
             studentEntity.LastYearResult = Last_Year_Result == -1 ? 0 : Last_Year_Result;
             studentEntity.Grade = Grade == "none" ? "" : Grade;
-            studentEntity.LastYearClassName = Class_Name == "none" ? "" : Class_Name;
-            studentEntity.ContactNo = Student_Contact_No == "none" ? "" : Student_Contact_No;
+            studentEntity.LastYearClassName = Class_Name == "none" ? null : Class_Name;
+            studentEntity.ContactNo = Student_Contact_No == "none" ? null : Student_Contact_No;
             if (Admission_Date.Equals("01-01-0001"))
             {
                 studentEntity.AdmissionDate = null;
@@ -181,13 +189,15 @@ namespace Ashirvad.API.Controllers
                 studentEntity.AdmissionDate = Admission_Date;
             }
             studentEntity.StudentMaint.ParentName = Parent_Name;
-            studentEntity.StudentMaint.FatherOccupation = Father_Occupation == "none" ? "" : Father_Occupation;
-            studentEntity.StudentMaint.MotherOccupation = Mother_Occupation == "none" ? "" : Mother_Occupation;
+            studentEntity.StudentMaint.FatherOccupation = Father_Occupation == "none" ? null : Father_Occupation;
+            studentEntity.StudentMaint.MotherOccupation = Mother_Occupation == "none" ? null : Mother_Occupation;
             studentEntity.StudentMaint.ContactNo = Parent_Contact_No;
-            studentEntity.FileName = FileName == "none" ? "" : FileName;
+            studentEntity.StudentPassword = std_pwd;
+            studentEntity.StudentMaint.ParentPassword = parent_pwd;
+            studentEntity.FileName = FileName == "none" ? null : FileName;
             if (Extension == "none")
             {
-                studentEntity.FilePath = "";
+                studentEntity.FilePath = null;
             }
             else
             {

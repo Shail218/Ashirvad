@@ -47,6 +47,9 @@
     <Compile Include="BannerEntity.cs" />
     <Compile Include="BatchEntity.cs" />
     <Compile Include="BranchAgreementEntity.cs" />
+    <Compile Include="BranchSubjectEntity.cs" />
+    <Compile Include="BranchClassEntity.cs" />
+    <Compile Include="BranchCourseEntity.cs" />
     <Compile Include="BranchEntity.cs" />
     <Compile Include="BranchWiseRightEntity.cs" />
     <Compile Include="CategoryEntity.cs" />
@@ -68,6 +71,9 @@
     <Compile Include="Model\AttendanceMaintenanceModel.cs" />
     <Compile Include="Model\BannerMaintenanceModel.cs" />
     <Compile Include="Model\BatchMaintenanceModel.cs" />
+    <Compile Include="Model\BranchSubjectMaintenanceModel.cs" />
+    <Compile Include="Model\BranchClassMaintenanceModel.cs" />
+    <Compile Include="Model\BranchCourseMaintenanceModel.cs" />
     <Compile Include="Model\BranchWiseRightMaintenanceModel.cs" />
     <Compile Include="Model\CategoryMaintenanceModel.cs" />
     <Compile Include="Model\ClassMaintenanceModel.cs" />

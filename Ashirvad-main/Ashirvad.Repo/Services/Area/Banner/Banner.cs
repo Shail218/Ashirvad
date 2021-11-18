@@ -86,7 +86,8 @@ namespace Ashirvad.Repo.Services.Area.Banner
                                 RowStatusId = (int)u.row_sta_cd
                             },
                             BannerID = u.banner_id,
-                            BannerImage = u.banner_img,
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FileName = u.file_name,
                             BranchInfo = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
@@ -97,7 +98,7 @@ namespace Ashirvad.Repo.Services.Area.Banner
                 {
                     int idx = data.IndexOf(item);
                     data[idx].BannerType = this.context.BANNER_TYPE_REL.Where(z => z.banner_id == item.BannerID).Select(y => new BannerTypeEntity() { ID = y.unique_id, TypeID = y.sub_type_id, TypeText = y.sub_type_id == 1 ? "Admin" : y.sub_type_id == 2 ? "Teacher" : "Student" }).ToList();
-                    data[idx].BannerImageText = data[idx].BannerImage.Length > 0 ? Convert.ToBase64String(data[idx].BannerImage) : "";
+                    //data[idx].BannerImageText = data[idx].BannerImage.Length > 0 ? Convert.ToBase64String(data[idx].BannerImage) : "";
                 }
             }
 

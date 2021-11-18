@@ -246,6 +246,15 @@ namespace Ashirvad.Web
             container.RegisterType<ISuperAdminSubjectAPI, SuperAdminSubject>();
             container.RegisterType<ISuperAdminSubjectService, SuperAdminSubjectService>();
 
+            container.RegisterType<IBranchCourseAPI, BranchCourse>();
+            container.RegisterType<IBranchCourseService, BranchCourseService>();
+
+            container.RegisterType<IBranchClassAPI, BranchClass>();
+            container.RegisterType<IBranchClassService, BranchClassService>();
+
+            container.RegisterType<IBranchSubjectAPI, BranchSubject>();
+            container.RegisterType<IBranchSubjectService, BranchSubjectService>();
+
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

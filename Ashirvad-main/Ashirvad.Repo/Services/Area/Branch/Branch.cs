@@ -54,7 +54,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 branchMaster.mobile_no = branchInfo.MobileNo;
                 branchMaster.row_sta_cd = branchInfo.RowStatus.RowStatusId;
                 branchMaster.trans_id = this.AddTransactionData(branchInfo.Transaction);
-                branchMaster.board_type = (int)branchInfo.board;
+                branchMaster.board_type = null;
 
                 this.context.BRANCH_MASTER.Add(branchMaster);
                 if (isUpdate)

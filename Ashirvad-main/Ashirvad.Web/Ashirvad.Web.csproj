@@ -193,17 +193,17 @@
   <ItemGroup>
     <Content Include="AboutUsDetail\OOAKCS38F28HH8D2XNQI.jpg" />
     <Content Include="AboutUsHeader\OOAKCS38F28HH8D2XNQI.jpg" />
-    <Content Include="BannerImage\Screenshot %281%29.png" />
-    <Content Include="BranchImage\Screenshot %281%29.png" />
+    <Content Include="BannerImage\1MQHHJLP2BBSYSOWACCQ.png" />
+    <Content Include="BranchImage\JAUW9R60XOD0CY22QKBB.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="FacultyImage\Screenshot %281%29.png" />
+    <Content Include="FacultyImage\1MQHHJLP2BBSYSOWACCQ.png" />
     <Content Include="FeesImage\empty_cart.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="GalleryImage\Screenshot %281%29.png" />
+    <Content Include="GalleryImage\L0QG6TB71KDIZUCO3PKT.png" />
     <Content Include="Global.asax" />
     <Content Include="HomeWorkDetailImage\05CH9VE3HFIX0P6CYDSS.jpg" />
     <Content Include="HomeWorkDetailImage\38BL2MIGFU4ZFH8KSI8Z.png" />
@@ -240,10 +240,10 @@
     <Content Include="HomeWorkDetailImage\YNYGHLQWQ0KXPIUAM446.jpg" />
     <Content Include="HomeWorkDetailImage\ZQ425O88QISPTWL2X7PX.jpg" />
     <Content Include="HomeWorkDetailImage\ZVQDUOMNA9F6PW8UC0TR.jpg" />
-    <Content Include="HomeworkDocument\Screenshot %281%29.png" />
+    <Content Include="HomeworkDocument\9DWZ4NUD6TIJEASR1X0W.png" />
     <Content Include="LibraryImage\empty_cart.png" />
     <Content Include="MarksImage\empty_cart.png" />
-    <Content Include="PaperDocument\Screenshot %281%29.png" />
+    <Content Include="PaperDocument\LQ46TVWRYB8LMM9CCD68.png" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="scripts\app\aboutus.js" />
@@ -277,6 +277,7 @@
     <Content Include="scripts\app\login.js" />
     <Content Include="scripts\app\managestudent.js" />
     <Content Include="scripts\app\marks.js" />
+    <Content Include="scripts\app\marksregister.js" />
     <Content Include="scripts\app\notification.js" />
     <Content Include="scripts\app\package.js" />
     <Content Include="scripts\app\packageright.js" />
@@ -302,6 +303,11 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile3.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile4.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile5.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile6.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile7.pubxml" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
@@ -319,6 +325,10 @@
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\select2.js" />
     <Content Include="scripts\select2.min.js" />
+    <Content Include="StudentImage\AXJQ4HN19XVLMOB01EK4.png" />
+    <Content Include="StudentImage\Screenshot %281%29.png" />
+    <Content Include="StudentImage\YR3DIZVOSO45C83YP8P7.png" />
+    <Content Include="StudentImage\Z8KPHS3YBD7TTQP0M5F9.png" />
     <Content Include="TestDetailImage\32QEGMX5SVX28NTURU7O.png" />
     <Content Include="TestDetailImage\empty_cart.png" />
     <Content Include="TestDetailImage\G3TXDPA86KVTXLQUG9PY.png" />
@@ -1402,7 +1412,6 @@
     <Folder Include="CourseImage\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="WebAPI\" />
     <Folder Include="ZipFiles\HomeworkDetails\" />
     <Folder Include="ZipFiles\TestPaperDetails\" />
   </ItemGroup>

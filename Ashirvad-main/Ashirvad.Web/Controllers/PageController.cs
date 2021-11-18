@@ -71,6 +71,10 @@ namespace Ashirvad.Web.Controllers
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
+            branch.BranchInfo = new BranchEntity()
+            {
+                BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
+            };
             var data = await _pageService.PageMaintenance(branch);
             res.Status = data.PageID > 0 ? true : false;
             res.Message = data.PageID == -1 ? "Page Already exists!!" : data.PageID == 0 ? "Page failed to insert!!" : "Page Inserted Successfully!!";

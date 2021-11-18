@@ -421,7 +421,7 @@ namespace Ashirvad.API.Controllers
             {
                 try
                 {
-                    foreach (string file in httpRequest.Files)
+                    for (int file = 0; file < httpRequest.Files.Count; file++)
                     {
                         string fileName;
                         string extension;
@@ -487,6 +487,44 @@ namespace Ashirvad.API.Controllers
             var data = this._testService.GetAllTestDocLinks(branchID, stdID,batchTime);
             return data.Result;
            
+        }
+
+        [Route("GetAnswerSheetdata")]
+        [HttpGet]
+        public OperationResult<List<StudentAnswerSheetEntity>> GetAnswerSheetdata(long testID)
+        {
+            var data = this._testService.GetAnswerSheetdata(testID);
+            OperationResult<List<StudentAnswerSheetEntity>> result = new OperationResult<List<StudentAnswerSheetEntity>>();
+            result.Data = data.Result;
+            result.Completed = true;
+            return result;
+
+        }
+
+        [Route("UpdateAnsdetails")]
+        [HttpGet]
+        public OperationResult<StudentAnswerSheetEntity> UpdateAnsdetails(long TestID, long StudentID, string Remark, int Status, string CreatedBy, long CreatedId)
+        {
+            OperationResult<StudentAnswerSheetEntity> result = new OperationResult<StudentAnswerSheetEntity>();
+            StudentAnswerSheetEntity answerSheetEntity = new StudentAnswerSheetEntity();
+            answerSheetEntity.TestInfo = new TestEntity();
+            answerSheetEntity.StudentInfo = new StudentEntity();
+            answerSheetEntity.TestInfo.TestID = TestID;
+            answerSheetEntity.StudentInfo.StudentID = StudentID;
+            answerSheetEntity.Remarks = Remark;
+            answerSheetEntity.Status = Status;
+            var result1 = _testService.Ansdetailupdate(answerSheetEntity).Result;
+            if (result1.AnsSheetID > 0)
+            {
+                result.Completed = true;
+                result.Message = "Updated Successfully!!";
+            }
+            else
+            {
+                result.Completed = false;
+                result.Message = "Failed To Updated!!";
+            }
+            return result;
         }
     }
 }

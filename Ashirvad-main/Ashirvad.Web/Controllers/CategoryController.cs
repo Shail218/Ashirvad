@@ -74,6 +74,10 @@ namespace Ashirvad.Web.Controllers
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
+            categoryEntity.BranchInfo = new BranchEntity()
+            {
+                BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
+            };
             var data = await _CategoryService.CategoryMaintenance(categoryEntity);
             res.Status = data.CategoryID > 0 ? true : false;
             res.Message = data.CategoryID == -1 ? "Category Already exists!!" : data.CategoryID == 0 ? "Category failed to insert!!" : "Category Inserted Successfully!!";
@@ -95,7 +99,7 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> CategoryData()
         {
-            var categoryData = await _CategoryService.GetAllCategorys(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            var categoryData = await _CategoryService.GetAllCategorys(0);
             return Json(categoryData);
         }
     }

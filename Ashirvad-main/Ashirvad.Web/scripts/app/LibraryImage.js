@@ -11,24 +11,20 @@ $(document).ready(function () {
         if (commonData.BranchID != "0") {
             $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
             $("#BranchInfo_BranchID").val(commonData.BranchID);
-            LoadCategory(commonData.BranchID);
-            HideLoader();
         }
 
     });
 
+    LoadCategory(function () {
+        if ($("#CategoryInfo_CategoryID").val() != "") {
+            $('#CategoryName option[value="' + $("#CategoryInfo_CategoryID").val() + '"]').attr("selected", "selected");
+        }
+    });
+
     if ($("#BranchInfo_BranchID").val() != "") {
         $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
-        LoadCategory($("#BranchInfo_BranchID").val());
     }
 
-    if ($("#BatchTime").val() != "") {
-        $('#BatchName option[value="' + $("#BatchTime").val() + '"]').attr("selected", "selected");
-    }
-
-    if ($("#BatchID").val() > 0) {
-        SpliteData();
-    }
 
 });
 
@@ -45,14 +41,13 @@ function LoadBranch(onLoaded) {
         if (onLoaded != undefined) {
             onLoaded();
         }
-
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
-function LoadCategory(branchID) {
-    var postCall = $.post(commonData.Category + "CategoryData", { "branchID": branchID });
+function LoadCategory() {
+    var postCall = $.post(commonData.Category + "CategoryData");
     postCall.done(function (data) {
         $('#CategoryName').empty();
         $('#CategoryName').select2();
@@ -131,7 +126,7 @@ function SaveLibraryvideo() {
 }
 
 function RemoveLibraryImage(LibraryID) {
-    if (confirm('Are you sure want to delete this Image?')) {
+    if (confirm('Are you sure want to delete this Library Image?')) {
         ShowLoader();
         var postCall = $.post(commonData.NewLibrary + "RemoveLibrary", { "LibraryID": LibraryID });
         postCall.done(function (data) {

@@ -33,7 +33,13 @@ namespace Ashirvad.Web.Controllers
                 var result = await _branchService.GetBranchByBranchID(branchID);
                 branch.BranchInfo = result.Data;
             }
-
+            else{
+                branch.BranchInfo = new BranchEntity();
+                branch.BranchInfo.RowStatus = new RowStatusEntity()
+                {
+                    RowStatusId = 1
+                };
+            }
             var branchData = await _branchService.GetAllBranchWithoutImage();
             branch.BranchData = branchData.Data;
 

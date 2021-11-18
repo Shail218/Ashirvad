@@ -9,13 +9,19 @@
                 Title
             </th>
             <th>
-                Image
-            </th>
-            <th>
                 Description
             </th>
             <th>
                 Category
+            </th>
+            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
+                <th>
+                    Branch Name
+                </th>
+            }
+            <th>
+                Image/Document
             </th>
             <th>
                 Edit
@@ -33,21 +39,6 @@
                 @item.Title
                 @Html.HiddenFor(x => item.LibraryID)
             </td>
-            @if (item.FilePath != "" && item.FilePath != null)
-            {
-                <td>
-                    <img src="@item.FilePath" onerror="this.src = 'http://localhost:4995//ThemeData/images/Default.png';" id="Img" style="height:40px;width:40px;margin-left:10px;" />
-                </td>
-
-            }
-            else
-            {
-                <td>
-
-                    <img src="~/ThemeData/images/Default.png" id="Img" style="height:40px;width:40px;margin-left:10px;" />
-                </td>
-            }
-
             <td>
                 @item.Description
                 @Html.HiddenFor(x => item.LibraryID)
@@ -63,9 +54,9 @@
                     @Html.HiddenFor(x => item.BranchInfo.BranchID)
                 </td>
             }
-            @*<td>
-                    @item.RowStatus.RowStatus
-                </td>*@
+                <td style="text-align:center;">
+                    <a href="@item.FilePath.Replace("http://highpack-001-site12.dtempurl.com","")" id="paperdownload" download="@item.FileName"><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
+                </td>
             <td>
                 <a href="@Url.Action("LibraryMaintenance", "NewLibrary", new { LibraryID = item.LibraryID ,Type=2})">
                     <img src="~/ThemeData/images/viewIcon.png" />

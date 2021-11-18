@@ -1,5 +1,6 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
+using Ashirvad.Repo.DataAcceessAPI.Area;
 using Ashirvad.Repo.DataAcceessAPI.Area.Course;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,13 @@ namespace Ashirvad.Repo.Services.Area.Course
 {
     public class Course : ModelAccess, ICourseAPI
     {
-        public async Task<long> CheckCourse(string name,long Id)
+        private readonly IBranchCourseAPI _BranchCourse;
+
+        public Course(IBranchCourseAPI branchCourse)
+        {
+            this._BranchCourse = branchCourse;
+        }
+        public async Task<long> CheckCourse(string name, long Id)
         {
             long result;
             bool isExists = this.context.COURSE_MASTER.Where(s => (Id == 0 || s.course_id != Id) && s.course_name == name && s.row_sta_cd == 1).FirstOrDefault() != null;
@@ -51,7 +58,14 @@ namespace Ashirvad.Repo.Services.Area.Course
                 {
                     this.context.Entry(courseMaster).State = System.Data.Entity.EntityState.Modified;
                 }
-                return this.context.SaveChanges() > 0 ? courseMaster.course_id : 0;
+                var Result = this.context.SaveChanges();
+                if (Result > 0)
+                {
+                    courseEntity.CourseID = courseMaster.course_id;
+                    courseEntity.Transaction.TransactionId = courseMaster.trans_id;
+                    CourseMasterMaintenance(courseEntity);
+                }
+                return Result > 0 ? courseEntity.CourseID : 0;
             }
             else
             {
@@ -118,6 +132,50 @@ namespace Ashirvad.Repo.Services.Area.Course
             }
 
             return false;
+        }
+
+        public async Task<long> CourseMasterMaintenance(CourseEntity courseEntity)
+        {
+            try
+            {
+                long result = 0;
+                var data = (from course in this.context.COURSE_DTL_MASTER
+                            select new BranchEntity
+                            {
+                                BranchID = course.branch_id
+                            }).Distinct().ToList();
+
+                BranchCourseEntity branchCourse = new BranchCourseEntity();
+                branchCourse.course = new CourseEntity()
+                {
+                    CourseID = courseEntity.CourseID,
+                    CourseName = courseEntity.CourseName
+                };
+                branchCourse.Transaction = new TransactionEntity();
+                branchCourse.Transaction = courseEntity.Transaction;
+                branchCourse.iscourse = false;
+                branchCourse.RowStatus = new RowStatusEntity()
+                {
+                    RowStatus = Enums.RowStatus.Active
+                };
+                foreach (var item in data)
+                {
+                    branchCourse.branch = new BranchEntity()
+                    {
+                        BranchID = item.BranchID,
+
+                    };
+                    result = _BranchCourse.CourseMaintenance(branchCourse).Result;
+                }
+
+
+                return result;
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+
         }
     }
 }

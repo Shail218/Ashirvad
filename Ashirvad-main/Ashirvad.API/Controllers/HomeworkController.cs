@@ -225,6 +225,10 @@ namespace Ashirvad.API.Controllers
                     result.Message = "Homework Created Successfully";
                 }
             }
+            else
+            {
+                result.Message = "Homework Already Exists!!";
+            }
             return result;
         }
 
@@ -262,7 +266,7 @@ namespace Ashirvad.API.Controllers
             {
                 try
                 {
-                    foreach (string file in httpRequest.Files)
+                    for (int file = 0; file < httpRequest.Files.Count; file++)
                     {
                         string fileName;
                         string extension;
@@ -325,6 +329,37 @@ namespace Ashirvad.API.Controllers
             OperationResult<List<HomeworkEntity>> result = new OperationResult<List<HomeworkEntity>>();
             result.Data = data.Result;
             result.Completed = true;
+            return result;
+        }
+
+        [Route("Updatehomeworkdetails")]
+        [HttpGet]
+        public OperationResult<HomeworkDetailEntity> Updatehomeworkdetails(long HomeworkID, long StudentID, string Remark, int Status,string CreatedBy,long CreatedId)
+        {
+            OperationResult<HomeworkDetailEntity> result = new OperationResult<HomeworkDetailEntity>();
+            HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
+            homeworkDetail.HomeworkEntity = new HomeworkEntity();
+            homeworkDetail.StudentInfo = new StudentEntity();
+            homeworkDetail.HomeworkEntity.HomeworkID = HomeworkID;
+            homeworkDetail.StudentInfo.StudentID = StudentID;
+            homeworkDetail.Remarks = Remark;
+            homeworkDetail.Status = Status;
+            homeworkDetail.Transaction = new TransactionEntity()
+            {
+                CreatedBy = CreatedBy,
+                CreatedId = CreatedId,
+            };
+            var result1 = _homeworkdetailService.Homeworkdetailupdate(homeworkDetail).Result;
+            if (result1.HomeworkDetailID > 0)
+            {
+                result.Completed = true;
+                result.Message = "Updated Successfully!!";
+            }
+            else
+            {
+                result.Completed = false;
+                result.Message = "Failed To Updated!!";
+            }
             return result;
         }
     }

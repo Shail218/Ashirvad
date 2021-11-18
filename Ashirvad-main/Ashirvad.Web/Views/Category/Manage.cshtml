@@ -8,7 +8,7 @@
             <th>
                 Category Name
             </th>
-
+            
 
             <th>
                 Edit
@@ -26,16 +26,8 @@
                 @item.Category
                 @Html.HiddenFor(x => item.CategoryID)
             </td>
-            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
-            {
-                <td>
-                    @item.BranchInfo.BranchName
-                    @Html.HiddenFor(x => item.BranchInfo.BranchID)
-                </td>
-            }
-            @*<td>
-                    @item.RowStatus.RowStatus
-                </td>*@
+            
+            
             <td>
                 <a href="@Url.Action("CategoryMaintenance", "Category", new { categoryID = item.CategoryID })">
                     <img src="~/ThemeData/images/viewIcon.png" />

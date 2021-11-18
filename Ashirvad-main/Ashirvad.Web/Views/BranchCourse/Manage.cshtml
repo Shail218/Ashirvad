@@ -1,12 +1,12 @@
 ﻿@using Ashirvad.Web.Controllers;
-
+﻿@model List<Ashirvad.Data.BranchCourseEntity>
 
 <table style="width: 100%;" id="subcategorytbl" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
             <th style="width:5%">Course Details</th>
             <th>
-                Course Name
+                Branch Name
             </th>
 
             <th>
@@ -20,10 +20,10 @@
     </thead>
 
 
-    @*<tbody>
+    <tbody>
         @if (Model.Count > 0)
         {
-            foreach (var item in Model[0].list)
+            foreach (var item in Model[0].BranchCourseData)
             {
 
                 <tr>
@@ -39,18 +39,11 @@
                                         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
 
                                             <th>
-                                                Page
+                                                Course
                                             </th>
                                             <th>
-                                                Create Status
-                                            </th>
-
-                                            <th>
-                                                Delete Status
-                                            </th>
-                                            <th>
-                                                View Status
-                                            </th>
+                                                Selected
+                                            </th>                                            
 
                                         </tr>
                                     </thead>
@@ -58,24 +51,20 @@
                                     <tbody>
                                         @foreach (var item1 in Model)
                                         {
+                                            string Status = item1.iscourse == true ? "YES" : "NO";
 
                                             <tr>
 
-                                                @if (item.Packageinfo.PackageID == item1.Packageinfo.PackageID)
+                                                @if (item.branch.BranchID == item1.branch.BranchID)
                                                 {
                                                     <td>
-                                                        @item1.PageInfo.Page
+                                                        @item1.course.CourseName
                                                     </td>
                                                     <td>
-                                                        @item1.Createstatus
+                                                        @Status
                                                     </td>
 
-                                                    <td>
-                                                        @item1.Deletestatus
-                                                    </td>
-                                                    <td>
-                                                        @item1.Viewstatus
-                                                    </td>
+                                                    
                                                 }
 
 
@@ -93,18 +82,18 @@
                         </div>
                     </td>
                     <td>
-                        @item.Packageinfo.Package
+                        @item.branch.BranchName
                     </td>
 
                     <td>
-                        <a href="@Url.Action("PackageRightMaintenance", "PackageRight", new { @PackageRightID = item.Packageinfo.PackageID })">
+                        <a href="@Url.Action("CourseMaintenance", "BranchCourse", new { @courseID = item.branch.BranchID })">
                             <img src="/ThemeData/images/viewIcon.png" />
                         </a>
                     </td>
 
 
                     <td>
-                        <a href="javascript:void(0)" onclick="RemovePackageRight('@item.Packageinfo.PackageID')">
+                        <a href="javascript:void(0)" onclick="RemoveCourse('@item.branch.BranchID')">
                             <img src="~/ThemeData/images/Delete.png" />
                         </a>
                     </td>
@@ -112,7 +101,7 @@
                 </tr>
             }
         }
-    </tbody>*@
+    </tbody>
 
 </table>
 

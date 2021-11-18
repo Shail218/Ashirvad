@@ -69,7 +69,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = u.row_sta_cd
                             },
-                            Subject = u.subject,
+                            Subject = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
                             SubjectID = u.subject_id,
                             BranchInfo = new BranchEntity()
                             {
@@ -157,7 +157,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = u.row_sta_cd
                             },
-                            Subject = sm.subject,
+                            Subject = u.SUBJECT_MASTER.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
                             SubjectID = sm.subject_id,
                             BranchInfo = new BranchEntity()
                             {

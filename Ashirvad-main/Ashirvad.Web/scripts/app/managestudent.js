@@ -2,7 +2,7 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-    ShowLoader();
+    
     LoadBranch();
     /*arrayBufferToBase64()*/
 });

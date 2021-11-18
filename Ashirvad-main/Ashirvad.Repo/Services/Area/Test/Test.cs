@@ -96,7 +96,8 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 TestPaperID = TestPaper.test_paper_id,
                                 PaperType = TestPaper.paper_type.ToString(),
                                 DocLink = TestPaper.doc_link.ToString(),
-                                FilePath = TestPaper.file_path
+                                FilePath = "http://highpack-001-site12.dtempurl.com" + TestPaper.file_path,
+                                FileName = TestPaper.file_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
@@ -979,9 +980,29 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestEndTime = u.test_end_time,
                             TestName = u.test_name,
                             TestStartTime = u.test_st_time,
+                            Branch = new BranchEntity()
+                            {
+                                BranchID = u.branch_id
+                            },
+                            Subject = new SubjectEntity()
+                            {
+                                SubjectID = u.sub_id
+                            },
+                            BatchTimeID = u.batch_time_id,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
+            if (data != null)
+            {
+                data.marksentered = CheckMarks(data.TestID,data.Branch.BranchID,data.Subject.SubjectID,data.BatchTimeID);
+            }
             return data;
+        }
+
+        public bool CheckMarks(long TestID,long BranchID,long SubjectId,int BatchId)
+        {
+            bool isExists = this.context.MARKS_MASTER.Where(s => s.test_id == TestID && s.branch_id == BranchID && s.subject_id == SubjectId && s.batch_time_id == BatchId && s.row_sta_cd == 1).FirstOrDefault() != null;
+
+            return isExists;
         }
 
         public async Task<List<StudentAnswerSheetEntity>> GetStudentAnsFile(long TestID)

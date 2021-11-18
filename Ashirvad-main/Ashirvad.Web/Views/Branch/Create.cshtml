@@ -2,7 +2,7 @@
 <form id="fBranchDetail">
     <div class="form-group" id="dInformation">
         <div class="col-md-12">
-            @Html.Label("Brand Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.Label("Branch Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextBoxFor(x => x.BranchName, new { @class = "form-control required", @alt = "Branch Name", autocomplete = "off" })
             @Html.HiddenFor(x => x.BranchID)
         </div>
@@ -15,13 +15,13 @@
             @Html.HiddenFor(x => x.BranchMaint.FileName)
             @Html.HiddenFor(x => x.BranchMaint.FilePath)
         </div>
-        <div class="form-group">
+        @*<div class="form-group">
             <div class="col-md-12">
                 @Html.Label("Education Board", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             </div>
-        </div>
+        </div>*@
      
-        <div class="form-group">
+        @*<div class="form-group">
             <div class="col-md-12">
                 <table id="rdbResult" class="radioboxlist form-control">
                     <tbody>
@@ -43,7 +43,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div>*@
         <div class="form-group">
             <div class="col-md-12">
                 @Html.Label("Status", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -55,11 +55,11 @@
                     <tbody>
                         <tr>
                             <td>
-                                <input type="radio" name="Status" id="rowStaActive" value="Active" />
+                                <input type="radio" name="Status" id="rowStaActive" checked value="1" />
                                 <lable for="rowStaActive">Active</lable>
                             </td>
                             <td>
-                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:10px" />
+                                <input type="radio" name="Status" id="rowStaInactive" value="2" style="margin-left:10px" />
                                 <lable for="rowStaInactive">Inactive</lable>
                                 @Html.HiddenFor(x => x.RowStatus.RowStatusId)
                             </td>
