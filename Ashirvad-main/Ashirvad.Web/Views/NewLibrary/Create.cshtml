@@ -9,8 +9,8 @@
         </div>
 
         <div class="col-md-12" style="margin-bottom:10px">
-            @Html.Label("Upload Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <input class="file-upload" alt="Student Image" id="fuStudentImage" name="ImageFile" type="file" accept="image/*" />
+            @Html.Label("Upload Image/Document", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <input class="file-upload" alt="Student Image" id="fuStudentImage" name="ImageFile" type="file"/>
             @Html.HiddenFor(x => x.ImageFile)
         </div>
         <div class="col-md-12">

@@ -22,9 +22,11 @@
         <section class="col-md-7">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="col-md-6">Library Video Details</h3>
-                
-                    @{ Html.RenderPartial("VideoManage", new ViewDataDictionary(Model.LibraryData)); }
+                    <h3>Library Video Details</h3>
+                    <div style="overflow-x:scroll">
+                        @{ Html.RenderPartial("VideoManage", new ViewDataDictionary(Model.LibraryData)); }
+                    </div>
+                    
                 </div>
             </div>
         </section>

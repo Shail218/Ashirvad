@@ -112,7 +112,7 @@ function SaveHomework() {
     if (isSuccess) {
         ShowLoader();
         var date1 = $("#HomeworkDate").val();
-        $("#HomeworkDate").val(ConvertData(date1));
+        $("#HomeworkDate").val(ConvertData(date1,'Local'));
         var frm = $('#fHomeworkDetail');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');

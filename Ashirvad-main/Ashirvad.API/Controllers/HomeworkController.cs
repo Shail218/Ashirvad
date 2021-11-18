@@ -332,11 +332,34 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-        [Route("Test/{HomeworkID}")]
-        [HttpPost]
-        public OperationResult<HomeworkDetailEntity> Test(List<long> HomeworkID)
+        [Route("Updatehomeworkdetails")]
+        [HttpGet]
+        public OperationResult<HomeworkDetailEntity> Updatehomeworkdetails(long HomeworkID, long StudentID, string Remark, int Status,string CreatedBy,long CreatedId)
         {
             OperationResult<HomeworkDetailEntity> result = new OperationResult<HomeworkDetailEntity>();
+            HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
+            homeworkDetail.HomeworkEntity = new HomeworkEntity();
+            homeworkDetail.StudentInfo = new StudentEntity();
+            homeworkDetail.HomeworkEntity.HomeworkID = HomeworkID;
+            homeworkDetail.StudentInfo.StudentID = StudentID;
+            homeworkDetail.Remarks = Remark;
+            homeworkDetail.Status = Status;
+            homeworkDetail.Transaction = new TransactionEntity()
+            {
+                CreatedBy = CreatedBy,
+                CreatedId = CreatedId,
+            };
+            var result1 = _homeworkdetailService.Homeworkdetailupdate(homeworkDetail).Result;
+            if (result1.HomeworkDetailID > 0)
+            {
+                result.Completed = true;
+                result.Message = "Updated Successfully!!";
+            }
+            else
+            {
+                result.Completed = false;
+                result.Message = "Failed To Updated!!";
+            }
             return result;
         }
     }

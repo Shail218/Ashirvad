@@ -104,7 +104,7 @@ function LoadTestDetails(TestID, Subject) {
             $("#StudentDetail").html('');
         } else {
             var Std = $('#StandardInfo_StandardID').val();
-            var Batch = $('#BatchTime').val();
+            var Batch = $('#BatchType').val();
             LoadStudentDetails(Std, Batch);
         }
     }).fail(function () {

@@ -303,6 +303,11 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile3.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile4.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile5.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile6.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile7.pubxml" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
@@ -320,6 +325,10 @@
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\select2.js" />
     <Content Include="scripts\select2.min.js" />
+    <Content Include="StudentImage\AXJQ4HN19XVLMOB01EK4.png" />
+    <Content Include="StudentImage\Screenshot %281%29.png" />
+    <Content Include="StudentImage\YR3DIZVOSO45C83YP8P7.png" />
+    <Content Include="StudentImage\Z8KPHS3YBD7TTQP0M5F9.png" />
     <Content Include="TestDetailImage\32QEGMX5SVX28NTURU7O.png" />
     <Content Include="TestDetailImage\empty_cart.png" />
     <Content Include="TestDetailImage\G3TXDPA86KVTXLQUG9PY.png" />
@@ -1403,7 +1412,6 @@
     <Folder Include="CourseImage\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="WebAPI\" />
     <Folder Include="ZipFiles\HomeworkDetails\" />
     <Folder Include="ZipFiles\TestPaperDetails\" />
   </ItemGroup>

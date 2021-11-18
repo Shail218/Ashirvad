@@ -13,6 +13,12 @@ namespace Ashirvad.Repo.Services.Area.Class
     public class Class : ModelAccess, IClassAPI
     {
         private readonly IBranchClassAPI _BranchClass;
+
+        public Class(IBranchClassAPI BranchClass)
+        {
+            _BranchClass = BranchClass;
+        }
+
         public async Task<long> CheckClass(string name, long Id)
         {
             long result;
@@ -171,11 +177,7 @@ namespace Ashirvad.Repo.Services.Area.Class
                         course_dtl_id = item.BranchCourse.course_dtl_id,
 
                     };
-                    branchClass.Class = new ClassEntity()
-                    {
-                        ClassID = item.Class.ClassID,
-
-                    };
+                  
                     result = _BranchClass.ClassMaintenance(branchClass).Result;
                 }
 

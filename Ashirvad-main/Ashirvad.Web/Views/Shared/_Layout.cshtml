@@ -154,11 +154,6 @@
                                         <li id="Banner">
                                             <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })" )">Banner Master</a>
                                         </li>
-                                        <li class="treeview">
-                                            <a href="@Url.Action("CategoryMaintenance","Category",new { @categoryID=0 })">
-                                                Category Master
-                                            </a>
-                                        </li>
                                         <li id="NotificationMaster">
                                             <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
                                         </li>
@@ -323,7 +318,7 @@
 
                                         <li class="treeview LibraryImage">
                                             <a href="@Url.Action("LibraryMaintenance","NewLibrary",new { @LibraryID=0,Type=2 })">
-                                                Image
+                                                Image/Document
                                             </a>
                                         </li>
                                         <li class="treeview LibraryVideo">
@@ -409,14 +404,14 @@
                                         Library
                                     </a>
                                     <ul class="dropdown-menu">
-                                        @*<li class="treeview">
-                                                <a href="@Url.Action("CategoryMaintenance","Category",new { @categoryID=0 })">
-                                                    Category
-                                                </a>
-                                            </li>*@
+                                        <li class="treeview">
+                                            <a href="@Url.Action("CategoryMaintenance","Category",new { @categoryID=0 })">
+                                                Category Master
+                                            </a>
+                                        </li>                                      
                                         <li class="treeview">
                                             <a href="@Url.Action("LibraryMaintenance","NewLibrary",new { @LibraryID=0,Type=2 })">
-                                                Image
+                                                Image/Document
                                             </a>
                                         </li>
                                         <li class="treeview">
