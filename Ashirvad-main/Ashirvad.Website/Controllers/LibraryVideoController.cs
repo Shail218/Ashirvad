@@ -25,7 +25,7 @@ namespace Ashirvad.Website.Controllers
             libraryVideo.Categorylist = new List<CategoryEntity>();
 
             libraryVideo.Videolist = await _LibraryService.GetAllLibrary(1, 0);
-            libraryVideo.Categorylist = await _CategoryService.GetAllCategorys();
+            libraryVideo.Categorylist = await _CategoryService.GetAllCategorys(0);
 
             return View(libraryVideo);
 
