@@ -43,11 +43,12 @@
         <div class="row">
             <div class="col-md-12 text-center">
                 <ul class="list_none grid_filter">
-                    <li><a href="#" class="current" data-filter="*">All</a></li>
+                    <li><a href="#" class="current" data-filter="">All</a></li>
+
                     @foreach (var category in Model.Categorylist)
                     {
 
-                        <li><a href="#" data-filter=".@category.Category">@category.Category</a></li>
+                        <li><a href="#" data-filter=".@category.CategoryID">@category.Category</a></li>
 
                     }
                 </ul>
@@ -60,23 +61,32 @@
                     <!-- START PORTFOLIO ITEM -->
                     @foreach (var image in Model.imagelist)
                     {
-                        string path = "http://highpack-001-site12.dtempurl.com" + image.FilePath;
-                    <li class="grid_item @image.CategoryInfo.Category">
-                        <div class="gallery_item">
-                            <a href="#" class="image_link">
-                                <img src="@path" alt="image" height="240" width="360">
-                            </a>
-                            <div class="gallery_content">
-                                <div class="link_container">
-                                    <a href="@path" class="image_popup" download="@image.FileName"><span class="ripple"><i class="ion-image"></i></span></a>
-                                </div>
+                        <li class="grid_item @image.CategoryInfo.CategoryID">
+                            <div class="gallery_item">
+                                <a href="#" class="image_link">
+                                    <img src="@image.FilePath" alt="image" height="240" width="360">
+                                </a>
+                                <div class="gallery_content">
+                                    <div class="link_container">
+                                        @if (image.FilePath != null && image.FilePath != "")
+                                        {
+                                            <a href="@image.FilePath.Replace("http://highpack-001-site12.dtempurl.com","")" id="paperdownload" download="@image.FileName">
+                                                <span class="ripple"><i class="ion-image"></i></span>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Themedata/assets/images/pexels-nubia-navarro-(nubikini)-1517355.jpg" id="bannerImg" style="height:40px;width:40px;margin-left:40px;" />
+                                        }
 
+                                    </div>
+
+                                </div>
                             </div>
-                        </div>
-                        <div class="team_title radius_lbrb_10 text-center">
-                            <h5><a href="#">@image.Description</a></h5>
-                        </div>
-                    </li>
+                            <div class="team_title radius_lbrb_10 text-center">
+                                <h5><a href="#">@image.Title</a></h5>
+                            </div>
+                        </li>
                     }
 
                 </ul>
