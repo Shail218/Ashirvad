@@ -3581,7 +3581,7 @@ footer .widget_title {
     visibility: visible;
 }
 
-.gallery_item::before {
+/*.gallery_item::before {
     background-color: rgba(0,0,0,0.60);
     content: "";
     position: absolute;
@@ -3593,7 +3593,7 @@ footer .widget_title {
     bottom: 0;
     transition: all 0.5s ease-in-out;
     z-index: 2;
-}
+}*/
 
 .gallery_item:hover:before {
     opacity: 1;
