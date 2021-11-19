@@ -197,6 +197,18 @@ namespace Ashirvad.API
             container.RegisterType<IBranchRightsAPI, BranchRights>();
             container.RegisterType<IBranchRightsService, BranchRightsService>();
 
+            container.RegisterType<IBranchRightsAPI, BranchRights>();
+            container.RegisterType<IBranchRightsService, BranchRightsService>();
+
+            container.RegisterType<IBranchCourseAPI, BranchCourse>();
+            container.RegisterType<IBranchCourseService, BranchCourseService>();
+
+            container.RegisterType<IBranchClassAPI, BranchClass>();
+            container.RegisterType<IBranchClassService, BranchClassService>();
+
+            container.RegisterType<IBranchSubjectAPI, BranchSubject>();
+            container.RegisterType<IBranchSubjectService, BranchSubjectService>();
+
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }
