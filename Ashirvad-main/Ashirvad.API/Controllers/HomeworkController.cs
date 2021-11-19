@@ -4,14 +4,18 @@ using Ashirvad.Data;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Homework;
 using Grpc.Core;
+using Ionic.Zip;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
+using System.Web.UI;
 
 namespace Ashirvad.API.Controllers
 {
@@ -142,7 +146,7 @@ namespace Ashirvad.API.Controllers
 
         [Route("HomeworkMaintenance/{HomeworkID}/{Homework_Date}/{BranchID}/{StandardID}/{SubjectID}/{Batch_TimeID}/{Remark}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
         [HttpPost]
-        public OperationResult<HomeworkEntity> HomeworkMaintenance(long HomeworkID, DateTime Homework_Date, long BranchID, long StandardID,long SubjectID,int Batch_TimeID,
+        public OperationResult<HomeworkEntity> HomeworkMaintenance(long HomeworkID, DateTime Homework_Date, long BranchID, long StandardID, long SubjectID, int Batch_TimeID,
             string Remark, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
         {
             OperationResult<HomeworkEntity> result = new OperationResult<HomeworkEntity>();
@@ -234,12 +238,12 @@ namespace Ashirvad.API.Controllers
 
         [HttpPost]
         [Route("HomeworkDetailMaintenance/{HomeworkID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}")]
-        public OperationResult<HomeworkDetailEntity> HomeworkDetailMaintenance(long HomeworkID, long BranchID, long StudentID, 
-            string Remarks, int?Status, DateTime SubmitDate,long CreateId,string CreateBy)
+        public OperationResult<HomeworkDetailEntity> HomeworkDetailMaintenance(long HomeworkID, long BranchID, long StudentID,
+            string Remarks, int? Status, DateTime SubmitDate, long CreateId, string CreateBy)
         {
             HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
             HomeworkDetailEntity Response = new HomeworkDetailEntity();
-           
+
             homeworkDetail.HomeworkEntity = new HomeworkEntity();
             homeworkDetail.BranchInfo = new BranchEntity();
             homeworkDetail.StudentInfo = new StudentEntity();
@@ -248,7 +252,7 @@ namespace Ashirvad.API.Controllers
             homeworkDetail.BranchInfo.BranchID = BranchID;
             homeworkDetail.StudentInfo.StudentID = StudentID;
             homeworkDetail.Remarks = "";
-            homeworkDetail.Status = Status.HasValue?Status.Value:0;
+            homeworkDetail.Status = Status.HasValue ? Status.Value : 0;
             homeworkDetail.SubmitDate = SubmitDate;
             homeworkDetail.RowStatus = new RowStatusEntity()
             {
@@ -260,7 +264,7 @@ namespace Ashirvad.API.Controllers
                 CreatedId = CreateId,
                 CreatedDate = DateTime.Now,
             };
-            var data1 = this._homeworkdetailService.RemoveHomeworkdetail(HomeworkID,StudentID);
+            var data1 = this._homeworkdetailService.RemoveHomeworkdetail(HomeworkID, StudentID);
             OperationResult<HomeworkDetailEntity> result = new OperationResult<HomeworkDetailEntity>();
             if (httpRequest.Files.Count > 0)
             {
@@ -285,7 +289,7 @@ namespace Ashirvad.API.Controllers
                         string _path = UpdatedPath + _Filepath1;
                         postedFile.SaveAs(_path);
                         homeworkDetail.AnswerSheetName = fileName;
-                        homeworkDetail.FilePath = _Filepath;                        
+                        homeworkDetail.FilePath = _Filepath;
                         var data = this._homeworkdetailService.HomeworkdetailMaintenance(homeworkDetail);
                         Response = data.Result;
                     }
@@ -334,7 +338,7 @@ namespace Ashirvad.API.Controllers
 
         [Route("Updatehomeworkdetails")]
         [HttpGet]
-        public OperationResult<HomeworkDetailEntity> Updatehomeworkdetails(long HomeworkID, long StudentID, string Remark, int Status,string CreatedBy,long CreatedId)
+        public OperationResult<HomeworkDetailEntity> Updatehomeworkdetails(long HomeworkID, long StudentID, string Remark, int Status, string CreatedBy, long CreatedId)
         {
             OperationResult<HomeworkDetailEntity> result = new OperationResult<HomeworkDetailEntity>();
             HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
@@ -359,6 +363,78 @@ namespace Ashirvad.API.Controllers
             {
                 result.Completed = false;
                 result.Message = "Failed To Updated!!";
+            }
+            return result;
+        }
+
+        [HttpGet]
+        [Route("DownloadZipFile/{HomeworkID}/{StudentID}/{Homework}/{Student}/{Class}")]
+        public OperationResult<HomeworkEntity> SaveZipFile(long HomeworkID, long StudentID, string Homework, string Student, string Class)
+        {
+            //hi = 11;
+            //si = 2;
+            OperationResult<HomeworkEntity> result = new OperationResult<HomeworkEntity>();
+            string[] array = new string[2];
+            string FileName = "";
+            try
+            {
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+                var homeworks = _homeworkService.GetHomeworkdetailsFiles(HomeworkID).Result;
+                //string randomfilename = Common.Common.RandomString(20);
+                string randomfilename = "HomeWork_" + Homework + "_Student_" + Student + "_Class_" + Class;
+                FileName = "/ZipFiles/HomeworkDetails/" + randomfilename + ".zip";
+                if (homeworks.Count > 0)
+                {
+                    if (File.Exists(HttpContext.Current.Server.MapPath
+                                   ("~/ZipFiles/HomeworkDetails/" + randomfilename + ".zip")))
+                    {
+                        File.Delete(HttpContext.Current.Server.MapPath
+                                      ("~/ZipFiles/HomeworkDetails/" + randomfilename + ".zip"));
+                    }
+
+                    using (ZipFile zip = new ZipFile())
+                    {
+                        zip.AlternateEncodingUsage = ZipOption.AsNecessary;
+                        foreach (var item in homeworks)
+                        {
+                            //string filePath = HttpContext.Current.Server.MapPath(item.FilePath);
+                            //zip.AddFile(filePath, "Files");
+                            using (var client = new WebClient())
+                            {
+                                var buffer = client.DownloadData("http://highpack-001-site12.dtempurl.com" + item.FilePath);
+                                zip.AddEntry(item.HomeworkContentFileName, buffer);
+                            }
+                        }
+
+                        string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                        // for live server
+                        //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        // for local server
+                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        //Save the Zip File to MemoryStream.
+                        string _Filepath1 = "ZipFiles/HomeworkDetails/" + randomfilename + ".zip";
+                        var filePath = HttpContext.Current.Server.MapPath("~/ZipFiles/HomeworkDetails/" + randomfilename + ".zip");
+                        string _path = UpdatedPath + _Filepath1;
+                        zip.Save(_path);
+                    }
+
+                    result.Data = new HomeworkEntity()
+                    {
+                        FilePath = "http://highpack-001-site12.dtempurl.com" + FileName
+                    };
+                    result.Completed = false;
+                    result.Message = "Success";
+                }
+                else
+                {
+                    result.Completed = false;
+                    result.Message = "No Record Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Completed = false;
+                result.Message = ex.ToString();
             }
             return result;
         }

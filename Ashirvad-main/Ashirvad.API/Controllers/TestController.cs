@@ -3,6 +3,7 @@ using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Test;
 using Ashirvad.ServiceAPI.Services.Area.Test;
+using Ionic.Zip;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -526,5 +527,78 @@ namespace Ashirvad.API.Controllers
             }
             return result;
         }
+
+        [HttpGet]
+        [Route("DownloadZipFile/{TestID}/{StudentID}/{Homework}/{Student}/{Class}")]
+        public OperationResult<HomeworkEntity> SaveZipFile(long TestID, long StudentID, string Homework, string Student, string Class)
+        {
+            //hi = 11;
+            //si = 2;
+            OperationResult<HomeworkEntity> result = new OperationResult<HomeworkEntity>();
+            string[] array = new string[2];
+            string FileName = "";
+            try
+            {
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+                var homeworks = _testService.GetAnswerFiles(TestID).Result;
+                //string randomfilename = Common.Common.RandomString(20);
+                string randomfilename = "HomeWork_" + Homework + "_Student_" + Student + "_Class_" + Class;
+                FileName = "/ZipFiles/TestPaperDetails/" + randomfilename + ".zip";
+                if (homeworks.Count > 0)
+                {
+                    if (File.Exists(HttpContext.Current.Server.MapPath
+                                   ("~/ZipFiles/TestPaperDetails/" + randomfilename + ".zip")))
+                    {
+                        File.Delete(HttpContext.Current.Server.MapPath
+                                      ("~/ZipFiles/TestPaperDetails/" + randomfilename + ".zip"));
+                    }
+
+                    using (ZipFile zip = new ZipFile())
+                    {
+                        zip.AlternateEncodingUsage = ZipOption.AsNecessary;
+                        foreach (var item in homeworks)
+                        {
+                            //string filePath = HttpContext.Current.Server.MapPath(item.FilePath);
+                            //zip.AddFile(filePath, "Files");
+                            using (var client = new WebClient())
+                            {
+                                var buffer = client.DownloadData("http://highpack-001-site12.dtempurl.com" + item.FilePath);
+                                zip.AddEntry(item.AnswerSheetName, buffer);
+                            }
+                        }
+
+                        string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                        // for live server
+                        //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        // for local server
+                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        //Save the Zip File to MemoryStream.
+                        string _Filepath1 = "ZipFiles/TestPaperDetails/" + randomfilename + ".zip";
+                        var filePath = HttpContext.Current.Server.MapPath("~/ZipFiles/TestPaperDetails/" + randomfilename + ".zip");
+                        string _path = UpdatedPath + _Filepath1;
+                        zip.Save(_path);
+                    }
+
+                    result.Data = new HomeworkEntity()
+                    {
+                        FilePath = "http://highpack-001-site12.dtempurl.com" + FileName
+                    };
+                    result.Completed = false;
+                    result.Message = "Success";
+                }
+                else
+                {
+                    result.Completed = false;
+                    result.Message = "No Record Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Completed = false;
+                result.Message = ex.ToString();
+            }
+            return result;
+        }
+
     }
 }

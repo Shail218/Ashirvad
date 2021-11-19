@@ -1,9 +1,13 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
+using Ashirvad.Repo.Services.Area.Branch;
+using Ashirvad.Repo.Services.Area.Course;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Class;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Course;
+using Ashirvad.ServiceAPI.Services.Area;
+using Ashirvad.ServiceAPI.Services.Area.Course;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
