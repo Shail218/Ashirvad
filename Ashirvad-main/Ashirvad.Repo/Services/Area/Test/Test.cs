@@ -200,7 +200,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestStartTime = u.test_st_time,
 
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).ToList();
+                        }).Distinct().ToList();
 
             return data;
         }

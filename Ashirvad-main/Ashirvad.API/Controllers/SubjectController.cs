@@ -53,5 +53,16 @@ namespace Ashirvad.API.Controllers
             result.Data = data;
             return result;
         }
+
+        [Route("GetAllSubjectsByTestDate")]
+        [HttpGet]
+        public OperationResult<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate)
+        {
+            var data = this._subjectService.GetAllSubjectsByTestDate(TestDate);
+            OperationResult<List<SubjectEntity>> result = new OperationResult<List<SubjectEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
     }
 }

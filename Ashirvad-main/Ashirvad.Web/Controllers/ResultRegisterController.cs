@@ -30,7 +30,7 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<ActionResult> GetAllAchieveMarks()
         {
-            var result = _MarksService.GetAllAchieveMarks(0,SessionContext.Instance.LoginUser.BranchInfo.BranchID,0,0).Result;
+            var result = _MarksService.GetAllAchieveMarks(0,SessionContext.Instance.LoginUser.BranchInfo.BranchID,0,0,0).Result;
             return View("~/Views/ResultRegister/Manage.cshtml", result);
         }
 

@@ -79,11 +79,11 @@ namespace Ashirvad.ServiceAPI.Services.Area
         }
 
 
-        public async Task<List<MarksEntity>> GetAllAchieveMarks(long Std, long Branch, long Batch, long MarksID)
+        public async Task<List<MarksEntity>> GetAllAchieveMarks(long Std, long Branch, long Batch, long MarksID,DateTime TestDate)
         {
             try
             {
-                return await this._MarksContext.GetAllAchieveMarks(Std,Branch,Batch,MarksID);
+                return await this._MarksContext.GetAllAchieveMarks(Std,Branch,Batch,MarksID,TestDate);
             }
             catch (Exception ex)
             {

@@ -61,6 +61,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
         public async Task<List<SubjectEntity>> GetAllSubjects(long branchID)
         {
             var data = (from u in this.context.SUBJECT_MASTER
+                        .Include("SUBJECT_DTL_MASTER")
                         where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
                         select new SubjectEntity()
                         {

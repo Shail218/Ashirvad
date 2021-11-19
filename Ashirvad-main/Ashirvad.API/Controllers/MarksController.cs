@@ -64,9 +64,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllAchieveMarks")]
         [HttpPost]
-        public OperationResult<List<MarksEntity>> GetAllAchieveMarks(long Std, long Branch, long Batch, long MarksID)
+        public OperationResult<List<MarksEntity>> GetAllAchieveMarks(long Std, long Branch, long Batch, long MarksID,DateTime TestDate)
         {
-            var data = this._marksService.GetAllAchieveMarks(Std, Branch, Batch, MarksID);
+            var data = this._marksService.GetAllAchieveMarks(Std, Branch, Batch, MarksID,TestDate);
             OperationResult<List<MarksEntity>> result = new OperationResult<List<MarksEntity>>();
             result.Completed = true;
             result.Data = data.Result;
@@ -77,16 +77,49 @@ namespace Ashirvad.API.Controllers
         [HttpPost]
         public OperationResult<List<MarksEntity>> GetAllStudentMarks(long BranchID, long StudentID)
         {
-            var data = this._marksService.GetAllStudentMarks(BranchID,StudentID);
+            var data = this._marksService.GetAllStudentMarks(BranchID, StudentID);
             OperationResult<List<MarksEntity>> result = new OperationResult<List<MarksEntity>>();
             result.Completed = true;
             result.Data = data.Result;
             return result;
         }
 
-        [Route("MarksMaintenance/{MarksID}/{Marks_Date}/{TestID}/{BranchID}/{StudentID}/{Achieve_Marks}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("UpdateMarksDetails")]
         [HttpPost]
-        public OperationResult<MarksEntity> MarksMaintenance(long MarksID, DateTime Marks_Date, long TestID, long BranchID, string StudentID, string Achieve_Marks, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        public OperationResult<MarksEntity> UpdateMarksDetails(long MarksID, long StudentID, string AchieveMarks,long CreatedId,string CreatedBy,long TransactionId)
+        {
+            OperationResult<MarksEntity> result = new OperationResult<MarksEntity>();
+            MarksEntity marks = new MarksEntity();
+            marks.testEntityInfo = new TestEntity();
+            marks.student = new StudentEntity();
+            marks.MarksID = MarksID;
+            marks.student.StudentID = StudentID;
+            marks.AchieveMarks = AchieveMarks;
+            marks.Transaction = new TransactionEntity()
+            {
+                TransactionId = TransactionId,
+                LastUpdateBy = CreatedBy,
+                LastUpdateId = CreatedId,
+                CreatedBy = CreatedBy,
+                CreatedId = CreatedId,
+            };
+            var result1 = _marksService.UpdateMarksDetails(marks).Result;
+            if (result1.MarksID > 0)
+            {
+                result.Completed = true;
+                result.Message = "Marks Updated Successfully!!";
+            }
+            else
+            {
+                result.Completed = false;
+                result.Message = "Marks Failed To Updated!!";
+            }
+            return result;
+        }
+
+        [Route("MarksMaintenance/{MarksID}/{Marks_Date}/{TestID}/{BranchID}/{StudentID}/{Achieve_Marks}/{BatchtimeID}/{SubjectID}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [HttpPost]
+        public OperationResult<MarksEntity> MarksMaintenance(long MarksID, DateTime Marks_Date, long TestID, long BranchID, string StudentID, string Achieve_Marks, int BatchtimeID, long SubjectID, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
         {
             OperationResult<MarksEntity> result = new OperationResult<MarksEntity>();
             var httpRequest = HttpContext.Current.Request;
@@ -98,6 +131,7 @@ namespace Ashirvad.API.Controllers
                 MarksEntity marksEntity = new MarksEntity();
                 marksEntity.BranchInfo = new BranchEntity();
                 marksEntity.testEntityInfo = new TestEntity();
+                marksEntity.SubjectInfo = new SubjectEntity();
                 marksEntity.student = new StudentEntity();
                 marksEntity.student.StudentID = Convert.ToInt64(studet[i]);
                 marksEntity.AchieveMarks = marks[i];
@@ -105,6 +139,8 @@ namespace Ashirvad.API.Controllers
                 marksEntity.MarksDate = Marks_Date;
                 marksEntity.testEntityInfo.TestID = TestID;
                 marksEntity.BranchInfo.BranchID = BranchID;
+                marksEntity.SubjectInfo.SubjectID = SubjectID;
+                marksEntity.BatchType = (Enums.BatchType)BatchtimeID;
                 marksEntity.MarksContentFileName = FileName;
                 marksEntity.MarksFilepath = "/MarksImage/" + FileName + "." + Extension;
                 marksEntity.RowStatus = new RowStatusEntity()
@@ -155,7 +191,7 @@ namespace Ashirvad.API.Controllers
                         result.Message = ex.ToString();
                     }
                 }
-                data = this._marksService.MarksMaintenance(marksEntity).Result;                
+                data = this._marksService.MarksMaintenance(marksEntity).Result;
             }
             result.Completed = false;
             result.Data = null;

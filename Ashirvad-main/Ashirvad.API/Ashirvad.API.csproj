@@ -282,6 +282,7 @@
     <Folder Include="HomeWorkDetailImage\" />
     <Folder Include="LibraryImage\" />
     <Folder Include="Models\" />
+    <Folder Include="StudentImage\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ashirvad.Common\Ashirvad.Common.csproj">
