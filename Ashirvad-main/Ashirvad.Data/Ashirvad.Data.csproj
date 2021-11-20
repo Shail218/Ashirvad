@@ -70,6 +70,7 @@
     <Compile Include="Model\AnnouncementMaintenanceModel.cs" />
     <Compile Include="Model\AttendanceMaintenanceModel.cs" />
     <Compile Include="Model\BannerMaintenanceModel.cs" />
+    <Compile Include="Model\WebsiteModel.cs" />
     <Compile Include="Model\BatchMaintenanceModel.cs" />
     <Compile Include="Model\BranchSubjectMaintenanceModel.cs" />
     <Compile Include="Model\BranchClassMaintenanceModel.cs" />
