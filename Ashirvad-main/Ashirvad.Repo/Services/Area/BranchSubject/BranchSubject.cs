@@ -13,7 +13,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
 {
     public class BranchSubject : ModelAccess, IBranchSubjectAPI
     {
-
         public async Task<long> CheckSubject(int SubjectDetailID, int SubjectID, int BranchID, int CourseDetailID, int ClassID)
         {
             long result;
@@ -22,10 +21,11 @@ namespace Ashirvad.Repo.Services.Area.Branch
             result = isExists == true ? -1 : 1;
             return result;
         }
+
         public async Task<long> SubjectMaintenance(BranchSubjectEntity SubjectInfo)
         {
             Model.SUBJECT_DTL_MASTER SubjectMaster = new Model.SUBJECT_DTL_MASTER();
-            if (CheckSubject((int)SubjectInfo.Subject_dtl_id, (int)SubjectInfo.Subject.SubjectID, 
+            if (CheckSubject((int)SubjectInfo.Subject_dtl_id, (int)SubjectInfo.Subject.SubjectID,
                 (int)SubjectInfo.branch.BranchID, (int)SubjectInfo.BranchCourse.course_dtl_id, (int)SubjectInfo.BranchClass.Class_dtl_id).Result != -1)
             {
                 bool isUpdate = true;
@@ -59,7 +59,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     this.context.Entry(SubjectMaster).State = System.Data.Entity.EntityState.Modified;
                 }
                 var result = this.context.SaveChanges();
-                
+
                 if (result > 0)
                 {
                     SubjectInfo.Subject_dtl_id = SubjectMaster.subject_dtl_id;
@@ -71,11 +71,11 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
                     };
 
-                    Subjectmaster.BranchSubject = new BranchSubjectEntity();  
+                    Subjectmaster.BranchSubject = new BranchSubjectEntity();
                     Subjectmaster.Transaction = new TransactionEntity();
                     Subjectmaster.Transaction.TransactionId = SubjectMaster.trans_id;
-                    Subjectmaster.Subject = SubjectInfo.Subject.SubjectName;                                  
-                    Subjectmaster.BranchSubject.Subject_dtl_id = SubjectInfo.Subject_dtl_id;                    
+                    Subjectmaster.Subject = SubjectInfo.Subject.SubjectName;
+                    Subjectmaster.BranchSubject.Subject_dtl_id = SubjectInfo.Subject_dtl_id;
                     Subjectmaster.RowStatus = new RowStatusEntity()
                     {
                         RowStatus = SubjectInfo.isSubject == true ? Enums.RowStatus.Active : Enums.RowStatus.Inactive
@@ -174,11 +174,11 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
         }
 
-        public async Task<List<BranchSubjectEntity>> GetSubjectBySubjectID(long SubjectID, long BranchID,long CourseID)
+        public async Task<List<BranchSubjectEntity>> GetSubjectBySubjectID(long SubjectID, long BranchID, long CourseID)
         {
             var data = (from u in this.context.SUBJECT_DTL_MASTER
                        .Include("Subject_MASTER")
-                        where u.row_sta_cd == 1 && u.class_dtl_id == SubjectID && u.branch_id == BranchID && u.course_dtl_id== CourseID
+                        where u.row_sta_cd == 1 && u.class_dtl_id == SubjectID && u.branch_id == BranchID && u.course_dtl_id == CourseID
                         select new BranchSubjectEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -214,12 +214,13 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                              BranchClass = new BranchClassEntity()
                                              {
                                                  Class_dtl_id = u.class_dtl_id,
-                                                 
+
                                              },
                                          }).FirstOrDefault();
             }
             return data;
         }
+
         public async Task<BranchSubjectEntity> GetSubjectbyID(long SubjectID)
         {
             var data = (from u in this.context.SUBJECT_DTL_MASTER
@@ -242,11 +243,11 @@ namespace Ashirvad.Repo.Services.Area.Branch
         public bool RemoveSubject(long CourseID, long ClassID, long BranchID, string lastupdatedby)
         {
             var data = (from u in this.context.SUBJECT_DTL_MASTER
-                        where u.branch_id == BranchID && 
-                        u.course_dtl_id == CourseID && 
-                        u.class_dtl_id==ClassID &&
-                        u.row_sta_cd== (int)Enums.RowStatus.Active
-            select u).ToList();
+                        where u.branch_id == BranchID &&
+                        u.course_dtl_id == CourseID &&
+                        u.class_dtl_id == ClassID &&
+                        u.row_sta_cd == (int)Enums.RowStatus.Active
+                        select u).ToList();
             if (data != null)
             {
                 foreach (var item in data)
@@ -270,7 +271,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 Model.SUBJECT_MASTER subjectMaster = new Model.SUBJECT_MASTER();
                 bool isUpdate = true;
                 var data = (from subject in this.context.SUBJECT_MASTER
-                            where subject.subject_dtl_id== subjectInfo.BranchSubject.Subject_dtl_id
+                            where subject.subject_dtl_id == subjectInfo.BranchSubject.Subject_dtl_id
                             && subject.branch_id == subjectInfo.BranchInfo.BranchID
                             select subject).FirstOrDefault();
                 if (data == null)
@@ -324,44 +325,148 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return false;
         }
 
-
-        public async Task<List<BranchSubjectEntity>> GetAllSelectedSubjects(long BranchID, long CourseID,long ClassID)
+        public async Task<List<BranchSubjectEntity>> GetMobileAllSubject(long BranchID)
         {
             var data = (from u in this.context.SUBJECT_DTL_MASTER
-                        orderby u.SUBJECT_BRANCH_MASTER.subject_name
-                        where (u.class_dtl_id == ClassID || ClassID == 0)
-                        &&(u.course_dtl_id == CourseID || CourseID == 0) 
-                        && (u.branch_id == BranchID || BranchID == 0) 
-                        && u.row_sta_cd == 1 && u.is_subject == true
+                      .Include("Subject_MASTER")
+                      .Include("BRANCH_MASTER")
+                        where (BranchID == 0 || u.branch_id == BranchID) && u.row_sta_cd == 1
                         select new BranchSubjectEntity()
                         {
-                            Subject = new SuperAdminSubjectEntity()
+                            branch = new BranchEntity()
                             {
-                                SubjectID = u.subject_id,
-                                SubjectName = u.SUBJECT_BRANCH_MASTER.subject_name
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
                             },
                             BranchClass = new BranchClassEntity()
                             {
-                                Class = new ClassEntity()
-                                {
-                                    ClassID = u.CLASS_DTL_MASTER.CLASS_MASTER.class_id,
-                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
-                                },
-                            },
-                            BranchCourse = new BranchCourseEntity()
-                            {
-                                course = new CourseEntity()
-                                {
-                                    CourseID = u.COURSE_DTL_MASTER.COURSE_MASTER.course_id,
-                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
-                                },
-                            }
+                                Class_dtl_id = u.class_dtl_id,
 
+                            },
+                            Class = new ClassEntity()
+                            {
+                                ClassID = u.CLASS_DTL_MASTER.CLASS_MASTER.class_id,
+                                ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                            },
                         }).Distinct().ToList();
+            if (data?.Count > 0)
+            {
+                foreach (var i in data)
+                {
+                    i.BranchSubjectData = (from u in this.context.SUBJECT_DTL_MASTER
+                              .Include("Subject_MASTER")
+                              .Include("BRANCH_MASTER")
+                                           where (BranchID == 0 || u.branch_id == BranchID) && u.row_sta_cd == 1 && u.is_subject == true && u.course_dtl_id == i.BranchCourse.course_dtl_id && u.class_dtl_id == i.BranchClass.Class_dtl_id
+                                           select new BranchSubjectEntity()
+                                           {
+                                               RowStatus = new RowStatusEntity()
+                                               {
+                                                   RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                                   RowStatusId = (int)u.row_sta_cd
+                                               },
+                                               Subject = new SuperAdminSubjectEntity()
+                                               {
+                                                   SubjectID = u.SUBJECT_BRANCH_MASTER.subject_id,
+                                                   SubjectName = u.SUBJECT_BRANCH_MASTER.subject_name
+                                               },
+                                               branch = new BranchEntity()
+                                               {
+                                                   BranchID = u.BRANCH_MASTER.branch_id,
+                                                   BranchName = u.BRANCH_MASTER.branch_name
+                                               },
+                                               isSubject = u.is_subject == true ? true : false,
+                                               Subject_dtl_id = u.subject_dtl_id,
+                                               BranchCourse = new BranchCourseEntity()
+                                               {
+                                                   course_dtl_id = u.course_dtl_id,
+
+                                               },
+                                               BranchClass = new BranchClassEntity()
+                                               {
+                                                   Class_dtl_id = u.class_dtl_id,
+
+                                               },
+                                               Class = new ClassEntity()
+                                               {
+                                                   ClassID = u.CLASS_DTL_MASTER.CLASS_MASTER.class_id,
+                                                   ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                               },
+                                               Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                                           }).ToList();
+                }
+
+            }
+            else
+            {
+                BranchSubjectEntity entity = new BranchSubjectEntity();
+                entity.BranchSubjectData = new List<BranchSubjectEntity>();
+                data.Add(entity);
+            }
 
             return data;
-
         }
 
+        public async Task<List<BranchSubjectEntity>> GetMobileSubjectBySubjectID(long SubjectID, long BranchID, long CourseID)
+        {
+            List<BranchSubjectEntity> subjectEntities = new List<BranchSubjectEntity>();
+            var data = (from u in this.context.SUBJECT_DTL_MASTER
+                       .Include("Subject_MASTER")
+                       .Include("BRANCH_MASTER")
+                        where u.row_sta_cd == 1 && u.class_dtl_id == SubjectID && u.branch_id == BranchID
+
+                        select new BranchSubjectEntity()
+                        {
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
+                            BranchClass = new BranchClassEntity()
+                            {
+                                Class_dtl_id = u.class_dtl_id,
+
+                            },
+                        }).FirstOrDefault();
+            if (data!=null)
+            {
+                data.BranchSubjectData = (from u in this.context.SUBJECT_DTL_MASTER
+                              .Include("Subject_MASTER")
+                              where u.row_sta_cd == 1 && u.class_dtl_id == SubjectID && u.branch_id == BranchID && u.course_dtl_id == CourseID
+                                             select new BranchSubjectEntity()
+                                             {
+                                                 RowStatus = new RowStatusEntity()
+                                                 {
+                                                     RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                                     RowStatusId = (int)u.row_sta_cd
+                                                 },
+                                                 Subject = new SuperAdminSubjectEntity()
+                                                 {
+                                                     SubjectID = u.SUBJECT_BRANCH_MASTER.subject_id,
+                                                     SubjectName = u.SUBJECT_BRANCH_MASTER.subject_name
+                                                 },
+                                                 Subject_dtl_id = u.subject_dtl_id,
+                                                 isSubject = u.is_subject == true ? true : false,
+                                                 Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                                             }).ToList();
+                subjectEntities.Add(data);
+            }
+           
+
+                
+            return subjectEntities;
+        }
+      
     }
 }

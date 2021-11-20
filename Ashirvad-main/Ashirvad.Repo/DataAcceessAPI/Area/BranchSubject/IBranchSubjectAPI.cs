@@ -15,5 +15,8 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
         bool RemoveSubject(long CourseID,long ClassID, long BranchID, string lastupdatedby);
         Task<BranchSubjectEntity> GetSubjectbyID(long SubjectID);
 
+        Task<List<BranchSubjectEntity>> GetMobileAllSubject(long BranchID);
+        Task<List<BranchSubjectEntity>> GetMobileSubjectBySubjectID(long SubjectID, long BranchID, long CourseID);
+
     }
 }

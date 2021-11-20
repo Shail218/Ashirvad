@@ -85,6 +85,20 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
+        public async Task<List<BranchClassEntity>> GetMobileAllBranchClass(long BranchID = 0, long ClassID = 0)
+        {
+            try
+            {
+                return await this._BranchClassContext.GetMobileAllClass(BranchID, ClassID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public bool RemoveBranchClass(long BranchClassID,long BranchID, string lastupdatedby)
         {
             try

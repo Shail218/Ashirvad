@@ -53,6 +53,21 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return null;
         }
+         public async Task<List<BranchSubjectEntity>> GetMobileBranchSubjectByBranchSubjectID(long BranchSubjectID, long BranchID,long ClassID)
+        {
+            try
+            {
+                List<BranchSubjectEntity> BranchSubject = new List<BranchSubjectEntity>();
+                BranchSubject = await _BranchSubjectContext.GetMobileSubjectBySubjectID(BranchSubjectID,BranchID, ClassID);                
+                return BranchSubject;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
 
 
         public async Task<BranchSubjectEntity> GetPackaegBranchSubjectByID(long BranchSubjectID)
@@ -84,6 +99,19 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return null;
         }
+        public async Task<List<BranchSubjectEntity>> GetMobileAllBranchSubject(long BranchID=0)
+        {
+            try
+            {
+                return await this._BranchSubjectContext.GetMobileAllSubject(BranchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
 
         public bool RemoveBranchSubject(long CourseID, long ClassID, long BranchID, string lastupdatedby)
         {
@@ -99,6 +127,9 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return false;
         }
 
-        
+        public Task<List<BranchSubjectEntity>> GetMobileAllSubject(long BranchID = 0)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
