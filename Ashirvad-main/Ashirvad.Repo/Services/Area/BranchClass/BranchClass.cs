@@ -295,5 +295,32 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return false;
         }
 
+        public async Task<List<BranchClassEntity>> GetAllSelectedClasses(long BranchID,long CourseID)
+        {
+            var data = (from u in this.context.CLASS_DTL_MASTER                        
+                        orderby u.CLASS_MASTER.class_name
+                        where (u.course_dtl_id == CourseID || CourseID == 0)&&(u.branch_id == BranchID || BranchID == 0) && u.row_sta_cd == 1 && u.is_class == true
+                        select new BranchClassEntity()
+                        {
+                            Class = new ClassEntity()
+                            {
+                                ClassID = u.CLASS_MASTER.class_id,
+                                ClassName = u.CLASS_MASTER.class_name
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.COURSE_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                },
+                            }
+                            
+                        }).Distinct().ToList();
+
+            return data;
+
+        }
+
     }
 }

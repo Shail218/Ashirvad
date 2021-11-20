@@ -15,6 +15,8 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
         Task<List<BranchCourseEntity>> GetBranchCourseByBranchCourseID(long BranchCourseID);
             Task<BranchCourseEntity> GetPackaegBranchCourseByID(long BranchCourseID);
         bool RemoveBranchCourse(long BranchCourseID, string lastupdatedby);
-        
+        Task<List<BranchCourseEntity>> GetAllSelectedCourses(long BranchID);
+
+
     }
 }

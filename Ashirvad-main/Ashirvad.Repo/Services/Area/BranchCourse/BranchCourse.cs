@@ -185,6 +185,27 @@ namespace Ashirvad.Repo.Services.Area.Branch
         }
 
 
+        public async Task<List<BranchCourseEntity>> GetAllSelectedCourses(long BranchID)
+        {
+            var data = (from u in this.context.COURSE_DTL_MASTER
+                        .Include("COURSE_MASTER")
+                        .Include("BRANCH_MASTER")
+                        orderby u.COURSE_MASTER.course_name                                     
+                        where(u.branch_id==BranchID || BranchID==0)&& u.row_sta_cd == 1 && u.is_course == true
+                        select new BranchCourseEntity()
+                        {
+                            course = new CourseEntity()
+                            {
+                                CourseID = u.COURSE_MASTER.course_id,
+                                CourseName = u.COURSE_MASTER.course_name
+                            },
+                        }).Distinct().ToList();
+         
+            return data;
+
+        }
+
+
 
     }
 }

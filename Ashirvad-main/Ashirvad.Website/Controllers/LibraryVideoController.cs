@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Ashirvad.Website.Controllers
 {
-    public class LibraryVideoController : Controller
+    public class LibraryVideoController : BaseController
     {
         // GET: LibraryVideo
         private readonly ILibrary1Service _LibraryService;
