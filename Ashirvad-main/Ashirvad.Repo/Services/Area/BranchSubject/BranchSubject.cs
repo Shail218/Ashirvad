@@ -467,6 +467,43 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 
             return subjectEntities;
         }
-      
+
+        public async Task<List<BranchSubjectEntity>> GetAllSelectedSubjects(long BranchID, long CourseID, long ClassID)
+        {
+            var data = (from u in this.context.SUBJECT_DTL_MASTER
+                        orderby u.SUBJECT_BRANCH_MASTER.subject_name
+                        where (u.class_dtl_id == ClassID || ClassID == 0)
+                        && (u.course_dtl_id == CourseID || CourseID == 0)
+                        && (u.branch_id == BranchID || BranchID == 0)
+                        && u.row_sta_cd == 1 && u.is_subject == true
+                        select new BranchSubjectEntity()
+                        {
+                            Subject = new SuperAdminSubjectEntity()
+                            {
+                                SubjectID = u.subject_id,
+                                SubjectName = u.SUBJECT_BRANCH_MASTER.subject_name
+                            },
+                            BranchClass = new BranchClassEntity()
+                            {
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.CLASS_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                },
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.COURSE_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                },
+                            }
+
+                        }).Distinct().ToList();
+
+            return data;
+
+        }
     }
 }
