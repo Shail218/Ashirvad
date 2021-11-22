@@ -25,6 +25,16 @@ $(document).ready(function () {
         }
     });
 
+    LoadCategory(function () {
+        if ($("#CategoryInfo_CategoryID").val() != "") {
+            $('#CategoryName option[value="' + $("#CategoryInfo_CategoryID").val() + '"]').attr("selected", "selected");
+        }
+    });
+
+    if ($("#CategoryInfo_CategoryID").val() != "") {
+        $('#CategoryName option[value="' + $("#CategoryInfo_CategoryID").val() + '"]').attr("selected", "selected");
+    }
+
     LoadStandard(function () {
         if ($("#StandardID").val() != "") {
             $('#StandardName option[value="' + $("#StandardID").val() + '"]').attr("selected", "selected");
@@ -136,7 +146,6 @@ function LoadBranch(onLoaded) {
         if (onLoaded != undefined) {
             onLoaded();
         }
-
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
@@ -154,6 +163,7 @@ function LoadSubject(onLoaded) {
         if (onLoaded != undefined) {
             onLoaded();
         }
+
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
@@ -171,7 +181,28 @@ function LoadStandard(onLoaded) {
         if (onLoaded != undefined) {
             onLoaded();
         }
+
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+function LoadCategory() {
+    var postCall = $.post(commonData.Category + "CategoryData");
+    postCall.done(function (data) {
+        $('#CategoryName').empty();
+        $('#CategoryName').select2();
+        $("#CategoryName").append("<option value=" + 0 + ">---Select Category---</option>");
+        for (i = 0; i < data.length; i++) {
+            $("#CategoryName").append("<option value=" + data[i].CategoryID + ">" + data[i].Category + "</option>");
+        }
+
+        if ($("#CategoryInfo_CategoryID").val() != "") {
+
+            $('#CategoryName option[value="' + $("#CategoryInfo_CategoryID").val() + '"]').attr("selected", "selected");
+        }
         HideLoader();
+
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
@@ -236,4 +267,9 @@ $("#SubjectName").change(function () {
     
     var Data = $("#SubjectName option:selected").val();
     $('#SubjectID').val(Data);
+});
+
+$("#CategoryName").change(function () {
+    var Data = $("#CategoryName option:selected").val();
+    $('#CategoryInfo_CategoryID').val(Data);
 });

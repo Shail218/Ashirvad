@@ -29,11 +29,32 @@ namespace Ashirvad.Web.Controllers
             _branchcourseService = branchCourseService;
         }
 
+        public BranchCourseController()
+        {
+            _courseService = new CourseService(new Course(new BranchCourse()));
+            _branchcourseService = new BranchCourseService(new BranchCourse()); ;
+        }
+
         [Route("BranchCourseMaintenance")]
         [HttpPost]
         public OperationResult<BranchCourseEntity> BranchCourseMaintenance(BranchCourseEntity branchClassEntity)
         {
-            var data = this._branchcourseService.BranchCourseMaintenance(branchClassEntity);
+            Task<BranchCourseEntity> data = null;
+            foreach (var item in branchClassEntity.CourseData)
+            {
+                data = this._branchcourseService.BranchCourseMaintenance(new BranchCourseEntity()
+                {
+                    branch = branchClassEntity.branch,
+                    course = new CourseEntity()
+                    {
+                        CourseID = item.CourseID
+                    },
+                    course_dtl_id = branchClassEntity.course_dtl_id,
+                    iscourse = branchClassEntity.iscourse,
+                    RowStatus = branchClassEntity.RowStatus,
+                    Transaction = branchClassEntity.Transaction
+                });
+            }
             OperationResult<BranchCourseEntity> result = new OperationResult<BranchCourseEntity>();
             result.Completed = true;
             result.Data = data.Result;

@@ -50,7 +50,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 ClassMaster.row_sta_cd = (int)Enums.RowStatus.Active;
                 ClassMaster.is_class = ClassInfo.isClass;
                 ClassMaster.course_dtl_id = ClassInfo.BranchCourse.course_dtl_id;
-                ClassMaster.trans_id = ClassInfo.Transaction.TransactionId>0? ClassInfo.Transaction.TransactionId:this.AddTransactionData(ClassInfo.Transaction);
+                ClassMaster.trans_id = ClassInfo.Transaction.TransactionId > 0 ? ClassInfo.Transaction.TransactionId : this.AddTransactionData(ClassInfo.Transaction);
                 this.context.CLASS_DTL_MASTER.Add(ClassMaster);
                 if (isUpdate)
                 {
@@ -69,7 +69,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     standardInfo.Branchclass = new BranchClassEntity();
                     standardInfo.Transaction = new TransactionEntity();
                     standardInfo.Transaction.TransactionId = ClassMaster.trans_id;
-                    standardInfo.Standard = ClassInfo.Class.ClassName;                    
+                    standardInfo.Standard = ClassInfo.Class.ClassName;
                     ClassInfo.Class_dtl_id = ClassMaster.class_dtl_id;
                     standardInfo.Branchclass.Class_dtl_id = ClassInfo.Class_dtl_id;
                     standardInfo.RowStatus = new RowStatusEntity()
@@ -150,6 +150,58 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
         }
 
+        public async Task<List<BranchClassEntity>> GetMobileAllClass(long BranchID, long ClassID = 0)
+        {
+            var data = (from u in this.context.CLASS_DTL_MASTER
+                              .Include("CLASS_MASTER")
+                              .Include("BRANCH_MASTER")
+                        where (BranchID == 0 || u.branch_id == BranchID) && (ClassID == 0 || u.course_dtl_id == ClassID) && u.row_sta_cd == 1
+                        select new BranchClassEntity()
+                        {
+                            branch = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
+                        }).Distinct().ToList();
+            foreach (BranchClassEntity branchClassEntity in data)
+            {
+                branchClassEntity.BranchClassData = (from u in this.context.CLASS_DTL_MASTER
+                       .Include("CLASS_MASTER")
+                        where u.course_dtl_id == branchClassEntity.BranchCourse.course_dtl_id && u.row_sta_cd == 1
+                        select new BranchClassEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            Class = new ClassEntity()
+                            {
+                                ClassID = u.CLASS_MASTER.class_id,
+                                ClassName = u.CLASS_MASTER.class_name
+                            },
+                            isClass = u.is_class == true ? true : false,
+                            Class_dtl_id = u.class_dtl_id,
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id,
+
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                        }).ToList();
+            }
+            return data;
+        }
 
         public async Task<List<BranchClassEntity>> GetClassByClassID(long ClassID, long BranchID)
         {
@@ -193,6 +245,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
             }
             return data;
         }
+
         public async Task<BranchClassEntity> GetClassbyID(long ClassID)
         {
             var data = (from u in this.context.CLASS_DTL_MASTER
@@ -215,7 +268,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         public bool RemoveClass(long ClassID, long BranchID, string lastupdatedby)
         {
             var data = (from u in this.context.CLASS_DTL_MASTER
-                        where u.branch_id == BranchID && u.course_dtl_id == ClassID && u.row_sta_cd== (int)Enums.RowStatus.Active
+                        where u.branch_id == BranchID && u.course_dtl_id == ClassID && u.row_sta_cd == (int)Enums.RowStatus.Active
                         select u).ToList();
             if (data != null)
             {
@@ -227,7 +280,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     string ClassName = item.CLASS_MASTER.class_name;
                     bool Status = RemoveStandard(ClassName, BranchID, lastupdatedby);
                 }
-               
+
                 return true;
             }
 
@@ -241,8 +294,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 Model.STD_MASTER standardMaster = new Model.STD_MASTER();
                 bool isUpdate = true;
                 var data = (from standard in this.context.STD_MASTER
-                            where standard.class_dtl_id == standardInfo.Branchclass.Class_dtl_id 
-                            && standard.branch_id== standardInfo.BranchInfo.BranchID
+                            where standard.class_dtl_id == standardInfo.Branchclass.Class_dtl_id
+                            && standard.branch_id == standardInfo.BranchInfo.BranchID
                             select standard).FirstOrDefault();
                 if (data == null)
                 {
@@ -267,12 +320,12 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 }
                 return this.context.SaveChanges() > 0 ? standardMaster.std_id : 0;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
             return 0;
-            
+
         }
 
         public bool RemoveStandard(string ClassName, long BranchID, string lastupdatedby)
@@ -295,11 +348,11 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return false;
         }
 
-        public async Task<List<BranchClassEntity>> GetAllSelectedClasses(long BranchID,long CourseID)
+        public async Task<List<BranchClassEntity>> GetAllSelectedClasses(long BranchID, long CourseID)
         {
-            var data = (from u in this.context.CLASS_DTL_MASTER                        
+            var data = (from u in this.context.CLASS_DTL_MASTER
                         orderby u.CLASS_MASTER.class_name
-                        where (u.course_dtl_id == CourseID || CourseID == 0)&&(u.branch_id == BranchID || BranchID == 0) && u.row_sta_cd == 1 && u.is_class == true
+                        where (u.course_dtl_id == CourseID || CourseID == 0) && (u.branch_id == BranchID || BranchID == 0) && u.row_sta_cd == 1 && u.is_class == true
                         select new BranchClassEntity()
                         {
                             Class = new ClassEntity()
@@ -315,7 +368,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                     CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
                                 },
                             }
-                            
+
                         }).Distinct().ToList();
 
             return data;

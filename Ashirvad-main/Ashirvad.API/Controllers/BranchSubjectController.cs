@@ -41,7 +41,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public OperationResult<List<BranchSubjectEntity>> GetBranchSubjectByBranchSubjectID(long SubjectID, long BranchID, long ClassID)
         {
-            var data = this._branchSubjectService.GetBranchSubjectByBranchSubjectID(SubjectID, BranchID, ClassID);
+            var data = this._branchSubjectService.GetMobileBranchSubjectByBranchSubjectID(SubjectID, BranchID, ClassID);
             OperationResult<List<BranchSubjectEntity>> result = new OperationResult<List<BranchSubjectEntity>>();
             result.Completed = true;
             result.Data = data.Result;
@@ -52,7 +52,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public OperationResult<List<BranchSubjectEntity>> GetAllBranchSubjectByBranchID(long branchID)
         {
-            var data = this._branchSubjectService.GetAllBranchSubject(branchID);
+            var data = this._branchSubjectService.GetMobileAllSubject(branchID);
             OperationResult<List<BranchSubjectEntity>> result = new OperationResult<List<BranchSubjectEntity>>();
             result.Completed = true;
             result.Data = data.Result;

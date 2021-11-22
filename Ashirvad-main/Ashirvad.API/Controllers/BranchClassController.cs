@@ -1,7 +1,11 @@
 ﻿using Ashirvad.Data;
 using Ashirvad.Data.Model;
+using Ashirvad.Repo.Services.Area.Branch;
+using Ashirvad.Repo.Services.Area.Class;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Class;
+using Ashirvad.ServiceAPI.Services.Area;
+using Ashirvad.ServiceAPI.Services.Area.Class;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,6 +25,12 @@ namespace Ashirvad.Web.Controllers
         {
             _ClassService = ClassService;
             _branchClassService = branchClassService;
+        }
+
+        public BranchClassController()
+        {
+            _ClassService = new ClassService(new Class(new BranchClass()));
+            _branchClassService = new BranchClassService(new BranchClass());
         }
 
         [Route("BranchClassMaintenance")]
@@ -47,9 +57,9 @@ namespace Ashirvad.Web.Controllers
 
         [Route("GetAllBranchClassByBranchID")]
         [HttpPost]
-        public OperationResult<List<BranchClassEntity>> GetAllBranchClassByBranchID(long branchID)
+        public OperationResult<List<BranchClassEntity>> GetAllBranchClassByBranchID(long BranchID, long CourseID = 0)
         {
-            var data = this._branchClassService.GetAllBranchClass(branchID);
+            var data = this._branchClassService.GetMobileAllBranchClass(BranchID, CourseID);
             OperationResult<List<BranchClassEntity>> result = new OperationResult<List<BranchClassEntity>>();
             result.Completed = true;
             result.Data = data.Result;
@@ -75,17 +85,6 @@ namespace Ashirvad.Web.Controllers
             OperationResult<bool> result = new OperationResult<bool>();
             result.Completed = true;
             result.Data = data;
-            return result;
-        }
-
-        [Route("GetAllBranchClassByBranchIDAndCourseID")]
-        [HttpPost]
-        public OperationResult<List<BranchClassEntity>> GetAllBranchClassByBranchIDAndCourseID(long BranchID, long CourseID)
-        {
-            var data = _branchClassService.GetAllBranchClass(BranchID, CourseID);
-            OperationResult<List<BranchClassEntity>> result = new OperationResult<List<BranchClassEntity>>();
-            result.Completed = true;
-            result.Data = data.Result;
             return result;
         }
 
