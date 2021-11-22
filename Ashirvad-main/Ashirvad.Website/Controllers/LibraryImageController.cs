@@ -1,4 +1,5 @@
 ﻿using Ashirvad.Data;
+using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace Ashirvad.Website.Controllers
 
         private readonly ILibrary1Service _LibraryService=null;
         private readonly ICategoryService _CategoryService=null;
+        WebsiteModel websiteModel = new WebsiteModel();
         public LibraryImageController(ILibrary1Service LibraryService,ICategoryService categoryService)
         {
             _LibraryService = LibraryService;
@@ -23,10 +25,11 @@ namespace Ashirvad.Website.Controllers
         // GET: LibraryImage
         public async Task<ActionResult> LibraryImage()
         {
+            websiteModel = SessionContext.Instance.websiteModel;
             LibraryImageEntity libraryImageEntity = new LibraryImageEntity();
-            libraryImageEntity.imagelist = await _LibraryService.GetAllLibrary(2, 0);
-            libraryImageEntity.Categorylist = await _CategoryService.GetAllCategorys(0);
-            return View(libraryImageEntity);
+            websiteModel.imagelist = await _LibraryService.GetAllLibrary(2, 0);
+            websiteModel.Categorylist = await _CategoryService.GetAllCategorys(0);
+            return View(websiteModel);
         }
 
         public ActionResult Download(string filedata,string FileName)

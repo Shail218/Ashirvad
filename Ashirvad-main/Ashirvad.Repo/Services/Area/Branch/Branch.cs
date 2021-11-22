@@ -139,7 +139,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 BranchId = u.BRANCH_MAINT.branch_id,
                                 Website = u.BRANCH_MAINT.website,
                                 FileName = u.BRANCH_MAINT.file_name,
-                                FilePath = u.BRANCH_MAINT.file_path
+                                FilePath = "http://highpack-001-site12.dtempurl.com" + u.BRANCH_MAINT.file_path
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             board = u.board_type == 1 ? Enums.BoardType.GujaratBoard : u.board_type == 2 ? Enums.BoardType.CBSC : Enums.BoardType.Both

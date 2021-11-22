@@ -105,7 +105,8 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                             EmailID = u.email_id,
                             HeaderImageName = u.header_img_name,
                             WebsiteURL = u.website,
-                            WhatsAppNo = u.whatsapp_no
+                            WhatsAppNo = u.whatsapp_no,
+                            AboutUsDesc = u.aboutus_desc
                         }).ToList();
 
             return data;

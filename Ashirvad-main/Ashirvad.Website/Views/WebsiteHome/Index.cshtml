@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Ashirvad.Data.Model.WebsiteModel
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -1379,25 +1380,13 @@
         </div>
         <div class="row">
             <div class="col-md-12 animation" data-animation="fadeInUp" data-animation-delay="0.01s">
-                <div class="cl_logo_slider carousel_slider owl-carousel owl-theme" data-margin="15" data-loop="true" data-autoplay="true" data-dots="false" data-responsive='{"0":{"items": "2"}, "380":{"items": "3"}, "600":{"items": "4"}, "1000":{"items": "5"}, "1199":{"items": "6"}}'>
+                <div class="cl_logo_slider carousel_slider owl-carousel owl-theme" data-margin="15" data-loop="false" data-autoplay="true" data-dots="false" data-responsive='{"0":{"items": "2"}, "380":{"items": "3"}, "600":{"items": "4"}, "1000":{"items": "5"}, "1199":{"items": "6"}}'>
+                    @foreach (var item in Model.branchEntities)
+                    {
                     <div class="item">
-                        <a href="#"><img src="~/Themedata/assets/images/cl_logo1.png" alt="cl_logo1" /></a>
+                        <a href="@Url.Action("BranchDetail","BranchDetail",new {@BranchID=@item.BranchID})"><img src="@item.BranchMaint.FilePath" onerror="this.src='/Themedata/assets/images/cl_logo5.png';" alt="cl_logo2" /><center>@item.BranchName</center></a>
                     </div>
-                    <div class="item">
-                        <a href="#"><img src="~/Themedata/assets/images/cl_logo2.png" alt="cl_logo2" /></a>
-                    </div>
-                    <div class="item">
-                        <a href="#"><img src="~/Themedata/assets/images/cl_logo3.png" alt="cl_logo3" /></a>
-                    </div>
-                    <div class="item">
-                        <a href="#"><img src="~/Themedata/assets/images/cl_logo4.png" alt="cl_logo4" /></a>
-                    </div>
-                    <div class="item">
-                        <a href="#"><img src="~/Themedata/assets/images/cl_logo5.png" alt="cl_logo5" /></a>
-                    </div>
-                    <div class="item">
-                        <a href="#"><img src="~/Themedata/assets/images/cl_logo2.png" alt="cl_logo2" /></a>
-                    </div>
+                    }
                 </div>
             </div>
         </div>

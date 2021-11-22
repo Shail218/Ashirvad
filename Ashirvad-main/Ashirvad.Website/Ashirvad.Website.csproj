@@ -180,6 +180,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BranchDetailController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\WebsiteHomeController.cs" />
     <Compile Include="Controllers\LibraryImageController.cs" />
@@ -598,6 +599,7 @@
     <Content Include="Views\TeacherDetail\TeacherDetail.cshtml" />
     <Content Include="Views\LibraryVideo\LibraryVideo.cshtml" />
     <Content Include="Views\LibraryImage\LibraryImage.cshtml" />
+    <Content Include="Views\BranchDetail\BranchDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
