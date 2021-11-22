@@ -108,7 +108,12 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                             staff = new StaffEntity()
                             {
                                 StaffID = u.BRANCH_STAFF.staff_id,
-                                Name = u.BRANCH_STAFF.name
+                                Name = u.BRANCH_STAFF.name,
+                                DOB = u.BRANCH_STAFF.dob,
+                                Education = u.BRANCH_STAFF.education,
+                                EmailID = u.BRANCH_STAFF.email_id,
+                                Address = u.BRANCH_STAFF.address,
+                                MobileNo = u.BRANCH_STAFF.mobile_no,
                             },
                             BranchInfo = new BranchEntity()
                             {
@@ -123,6 +128,7 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                             FilePath = u.file_path,
                             FacultyContentFileName = u.file_name,
                             FacultyID = u.faculty_id,
+                            Descripation = u.description,
                         }).ToList();
 
             return data;
