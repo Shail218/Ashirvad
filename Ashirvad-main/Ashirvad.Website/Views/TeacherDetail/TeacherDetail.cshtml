@@ -1,4 +1,4 @@
-﻿
+﻿@model Ashirvad.Data.Model.WebsiteModel
 @{
     ViewBag.Title = "TeacherDetail";
 }
@@ -27,86 +27,89 @@
 <!-- START SECTION TEACHER -->
 <section>
     <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-6">
-                <div class="team_single radius_all_10 box_shadow1">
-                    <div class="team_img">
-                        <img class="radius_ltrt_10" src="~/Themedata/assets/images/pexels-mentatdgt-2173508.jpg" alt="team_img_big">
-                    </div>
-                    <div class="team_single_info">
-                        <div class="team_name">
-                            <h5>Aden Smith</h5>
-                            <span>Head Of Department</span>
+        @foreach (var teacherdetail in Model.facultyEntities)
+        {
+            <div class="row">
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="team_single radius_all_10 box_shadow1">
+                        <div class="team_img">
+                            <img class="radius_ltrt_10" src="@teacherdetail.FilePath" onerror="this.src='/Themedata/assets/images/noimage.png';" alt="team_img_big">
                         </div>
-                        <h6 class="mb-3">Contact info:</h6>
-                        <ul class="contact_info list_none">
-                            <li>
-                                <span>Address:</span>
-                                <address>Califonia Street san Francisco, CA</address>
-                            </li>
-                            <li>
-                                <span>Email:</span>
-                                <a href="mailto:info@sitename.com">info@sitename.com</a>
-                            </li>
-                            <li>
-                                <span>Phone:</span>
-                                <p>+ 457 789 789 65</p>
-                            </li>
-                            <li>
-                                <span>Social:</span>
-                                <ul class="list_none social_icons radius_social">
-                                    <li><a href="#" class="sc_facebook"><i class="ion-social-facebook"></i></a></li>
-                                    <li><a href="#" class="sc_twitter"><i class="ion-social-twitter"></i></a></li>
-                                    <li><a href="#" class="sc_gplus"><i class="ion-social-googleplus"></i></a></li>
-                                    <li><a href="#" class="sc_instagram"><i class="ion-social-instagram-outline"></i></a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                        <div class="team_single_info">
+                            <div class="team_name">
+                                <h5>@teacherdetail.staff.Name</h5>
+                                <span>@teacherdetail.branchSubject.Subject.SubjectName Teacher</span>
+                            </div>
+                            <h6 class="mb-3">Contact info:</h6>
+                            <ul class="contact_info list_none">
+                                <li>
+                                    <span>Address:</span>
+                                    <address>@teacherdetail.staff.Address</address>
+                                </li>
+                                <li>
+                                    <span>Email:</span>
+                                    <a href="mailto:info@sitename.com">@teacherdetail.staff.EmailID</a>
+                                </li>
+                                <li>
+                                    <span>Phone:</span>
+                                    <p>@teacherdetail.staff.MobileNo</p>
+                                </li>
+                                <li>
+                                    <span>Social:</span>
+                                    <ul class="list_none social_icons radius_social">
+                                        <li><a href="#" class="sc_facebook"><i class="ion-social-facebook"></i></a></li>
+                                        <li><a href="#" class="sc_twitter"><i class="ion-social-twitter"></i></a></li>
+                                        <li><a href="#" class="sc_gplus"><i class="ion-social-googleplus"></i></a></li>
+                                        <li><a href="#" class="sc_instagram"><i class="ion-social-instagram-outline"></i></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-6">
+                    <div class="teacher_desc mt-4 mt-md-0">
+                        <h5 class="mb-3">Teacher Detail</h5>
+                        <p>@teacherdetail.Descripation</p>
+                    </div>
+                    <div id="accordion-1" class="accordion">
+                        <div class="card">
+                            <div class="card-header" id="heading-1-One">
+                                <h6 class="mb-0"> <a data-toggle="collapse" href="#collapse-1-One" aria-expanded="true" aria-controls="collapse-1-One">Education</a> </h6>
+                            </div>
+                            <div id="collapse-1-One" class="collapse show" aria-labelledby="heading-1-One">
+                                <div class="card-body">
+                                    <p>@teacherdetail.staff.Education</p>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="card">
+                                <div class="card-header" id="heading-1-Two">
+                                    <h6 class="mb-0"> <a data-toggle="collapse" href="#collapse-1-Two" aria-expanded="true" aria-controls="collapse-1-Two">Professional Experience</a> </h6>
+                                </div>
+                                <div id="collapse-1-Two" class="collapse show" aria-labelledby="heading-1-Two">
+                                    <div class="card-body">
+                                        <p>@teacherdetail.staff</p>
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="card">
+                            <div class="card-header" id="heading-1-Three">
+                                <h6 class="mb-0"> <a data-toggle="collapse" href="#collapse-1-Three" aria-expanded="true" aria-controls="collapse-1-Three"> Field Of Special Interest</a> </h6>
+                            </div>
+                            <div id="collapse-1-Three" class="collapse show" aria-labelledby="heading-1-Three">
+                                <div class="card-body">
+                                    <p>@teacherdetail.branchSubject.Subject.SubjectName Teacher</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8 col-md-6">
-                <div class="teacher_desc mt-4 mt-md-0">
-                    <h5 class="mb-3">Teacher Detail</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam vero expedita fugiat illo quasi doloremque, in unde omnis sint assumenda! Quaerat in, reprehenderit corporis voluptatum natus sequi reiciendis ullam. Quam eaque dolorum voluptates cupiditate explicabo.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                </div>
-                <div id="accordion-1" class="accordion">
-                    <div class="card">
-                        <div class="card-header" id="heading-1-One">
-                            <h6 class="mb-0"> <a data-toggle="collapse" href="#collapse-1-One" aria-expanded="true" aria-controls="collapse-1-One">Education</a> </h6>
-                        </div>
-                        <div id="collapse-1-One" class="collapse show" aria-labelledby="heading-1-One">
-                            <div class="card-body">
-                                <p>Latin literature from 45 BC</p>
-                                <p>Vivamus bibendum magna</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header" id="heading-1-Two">
-                            <h6 class="mb-0"> <a data-toggle="collapse" href="#collapse-1-Two" aria-expanded="true" aria-controls="collapse-1-Two">Professional Experience</a> </h6>
-                        </div>
-                        <div id="collapse-1-Two" class="collapse show" aria-labelledby="heading-1-Two">
-                            <div class="card-body">
-                                <p>10+ Years of Experience</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header" id="heading-1-Three">
-                            <h6 class="mb-0"> <a data-toggle="collapse" href="#collapse-1-Three" aria-expanded="true" aria-controls="collapse-1-Three"> Field Of Special Interest</a> </h6>
-                        </div>
-                        <div id="collapse-1-Three" class="collapse show" aria-labelledby="heading-1-Three">
-                            <div class="card-body">
-                                <p>Chemistry Teacher</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        }
     </div>
+
 </section>
 <!-- END SECTION TEACHER -->
 <!-- END SECTION CALL TO ACTION -->

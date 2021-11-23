@@ -16,12 +16,12 @@ namespace Ashirvad.Website.Controllers
     {
       
         private readonly ILibraryService _libraryService;
-        private readonly IBranchCourseService _branchcourseService;
+        private readonly IBranchCourseService _branchCourseService;
         private readonly IBranchService _branchService;
         
         public WebsiteHomeController(IBranchCourseService branchCourseService, IBranchService branchService)
         {
-            _branchcourseService = branchCourseService;
+            _branchCourseService = branchCourseService;
             _branchService = branchService;
         }
         public async Task<ActionResult> Index()

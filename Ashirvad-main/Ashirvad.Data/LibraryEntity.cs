@@ -13,6 +13,7 @@ namespace Ashirvad.Data
         public long? BranchID { get; set; }
         public string ThumbImageName { get; set; }
         public string ThumbDocName { get; set; }
+        public string Title { get; set; }
         public int Type { get; set; }
         public long? StandardID { get; set; }
         public long? SubjectID { get; set; }
@@ -21,6 +22,8 @@ namespace Ashirvad.Data
         public TransactionEntity Transaction { get; set; }
         public LibraryDataEntity LibraryData { get; set; }
         public BranchEntity BranchData { get; set; }
+        public CategoryEntity CategoryInfo { get; set; }
+
     }
 
     public class LibraryDataEntity

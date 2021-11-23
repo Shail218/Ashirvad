@@ -11,12 +11,14 @@
                 <select name="CourseName" id="CourseName" class="form-control requiredDDL" alt="Course Name">
                     <option value="0">--Select Course Name--</option>
                 </select>
+                @Html.HiddenFor(x=>x.BranchCourse.course_dtl_id)
             </div>
             <div class="col-md-6">
                 @Html.Label("Class Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <select name="ClassName" id="ClassName" class="form-control requiredDDL" alt="Class Name">
                     <option value="0">--Select Class Name--</option>
                 </select>
+                @Html.HiddenFor(x=>x.BranchClass.Class_dtl_id)
             </div>
         </div>
 

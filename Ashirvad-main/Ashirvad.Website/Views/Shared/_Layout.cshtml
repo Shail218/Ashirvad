@@ -1,7 +1,7 @@
 ﻿@model Ashirvad.Data.Model.WebsiteModel
-    @{
-        
-    }
+@{
+
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -218,7 +218,7 @@
                                                         if (item.course.CourseID == item1.BranchCourse.course.CourseID)
                                                         {
                                                             <li>
-                                                                <a class="dropdown-item nav-link nav_item" href="@Url.Action("Teacher", "Teacher")">@item1.Class.ClassName</a>
+                                                                <a class="dropdown-item nav-link nav_item" href="#">@item1.Class.ClassName</a>
                                                                 <div class="dropdown-menu">
                                                                     <ul>
                                                                         @foreach (var item2 in Model.branchSubjectData)
@@ -227,7 +227,7 @@
                                                                             if (item1.BranchCourse.course.CourseID == item2.BranchCourse.course.CourseID && item1.Class.ClassID == item2.BranchClass.Class.ClassID)
                                                                             {
 
-                                                                                <li><a class="dropdown-item nav-link nav_item" href="@Url.Action("Teacher", "Teacher")">@item2.Subject.SubjectName</a></li>
+                                                                                <li><a class="dropdown-item nav-link nav_item" href="@Url.Action("Teacher","Teacher",new {@branchID=0,@CourseID=item.course.CourseID,@ClassID=item1.Class.ClassID,@subjectID=item2.Subject.SubjectID})">@item2.Subject.SubjectName</a></li>
                                                                             }
                                                                         }
                                                                     </ul>

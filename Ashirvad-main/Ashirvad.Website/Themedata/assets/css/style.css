@@ -1418,7 +1418,7 @@ button:focus {
     border: 0 none;
     border-radius: 0;
     margin: 0;
-    min-width: 12rem;
+    min-width: 7rem;
     padding: 0;
 }
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Faculty
 {
-   public class FacultyService : IFacultyService
+    public class FacultyService : IFacultyService
     {
         private readonly IFacultyAPI _facultyContext;
         public FacultyService(IFacultyAPI faculContext)
@@ -56,7 +56,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Faculty
 
             return null;
         }
-
+       
         public async Task<OperationResult<FacultyEntity>> GetFacultyByFacultyID(long facultyID)
         {
             try
@@ -87,5 +87,38 @@ namespace Ashirvad.ServiceAPI.Services.Area.Faculty
 
             return false;
         }
+
+        //website
+        public async Task<List<FacultyEntity>> GetAllFacultyWebsite(long branchID, long courseID, long classID, long SubjectID)
+        {
+            try
+            {
+                List<FacultyEntity> banner = new List<FacultyEntity>();
+                banner = await _facultyContext.GetAllFacultyWebsite(branchID, courseID, classID, SubjectID);
+                return banner;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+        public async Task<List<FacultyEntity>> GetFacultyDetail(long facultyID)
+        {
+            try
+            {
+                List<FacultyEntity> banner = new List<FacultyEntity>();
+                banner = await _facultyContext.GetFacultyDetail(facultyID);
+                return banner;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
     }
 }

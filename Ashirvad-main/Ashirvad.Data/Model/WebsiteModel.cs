@@ -19,6 +19,7 @@ namespace Ashirvad.Data.Model
         public List<BranchEntity> branchEntities { get; set; } = new List<BranchEntity>();
         public BranchEntity branchEntity { get; set; } = new BranchEntity();
         public List<AboutUsEntity> aboutUs { get; set; } = new List<AboutUsEntity>();
+        public List<FacultyEntity> facultyEntities { get; set; } = new List<FacultyEntity>();
 
 
     }

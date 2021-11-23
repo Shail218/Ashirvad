@@ -29,5 +29,6 @@ namespace Ashirvad.Data
         public BranchCourseEntity BranchCourse { get; set; }
         public BranchClassEntity BranchClass { get; set; }
         public HttpPostedFileBase FileInfo { get; set; }
+        public List<FacultyEntity> facultylist { get; set; }
     }
 }
