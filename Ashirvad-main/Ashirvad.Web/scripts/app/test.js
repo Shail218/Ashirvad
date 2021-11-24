@@ -11,7 +11,6 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
-
     });
 
     LoadBranch(function () {
@@ -119,7 +118,6 @@ function LoadSubject(branchID) {
 }
 
 function Savetest() {
-
     var isSuccess = ValidateData('dInformation');    
     if (isSuccess) {
         ShowLoader();
@@ -136,7 +134,7 @@ function Savetest() {
                 ShowMessage("Test paper added Successfully.", "Success");
                 setTimeout(function () { window.location.href = "TestPaperMaintenance?testID=0" }, 2000);
             } else {
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+                ShowMessage('Test Already Exists!!', 'Error');
             }
             HideLoader();
         }, function (xhr) {

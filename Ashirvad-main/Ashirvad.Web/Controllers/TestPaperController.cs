@@ -60,7 +60,7 @@ namespace Ashirvad.Web.Controllers
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             var data = await _testService.TestMaintenance(testEntity);
-            if (data != null)
+            if (data != null && data.TestID != -1)
             {
                 testEntity.test.TestID = data.TestID;
                 testEntity.test.RowStatus = new RowStatusEntity()

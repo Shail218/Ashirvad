@@ -3,6 +3,7 @@ using Ashirvad.Data;
 using Ashirvad.Repo.DataAcceessAPI.Area.Test;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,43 +12,62 @@ namespace Ashirvad.Repo.Services.Area.Test
 {
     public class Test : ModelAccess, ITestAPI
     {
+
+        public async Task<long> CheckTest(long BranchID, long StdID, long SubID, int BatchID, DateTime TestDate, long Testid)
+        {
+            long result;
+            var date = DateTime.ParseExact(TestDate.ToString("yyyy-MM-dd"), "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            bool isExists = this.context.TEST_MASTER.Where(s => (Testid == 0 || s.test_id != Testid) && s.branch_id == BranchID && s.std_id == StdID &&
+            s.sub_id == SubID && s.batch_time_id == BatchID && s.test_dt == date && s.row_sta_cd == 1).FirstOrDefault() != null;
+            result = isExists == true ? -1 : 1;
+            return result;
+        }
+
         public async Task<long> TestMaintenance(TestEntity testInfo)
         {
             Model.TEST_MASTER testMaster = new Model.TEST_MASTER();
-            bool isUpdate = true;
-            var data = (from t in this.context.TEST_MASTER
-                        where t.test_id == testInfo.TestID
-                        select t).FirstOrDefault();
-            if (data == null)
+            if (CheckTest(testInfo.Branch.BranchID, testInfo.Standard.StandardID, testInfo.Subject.SubjectID, testInfo.BatchTimeID,
+                testInfo.TestDate,testInfo.TestID).Result != -1)
             {
-                data = new Model.TEST_MASTER();
-                isUpdate = false;
+                bool isUpdate = true;
+                var data = (from t in this.context.TEST_MASTER
+                            where t.test_id == testInfo.TestID
+                            select t).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.TEST_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    testMaster = data;
+                    testInfo.Transaction.TransactionId = data.trans_id;
+                }
+
+                testMaster.row_sta_cd = testInfo.RowStatus.RowStatusId;
+                testMaster.trans_id = this.AddTransactionData(testInfo.Transaction);
+                testMaster.branch_id = testInfo.Branch.BranchID;
+                testMaster.std_id = testInfo.Standard.StandardID;
+                testMaster.sub_id = testInfo.Subject.SubjectID;
+                testMaster.remarks = testInfo.Remarks;
+                testMaster.total_marks = testInfo.Marks;
+                testMaster.batch_time_id = testInfo.BatchTimeID;
+                testMaster.test_dt = testInfo.TestDate;
+                testMaster.test_st_time = testInfo.TestStartTime;
+                testMaster.test_end_time = testInfo.TestEndTime;
+                testMaster.test_name = "Demo";
+                this.context.TEST_MASTER.Add(testMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(testMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+                return this.context.SaveChanges() > 0 ? testMaster.test_id : 0;
             }
             else
             {
-                testMaster = data;
-                testInfo.Transaction.TransactionId = data.trans_id;
+                return -1;
             }
-
-            testMaster.row_sta_cd = testInfo.RowStatus.RowStatusId;
-            testMaster.trans_id = this.AddTransactionData(testInfo.Transaction);
-            testMaster.branch_id = testInfo.Branch.BranchID;
-            testMaster.std_id = testInfo.Standard.StandardID;
-            testMaster.sub_id = testInfo.Subject.SubjectID;
-            testMaster.remarks = testInfo.Remarks;
-            testMaster.total_marks = testInfo.Marks;
-            testMaster.batch_time_id = testInfo.BatchTimeID;
-            testMaster.test_dt = testInfo.TestDate;
-            testMaster.test_st_time = testInfo.TestStartTime;
-            testMaster.test_end_time = testInfo.TestEndTime;
-            testMaster.test_name = "Demo";
-            this.context.TEST_MASTER.Add(testMaster);
-            if (isUpdate)
-            {
-                this.context.Entry(testMaster).State = System.Data.Entity.EntityState.Modified;
-            }
-
-            return this.context.SaveChanges() > 0 ? testMaster.test_id : 0;
+               
         }
 
         public async Task<List<TestEntity>> GetAllTestByBranch(long branchID)
