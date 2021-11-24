@@ -12,20 +12,12 @@
                     <tbody>
                         <tr>
                             <td>
-                                @if (Model.BranchInfo.BranchID == 0)
-                                {
-                                    <input type="radio" name="Type" id="rowStaAll" value="All" checked />
-                                }
-                                else
-                                {
-                                    <input type="radio" name="Type" id="rowStaAll" value="All" />
-                                }
-
+                                <input type="radio" name="Type" id="rowStaAll" value="All" checked />
                                 <lable for="rowStaAll">All</lable>
                             </td>
                             <td>
                                 <input type="radio" name="Type" id="rowStaBranch" value="Branch" style="margin-left:10px" />
-                                <lable for="rowStaBranch">Branch</lable>
+                                <lable for="rowStaBranch">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</lable>
                             </td>
                         </tr>
                     </tbody>
@@ -33,12 +25,6 @@
                 @Html.HiddenFor(x => x.BannerID)
                 @Html.HiddenFor(X => X.BannerType)
                 @Html.HiddenFor(x => x.JSONData)
-            </div>
-            <div class="col-md-12" id="BranchDiv" style="margin-bottom:10px;">
-                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="BranchName" id="BranchName" class="form-control" alt="Branch">
-                    <option value="0">--Select Branch--</option>
-                </select>
                 @Html.HiddenFor(x => x.BranchInfo.BranchID)
             </div>
             <div class="col-md-12">

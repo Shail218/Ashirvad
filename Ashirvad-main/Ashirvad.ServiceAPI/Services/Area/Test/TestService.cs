@@ -71,6 +71,23 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
+        public async Task<OperationResult<List<TestEntity>>> TestDateDDL(long branchID, long stdID, int batchTime)
+        {
+            try
+            {
+                OperationResult<List<TestEntity>> paper = new OperationResult<List<TestEntity>>();
+                paper.Data = await _testContext.TestDateDDL(branchID, stdID, batchTime);
+                paper.Completed = true;
+                return paper;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<OperationResult<TestEntity>> GetTestByTestID(long testID)
         {
             try

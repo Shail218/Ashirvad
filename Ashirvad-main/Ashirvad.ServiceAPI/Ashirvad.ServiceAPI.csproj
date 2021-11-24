@@ -68,6 +68,7 @@
     <Compile Include="ServiceAPI\Area\Course\ICourseService.cs" />
     <Compile Include="ServiceAPI\Area\Faculty\IFacultyService.cs" />
     <Compile Include="ServiceAPI\Area\BranchCourse\IBranchCourseService.cs" />
+    <Compile Include="ServiceAPI\Area\Library\ILibraryService.cs" />
     <Compile Include="ServiceAPI\Area\PackageRights\IPackageRightsService.cs" />
     <Compile Include="ServiceAPI\Area\Library1\ILibrary1Service.cs" />
     <Compile Include="ServiceAPI\Area\Marks\IMarksService.cs" />
@@ -76,7 +77,6 @@
     <Compile Include="ServiceAPI\Area\Gallery\IGalleryService.cs" />
     <Compile Include="ServiceAPI\Area\HomeworkDetail\IHomeworkDetailService.cs" />
     <Compile Include="ServiceAPI\Area\Homework\IHomeworkService.cs" />
-    <Compile Include="ServiceAPI\Area\Library\ILibraryService.cs" />
     <Compile Include="ServiceAPI\Area\Link\ILinkService.cs" />
     <Compile Include="ServiceAPI\Area\Notification\INotificationService.cs" />
     <Compile Include="ServiceAPI\Area\Package\IPackageService.cs" />
@@ -107,11 +107,11 @@
     <Compile Include="Services\Area\Course\CourseService.cs" />
     <Compile Include="Services\Area\Faculty\FacultyService.cs" />
     <Compile Include="Services\Area\Library1\Library1Service.cs" />
+    <Compile Include="Services\Area\Library\LibraryService.cs" />
     <Compile Include="Services\Area\Marks\MarksService.cs" />
     <Compile Include="Services\Area\Fees\FeesService.cs" />
     <Compile Include="Services\Area\Branch\BranchService.cs" />
     <Compile Include="Services\Area\Homework\HomeworkService.cs" />
-    <Compile Include="Services\Area\Library\LibraryService.cs" />
     <Compile Include="Services\Area\Notification\NotificationService.cs" />
     <Compile Include="Services\Area\BranchRights\BranchRightsService.cs" />
     <Compile Include="Services\Area\BranchCourse\BranchCourseService.cs" />

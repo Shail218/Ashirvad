@@ -28,9 +28,9 @@ namespace Ashirvad.Web.Controllers
             return View(model);
         }
 
-        public async Task<ActionResult> GetAllAchieveMarks()
+        public async Task<ActionResult> GetAllAchieveMarks(long Std, long Batch, long MarksID)
         {
-            var result = _MarksService.GetAllAchieveMarks(0,SessionContext.Instance.LoginUser.BranchInfo.BranchID,0,0,0).Result;
+            var result = _MarksService.GetAllAchieveMarks(Std,SessionContext.Instance.LoginUser.BranchInfo.BranchID,Batch,MarksID).Result;
             return View("~/Views/ResultRegister/Manage.cshtml", result);
         }
 

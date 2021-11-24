@@ -116,7 +116,7 @@ namespace Ashirvad.Repo.Services.Area
                             FeesID = u.fee_struct_mst_id,
                             FeesDetailID = b.fee_struct_dtl_id,
                             Remark = u.remarks,
-                            FilePath = b.file_path,
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + b.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             standardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id }

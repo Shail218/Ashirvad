@@ -22,7 +22,7 @@ public partial class CATEGORY_MASTER
     public CATEGORY_MASTER()
     {
 
-        this.LIBRARY1_MASTER = new HashSet<LIBRARY1_MASTER>();
+        this.NEW_LIBRARY_MASTER = new HashSet<NEW_LIBRARY_MASTER>();
 
     }
 
@@ -41,11 +41,11 @@ public partial class CATEGORY_MASTER
 
     public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
 
+    public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<LIBRARY1_MASTER> LIBRARY1_MASTER { get; set; }
-
-    public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+    public virtual ICollection<NEW_LIBRARY_MASTER> NEW_LIBRARY_MASTER { get; set; }
 
 }
 

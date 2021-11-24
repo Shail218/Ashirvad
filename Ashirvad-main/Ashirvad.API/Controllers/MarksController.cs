@@ -64,9 +64,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllAchieveMarks")]
         [HttpPost]
-        public OperationResult<List<MarksEntity>> GetAllAchieveMarks(long Std, long Branch, long Batch, long MarksID,DateTime TestDate)
+        public OperationResult<List<MarksEntity>> GetAllAchieveMarks(long Std, long Branch, long Batch, long MarksID)
         {
-            var data = this._marksService.GetAllAchieveMarks(Std, Branch, Batch, MarksID,TestDate);
+            var data = this._marksService.GetAllAchieveMarks(Std, Branch, Batch, MarksID);
             OperationResult<List<MarksEntity>> result = new OperationResult<List<MarksEntity>>();
             result.Completed = true;
             result.Data = data.Result;

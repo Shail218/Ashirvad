@@ -48,10 +48,6 @@ public partial class BRANCH_MASTER
 
         this.HOMEWORK_MASTER_DTL = new HashSet<HOMEWORK_MASTER_DTL>();
 
-        this.LIBRARY_MASTER_DTL = new HashSet<LIBRARY_MASTER_DTL>();
-
-        this.LIBRARY1_MASTER = new HashSet<LIBRARY1_MASTER>();
-
         this.PACKAGE_MASTER = new HashSet<PACKAGE_MASTER>();
 
         this.PAGE_MASTER = new HashSet<PAGE_MASTER>();
@@ -91,6 +87,10 @@ public partial class BRANCH_MASTER
         this.SUBJECT_MASTER = new HashSet<SUBJECT_MASTER>();
 
         this.FACULTY_MASTER = new HashSet<FACULTY_MASTER>();
+
+        this.APPROVAL_MASTER = new HashSet<APPROVAL_MASTER>();
+
+        this.NEW_LIBRARY_MASTER = new HashSet<NEW_LIBRARY_MASTER>();
 
     }
 
@@ -175,14 +175,6 @@ public partial class BRANCH_MASTER
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<LIBRARY_MASTER_DTL> LIBRARY_MASTER_DTL { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<LIBRARY1_MASTER> LIBRARY1_MASTER { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
     public virtual ICollection<PACKAGE_MASTER> PACKAGE_MASTER { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -260,6 +252,14 @@ public partial class BRANCH_MASTER
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<FACULTY_MASTER> FACULTY_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<APPROVAL_MASTER> APPROVAL_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<NEW_LIBRARY_MASTER> NEW_LIBRARY_MASTER { get; set; }
 
 }
 

@@ -15,28 +15,32 @@ namespace Ashirvad.Repo.Model
 using System;
     using System.Collections.Generic;
     
-public partial class LIBRARY_DATA
+public partial class APPROVAL_MASTER
 {
 
-    public long unique_id { get; set; }
+    public long approval_id { get; set; }
 
     public long library_id { get; set; }
 
-    public byte[] thumb_img_content { get; set; }
+    public long branch_id { get; set; }
 
-    public string thumb_img_name { get; set; }
+    public long trans_id { get; set; }
 
-    public string thumb_img_ext { get; set; }
+    public int row_sta_cd { get; set; }
 
-    public byte[] doc_content { get; set; }
+    public int library_status { get; set; }
 
-    public string doc_img_name { get; set; }
-
-    public string doc_img_ext { get; set; }
+    public Nullable<long> std_id { get; set; }
 
 
+
+    public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
 
     public virtual LIBRARY_MASTER LIBRARY_MASTER { get; set; }
+
+    public virtual STD_MASTER STD_MASTER { get; set; }
+
+    public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
 
 }
 

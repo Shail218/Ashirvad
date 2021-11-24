@@ -21,37 +21,13 @@ namespace Ashirvad.ServiceAPI.Services.Area.Library
 
         public async Task<LibraryEntity> LibraryMaintenance(LibraryEntity libInfo)
         {
-            LibraryEntity library = new LibraryEntity();
+            LibraryEntity Library = new LibraryEntity();
             try
             {
-                if (libInfo.LibraryData != null)
-                {
-                    if (libInfo.LibraryData.DocFile != null)
-                    {
-                        libInfo.LibraryData.DocContent = Common.Common.ReadFully(libInfo.LibraryData.DocFile.InputStream);
-                        libInfo.LibraryData.DocContentExt = Path.GetExtension(libInfo.LibraryData.DocFile.FileName);
-                        libInfo.LibraryData.DocContentFileName = Path.GetFileName(libInfo.LibraryData.DocFile.FileName);
-                        libInfo.ThumbDocName = libInfo.LibraryData.DocContentFileName;
-                    }
-
-                    if (libInfo.LibraryData.ThumbImageFile != null)
-                    {
-                        libInfo.LibraryData.ThumbImageContent = Common.Common.ReadFully(libInfo.LibraryData.ThumbImageFile.InputStream);
-                        libInfo.LibraryData.ThumbImageExt = Path.GetExtension(libInfo.LibraryData.ThumbImageFile.FileName);
-                        libInfo.LibraryData.ThumbImageFileName = Path.GetFileName(libInfo.LibraryData.ThumbImageFile.FileName);
-                        libInfo.ThumbImageName = libInfo.LibraryData.ThumbImageFileName;
-                    }
-                }
-
-                long libraryID = await _libraryContext.LibraryMaintenance(libInfo);
-                if (libraryID > 0)
-                {
-                    library.LibraryID = libraryID;
-                    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
-                    {
-                        Common.Common.SaveFile(libInfo.LibraryData.DocContent, libInfo.LibraryData.DocContentFileName, "Library\\");
-                        Common.Common.SaveFile(libInfo.LibraryData.ThumbImageContent, libInfo.LibraryData.ThumbImageFileName, "Library\\");
-                    }
+                long LibraryID = await _libraryContext.LibraryMaintenance(libInfo);
+                if (LibraryID > 0)
+                { 
+                    Library.LibraryID = LibraryID;
                 }
             }
             catch (Exception ex)
@@ -59,7 +35,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Library
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return library;
+            return Library;
         }
 
         public async Task<OperationResult<List<LibraryEntity>>> GetAllLibraryWithoutContent(long branchID = 0, long stdID = 0)
@@ -122,6 +98,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Library
             }
 
             return false;
+        }
+
+        public async Task<List<LibraryEntity>> GetAllLibrary(int Type, long BranchID)
+        {
+            try
+            {
+                return await _libraryContext.GetAllLibrary(Type, BranchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
         }
 
     }

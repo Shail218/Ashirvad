@@ -80,14 +80,14 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> BranchData()
         {
-            var branchData = await _branchService.GetAllBranchWithoutImage();
+            var branchData = await _branchService.GetAllBranch();
             //if (SessionContext.Instance.LoginUser.UserType != Common.Enums.UserType.SuperAdmin)
             //{
             //    var result = branchData.Data.Where(x => x.BranchID == SessionContext.Instance.LoginUser.BranchInfo.BranchID).ToList();
             //    return Json(result);
             //}
 
-            return Json(branchData.Data);
+            return Json(branchData);
         }
 
     }

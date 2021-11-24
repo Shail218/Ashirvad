@@ -1,5 +1,6 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
+using Ashirvad.Repo.DataAcceessAPI.Area;
 using Ashirvad.Repo.DataAcceessAPI.Area.Library;
 using System;
 using System.Collections.Generic;
@@ -11,28 +12,31 @@ namespace Ashirvad.Repo.Services.Area.Library
 {
     public class Library : ModelAccess, ILibraryAPI
     {
+        private readonly ILibrary1API _library;
+
+        public Library(ILibrary1API library)
+        {
+            _library = library;
+        }
+
         public async Task<long> LibraryMaintenance(LibraryEntity libraryInfo)
         {
             Model.LIBRARY_MASTER libraryMaster = new Model.LIBRARY_MASTER();
-            Model.LIBRARY_DATA libData = new Model.LIBRARY_DATA();
             bool isUpdate = true;
-            var data = (from lib in this.context.LIBRARY_MASTER.Include("LIBRARY_DATA")
+            var data = (from lib in this.context.LIBRARY_MASTER
                         where lib.library_id == libraryInfo.LibraryID
                         select new
                         {
-                            libraryMaster = lib,
-                            libData = lib.LIBRARY_DATA
+                            libraryMaster = lib
                         }).FirstOrDefault();
             if (data == null)
             {
                 libraryMaster = new Model.LIBRARY_MASTER();
-                libData = new Model.LIBRARY_DATA();
                 isUpdate = false;
             }
             else
             {
                 libraryMaster = data.libraryMaster;
-                libData = data.libraryMaster.LIBRARY_DATA.FirstOrDefault();
                 libraryInfo.Transaction.TransactionId = data.libraryMaster.trans_id.Value;
             }
 
@@ -41,37 +45,70 @@ namespace Ashirvad.Repo.Services.Area.Library
             libraryMaster.branch_id = libraryInfo.BranchID;
             libraryMaster.doc_desc = libraryInfo.Description;
             libraryMaster.std_id = libraryInfo.StandardID;
-            libraryMaster.sub_id = libraryInfo.SubjectID;
-            libraryMaster.thumbnail_doc = libraryInfo.ThumbDocName;
-            libraryMaster.thumbnail_img = libraryInfo.ThumbImageName;
+            libraryMaster.subject_id = libraryInfo.SubjectID;
+            libraryMaster.thumbnail_img = libraryInfo.ThumbnailFileName;
+            libraryMaster.thumbnail_path = libraryInfo.ThumbnailFilePath;
+            libraryMaster.library_image = libraryInfo.DocFileName;
+            libraryMaster.library_path = libraryInfo.DocFilePath;
+            libraryMaster.category_id = libraryInfo.CategoryInfo.CategoryID;
+            libraryMaster.library_type = libraryInfo.Library_Type;
             libraryMaster.type = libraryInfo.Type;
+            libraryMaster.library_title = libraryInfo.LibraryTitle;
+            libraryMaster.video_link = libraryInfo.VideoLink;
             this.context.LIBRARY_MASTER.Add(libraryMaster);
             if (isUpdate)
             {
                 this.context.Entry(libraryMaster).State = System.Data.Entity.EntityState.Modified;
             }
-            if (!isUpdate)
+            var result = this.context.SaveChanges();
+            if (libraryMaster.branch_id == 0 && result > 0)
             {
-                libData.library_id = libraryMaster.library_id;
-            }
-
-            libData.doc_content = !string.IsNullOrEmpty(libraryInfo.LibraryData.DocContentText) ? Convert.FromBase64String(libraryInfo.LibraryData.DocContentText) : libraryInfo.LibraryData.DocContent;
-            libData.doc_img_ext = libraryInfo.LibraryData.DocContentExt;
-            libData.doc_img_name = libraryInfo.LibraryData.DocContentFileName;
-            libData.thumb_img_content = !string.IsNullOrEmpty(libraryInfo.LibraryData.ThumbImageContentText) ? Convert.FromBase64String(libraryInfo.LibraryData.ThumbImageContentText) : libraryInfo.LibraryData.ThumbImageContent;
-            libData.thumb_img_ext = libraryInfo.LibraryData.ThumbImageExt;
-            libData.thumb_img_name = libraryInfo.LibraryData.ThumbImageFileName;
-            this.context.LIBRARY_DATA.Add(libData);
-            if (isUpdate)
-            {
-                this.context.Entry(libData).State = System.Data.Entity.EntityState.Modified;
+                libraryInfo.LibraryID = libraryMaster.library_id;
+                LibraryMasterMaintenance(libraryInfo);
             }
             return this.context.SaveChanges() > 0 ? libraryMaster.library_id : 0;
         }
 
+        public async Task<long> LibraryMasterMaintenance(LibraryEntity libraryEntity)
+        {
+            try
+            {
+                long result = 0;
+                LibraryEntity1 library1 = new LibraryEntity1();
+                long? branch = libraryEntity.BranchID;
+                library1.LibraryID = libraryEntity.LibraryID;
+                library1.Title = libraryEntity.LibraryTitle;
+                library1.link = libraryEntity.VideoLink;
+                library1.Type = libraryEntity.Library_Type;
+                library1.FileName = libraryEntity.ThumbnailFileName;
+                library1.FilePath = libraryEntity.ThumbnailFilePath;
+                library1.Description = libraryEntity.Description;
+                library1.RowStatus = new RowStatusEntity()
+                {
+                    RowStatusId = (int)Enums.RowStatus.Active
+                };
+                library1.Transaction = libraryEntity.Transaction;
+                library1.CategoryInfo = new CategoryEntity()
+                {
+                    CategoryID = libraryEntity.CategoryInfo.CategoryID
+                };
+                library1.BranchInfo = new BranchEntity()
+                {
+                    BranchID = branch.Value
+                };
+                result = _library.LibraryMaintenance(library1).Result;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
         public async Task<List<LibraryEntity>> GetAllLibrary(long branchID, long stdID)
         {
-            var data = (from u in this.context.LIBRARY_MASTER.Include("LIBRARY_DATA")
+            var data = (from u in this.context.LIBRARY_MASTER
                         where (0 == u.branch_id || u.branch_id == branchID) &&
                         (0 == stdID || u.std_id == stdID)
                         select new LibraryEntity()
@@ -85,34 +122,19 @@ namespace Ashirvad.Repo.Services.Area.Library
                             BranchID = u.branch_id,
                             Description = u.doc_desc,
                             StandardID = u.std_id,
-                            SubjectID = u.sub_id,
-                            ThumbDocName = u.thumbnail_doc,
-                            ThumbImageName = u.thumbnail_img,
-                            Type = u.type.Value,
-                            Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value },
-                            LibraryData = new LibraryDataEntity()
+                            SubjectID = u.subject_id,
+                            ThumbnailFileName = u.thumbnail_img,
+                            ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                            DocFileName = u.library_image,
+                            DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                            CategoryInfo = new CategoryEntity()
                             {
-                                DocContent = u.LIBRARY_DATA.FirstOrDefault().doc_content,
-                                DocContentExt = u.LIBRARY_DATA.FirstOrDefault().doc_img_ext,
-                                DocContentFileName = u.LIBRARY_DATA.FirstOrDefault().doc_img_name,
-                                LibraryID = u.library_id,
-                                ThumbImageContent = u.LIBRARY_DATA.FirstOrDefault().thumb_img_content,
-                                ThumbImageExt = u.LIBRARY_DATA.FirstOrDefault().thumb_img_ext,
-                                ThumbImageFileName = u.LIBRARY_DATA.FirstOrDefault().thumb_img_name,
-                                UniqueID = u.LIBRARY_DATA.FirstOrDefault().unique_id
-                            }
+                                CategoryID = u.category_id.HasValue ? 0 : u.category_id.Value
+                            },
+                            Type = u.type.Value,
+                            Library_Type = u.library_type.Value,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value },
                         }).ToList();
-
-            if (data?.Count > 0)
-            {
-                foreach (var item in data)
-                {
-                    int idx = data.IndexOf(item);
-                    data[idx].LibraryData.DocContentText = data[idx].LibraryData.DocContent.Length > 0 ? Convert.ToBase64String(data[idx].LibraryData.DocContent) : "";
-                    data[idx].LibraryData.ThumbImageContentText = data[idx].LibraryData.ThumbImageContent.Length > 0 ? Convert.ToBase64String(data[idx].LibraryData.ThumbImageContent) : "";
-                }
-            }
-
             return data;
         }
 
@@ -134,21 +156,19 @@ namespace Ashirvad.Repo.Services.Area.Library
                             BranchID = u.branch_id,
                             Description = u.doc_desc,
                             StandardID = u.std_id,
-                            SubjectID = u.sub_id,
-                            ThumbDocName = u.thumbnail_doc,
-                            ThumbImageName = u.thumbnail_img,
+                            SubjectID = u.subject_id,
+                            ThumbnailFileName = u.thumbnail_img,
+                            ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                            DocFileName = u.library_image,
+                            DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                            CategoryInfo = new CategoryEntity()
+                            {
+                                CategoryID = u.category_id.Value
+                            },
+                            Library_Type = u.library_type.Value,
                             Type = u.type.Value,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value },
                             BranchData = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
-                            LibraryData = new LibraryDataEntity()
-                            {
-                                DocContentExt = u.LIBRARY_DATA.FirstOrDefault().doc_img_ext,
-                                DocContentFileName = u.LIBRARY_DATA.FirstOrDefault().doc_img_name,
-                                LibraryID = u.library_id,
-                                ThumbImageExt = u.LIBRARY_DATA.FirstOrDefault().thumb_img_ext,
-                                ThumbImageFileName = u.LIBRARY_DATA.FirstOrDefault().thumb_img_name,
-                                UniqueID = u.LIBRARY_DATA.FirstOrDefault().unique_id
-                            }
                         }).ToList();
 
 
@@ -157,7 +177,7 @@ namespace Ashirvad.Repo.Services.Area.Library
 
         public async Task<LibraryEntity> GetLibraryByLibraryID(long library)
         {
-            var data = (from u in this.context.LIBRARY_MASTER.Include("LIBRARY_DATA")
+            var data = (from u in this.context.LIBRARY_MASTER
                         where u.library_id == library
                         select new LibraryEntity()
                         {
@@ -170,29 +190,53 @@ namespace Ashirvad.Repo.Services.Area.Library
                             BranchID = u.branch_id,
                             Description = u.doc_desc,
                             StandardID = u.std_id,
-                            SubjectID = u.sub_id,
-                            ThumbDocName = u.thumbnail_doc,
-                            ThumbImageName = u.thumbnail_img,
-                            Type = u.type.Value,
-                            Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value },
-                            LibraryData = new LibraryDataEntity()
+                            SubjectID = u.subject_id,
+                            ThumbnailFileName = u.thumbnail_img,
+                            ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                            DocFileName = u.library_image,
+                            DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                            CategoryInfo = new CategoryEntity()
                             {
-                                DocContent = u.LIBRARY_DATA.FirstOrDefault().doc_content,
-                                DocContentExt = u.LIBRARY_DATA.FirstOrDefault().doc_img_ext,
-                                DocContentFileName = u.LIBRARY_DATA.FirstOrDefault().doc_img_name,
-                                LibraryID = u.library_id,
-                                ThumbImageContent = u.LIBRARY_DATA.FirstOrDefault().thumb_img_content,
-                                ThumbImageExt = u.LIBRARY_DATA.FirstOrDefault().thumb_img_ext,
-                                ThumbImageFileName = u.LIBRARY_DATA.FirstOrDefault().thumb_img_name,
-                                UniqueID = u.LIBRARY_DATA.FirstOrDefault().unique_id
-                            }
+                                CategoryID = u.category_id.Value
+                            },
+                            Library_Type = u.library_type.Value,
+                            Type = u.type.Value,
+                            LibraryTitle = u.library_title,
+                            VideoLink = u.video_link,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value }
                         }).FirstOrDefault();
+            return data;
+        }
 
-            if (data != null)
-            {
-                data.LibraryData.DocContentText = data.LibraryData.DocContent.Length > 0 ? Convert.ToBase64String(data.LibraryData.DocContent) : "";
-                data.LibraryData.ThumbImageContentText = data.LibraryData.ThumbImageContent.Length > 0 ? Convert.ToBase64String(data.LibraryData.ThumbImageContent) : "";
-            }
+        public async Task<List<LibraryEntity>> GetAllLibrary(int Type, long BranchID)
+        {
+            var data = (from u in this.context.LIBRARY_MASTER
+                        where u.row_sta_cd == 1 && u.library_type == Type && (u.branch_id == BranchID || BranchID == 0)
+                        select new LibraryEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            LibraryID = u.library_id,
+                            BranchID = u.branch_id,
+                            VideoLink = u.video_link,
+                            LibraryTitle = u.library_title,
+                            ThumbnailFileName = u.thumbnail_img,
+                            ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                            Type = u.type.Value,
+                            StandardID = u.std_id,
+                            SubjectID = u.subject_id,
+                            Description = u.doc_desc,
+                            DocFileName = u.library_image,
+                            DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,                            
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value },
+                            CategoryInfo = new CategoryEntity()
+                            {
+                                CategoryID = u.category_id.HasValue ? 0 : u.category_id.Value,
+                            }
+                        }).ToList();
 
             return data;
         }

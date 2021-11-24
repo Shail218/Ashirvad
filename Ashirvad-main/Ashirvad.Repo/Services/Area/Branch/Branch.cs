@@ -85,39 +85,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
         public async Task<List<BranchEntity>> GetAllBranch()
         {
             var data = (from u in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
-                        where u.branch_type == 2
-                        select new BranchEntity()
-                        {
-                            RowStatus = new RowStatusEntity()
-                            {
-                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = (int)u.row_sta_cd
-                            },
-                            BranchID = u.branch_id,
-                            BranchName = u.branch_name,
-                            AboutUs = u.about_us,
-                            EmailID = u.email_id,
-                            ContactNo = u.contact_no,
-                            MobileNo = u.mobile_no,
-                            BranchType = u.branch_type,
-                            BranchMaint = new BranchMaint()
-                            {
-                                BranchId = u.BRANCH_MAINT.branch_id,
-                                BranchLogo = u.BRANCH_MAINT.branch_logo,
-                                HeaderLogo = u.BRANCH_MAINT.header_logo,
-                                Website = u.BRANCH_MAINT.website,
-                            },
-                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                            board = u.board_type == 1 ? Enums.BoardType.GujaratBoard : u.board_type == 2 ? Enums.BoardType.CBSC : Enums.BoardType.Both
-
-                        }).ToList();
-
-            return data;
-        }
-
-        public async Task<List<BranchEntity>> GetAllBranchWithoutImage()
-        {
-            var data = (from u in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
                         where u.branch_type == 2 && u.row_sta_cd == 1
                         select new BranchEntity()
                         {
@@ -141,8 +108,40 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 FileName = u.BRANCH_MAINT.file_name,
                                 FilePath = "http://highpack-001-site12.dtempurl.com" + u.BRANCH_MAINT.file_path
                             },
-                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                            board = u.board_type == 1 ? Enums.BoardType.GujaratBoard : u.board_type == 2 ? Enums.BoardType.CBSC : Enums.BoardType.Both
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+
+                        }).ToList();
+
+            return data;
+        }
+
+        public async Task<List<BranchEntity>> GetAllBranchWithoutImage()
+        {
+            var data = (from u in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
+                        where u.branch_type == 2 
+                        select new BranchEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd,
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                            },
+                            BranchID = u.branch_id,
+                            BranchName = u.branch_name,
+                            AboutUs = u.about_us,
+                            EmailID = u.email_id,
+                            ContactNo = u.contact_no,
+                            BranchType = u.branch_type,
+                            MobileNo = u.mobile_no,
+                            BranchMaint = new BranchMaint()
+                            {
+                                BranchId = u.BRANCH_MAINT.branch_id,
+                                Website = u.BRANCH_MAINT.website,
+                                FileName = u.BRANCH_MAINT.file_name,
+                                FilePath = "http://highpack-001-site12.dtempurl.com" + u.BRANCH_MAINT.file_path
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
 
                         }).ToList();
 

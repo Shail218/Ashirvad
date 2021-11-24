@@ -22,7 +22,9 @@ public partial class LIBRARY_MASTER
     public LIBRARY_MASTER()
     {
 
-        this.LIBRARY_DATA = new HashSet<LIBRARY_DATA>();
+        this.APPROVAL_MASTER = new HashSet<APPROVAL_MASTER>();
+
+        this.NEW_LIBRARY_MASTER = new HashSet<NEW_LIBRARY_MASTER>();
 
     }
 
@@ -31,15 +33,19 @@ public partial class LIBRARY_MASTER
 
     public Nullable<long> branch_id { get; set; }
 
+    public string video_link { get; set; }
+
+    public string library_title { get; set; }
+
     public string thumbnail_img { get; set; }
 
-    public string thumbnail_doc { get; set; }
+    public string thumbnail_path { get; set; }
 
     public Nullable<int> type { get; set; }
 
     public Nullable<long> std_id { get; set; }
 
-    public Nullable<long> sub_id { get; set; }
+    public Nullable<long> subject_id { get; set; }
 
     public string doc_desc { get; set; }
 
@@ -47,11 +53,27 @@ public partial class LIBRARY_MASTER
 
     public Nullable<long> trans_id { get; set; }
 
+    public string library_image { get; set; }
+
+    public string library_path { get; set; }
+
+    public Nullable<long> category_id { get; set; }
+
+    public Nullable<int> library_type { get; set; }
+
 
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<LIBRARY_DATA> LIBRARY_DATA { get; set; }
+    public virtual ICollection<APPROVAL_MASTER> APPROVAL_MASTER { get; set; }
+
+    public virtual STD_MASTER STD_MASTER { get; set; }
+
+    public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<NEW_LIBRARY_MASTER> NEW_LIBRARY_MASTER { get; set; }
 
 }
 

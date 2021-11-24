@@ -124,7 +124,7 @@ function Savetest() {
     if (isSuccess) {
         ShowLoader();
         var date1 = $("#TestDate").val();
-        $("#TestDate").val(ConvertData(date1));
+        $("#TestDate").val(ConvertData(date1,'Local'));
         var frm = $('#fTestDetail');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');

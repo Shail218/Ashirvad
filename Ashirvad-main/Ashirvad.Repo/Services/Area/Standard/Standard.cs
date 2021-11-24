@@ -63,7 +63,7 @@ namespace Ashirvad.Repo.Services.Area.Standard
         {
             var data = (from u in this.context.STD_MASTER
                         .Include("CLASS_DTL_MASTER")
-                        where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
+                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new StandardEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -79,7 +79,7 @@ namespace Ashirvad.Repo.Services.Area.Standard
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).ToList();
+                        }).Distinct().ToList();
 
             return data;
         }

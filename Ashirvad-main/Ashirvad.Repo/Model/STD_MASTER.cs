@@ -38,6 +38,10 @@ public partial class STD_MASTER
 
         this.TEST_MASTER = new HashSet<TEST_MASTER>();
 
+        this.APPROVAL_MASTER = new HashSet<APPROVAL_MASTER>();
+
+        this.LIBRARY_MASTER = new HashSet<LIBRARY_MASTER>();
+
     }
 
 
@@ -92,6 +96,14 @@ public partial class STD_MASTER
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<TEST_MASTER> TEST_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<APPROVAL_MASTER> APPROVAL_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<LIBRARY_MASTER> LIBRARY_MASTER { get; set; }
 
 }
 

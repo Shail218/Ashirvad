@@ -88,8 +88,16 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> StandardData(long branchID)
         {
-            var branchData = await _standardService.GetAllStandards(branchID);
-            return Json(branchData);
+            if(SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
+                var branchData = await _standardService.GetAllStandards(0);
+                return Json(branchData);
+            }
+            else
+            {
+                var branchData = await _standardService.GetAllStandards(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                return Json(branchData);
+            }           
         }
 
         public async Task<JsonResult> AllStandardData()

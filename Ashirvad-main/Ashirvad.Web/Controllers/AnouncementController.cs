@@ -45,6 +45,10 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveAnnouncement(AnnouncementEntity announcement)
         {
+            if(announcement.BranchData.BranchID == 1)
+            {
+                announcement.BranchData.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
+            }
             announcement.TransactionData = GetTransactionData(announcement.AnnouncementID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             announcement.RowStatusData = new RowStatusEntity()
             {

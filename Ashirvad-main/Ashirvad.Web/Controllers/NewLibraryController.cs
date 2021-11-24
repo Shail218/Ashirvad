@@ -63,8 +63,6 @@ namespace Ashirvad.Web.Controllers
         {
             if (Library.ImageFile != null)
             {
-                
-                Library.FileContent = Common.Common.ReadFully(Library.ImageFile.InputStream);
                 string _FileName = Path.GetFileName(Library.ImageFile.FileName);
                 string extension = System.IO.Path.GetExtension(Library.ImageFile.FileName);
                 string randomfilename = Common.Common.RandomString(20);

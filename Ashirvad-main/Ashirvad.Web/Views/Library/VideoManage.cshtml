@@ -1,0 +1,58 @@
+﻿﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.LibraryEntity>
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Branch Name
+            </th>
+            <th>
+                Video Link
+            </th>
+            <th>
+                Link Description
+            </th>
+            <th>
+                Edit
+            </th>
+            <th>
+                Delete
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @if(item.BranchID == 0)
+            {
+                <label>All Branch</label>
+            }
+            else {
+                <label>@SessionContext.Instance.LoginUser.BranchInfo.BranchName</label>
+            }
+            @Html.HiddenFor(x => item.BranchID)
+        </td>
+        <td>
+            <a href="@item.VideoLink" target="_blank" style="color:blue;text-decoration:underline;">Go to link</a>
+            @Html.HiddenFor(x => item.LibraryID)
+        </td>
+        <td>
+            @item.Description
+        </td>
+        <td>
+            <a href="@Url.Action("LibraryMaintenance", "Library", new { libraryID = item.LibraryID,Type=1})">
+                <img src="~/ThemeData/images/viewIcon.png" />
+            </a>
+        </td>
+        <td>
+            <a style="margin-left:20px;" href="#" onclick="RemoveLibrary(@item.LibraryID);">
+                <img src="~/ThemeData/images/delete.png" />
+            </a>
+        </td>
+    </tr>
+    }
+</table>
+
+
+

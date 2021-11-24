@@ -29,23 +29,35 @@
     {
         <tr>
             <td>
-                @item.BranchData.BranchName
+                @if (item.BranchID == 0)
+                {
+                    <label>All Branch</label>
+                }
+                else
+                {
+                    <label>@SessionContext.Instance.LoginUser.BranchInfo.BranchName</label>
+                }
                 @Html.HiddenFor(x => item.BranchID)
             </td>
             <td>
-                <img src="~/ThemeData/images/Default.png" style="height:50px;width:50px" id="thumnailImg" />
+                @if (item.ThumbnailFilePath != null && item.ThumbnailFilePath != "")
+                {
+                    <img src="@item.ThumbnailFilePath" id="FeeImg" style="height:40px;width:40px;margin-left:20px;" />
+                }
+                else
+                {
+                    <img src="~/ThemeData/images/Default.png" id="FeeImg" style="height:40px;width:40px;margin-left:40px;" />
+                }
                 @Html.HiddenFor(x => item.LibraryID)
             </td>
             <td>
-                <a style="margin-left:20px;" href="#">
-                    <img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" />
-                </a>
+                <a style="margin-left:20px;" href="@item.DocFilePath.Replace("http://highpack-001-site12.dtempurl.com","")" download="@item.DocFileName"><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
             </td>
             <td>
                 @item.Description
             </td>
             <td>
-                <a href="@Url.Action("LibraryMaintenance", "Library", new { libraryID = item.LibraryID})">
+                <a href="@Url.Action("LibraryMaintenance", "Library", new { libraryID = item.LibraryID,Type=2})">
                     <img src="~/ThemeData/images/viewIcon.png" />
                 </a>
             </td>

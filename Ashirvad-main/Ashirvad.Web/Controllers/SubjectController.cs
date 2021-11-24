@@ -90,10 +90,19 @@ namespace Ashirvad.Web.Controllers
             return Json(branchData);
         }
 
-        public async Task<JsonResult> SubjectDataByBranch(long branchID)
+        public async Task<JsonResult> SubjectDataByBranch()
         {
-            var branchData = await _subjectService.GetAllSubjects(branchID);
-            return Json(branchData);
+            if(SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
+                var branchData = await _subjectService.GetAllSubjects(0);
+                return Json(branchData);
+            }
+            else
+            {
+                var branchData = await _subjectService.GetAllSubjects(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                return Json(branchData);
+            }
+            
         }
 
         public async Task<JsonResult> SubjectDataByTestDate(string TestDate)

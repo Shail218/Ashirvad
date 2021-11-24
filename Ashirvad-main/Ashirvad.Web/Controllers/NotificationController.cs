@@ -39,7 +39,8 @@ namespace Ashirvad.Web.Controllers
                 branch.NotificationInfo = new NotificationEntity();
             }
 
-            var branchData = await _notificationService.GetAllNotification(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : (int)SessionContext.Instance.LoginUser.UserType);
+            var branchData = await _notificationService.GetAllNotification(0, 0);
+            //var branchData = await _notificationService.GetAllNotification(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : (int)SessionContext.Instance.LoginUser.UserType);
             branch.NotificationData = branchData.Data;
 
             return View("Index", branch);
@@ -48,6 +49,10 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveNotification(NotificationEntity notification)
         {
+            if(notification.Branch.BranchID == 1)
+            {
+                notification.Branch.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
+            }
             var nt = JsonConvert.DeserializeObject<List<NotificationTypeEntity>>(notification.JSONData);
             notification.NotificationType = nt;
             notification.Transaction = GetTransactionData(notification.NotificationID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);

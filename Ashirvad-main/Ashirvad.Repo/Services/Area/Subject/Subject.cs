@@ -62,7 +62,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
         {
             var data = (from u in this.context.SUBJECT_MASTER
                         .Include("SUBJECT_DTL_MASTER")
-                        where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
+                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new SubjectEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -153,6 +153,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
                         where (u.test_dt == dateTime && u.row_sta_cd == 1)
                         select new SubjectEntity()
                         {
+                            testID = u.test_id,
                             RowStatus = new RowStatusEntity()
                             {
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,

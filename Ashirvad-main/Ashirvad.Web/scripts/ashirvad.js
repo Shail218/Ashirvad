@@ -102,6 +102,9 @@ function ValidateData(divName) {
 
     if (isSuccess) {
         $('#' + divName + ' .requiredDDL').each(function () {
+            if ($(this).hasClass('editForm')) {
+                return true;
+            }
             var ddlVal = $("#" + $(this).attr('id') + " :selected").val();
             if (ddlVal == '' || ddlVal == '0') {
                 ShowMessage('Please select ' + $(this).attr('alt'), "Error");

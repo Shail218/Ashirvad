@@ -34,25 +34,6 @@ function LoadBranch(onLoaded) {
     });
 }
 
-function LoadSchoolName(branchID) {
-    var postCall = $.post(commonData.School + "SchoolData", { "branchID": branchID });
-    postCall.done(function (data) {
-        $('#SchoolName').empty();
-        $('#SchoolName').select2();
-        $("#SchoolName").append("<option value=" + 0 + ">---Select School Name---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#SchoolName").append("<option value=" + data[i].SchoolID + ">" + data[i].SchoolName + "</option>");
-        }
-        if ($("#SchoolInfo_SchoolID").val() != "") {
-            $('#SchoolName option[value="' + $("#SchoolInfo_SchoolID").val() + '"]').attr("selected", "selected");
-        }
-
-    }).fail(function (e) {
-        console.log(e);
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
-}
-
 function LoadStandard(branchID) {
 
     var postCall = $.post(commonData.Standard + "StandardData", { "branchID": branchID });
@@ -81,7 +62,7 @@ function LoadSubject(branchID) {
         $('#SubjectName').select2();
         $("#SubjectName").append("<option value=" + 0 + ">---Select Subject Name---</option>");
         for (i = 0; i < data.length; i++) {
-            $("#SubjectName").append("<option value=" + data[i].SubjectID + ">" + data[i].Subject + "</option>");
+            $("#SubjectName").append("<option value=" + data[i].SubjectID +"_"+ data[i].testID + ">" + data[i].Subject + "</option>");
         }
 
         if ($("#SubjectInfo_SubjectID").val() != "") {
@@ -132,6 +113,7 @@ function LoadTestDetails(TestID, Subject) {
 function SaveMarks() {
     var status = true;
     var MarksData = [];
+    var test = $('#testEntityInfo_TestID').val();
     Map = {};
     $("#studenttbl tbody tr").each(function () {
         var StudentID = $(this).find("#item_StudentID").val();
@@ -235,9 +217,12 @@ $("#StandardName").change(function () {
 
 $("#SubjectName").change(function () {
     var Data = $("#SubjectName option:selected").val();
-    var Data1= $("#testddl option:selected").val();
-    $('#SubjectInfo_SubjectID').val(Data);
-    LoadTestDetails(Data1, Data);
+    var SPData = Data.split('_');
+    var sub = SPData[0];
+    var test = SPData[1];    
+    $('#testEntityInfo_TestID').val(parseInt(test));
+    $('#SubjectInfo_SubjectID').val(sub);
+    LoadTestDetails(test, sub);
     
 });
 
@@ -250,6 +235,5 @@ $("#Batchtime").change(function () {
 $("#testddl").change(function () {                                                                               
     var Data = $("#testddl option:selected").val();
     var Text = $("#testddl option:selected").text();
-    $('#testEntityInfo_TestID').val(Data);
     LoadSubject(Text);
 });

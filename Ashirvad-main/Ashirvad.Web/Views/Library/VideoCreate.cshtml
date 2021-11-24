@@ -31,24 +31,14 @@
             </table>
             @Html.HiddenFor(x => x.LibraryID)
             @Html.HiddenFor(x => x.BranchID)
-            @Html.HiddenFor(x => x.VideoLink)
+            @Html.HiddenFor(x => x.StandardArray)
         </div>
-
-        <div class="col-md-6">
-            @Html.Label("Thumbnail", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <input class="file-upload fileRequired" alt="Thumbnail Image" id="fuThumbnailImage" name="ThumbnailFile" type="file" accept="image/*" />
-            @Html.HiddenFor(x => x.ThumbImageFile)
-            @Html.HiddenFor(x => x.ThumbnailFileName)
-            @Html.HiddenFor(x => x.ThumbnailFilePath)
+        <div class="col-md-12">
+            @Html.Label("Video Link", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBoxFor(x => x.VideoLink, new { @class = "form-control required", @alt = "Link Name", autocomplete = "off" })
+           
         </div>
-        <div class="col-md-6">
-            @Html.Label("Document", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <input class="file-upload fileRequired" alt="Document" id="fuDocument" name="DocFile" type="file" accept="image/*" />
-            @Html.HiddenFor(x => x.DocFile)
-            @Html.HiddenFor(x => x.DocFileName)
-            @Html.HiddenFor(x => x.DocFilePath)
-        </div>
-        <div class="col-md-12" style="margin-top:10px;">
+        <div class="col-md-12" style="margin-top:5px;">
             @Html.Label("Select type", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <table id="rdbType" class="radioboxlist form-control">
                 <tbody>
@@ -73,7 +63,6 @@
                 <option value="0">--Select Standard--</option>
             </select>
             @Html.HiddenFor(x => x.StandardID)
-            @Html.HiddenFor(x => x.StandardArray)
         </div>
         <div class="col-md-6" style="margin-top:10px;" id="subject">
             @Html.Label("Select Subject", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -83,13 +72,13 @@
             @Html.HiddenFor(x => x.SubjectID)
         </div>
         <div class="col-md-12" style="margin-top: 10px">
-            @Html.Label("Document Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.Label("Link Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextAreaFor(x => x.Description, new { @class = "form-control required", @alt = "Description", autocomplete = "off" })
         </div>
         <div class="col-md-12" style="text-align: right;">
             <div class="form-group">
                 <div class="col-md-12" style="text-align: right;">
-                    <a href="#" onclick="return SaveLibrary();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <a href="#" onclick="return SaveLibraryVideo();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                         <span class="ladda-label">
                             Save
                         </span>

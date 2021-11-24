@@ -127,7 +127,7 @@
             <nav class="navbar navbar-static-top" style="background: #3f478b; padding: .5rem .5rem;">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <img Style="width: 50px; height: 50px; position: relative;" src="~/ThemeData/images/logo.png" />
+                        <img Style="width: 50px; height: 50px;position: relative;" src="~/ThemeData/images/logo.png" />
                     </div>
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">
@@ -141,8 +141,6 @@
                                     Masters
                                 </a>
                                 <ul class="dropdown-menu">
-
-
                                     @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
                                     {
                                         <li id="StM">
@@ -172,22 +170,14 @@
                                     }
                                     else if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
                                     {
-
                                         <li id="StM" class="AnnouncementMaster">
                                             <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master</a>
                                         </li>
                                         <li id="StM" class="UserMaster">
                                             <a href="@Url.Action("UserMaintenance","User", new { @branchID=0 })">User Master</a>
                                         </li>
-                                        <li id="StaM" class="StandardMaster">
-                                            <a href="@Url.Action("StandardMaintenance","Standard", new { @branchID=0 })">Standard Master</a>
-                                        </li>
                                         <li id="ScM" class="SchoolMaster">
                                             <a href="@Url.Action("SchoolMaintenance","School", new { @branchID=0 })">School Master</a>
-                                        </li>
-
-                                        <li id="SuM" class="SubjectMaster">
-                                            <a href="@Url.Action("SubjectMaintenance","Subject", new { @branchID=0 })">Subject Master</a>
                                         </li>
                                         <li id="StuM" class="StudentMaster">
                                             <a href="@Url.Action("StudentMaintenance","Student", new { @studentID=0 })">Student Master</a>
@@ -310,9 +300,9 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="dropdown" id="LibraryMenu" style="margin-left:10px;">
+                                @*<li class="dropdown" id="LibraryMenu" style="margin-left:10px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        Library
+                                       Branch Library
                                     </a>
                                     <ul class="dropdown-menu">
 
@@ -327,6 +317,24 @@
                                             </a>
                                         </li>
 
+                                    </ul>
+                                </li>*@
+                                <li class="dropdown" id="LibraryMenu" style="margin-left:10px;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Library
+                                    </a>
+                                    <ul class="dropdown-menu">
+
+                                        <li class="treeview LibraryImage">
+                                            <a href="@Url.Action("LibraryMaintenance","Library",new { @libraryID=0,Type=2})">
+                                                Image/Document
+                                            </a>
+                                        </li>
+                                        <li class="treeview LibraryVideo">
+                                            <a href="@Url.Action("LibraryMaintenance","Library",new { @libraryID=0,Type=1})">
+                                                Video
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="dropdown" id="ChartReport" visible="false" style="margin-left:10px;">
@@ -408,18 +416,17 @@
                                             <a href="@Url.Action("CategoryMaintenance","Category",new { @categoryID=0 })">
                                                 Category Master
                                             </a>
-                                        </li>                                      
-                                        <li class="treeview">
-                                            <a href="@Url.Action("LibraryMaintenance","NewLibrary",new { @LibraryID=0,Type=2 })">
+                                        </li>
+                                        <li class="treeview LibraryImage">
+                                            <a href="@Url.Action("LibraryMaintenance","Library",new { @libraryID=0,Type=2})">
                                                 Image/Document
                                             </a>
                                         </li>
-                                        <li class="treeview">
-                                            <a href="@Url.Action("LibraryMaintenance","NewLibrary",new { @LibraryID=0,Type=1 })">
+                                        <li class="treeview LibraryVideo">
+                                            <a href="@Url.Action("LibraryMaintenance","Library",new { @libraryID=0,Type=1})">
                                                 Video
                                             </a>
                                         </li>
-
                                     </ul>
                                 </li>
                                 <li class="dropdown" id="td" visible="true">

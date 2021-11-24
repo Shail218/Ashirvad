@@ -2,38 +2,16 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-    ShowLoader();
-    LoadBranch(function () {
-        if ($("#Branch_BranchID").val() != "") {
-            if ($("#Branch_BranchID").val() != "0") {
-                $("#rowStaBranch").attr('checked', 'checked');
-                $("#BranchDiv").show();
-                $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-            } else {
-                $("#rowStaAll").attr('checked', 'checked');
-                $("#BranchDiv").hide();
-                $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-                $("#Branch_BranchID").val(0);
-            }
-        } else {
-            $("#BranchDiv").hide();
-            $("#Branch_BranchID").val(0);
-        }
-    });
 
     if ($("#Branch_BranchID").val() != "") {
-        if ($("#Branch_BranchID").val() != "0") {
-            $("#rowStaBranch").attr('checked', 'checked');
-            $("#BranchDiv").show();
-            $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-        } else {
+        if ($("#Branch_BranchID").val() == "0") {
             $("#rowStaAll").attr('checked', 'checked');
-            $("#BranchDiv").hide();
-            $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
             $("#Branch_BranchID").val(0);
+        } else {
+            $("#rowStaBranch").attr('checked', 'checked');
+            $("#Branch_BranchID").val(1);
         }
     } else {
-        $("#BranchDiv").hide();
         $("#Branch_BranchID").val(0);
     }
     
@@ -46,18 +24,6 @@ $(document).ready(function () {
         }
     });
 
-    $('input[type=radio][name=Type]').change(function () {
-        if (this.value == 'Branch') {
-            $('#BranchName option[value="0"]').attr("selected", "selected");
-            $("#BranchDiv").show();
-        }
-        else {
-            $("#BranchDiv").hide();
-            $("#Branch_BranchID").val(0);
-        }
-    });
-
-
     if ($("#RowStatus_RowStatusId").val() != "") {
         var rowStatus = $("#RowStatus_RowStatusId").val();
         if (rowStatus == "1") {
@@ -68,47 +34,7 @@ $(document).ready(function () {
         }
     }
 
-    $("#studenttbl tr").each(function () {
-        var elemImg = $(this).find("#branchImg");
-        var branchID = $(this).find("#item_BranchID").val();
-        if (elemImg.length > 0 && branchID.length > 0) {
-            var postCall = $.post(commonData.Branch + "GetBranchLogo", { "branchID": branchID });
-            postCall.done(function (data) {
-                $(elemImg).attr('src', data);
-            }).fail(function () {
-                $(elemImg).attr('src', "../ThemeData/images/Default.png");
-            });
-        }
-    });
-
 });
-
-function LoadBranch(onLoaded) {
-    var postCall = $.post(commonData.Branch + "BranchData");
-    postCall.done(function (data) {
-        $('#BranchName').empty();
-        $('#BranchName').select2();
-        $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
-        if ($("#Role_Name").val() == 'SuperAdmin') {
-            for (i = 0; i < data.length; i++) {
-                $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
-            }
-        } else {
-            for (i = 0; i < data.length; i++) {
-                if (data[i].BranchID == $("#Branch_Name").val()) {
-                    $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
-                }               
-            }
-        }
-        
-        if (onLoaded != undefined) {
-            onLoaded();
-        }
-        HideLoader();
-    }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
-}
 
 function SaveNotification() {    
     var isSuccess = ValidateData('dInformation');
@@ -163,8 +89,11 @@ function RemoveNotification(branchID) {
 }
 
 
-$("#BranchName").change(function () {
-    
-    var Data = $("#BranchName option:selected").val();
-    $('#Branch_BranchID').val(Data);
+$('input[type=radio][name=Type]').change(function () {
+    if (this.value == 'All') {
+        $("#Branch_BranchID").val(0);
+    }
+    else {
+        $("#Branch_BranchID").val(1);
+    }
 });

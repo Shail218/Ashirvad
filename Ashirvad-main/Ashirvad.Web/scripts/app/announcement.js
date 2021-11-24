@@ -2,61 +2,19 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-    ShowLoader();
-    LoadBranch(function () {
-        if ($("#BranchData_BranchID").val() != "") {
-            if ($("#BranchData_BranchID").val() != "0") {
-                $("#rowStaBranch").attr('checked', 'checked');
-                $("#BranchDiv").show();
-                $('#BranchName option[value="' + $("#BranchData_BranchID").val() + '"]').attr("selected", "selected");
-            } else {
-                $("#rowStaAll").attr('checked', 'checked');
-                $("#BranchDiv").hide();
-                $('#BranchName option[value="' + $("#BranchData_BranchID").val() + '"]').attr("selected", "selected");
-                $("#BranchData_BranchID").val(0);
-            }
-        } else {
-            $("#BranchDiv").hide();
+  
+    if ($("#BranchData_BranchID").val() != "") {
+        if ($("#BranchData_BranchID").val() == "0") {
+            $("#rowStaAll").attr('checked', 'checked');
             $("#BranchData_BranchID").val(0);
-        }
-    });
-
-    $('input[type=radio][name=Type]').change(function () {
-        if (this.value == 'Branch') {
-            $('#BranchName option[value="0"]').attr("selected", "selected");
-            $("#BranchDiv").show();
-        }
-        else {
-            $("#BranchDiv").hide();
-        }
-    });
-});
-
-function LoadBranch(onLoaded) {
-    var postCall = $.post(commonData.Branch + "BranchData");
-    postCall.done(function (data) {
-        $('#BranchName').empty();
-        $('#BranchName').select2();
-        $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
-        if ($("#Role_Name").val() == 'SuperAdmin') {
-            for (i = 0; i < data.length; i++) {
-                $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
-            }
         } else {
-            for (i = 0; i < data.length; i++) {
-                if (data[i].BranchID == $("#Branch_Name").val()) {
-                    $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
-                }
-            }
+            $("#rowStaBranch").attr('checked', 'checked');
+            $("#BranchData_BranchID").val(1);
         }
-        if (onLoaded != undefined) {
-            onLoaded();
-        }
-        HideLoader();
-    }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
-}
+    } else {
+        $("#BranchData_BranchID").val(0);
+    }
+});
 
 function SaveAnnouncement() {
     var isSuccess = ValidateData('dInformation');
@@ -93,8 +51,11 @@ function RemoveAnnouncement(annoID) {
     }
 }
 
-$("#BranchName").change(function () {
-
-    var Data = $("#BranchName option:selected").val();
-    $('#BranchData_BranchID').val(Data);
+$('input[type=radio][name=Type]').change(function () {
+    if (this.value == 'All') {
+        $("#BranchData_BranchID").val(0);
+    }
+    else {
+        $("#BranchData_BranchID").val(1);
+    }
 });

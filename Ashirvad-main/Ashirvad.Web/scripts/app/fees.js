@@ -2,6 +2,9 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
+    if ($("#FeesID").val() > 0) {
+        $("#fuFeeImage").addClass("editForm");
+    }
     ShowLoader();
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {

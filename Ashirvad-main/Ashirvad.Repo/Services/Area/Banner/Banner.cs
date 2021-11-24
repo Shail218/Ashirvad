@@ -195,7 +195,7 @@ namespace Ashirvad.Repo.Services.Area.Banner
             {
 
                 data.BannerType = this.context.BANNER_TYPE_REL.Where(z => z.banner_id == data.BannerID).Select(y => new BannerTypeEntity() { ID = y.unique_id, TypeID = y.sub_type_id, TypeText = y.sub_type_id == 1 ? "Admin" : y.sub_type_id == 2 ? "Teacher" : "Student" }).ToList();
-                data.BannerImageText = data.BannerImage.Length > 0 ? Convert.ToBase64String(data.BannerImage) : "";
+                //data.BannerImageText = data.BannerImage.Length > 0 ? Convert.ToBase64String(data.BannerImage) : "";
             }
 
             return data;

@@ -205,6 +205,19 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
+        public async Task<List<TestEntity>> TestDateDDL(long branchID, long stdID, int batchTime)
+        {
+            var data = (from u in this.context.TEST_MASTER
+                        where u.branch_id == branchID && u.STD_MASTER.std_id == stdID
+                        && (batchTime == 0 || u.batch_time_id == batchTime)
+                        select new TestEntity()
+                        {                                                       
+                            TestDate = u.test_dt,                                                        
+                        }).Distinct().ToList();
+
+            return data;
+        }
+
         public async Task<List<TestEntity>> GetAllTest(DateTime testDate, string searchParam)
         {
             DateTime fromDT = Convert.ToDateTime(testDate.ToShortTimeString() + " 00:00:00");

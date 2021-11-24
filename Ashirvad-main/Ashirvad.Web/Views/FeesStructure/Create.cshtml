@@ -30,9 +30,8 @@
             </div>
         }
         <div class="col-md-12" style="margin-bottom: 12px">
-            @Html.Label("Uploaded Structure Image", htmlAttributes: new { @class = "control-label" })
-            <input class="file-upload" alt="Image" id="fuFeeImage" name="ImageFile" type="file" accept="image/*"/>
-            @Html.HiddenFor(x => x.Fees_Content)
+            @Html.Label("Uploaded Structure Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <input class="file-upload fileRequired" alt="Image" id="fuFeeImage" name="ImageFile" type="file" accept="image/*"/>
             @Html.HiddenFor(x => x.FileName)
             @Html.HiddenFor(x => x.FilePath)
             @Html.HiddenFor(x => x.FeesDetailID)

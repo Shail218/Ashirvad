@@ -39,7 +39,6 @@ namespace Ashirvad.API.Controllers
             libInfo.BranchInfo.BranchID = BranchID;
             libInfo.CategoryInfo.CategoryID = CategoryID;
             libInfo.LibraryID = LibraryID;
-            libInfo.LibraryDetailID = LibraryDetailID;
             libInfo.Title = Title;
             libInfo.link = link;
             libInfo.FileName = FileName;

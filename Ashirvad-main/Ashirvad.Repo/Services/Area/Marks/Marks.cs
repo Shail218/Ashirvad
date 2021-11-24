@@ -83,13 +83,13 @@ namespace Ashirvad.Repo.Services.Area
             return data;
         }
 
-        public async Task<List<MarksEntity>> GetAllAchieveMarks(long Std, long Branch, long Batch, long MarksID,DateTime TestDate)
+        public async Task<List<MarksEntity>> GetAllAchieveMarks(long Std, long Branch, long Batch, long MarksID)
         {
             var data = (from u in this.context.MARKS_MASTER
                         .Include("STUDENT_MASTER")
                         .Include("TEST_MASTER")
                         .Include("SUBJECT_MASTER")
-                        where u.branch_id == Branch && u.subject_id == MarksID && (u.TEST_MASTER.std_id == Std || Std == 0) && (u.TEST_MASTER.batch_time_id == Batch || Batch == 0) && u.marks_dt == TestDate && u.row_sta_cd == 1
+                        where u.branch_id == Branch && u.subject_id == MarksID && (u.test_id == Std || Std == 0) && (u.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1
                         select new MarksEntity()
                         {
                             RowStatus = new RowStatusEntity()

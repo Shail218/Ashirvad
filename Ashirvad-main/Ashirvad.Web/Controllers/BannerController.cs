@@ -41,8 +41,9 @@ namespace Ashirvad.Web.Controllers
                 branch.BannerInfo = new BannerEntity();
             }
 
+            var branchData = await _bannerService.GetAllBanner(0, 0);
             //var branchData = await _bannerService.GetAllBannerWithoutImage(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            var branchData = await _bannerService.GetAllBanner(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : (int)SessionContext.Instance.LoginUser.UserType);
+            //var branchData = await _bannerService.GetAllBanner(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : (int)SessionContext.Instance.LoginUser.UserType);
             branch.BannerData = branchData.Data;
 
             return View("Index", branch);
@@ -51,11 +52,14 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveBanner(BannerEntity bannerEntity)
         {
+            if(bannerEntity.BranchInfo.BranchID == 1)
+            {
+                bannerEntity.BranchInfo.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
+            }
             var banner = JsonConvert.DeserializeObject<List<BannerTypeEntity>>(bannerEntity.JSONData);
             bannerEntity.BannerType = banner;
             if (bannerEntity.ImageFile != null)
             {
-                //photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
                 string _FileName = Path.GetFileName(bannerEntity.ImageFile.FileName);
                 string extension = System.IO.Path.GetExtension(bannerEntity.ImageFile.FileName);
                 string randomfilename = Common.Common.RandomString(20);

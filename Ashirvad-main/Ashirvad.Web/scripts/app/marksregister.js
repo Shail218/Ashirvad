@@ -62,7 +62,7 @@ function LoadSubject(branchID) {
         $('#SubjectName').select2();
         $("#SubjectName").append("<option value=" + 0 + ">---Select Subject Name---</option>");
         for (i = 0; i < data.length; i++) {
-            $("#SubjectName").append("<option value=" + data[i].SubjectID + ">" + data[i].Subject + "</option>");
+            $("#SubjectName").append("<option value=" + data[i].SubjectID + "_" + data[i].testID + ">" + data[i].Subject + "</option>");
         }
 
         if ($("#SubjectInfo_SubjectID").val() != "") {
@@ -104,7 +104,10 @@ function LoadTestDates(BatchType) {
 }
 
 function LoadStudentDetails() {
-    var postCall = $.post(commonData.MarksRegister + "GetAllAchieveMarks");
+    var STD = $('#testEntityInfo_TestID').val();
+    var Subject = $('#SubjectInfo_SubjectID').val();
+    var BatchType = $('#BatchType').val();
+    var postCall = $.post(commonData.MarksRegister + "GetAllAchieveMarks", { "Std": STD, "Batch": BatchType, "MarksID": Subject});
     postCall.done(function (data) {
         $("#StudentDetail").html(data);
     }).fail(function () {
@@ -151,8 +154,11 @@ $("#StandardName").change(function () {
 
 $("#SubjectName").change(function () {
     var Data = $("#SubjectName option:selected").val();
-    var Data1 = $("#testddl option:selected").val();
-    $('#SubjectInfo_SubjectID').val(Data);
+    var SPData = Data.split('_');
+    var sub = SPData[0];
+    var test = SPData[1];
+    $('#SubjectInfo_SubjectID').val(sub);
+    $('#testEntityInfo_TestID').val(test);
     LoadStudentDetails();
 });
 

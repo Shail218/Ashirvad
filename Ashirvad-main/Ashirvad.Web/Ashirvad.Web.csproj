@@ -1109,6 +1109,7 @@
     <Content Include="ThemeData\plugins\timepicker\bootstrap-timepicker.min.js" />
     <Content Include="ThemeData\plugins\timepicker\jquery.timepicker.min.css" />
     <Content Include="ThemeData\plugins\timepicker\jquery.timepicker.min.js" />
+    <Content Include="ThumbnailImage\AXJQ4HN19XVLMOB01EK4.png" />
     <Content Include="ToDoDocument\75PILTAVRILZ0B84HY7Z.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1142,10 +1143,10 @@
     <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\FacultyController.cs" />
     <Compile Include="Controllers\HomeWorkController.cs" />
+    <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="Controllers\NewLibraryController.cs" />
     <Compile Include="Controllers\FeesStructureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="Controllers\LibraryManageController.cs" />
     <Compile Include="Controllers\ListOfStudentController.cs" />
     <Compile Include="Controllers\LiveVideoController.cs" />
@@ -1195,7 +1196,6 @@
     </Content>
     <Content Include="log4net.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -1317,9 +1317,6 @@
     <Content Include="Views\UserPermission\Create.cshtml" />
     <Content Include="Views\UserPermission\Manage.cshtml" />
     <Content Include="Views\PermissionReg\Index.cshtml" />
-    <Content Include="Views\Library\Index.cshtml" />
-    <Content Include="Views\Library\Create.cshtml" />
-    <Content Include="Views\Library\Manage.cshtml" />
     <Content Include="Views\LibraryManage\Index.cshtml" />
     <Content Include="Views\LibraryManage\Create.cshtml" />
     <Content Include="Views\LibraryManage\Manage.cshtml" />
@@ -1401,6 +1398,13 @@
     <Content Include="Views\BranchSubject\Index.cshtml" />
     <Content Include="Views\BranchSubject\Create.cshtml" />
     <Content Include="Views\BranchSubject\Manage.cshtml" />
+    <Content Include="Views\Library\Create.cshtml" />
+    <Content Include="Views\Library\Index.cshtml" />
+    <Content Include="Views\Library\Manage.cshtml" />
+    <Content Include="Views\Library\VideoCreate.cshtml" />
+    <Content Include="Views\Library\VideoIndex.cshtml" />
+    <Content Include="Views\Library\VideoManage.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

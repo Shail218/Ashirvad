@@ -14,5 +14,6 @@ namespace Ashirvad.Data
         public RowStatusEntity RowStatus { get; set; }
         public BranchEntity BranchInfo { get; set; }
         public BranchSubjectEntity BranchSubject { get; set; }
+        public long testID { get; set; }
     }
 }

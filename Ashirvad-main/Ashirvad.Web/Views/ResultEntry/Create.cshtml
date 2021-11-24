@@ -44,7 +44,7 @@
             </div>
             <div class="col-md-3">
                 @Html.Label("Test Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="Test" id="testddl" class="form-control requiredDDL select2" alt="Standard">
+                <select name="Test" id="testddl" class="form-control" alt="Test Date">
                     <option value="0">--Select Test Date--</option>
                 </select>
                 @Html.HiddenFor(x => x.testEntityInfo.TestID)
