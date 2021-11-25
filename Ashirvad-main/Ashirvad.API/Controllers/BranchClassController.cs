@@ -118,5 +118,16 @@ namespace Ashirvad.Web.Controllers
             return result;
         }
 
+        [Route("GetAllClassDDL")]
+        [HttpGet]
+        public OperationResult<List<BranchClassEntity>> GetAllClassDDL(long BranchID,long CourseID)
+        {
+            var data = this._branchClassService.GetAllBranchClass(BranchID,CourseID);
+            OperationResult<List<BranchClassEntity>> result = new OperationResult<List<BranchClassEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
+
     }
 }
