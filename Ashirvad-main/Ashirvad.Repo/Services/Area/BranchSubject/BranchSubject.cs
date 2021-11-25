@@ -365,7 +365,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     i.BranchSubjectData = (from u in this.context.SUBJECT_DTL_MASTER
                               .Include("Subject_MASTER")
                               .Include("BRANCH_MASTER")
-                                           where (BranchID == 0 || u.branch_id == BranchID) && u.row_sta_cd == 1 && u.is_subject == true && u.course_dtl_id == i.BranchCourse.course_dtl_id && u.class_dtl_id == i.BranchClass.Class_dtl_id
+                                           where (BranchID == 0 || u.branch_id == BranchID) && u.row_sta_cd == 1 && u.course_dtl_id == i.BranchCourse.course_dtl_id && u.class_dtl_id == i.BranchClass.Class_dtl_id
                                            select new BranchSubjectEntity()
                                            {
                                                RowStatus = new RowStatusEntity()
@@ -439,32 +439,32 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
                             },
                         }).FirstOrDefault();
-            if (data!=null)
+            if (data != null)
             {
                 data.BranchSubjectData = (from u in this.context.SUBJECT_DTL_MASTER
                               .Include("Subject_MASTER")
-                              where u.row_sta_cd == 1 && u.class_dtl_id == SubjectID && u.branch_id == BranchID && u.course_dtl_id == CourseID
-                                             select new BranchSubjectEntity()
-                                             {
-                                                 RowStatus = new RowStatusEntity()
-                                                 {
-                                                     RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                                     RowStatusId = (int)u.row_sta_cd
-                                                 },
-                                                 Subject = new SuperAdminSubjectEntity()
-                                                 {
-                                                     SubjectID = u.SUBJECT_BRANCH_MASTER.subject_id,
-                                                     SubjectName = u.SUBJECT_BRANCH_MASTER.subject_name
-                                                 },
-                                                 Subject_dtl_id = u.subject_dtl_id,
-                                                 isSubject = u.is_subject == true ? true : false,
-                                                 Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                                             }).ToList();
+                                          where u.row_sta_cd == 1 && u.class_dtl_id == SubjectID && u.branch_id == BranchID && u.course_dtl_id == CourseID
+                                          select new BranchSubjectEntity()
+                                          {
+                                              RowStatus = new RowStatusEntity()
+                                              {
+                                                  RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                                  RowStatusId = (int)u.row_sta_cd
+                                              },
+                                              Subject = new SuperAdminSubjectEntity()
+                                              {
+                                                  SubjectID = u.SUBJECT_BRANCH_MASTER.subject_id,
+                                                  SubjectName = u.SUBJECT_BRANCH_MASTER.subject_name
+                                              },
+                                              Subject_dtl_id = u.subject_dtl_id,
+                                              isSubject = u.is_subject == true ? true : false,
+                                              Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                                          }).ToList();
                 subjectEntities.Add(data);
             }
-           
 
-                
+
+
             return subjectEntities;
         }
 

@@ -1,8 +1,13 @@
-﻿using Ashirvad.Data;
+﻿using Ashirvad.Common;
+using Ashirvad.Data;
 using Ashirvad.Data.Model;
+using Ashirvad.Repo.Services.Area.Branch;
+using Ashirvad.Repo.Services.Area.SuperAdminSubject;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Subject;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.SuperAdminSubject;
+using Ashirvad.ServiceAPI.Services.Area;
+using Ashirvad.ServiceAPI.Services.Area.SuperAdminSubject;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -26,14 +31,50 @@ namespace Ashirvad.Web.Controllers
             _branchSubjectService = branchSubjectService;
         }
 
+        public BranchSubjectController()
+        {
+            _subjectService = new SuperAdminSubjectService(new SuperAdminSubject(new BranchSubject()));
+            _branchSubjectService = new BranchSubjectService(new BranchSubject());
+        }
+
         [Route("BranchSubjectMaintenance")]
         [HttpPost]
         public OperationResult<BranchSubjectEntity> BranchSubjectMaintenance(BranchSubjectEntity branchClassEntity)
         {
-            var data = this._branchSubjectService.BranchSubjectMaintenance(branchClassEntity);
+            Task<BranchSubjectEntity> data = null;
+            foreach (var item in branchClassEntity.BranchSubjectData)
+            {
+                data = this._branchSubjectService.BranchSubjectMaintenance(new BranchSubjectEntity()
+                {
+                    branch = item.branch,
+                    BranchCourse = item.BranchCourse,
+                    BranchClass = item.BranchClass,
+                    Subject = item.Subject,
+                    isSubject = item.isSubject,
+                    RowStatus = item.RowStatus,
+                    Transaction = item.Transaction
+                });
+            }
             OperationResult<BranchSubjectEntity> result = new OperationResult<BranchSubjectEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = false;
+            result.Data = null;
+            if ((long)data.Result.Data > 0)
+            {
+                result.Completed = true;
+                result.Data = data.Result;
+                if (branchClassEntity.BranchSubjectData[0].Subject_dtl_id > 0)
+                {
+                    result.Message = "Branch Subject Updated Successfully";
+                }
+                else
+                {
+                    result.Message = "Branch Subject Created Successfully";
+                }
+            }
+            else
+            {
+                result.Message = "Branch Course Already Exists!!";
+            }
             return result;
         }
 
@@ -52,7 +93,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public OperationResult<List<BranchSubjectEntity>> GetAllBranchSubjectByBranchID(long branchID)
         {
-            var data = this._branchSubjectService.GetMobileAllSubject(branchID);
+            var data = this._branchSubjectService.GetMobileAllBranchSubject(branchID);
             OperationResult<List<BranchSubjectEntity>> result = new OperationResult<List<BranchSubjectEntity>>();
             result.Completed = true;
             result.Data = data.Result;

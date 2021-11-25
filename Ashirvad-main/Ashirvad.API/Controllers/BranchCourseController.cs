@@ -40,24 +40,45 @@ namespace Ashirvad.Web.Controllers
         public OperationResult<BranchCourseEntity> BranchCourseMaintenance(BranchCourseEntity branchClassEntity)
         {
             Task<BranchCourseEntity> data = null;
-            foreach (var item in branchClassEntity.CourseData)
+            foreach (var item in branchClassEntity.BranchCourseData)
             {
                 data = this._branchcourseService.BranchCourseMaintenance(new BranchCourseEntity()
                 {
-                    branch = branchClassEntity.branch,
+                    branch = item.branch,
                     course = new CourseEntity()
                     {
-                        CourseID = item.CourseID
+                        CourseID = item.course.CourseID
                     },
-                    course_dtl_id = branchClassEntity.course_dtl_id,
-                    iscourse = branchClassEntity.iscourse,
-                    RowStatus = branchClassEntity.RowStatus,
-                    Transaction = branchClassEntity.Transaction
+                    course_dtl_id = item.course_dtl_id,
+                    iscourse = item.iscourse,
+                    RowStatus = new RowStatusEntity
+                    {
+                        RowStatusId = 1,
+                        RowStatus = Enums.RowStatus.Active
+                    },
+                    Transaction = item.Transaction
                 });
             }
             OperationResult<BranchCourseEntity> result = new OperationResult<BranchCourseEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = false;
+            result.Data = null;
+            if ((long)data.Result.Data > 0)
+            {
+                result.Completed = true;
+                result.Data = data.Result;
+                if (branchClassEntity.BranchCourseData[0].course_dtl_id > 0)
+                {
+                    result.Message = "Branch Course Updated Successfully";
+                }
+                else
+                {
+                    result.Message = "Branch Course Created Successfully";
+                }
+            }
+            else
+            {
+                result.Message = "Branch Course Already Exists!!";
+            }
             return result;
         }
 
