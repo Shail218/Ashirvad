@@ -114,5 +114,37 @@ namespace Ashirvad.ServiceAPI.Services.Area.Library
             return null;
         }
 
+        public async Task<ApprovalEntity> LibraryApprovalMaintenance(ApprovalEntity approvalEntity)
+        {
+            ApprovalEntity approval = new ApprovalEntity();
+            try
+            {
+                long ApprovalID = await _libraryContext.LibraryApprovalMaintenance(approvalEntity);
+                if (ApprovalID > 0)
+                {
+                    approval.Approval_id = ApprovalID;
+                }
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return approval;
+        }
+
+        public async Task<List<LibraryEntity>> GetAllLibraryApproval(long BranchId)
+        {
+            try
+            {
+                return await _libraryContext.GetAllLibraryApproval(BranchId);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
     }
 }

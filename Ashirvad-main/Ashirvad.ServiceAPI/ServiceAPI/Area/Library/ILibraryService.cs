@@ -20,5 +20,9 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Library
         bool RemoveLibrary(long libID, string lastupdatedby);
 
         Task<List<LibraryEntity>> GetAllLibrary(int Type, long BranchID);
+
+        Task<ApprovalEntity> LibraryApprovalMaintenance(ApprovalEntity approvalEntity);
+
+        Task<List<LibraryEntity>> GetAllLibraryApproval(long BranchId);
     }
 }

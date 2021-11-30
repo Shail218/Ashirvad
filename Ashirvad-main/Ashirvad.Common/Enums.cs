@@ -13,6 +13,12 @@ namespace Ashirvad.Common
             Active = 1,
             Inactive = 2
         }
+        public enum ApprovalStatus : int
+        {
+            Pending = 1,
+            Approve = 2,
+            Reject = 3
+        }
         public enum HomeWorkStatus : int
         {
             Done = 1,
