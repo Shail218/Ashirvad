@@ -10,19 +10,16 @@
 namespace Ashirvad.Repo.Model
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class GALLERY_MASTER
+    public partial class getfacultydetailbybranch_Result
     {
-        public long unique_id { get; set; }
-        public long branch_id { get; set; }
-        public string file_name { get; set; }
+        public string name { get; set; }
+        public long class_id { get; set; }
+        public long course_id { get; set; }
+        public long subject_id { get; set; }
+        public string subject_name { get; set; }
         public string file_path { get; set; }
-        public string remarks { get; set; }
-        public int row_sta_cd { get; set; }
-        public long trans_id { get; set; }
-        public int uplaod_type { get; set; }
-    
-        public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+        public string branch_name { get; set; }
+        public long faculty_id { get; set; }
     }
 }

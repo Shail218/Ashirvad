@@ -203,6 +203,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\app\Common.js" />
+    <Content Include="Scripts\app\faculty.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -388,7 +389,6 @@
     <Content Include="Themedata\assets\images\gallery_item_small9_360X240.jpg" />
     <Content Include="Themedata\assets\images\girl_img.png" />
     <Content Include="Themedata\assets\images\globe.png" />
-    <Content Include="Themedata\assets\images\image.jpg" />
     <Content Include="Themedata\assets\images\img1.jpg" />
     <Content Include="Themedata\assets\images\indian-young-man-spectacles-white-shirt-tie-116881725.jpg" />
     <Content Include="Themedata\assets\images\insta_img1.jpg" />

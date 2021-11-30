@@ -186,6 +186,12 @@
     <Compile Include="Model\GALLERY_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\getfacultydetailbybranch_Result.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\getfacultydetailbysubject_Result.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\HOMEWORK_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>

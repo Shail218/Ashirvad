@@ -42,7 +42,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="team_box team_style1 box_shadow1 animation" data-animation="fadeInUp" data-animation-delay="0.01s">
                         <div class="team_img">
-                            <img src="@teacher.FilePath" onerror="this.src='/Themedata/assets/images/noimage.png';" alt="facultyimage" height="240" width="360">
+                            <img src="@teacher.FilePath" class="facultyimage" onerror="this.src='/Themedata/assets/images/noimage.png';" alt="facultyimage" height="240" width="360">
                             <ul class="list_none social_icons social_white">
                                 <li><a href="#"><i class="ion-social-facebook"></i></a></li>
                                 <li><a href="#"><i class="ion-social-twitter"></i></a></li>
@@ -51,7 +51,7 @@
                             </ul>
                         </div>
                         <div class="team_title radius_lbrb_10 text-center">
-                            <h5><a href="@Url.Action("TeacherDetail","TeacherDetail",new {@branchID=0,@CourseID=0,@ClassID=0,@subjectID=0,@facultyID=teacher.FacultyID})">@teacher.staff.Name</a></h5>
+                            <h5><a href="@Url.Action("TeacherDetail", "TeacherDetail", new { @branchID = 0, @CourseID = 0, @ClassID = 0, @subjectID = 0, @facultyID = teacher.FacultyID })">@teacher.staff.Name</a></h5>
                             <span>@teacher.branchSubject.Subject.SubjectName Teacher</span>
                             <h6>@teacher.BranchInfo.BranchName</h6>
                         </div>
@@ -86,3 +86,6 @@
     </div>
 </section>
 <!-- END SECTION CALL TO ACTION -->
+@section Scripts {
+    <script src="~/Scripts/app/faculty.js"></script>
+}

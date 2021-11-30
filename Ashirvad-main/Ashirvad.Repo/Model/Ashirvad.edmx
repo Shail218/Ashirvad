@@ -2168,6 +2168,16 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="getfacultydetailbybranch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="classID" Type="bigint" Mode="In" />
+          <Parameter Name="courseID" Type="bigint" Mode="In" />
+          <Parameter Name="subjectID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="getfacultydetailbysubject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="classID" Type="bigint" Mode="In" />
+          <Parameter Name="courseID" Type="bigint" Mode="In" />
+          <Parameter Name="subjectID" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
@@ -3292,6 +3302,16 @@
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="NEW_LIBRARY_MASTER" EntitySet="NEW_LIBRARY_MASTER" />
           </AssociationSet>
+          <FunctionImport Name="getfacultydetailbybranch" ReturnType="Collection(AshirvadModel.getfacultydetailbybranch_Result)">
+            <Parameter Name="classID" Mode="In" Type="Int64" />
+            <Parameter Name="courseID" Mode="In" Type="Int64" />
+            <Parameter Name="subjectID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="getfacultydetailbysubject" ReturnType="Collection(AshirvadModel.getfacultydetailbysubject_Result)">
+            <Parameter Name="classID" Mode="In" Type="Int64" />
+            <Parameter Name="courseID" Mode="In" Type="Int64" />
+            <Parameter Name="subjectID" Mode="In" Type="Int64" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="BANNER_TYPE_REL">
           <Key>
@@ -5747,6 +5767,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="getfacultydetailbybranch_Result">
+          <Property Type="String" Name="name" Nullable="false" MaxLength="255" />
+          <Property Type="Int64" Name="class_id" Nullable="false" />
+          <Property Type="Int64" Name="course_id" Nullable="false" />
+          <Property Type="Int64" Name="subject_id" Nullable="false" />
+          <Property Type="String" Name="subject_name" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="file_path" Nullable="true" />
+          <Property Type="String" Name="branch_name" Nullable="true" MaxLength="255" />
+          <Property Type="Int64" Name="faculty_id" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="getfacultydetailbysubject_Result">
+          <Property Type="String" Name="name" Nullable="false" MaxLength="255" />
+          <Property Type="Int64" Name="staff_id" Nullable="false" />
+          <Property Type="Int64" Name="class_id" Nullable="false" />
+          <Property Type="Int64" Name="course_id" Nullable="false" />
+          <Property Type="Int64" Name="subject_id" Nullable="false" />
+          <Property Type="String" Name="file_name" Nullable="true" />
+          <Property Type="String" Name="file_path" Nullable="true" />
+          <Property Type="String" Name="name1" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="address" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="dob" Nullable="true" Precision="23" />
+          <Property Type="String" Name="education" Nullable="true" />
+          <Property Type="String" Name="email_id" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="mobile_no" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="description" Nullable="true" />
+          <Property Type="String" Name="subject_name" Nullable="true" MaxLength="255" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6582,6 +6629,41 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="getfacultydetailbybranch" FunctionName="AshirvadModel.Store.getfacultydetailbybranch">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AshirvadModel.getfacultydetailbybranch_Result">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
+                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+                <ScalarProperty Name="subject_name" ColumnName="subject_name" />
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="branch_name" ColumnName="branch_name" />
+                <ScalarProperty Name="faculty_id" ColumnName="faculty_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getfacultydetailbysubject" FunctionName="AshirvadModel.Store.getfacultydetailbysubject">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AshirvadModel.getfacultydetailbysubject_Result">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
+                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+                <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="name1" ColumnName="name1" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="education" ColumnName="education" />
+                <ScalarProperty Name="email_id" ColumnName="email_id" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="subject_name" ColumnName="subject_name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
