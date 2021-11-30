@@ -59,17 +59,17 @@
                 <ul class="grid_container gutter_medium grid_col4">
                     <li class="grid-sizer"></li>
                     <!-- START PORTFOLIO ITEM -->
-                    @foreach (var image in Model.imagelist)
+                    @foreach (var image in Model.librarYImage)
                     {
                         <li class="grid_item @image.CategoryInfo.CategoryID">
                             <div class="gallery_item">
                                 <a href="#" class="image_link">
-                                    <img src="@image.FilePath" onerror="this.src='/Themedata/assets/images/noimage.png';" alt="image" height="240" width="360">
+                                    <img src="@image.ThumbnailFilePath" alt="image" height="240" width="360">
                                 </a>
                                 <div class="gallery_content">
                                     <div class="link_container">
 
-                                        <a href="@Url.Action("Download","LibraryImage",new { @filedata=image.FilePath,@FileName=image.FileName})"   id="paperdownload" download="@image.FileName">
+                                        <a href="@Url.Action("Download","LibraryImage",new { @filedata=image.DocFilePath,@FileName=image.DocFileName})"   id="paperdownload" download="@image.DocFileName">
                                             <span class="ripple"><i class="ion-image"></i></span>
                                         </a>
 
@@ -79,7 +79,7 @@
                                 </div>
                             </div>
                             <div class="team_title radius_lbrb_10 text-center">
-                                <h5><a href="#">@image.Title</a></h5>
+                                <h5><a href="#">@image.LibraryTitle</a></h5>
                             </div>
                         </li>
                     }

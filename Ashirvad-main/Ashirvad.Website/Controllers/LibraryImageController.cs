@@ -1,6 +1,7 @@
 ﻿using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Library;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,24 +12,25 @@ using System.Web.Mvc;
 
 namespace Ashirvad.Website.Controllers
 {
-    public class LibraryImageController : Controller
+    public class LibraryImageController : BaseController
     {
 
-        private readonly ILibrary1Service _LibraryService=null;
+        private readonly ILibraryService _LibraryService;
         private readonly ICategoryService _CategoryService=null;
         WebsiteModel websiteModel = new WebsiteModel();
-        public LibraryImageController(ILibrary1Service LibraryService,ICategoryService categoryService)
+        public LibraryImageController(ILibraryService libraryService,ICategoryService categoryService)
         {
-            _LibraryService = LibraryService;
+            _LibraryService = libraryService;
             _CategoryService = categoryService;
         }
         // GET: LibraryImage
         public async Task<ActionResult> LibraryImage()
         {
             websiteModel = SessionContext.Instance.websiteModel;
-            LibraryImageEntity libraryImageEntity = new LibraryImageEntity();
-            websiteModel.imagelist = await _LibraryService.GetAllLibrary(2, 0);
+            LibraryEntity libraryImageEntity = new LibraryEntity();
             websiteModel.Categorylist = await _CategoryService.GetAllCategorys(0);
+            websiteModel.librarYImage = await _LibraryService.GetAllLibrary(2, 0);
+
             return View(websiteModel);
         }
 

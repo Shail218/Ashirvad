@@ -64,18 +64,18 @@
                 <ul id="videoul" class="grid_container gutter_medium grid_col4">
                     <li class="grid-sizer"></li>
                     <!-- START PORTFOLIO ITEM -->
-                    @foreach (var item in Model.Videolist)
+                    @foreach (var item in Model.librarYImage)
                     {
                         <li class="grid_item @item.CategoryInfo.CategoryID">
                             <div class="gallery_item">
-                                <a href="@item.link" class="image_link">
-                                    <iframe id="Videoiframe" class="videolink" src="@item.link"></iframe>
+                                <a href="@item.VideoLink" class="image_link">
+                                    <iframe id="Videoiframe" class="videolink" src="@item.VideoLink"></iframe>
                                 </a>
                             </div>
 
                             
                             <div class="team_title radius_lbrb_10 text-center">
-                                <h5><a href="@item.link" target="_blank">@item.Title</a></h5>
+                                <h5><a href="@item.VideoLink" target="_blank">@item.LibraryTitle</a></h5>
                             </div>
                         </li>
                     }
