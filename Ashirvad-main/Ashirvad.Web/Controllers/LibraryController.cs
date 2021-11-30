@@ -100,22 +100,8 @@ namespace Ashirvad.Web.Controllers
             {
                 library.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }
-            if (library.StandardArray != null)
-            {
-                string[] std = library.StandardArray.Split(',');
-                for (int i = 0; i < std.Length; i++)
-                {
-                    library.LibraryID = id;
-                    library.StandardID = Convert.ToInt64(std[i]);
-                    library.Transaction = GetTransactionData(library.LibraryID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-                    data = await _libraryService.LibraryMaintenance(library);
-                }                
-            }
-            else
-            {
-                library.Transaction = GetTransactionData(library.LibraryID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-                data = await _libraryService.LibraryMaintenance(library);
-            }           
+            library.Transaction = GetTransactionData(library.LibraryID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            data = await _libraryService.LibraryMaintenance(library);    
             if (data != null)
             {
                 return Json(true);

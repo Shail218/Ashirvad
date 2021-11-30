@@ -2,6 +2,7 @@
 using Ashirvad.Data;
 using Ashirvad.Repo.DataAcceessAPI.Area;
 using Ashirvad.Repo.DataAcceessAPI.Area.Library;
+using Ashirvad.Repo.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,6 @@ namespace Ashirvad.Repo.Services.Area.Library
             libraryMaster.trans_id = this.AddTransactionData(libraryInfo.Transaction);
             libraryMaster.branch_id = libraryInfo.BranchID;
             libraryMaster.doc_desc = libraryInfo.Description;
-            libraryMaster.std_id = libraryInfo.StandardID;
             libraryMaster.subject_id = libraryInfo.SubjectID;
             libraryMaster.thumbnail_img = libraryInfo.ThumbnailFileName;
             libraryMaster.thumbnail_path = libraryInfo.ThumbnailFilePath;
@@ -65,6 +65,11 @@ namespace Ashirvad.Repo.Services.Area.Library
             {
                 libraryInfo.LibraryID = libraryMaster.library_id;
                 LibraryMasterMaintenance(libraryInfo);
+              
+            }
+            if(libraryInfo.Type == 2 && result > 0)
+            {
+                LibraryStandardMaintenance(libraryInfo);
             }
             return this.context.SaveChanges() > 0 ? libraryMaster.library_id : 0;
         }
@@ -109,8 +114,8 @@ namespace Ashirvad.Repo.Services.Area.Library
         public async Task<List<LibraryEntity>> GetAllLibrary(long branchID, long stdID)
         {
             var data = (from u in this.context.LIBRARY_MASTER
-                        where (0 == u.branch_id || u.branch_id == branchID) &&
-                        (0 == stdID || u.std_id == stdID)
+                        where (0 == u.branch_id || u.branch_id == branchID)
+                       // (0 == stdID || u.std_id == stdID)
                         select new LibraryEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -121,7 +126,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                             LibraryID = u.library_id,
                             BranchID = u.branch_id,
                             Description = u.doc_desc,
-                            StandardID = u.std_id,
+                          //  StandardID = u.std_id,
                             SubjectID = u.subject_id,
                             ThumbnailFileName = u.thumbnail_img,
                             ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
@@ -143,8 +148,8 @@ namespace Ashirvad.Repo.Services.Area.Library
             var data = (from u in this.context.LIBRARY_MASTER
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
                         from branch in tempBranch.DefaultIfEmpty()
-                        where (0 == branchID || u.branch_id == null || u.branch_id == 0 || u.branch_id == branchID) &&
-                        (0 == stdID || u.std_id == stdID || u.std_id == null || u.std_id == 0) && u.row_sta_cd == 1
+                        where (0 == branchID || u.branch_id == null || u.branch_id == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
+                      //  (0 == stdID || u.std_id == stdID || u.std_id == null || u.std_id == 0) && u.row_sta_cd == 1//
                         select new LibraryEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -155,7 +160,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                             LibraryID = u.library_id,
                             BranchID = u.branch_id,
                             Description = u.doc_desc,
-                            StandardID = u.std_id,
+                            
                             SubjectID = u.subject_id,
                             ThumbnailFileName = u.thumbnail_img,
                             ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
@@ -188,8 +193,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                             },
                             LibraryID = u.library_id,
                             BranchID = u.branch_id,
-                            Description = u.doc_desc,
-                            StandardID = u.std_id,
+                            Description = u.doc_desc,                            
                             SubjectID = u.subject_id,
                             ThumbnailFileName = u.thumbnail_img,
                             ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
@@ -213,31 +217,53 @@ namespace Ashirvad.Repo.Services.Area.Library
             var data = (from u in this.context.LIBRARY_MASTER
                         where u.row_sta_cd == 1 && u.library_type == Type && (u.branch_id == BranchID || BranchID == 0)
                         select new LibraryEntity()
-                        {
-                            RowStatus = new RowStatusEntity()
-                            {
-                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = (int)u.row_sta_cd
-                            },
+                        {    
                             LibraryID = u.library_id,
                             BranchID = u.branch_id,
                             VideoLink = u.video_link,
                             LibraryTitle = u.library_title,
                             ThumbnailFileName = u.thumbnail_img,
                             ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
-                            Type = u.type.Value,
-                            StandardID = u.std_id,
-                            SubjectID = u.subject_id,
+                            Type = u.type.Value,                                                       
                             Description = u.doc_desc,
                             DocFileName = u.library_image,
-                            DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,                            
-                            Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value },
+                            DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,                                                        
                             CategoryInfo = new CategoryEntity()
                             {
                                 CategoryID = u.category_id.HasValue ? 0 : u.category_id.Value,
-                            }
-                        }).ToList();
-
+                                Category = u.CATEGORY_MASTER.category_name
+                            },
+                            subject = new SubjectEntity()
+                            {
+                                Subject = u.SUBJECT_MASTER.subject,
+                                SubjectID = u.subject_id.HasValue ? u.subject_id.Value : 0
+                            },
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value }
+                        }).Distinct().ToList();
+            if (data.Count > 0)
+            {
+                data[0].libraryEntities = new List<LibraryEntity>();
+                foreach (var item in data)
+                {
+                    item.libraryEntities = (from u in this.context.LIBRARY_STD_MASTER
+                                            where item.RowStatus.RowStatusId == 1 && item.LibraryID == u.library_id
+                                            select new LibraryEntity()
+                                            {
+                                                LibraryID = item.LibraryID,
+                                                standard = new StandardEntity()
+                                                {
+                                                    StandardID = u.std_id.HasValue ? u.std_id.Value : 0,
+                                                    Standard = u.STD_MASTER.standard
+                                                }                                               
+                                            }).ToList();
+                }
+            }
+           
             return data;
         }
 
@@ -255,6 +281,31 @@ namespace Ashirvad.Repo.Services.Area.Library
             }
 
             return false;
+        }
+
+
+        public async Task<bool> LibraryStandardMaintenance(LibraryEntity libraryInfo)
+        {
+            string[] std = libraryInfo.StandardArray.Split(',');
+            var data = (from lib in this.context.LIBRARY_STD_MASTER
+                        where lib.library_id == libraryInfo.LibraryID
+                        select lib).ToList();
+            if (data?.Count > 0)
+            {
+                this.context.LIBRARY_STD_MASTER.RemoveRange(data);
+            }
+            
+            foreach (var item in std)
+            {
+                long Std = Convert.ToInt64(item);
+                LIBRARY_STD_MASTER library = new LIBRARY_STD_MASTER()
+                {
+                    library_id = libraryInfo.LibraryID,
+                    std_id = Std
+                };
+                this.context.LIBRARY_STD_MASTER.Add(library);                                         
+            }
+            return this.context.SaveChanges() > 0;
         }
     }
 }

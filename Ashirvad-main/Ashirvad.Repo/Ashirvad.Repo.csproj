@@ -201,6 +201,9 @@
     <Compile Include="Model\LIBRARY_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\LIBRARY_STD_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\LINK_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>

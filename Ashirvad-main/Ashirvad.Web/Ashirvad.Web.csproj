@@ -1144,6 +1144,7 @@
     <Compile Include="Controllers\FacultyController.cs" />
     <Compile Include="Controllers\HomeWorkController.cs" />
     <Compile Include="Controllers\LibraryController.cs" />
+    <Compile Include="Controllers\ManageLibraryController.cs" />
     <Compile Include="Controllers\NewLibraryController.cs" />
     <Compile Include="Controllers\FeesStructureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1405,6 +1406,7 @@
     <Content Include="Views\Library\VideoIndex.cshtml" />
     <Content Include="Views\Library\VideoManage.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\ManageLibrary\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

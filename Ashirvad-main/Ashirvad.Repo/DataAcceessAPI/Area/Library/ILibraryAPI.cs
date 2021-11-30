@@ -20,5 +20,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Library
         bool RemoveLibrary(long libraryID, string lastupdatedby);
 
         Task<List<LibraryEntity>> GetAllLibrary(int Type, long BranchID);
+
     }
 }

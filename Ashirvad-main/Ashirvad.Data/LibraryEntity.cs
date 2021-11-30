@@ -30,6 +30,10 @@ namespace Ashirvad.Data
         public CategoryEntity CategoryInfo { get; set; }
         public HttpPostedFileBase ThumbImageFile { get; set; }
         public HttpPostedFileBase DocFile { get; set; }
+        public SubjectEntity subject { get; set; }
+        public StandardEntity standard { get; set; }
+        public List<LibraryEntity> libraryEntities { get; set; } = new List<LibraryEntity>();
+        public long Library_Std_id { get; set; }
     }
 
     public class LibraryDataEntity
