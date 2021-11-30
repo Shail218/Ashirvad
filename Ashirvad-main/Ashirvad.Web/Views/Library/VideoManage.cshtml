@@ -4,6 +4,9 @@
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
             <th>
+                Library Details
+            </th>
+            <th>
                 Branch Name
             </th>
             <th>
@@ -24,11 +27,51 @@
     {
     <tr>
         <td>
-            @if(item.BranchID == 0)
+
+            <img src="~/ThemeData/images/plus.png" height="20" />
+            <div style="display:none">
+                <div style="max-height: 200px; overflow-y: scroll !important">
+                    <table style="width: 50%;" id="subcategorytbl2" class="table table-bordered dataTable no-footer">
+                        <thead>
+                            <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+                                <th>
+                                    Standard
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (item.libraryEntities.Count > 0)
+                            {
+                                foreach (var item1 in item.libraryEntities)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item1.standard.Standard
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>
+                                        No Data Available
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </td>
+        <td>
+            @if (item.BranchID == 0)
             {
                 <label>All Branch</label>
             }
-            else {
+            else
+            {
                 <label>@SessionContext.Instance.LoginUser.BranchInfo.BranchName</label>
             }
             @Html.HiddenFor(x => item.BranchID)
@@ -53,6 +96,20 @@
     </tr>
     }
 </table>
+
+<script type="text/javascript">
+    //Assign Click event to Plus Image.
+
+    $("body").on("click", "img[src*='plus.png']", function () {
+        $(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>");
+        $(this).attr("src", "../ThemeData/images/minus.png");
+    });
+    //Assign Click event to Minus Image.
+    $("body").on("click", "img[src*='minus.png']", function () {
+        $(this).attr("src", "../ThemeData/images/plus.png");
+        $(this).closest("tr").next().remove();
+    });
+</script>
 
 
 

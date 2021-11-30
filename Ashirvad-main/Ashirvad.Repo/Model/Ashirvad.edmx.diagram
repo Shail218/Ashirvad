@@ -173,14 +173,15 @@
         <AssociationConnector Association="AshirvadModel.FK_NEW_LIBRARY_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_NEW_LIBRARY_MASTER_CATEGORY_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_NEW_LIBRARY_MASTER_TRANSACTION_MASTER" />
-        <EntityTypeShape EntityType="AshirvadModel.APPROVAL_MASTER" Width="1.5" PointX="32.5" PointY="12.375" />
         <EntityTypeShape EntityType="AshirvadModel.LIBRARY_STD_MASTER" Width="1.5" PointX="32.5" PointY="21.125" />
-        <AssociationConnector Association="AshirvadModel.FK_APPROVAL_MASTER_BRANCH_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_APPROVAL_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_LIBRARY_STD_MASTER_STD_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.LIBRARY_MASTER" Width="1.5" PointX="30.25" PointY="12.875" />
         <AssociationConnector Association="AshirvadModel.FK_LIBRARY_MASTER_CATEGORY_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_LIBRARY_MASTER_SUBJECT_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.APPROVAL_MASTER" Width="1.5" PointX="35.5" PointY="20.5" />
+        <AssociationConnector Association="AshirvadModel.FK_APPROVAL_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_APPROVAL_MASTER_LIBRARY_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_APPROVAL_MASTER_TRANSACTION_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

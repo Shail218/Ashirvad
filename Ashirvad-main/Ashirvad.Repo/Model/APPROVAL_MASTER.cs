@@ -34,6 +34,8 @@ public partial class APPROVAL_MASTER
 
     public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
 
+    public virtual LIBRARY_MASTER LIBRARY_MASTER { get; set; }
+
     public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
 
 }

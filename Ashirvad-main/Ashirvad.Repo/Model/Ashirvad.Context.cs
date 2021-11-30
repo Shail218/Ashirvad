@@ -147,11 +147,11 @@ public partial class AshirvadDBEntities1 : DbContext
 
     public virtual DbSet<NEW_LIBRARY_MASTER> NEW_LIBRARY_MASTER { get; set; }
 
-    public virtual DbSet<APPROVAL_MASTER> APPROVAL_MASTER { get; set; }
-
     public virtual DbSet<LIBRARY_STD_MASTER> LIBRARY_STD_MASTER { get; set; }
 
     public virtual DbSet<LIBRARY_MASTER> LIBRARY_MASTER { get; set; }
+
+    public virtual DbSet<APPROVAL_MASTER> APPROVAL_MASTER { get; set; }
 
 
     public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)

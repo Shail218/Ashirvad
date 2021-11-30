@@ -18,6 +18,15 @@ using System;
 public partial class LIBRARY_MASTER
 {
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    public LIBRARY_MASTER()
+    {
+
+        this.APPROVAL_MASTER = new HashSet<APPROVAL_MASTER>();
+
+    }
+
+
     public long library_id { get; set; }
 
     public Nullable<long> branch_id { get; set; }
@@ -53,6 +62,10 @@ public partial class LIBRARY_MASTER
     public virtual CATEGORY_MASTER CATEGORY_MASTER { get; set; }
 
     public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<APPROVAL_MASTER> APPROVAL_MASTER { get; set; }
 
 }
 

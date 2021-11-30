@@ -73,6 +73,8 @@ $(document).ready(function () {
         $("#StandardName").addClass("editForm");
         $("#Type").val(1);
     }
+
+    
 });
 
 function LoadSubject(onLoaded) {

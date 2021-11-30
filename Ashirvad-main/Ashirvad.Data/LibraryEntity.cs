@@ -34,6 +34,15 @@ namespace Ashirvad.Data
         public StandardEntity standard { get; set; }
         public List<LibraryEntity> libraryEntities { get; set; } = new List<LibraryEntity>();
         public long Library_Std_id { get; set; }
+        public ApprovalEntity approval { get; set; }
+        public List<LibraryStandardEntity> list { get; set; }
+    }
+
+    public class LibraryStandardEntity
+    {
+        public long library_std_id { get; set; }
+        public long std_id { get; set; }
+        public long library_id { get; set; }
     }
 
     public class LibraryDataEntity

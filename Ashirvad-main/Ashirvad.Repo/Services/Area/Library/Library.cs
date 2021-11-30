@@ -134,7 +134,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                             DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
                             CategoryInfo = new CategoryEntity()
                             {
-                                CategoryID = u.category_id.HasValue ? 0 : u.category_id.Value
+                                CategoryID = u.category_id.HasValue ? u.category_id.Value : 0 
                             },
                             Type = u.type.Value,
                             Library_Type = u.library_type.Value,
@@ -209,6 +209,10 @@ namespace Ashirvad.Repo.Services.Area.Library
                             VideoLink = u.video_link,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value }
                         }).FirstOrDefault();
+            if(data != null)
+            {
+                data.list = this.context.LIBRARY_STD_MASTER.Where(z => z.library_id == data.LibraryID).Select(y => new LibraryStandardEntity() { library_std_id = y.library_std_id, library_id = y.library_id, std_id = y.std_id.HasValue ? y.std_id.Value : 0 }).ToList();
+            }
             return data;
         }
 
@@ -230,7 +234,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                             DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,                                                        
                             CategoryInfo = new CategoryEntity()
                             {
-                                CategoryID = u.category_id.HasValue ? 0 : u.category_id.Value,
+                                CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
                                 Category = u.CATEGORY_MASTER.category_name
                             },
                             subject = new SubjectEntity()
@@ -283,7 +287,6 @@ namespace Ashirvad.Repo.Services.Area.Library
             return false;
         }
 
-
         public async Task<bool> LibraryStandardMaintenance(LibraryEntity libraryInfo)
         {
             string[] std = libraryInfo.StandardArray.Split(',');
@@ -293,8 +296,7 @@ namespace Ashirvad.Repo.Services.Area.Library
             if (data?.Count > 0)
             {
                 this.context.LIBRARY_STD_MASTER.RemoveRange(data);
-            }
-            
+            }           
             foreach (var item in std)
             {
                 long Std = Convert.ToInt64(item);
@@ -306,6 +308,84 @@ namespace Ashirvad.Repo.Services.Area.Library
                 this.context.LIBRARY_STD_MASTER.Add(library);                                         
             }
             return this.context.SaveChanges() > 0;
+        }
+
+        public async Task<long> LibraryApprovalMaintenance(ApprovalEntity approvalEntity)
+        {
+            Model.APPROVAL_MASTER approvalMaster = new Model.APPROVAL_MASTER();
+            bool isUpdate = true;
+            var data = (from aprv in this.context.APPROVAL_MASTER
+                        where aprv.library_id == approvalEntity.library.LibraryID && aprv.branch_id == approvalEntity.Branch_id
+                        select new
+                        {
+                            approvalMaster = aprv
+                        }).FirstOrDefault();
+            if (data == null)
+            {
+                approvalMaster = new Model.APPROVAL_MASTER();
+                isUpdate = false;
+            }
+            else
+            {
+                approvalMaster = data.approvalMaster;
+                approvalEntity.TransactionInfo.TransactionId = data.approvalMaster.trans_id;
+            }
+
+            approvalMaster.row_sta_cd = approvalEntity.RowStatus.RowStatusId;
+            approvalMaster.trans_id = this.AddTransactionData(approvalEntity.TransactionInfo);
+            approvalMaster.branch_id = approvalEntity.Branch_id;
+            approvalMaster.library_id = approvalEntity.library.LibraryID;
+            approvalMaster.library_status = (int)approvalEntity.Library_Status;                      
+            this.context.APPROVAL_MASTER.Add(approvalMaster);
+            if (isUpdate)
+            {
+                this.context.Entry(approvalMaster).State = System.Data.Entity.EntityState.Modified;
+            }            
+            return this.context.SaveChanges() > 0 ? approvalMaster.approval_id : 0;
+        }
+
+        public async Task<List<LibraryEntity>> GetAllLibraryApproval(long BranchId)
+        {
+            var data = (from u in this.context.LIBRARY_MASTER
+                        join apl in this.context.APPROVAL_MASTER on u.library_id equals apl.library_id into ps
+                        from apl in ps.DefaultIfEmpty()
+                        where u.row_sta_cd == 1 && u.branch_id == 0
+                        select new LibraryEntity()
+                        {
+                            LibraryID = u.library_id,
+                            BranchID = u.branch_id,
+                            VideoLink = u.video_link,
+                            LibraryTitle = u.library_title,
+                            ThumbnailFileName = u.thumbnail_img,
+                            ThumbnailFilePath = u.thumbnail_path==null|| u.thumbnail_path=="" ? "" : "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                            Type = u.type.Value,
+                            Description = u.doc_desc,
+                            DocFileName = u.library_image,
+                            DocFilePath = u.library_path == null || u.library_path == "" ? "" : "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                            CategoryInfo = new CategoryEntity()
+                            {
+                                CategoryID = u.category_id.HasValue ? u.category_id.Value :0 ,
+                                Category = u.CATEGORY_MASTER.category_name
+                            },
+                            subject = new SubjectEntity()
+                            {
+                                Subject = u.SUBJECT_MASTER.subject,
+                                SubjectID = u.subject_id.HasValue ? u.subject_id.Value : 0
+                            },
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value },
+                            approval = new ApprovalEntity()
+                            {
+                                Approval_id = apl == null ? 0 : apl.approval_id,
+                                Library_Status_text = apl == null ? "Pending":apl.library_status == 2 ? "Approve" : apl.library_status == 3 ? "Reject" : "Pending"
+                            }
+                            
+                        }).Distinct().ToList();            
+            return data;
         }
     }
 }

@@ -51,6 +51,7 @@
     MarksRegister: $("#hdnFldVDName").val() + "ResultRegister/",
     BranchClass: $("#hdnFldVDName").val() + "BranchClass/",
     BranchSubject: $("#hdnFldVDName").val() + "BranchSubject/",
+    ManageLibrary: $("#hdnFldVDName").val() + "ManageLibrary/",
 };
 
 function GetExtention(image){

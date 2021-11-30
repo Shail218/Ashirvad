@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AboutUsEntity.cs" />
     <Compile Include="AnnouncementEntity.cs" />
+    <Compile Include="ApprovalEntity.cs" />
     <Compile Include="AttendanceEntity.cs" />
     <Compile Include="BannerEntity.cs" />
     <Compile Include="BatchEntity.cs" />

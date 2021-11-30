@@ -21,5 +21,9 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Library
 
         Task<List<LibraryEntity>> GetAllLibrary(int Type, long BranchID);
 
+        Task<long> LibraryApprovalMaintenance(ApprovalEntity approvalEntity);
+
+        Task<List<LibraryEntity>> GetAllLibraryApproval(long BranchId);
+
     }
 }
