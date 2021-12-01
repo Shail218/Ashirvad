@@ -79,29 +79,33 @@ namespace Ashirvad.Repo.Services.Area.Standard
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+
+            return data;
+        }       
+
+        public async Task<List<StandardEntity>> GetAllStandardsName(long branchid)
+        {
+            var data = (from u in this.context.STD_MASTER
+                        .Include("CLASS_DTL_MASTER")
+                        where u.row_sta_cd == 1 && (u.branch_id == branchid || branchid == 0)
+                        select new StandardEntity()
+                        {                           
+                            Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,                            
                         }).Distinct().ToList();
 
             return data;
         }
 
-        public async Task<List<StandardEntity>> GetAllStandards()
+        public async Task<List<StandardEntity>> GetAllStandardsID(string standardname,long branchid)
         {
             var data = (from u in this.context.STD_MASTER
+                        .Include("CLASS_DTL_MASTER")
+                        where u.row_sta_cd == 1 && u.CLASS_DTL_MASTER.CLASS_MASTER.class_name == standardname && (u.branch_id == branchid || branchid == 0)
                         select new StandardEntity()
                         {
-                            RowStatus = new RowStatusEntity()
-                            {
-                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = u.row_sta_cd
-                            },
                             Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
-                            StandardID = u.std_id,
-                            BranchInfo = new BranchEntity()
-                            {
-                                BranchID = u.branch_id,
-                                BranchName = u.BRANCH_MASTER.branch_name
-                            },
-                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                            StandardID = u.std_id
                         }).ToList();
 
             return data;

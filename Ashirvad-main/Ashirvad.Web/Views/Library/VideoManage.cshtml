@@ -15,12 +15,12 @@
             <th>
                 Link Description
             </th>
-            <th>
+            @*<th>
                 Edit
             </th>
             <th>
                 Delete
-            </th>
+            </th>*@
         </tr>
     </thead>
     @foreach (var item in Model)
@@ -83,7 +83,7 @@
         <td>
             @item.Description
         </td>
-        <td>
+        @*<td>
             <a href="@Url.Action("LibraryMaintenance", "Library", new { libraryID = item.LibraryID,Type=1})">
                 <img src="~/ThemeData/images/viewIcon.png" />
             </a>
@@ -92,7 +92,7 @@
             <a style="margin-left:20px;" href="#" onclick="RemoveLibrary(@item.LibraryID);">
                 <img src="~/ThemeData/images/delete.png" />
             </a>
-        </td>
+        </td>*@
     </tr>
     }
 </table>

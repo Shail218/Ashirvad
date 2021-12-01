@@ -2,6 +2,8 @@
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Library;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Standard;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Subject;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,9 +17,13 @@ namespace Ashirvad.Web.Controllers
     public class LibraryController : BaseController
     {
         private readonly ILibraryService _libraryService;
-        public LibraryController(ILibraryService libraryService)
+        private readonly ISubjectService _subjectService;
+        private readonly IStandardService _standardService;
+        public LibraryController(ILibraryService libraryService, ISubjectService subjectService, IStandardService standardService)
         {
             _libraryService = libraryService;
+            _subjectService = subjectService;
+            _standardService = standardService;
         }
 
         // GET: Library
@@ -39,7 +45,7 @@ namespace Ashirvad.Web.Controllers
             {
                 BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }
-            var branchData = await _libraryService.GetAllLibrary(Type,0);
+            var branchData = await _libraryService.GetAllLibrary(Type, 0);
             branch.LibraryData = branchData;
             if (Type == (int)Enums.GalleryType.Image)
             {
@@ -55,8 +61,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveLibrary(LibraryEntity library)
         {
-            LibraryEntity data = new LibraryEntity();
-            long id = library.LibraryID;
+            var data = new LibraryEntity();
             if (library.ThumbImageFile != null)
             {
                 string _FileName = Path.GetFileName(library.ThumbImageFile.FileName);
@@ -101,12 +106,34 @@ namespace Ashirvad.Web.Controllers
                 library.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }
             library.Transaction = GetTransactionData(library.LibraryID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-            data = await _libraryService.LibraryMaintenance(library);    
+            string[] stdname = library.StandardNameArray.Split(',');
+            if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
+                for (int i = 0; i < stdname.Length; i++)
+                {
+                    var stdlist = await _standardService.GetAllStandardsID(stdname[i],0);
+                    library.Standardlist.AddRange(stdlist);
+                }
+                library.Subjectlist = await _subjectService.GetAllSubjectsID(library.subject.Subject,0);
+            }
+            else
+            {
+                for (int i = 0; i < stdname.Length; i++)
+                {
+                    var stdlist = await _standardService.GetAllStandardsID(stdname[i],SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                    library.Standardlist.AddRange(stdlist);
+                }
+                library.Subjectlist = await _subjectService.GetAllSubjectsID(library.subject.Subject, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            }            
+            data = await _libraryService.LibraryMaintenance(library);
             if (data != null)
             {
                 return Json(true);
             }
-            return Json(false);
+            else
+            {
+                return Json(false);
+            }          
         }
 
         [HttpPost]

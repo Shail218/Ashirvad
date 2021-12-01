@@ -12,7 +12,8 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Standard
         Task<long> StandardMaintenance(StandardEntity standardInfo);
         Task<List<StandardEntity>> GetAllStandards(long branchID);
         bool RemoveStandard(long StandardID, string lastupdatedby);
-        Task<List<StandardEntity>> GetAllStandards();
         Task<StandardEntity> GetStandardsByID(long standardID);
+        Task<List<StandardEntity>> GetAllStandardsName(long branchid);
+        Task<List<StandardEntity>> GetAllStandardsID(string standardname, long branchid);
     }
 }

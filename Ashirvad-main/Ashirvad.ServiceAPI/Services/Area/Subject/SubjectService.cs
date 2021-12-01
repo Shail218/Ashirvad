@@ -46,6 +46,35 @@ namespace Ashirvad.ServiceAPI.Services.Area.Subject
 
             return null;
         }
+
+        public async Task<List<SubjectEntity>> GetAllSubjectsName(long branchid)
+        {
+            try
+            {
+                return await this._subjectContext.GetAllSubjectsName(branchid);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<SubjectEntity>> GetAllSubjectsID(string subjectName, long branchid)
+        {
+            try
+            {
+                return await this._subjectContext.GetAllSubjectsID(subjectName,branchid);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate)
         {
             try

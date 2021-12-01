@@ -32,6 +32,7 @@
             @Html.HiddenFor(x => x.LibraryID)
             @Html.HiddenFor(x => x.BranchID)
             @Html.HiddenFor(x => x.StandardArray)
+            @Html.HiddenFor(x => x.StandardNameArray)
             @Html.HiddenFor(x => x.list)
         </div>
         <div class="col-md-12">
@@ -71,6 +72,7 @@
                 <option value="0">--Select Subject--</option>
             </select>
             @Html.HiddenFor(x => x.SubjectID)
+            @Html.HiddenFor(x => x.subject.Subject)
         </div>
         <div class="col-md-12" style="margin-top: 10px">
             @Html.Label("Link Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>

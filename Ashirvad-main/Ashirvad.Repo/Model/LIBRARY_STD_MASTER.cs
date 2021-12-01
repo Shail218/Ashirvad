@@ -24,9 +24,13 @@ public partial class LIBRARY_STD_MASTER
 
     public Nullable<long> std_id { get; set; }
 
+    public Nullable<long> subject_id { get; set; }
+
 
 
     public virtual STD_MASTER STD_MASTER { get; set; }
+
+    public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
 
 }
 

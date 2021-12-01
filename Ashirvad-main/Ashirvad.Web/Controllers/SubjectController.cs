@@ -2,6 +2,7 @@
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Subject;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.SuperAdminSubject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Ashirvad.Web.Controllers
     public class SubjectController : BaseController
     {
         private readonly ISubjectService _subjectService;
+
         public ResponseModel res = new ResponseModel();
 
         public SubjectController(ISubjectService subjectService)
@@ -92,17 +94,17 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> SubjectDataByBranch()
         {
-            if(SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            if (SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin)
             {
-                var branchData = await _subjectService.GetAllSubjects(0);
+                var branchData = await _subjectService.GetAllSubjectsName(0);
                 return Json(branchData);
             }
             else
             {
-                var branchData = await _subjectService.GetAllSubjects(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                var branchData = await _subjectService.GetAllSubjectsName(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
                 return Json(branchData);
             }
-            
+
         }
 
         public async Task<JsonResult> SubjectDataByTestDate(string TestDate)

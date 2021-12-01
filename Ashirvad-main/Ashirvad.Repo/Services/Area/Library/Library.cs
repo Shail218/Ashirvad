@@ -45,7 +45,7 @@ namespace Ashirvad.Repo.Services.Area.Library
             libraryMaster.trans_id = this.AddTransactionData(libraryInfo.Transaction);
             libraryMaster.branch_id = libraryInfo.BranchID;
             libraryMaster.doc_desc = libraryInfo.Description;
-            libraryMaster.subject_id = libraryInfo.SubjectID;
+            
             libraryMaster.thumbnail_img = libraryInfo.ThumbnailFileName;
             libraryMaster.thumbnail_path = libraryInfo.ThumbnailFilePath;
             libraryMaster.library_image = libraryInfo.DocFileName;
@@ -127,7 +127,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                             BranchID = u.branch_id,
                             Description = u.doc_desc,
                           //  StandardID = u.std_id,
-                            SubjectID = u.subject_id,
+                            //SubjectID = u.subject_id,
                             ThumbnailFileName = u.thumbnail_img,
                             ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
                             DocFileName = u.library_image,
@@ -161,7 +161,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                             BranchID = u.branch_id,
                             Description = u.doc_desc,
                             
-                            SubjectID = u.subject_id,
+                            //SubjectID = u.subject_id,
                             ThumbnailFileName = u.thumbnail_img,
                             ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
                             DocFileName = u.library_image,
@@ -194,7 +194,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                             LibraryID = u.library_id,
                             BranchID = u.branch_id,
                             Description = u.doc_desc,                            
-                            SubjectID = u.subject_id,
+                            //SubjectID = u.subject_id,
                             ThumbnailFileName = u.thumbnail_img,
                             ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
                             DocFileName = u.library_image,
@@ -237,11 +237,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                 CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
                                 Category = u.CATEGORY_MASTER.category_name
                             },
-                            subject = new SubjectEntity()
-                            {
-                                Subject = u.SUBJECT_MASTER.subject,
-                                SubjectID = u.subject_id.HasValue ? u.subject_id.Value : 0
-                            },
+                           
                             RowStatus = new RowStatusEntity()
                             {
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
@@ -261,10 +257,10 @@ namespace Ashirvad.Repo.Services.Area.Library
                                                 LibraryID = item.LibraryID,
                                                 standard = new StandardEntity()
                                                 {
-                                                    StandardID = u.std_id.HasValue ? u.std_id.Value : 0,
+                                                    //StandardID = u.std_id.HasValue ? u.std_id.Value : 0,
                                                     Standard = u.STD_MASTER.standard
                                                 }                                               
-                                            }).ToList();
+                                            }).Distinct().ToList();
                 }
             }
            
@@ -289,7 +285,8 @@ namespace Ashirvad.Repo.Services.Area.Library
 
         public async Task<bool> LibraryStandardMaintenance(LibraryEntity libraryInfo)
         {
-            string[] std = libraryInfo.StandardArray.Split(',');
+            bool isSuccess = false;
+            //string[] std = libraryInfo.StandardArray.Split(',');
             var data = (from lib in this.context.LIBRARY_STD_MASTER
                         where lib.library_id == libraryInfo.LibraryID
                         select lib).ToList();
@@ -297,17 +294,26 @@ namespace Ashirvad.Repo.Services.Area.Library
             {
                 this.context.LIBRARY_STD_MASTER.RemoveRange(data);
             }           
-            foreach (var item in std)
+            foreach (var item in libraryInfo.Standardlist)
             {
-                long Std = Convert.ToInt64(item);
-                LIBRARY_STD_MASTER library = new LIBRARY_STD_MASTER()
+                LIBRARY_STD_MASTER library = null;
+                List<LIBRARY_STD_MASTER> libraryList = new List<LIBRARY_STD_MASTER>();
+                //long Std = Convert.ToInt64(item);
+                foreach (var item1 in libraryInfo.Subjectlist)
                 {
-                    library_id = libraryInfo.LibraryID,
-                    std_id = Std
-                };
-                this.context.LIBRARY_STD_MASTER.Add(library);                                         
+                    library = new LIBRARY_STD_MASTER()
+                    {
+                        library_id = libraryInfo.LibraryID,
+                        std_id = item.StandardID,
+                        subject_id = item1.SubjectID
+                    };
+                    libraryList.Add(library);
+                }
+                this.context.LIBRARY_STD_MASTER.AddRange(libraryList);
+                this.context.SaveChanges();
+                isSuccess = true;
             }
-            return this.context.SaveChanges() > 0;
+            return isSuccess;
         }
 
         public async Task<long> LibraryApprovalMaintenance(ApprovalEntity approvalEntity)
@@ -366,12 +372,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                             {
                                 CategoryID = u.category_id.HasValue ? u.category_id.Value :0 ,
                                 Category = u.CATEGORY_MASTER.category_name
-                            },
-                            subject = new SubjectEntity()
-                            {
-                                Subject = u.SUBJECT_MASTER.subject,
-                                SubjectID = u.subject_id.HasValue ? u.subject_id.Value : 0
-                            },
+                            },                           
                             RowStatus = new RowStatusEntity()
                             {
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
@@ -384,7 +385,15 @@ namespace Ashirvad.Repo.Services.Area.Library
                                 Library_Status_text = apl == null ? "Pending":apl.library_status == 2 ? "Approve" : apl.library_status == 3 ? "Reject" : "Pending"
                             }
                             
-                        }).Distinct().ToList();            
+                        }).Distinct().ToList(); 
+            if(data?.Count > 0)
+            {
+                foreach (var item in data)
+                {
+                    int idx = data.IndexOf(item);
+                    data[idx].Subjectlist = this.context.LIBRARY_STD_MASTER.Where(z => z.library_id == item.LibraryID).Select(y => new SubjectEntity() { Subject = y.SUBJECT_MASTER.subject }).ToList();
+                }
+            }
             return data;
         }
     }

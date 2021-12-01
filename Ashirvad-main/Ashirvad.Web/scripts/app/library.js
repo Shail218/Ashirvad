@@ -205,18 +205,24 @@ $("#BranchName").change(function () {
 $("#StandardName").change(function () {    
     var Data = $("#StandardName option:selected").val();
     $('#StandardID').val("");
-    var std=[];
+    var std = [];
+    var stdName = [];
     var std1 = $('#StandardName')[0].selectedOptions;
     $.each(std1, function (index, value) {
         var vl = value.value;
-        std.push(vl);       
+        std.push(vl);
+        var v2 = value.text;
+        stdName.push(v2);
     });
     $('#StandardArray').val(std)
+    $('#StandardNameArray').val(stdName)
 });
 
 $("#SubjectName").change(function () {    
     var Data = $("#SubjectName option:selected").val();
+    var DataName = $("#SubjectName option:selected").text();
     $('#SubjectID').val(Data);
+    $('#subject_Subject').val(DataName);
 });
 
 $("#CategoryName").change(function () {

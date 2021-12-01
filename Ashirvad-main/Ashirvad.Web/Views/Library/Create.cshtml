@@ -75,6 +75,7 @@
             </select>
             @Html.HiddenFor(x => x.StandardID)
             @Html.HiddenFor(x => x.StandardArray)
+            @Html.HiddenFor(x => x.StandardNameArray)
         </div>
         <div class="col-md-6" style="margin-top:10px;" id="subject">
             @Html.Label("Select Subject", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -82,6 +83,7 @@
                 <option value="0">--Select Subject--</option>
             </select>
             @Html.HiddenFor(x => x.SubjectID)
+            @Html.HiddenFor(x => x.subject.Subject)
         </div>
         <div class="col-md-12" style="margin-top: 10px">
             @Html.Label("Document Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>

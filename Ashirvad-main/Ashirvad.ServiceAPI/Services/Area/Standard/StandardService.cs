@@ -46,11 +46,25 @@ namespace Ashirvad.ServiceAPI.Services.Area.Standard
             return null;
         }
 
-        public async Task<List<StandardEntity>> GetAllStandards()
+        public async Task<List<StandardEntity>> GetAllStandardsName(long branchid)
         {
             try
             {
-                return await this._standardContext.GetAllStandards();
+                return await this._standardContext.GetAllStandardsName(branchid);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<StandardEntity>> GetAllStandardsID(string standardname, long branchid)
+        {
+            try
+            {
+                return await this._standardContext.GetAllStandardsID(standardname,branchid);
             }
             catch (Exception ex)
             {

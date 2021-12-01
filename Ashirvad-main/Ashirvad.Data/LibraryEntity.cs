@@ -22,6 +22,7 @@ namespace Ashirvad.Data
         public long? StandardID { get; set; }
         public long? SubjectID { get; set; }
         public string StandardArray { get; set; }
+        public string StandardNameArray { get; set; }
         public string Description { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public TransactionEntity Transaction { get; set; }
@@ -36,6 +37,8 @@ namespace Ashirvad.Data
         public long Library_Std_id { get; set; }
         public ApprovalEntity approval { get; set; }
         public List<LibraryStandardEntity> list { get; set; }
+        public List<SubjectEntity> Subjectlist { get; set; }
+        public List<StandardEntity> Standardlist { get; set; } = new List<StandardEntity>();
     }
 
     public class LibraryStandardEntity

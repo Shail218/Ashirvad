@@ -200,7 +200,6 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="FacultyImage\1MQHHJLP2BBSYSOWACCQ.png" />
     <Content Include="FeesImage\empty_cart.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="GalleryImage\L0QG6TB71KDIZUCO3PKT.png" />
@@ -328,8 +327,6 @@
     <Content Include="scripts\select2.js" />
     <Content Include="scripts\select2.min.js" />
     <Content Include="StudentImage\AXJQ4HN19XVLMOB01EK4.png" />
-    <Content Include="StudentImage\Screenshot %281%29.png" />
-    <Content Include="StudentImage\YR3DIZVOSO45C83YP8P7.png" />
     <Content Include="StudentImage\Z8KPHS3YBD7TTQP0M5F9.png" />
     <Content Include="TestDetailImage\32QEGMX5SVX28NTURU7O.png" />
     <Content Include="TestDetailImage\empty_cart.png" />
@@ -1418,6 +1415,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="CourseImage\" />
+    <Folder Include="FacultyImage\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
     <Folder Include="ZipFiles\HomeworkDetails\" />

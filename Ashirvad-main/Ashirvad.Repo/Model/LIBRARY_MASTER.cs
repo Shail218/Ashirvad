@@ -41,8 +41,6 @@ public partial class LIBRARY_MASTER
 
     public Nullable<int> type { get; set; }
 
-    public Nullable<long> subject_id { get; set; }
-
     public string doc_desc { get; set; }
 
     public Nullable<int> row_sta_cd { get; set; }
@@ -59,13 +57,11 @@ public partial class LIBRARY_MASTER
 
 
 
-    public virtual CATEGORY_MASTER CATEGORY_MASTER { get; set; }
-
-    public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
-
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<APPROVAL_MASTER> APPROVAL_MASTER { get; set; }
+
+    public virtual CATEGORY_MASTER CATEGORY_MASTER { get; set; }
 
 }
 

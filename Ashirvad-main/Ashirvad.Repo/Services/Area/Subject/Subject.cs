@@ -65,20 +65,20 @@ namespace Ashirvad.Repo.Services.Area.Subject
                         where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new SubjectEntity()
                         {
+                            Subject = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                            SubjectID = u.subject_id,
                             RowStatus = new RowStatusEntity()
                             {
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = u.row_sta_cd
                             },
-                            Subject = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
-                            SubjectID = u.subject_id,
                             BranchInfo = new BranchEntity()
                             {
                                 BranchID = u.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).ToList();
+                        }).Distinct().ToList();
 
             return data;
         }
@@ -101,6 +101,32 @@ namespace Ashirvad.Repo.Services.Area.Subject
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+
+            return data;
+        }
+
+        public async Task<List<SubjectEntity>> GetAllSubjectsName(long branchid)
+        {
+            var data = (from u in this.context.SUBJECT_MASTER
+                        .Include("SUBJECT_DTL_MASTER")
+                        where u.row_sta_cd == 1 && (u.branch_id == branchid || branchid == 0)
+                        select new SubjectEntity()
+                        {
+                            Subject = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
+                        }).Distinct().ToList();
+            return data;
+        }
+
+        public async Task<List<SubjectEntity>> GetAllSubjectsID(string subjectName, long branchid)
+        {
+            var data = (from u in this.context.SUBJECT_MASTER
+                        .Include("SUBJECT_DTL_MASTER")
+                        where u.row_sta_cd == 1 && u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name == subjectName && (u.branch_id == branchid || branchid == 0)
+                        select new SubjectEntity()
+                        {
+                            Subject = u.subject,
+                            SubjectID = u.subject_id
                         }).ToList();
 
             return data;

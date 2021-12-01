@@ -30,7 +30,7 @@ public partial class SUBJECT_MASTER
 
         this.TEST_MASTER = new HashSet<TEST_MASTER>();
 
-        this.LIBRARY_MASTER = new HashSet<LIBRARY_MASTER>();
+        this.LIBRARY_STD_MASTER = new HashSet<LIBRARY_STD_MASTER>();
 
     }
 
@@ -73,7 +73,7 @@ public partial class SUBJECT_MASTER
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<LIBRARY_MASTER> LIBRARY_MASTER { get; set; }
+    public virtual ICollection<LIBRARY_STD_MASTER> LIBRARY_STD_MASTER { get; set; }
 
 }
 

@@ -1,6 +1,7 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Class;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Standard;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Ashirvad.Web.Controllers
     public class StandardController : BaseController
     {
         private readonly IStandardService _standardService;
+       
         public ResponseModel res = new ResponseModel();
 
         public StandardController(IStandardService standardService)
@@ -58,8 +60,8 @@ namespace Ashirvad.Web.Controllers
                 branch.StandardData = result;
             }
 
-            var branchData = await _standardService.GetAllStandards();
-            branch.StandardData = branchData;
+            //var branchData = await _standardService.GetAllStandards();
+            //branch.StandardData = branchData;
 
             return View("Index", branch);
         }
@@ -90,20 +92,14 @@ namespace Ashirvad.Web.Controllers
         {
             if(SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
             {
-                var branchData = await _standardService.GetAllStandards(0);
+                var branchData = await _standardService.GetAllStandardsName(0);
                 return Json(branchData);
             }
             else
             {
-                var branchData = await _standardService.GetAllStandards(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                var branchData = await _standardService.GetAllStandardsName(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
                 return Json(branchData);
             }           
-        }
-
-        public async Task<JsonResult> AllStandardData()
-        {
-            var branchData = await _standardService.GetAllStandards();
-            return Json(branchData);
         }
     }
 }
