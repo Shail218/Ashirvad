@@ -296,22 +296,25 @@ namespace Ashirvad.Repo.Services.Area.Library
             }           
             foreach (var item in libraryInfo.Standardlist)
             {
-                LIBRARY_STD_MASTER library = null;
-                List<LIBRARY_STD_MASTER> libraryList = new List<LIBRARY_STD_MASTER>();
-                //long Std = Convert.ToInt64(item);
-                foreach (var item1 in libraryInfo.Subjectlist)
+                if (item != null)
                 {
-                    library = new LIBRARY_STD_MASTER()
+                    LIBRARY_STD_MASTER library = null;
+                    List<LIBRARY_STD_MASTER> libraryList = new List<LIBRARY_STD_MASTER>();
+                    //long Std = Convert.ToInt64(item);
+                    foreach (var item1 in libraryInfo.Subjectlist)
                     {
-                        library_id = libraryInfo.LibraryID,
-                        std_id = item.StandardID,
-                        subject_id = item1.SubjectID
-                    };
-                    libraryList.Add(library);
+                        library = new LIBRARY_STD_MASTER()
+                        {
+                            library_id = libraryInfo.LibraryID,
+                            std_id = item.StandardID,
+                            subject_id = item1.SubjectID
+                        };
+                        libraryList.Add(library);
+                    }
+                    this.context.LIBRARY_STD_MASTER.AddRange(libraryList);
+                    this.context.SaveChanges();
+                    isSuccess = true;
                 }
-                this.context.LIBRARY_STD_MASTER.AddRange(libraryList);
-                this.context.SaveChanges();
-                isSuccess = true;
             }
             return isSuccess;
         }
