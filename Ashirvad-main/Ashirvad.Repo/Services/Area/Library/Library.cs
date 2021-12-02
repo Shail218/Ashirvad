@@ -69,6 +69,7 @@ namespace Ashirvad.Repo.Services.Area.Library
             }
             if(libraryInfo.Type == 2 && result > 0)
             {
+                libraryInfo.LibraryID = libraryMaster.library_id;
                 LibraryStandardMaintenance(libraryInfo);
             }
             return this.context.SaveChanges() > 0 ? libraryMaster.library_id : 0;
