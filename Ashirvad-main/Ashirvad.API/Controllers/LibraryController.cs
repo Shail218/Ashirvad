@@ -239,5 +239,16 @@ namespace Ashirvad.API.Controllers
             result.Data = data;
             return result;
         }
+
+        [Route("GetAllLibraryApproval")]
+        [HttpGet]
+        public OperationResult<List<LibraryEntity>> GetAllLibraryApproval(long branchID)
+        {
+            var data = this._libraryService.GetAllLibraryApproval(branchID);
+            OperationResult<List<LibraryEntity>> result = new OperationResult<List<LibraryEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
     }
 }
