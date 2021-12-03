@@ -25,7 +25,7 @@ namespace Ashirvad.API.Controllers
 
         [Route("LibraryMaintenance/{LibraryID}/{LibraryDetailID}/{LibraryTitle}/{CategoryID}/{StandardID}/{BranchID}/{Type}/{Library_Type}/{Description}/{SubjectID}/{CreateId}/{CreateBy}/{TransactionId}/{ThumbnailFileName}/{ThumbnailFileExtension}/{DocFileName}/{DocFileExtension}/{HasThumbnailFile}/{HasDocFile}")]
         [HttpPost]
-        public OperationResult<LibraryEntity> LibraryMaintenance(long LibraryID, long LibraryDetailID, string LibraryTitle, long CategoryID, string StandardID, long BranchID, int Type, int Library_Type, string Description, long SubjectID, int CreateId, string CreateBy, long TransactionId, string ThumbnailFileName, string ThumbnailFileExtension, string DocFileName, string DocFileExtension, bool HasThumbnailFile, bool HasDocFile)
+        public OperationResult<LibraryEntity> LibraryMaintenance(long LibraryID, long LibraryDetailID, string LibraryTitle, long CategoryID, string StandardID, long BranchID, int Type, int Library_Type, string Description, long SubjectID, int CreateId, string CreateBy, long TransactionId, string VideoLink, string ThumbnailFileName, string ThumbnailFileExtension, string DocFileName, string DocFileExtension, bool HasThumbnailFile, bool HasDocFile)
         {
             OperationResult<LibraryEntity> result = new OperationResult<LibraryEntity>();
             var httpRequest = HttpContext.Current.Request;
@@ -71,6 +71,19 @@ namespace Ashirvad.API.Controllers
                 CreatedBy = CreateBy,
                 CreatedId = CreateId,
             };
+            if (VideoLink != "none")
+            {
+                libraryEntity.Library_Type = (int)Enums.GalleryType.Video;
+                libraryEntity.ThumbnailFileName = "";
+                libraryEntity.ThumbnailFilePath = "";
+                libraryEntity.DocFileName = "";
+                libraryEntity.DocFilePath = "";
+            }
+            else
+            {
+                libraryEntity.Library_Type = (int)Enums.GalleryType.Image;
+                libraryEntity.VideoLink = "";
+            }
             if (HasThumbnailFile && HasDocFile)
             {
                 try
@@ -207,9 +220,9 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-        [Route("GetAllLibraryByStdBranch")]
+        [Route("GetAllMobileLibrary")]
         [HttpGet]
-        public OperationResult<List<LibraryEntity>> GetAllLibrary(int Type, long branchID)
+        public OperationResult<List<LibraryEntity>> GetAllMobileLibrary(int Type, long branchID)
         {
             var data = this._libraryService.GetAllMobileLibrary(Type, branchID);
             OperationResult<List<LibraryEntity>> result = new OperationResult<List<LibraryEntity>>();

@@ -302,7 +302,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                         library_id = b.library_id,
                                         standard = b.STD_MASTER.standard,
                                         subject = b.SUBJECT_MASTER.subject
-                                    }).ToList(),
+                                    }).Distinct().ToList(),
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value }
                         }).ToList();
             return data;
