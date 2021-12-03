@@ -14,8 +14,8 @@ namespace Ashirvad.Data
         public string LibraryTitle { get; set; }
         public string VideoLink { get; set; }
         public string ThumbnailFileName { get; set; }
-        public string ThumbnailFilePath{ get; set; }
-        public string DocFileName{ get; set; }
+        public string ThumbnailFilePath { get; set; }
+        public string DocFileName { get; set; }
         public string DocFilePath { get; set; }
         public int Type { get; set; }
         public int Library_Type { get; set; }
@@ -45,6 +45,9 @@ namespace Ashirvad.Data
     {
         public long library_std_id { get; set; }
         public long std_id { get; set; }
+        public long sub_id { get; set; }
+        public string standard { get; set; }
+        public string subject { get; set; }
         public long library_id { get; set; }
     }
 
@@ -54,7 +57,7 @@ namespace Ashirvad.Data
         public long LibraryID { get; set; }
         public byte[] ThumbImageContent { get; set; }
         public string ThumbImageContentText { get; set; }
-        public string ThumbImageExt{ get; set; }
+        public string ThumbImageExt { get; set; }
         public string ThumbImageFileName { get; set; }
         public byte[] DocContent { get; set; }
         public string DocContentText { get; set; }
@@ -71,12 +74,12 @@ namespace Ashirvad.Data
         public long NewLibraryID { get; set; }
         public string Title { get; set; }
         public string link { get; set; }
-        public int Type { get; set; }        
+        public int Type { get; set; }
         public string FileName { get; set; }
         public string FilePath { get; set; }
         public string Description { get; set; }
         public RowStatusEntity RowStatus { get; set; }
-        public TransactionEntity Transaction { get; set; }  
+        public TransactionEntity Transaction { get; set; }
         public BranchEntity BranchInfo { get; set; }
         public Nullable<long> branchid { get; set; }
         public CategoryEntity CategoryInfo { get; set; }

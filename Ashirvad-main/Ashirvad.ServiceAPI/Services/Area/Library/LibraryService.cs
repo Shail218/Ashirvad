@@ -114,6 +114,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Library
             return null;
         }
 
+        public async Task<List<LibraryEntity>> GetAllMobileLibrary(int Type, long BranchID)
+        {
+            try
+            {
+                return await _libraryContext.GetAllMobileLibrary(Type, BranchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<ApprovalEntity> LibraryApprovalMaintenance(ApprovalEntity approvalEntity)
         {
             ApprovalEntity approval = new ApprovalEntity();
