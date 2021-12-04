@@ -19,12 +19,12 @@
             <th>
                 Document Description
             </th>
-            @*<th>
+            <th>
                 Edit
             </th>
             <th>
                 Delete
-            </th>*@
+            </th>
         </tr>
     </thead>
 
@@ -99,7 +99,7 @@
             <td>
                 @item.Description
             </td>
-            @*<td>
+            <td>
                 <a href="@Url.Action("LibraryMaintenance", "Library", new { libraryID = item.LibraryID,Type=2})">
                     <img src="~/ThemeData/images/viewIcon.png" />
                 </a>
@@ -108,7 +108,7 @@
                 <a style="margin-left:20px;" href="#" onclick="RemoveLibrary(@item.LibraryID);">
                     <img src="~/ThemeData/images/delete.png" />
                 </a>
-            </td>*@
+            </td>
         </tr>
             }
         }

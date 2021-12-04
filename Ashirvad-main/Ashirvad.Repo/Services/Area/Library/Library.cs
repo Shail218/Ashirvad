@@ -66,12 +66,11 @@ namespace Ashirvad.Repo.Services.Area.Library
                 libraryInfo.LibraryID = libraryMaster.library_id;
                 LibraryMasterMaintenance(libraryInfo);
 
+
             }
-            if (libraryInfo.Type == 2 && result > 0)
-            {
-                libraryInfo.LibraryID = libraryMaster.library_id;
-                LibraryStandardMaintenance(libraryInfo);
-            }
+            LibraryStandardMaintenance(libraryInfo);
+
+
             return libraryMaster.library_id;
         }
 
@@ -212,7 +211,24 @@ namespace Ashirvad.Repo.Services.Area.Library
                         }).FirstOrDefault();
             if (data != null)
             {
-                data.list = this.context.LIBRARY_STD_MASTER.Where(z => z.library_id == data.LibraryID).Select(y => new LibraryStandardEntity() { library_std_id = y.library_std_id, library_id = y.library_id, std_id = y.std_id.HasValue ? y.std_id.Value : 0 }).ToList();
+                data.Subjectlist = new List<SubjectEntity>();
+                data.Standardlist = new List<StandardEntity>();
+                var Standard = (from u in this.context.LIBRARY_STD_MASTER
+                                where u.library_id == library
+                                select new StandardEntity()
+                                {
+                                    Standard = u.STD_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }).Distinct().ToList();
+
+                var Subject = (from u in this.context.LIBRARY_STD_MASTER
+                               where u.library_id == library
+                               select new SubjectEntity()
+                               {
+                                   Subject = u.SUBJECT_MASTER.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
+                               }).Distinct().ToList();
+
+                data.Subjectlist.AddRange(Subject);
+                data.Standardlist.AddRange(Standard);
             }
             return data;
         }
@@ -310,16 +326,21 @@ namespace Ashirvad.Repo.Services.Area.Library
 
         public bool RemoveLibrary(long libraryID, string lastupdatedby)
         {
-            var data = (from u in this.context.LIBRARY_MASTER
-                        where u.library_id == libraryID
-                        select u).FirstOrDefault();
-            if (data != null)
+            bool Isvalid = CheckHistory(libraryID);
+            if (Isvalid)
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id.Value, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.LIBRARY_MASTER
+                            where u.library_id == libraryID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id.Value, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    return true;
+                }
             }
+
 
             return false;
         }
@@ -327,35 +348,52 @@ namespace Ashirvad.Repo.Services.Area.Library
         public async Task<bool> LibraryStandardMaintenance(LibraryEntity libraryInfo)
         {
             bool isSuccess = false;
-            //string[] std = libraryInfo.StandardArray.Split(',');
-            var data = (from lib in this.context.LIBRARY_STD_MASTER
-                        where lib.library_id == libraryInfo.LibraryID
-                        select lib).ToList();
-            if (data?.Count > 0)
+
+            if (libraryInfo.Type == 1)
             {
-                this.context.LIBRARY_STD_MASTER.RemoveRange(data);
-            }
-            foreach (var item in libraryInfo.Standardlist)
-            {
-                if (item != null)
+                var data = (from lib in this.context.LIBRARY_STD_MASTER
+                            where lib.library_id == libraryInfo.LibraryID
+                            select lib).ToList();
+                if (data?.Count > 0)
                 {
-                    LIBRARY_STD_MASTER library = null;
-                    List<LIBRARY_STD_MASTER> libraryList = new List<LIBRARY_STD_MASTER>();
-                    //long Std = Convert.ToInt64(item);
-                    foreach (var item1 in libraryInfo.Subjectlist)
-                    {
-                        library = new LIBRARY_STD_MASTER()
-                        {
-                            library_id = libraryInfo.LibraryID,
-                            std_id = item.StandardID,
-                            subject_id = item1.SubjectID
-                        };
-                        libraryList.Add(library);
-                    }
-                    this.context.LIBRARY_STD_MASTER.AddRange(libraryList);
+                    this.context.LIBRARY_STD_MASTER.RemoveRange(data);
                     this.context.SaveChanges();
-                    isSuccess = true;
                 }
+
+
+            }
+            else
+            {
+                var data = (from lib in this.context.LIBRARY_STD_MASTER
+                            where lib.library_id == libraryInfo.LibraryID
+                            select lib).ToList();
+                if (data?.Count > 0)
+                {
+                    this.context.LIBRARY_STD_MASTER.RemoveRange(data);
+                }
+                foreach (var item in libraryInfo.Standardlist)
+                {
+                    if (item != null)
+                    {
+                        LIBRARY_STD_MASTER library = null;
+                        List<LIBRARY_STD_MASTER> libraryList = new List<LIBRARY_STD_MASTER>();
+                        //long Std = Convert.ToInt64(item);
+                        foreach (var item1 in libraryInfo.Subjectlist)
+                        {
+                            library = new LIBRARY_STD_MASTER()
+                            {
+                                library_id = libraryInfo.LibraryID,
+                                std_id = item.StandardID,
+                                subject_id = item1.SubjectID
+                            };
+                            libraryList.Add(library);
+                        }
+                        this.context.LIBRARY_STD_MASTER.AddRange(libraryList);
+                        this.context.SaveChanges();
+                        isSuccess = true;
+                    }
+                }
+
             }
             return isSuccess;
         }
@@ -439,6 +477,17 @@ namespace Ashirvad.Repo.Services.Area.Library
                 }
             }
             return data;
+        }
+
+        public bool CheckHistory(long libraryID)
+        {
+            bool Issuccess = true;
+            Issuccess = this.context.APPROVAL_MASTER.Where(s => s.library_id == libraryID).FirstOrDefault() != null;
+            if (Issuccess)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

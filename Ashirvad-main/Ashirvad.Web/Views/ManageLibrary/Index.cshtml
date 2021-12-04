@@ -18,8 +18,8 @@
                         <thead>
                             <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
                                 @*<th>
-                                    Library Title
-                                </th>*@
+                                        Library Title
+                                    </th>*@
                                 <th>
                                     Branch Name
                                 </th>
@@ -54,89 +54,99 @@
                             {
                                 foreach (var item in Model)
                                 {
-                            <tr>
-                                @*<td>
-                                    @item.LibraryTitle
-                                </td>*@
-                                <td>
-                                    @if (item.BranchID == 0)
-                                    {
-                                        <label>All Branch</label>
-                                    }
-                                    else
-                                    {
-                                        <label>@SessionContext.Instance.LoginUser.BranchInfo.BranchName</label>
-                                    }
-                                    @Html.HiddenFor(x => item.BranchID)
-                                </td>
-                                <td>
-                                    @if (item.ThumbnailFilePath != null && item.ThumbnailFilePath != "")
-                                    {
-                                        <img src="@item.ThumbnailFilePath" id="FeeImg" style="height:40px;width:40px;margin-left:20px;" />
-                                    }
-                                    @Html.HiddenFor(x => item.LibraryID)
-                                </td>
-                                <td>
-                                    @if (item.DocFilePath != null && item.DocFilePath != "")
-                                    {
-                                        <a style="margin-left:20px;" href="@item.DocFilePath.Replace("http://highpack-001-site12.dtempurl.com","")" download="@item.DocFileName"><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
-                                    }
-                                </td>
-                                <td>
-                                    @if (item.VideoLink != null && item.VideoLink != "")
-                                    {
-                                        <a href="@item.VideoLink" target="_blank" style="color:blue;text-decoration:underline;">Go to link</a>
-                                    }
-                                </td>
-                                <td>                                   
-                                    @item.Subjectlist[0].Subject
-                                </td>
-                                <td>
-                                    @item.CategoryInfo.Category
-                                </td>
-                                <td>
-                                    @item.Description
-                                </td>
-                                <td>
-                                    @item.approval.Library_Status_text
-                                </td>                               
-                                <td>
-                                    @if (item.approval.Library_Status_text == "Pending")
-                                    {
-                                        <a onclick="saveLibraryApproval('@item.LibraryID','2','@item.approval.Approval_id')" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
-                                            <span class="ladda-label">
-                                                Approve
-                                            </span>
-                                            <span class="ladda-spinner"></span>
-                                        </a>
-                                        <a onclick="saveLibraryApproval('@item.LibraryID','3','@item.approval.Approval_id')" class="ladda-button mb-2 mr-2 btn btn-danger">
-                                            <span class="ladda-label">
-                                                Reject
-                                            </span>
-                                            <span class="ladda-spinner"></span>
-                                        </a>
-                                    }
-                                    else if (item.approval.Library_Status_text == "Approve")
-                                    {
-                                        <a onclick="saveLibraryApproval('@item.LibraryID','3','@item.approval.Approval_id')" class="ladda-button mb-2 mr-2 btn btn-danger" style="margin-left: 25%;">
-                                            <span class="ladda-label">
-                                                Reject
-                                            </span>
-                                            <span class="ladda-spinner"></span>
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a onclick="saveLibraryApproval('@item.LibraryID','2','@item.approval.Approval_id')" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left" style="margin-left: 25%;">
-                                            <span class="ladda-label">
-                                                Approve
-                                            </span>
-                                            <span class="ladda-spinner"></span>
-                                        </a>
-                                    }
+                                    <tr>
+                                        @*<td>
+                                                @item.LibraryTitle
+                                            </td>*@
+                                        <td>
+                                            @if (item.BranchID == 0)
+                                            {
+                                                <label>All Branch</label>
+                                            }
+                                            else
+                                            {
+                                                <label>@SessionContext.Instance.LoginUser.BranchInfo.BranchName</label>
+                                            }
+                                            @Html.HiddenFor(x => item.BranchID)
+                                        </td>
+                                        <td>
+                                            @if (item.ThumbnailFilePath != null && item.ThumbnailFilePath != "")
+                                            {
+                                                <img src="@item.ThumbnailFilePath" id="FeeImg" style="height:40px;width:40px;margin-left:20px;" />
+                                            }
+                                            @Html.HiddenFor(x => item.LibraryID)
+                                        </td>
+                                        <td>
+                                            @if (item.DocFilePath != null && item.DocFilePath != "")
+                                            {
+                                                <a style="margin-left:20px;" href="@item.DocFilePath.Replace("http://highpack-001-site12.dtempurl.com","")" download="@item.DocFileName"><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.VideoLink != null && item.VideoLink != "")
+                                            {
+                                                <a href="@item.VideoLink" target="_blank" style="color:blue;text-decoration:underline;">Go to link</a>
+                                            }
+                                        </td>
+                                        @if (item.Subjectlist.Count > 0)
+                                        {
+                                            <td>
+                                                @item.Subjectlist[0].Subject
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                            </td>
+                                        }
 
-                                </td>
-                            </tr>
+
+                                        <td>
+                                            @item.CategoryInfo.Category
+                                        </td>
+                                        <td>
+                                            @item.Description
+                                        </td>
+                                        <td>
+                                            @item.approval.Library_Status_text
+                                        </td>
+                                        <td>
+                                            @if (item.approval.Library_Status_text == "Pending")
+                                            {
+                                                <a onclick="saveLibraryApproval('@item.LibraryID','2','@item.approval.Approval_id')" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                                                    <span class="ladda-label">
+                                                        Approve
+                                                    </span>
+                                                    <span class="ladda-spinner"></span>
+                                                </a>
+                                                <a onclick="saveLibraryApproval('@item.LibraryID','3','@item.approval.Approval_id')" class="ladda-button mb-2 mr-2 btn btn-danger">
+                                                    <span class="ladda-label">
+                                                        Reject
+                                                    </span>
+                                                    <span class="ladda-spinner"></span>
+                                                </a>
+                                            }
+                                            else if (item.approval.Library_Status_text == "Approve")
+                                            {
+                                                <a onclick="saveLibraryApproval('@item.LibraryID','3','@item.approval.Approval_id')" class="ladda-button mb-2 mr-2 btn btn-danger" style="margin-left: 25%;">
+                                                    <span class="ladda-label">
+                                                        Reject
+                                                    </span>
+                                                    <span class="ladda-spinner"></span>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a onclick="saveLibraryApproval('@item.LibraryID','2','@item.approval.Approval_id')" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left" style="margin-left: 25%;">
+                                                    <span class="ladda-label">
+                                                        Approve
+                                                    </span>
+                                                    <span class="ladda-spinner"></span>
+                                                </a>
+                                            }
+
+                                        </td>
+                                    </tr>
                                 }
                             }
                         </tbody>

@@ -4,6 +4,7 @@ using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Library;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Standard;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Subject;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,6 +40,15 @@ namespace Ashirvad.Web.Controllers
             if (libraryID > 0)
             {
                 var result = await _libraryService.GetLibraryByLibraryID(libraryID);
+                if (result.Data.Subjectlist.Count > 0)
+                {
+                    result.Data.subject = new SubjectEntity()
+                    {
+                        Subject= result.Data.Subjectlist[0].Subject
+                    };
+                }
+                result.Data.JsonList = JsonConvert.SerializeObject(result.Data.Standardlist);
+
                 branch.LibraryInfo = result.Data;
             }
             if (SessionContext.Instance.LoginUser.UserType != Enums.UserType.SuperAdmin)
@@ -106,25 +116,30 @@ namespace Ashirvad.Web.Controllers
                 library.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }
             library.Transaction = GetTransactionData(library.LibraryID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-            string[] stdname = library.StandardNameArray.Split(',');
-            if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            if (library.Type != 1)
             {
-                for (int i = 0; i < stdname.Length; i++)
+                string[] stdname = library.StandardNameArray.Split(',');
+                if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
                 {
-                    var stdlist = await _standardService.GetAllStandardsID(stdname[i],0);
-                    library.Standardlist.AddRange(stdlist);
+                    for (int i = 0; i < stdname.Length; i++)
+                    {
+                        var stdlist = await _standardService.GetAllStandardsID(stdname[i], 0);
+                        library.Standardlist.AddRange(stdlist);
+                    }
+                    library.Subjectlist = await _subjectService.GetAllSubjectsID(library.subject.Subject, 0);
                 }
-                library.Subjectlist = await _subjectService.GetAllSubjectsID(library.subject.Subject,0);
+                else
+                {
+                    for (int i = 0; i < stdname.Length; i++)
+                    {
+                        var stdlist = await _standardService.GetAllStandardsID(stdname[i], SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                        library.Standardlist.AddRange(stdlist);
+                    }
+                    library.Subjectlist = await _subjectService.GetAllSubjectsID(library.subject.Subject, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                }
             }
-            else
-            {
-                for (int i = 0; i < stdname.Length; i++)
-                {
-                    var stdlist = await _standardService.GetAllStandardsID(stdname[i],SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-                    library.Standardlist.AddRange(stdlist);
-                }
-                library.Subjectlist = await _subjectService.GetAllSubjectsID(library.subject.Subject, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            }            
+            
+                      
             data = await _libraryService.LibraryMaintenance(library);
             if (data != null)
             {

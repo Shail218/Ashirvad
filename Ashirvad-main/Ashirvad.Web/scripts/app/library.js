@@ -46,9 +46,6 @@ $(document).ready(function () {
         }
     });
 
-    if ($("#SubjectID").val() != "") {
-        $('#SubjectName option[value="' + $("#SubjectID").val() + '"]').attr("selected", "selected");
-    }
 
     if ($("#Type").val() != "") {
         if ($("#Type").val() == "1") {
@@ -74,7 +71,7 @@ $(document).ready(function () {
         $("#Type").val(1);
     }
 
-    
+
 });
 
 function LoadSubject(onLoaded) {
@@ -86,8 +83,11 @@ function LoadSubject(onLoaded) {
         for (i = 0; i < data.length; i++) {
             $("#SubjectName").append("<option value=" + data[i].SubjectID + ">" + data[i].Subject + "</option>");
         }
-        if (onLoaded != undefined) {
-            onLoaded();
+        if ($("#subject_Subject").val() != "") {
+            var text1 = $("#subject_Subject").val();
+            $("#SubjectName option").filter(function () {
+                return this.text == text1;
+            }).attr('selected', true);
         }
 
     }).fail(function () {
@@ -104,8 +104,8 @@ function LoadStandard(onLoaded) {
         for (i = 0; i < data.length; i++) {
             $("#StandardName").append("<option value=" + data[i].StandardID + ">" + data[i].Standard + "</option>");
         }
-        if (onLoaded != undefined) {
-            onLoaded();
+        if ($("#LibraryID").val() > 0) {
+            SetData();
         }
 
     }).fail(function () {
@@ -136,29 +136,36 @@ function LoadCategory() {
 
 
 function SaveLibrary() {
+    var Isvalidate = true;
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
-        ShowLoader();
-        var frm = $('#fLibraryDetail');
-        var formData = new FormData(frm[0]);
-        var item = $('input[type=file]');
-        if (item[0].files.length > 0) {
-            formData.append('ThumbImageFile', $('input[type=file]')[0].files[0]);
-            formData.append('DocFile', $('input[type=file]')[1].files[0]);
+        if ($("#Type") == 2) {
+            Isvalidate = CustomValidation('dInformation');
         }
-        AjaxCallWithFileUpload(commonData.Library + 'SaveLibrary', formData, function (data) {
-            if (data) {
-                HideLoader();
-                ShowMessage("Library added Successfully.", "Success");
-                window.location.href = "LibraryMaintenance?libraryID=0&Type=2";
+        if (Isvalidate) {
+            ShowLoader();
+            var frm = $('#fLibraryDetail');
+            var formData = new FormData(frm[0]);
+            var item = $('input[type=file]');
+            if (item[0].files.length > 0) {
+                formData.append('ThumbImageFile', $('input[type=file]')[0].files[0]);
+                formData.append('DocFile', $('input[type=file]')[1].files[0]);
             }
-            else {
+            AjaxCallWithFileUpload(commonData.Library + 'SaveLibrary', formData, function (data) {
+                if (data) {
+                    HideLoader();
+                    ShowMessage("Library added Successfully.", "Success");
+                    window.location.href = "LibraryMaintenance?libraryID=0&Type=2";
+                }
+                else {
+                    HideLoader();
+                    ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+                }
+            }, function (xhr) {
                 HideLoader();
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
-            }
-        }, function (xhr) {
-            HideLoader();
-        });
+            });
+        }
+
     }
 }
 
@@ -188,8 +195,16 @@ function RemoveLibrary(libraryID) {
         var postCall = $.post(commonData.Library + "RemoveLibrary", { "libraryID": libraryID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Library Removed Successfully.", "Success");
-            window.location.href = "LibraryMaintenance?libraryID=0";
+            if (data) {
+                
+                ShowMessage("Library Removed Successfully.", "Success");
+                window.location.href = "LibraryMaintenance?libraryID=0&Type=2";
+            }
+            else {
+               
+                ShowMessage("Library Is Already In Use.", "Error");
+               
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -197,12 +212,12 @@ function RemoveLibrary(libraryID) {
     }
 }
 
-$("#BranchName").change(function () {    
+$("#BranchName").change(function () {
     var Data = $("#BranchName option:selected").val();
     $('#BranchID').val(Data);
 });
 
-$("#StandardName").change(function () {    
+$("#StandardName").change(function () {
     var Data = $("#StandardName option:selected").val();
     $('#StandardID').val("");
     var std = [];
@@ -218,7 +233,7 @@ $("#StandardName").change(function () {
     $('#StandardNameArray').val(stdName)
 });
 
-$("#SubjectName").change(function () {    
+$("#SubjectName").change(function () {
     var Data = $("#SubjectName option:selected").val();
     var DataName = $("#SubjectName option:selected").text();
     $('#SubjectID').val(Data);
@@ -252,3 +267,51 @@ $('input[type=radio][name=Type1]').change(function () {
         $("#Type").val(2);
     }
 });
+
+function SetData() {
+    var std = [];
+    var StandardList = $.parseJSON($("#JsonList").val());
+   
+    for (var item of StandardList) {
+        var Standard = item.Standard;
+        $("#StandardName option").filter(function () {
+            return this.text == Standard;
+        }).attr('selected', true);
+        std.push(Standard);
+    };
+    var Array = $("#StandardNameArray").val(std);
+}
+
+function CustomValidation(divName) {
+
+    var isSuccess = true;
+    $('#' + divName + ' .requiredStd').each(function () {
+        var test = $(this).val();
+        if ($(this).val() == '') {
+            ShowMessage('Please Enter ' + $(this).attr('alt'), "Error");
+            //alert();
+            $(this).focus();
+            isSuccess = false;
+            return false;
+        }
+    });
+
+    if (isSuccess) {
+        $('#' + divName + ' .requiredSub').each(function () {
+            var test = $(this).val();
+            if ($(this).val() == '') {
+                ShowMessage('Please Enter ' + $(this).attr('alt'), "Error");
+                //alert();
+                $(this).focus();
+                isSuccess = false;
+                return false;
+            }
+        });
+
+    }
+
+
+
+    return isSuccess;
+
+}
