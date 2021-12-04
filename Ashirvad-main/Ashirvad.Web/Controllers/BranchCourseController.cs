@@ -68,7 +68,10 @@ namespace Ashirvad.Web.Controllers
                 branchCourse.course_dtl_id = item.course_dtl_id;
                 branchCourse.course.CourseID = item.course.CourseID;
                 branchCourse.iscourse = item.iscourse;
-                branchCourse.RowStatus.RowStatus = Enums.RowStatus.Active;
+                branchCourse.RowStatus = new RowStatusEntity()
+                {
+                    RowStatus = Enums.RowStatus.Active
+                };
                 branchCourse = await _branchcourseService.BranchCourseMaintenance(branchCourse);
                 if ((long)branchCourse.Data < 0)
                 {
@@ -127,11 +130,11 @@ namespace Ashirvad.Web.Controllers
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Json(null);
             }
-            
+
         }
     }
 }

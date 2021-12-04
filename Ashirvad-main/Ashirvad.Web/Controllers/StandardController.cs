@@ -97,7 +97,7 @@ namespace Ashirvad.Web.Controllers
             }
             else
             {
-                var branchData = await _standardService.GetAllStandardsName(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                var branchData = await _standardService.GetAllStandards(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
                 return Json(branchData);
             }           
         }

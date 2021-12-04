@@ -37,6 +37,7 @@
                                 <td>
                                     @item.Class.ClassName
                                     <input type="hidden" value="@item.Class.ClassID" class="ClassID" />
+                                    @Html.HiddenFor(x => item.Class.ClassName, new { @class = "ClassName" })
                                 </td>
                             </tr>
                         }

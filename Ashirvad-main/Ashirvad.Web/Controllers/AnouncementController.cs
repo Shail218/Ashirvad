@@ -34,9 +34,9 @@ namespace Ashirvad.Web.Controllers
                 var result = await _announcementService.GetNotificationByAnnouncementID(annoID);
                 branch.AnnouncementInfo = result.Data;
             }
-
-            //var branchData = await _announcementService.GetAllAnnouncement(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            var branchData = await _announcementService.GetAllAnnouncement(0);
+           
+            var branchData = await _announcementService.GetAllAnnouncement(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            //var branchData = await _announcementService.GetAllAnnouncement(0);
             branch.AnnouncementData = branchData.Data;
 
             return View("Index", branch);

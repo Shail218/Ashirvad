@@ -287,38 +287,53 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return false;
         }
 
+
+        public async Task<bool> CheckStd(long class_dtl_id, string ClasName, long BranchID)
+        {
+            
+            bool isExists = this.context.STD_MASTER.Where(s => (class_dtl_id == 0 || s.class_dtl_id != class_dtl_id)
+            && s.standard == ClasName && s.branch_id == BranchID && s.row_sta_cd == 1).FirstOrDefault() != null;
+           
+            return isExists;
+        }
         public async Task<long> StandardMaintenance(StandardEntity standardInfo)
         {
             try
             {
-                Model.STD_MASTER standardMaster = new Model.STD_MASTER();
-                bool isUpdate = true;
-                var data = (from standard in this.context.STD_MASTER
-                            where standard.class_dtl_id == standardInfo.Branchclass.Class_dtl_id
-                            && standard.branch_id == standardInfo.BranchInfo.BranchID
-                            select standard).FirstOrDefault();
-                if (data == null)
+                bool IsSuccess = CheckStd(standardInfo.Branchclass.Class_dtl_id, standardInfo.Standard, standardInfo.BranchInfo.BranchID).Result;
+                if (!IsSuccess)
                 {
-                    standardMaster = new Model.STD_MASTER();
-                    isUpdate = false;
-                }
-                else
-                {
-                    standardMaster = data;
-                    standardInfo.Transaction.TransactionId = data.trans_id;
+                    Model.STD_MASTER standardMaster = new Model.STD_MASTER();
+                    bool isUpdate = true;
+                    var data = (from standard in this.context.STD_MASTER
+                                where standard.class_dtl_id == standardInfo.Branchclass.Class_dtl_id
+                                && standard.branch_id == standardInfo.BranchInfo.BranchID
+                                select standard).FirstOrDefault();
+                    if (data == null)
+                    {
+                        standardMaster = new Model.STD_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        standardMaster = data;
+                        standardInfo.Transaction.TransactionId = data.trans_id;
+                    }
+
+                    standardMaster.standard = standardInfo.Standard;
+                    standardMaster.branch_id = standardInfo.BranchInfo.BranchID;
+                    standardMaster.row_sta_cd = (int)standardInfo.RowStatus.RowStatus;
+                    standardMaster.trans_id = standardInfo.Transaction.TransactionId;
+                    standardMaster.class_dtl_id = standardInfo.Branchclass.Class_dtl_id;
+                    this.context.STD_MASTER.Add(standardMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(standardMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    return this.context.SaveChanges() > 0 ? standardMaster.std_id : 0;
                 }
 
-                standardMaster.standard = standardInfo.Standard;
-                standardMaster.branch_id = standardInfo.BranchInfo.BranchID;
-                standardMaster.row_sta_cd = (int)standardInfo.RowStatus.RowStatus;
-                standardMaster.trans_id = standardInfo.Transaction.TransactionId;
-                standardMaster.class_dtl_id = standardInfo.Branchclass.Class_dtl_id;
-                this.context.STD_MASTER.Add(standardMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(standardMaster).State = System.Data.Entity.EntityState.Modified;
-                }
-                return this.context.SaveChanges() > 0 ? standardMaster.std_id : 0;
+               
             }
             catch (Exception ex)
             {

@@ -264,38 +264,50 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return false;
         }
 
+        public async Task<bool> CheckSubject(long SubjectID, string Subject, long BranchID)
+        {
+
+            bool isExists = this.context.SUBJECT_MASTER.Where(s => (SubjectID == 0 || s.subject_dtl_id != SubjectID)
+            && s.subject == Subject && s.branch_id == BranchID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            return isExists;
+        }
+
         public async Task<long> SubjectMasterMaintenance(SubjectEntity subjectInfo)
         {
             try
             {
                 Model.SUBJECT_MASTER subjectMaster = new Model.SUBJECT_MASTER();
-                bool isUpdate = true;
-                var data = (from subject in this.context.SUBJECT_MASTER
-                            where subject.subject_dtl_id == subjectInfo.BranchSubject.Subject_dtl_id
-                            && subject.branch_id == subjectInfo.BranchInfo.BranchID
-                            select subject).FirstOrDefault();
-                if (data == null)
+                bool IsSuccess = CheckSubject(subjectInfo.BranchSubject.Subject_dtl_id, subjectInfo.Subject, subjectInfo.BranchInfo.BranchID).Result;
+                if (!IsSuccess)
                 {
-                    subjectMaster = new Model.SUBJECT_MASTER();
-                    isUpdate = false;
-                }
-                else
-                {
-                    subjectMaster = data;
-                    subjectInfo.Transaction.TransactionId = data.trans_id;
-                }
+                    bool isUpdate = true;
+                    var data = (from subject in this.context.SUBJECT_MASTER
+                                where subject.subject_dtl_id == subjectInfo.BranchSubject.Subject_dtl_id
+                                && subject.branch_id == subjectInfo.BranchInfo.BranchID
+                                select subject).FirstOrDefault();
+                    if (data == null)
+                    {
+                        subjectMaster = new Model.SUBJECT_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        subjectMaster = data;
+                        subjectInfo.Transaction.TransactionId = data.trans_id;
+                    }
 
-                subjectMaster.subject = subjectInfo.Subject;
-                subjectMaster.branch_id = subjectInfo.BranchInfo.BranchID;
-                subjectMaster.row_sta_cd = (int)subjectInfo.RowStatus.RowStatus;
-                subjectMaster.trans_id = subjectInfo.Transaction.TransactionId;
-                subjectMaster.subject_dtl_id = subjectInfo.BranchSubject.Subject_dtl_id;
-                this.context.SUBJECT_MASTER.Add(subjectMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(subjectMaster).State = System.Data.Entity.EntityState.Modified;
+                    subjectMaster.subject = subjectInfo.Subject;
+                    subjectMaster.branch_id = subjectInfo.BranchInfo.BranchID;
+                    subjectMaster.row_sta_cd = (int)subjectInfo.RowStatus.RowStatus;
+                    subjectMaster.trans_id = subjectInfo.Transaction.TransactionId;
+                    subjectMaster.subject_dtl_id = subjectInfo.BranchSubject.Subject_dtl_id;
+                    this.context.SUBJECT_MASTER.Add(subjectMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(subjectMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    return this.context.SaveChanges() > 0 ? subjectMaster.subject_id : 0;
                 }
-                return this.context.SaveChanges() > 0 ? subjectMaster.subject_id : 0;
             }
             catch (Exception ex)
             {

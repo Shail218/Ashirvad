@@ -49,7 +49,7 @@ namespace Ashirvad.Repo.Services.Area.Announcement
                 var data = (from u in this.context.ANNOUNCE_MASTER
                             join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
                             from branch in tempBranch.DefaultIfEmpty()
-                            where (0 == branchID || u.branch_id == null || u.branch_id == 0 || (u.branch_id.HasValue && u.branch_id.Value == branchID)) && u.row_sta_cd == 1
+                            where (0 == branchID || u.branch_id == 0 || (u.branch_id.HasValue && u.branch_id.Value == branchID)) && u.row_sta_cd == 1
                             select new AnnouncementEntity()
                             {
                                 RowStatusData = new RowStatusEntity()
