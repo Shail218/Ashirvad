@@ -417,12 +417,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 }
 
             }
-            else
-            {
-                BranchSubjectEntity entity = new BranchSubjectEntity();
-                entity.BranchSubjectData = new List<BranchSubjectEntity>();
-                data.Add(entity);
-            }
 
             return data;
         }

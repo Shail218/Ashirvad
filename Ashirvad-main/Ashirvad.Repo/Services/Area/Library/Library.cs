@@ -297,6 +297,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                             ThumbnailFileName = u.thumbnail_img,
                             ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
                             Type = u.type.Value,
+                            Library_Type = (int)u.library_type,
                             Description = u.doc_desc,
                             DocFileName = u.library_image,
                             DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
