@@ -265,5 +265,16 @@ namespace Ashirvad.API.Controllers
             result.Data = data.Result;
             return result;
         }
+
+        [Route("LibraryApprovalMaintenance")]
+        [HttpPost]
+        public OperationResult<ApprovalEntity> LibraryApprovalMaintenance(ApprovalEntity approvalEntity)
+        {
+            var data = this._libraryService.LibraryApprovalMaintenance(approvalEntity);
+            OperationResult<ApprovalEntity> result = new OperationResult<ApprovalEntity>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
     }
 }
