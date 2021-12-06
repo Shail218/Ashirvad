@@ -118,7 +118,7 @@ function RemoveAttendance(attendanceID) {
         postCall.done(function (data) {
             HideLoader();
             ShowMessage("Attendance Removed Successfully.", "Success");
-            window.location.href = "AttendanceRegister/Index";
+            location.reload();
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

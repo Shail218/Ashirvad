@@ -98,6 +98,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
 
             return null;
         }
+        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, int batchID, DateTime attendanceDate)
+        {
+            try
+            {
+                return await this._attendanceContext.VerifyAttendanceRegister(branchID, stdID, batchID, attendanceDate);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
 
         public bool RemoveAttendance(long attendanceID, string lastupdatedby)
         {

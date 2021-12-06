@@ -72,13 +72,33 @@ function LoadStandard(branchID) {
     });
 }
 
+function ValidateAttendanceData() {
+    var isSuccess = ValidateData('dInformation');
+    if (isSuccess) {
+        ShowLoader();
+        var date1 = $("#AttendanceDate").val();
+        var postCall = $.post(commonData.AttendanceEntry + "VerifyAttendanceRegister", $('#fAttendanceReportDetail').serialize());
+        postCall.done(function (data) {
+            HideLoader();
+            if (data.Status) {
+                GetStudentDetail();
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+        }).fail(function () {
+            HideLoader();
+            //ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
+}
+
 function GetStudentDetail() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
         var date1 = $("#AttendanceDate").val();
-        $("#AttendanceDate").val(ConvertData(date1));
-        var postCall = $.post(commonData.AttendanceEntry + "GetAllStudentByBranchStdBatch", $('#fAttendanceDetail').serialize());
+        //$("#AttendanceDate").val(ConvertData(date1));
+        var postCall = $.post(commonData.AttendanceEntry + "GetAllStudentByBranchStdBatch", $('#fAttendanceReportDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
             $('#AttendanceData').html(data);
@@ -124,7 +144,7 @@ function SaveAttendance() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader(); 
-        var postCall = $.post(commonData.AttendanceEntry + "AttendanceMaintenance", $('#fAttendanceDetail').serialize());
+        var postCall = $.post(commonData.AttendanceEntry + "AttendanceMaintenance", $('#fAttendanceReportDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
             ShowMessage("Attendance added Successfully.", "Success");

@@ -66,7 +66,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                     this.context.ATTENDANCE_DTL.Add(dtl);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -375,6 +375,34 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             }
 
             return false;
+        }
+
+        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, int batchID,DateTime attendanceDate)
+        {
+            ResponseModel model = new ResponseModel();
+            try
+            {
+                var data = (from atd in this.context.ATTENDANCE_HDR
+                            where atd.batch_time_type == batchID && atd.branch_id == branchID && atd.std_id == stdID && atd.attendance_dt == attendanceDate
+                            select atd).ToList();
+                if (data?.Count > 0)
+                {
+                    model.Message = "Attendance of the entered details is already done, please edit the details from register.";
+                    model.Status = false;
+                }
+                else
+                {
+                    model.Message = "Attendance of the entered details not found.";
+                    model.Status = true;
+                }
+            }
+            catch(Exception ex)
+            {
+                model.Message = ex.Message.ToString();
+                model.Status = false;
+            }
+           
+            return model;
         }
 
     }

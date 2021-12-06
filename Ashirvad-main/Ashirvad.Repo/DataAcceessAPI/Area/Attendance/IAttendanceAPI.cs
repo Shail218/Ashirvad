@@ -16,5 +16,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Attendance
         Task<AttendanceEntity> GetAttendanceByID(long attendanceID);
         bool RemoveAttendance(long attendanceID, string lastupdatedby);
         Task<List<AttendanceEntity>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, int batchTimeID);
+        Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, int batchID, DateTime attendanceDate);
     }
 }

@@ -89,7 +89,7 @@ function SaveReport() {
         var branch = $("#Branch_BranchID").val();
         var standard = $("#Standard_StandardID").val();
         var batchtime = $("#BatchTypeID").val();
-        var postCall = $.post(commonData.AttendanceReport + "SaveReport", { "FromDate": fromdate, "ToDate": todate, "BranchId": branch, "StandardId": standard, "BatchTime": batchtime });
+        var postCall = $.post(commonData.AttendanceReport + "SaveReport", { "FromDate": date1, "ToDate": date2, "BranchId": branch, "StandardId": standard, "BatchTime": batchtime });
         postCall.done(function (data) {
             HideLoader();
             //$('#ReportData').html('');

@@ -60,7 +60,17 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> GetAllStudentByBranchStdBatch(AttendanceEntity attendanceInfo)
         {
-            return View("~/Views/AttendanceEntry/Manage.cshtml", await this._attendanceContext.GetAllStudentByBranchStdBatch(attendanceInfo.Branch.BranchID, attendanceInfo.Standard.StandardID, attendanceInfo.BatchTypeID));
+            List<StudentEntity> list = new List<StudentEntity>();
+
+            list= await this._attendanceContext.GetAllStudentByBranchStdBatch(attendanceInfo.Branch.BranchID, attendanceInfo.Standard.StandardID, attendanceInfo.BatchTypeID);
+            return View("~/Views/AttendanceEntry/Manage.cshtml", list);
+        }
+        [HttpPost]
+        public async Task<JsonResult> VerifyAttendanceRegister(AttendanceEntity attendanceInfo)
+        {
+            ResponseModel res = new ResponseModel();
+            res= await this._attendanceContext.VerifyAttendanceRegister(attendanceInfo.Branch.BranchID, attendanceInfo.Standard.StandardID, attendanceInfo.BatchTypeID,attendanceInfo.AttendanceDate);
+            return Json(res);
         }
 
         [HttpPost]

@@ -18,6 +18,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Attendance
         bool RemoveAttendance(long attendanceID, string lastupdatedby);
 
         Task<OperationResult<List<AttendanceEntity>>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, int batchTimeID);
+        Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, int batchID, DateTime attendanceDate);
 
     }
 }
