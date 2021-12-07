@@ -347,6 +347,7 @@
           <Property Name="library_path" Type="varchar" MaxLength="250" />
           <Property Name="category_id" Type="bigint" />
           <Property Name="library_type" Type="int" />
+          <Property Name="createby_branch" Type="bigint" />
         </EntityType>
         <EntityType Name="LIBRARY_STD_MASTER">
           <Key>
@@ -3284,16 +3285,7 @@
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="APPROVAL_MASTER" EntitySet="APPROVAL_MASTER" />
           </AssociationSet>
-          <EntitySet Name="LIBRARY_MASTER" EntityType="AshirvadModel.LIBRARY_MASTER" />
           <EntitySet Name="LIBRARY_STD_MASTER" EntityType="AshirvadModel.LIBRARY_STD_MASTER" />
-          <AssociationSet Name="FK_APPROVAL_MASTER_LIBRARY_MASTER" Association="AshirvadModel.FK_APPROVAL_MASTER_LIBRARY_MASTER">
-            <End Role="LIBRARY_MASTER" EntitySet="LIBRARY_MASTER" />
-            <End Role="APPROVAL_MASTER" EntitySet="APPROVAL_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LIBRARY_MASTER_CATEGORY_MASTER" Association="AshirvadModel.FK_LIBRARY_MASTER_CATEGORY_MASTER">
-            <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
-            <End Role="LIBRARY_MASTER" EntitySet="LIBRARY_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_LIBRARY_STD_MASTER_STD_MASTER" Association="AshirvadModel.FK_LIBRARY_STD_MASTER_STD_MASTER">
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
             <End Role="LIBRARY_STD_MASTER" EntitySet="LIBRARY_STD_MASTER" />
@@ -3301,6 +3293,15 @@
           <AssociationSet Name="FK_LIBRARY_STD_MASTER_SUBJECT_MASTER" Association="AshirvadModel.FK_LIBRARY_STD_MASTER_SUBJECT_MASTER">
             <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
             <End Role="LIBRARY_STD_MASTER" EntitySet="LIBRARY_STD_MASTER" />
+          </AssociationSet>
+          <EntitySet Name="LIBRARY_MASTER" EntityType="AshirvadModel.LIBRARY_MASTER" />
+          <AssociationSet Name="FK_APPROVAL_MASTER_LIBRARY_MASTER" Association="AshirvadModel.FK_APPROVAL_MASTER_LIBRARY_MASTER">
+            <End Role="LIBRARY_MASTER" EntitySet="LIBRARY_MASTER" />
+            <End Role="APPROVAL_MASTER" EntitySet="APPROVAL_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LIBRARY_MASTER_CATEGORY_MASTER" Association="AshirvadModel.FK_LIBRARY_MASTER_CATEGORY_MASTER">
+            <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
+            <End Role="LIBRARY_MASTER" EntitySet="LIBRARY_MASTER" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_TYPE_REL">
@@ -5696,27 +5697,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="LIBRARY_MASTER">
-          <Key>
-            <PropertyRef Name="library_id" />
-          </Key>
-          <Property Name="library_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="branch_id" Type="Int64" />
-          <Property Name="video_link" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="library_title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="thumbnail_img" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="thumbnail_path" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="type" Type="Int32" />
-          <Property Name="doc_desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="row_sta_cd" Type="Int32" />
-          <Property Name="trans_id" Type="Int64" />
-          <Property Name="library_image" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="library_path" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="category_id" Type="Int64" />
-          <Property Name="library_type" Type="Int32" />
-          <NavigationProperty Name="APPROVAL_MASTER" Relationship="AshirvadModel.FK_APPROVAL_MASTER_LIBRARY_MASTER" FromRole="LIBRARY_MASTER" ToRole="APPROVAL_MASTER" />
-          <NavigationProperty Name="CATEGORY_MASTER" Relationship="AshirvadModel.FK_LIBRARY_MASTER_CATEGORY_MASTER" FromRole="LIBRARY_MASTER" ToRole="CATEGORY_MASTER" />
-        </EntityType>
         <EntityType Name="LIBRARY_STD_MASTER">
           <Key>
             <PropertyRef Name="library_std_id" />
@@ -5728,30 +5708,6 @@
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_LIBRARY_STD_MASTER_STD_MASTER" FromRole="LIBRARY_STD_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_LIBRARY_STD_MASTER_SUBJECT_MASTER" FromRole="LIBRARY_STD_MASTER" ToRole="SUBJECT_MASTER" />
         </EntityType>
-        <Association Name="FK_APPROVAL_MASTER_LIBRARY_MASTER">
-          <End Type="AshirvadModel.LIBRARY_MASTER" Role="LIBRARY_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.APPROVAL_MASTER" Role="APPROVAL_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LIBRARY_MASTER">
-              <PropertyRef Name="library_id" />
-            </Principal>
-            <Dependent Role="APPROVAL_MASTER">
-              <PropertyRef Name="library_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LIBRARY_MASTER_CATEGORY_MASTER">
-          <End Type="AshirvadModel.CATEGORY_MASTER" Role="CATEGORY_MASTER" Multiplicity="0..1" />
-          <End Type="AshirvadModel.LIBRARY_MASTER" Role="LIBRARY_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CATEGORY_MASTER">
-              <PropertyRef Name="category_id" />
-            </Principal>
-            <Dependent Role="LIBRARY_MASTER">
-              <PropertyRef Name="category_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_LIBRARY_STD_MASTER_STD_MASTER">
           <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -5775,6 +5731,52 @@
             </Principal>
             <Dependent Role="LIBRARY_STD_MASTER">
               <PropertyRef Name="subject_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="LIBRARY_MASTER">
+          <Key>
+            <PropertyRef Name="library_id" />
+          </Key>
+          <Property Name="library_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branch_id" Type="Int64" />
+          <Property Name="video_link" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="library_title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="thumbnail_img" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="thumbnail_path" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="Int32" />
+          <Property Name="doc_desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" />
+          <Property Name="trans_id" Type="Int64" />
+          <Property Name="library_image" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="library_path" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="category_id" Type="Int64" />
+          <Property Name="library_type" Type="Int32" />
+          <Property Name="createby_branch" Type="Int64" />
+          <NavigationProperty Name="APPROVAL_MASTER" Relationship="AshirvadModel.FK_APPROVAL_MASTER_LIBRARY_MASTER" FromRole="LIBRARY_MASTER" ToRole="APPROVAL_MASTER" />
+          <NavigationProperty Name="CATEGORY_MASTER" Relationship="AshirvadModel.FK_LIBRARY_MASTER_CATEGORY_MASTER" FromRole="LIBRARY_MASTER" ToRole="CATEGORY_MASTER" />
+        </EntityType>
+        <Association Name="FK_APPROVAL_MASTER_LIBRARY_MASTER">
+          <End Type="AshirvadModel.LIBRARY_MASTER" Role="LIBRARY_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.APPROVAL_MASTER" Role="APPROVAL_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LIBRARY_MASTER">
+              <PropertyRef Name="library_id" />
+            </Principal>
+            <Dependent Role="APPROVAL_MASTER">
+              <PropertyRef Name="library_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LIBRARY_MASTER_CATEGORY_MASTER">
+          <End Type="AshirvadModel.CATEGORY_MASTER" Role="CATEGORY_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.LIBRARY_MASTER" Role="LIBRARY_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORY_MASTER">
+              <PropertyRef Name="category_id" />
+            </Principal>
+            <Dependent Role="LIBRARY_MASTER">
+              <PropertyRef Name="category_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6625,9 +6627,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="LIBRARY_STD_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.LIBRARY_STD_MASTER">
+              <MappingFragment StoreEntitySet="LIBRARY_STD_MASTER">
+                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+                <ScalarProperty Name="std_id" ColumnName="std_id" />
+                <ScalarProperty Name="library_id" ColumnName="library_id" />
+                <ScalarProperty Name="library_std_id" ColumnName="library_std_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="LIBRARY_MASTER">
             <EntityTypeMapping TypeName="AshirvadModel.LIBRARY_MASTER">
               <MappingFragment StoreEntitySet="LIBRARY_MASTER">
+                <ScalarProperty Name="createby_branch" ColumnName="createby_branch" />
                 <ScalarProperty Name="library_type" ColumnName="library_type" />
                 <ScalarProperty Name="category_id" ColumnName="category_id" />
                 <ScalarProperty Name="library_path" ColumnName="library_path" />
@@ -6642,16 +6655,6 @@
                 <ScalarProperty Name="video_link" ColumnName="video_link" />
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="library_id" ColumnName="library_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LIBRARY_STD_MASTER">
-            <EntityTypeMapping TypeName="AshirvadModel.LIBRARY_STD_MASTER">
-              <MappingFragment StoreEntitySet="LIBRARY_STD_MASTER">
-                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
-                <ScalarProperty Name="std_id" ColumnName="std_id" />
-                <ScalarProperty Name="library_id" ColumnName="library_id" />
-                <ScalarProperty Name="library_std_id" ColumnName="library_std_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

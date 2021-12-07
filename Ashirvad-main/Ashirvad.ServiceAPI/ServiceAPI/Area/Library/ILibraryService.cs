@@ -21,6 +21,8 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Library
 
         Task<List<LibraryEntity>> GetAllLibrary(int Type, long BranchID);
 
+        Task<List<LibraryEntity>> GetAllLibrarybybranch(int Type, long BranchID);
+
         Task<List<LibraryEntity>> GetAllMobileLibrary(int Type, long BranchID);
 
         Task<ApprovalEntity> LibraryApprovalMaintenance(ApprovalEntity approvalEntity);

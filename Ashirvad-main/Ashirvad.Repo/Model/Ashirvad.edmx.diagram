@@ -176,12 +176,12 @@
         <EntityTypeShape EntityType="AshirvadModel.APPROVAL_MASTER" Width="1.5" PointX="35.5" PointY="20.5" />
         <AssociationConnector Association="AshirvadModel.FK_APPROVAL_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_APPROVAL_MASTER_TRANSACTION_MASTER" />
-        <EntityTypeShape EntityType="AshirvadModel.LIBRARY_MASTER" Width="1.5" PointX="15.5" PointY="5.75" />
         <EntityTypeShape EntityType="AshirvadModel.LIBRARY_STD_MASTER" Width="1.5" PointX="30.25" PointY="15.75" />
-        <AssociationConnector Association="AshirvadModel.FK_APPROVAL_MASTER_LIBRARY_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_LIBRARY_MASTER_CATEGORY_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_LIBRARY_STD_MASTER_STD_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_LIBRARY_STD_MASTER_SUBJECT_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.LIBRARY_MASTER" Width="1.5" PointX="15.5" PointY="5.625" />
+        <AssociationConnector Association="AshirvadModel.FK_APPROVAL_MASTER_LIBRARY_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_LIBRARY_MASTER_CATEGORY_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

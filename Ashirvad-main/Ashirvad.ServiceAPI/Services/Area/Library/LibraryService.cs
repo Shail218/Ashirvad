@@ -100,6 +100,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.Library
             return false;
         }
 
+        public async Task<List<LibraryEntity>> GetAllLibrarybybranch(int Type, long BranchID)
+        {
+            try
+            {
+                return await _libraryContext.GetAllLibrarybybranch(Type, BranchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
         public async Task<List<LibraryEntity>> GetAllLibrary(int Type, long BranchID)
         {
             try
@@ -113,7 +126,6 @@ namespace Ashirvad.ServiceAPI.Services.Area.Library
 
             return null;
         }
-
         public async Task<List<LibraryEntity>> GetAllMobileLibrary(int Type, long BranchID)
         {
             try

@@ -24,6 +24,7 @@ namespace Ashirvad.Data
         public string StandardArray { get; set; }
         public string StandardNameArray { get; set; }
         public string Description { get; set; }
+        public long CreatebyBranch { get; set; }
         public string JsonList { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public TransactionEntity Transaction { get; set; }

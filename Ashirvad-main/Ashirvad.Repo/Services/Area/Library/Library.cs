@@ -55,6 +55,7 @@ namespace Ashirvad.Repo.Services.Area.Library
             libraryMaster.type = libraryInfo.Type;
             libraryMaster.library_title = libraryInfo.LibraryTitle;
             libraryMaster.video_link = libraryInfo.VideoLink;
+            libraryMaster.createby_branch = libraryInfo.CreatebyBranch;
             this.context.LIBRARY_MASTER.Add(libraryMaster);
             if (isUpdate)
             {
@@ -272,7 +273,58 @@ namespace Ashirvad.Repo.Services.Area.Library
                                             where item.RowStatus.RowStatusId == 1 && item.LibraryID == u.library_id
                                             select new LibraryEntity()
                                             {
-                                                LibraryID = item.LibraryID,
+                                                //LibraryID = item.LibraryID,
+                                                standard = new StandardEntity()
+                                                {
+                                                    //StandardID = u.std_id.HasValue ? u.std_id.Value : 0,
+                                                    Standard = u.STD_MASTER.standard
+                                                }
+                                            }).Distinct().ToList();
+                }
+            }
+
+            return data;
+        }
+
+        public async Task<List<LibraryEntity>> GetAllLibrarybybranch(int Type, long BranchID)
+        {
+            var data = (from u in this.context.LIBRARY_MASTER
+                        where u.row_sta_cd == 1 && u.library_type == Type && (u.createby_branch == BranchID || BranchID == 0)
+                        select new LibraryEntity()
+                        {
+                            LibraryID = u.library_id,
+                            BranchID = u.branch_id,
+                            VideoLink = u.video_link,
+                            LibraryTitle = u.library_title,
+                            ThumbnailFileName = u.thumbnail_img,
+                            ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                            Type = u.type.Value,
+                            Description = u.doc_desc,
+                            DocFileName = u.library_image,
+                            DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                            CategoryInfo = new CategoryEntity()
+                            {
+                                CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
+                                Category = u.CATEGORY_MASTER.category_name
+                            },
+
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value }
+                        }).Distinct().ToList();
+            if (data.Count > 0)
+            {
+                data[0].libraryEntities = new List<LibraryEntity>();
+                foreach (var item in data)
+                {
+                    item.libraryEntities = (from u in this.context.LIBRARY_STD_MASTER
+                                            where item.RowStatus.RowStatusId == 1 && item.LibraryID == u.library_id
+                                            select new LibraryEntity()
+                                            {
+                                                //LibraryID = item.LibraryID,
                                                 standard = new StandardEntity()
                                                 {
                                                     //StandardID = u.std_id.HasValue ? u.std_id.Value : 0,
@@ -288,7 +340,7 @@ namespace Ashirvad.Repo.Services.Area.Library
         public async Task<List<LibraryEntity>> GetAllMobileLibrary(int Type, long BranchID)
         {
             var data = (from u in this.context.LIBRARY_MASTER
-                        where u.row_sta_cd == 1 && u.library_type == Type && (u.branch_id == BranchID || BranchID == 0)
+                        where u.row_sta_cd == 1 && u.library_type == Type && (u.createby_branch == BranchID || BranchID == 0)
                         select new LibraryEntity()
                         {
                             LibraryID = u.library_id,

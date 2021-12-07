@@ -44,7 +44,7 @@ namespace Ashirvad.Web.Controllers
                 {
                     result.Data.subject = new SubjectEntity()
                     {
-                        Subject= result.Data.Subjectlist[0].Subject
+                        Subject = result.Data.Subjectlist[0].Subject
                     };
                 }
                 result.Data.JsonList = JsonConvert.SerializeObject(result.Data.Standardlist);
@@ -55,8 +55,16 @@ namespace Ashirvad.Web.Controllers
             {
                 BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }
-            var branchData = await _libraryService.GetAllLibrary(Type, 0);
-            branch.LibraryData = branchData;
+            if (SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin)
+            {
+                var branchData = await _libraryService.GetAllLibrary(Type, 0);
+                branch.LibraryData = branchData;
+            }
+            else
+            {
+                var branchData = await _libraryService.GetAllLibrarybybranch(Type, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                branch.LibraryData = branchData;
+            }
             if (Type == (int)Enums.GalleryType.Image)
             {
                 return View("Index", branch);
@@ -116,6 +124,7 @@ namespace Ashirvad.Web.Controllers
                 library.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }
             library.Transaction = GetTransactionData(library.LibraryID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            library.CreatebyBranch = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             if (library.Type != 1)
             {
                 string[] stdname = library.StandardNameArray.Split(',');
@@ -138,8 +147,8 @@ namespace Ashirvad.Web.Controllers
                     library.Subjectlist = await _subjectService.GetAllSubjectsID(library.subject.Subject, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
                 }
             }
-            
-                      
+
+
             data = await _libraryService.LibraryMaintenance(library);
             if (data != null)
             {
@@ -148,7 +157,7 @@ namespace Ashirvad.Web.Controllers
             else
             {
                 return Json(false);
-            }          
+            }
         }
 
         [HttpPost]
