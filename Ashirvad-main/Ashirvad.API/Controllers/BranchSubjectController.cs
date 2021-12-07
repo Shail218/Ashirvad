@@ -47,6 +47,7 @@ namespace Ashirvad.Web.Controllers
                 data = this._branchSubjectService.BranchSubjectMaintenance(new BranchSubjectEntity()
                 {
                     branch = item.branch,
+                    Subject_dtl_id = item.Subject_dtl_id,
                     BranchCourse = item.BranchCourse,
                     BranchClass = item.BranchClass,
                     Subject = item.Subject,
@@ -73,7 +74,7 @@ namespace Ashirvad.Web.Controllers
             }
             else
             {
-                result.Message = "Branch Course Already Exists!!";
+                result.Message = "Branch Subject Already Exists!!";
             }
             return result;
         }
