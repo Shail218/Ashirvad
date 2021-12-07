@@ -34,6 +34,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
                 long studentID = await _studentContext.StudentMaintenance(studentInfo);
                 if (studentID > 0)
                 {
+                    student.StudentID = studentID;
                     var info = await _studentContext.GetStudentByID(studentID);
                     if (info != null)
                     {

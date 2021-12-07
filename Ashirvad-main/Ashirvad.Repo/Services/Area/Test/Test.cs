@@ -125,6 +125,49 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
+        public async Task<List<TestEntity>> GetAllTestByBranchAPI(long branchID)
+        {
+            var data = (from u in this.context.TEST_MASTER
+                        .Include("TEST_PAPER_REL")
+                        .Include("BRANCH_MASTER")
+                        .Include("STD_MASTER")
+                        .Include("SUBJECT_MASTER")
+                        where u.branch_id == branchID && u.row_sta_cd == 1
+                        select new TestEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            Branch = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Standard = new StandardEntity()
+                            {
+                                StandardID = u.std_id,
+                                Standard = u.STD_MASTER.standard
+                            },
+                            Subject = new SubjectEntity()
+                            {
+                                SubjectID = u.SUBJECT_MASTER.subject_id,
+                                Subject = u.SUBJECT_MASTER.subject
+                            },
+                            BatchTimeID = u.batch_time_id,
+                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
+                            TestID = u.test_id,
+                            Remarks = u.remarks,
+                            Marks = u.total_marks,
+                            TestDate = u.test_dt,
+                            TestEndTime = u.test_end_time,
+                            TestName = u.test_name,
+                            TestStartTime = u.test_st_time,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+            return data;
+        }
 
         public async Task<List<TestEntity>> GetAllTestByBranchType(long branchID, long BatchType)
         {
@@ -506,14 +549,13 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 RowStatusId = (int)u.row_sta_cd
                             },
                             DocLink = u.doc_link,
-                            PaperType = u.paper_type == 1 ? "" : "",
                             PaperTypeID = u.paper_type,
                             TestID = u.test_id,
                             Remarks = u.remakrs,
                             FileName = u.file_name,
                             TestDate = u.TEST_MASTER.test_dt,
-                            TestName = u.TEST_MASTER.test_name,
                             TestPaperID = u.test_paper_id,
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
 

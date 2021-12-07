@@ -53,7 +53,7 @@ namespace Ashirvad.Repo.Services.Area.ToDo
         {
             var data = (from u in this.context.TODO_MASTER
                         .Include("BRANCH_MASTER")
-                        join ud in this.context.USER_DEF on u.user_id equals ud.user_id
+                        join ud in this.context.BRANCH_STAFF on u.user_id equals ud.staff_id
                         where u.branch_id == branchID
                         && (0 == userID || u.user_id == userID) && u.row_sta_cd == 1
                         select new ToDoEntity()
@@ -70,8 +70,8 @@ namespace Ashirvad.Repo.Services.Area.ToDo
                             ToDoDescription = u.todo_desc,
                             UserInfo = new UserEntity()
                             {
-                                UserID = ud.user_id,
-                                Username = ud.username
+                                UserID = ud.staff_id,
+                                Username = ud.name
                             },
                             BranchInfo = new BranchEntity()
                             {

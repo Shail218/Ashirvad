@@ -54,6 +54,24 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
+
+        public async Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAPI(long branchID)
+        {
+            try
+            {
+                OperationResult<List<TestEntity>> paper = new OperationResult<List<TestEntity>>();
+                paper.Data = await _testContext.GetAllTestByBranchAPI(branchID);
+                paper.Completed = true;
+                return paper;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAndStandard(long branchID, long stdID, int batchTime)
         {
             try
@@ -211,12 +229,14 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<List<TestPaperEntity>> GetAllTestPapaerWithoutContentByTest(long testID)
+        public async Task<OperationResult<List<TestPaperEntity>>> GetAllTestPapaerWithoutContentByTest(long testID)
         {
             try
             {
-                var data = await _testContext.GetAllTestPapaerWithoutContentByTest(testID);
-                return data;
+                OperationResult<List<TestPaperEntity>> paper = new OperationResult<List<TestPaperEntity>>();
+                paper.Data = await _testContext.GetAllTestPapaerWithoutContentByTest(testID);
+                paper.Completed = true;
+                return paper;
             }
             catch (Exception ex)
             {

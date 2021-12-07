@@ -15,7 +15,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Test
         bool RemoveTest(long testID, string lastupdatedby, bool removePaper);
         Task<TestPaperEntity> TestPaperMaintenance(TestPaperEntity paperInfo);
         Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID);
-        Task<List<TestPaperEntity>> GetAllTestPapaerWithoutContentByTest(long testID);
+        Task<OperationResult<List<TestPaperEntity>>> GetAllTestPapaerWithoutContentByTest(long testID);
         Task<TestPaperEntity> GetTestPaperByPaperID(long paperID);
         Task<List<TestEntity>> GetTestPaperChecking(long paperID);
         bool RemoveTestPaper(long paperID, string lastupdatedby);
@@ -47,5 +47,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Test
 
         Task<StudentAnswerSheetEntity> Ansdetailupdate(StudentAnswerSheetEntity answerSheetEntity);
         Task<OperationResult<List<TestEntity>>> TestDateDDL(long branchID, long stdID, int batchTime);
+        Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAPI(long branchID);
     }
 }

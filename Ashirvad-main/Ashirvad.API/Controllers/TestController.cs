@@ -45,6 +45,22 @@ namespace Ashirvad.API.Controllers
             return data.Result;
         }
 
+        [Route("GetAllTestByBranchAPI")]
+        [HttpGet]
+        public OperationResult<List<TestEntity>> GetAllTestByBranchAPI(long branchID)
+        {
+            var data = this._testService.GetAllTestByBranchAPI(branchID);
+            return data.Result;
+        }
+
+        [Route("GetAllTestPapaerWithoutContentByTest")]
+        [HttpGet]
+        public OperationResult<List<TestPaperEntity>> GetAllTestPapaerWithoutContentByTest(long testID)
+        {
+            var data = this._testService.GetAllTestPapaerWithoutContentByTest(testID);
+            return data.Result;
+        }
+
         [Route("GetAllTests")]
         [HttpGet]
         public OperationResult<List<TestEntity>> GetAllTests(DateTime testDate, string searchParam)

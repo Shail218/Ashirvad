@@ -175,7 +175,7 @@ namespace Ashirvad.API.Controllers
             studentEntity.StandardInfo.StandardID = StandardID;
             studentEntity.SchoolInfo.SchoolID = SchoolID == -1 ? 0 : SchoolID;
             studentEntity.SchoolTime = School_TimeID == -1 ? 0 : School_TimeID;
-            studentEntity.BatchInfo.BatchTime = Batch_TimeID;
+            studentEntity.BatchInfo.BatchType = (Enums.BatchType)Batch_TimeID;
             studentEntity.LastYearResult = Last_Year_Result == -1 ? 0 : Last_Year_Result;
             studentEntity.Grade = Grade == "none" ? "" : Grade;
             studentEntity.LastYearClassName = Class_Name == "none" ? null : Class_Name;

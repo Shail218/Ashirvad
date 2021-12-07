@@ -62,7 +62,7 @@ namespace Ashirvad.API.Controllers
         [HttpGet]
         public OperationResult<List<ToDoEntity>> GetAllToDoWithoutContentByBranch(long branchID)
         {
-            var data = this._todoService.GetAllToDoWithoutContentByBranch(branchID);
+            var data = this._todoService.GetAllToDoByBranch(branchID);
             OperationResult<List<ToDoEntity>> result = new OperationResult<List<ToDoEntity>>();
             result.Data = data.Result;
             result.Completed = true;
