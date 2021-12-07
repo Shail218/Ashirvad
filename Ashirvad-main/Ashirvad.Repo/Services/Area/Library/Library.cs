@@ -68,6 +68,7 @@ namespace Ashirvad.Repo.Services.Area.Library
 
 
             }
+            libraryInfo.LibraryID= libraryMaster.library_id;
             LibraryStandardMaintenance(libraryInfo);
 
 
@@ -196,9 +197,9 @@ namespace Ashirvad.Repo.Services.Area.Library
                             Description = u.doc_desc,
                             //SubjectID = u.subject_id,
                             ThumbnailFileName = u.thumbnail_img,
-                            ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                            ThumbnailFilePath =  u.thumbnail_path,
                             DocFileName = u.library_image,
-                            DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                            DocFilePath =  u.library_path,
                             CategoryInfo = new CategoryEntity()
                             {
                                 CategoryID = u.category_id.Value

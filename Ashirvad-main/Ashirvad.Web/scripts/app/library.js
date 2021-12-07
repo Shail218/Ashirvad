@@ -75,7 +75,7 @@ $(document).ready(function () {
 });
 
 function LoadSubject(onLoaded) {
-    var postCall = $.post(commonData.Subject + "SubjectDataByBranch");
+    var postCall = $.post(commonData.Subject + "SubjectDataByBranchLibrary");
     postCall.done(function (data) {
         $('#SubjectName').empty();
         $('#SubjectName').select2();

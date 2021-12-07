@@ -24,7 +24,7 @@
     {
         <tr>
             <td>
-                <a onclick="DownloadVideo('@item.UniqueID')" id="videoDownload" download><img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" /></a>
+                <a href="@item.FilePath" id="videoDownload" download="@item.FileName"><img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" /></a>
                 @Html.HiddenFor(x => item.UniqueID)
                 <input hidden id="UniqID" value="@item.UniqueID" />
             </td>

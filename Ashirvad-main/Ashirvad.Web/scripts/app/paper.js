@@ -113,13 +113,14 @@ function SavePaper() {
         AjaxCallWithFileUpload(commonData.Paper + 'SavePaper', formData, function (data) {
            
             if (data) {
+                HideLoader();
                 ShowMessage("Paper added Successfully.", "Success");
                 window.location.href = "PaperMaintenance?paperID=0";
             }
             else {
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
-            HideLoader();
+           
         }, function (xhr) {
             HideLoader();
         });

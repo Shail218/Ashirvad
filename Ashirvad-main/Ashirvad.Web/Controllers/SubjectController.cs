@@ -92,7 +92,14 @@ namespace Ashirvad.Web.Controllers
             return Json(branchData);
         }
 
-        public async Task<JsonResult> SubjectDataByBranch()
+        public async Task<JsonResult> SubjectDataByBranch(long branchID)
+        {
+            var branchData = await _subjectService.GetAllSubjects(branchID);
+            return Json(branchData);
+
+        }
+
+        public async Task<JsonResult> SubjectDataByBranchLibrary()
         {
             if (SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin)
             {

@@ -66,6 +66,9 @@ $(document).ready(function () {
         $('#BatchTime option[value="' + $("#BatchInfo_BatchTime").val() + '"]').attr("selected", "selected");
     }
 
+    if ($("#StudentID").val() > 0) {
+        $("#fuStudentImage").addClass("editForm");
+    }
     //if ($("#StudImage").val() != "") {
     //    $('#imgStud').attr('src', "data:image/jpg;base64," + $("#StudImage").val());
     //}
