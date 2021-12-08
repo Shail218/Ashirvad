@@ -177,7 +177,7 @@ namespace Ashirvad.Repo.Services.Area.Class
                         course_dtl_id = item.BranchCourse.course_dtl_id,
 
                     };
-                  
+                    branchClass.Class_dtl_id = 0;
                     result = _BranchClass.ClassMaintenance(branchClass).Result;
                 }
 

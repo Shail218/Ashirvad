@@ -59,6 +59,10 @@ namespace Ashirvad.Web.Controllers
             }
             branch.StudentID = 0;
             branch.Transaction = GetTransactionData(branch.StudentID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            branch.RowStatus = new RowStatusEntity()
+            {
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
             data = await _studentService.StudentMaintenance(branch);
 
             if (data != null)

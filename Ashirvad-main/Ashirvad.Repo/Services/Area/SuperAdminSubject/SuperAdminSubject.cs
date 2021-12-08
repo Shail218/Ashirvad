@@ -185,6 +185,7 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                     {
                         Class_dtl_id = item.BranchClass.Class_dtl_id
                     };
+                    branchSubject.Subject_dtl_id = 0;
                     result = _BranchSubject.SubjectMaintenance(branchSubject).Result;
                 }
 

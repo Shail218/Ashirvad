@@ -165,6 +165,7 @@ namespace Ashirvad.Repo.Services.Area.Course
                         BranchID = item.BranchID,
 
                     };
+                    branchCourse.course_dtl_id = 0;
                     result = _BranchCourse.CourseMaintenance(branchCourse).Result;
                 }
 
