@@ -88,17 +88,10 @@
                                                 <a href="@item.VideoLink" target="_blank" style="color:blue;text-decoration:underline;">Go to link</a>
                                             }
                                         </td>
-                                        @if (item.Subjectlist.Count > 0)
-                                        {
-                                            <td>
-                                                @item.Subjectlist[0].Subject
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            <td>
-                                            </td>
-                                        }
+                                        <td>
+                                            @item.subject.Subject
+                                        </td>
+                                        
 
 
                                         <td>
@@ -108,7 +101,7 @@
                                             @item.Description
                                         </td>
                                         <td>
-                                            @item.approval.Library_Status_text
+                                             @item.approval.Library_Status_text
                                         </td>
                                         <td>
                                             @if (item.approval.Library_Status_text == "Pending")
