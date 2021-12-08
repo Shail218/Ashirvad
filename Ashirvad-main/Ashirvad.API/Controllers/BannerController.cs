@@ -91,14 +91,14 @@ namespace Ashirvad.API.Controllers
         public OperationResult<BannerEntity> BannerMaintenance(long BannerID,long BranchID, bool isAdmin, bool isTeacher, bool isStudent,long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
         {
             OperationResult<BannerEntity> result = new OperationResult<BannerEntity>();
-            var httpRequest = HttpContext.Current.Request;
+            var httpRequest = HttpContext.Current.Request;            
             BannerEntity bannerEntity = new BannerEntity();
             BannerEntity data = new BannerEntity();
             bannerEntity.BranchInfo = new BranchEntity();
             bannerEntity.bannerTypeEntity = new BannerTypeEntity();
             bannerEntity.BannerType = new List<BannerTypeEntity>();
             bannerEntity.BannerID = BannerID;
-            bannerEntity.BranchInfo.BranchID = BranchID;          
+            bannerEntity.BranchInfo.BranchID = BranchID;
             bannerEntity.FileName = FileName;
             bannerEntity.FilePath = "/BannerImage/" + FileName + "." + Extension;
             bannerEntity.RowStatus = new RowStatusEntity()
@@ -146,9 +146,9 @@ namespace Ashirvad.API.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                            string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                             // for local server
-                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -169,6 +169,12 @@ namespace Ashirvad.API.Controllers
                     result.Data = null;
                     result.Message = ex.ToString();
                 }
+            }
+            else
+            {
+                string[] filename = FileName.Split(',');
+                bannerEntity.FileName = filename[0];
+                bannerEntity.FilePath = "/BannerImage/" + filename[1] + "." + Extension;
             }
             data = this._bannerService.BannerMaintenance(bannerEntity).Result;
             result.Completed = false;

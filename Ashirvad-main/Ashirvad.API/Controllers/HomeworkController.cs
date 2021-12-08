@@ -150,7 +150,7 @@ namespace Ashirvad.API.Controllers
             string Remark, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
         {
             OperationResult<HomeworkEntity> result = new OperationResult<HomeworkEntity>();
-            var httpRequest = HttpContext.Current.Request;
+            var httpRequest = HttpContext.Current.Request;            
             HomeworkEntity homeworkEntity = new HomeworkEntity();
             HomeworkEntity data = new HomeworkEntity();
             homeworkEntity.BranchInfo = new BranchEntity();
@@ -164,7 +164,7 @@ namespace Ashirvad.API.Controllers
             homeworkEntity.BatchTimeID = Batch_TimeID;
             homeworkEntity.Remarks = Remark;
             homeworkEntity.HomeworkContentFileName = FileName;
-            homeworkEntity.FilePath = "/HomeworkDocument/" + FileName + "." + Extension;
+            homeworkEntity.FilePath = "/HomeworkDocument/" + FileName + "." + Extension;        
             homeworkEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
@@ -189,9 +189,9 @@ namespace Ashirvad.API.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                            string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                             // for local server
-                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -212,6 +212,12 @@ namespace Ashirvad.API.Controllers
                     result.Data = null;
                     result.Message = ex.ToString();
                 }
+            }
+            else
+            {
+                string[] filename = FileName.Split(',');
+                homeworkEntity.HomeworkContentFileName = filename[0];
+                homeworkEntity.FilePath = "/HomeworkDocument/" + filename[1] + "." + Extension;
             }
             data = this._homeworkService.HomeworkMaintenance(homeworkEntity).Result;
             result.Completed = false;
@@ -276,9 +282,9 @@ namespace Ashirvad.API.Controllers
                         string extension;
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                         // for local server
-                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                         var postedFile = httpRequest.Files[file];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(postedFile.FileName);
@@ -408,9 +414,9 @@ namespace Ashirvad.API.Controllers
 
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                         // for local server
-                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                         //Save the Zip File to MemoryStream.
                         string _Filepath1 = "ZipFiles/HomeworkDetails/" + randomfilename + ".zip";
                         var filePath = HttpContext.Current.Server.MapPath("~/ZipFiles/HomeworkDetails/" + randomfilename + ".zip");

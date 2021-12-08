@@ -141,14 +141,15 @@ namespace Ashirvad.API.Controllers
             "/{std_pwd}/{parent_pwd}/{FileName}/{Extension}/{HasFile}")]
         [HttpPost]
         public OperationResult<StudentEntity> StudentMaintenance(long StudentID, long ParentID, string Gr_No, string Name, DateTime Birth_Date, string Address, long BranchID, long StandardID,
-            long SchoolID, int School_TimeID, int Batch_TimeID, int Last_Year_Result, string Grade, string Class_Name,
+            long SchoolID, int School_TimeID, int Batch_TimeID, string Last_Year_Result, string Grade, string Class_Name,
             string Student_Contact_No, DateTime Admission_Date, string Parent_Name, string Father_Occupation,
-            string Mother_Occupation, string Parent_Contact_No, long CreateId, string CreateBy, long TransactionId,string std_pwd,
+            string Mother_Occupation, string Parent_Contact_No,long CreateId, string CreateBy, long TransactionId,string std_pwd,
             string parent_pwd, string FileName, string Extension,bool HasFile)
         {
             OperationResult<StudentEntity> result = new OperationResult<StudentEntity>();
             var httpRequest = HttpContext.Current.Request;
-            string[] name = Name.Split(',');
+            string[] name = Name.Split(',');            
+            string[] result_status = Last_Year_Result.Split(',');
             StudentEntity studentEntity = new StudentEntity();
             StudentEntity data = new StudentEntity();
             studentEntity.BranchInfo = new BranchEntity();
@@ -176,7 +177,7 @@ namespace Ashirvad.API.Controllers
             studentEntity.SchoolInfo.SchoolID = SchoolID == -1 ? 0 : SchoolID;
             studentEntity.SchoolTime = School_TimeID == -1 ? 0 : School_TimeID;
             studentEntity.BatchInfo.BatchType = (Enums.BatchType)Batch_TimeID;
-            studentEntity.LastYearResult = Last_Year_Result == -1 ? 0 : Last_Year_Result;
+            studentEntity.LastYearResult = Convert.ToInt32(result_status[0]) == -1 ? 0 : Convert.ToInt32(result_status[0]);
             studentEntity.Grade = Grade == "none" ? "" : Grade;
             studentEntity.LastYearClassName = Class_Name == "none" ? null : Class_Name;
             studentEntity.ContactNo = Student_Contact_No == "none" ? null : Student_Contact_No;
@@ -203,9 +204,15 @@ namespace Ashirvad.API.Controllers
             {
                 studentEntity.FilePath = "/StudentImage/" + FileName + "." + Extension;
             }
+            if (studentEntity.StudentID > 0 && FileName != "none" && HasFile == false)
+            {
+                string[] filename = FileName.Split(',');
+                studentEntity.FileName = filename[0];
+                studentEntity.FilePath = "/StudentImage/" + filename[1] + "." + Extension;
+            }
             studentEntity.RowStatus = new RowStatusEntity()
             {
-                RowStatusId = (int)Enums.RowStatus.Active
+                RowStatusId = Convert.ToInt32(result_status[1])
             };
             studentEntity.Transaction = new TransactionEntity()
             {
@@ -227,9 +234,9 @@ namespace Ashirvad.API.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                            string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                             // for local server
-                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
