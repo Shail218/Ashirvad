@@ -370,6 +370,8 @@ namespace Ashirvad.Repo.Services.Area.Library
                                     select new LibraryStandardEntity()
                                     {
                                         library_id = b.library_id,
+                                        std_id = b.STD_MASTER.std_id,
+                                        sub_id = b.SUBJECT_MASTER.subject_id,
                                         standard = b.STD_MASTER.standard,
                                         subject = b.SUBJECT_MASTER.subject
                                     }).Distinct().ToList(),
