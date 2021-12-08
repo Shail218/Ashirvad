@@ -26,7 +26,7 @@
     <tbody>
         @if (Model.Count > 0)
         {
-            foreach (var item in Model[0].list)
+            foreach (var item in Model)
             {
 
                 <tr>
@@ -59,13 +59,12 @@
                                     </thead>
 
                                     <tbody>
-                                        @foreach (var item1 in Model)
+                                        @foreach (var item1 in item.list)
                                         {
 
                                             <tr>
 
-                                                @if (item.branchinfo.BranchID == item1.BranchID)
-                                                {
+                                                
                                                     <td>
                                                         @item1.PageInfo.Page
                                                     </td>
@@ -79,7 +78,7 @@
                                                     <td>
                                                         @item1.Viewstatus
                                                     </td>
-                                                }
+                                                
 
 
 

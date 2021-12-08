@@ -61,7 +61,7 @@ namespace Ashirvad.Repo.Services.Area.Package
         public async Task<List<PackageEntity>> GetAllPackages(long branchID)
         {
             var data = (from u in this.context.PACKAGE_MASTER
-                        where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
+                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new PackageEntity()
                         {
                             RowStatus = new RowStatusEntity()

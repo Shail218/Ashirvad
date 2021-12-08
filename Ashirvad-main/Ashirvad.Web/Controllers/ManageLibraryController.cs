@@ -29,8 +29,8 @@ namespace Ashirvad.Web.Controllers
         public async Task<ActionResult> ManageLibraryMaintenance()
         {
             LibraryMaintenanceModel library = new LibraryMaintenanceModel();
-            var branchData = await _libraryService.GetAllLibraryApproval(0);
-            library.LibraryData = branchData;
+            var branchData = await _libraryService.GetAllLibraryApproval(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            library.LibraryData = branchData; 
             return View("Index", library.LibraryData);
         }
 

@@ -492,8 +492,11 @@ namespace Ashirvad.Repo.Services.Area.Library
         {
             List<LibraryEntity> libraryEntities = new List<LibraryEntity>();
             libraryEntities = (from u in this.context.LIBRARY_MASTER
-                               join li in this.context.LIBRARY_STD_MASTER on u.library_id equals li.library_id
-                               where u.row_sta_cd == 1 && u.branch_id == 0
+                               join li in this.context.LIBRARY_STD_MASTER on u.library_id equals li.library_id into ps
+                               from li in ps.DefaultIfEmpty()
+                               where u.row_sta_cd == 1 
+                               && u.branch_id == 0 
+                               && u.createby_branch!= BranchId
                                select new LibraryEntity()
                                {
                                    LibraryID = u.library_id,
@@ -520,7 +523,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                    Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value },
                                    subject = new SubjectEntity()
                                    {
-                                       Subject = li.SUBJECT_MASTER.subject
+                                       Subject = li!=null?li.SUBJECT_MASTER.subject:""
                                    },
                                    approval = new ApprovalEntity()
                                    {
@@ -541,18 +544,22 @@ namespace Ashirvad.Repo.Services.Area.Library
                 foreach (var item in libraryEntities)
                 {
 
-                    item.approval = (from u in this.context.APPROVAL_MASTER
+                    var res = (from u in this.context.APPROVAL_MASTER
                                      .Include("LIBRARY_MASTER")
-                                         // join lib in this.context.LIBRARY_MASTER on u.library_id equals lib.library_id
-                                     where u.row_sta_cd == 1
-                                     // && u.branch_id == u.LIBRARY_MASTER.createby_branch
-                                     && u.library_id == u.LIBRARY_MASTER.library_id
-                                     select new ApprovalEntity()
-                                     {
-                                         Approval_id = u.approval_id,
-                                         Branch_id = u.branch_id,
-                                         Library_Status_text = u.library_status == 1 ? "Pending" : u.library_status == 2 ? "Approve" : u.library_status == 3 ? "Reject" : "Pending",
-                                     }).FirstOrDefault();
+                               
+                               where u.row_sta_cd == 1
+                               && u.branch_id == BranchId
+                               && u.library_id == item.LibraryID
+                               select new ApprovalEntity()
+                               {
+                                   Approval_id = u.approval_id,                                   
+                                   Library_Status_text = u.library_status == 1 ? "Pending" : u.library_status == 2 ? "Approve" : u.library_status == 3 ? "Reject" : "Pending",
+                               }).FirstOrDefault();
+
+                    if (res != null)
+                    {
+                        item.approval = res;
+                    }
                 }
             }
             return libraryEntities;

@@ -23,11 +23,12 @@
                 </div>
             }
         
-        <div class="col-md-12">
-            @Html.Label("Full Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.Name, new { @class = "form-control required", @alt = "Full Name", autocomplete = "off" })
-            @Html.HiddenFor(x => x.StaffID)
-        </div>
+    <div class="col-md-12">
+        @Html.Label("Full Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control required", @alt = "Full Name", autocomplete = "off" })
+        @Html.HiddenFor(x => x.StaffID)
+        @Html.HiddenFor(x => x.UserID)
+    </div>
         <div class="col-md-12">
             @Html.Label("Education Qualification", htmlAttributes: new { @class = "control-label" })
             @Html.TextBoxFor(x => x.Education, new { @class = "form-control", autocomplete = "off" })
@@ -149,6 +150,7 @@
             <option value="4">Staff</option>
         </select>
         @Html.HiddenFor(x => x.StaffID)
+        
         @Html.HiddenFor(x => x.Userrole)
     </div>
             <div class="form-group UserMasterCreate">

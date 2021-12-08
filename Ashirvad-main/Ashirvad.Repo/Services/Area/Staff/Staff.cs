@@ -68,9 +68,12 @@ namespace Ashirvad.Repo.Services.Area.Staff
 
         public async Task<List<StaffEntity>> GetAllStaff(long branchID)
         {
+            long Type = branchID == 0 ? 0 : (long)Enums.UserType.Staff;
             var data = (from u in this.context.BRANCH_STAFF
                         .Include("BRANCH_MASTER")
-                        where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
+                        join li in this.context.USER_DEF on u.staff_id equals li.staff_id into ps
+                        from li in ps.DefaultIfEmpty()
+                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1 && (Type == 0 || li.staff_id == Type)
                         select new StaffEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -151,6 +154,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
         public async Task<StaffEntity> GetStaffByID(long userID)
         {
             var data = (from u in this.context.BRANCH_STAFF
+                        join ud in this.context.USER_DEF on u.staff_id equals ud.staff_id
                         where u.staff_id == userID
                         select new StaffEntity()
                         {
@@ -159,6 +163,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = u.row_sta_cd
                             },
+                            UserID= ud.user_id,
                             Address = u.address,
                             ApptDT = u.appt_dt,
                             DOB = u.dob,
