@@ -118,6 +118,7 @@ namespace Ashirvad.API.Controllers
         {
             OperationResult<PaperEntity> result = new OperationResult<PaperEntity>();
             var httpRequest = HttpContext.Current.Request;
+           
             PaperEntity paperEntity = new PaperEntity();
             PaperEntity data = new PaperEntity();
             paperEntity.Branch = new BranchEntity();
@@ -132,7 +133,7 @@ namespace Ashirvad.API.Controllers
             paperEntity.BatchTypeID = Batch_TimeID;
             paperEntity.Remarks = Remark;
             paperEntity.PaperData.PaperPath = FileName;
-            paperEntity.PaperData.FilePath = "/PaperDocument/" + FileName + "." + Extension;
+            paperEntity.PaperData.FilePath = "/PaperDocument/" + FileName + "." + Extension;       
             paperEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
@@ -157,9 +158,9 @@ namespace Ashirvad.API.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                            string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                             // for local server
-                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -180,6 +181,12 @@ namespace Ashirvad.API.Controllers
                     result.Data = null;
                     result.Message = ex.ToString();
                 }
+            }
+            else
+            {
+                string[] filename = FileName.Split(',');
+                paperEntity.PaperData.PaperPath = filename[0];
+                paperEntity.PaperData.FilePath = "/PaperDocument/" + filename[1] + "." + Extension;
             }
             data = this._paperService.PaperMaintenance(paperEntity).Result;
             result.Completed = false;

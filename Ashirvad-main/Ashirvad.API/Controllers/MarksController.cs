@@ -142,7 +142,7 @@ namespace Ashirvad.API.Controllers
                 marksEntity.SubjectInfo.SubjectID = SubjectID;
                 marksEntity.BatchType = (Enums.BatchType)BatchtimeID;
                 marksEntity.MarksContentFileName = FileName;
-                marksEntity.MarksFilepath = "/MarksImage/" + FileName + "." + Extension;
+                marksEntity.MarksFilepath = "/MarksImage/" + FileName + "." + Extension;             
                 marksEntity.RowStatus = new RowStatusEntity()
                 {
                     RowStatusId = (int)Enums.RowStatus.Active
@@ -167,9 +167,9 @@ namespace Ashirvad.API.Controllers
                                 string extension;
                                 string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                                 // for live server
-                                //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                                string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                                 // for local server
-                                string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                                //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                                 var postedFile = httpRequest.Files[file];
                                 string randomfilename = Common.Common.RandomString(20);
                                 extension = Path.GetExtension(postedFile.FileName);

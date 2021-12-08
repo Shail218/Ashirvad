@@ -119,7 +119,7 @@ namespace Ashirvad.API.Controllers
         public OperationResult<GalleryEntity> GalleryMaintenance(long UniqID,long BranchID, string Remark, int UploadType, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
         {
             OperationResult<GalleryEntity> result = new OperationResult<GalleryEntity>();
-            var httpRequest = HttpContext.Current.Request;
+            var httpRequest = HttpContext.Current.Request;            
             GalleryEntity galleryEntity = new GalleryEntity();
             GalleryEntity data = new GalleryEntity();
             galleryEntity.Branch = new BranchEntity();
@@ -128,7 +128,7 @@ namespace Ashirvad.API.Controllers
             galleryEntity.Remarks = Remark;
             galleryEntity.GalleryType = UploadType;
             galleryEntity.FileName = FileName;
-            galleryEntity.FilePath = "/GalleryImage/" + FileName + "." + Extension;
+            galleryEntity.FilePath = "/GalleryImage/" + FileName + "." + Extension;       
             galleryEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
@@ -153,9 +153,9 @@ namespace Ashirvad.API.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                            string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                             // for local server
-                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -176,6 +176,12 @@ namespace Ashirvad.API.Controllers
                     result.Data = null;
                     result.Message = ex.ToString();
                 }
+            }
+            else
+            {
+                string[] filename = FileName.Split(',');
+                galleryEntity.FileName = filename[0];
+                galleryEntity.FilePath = "/GalleryImage/" + filename[1] + "." + Extension;
             }
             data = this._galleryService.GalleryMaintenance(galleryEntity).Result;
             result.Completed = false;

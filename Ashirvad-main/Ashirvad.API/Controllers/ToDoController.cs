@@ -109,7 +109,7 @@ namespace Ashirvad.API.Controllers
             string ToDo_Description, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
         {
             OperationResult<ToDoEntity> result = new OperationResult<ToDoEntity>();
-            var httpRequest = HttpContext.Current.Request;
+            var httpRequest = HttpContext.Current.Request;            
             ToDoEntity toDoEntity = new ToDoEntity();
             ToDoEntity data = new ToDoEntity();
             toDoEntity.BranchInfo = new BranchEntity();
@@ -120,7 +120,7 @@ namespace Ashirvad.API.Controllers
             toDoEntity.UserInfo.UserID = UserID;
             toDoEntity.ToDoDescription = ToDo_Description;
             toDoEntity.ToDoFileName = FileName;
-            toDoEntity.FilePath = "/ToDoDocument/" + FileName + "." + Extension;
+            toDoEntity.FilePath = "/ToDoDocument/" + FileName + "." + Extension;         
             toDoEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
@@ -145,9 +145,9 @@ namespace Ashirvad.API.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                            string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                             // for local server
-                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -168,6 +168,12 @@ namespace Ashirvad.API.Controllers
                     result.Data = null;
                     result.Message = ex.ToString();
                 }
+            }
+            else
+            {
+                string[] filename = FileName.Split(',');
+                toDoEntity.ToDoFileName = filename[0];
+                toDoEntity.FilePath = "/ToDoDocument/" + filename[1] + "." + Extension;
             }
             data = this._todoService.ToDoMaintenance(toDoEntity).Result;
             result.Completed = false;
