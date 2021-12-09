@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 
@@ -23,9 +24,9 @@ namespace Ashirvad.API.Controllers
             _libraryService = libraryService;
         }
 
-        [Route("LibraryMaintenance/{LibraryID}/{LibraryDetailID}/{LibraryTitle}/{CategoryID}/{StandardID}/{BranchID}/{Type}/{Library_Type}/{Description}/{SubjectID}/{CreateId}/{CreateBy}/{TransactionId}/{VideoLink}/{ThumbnailFileName}/{ThumbnailFileExtension}/{DocFileName}/{DocFileExtension}/{HasThumbnailFile}/{HasDocFile}")]
+        [Route("LibraryMaintenance/{LibraryID}/{LibraryDetailID}/{LibraryTitle}/{CategoryID}/{StandardID}/{BranchID}/{CreatebyBranch}/{Type}/{Library_Type}/{Description}/{SubjectID}/{CreateId}/{CreateBy}/{TransactionId}/{VideoLink}/{ThumbnailFileName}/{ThumbnailFileExtension}/{DocFileName}/{DocFileExtension}/{HasThumbnailFile}/{HasDocFile}")]
         [HttpPost]
-        public OperationResult<LibraryEntity> LibraryMaintenance(long LibraryID, long LibraryDetailID, string LibraryTitle, long CategoryID, string StandardID, long BranchID, int Type, int Library_Type, string Description, long SubjectID, int CreateId, string CreateBy, long TransactionId, string VideoLink, string ThumbnailFileName, string ThumbnailFileExtension, string DocFileName, string DocFileExtension, bool HasThumbnailFile, bool HasDocFile)
+        public OperationResult<LibraryEntity> LibraryMaintenance(long LibraryID, long LibraryDetailID, string LibraryTitle, long CategoryID, string StandardID, long BranchID, long CreatebyBranch, int Type, int Library_Type, string Description, long SubjectID, int CreateId, string CreateBy, long TransactionId, string VideoLink, string ThumbnailFileName, string ThumbnailFileExtension, string DocFileName, string DocFileExtension, bool HasThumbnailFile, bool HasDocFile)
         {
             OperationResult<LibraryEntity> result = new OperationResult<LibraryEntity>();
             var httpRequest = HttpContext.Current.Request;
@@ -36,15 +37,17 @@ namespace Ashirvad.API.Controllers
             {
                 CategoryID = CategoryID
             };
+            libraryEntity.LibraryID = LibraryID;
             libraryEntity.BranchID = BranchID;
-            libraryEntity.LibraryTitle = LibraryTitle;
+            libraryEntity.LibraryTitle = Decode(LibraryTitle);
             libraryEntity.Type = Type;
             libraryEntity.Library_Type = Library_Type;
-            libraryEntity.Description = Description;
-            libraryEntity.ThumbnailFileName = ThumbnailFileName;
-            libraryEntity.ThumbnailFilePath = "/ThumbnailImage/" + ThumbnailFileName + "." + ThumbnailFileExtension;
-            libraryEntity.DocFileName = DocFileName;
-            libraryEntity.DocFilePath = "/LibraryImage/" + DocFileName + "." + DocFileExtension;
+            libraryEntity.Description = Description != "-" ? Decode(Description) : "";
+            libraryEntity.CreatebyBranch = CreatebyBranch;
+            libraryEntity.ThumbnailFileName = ThumbnailFileName.Split(',')[0];
+            libraryEntity.ThumbnailFilePath = "/ThumbnailImage/" + ThumbnailFileName.Split(',')[1] + "." + ThumbnailFileExtension;
+            libraryEntity.DocFileName = DocFileName.Split(',')[0];
+            libraryEntity.DocFilePath = "/LibraryImage/" + DocFileName.Split(',')[1] + "." + DocFileExtension;
             string[] stdname = StandardID.Split(',');
             if (!StandardID.Equals("none"))
             {
@@ -97,9 +100,9 @@ namespace Ashirvad.API.Controllers
                         string extension;
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                         // for local server
-                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                         var thumbnailFile = httpRequest.Files[0];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(thumbnailFile.FileName);
@@ -275,6 +278,13 @@ namespace Ashirvad.API.Controllers
             result.Completed = true;
             result.Data = data.Result;
             return result;
+        }
+
+        public static string Decode(string Path)
+        {
+            byte[] mybyte = Convert.FromBase64String(Path);
+            string returntext = Encoding.UTF8.GetString(mybyte);
+            return returntext;
         }
     }
 }

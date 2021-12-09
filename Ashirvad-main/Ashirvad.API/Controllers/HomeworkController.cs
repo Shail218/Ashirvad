@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 using System.Web.UI;
@@ -162,7 +163,7 @@ namespace Ashirvad.API.Controllers
             homeworkEntity.StandardInfo.StandardID = StandardID;
             homeworkEntity.SubjectInfo.SubjectID = SubjectID;
             homeworkEntity.BatchTimeID = Batch_TimeID;
-            homeworkEntity.Remarks = Remark;
+            homeworkEntity.Remarks = Remark == "none" ? null : Decode(Remark);
             homeworkEntity.HomeworkContentFileName = FileName;
             homeworkEntity.FilePath = "/HomeworkDocument/" + FileName + "." + Extension;        
             homeworkEntity.RowStatus = new RowStatusEntity()
@@ -240,6 +241,13 @@ namespace Ashirvad.API.Controllers
                 result.Message = "Homework Already Exists!!";
             }
             return result;
+        }
+
+        public static string Decode(string Path)
+        {
+            byte[] mybyte = Convert.FromBase64String(Path);
+            string returntext = Encoding.UTF8.GetString(mybyte);
+            return returntext;
         }
 
         [HttpPost]

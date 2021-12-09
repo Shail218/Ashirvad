@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -171,7 +172,7 @@ namespace Ashirvad.API.Controllers
             {
                 studentEntity.DOB = Birth_Date;
             }
-            studentEntity.Address = Address;
+            studentEntity.Address = Decode(Address);
             studentEntity.BranchInfo.BranchID = BranchID;
             studentEntity.StandardInfo.StandardID = StandardID;
             studentEntity.SchoolInfo.SchoolID = SchoolID == -1 ? 0 : SchoolID;
@@ -277,6 +278,12 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        public static string Decode(string Path)
+        {
+            byte[] mybyte = Convert.FromBase64String(Path);
+            string returntext = Encoding.UTF8.GetString(mybyte);
+            return returntext;
+        }
 
     }
 

@@ -23,9 +23,9 @@ namespace Ashirvad.Repo.Model
             this.HOMEWORK_MASTER = new HashSet<HOMEWORK_MASTER>();
             this.LINK_MASTER = new HashSet<LINK_MASTER>();
             this.PRACTICE_PAPER = new HashSet<PRACTICE_PAPER>();
-            this.STUDENT_MASTER = new HashSet<STUDENT_MASTER>();
             this.TEST_MASTER = new HashSet<TEST_MASTER>();
             this.LIBRARY_STD_MASTER = new HashSet<LIBRARY_STD_MASTER>();
+            this.STUDENT_MASTER = new HashSet<STUDENT_MASTER>();
         }
     
         public long std_id { get; set; }
@@ -51,10 +51,10 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<PRACTICE_PAPER> PRACTICE_PAPER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<STUDENT_MASTER> STUDENT_MASTER { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TEST_MASTER> TEST_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LIBRARY_STD_MASTER> LIBRARY_STD_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<STUDENT_MASTER> STUDENT_MASTER { get; set; }
     }
 }

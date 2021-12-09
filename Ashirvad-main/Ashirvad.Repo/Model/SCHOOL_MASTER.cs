@@ -27,8 +27,8 @@ namespace Ashirvad.Repo.Model
         public long trans_id { get; set; }
     
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
+        public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<STUDENT_MASTER> STUDENT_MASTER { get; set; }
-        public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
     }
 }

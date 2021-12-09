@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 
@@ -131,7 +132,7 @@ namespace Ashirvad.API.Controllers
             paperEntity.Standard.StandardID = StandardID;
             paperEntity.Subject.SubjectID = SubjectID;
             paperEntity.BatchTypeID = Batch_TimeID;
-            paperEntity.Remarks = Remark;
+            paperEntity.Remarks = Remark == "none" ? null : Decode(Remark);
             paperEntity.PaperData.PaperPath = FileName;
             paperEntity.PaperData.FilePath = "/PaperDocument/" + FileName + "." + Extension;       
             paperEntity.RowStatus = new RowStatusEntity()
@@ -205,6 +206,13 @@ namespace Ashirvad.API.Controllers
                 }
             }
             return result;
+        }
+
+        public static string Decode(string Path)
+        {
+            byte[] mybyte = Convert.FromBase64String(Path);
+            string returntext = Encoding.UTF8.GetString(mybyte);
+            return returntext;
         }
 
     }
