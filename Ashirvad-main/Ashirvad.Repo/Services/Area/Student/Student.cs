@@ -133,23 +133,23 @@ namespace Ashirvad.Repo.Services.Area.Student
             //}
             return data;
         }
-        public async Task<List<StudentEntity>> GetAllStudentByStd(long Std, long Branch,long Batch)
+        public async Task<List<StudentEntity>> GetAllStudentByStd(long Std, long Branch, long Batch)
         {
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
-                        .Include("BRANCH_MASTER")                        
-                        where u.std_id == Std && u.branch_id == Branch&& u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active
+                        .Include("BRANCH_MASTER")
+                        where u.std_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active
                         select new StudentEntity()
                         {
-                           
-                            StudentID = u.student_id,                            
-                            GrNo = u.gr_no,                           
+
+                            StudentID = u.student_id,
+                            GrNo = u.gr_no,
                             StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
-                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },                           
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
-                            Name=u.first_name+" "+ u.last_name
+                            Name = u.first_name + " " + u.last_name
                         }).ToList();
             //foreach (var item in data)
             //{
@@ -157,7 +157,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             //}
             return data;
         }
-        
+
         public async Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, int status)
         {
             var data = (from u in this.context.STUDENT_MASTER
@@ -205,6 +205,24 @@ namespace Ashirvad.Repo.Services.Area.Student
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
+
+            foreach (var item in data)
+            {
+                var res = this.context.USER_DEF.Where(s => s.student_id == item.StudentID
+                && s.row_sta_cd == 1 && s.user_type == (int)Enums.UserType.Student).FirstOrDefault();
+                if (res != null)
+                {
+                    item.StudentPassword = res.password;
+                }
+
+                var res2 = this.context.USER_DEF.Where(s => s.student_id == item.StudentID
+                && s.row_sta_cd == 1 && s.user_type == (int)Enums.UserType.Parent).FirstOrDefault();
+                if (res2 != null)
+                {
+                    item.StudentPassword2 = res2.password;
+                }
+                return data;
+            }
             return data;
         }
 
@@ -329,18 +347,18 @@ namespace Ashirvad.Repo.Services.Area.Student
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
-                        data.StudImage = data.StudentImgByte != null && data.StudentImgByte.Length > 0 ? Convert.ToBase64String(data.StudentImgByte) : "";
+            data.StudImage = data.StudentImgByte != null && data.StudentImgByte.Length > 0 ? Convert.ToBase64String(data.StudentImgByte) : "";
             //foreach (var item in data)
             //{
             //    data[data.IndexOf(item)].StudImage = item.StudentImgByte != null && item.StudentImgByte.Length > 0 ? Convert.ToBase64String(item.StudentImgByte) : "";
             //}
             if (data != null)
             {
-                if (data.UserID ==null)
+                if (data.UserID == null)
                 {
                     data.UserID = 0;
                 }
-                if(data.StudentMaint.ParentID != null)
+                if (data.StudentMaint.ParentID != null)
                 {
                     var d = (from a in this.context.USER_DEF where a.parent_id == data.StudentMaint.ParentID && a.student_id == data.StudentID select a).FirstOrDefault();
                     if (d != null)

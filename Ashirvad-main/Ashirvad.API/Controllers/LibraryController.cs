@@ -100,9 +100,9 @@ namespace Ashirvad.API.Controllers
                         string extension;
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                         // for local server
-                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                         var thumbnailFile = httpRequest.Files[0];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(thumbnailFile.FileName);

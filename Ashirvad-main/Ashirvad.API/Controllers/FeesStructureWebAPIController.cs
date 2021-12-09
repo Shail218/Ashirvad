@@ -7,6 +7,7 @@ using Ashirvad.Uploads;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 
@@ -38,7 +39,7 @@ namespace Ashirvad.API.Controllers
             feesEntity.standardInfo.StandardID = StandardID;
             feesEntity.FeesID = FeesID;
             feesEntity.FeesDetailID = FeesDetailsID;
-            feesEntity.Remark = Remark;
+            feesEntity.Remark = Remark == "none" ? null : Decode(Remark);
             feesEntity.FileName = FileName;
             feesEntity.FilePath = "/FeesImage/" + FileName + "." + Extension;
             feesEntity.RowStatus = new RowStatusEntity()
@@ -116,6 +117,13 @@ namespace Ashirvad.API.Controllers
                 result.Message = "Fees Structure Already Exists!!";
             }
             return result;
+        }
+
+        public static string Decode(string Path)
+        {
+            byte[] mybyte = Convert.FromBase64String(Path);
+            string returntext = Encoding.UTF8.GetString(mybyte);
+            return returntext;
         }
 
         [Route("GetFeesByID")]

@@ -74,7 +74,7 @@ function LoadUser(branchID) {
 
 
 function SaveToDo() {   
-    var isSuccess = ValidateData('dInformation');
+    var isSuccess = ValidateData('fToDoDetail');
     if (isSuccess) {
         ShowLoader();
         var date1 = $("#ToDoDate").val();

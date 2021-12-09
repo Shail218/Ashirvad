@@ -73,7 +73,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                         .Include("BRANCH_MASTER")
                         join li in this.context.USER_DEF on u.staff_id equals li.staff_id into ps
                         from li in ps.DefaultIfEmpty()
-                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1 && (Type == 0 || li.staff_id == Type)
+                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1 && (Type == 0 || li.user_type == Type)
                         select new StaffEntity()
                         {
                             RowStatus = new RowStatusEntity()

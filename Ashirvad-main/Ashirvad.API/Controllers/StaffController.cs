@@ -24,6 +24,7 @@ namespace Ashirvad.API.Controllers
         [HttpPost]
         public OperationResult<StaffEntity> StaffMaintenance(StaffEntity staffInfo)
         {
+            staffInfo.Userrole = Enums.UserType.Staff;
             var data = this._staffService.StaffMaintenance(staffInfo);
             OperationResult<StaffEntity> result = new OperationResult<StaffEntity>();
             result.Completed = true;
