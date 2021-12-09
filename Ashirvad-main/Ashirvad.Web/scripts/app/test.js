@@ -3,8 +3,8 @@
 
 $(document).ready(function () {
     ShowLoader();
-    if ($("#TestID").val() > 0 && $("#TestPaperID").val() > 0) {
-        $("#test_fuPaperDoc").addClass("editForm");
+    if ($("#TestID").val() > 0 && $("#test_TestPaperID").val() > 0) {
+        $("#FileInfo").addClass("editForm");
     }
 
     $("#datepickertest").datepicker({

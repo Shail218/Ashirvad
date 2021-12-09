@@ -121,7 +121,7 @@ namespace Ashirvad.Repo.Services.Area.ToDo
         {
             var data = (from u in this.context.TODO_MASTER
                         .Include("BRANCH_MASTER")
-                        join ud in this.context.USER_DEF on u.user_id equals ud.user_id
+                        join ud in this.context.USER_DEF on u.user_id equals ud.staff_id
                         where u.todo_id == todoID
                         select new ToDoEntity()
                         {
@@ -139,7 +139,7 @@ namespace Ashirvad.Repo.Services.Area.ToDo
                             Registerstatus=u.reg_status,
                             UserInfo = new UserEntity()
                             {
-                                UserID = ud.user_id,
+                                UserID = (long)ud.staff_id,
                                 Username = ud.username
                             },
                             BranchInfo = new BranchEntity()

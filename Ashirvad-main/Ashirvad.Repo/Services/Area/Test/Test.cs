@@ -27,7 +27,7 @@ namespace Ashirvad.Repo.Services.Area.Test
         {
             Model.TEST_MASTER testMaster = new Model.TEST_MASTER();
             if (CheckTest(testInfo.Branch.BranchID, testInfo.Standard.StandardID, testInfo.Subject.SubjectID, testInfo.BatchTimeID,
-                testInfo.TestDate,testInfo.TestID).Result != -1)
+                testInfo.TestDate, testInfo.TestID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from t in this.context.TEST_MASTER
@@ -67,7 +67,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             {
                 return -1;
             }
-               
+
         }
 
         public async Task<List<TestEntity>> GetAllTestByBranch(long branchID)
@@ -274,8 +274,8 @@ namespace Ashirvad.Repo.Services.Area.Test
                         where u.branch_id == branchID && u.STD_MASTER.std_id == stdID
                         && (batchTime == 0 || u.batch_time_id == batchTime)
                         select new TestEntity()
-                        {                                                       
-                            TestDate = u.test_dt,                                                        
+                        {
+                            TestDate = u.test_dt,
                         }).Distinct().ToList();
 
             return data;
@@ -338,10 +338,13 @@ namespace Ashirvad.Repo.Services.Area.Test
         public async Task<TestEntity> GetTestByTestID(long testID)
         {
             var data = (from u in this.context.TEST_MASTER
+                      
                         .Include("TEST_PAPER_REL")
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
+                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
+
                         where u.test_id == testID
                         select new TestEntity()
                         {
@@ -365,6 +368,15 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 SubjectID = u.SUBJECT_MASTER.subject_id,
                                 Subject = u.SUBJECT_MASTER.subject
                             },
+                            test = new TestPaperEntity()
+                            {
+                                DocContent = TestPaper.doc_content,
+                                TestPaperID = TestPaper.test_paper_id,
+                                PaperType = TestPaper.paper_type.ToString(),
+                                DocLink = TestPaper.doc_link.ToString(),
+                                FilePath = "http://highpack-001-site12.dtempurl.com" + TestPaper.file_path,
+                                FileName = TestPaper.file_name
+                            },
                             BatchTimeID = u.batch_time_id,
 
                             BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
@@ -374,7 +386,8 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestDate = u.test_dt,
                             TestEndTime = u.test_end_time,
                             TestName = u.test_name,
-                            TestStartTime = u.test_st_time,
+                            TestStartTime = u.test_st_time,                   
+                          
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
             return data;
@@ -466,6 +479,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                             PaperTypeID = u.paper_type,
                             TestID = u.test_id,
                             FileName = u.file_name,
+                            FilePath = u.file_path,
                             Remarks = u.remakrs,
                             TestDate = u.TEST_MASTER.test_dt,
                             TestName = u.TEST_MASTER.test_name,
@@ -622,11 +636,11 @@ namespace Ashirvad.Repo.Services.Area.Test
 
                             testdtl = new TestDetailEntity()
                             {
-                                TestDetailID= u.Test_master_dtl_id,
+                                TestDetailID = u.Test_master_dtl_id,
                                 BranchInfo = new BranchEntity()
                                 {
-                                    BranchID =u.branch_id,
-                                    BranchName =u.TEST_MASTER.BRANCH_MASTER.branch_name,
+                                    BranchID = u.branch_id,
+                                    BranchName = u.TEST_MASTER.BRANCH_MASTER.branch_name,
                                 },
                                 StudentInfo = new StudentEntity()
                                 {
@@ -765,8 +779,8 @@ namespace Ashirvad.Repo.Services.Area.Test
                         where u.test_id == testID
                         select new StudentAnswerSheetEntity()
                         {
-                            
-                           
+
+
                             Remarks = u.remarks,
                             Status = u.status,
                             StatusText = u.status == 1 ? "Pending" : "Done",
@@ -775,9 +789,9 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 StudentID = u.STUDENT_MASTER.student_id,
                                 FirstName = u.STUDENT_MASTER.first_name,
                                 LastName = u.STUDENT_MASTER.last_name,
-                                Name= u.STUDENT_MASTER.first_name+" "+ u.STUDENT_MASTER.last_name
+                                Name = u.STUDENT_MASTER.first_name + " " + u.STUDENT_MASTER.last_name
                             },
-                            
+
                             SubmitDate = u.submit_dt,
                             TestInfo = new TestEntity()
                             {
@@ -788,10 +802,10 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 {
                                     Standard = u.TEST_MASTER.STD_MASTER.standard,
                                     StandardID = u.TEST_MASTER.STD_MASTER.std_id,
-                                    
+
                                 },
                             },
-                            
+
                         }).Distinct().ToList();
             //if (data?.Count > 0)
             //{
@@ -803,7 +817,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             //}
             return data;
         }
-        
+
         public async Task<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID, long studentID)
         {
             var data = (from u in this.context.STUDENT_ANS_SHEET
@@ -1068,12 +1082,12 @@ namespace Ashirvad.Repo.Services.Area.Test
                         }).FirstOrDefault();
             if (data != null)
             {
-                data.marksentered = CheckMarks(data.TestID,data.Branch.BranchID,data.Subject.SubjectID,data.BatchTimeID);
+                data.marksentered = CheckMarks(data.TestID, data.Branch.BranchID, data.Subject.SubjectID, data.BatchTimeID);
             }
             return data;
         }
 
-        public bool CheckMarks(long TestID,long BranchID,long SubjectId,int BatchId)
+        public bool CheckMarks(long TestID, long BranchID, long SubjectId, int BatchId)
         {
             bool isExists = this.context.MARKS_MASTER.Where(s => s.test_id == TestID && s.branch_id == BranchID && s.subject_id == SubjectId && s.batch_time_id == BatchId && s.row_sta_cd == 1).FirstOrDefault() != null;
 

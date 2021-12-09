@@ -51,21 +51,21 @@ function SaveBanner() {
         var NotificationTypeList = [];
         if ($('input[type=checkbox][id=rowStaAdmin]').is(":checked")) {
             NotificationTypeList.push({
-                ID: 0,
+               // ID: 0,
                 TypeText: "Admin",
                 TypeID: 1
             });
         }
         if ($('input[type=checkbox][id=rowStaTeacher]').is(":checked")) {
             NotificationTypeList.push({
-                ID: 0,
+              //  ID: 0,
                 TypeText: "Teacher",
                 TypeID: 2
             });
         }
         if ($('input[type=checkbox][id=rowStaStudent]').is(":checked")) {
             NotificationTypeList.push({
-                ID: 0,
+              //  ID: 0,
                 TypeText: "Student",
                 TypeID: 3
             });

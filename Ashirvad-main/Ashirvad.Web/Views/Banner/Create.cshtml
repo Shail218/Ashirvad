@@ -35,24 +35,22 @@
                             <td>
                                 @if (Model.BannerType != null && Model.BannerType.Where(x => x.TypeID == 1 && x.ID > 0).FirstOrDefault() != null)
                                 {
-                                    <input type="checkbox"  name="Subtype" id="rowStaAdmin" value="Admin" checked />
+                                    <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaAdmin" value="Admin" checked />
                                 }
                                 else
                                 {
-                                    <input type="checkbox"  name="Subtype" id="rowStaAdmin" value="Admin" />
+                                    <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaAdmin" value="Admin" />
                                 }
-                                
                                 <lable for="rowStaAdmin">Admin</lable>
-
                             </td>
                             <td>
                                 @if (Model.BannerType != null && Model.BannerType.Where(x => x.TypeID == 2 && x.ID > 0).FirstOrDefault() != null)
                                 {
-                                    <input type="checkbox"  name="Subtype" id="rowStaTeacher" value="Teacher" style="margin-left:10px" checked />
+                                    <input type="checkbox" name="Subtype" alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" checked />
                                 }
                                 else
                                 {
-                                    <input type="checkbox"  name="Subtype" id="rowStaTeacher" value="Teacher" style="margin-left:10px" />
+                                    <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" />
                                 }
 
                                 <lable for="rowStaTeacher">Teacher</lable>
@@ -60,21 +58,23 @@
                             <td>
                                 @if (Model.BannerType != null && Model.BannerType.Where(x => x.TypeID == 3 && x.ID > 0).FirstOrDefault() != null)
                                 {
-                                    <input type="checkbox"  name="Subtype" id="rowStaStudent" value="Student" style="margin-left:10px" checked />
+                                    <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" checked />
                                 }
                                 else
                                 {
-                                    <input type="checkbox"  name="Subtype" id="rowStaStudent" value="Student" style="margin-left:10px" />
+                                    <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" />
                                 }
+
                                 <lable for="rowStaStudent">Student</lable>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
             </div>
             <div class="col-md-12">
                 @Html.Label("Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <input class="file-upload fileRequired" alt="Branch Image" id="fuBannerImage" name="ImageFile" type="file" accept="image/*" />
+                <input class="file-upload fileRequired" alt="Banner Image" id="fuBannerImage" name="ImageFile" type="file" accept="image/*" />
                 @Html.HiddenFor(x => x.BannerImageText, htmlAttributes: new { @class = "control-label fileRequired2" })
                 @Html.HiddenFor(x => x.FileName, htmlAttributes: new { @class = "control-label fileRequired2" })
                 @Html.HiddenFor(x => x.FilePath, htmlAttributes: new { @class = "control-label fileRequired2" })

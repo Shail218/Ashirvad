@@ -187,6 +187,8 @@ namespace Ashirvad.Repo.Services.Area.Banner
                             },
                             BannerID = u.banner_id,
                             BannerImage = u.banner_img,
+                            FileName=u.file_name,
+                            FilePath=u.file_path,
                             BranchInfo = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();

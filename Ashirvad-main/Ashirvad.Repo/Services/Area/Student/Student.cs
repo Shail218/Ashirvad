@@ -57,7 +57,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             studentMaster.admission_date = studentInfo.AdmissionDate;
             studentMaster.file_name = studentInfo.FileName;
             studentMaster.file_path = studentInfo.FilePath;
-            studentMaster.row_sta_cd = studentInfo.RowStatus.RowStatusId; ;
+            studentMaster.row_sta_cd = studentInfo.RowStatus.RowStatusId;
             studentMaster.trans_id = this.AddTransactionData(studentInfo.Transaction);
             this.context.STUDENT_MASTER.Add(studentMaster);
             if (isUpdate)

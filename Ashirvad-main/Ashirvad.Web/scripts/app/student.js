@@ -27,7 +27,7 @@ $(document).ready(function () {
             $("#rowStaInactive").attr('checked', 'checked');
         }
     }
-
+    
     if ($("#LastYearResult").val() != "") {
         
         var rowStatus = $("#LastYearResult").val();
@@ -207,12 +207,12 @@ $("#BatchTime").change(function () {
     $('#BatchInfo_BatchType').val(Data);
 });
 
-$("#fuStudentImage").change(function () {
-    readURL(this);
-});
+//$("#fuStudentImage").change(function () {
+//    readURL(this);
+//});
 
 $('input[type=radio][name=Status]').change(function () {   
-    if (this.value == 'Active') {
+    if (this.value == '1') {
         $("#RowStatus_RowStatusId").val(1);
     }
     else {
@@ -221,17 +221,17 @@ $('input[type=radio][name=Status]').change(function () {
 });
 
 $('input[type=radio][name=rdbResultofLastYear]').change(function () {   
-    if (this.value == 'Pass') {
-        $("#lastyearresult").val(1);
+    if (this.value == '1') {
+        $("#LastYearResult").val(1);
     }
     else {
-        $("#lastyearresult").val(2);
+        $("#LastYearResult").val(2);
     }
 });
 
-function lastyear(row) {
-    $("#LastYearResult").val(row.val());
-}
+//function lastyear(row) {
+//    $("#LastYearResult").val(row.val());
+//}
 
 function readURL(input) {
     if (input.files && input.files[0]) {

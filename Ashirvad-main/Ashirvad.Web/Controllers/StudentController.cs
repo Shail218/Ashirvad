@@ -45,6 +45,7 @@ namespace Ashirvad.Web.Controllers
 
             StudentEntity data = new StudentEntity();
             branch.GrNo = "Gr 1";
+
             if (branch.ImageFile != null)
             {
                 //photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
@@ -57,14 +58,20 @@ namespace Ashirvad.Web.Controllers
                 branch.FileName = _FileName;
                 branch.FilePath = _Filepath;
             }
-            branch.StudentID = 0;
+           // branch.StudentID = 0;
             branch.Transaction = GetTransactionData(branch.StudentID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-            branch.RowStatus = new RowStatusEntity()
+            if (branch.StudentID == 0)
             {
-                RowStatusId = (int)Enums.RowStatus.Active
-            };
+                branch.RowStatus = new RowStatusEntity()
+                {
+                    RowStatusId = (int)Enums.RowStatus.Active
+                };
+            }
+            if (branch.LastYearResult == null)
+            {
+                branch.LastYearResult = 1;
+            }
             data = await _studentService.StudentMaintenance(branch);
-
             if (data != null)
             {
                 return Json(true);
