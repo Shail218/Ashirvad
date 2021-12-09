@@ -35,7 +35,9 @@ namespace Ashirvad.Web.Controllers
             }
 
             var paperData = await _paperService.GetAllPaperWithoutContent();
-            branch.PaperData = paperData.Data;
+                branch.PaperData = paperData.Data;
+            
+
 
             return View("Index", branch);
         }

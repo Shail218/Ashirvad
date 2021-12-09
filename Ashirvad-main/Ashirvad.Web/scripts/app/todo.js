@@ -79,7 +79,7 @@ function SaveToDo() {
         ShowLoader();
         var date1 = $("#ToDoDate").val();
         $("#ToDoDate").val(ConvertData(date1));
-        var frm = $('#fuDocument');
+        var frm = $('#fToDoDetail');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');
         if (item[0].files.length > 0) {

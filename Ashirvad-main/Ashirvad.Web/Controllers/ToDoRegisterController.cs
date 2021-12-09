@@ -33,7 +33,7 @@ namespace Ashirvad.Web.Controllers
                 branch.ToDoInfo = todo;
             }
 
-            var todoData = await _todoService.GetAllToDoWithoutContentByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID, (SessionContext.Instance.LoginUser.UserID));
+            var todoData = await _todoService.GetAllToDoByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID, (SessionContext.Instance.LoginUser.UserID));
             branch.ToDoData = todoData;
 
             return View("Index", branch);

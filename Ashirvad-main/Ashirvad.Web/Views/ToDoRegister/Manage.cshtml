@@ -50,7 +50,7 @@
                 @Html.HiddenFor(x => item.UserInfo.UserID)
             </td>
             <td>
-                <a style="margin-left:20px;" href="~/ToDoDocument/" id="paperdownload" download="@item.ToDoFileName"><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
+                <a style="margin-left:20px;" href="@item.FilePath.Replace("http://highpack-001-site12.dtempurl.com","")" id="paperdownload" download="@item.ToDoFileName"><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
                 @Html.HiddenFor(x => item.ToDoID)
                 <input hidden id="UniqID" value="@item.ToDoID" />
             </td>

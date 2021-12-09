@@ -23,11 +23,15 @@
                         <td>
                             @if (Model.Registerstatus == false && Model != null)
                             {
-                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px" checked onchange="changestatus(this);"/>
+                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px" checked onchange="changestatus(this);" />
+                            }
+                            @if (!Model.Registerstatus.HasValue)
+                            {
+                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px" checked onchange="changestatus(this);" />
                             }
                             else
                             {
-                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px" onchange="changestatus(this);"/>
+                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px"  onchange="changestatus(this);" />
                             }
                             <lable for="rowStaInactive">Pending</lable>
                         </td>
@@ -37,7 +41,7 @@
         </div>
         <div class="col-md-8">
             @Html.Label("Remark", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.Remark, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
+            @Html.TextBoxFor(x => x.Remark, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
             @Html.HiddenFor(x => x.ToDoID)
             @Html.HiddenFor(x => x.ToDoDate)
             @Html.HiddenFor(x => x.BranchInfo.BranchID)
