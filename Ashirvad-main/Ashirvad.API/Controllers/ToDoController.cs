@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 
@@ -118,7 +119,7 @@ namespace Ashirvad.API.Controllers
             toDoEntity.ToDoDate = ToDo_Date;
             toDoEntity.BranchInfo.BranchID = BranchID;
             toDoEntity.UserInfo.UserID = UserID;
-            toDoEntity.ToDoDescription = ToDo_Description;
+            toDoEntity.ToDoDescription = ToDo_Description == "none" ? null : Decode(ToDo_Description);
             toDoEntity.ToDoFileName = FileName;
             toDoEntity.FilePath = "/ToDoDocument/" + FileName + "." + Extension;         
             toDoEntity.RowStatus = new RowStatusEntity()
@@ -192,6 +193,13 @@ namespace Ashirvad.API.Controllers
                 }
             }
             return result;
+        }
+
+        public static string Decode(string Path)
+        {
+            byte[] mybyte = Convert.FromBase64String(Path);
+            string returntext = Encoding.UTF8.GetString(mybyte);
+            return returntext;
         }
     }
 }

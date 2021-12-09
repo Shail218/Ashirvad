@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 
@@ -125,7 +126,7 @@ namespace Ashirvad.API.Controllers
             galleryEntity.Branch = new BranchEntity();
             galleryEntity.UniqueID = UniqID;
             galleryEntity.Branch.BranchID = BranchID;
-            galleryEntity.Remarks = Remark;
+            galleryEntity.Remarks = Remark == "none" ? null : Decode(Remark);
             galleryEntity.GalleryType = UploadType;
             galleryEntity.FileName = FileName;
             galleryEntity.FilePath = "/GalleryImage/" + FileName + "." + Extension;       
@@ -200,6 +201,13 @@ namespace Ashirvad.API.Controllers
                 }
             }
             return result;
+        }
+
+        public static string Decode(string Path)
+        {
+            byte[] mybyte = Convert.FromBase64String(Path);
+            string returntext = Encoding.UTF8.GetString(mybyte);
+            return returntext;
         }
     }
 }

@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 
@@ -326,7 +327,7 @@ namespace Ashirvad.API.Controllers
             testPaperEntity.TestPaperID = TestPaperID;
             testPaperEntity.PaperTypeID = Paper_Type;
             testPaperEntity.DocLink = Doc_Link == "none" ? "" : Doc_Link;
-            testPaperEntity.Remarks = Paper_Remark;
+            testPaperEntity.Remarks = Paper_Remark == "none" ? null : Decode(Paper_Remark);
             if(testPaperEntity.TestID > 0 && Doc_Link == "none" && HasFile == false)
             {
                 string[] filename = FileName.Split(',');
@@ -411,7 +412,13 @@ namespace Ashirvad.API.Controllers
             }
             return result;
         }
-     
+
+        public static string Decode(string Path)
+        {
+            byte[] mybyte = Convert.FromBase64String(Path);
+            string returntext = Encoding.UTF8.GetString(mybyte);
+            return returntext;
+        }
 
         [Route("TestAnswerSheetMaintenance/{TestID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}")]
         [HttpPost]
