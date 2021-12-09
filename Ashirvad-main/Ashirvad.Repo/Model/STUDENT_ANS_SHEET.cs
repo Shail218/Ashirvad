@@ -28,7 +28,7 @@ namespace Ashirvad.Repo.Model
         public string ans_sheet_filepath { get; set; }
     
         public virtual TEST_MASTER TEST_MASTER { get; set; }
-        public virtual STUDENT_MASTER STUDENT_MASTER { get; set; }
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+        public virtual STUDENT_MASTER STUDENT_MASTER { get; set; }
     }
 }

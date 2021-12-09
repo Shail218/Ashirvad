@@ -65,7 +65,6 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<PRACTICE_PAPER_REL> PRACTICE_PAPER_REL { get; set; }
         public virtual DbSet<BRANCH_RIGHTS_MASTER> BRANCH_RIGHTS_MASTER { get; set; }
         public virtual DbSet<TODO_MASTER> TODO_MASTER { get; set; }
-        public virtual DbSet<STUDENT_MASTER> STUDENT_MASTER { get; set; }
         public virtual DbSet<BANNER_MASTER> BANNER_MASTER { get; set; }
         public virtual DbSet<BRANCH_MAINT> BRANCH_MAINT { get; set; }
         public virtual DbSet<HOMEWORK_MASTER> HOMEWORK_MASTER { get; set; }
@@ -86,6 +85,7 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<APPROVAL_MASTER> APPROVAL_MASTER { get; set; }
         public virtual DbSet<LIBRARY_STD_MASTER> LIBRARY_STD_MASTER { get; set; }
         public virtual DbSet<LIBRARY_MASTER> LIBRARY_MASTER { get; set; }
+        public virtual DbSet<STUDENT_MASTER> STUDENT_MASTER { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
