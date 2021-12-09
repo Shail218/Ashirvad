@@ -39,9 +39,11 @@ namespace Ashirvad.Web.Controllers
                 branch.NotificationInfo = new NotificationEntity();
             }
 
-            var branchData = await _notificationService.GetAllNotification(0, 0);
-            var data = await _notificationService.GetAllNotification(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : (int)SessionContext.Instance.LoginUser.UserType);
-            branch.NotificationData = branchData.Data;
+            
+            var data = await _notificationService.GetAllNotification(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : 
+                SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : 
+                (int)SessionContext.Instance.LoginUser.UserType);
+            branch.NotificationData = data.Data;
 
             return View("Index", branch);
         }

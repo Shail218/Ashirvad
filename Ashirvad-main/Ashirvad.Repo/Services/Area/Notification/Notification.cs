@@ -108,7 +108,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
                         join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
                         from branch in tempBranch.DefaultIfEmpty()
-                        where (0 == branchID || u.branch_id == null || u.branch_id == 0 || (u.branch_id.HasValue && u.branch_id.Value == branchID))
+                        where (branchID == 0 || u.branch_id == 0 || u.branch_id.Value == branchID)
                         && (0 == typeID || t.sub_type_id == typeID) && u.row_sta_cd == 1
                         select new NotificationEntity()
                         {
