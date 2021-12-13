@@ -168,6 +168,9 @@
                 <input class="file-upload" alt="Thumbnail Image" id="FileInfo" name="FileInfo" type="file" />
                 @Html.HiddenFor(x => x.test.DocContentText)
                 @Html.HiddenFor(x => x.test.DocContent)
+              
+                @Html.HiddenFor(x => x.test.FileName)
+                @Html.HiddenFor(x => x.test.FilePath)
             </div>
             <div class="col-md-3">
                 @Html.Label("Paper Remarks", htmlAttributes: new { @class = "control-label" })
