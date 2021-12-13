@@ -94,8 +94,9 @@
         .h3 {
             font-weight: 500 !important;
         }
-        .displayNone{
-            display:none !important;
+
+        .displayNone {
+            display: none !important;
         }
     </style>
 </head>
@@ -301,24 +302,24 @@
                                     </ul>
                                 </li>
                                 @*<li class="dropdown" id="LibraryMenu" style="margin-left:10px;">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                       Branch Library
-                                    </a>
-                                    <ul class="dropdown-menu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                           Branch Library
+                                        </a>
+                                        <ul class="dropdown-menu">
 
-                                        <li class="treeview LibraryImage">
-                                            <a href="@Url.Action("LibraryMaintenance","NewLibrary",new { @LibraryID=0,Type=2 })">
-                                                Image/Document
-                                            </a>
-                                        </li>
-                                        <li class="treeview LibraryVideo">
-                                            <a href="@Url.Action("LibraryMaintenance","NewLibrary",new { @LibraryID=0,Type=1 })">
-                                                Video
-                                            </a>
-                                        </li>
+                                            <li class="treeview LibraryImage">
+                                                <a href="@Url.Action("LibraryMaintenance","NewLibrary",new { @LibraryID=0,Type=2 })">
+                                                    Image/Document
+                                                </a>
+                                            </li>
+                                            <li class="treeview LibraryVideo">
+                                                <a href="@Url.Action("LibraryMaintenance","NewLibrary",new { @LibraryID=0,Type=1 })">
+                                                    Video
+                                                </a>
+                                            </li>
 
-                                    </ul>
-                                </li>*@
+                                        </ul>
+                                    </li>*@
                                 <li class="dropdown" id="LibraryMenu" style="margin-left:10px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         Library
@@ -333,6 +334,11 @@
                                         <li class="treeview LibraryVideo">
                                             <a href="@Url.Action("LibraryMaintenance","Library",new { @libraryID=0,Type=1})">
                                                 Video
+                                            </a>
+                                        </li>
+                                        <li class="treeview">
+                                            <a href="@Url.Action("ShowLibraryMaintenance","ShowLibrary",new {@branchID=0})">
+                                                Show Library
                                             </a>
                                         </li>
                                         <li class="treeview">
@@ -377,7 +383,7 @@
                                     <ul class="dropdown-menu">
                                         <li class="treeview PracticePapers" id="PracticePaper">
                                             <a href="@Url.Action("PaperMaintenance","Papers", new { @paperID=0 })">
-                                                Practice Papers                                               
+                                                Practice Papers
                                             </a>
                                         </li>
                                         <li class="treeview Homework" id="Homework">
