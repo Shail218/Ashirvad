@@ -280,6 +280,28 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("GetLibraryApprovalByBranch")]
+        [HttpGet]
+        public OperationResult<List<LibraryEntity>> GetLibraryApprovalByBranch(long branchID)
+        {
+            var data = this._libraryService.GetLibraryApprovalByBranch(branchID);
+            OperationResult<List<LibraryEntity>> result = new OperationResult<List<LibraryEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
+
+        [Route("GetLibraryApprovalByBranchStd")]
+        [HttpGet]
+        public OperationResult<List<LibraryEntity>> GetLibraryApprovalByBranchStd(long standardID, long branchID, string standard)
+        {
+            var data = this._libraryService.GetLibraryApprovalByBranchStd(standardID, branchID, standard);
+            OperationResult<List<LibraryEntity>> result = new OperationResult<List<LibraryEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
+
         public static string Decode(string Path)
         {
             byte[] mybyte = Convert.FromBase64String(Path);

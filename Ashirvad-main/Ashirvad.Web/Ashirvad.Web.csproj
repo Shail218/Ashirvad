@@ -200,8 +200,6 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="CourseImage\A7EF8HCJARD2U4NN78KE.png" />
-    <Content Include="FacultyImage\1MQHHJLP2BBSYSOWACCQ.png" />
     <Content Include="FeesImage\empty_cart.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="GalleryImage\L0QG6TB71KDIZUCO3PKT.png" />
@@ -667,6 +665,7 @@
     <Content Include="ThemeData\images\logo1.png" />
     <Content Include="ThemeData\images\minus.png" />
     <Content Include="ThemeData\images\pdf.jpg" />
+    <Content Include="ThemeData\images\play.png" />
     <Content Include="ThemeData\images\plus.png" />
     <Content Include="ThemeData\images\preview.gif" />
     <Content Include="ThemeData\images\price-tag.png" />
@@ -674,6 +673,7 @@
     <Content Include="ThemeData\images\secure.jpg" />
     <Content Include="ThemeData\images\tick.png" />
     <Content Include="ThemeData\images\time.png" />
+    <Content Include="ThemeData\images\vedio.png" />
     <Content Include="ThemeData\images\viewIcon.png" />
     <Content Include="ThemeData\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.js" />
     <Content Include="ThemeData\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.min.js" />
@@ -1166,6 +1166,7 @@
     <Compile Include="Controllers\ResultEntryController.cs" />
     <Compile Include="Controllers\ResultRegisterController.cs" />
     <Compile Include="Controllers\SchoolController.cs" />
+    <Compile Include="Controllers\ShowLibraryController.cs" />
     <Compile Include="Controllers\StandardController.cs" />
     <Compile Include="Controllers\StandardWiseChartController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -1407,6 +1408,7 @@
     <Content Include="Views\Library\VideoManage.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\ManageLibrary\Index.cshtml" />
+    <Content Include="Views\ShowLibrary\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1416,6 +1418,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="CourseImage\" />
+    <Folder Include="FacultyImage\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
     <Folder Include="ZipFiles\HomeworkDetails\" />

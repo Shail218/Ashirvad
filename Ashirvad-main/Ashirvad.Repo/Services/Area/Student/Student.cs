@@ -332,7 +332,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             StudentPassword2 = user.password,
                             UserID = user.user_id,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
-                            StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
+                            StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
                             BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
                             StudentMaint = new StudentMaint()

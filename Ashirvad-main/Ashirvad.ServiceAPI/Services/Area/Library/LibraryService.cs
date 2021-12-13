@@ -26,7 +26,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Library
             {
                 long LibraryID = await _libraryContext.LibraryMaintenance(libInfo);
                 if (LibraryID > 0)
-                { 
+                {
                     Library.LibraryID = LibraryID;
                 }
             }
@@ -172,5 +172,34 @@ namespace Ashirvad.ServiceAPI.Services.Area.Library
 
             return null;
         }
+
+        public async Task<List<LibraryEntity>> GetLibraryApprovalByBranch(long BranchId)
+        {
+            try
+            {
+                return await _libraryContext.GetLibraryApprovalByBranch(BranchId);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<LibraryEntity>> GetLibraryApprovalByBranchStd(long standardID, long BranchId, string standard)
+        {
+            try
+            {
+                return await _libraryContext.GetLibraryApprovalByBranchStd(standardID, BranchId, standard);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
     }
 }
