@@ -285,6 +285,7 @@
     <Content Include="scripts\app\paper.js" />
     <Content Include="scripts\app\reminder.js" />
     <Content Include="scripts\app\school.js" />
+    <Content Include="scripts\app\showlibrary.js" />
     <Content Include="scripts\app\standard.js" />
     <Content Include="scripts\app\student.js" />
     <Content Include="scripts\app\subject.js" />

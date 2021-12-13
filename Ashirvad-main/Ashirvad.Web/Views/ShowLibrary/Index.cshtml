@@ -122,10 +122,11 @@
                                                 }
                                                 else
                                                 {
-                                                    <img src="~/ThemeData/images/vedio.png" id="FeeImg" Width="150" Height="150"  />
+                                                    <iframe id="Videoiframe" class="videolink" src="@item.VideoLink"></iframe>
+                                                   
                                                 }
                                                 @Html.HiddenFor(x => item.LibraryID)
-                                               
+
                                             </div>
                                             <div class="content">
                                                 <label Style="background: white; color: black; border-radius: 5px; padding: 5px;">@item.Description</label>
@@ -153,7 +154,7 @@
                                                         }
                                                         else
                                                         {
-                                                                <img hidden="hidden" src="~/ThemeData/images/icons8-desktop-download-24 (1).png" />
+                                                            <img hidden="hidden" src="~/ThemeData/images/icons8-desktop-download-24 (1).png" />
                                                         }
 
 
@@ -177,5 +178,9 @@
     </div>
 
 </section>
+@section Scripts {
+    <script type="text/javascript" src="~/scripts/app/showlibrary.js"></script>
+}
+
 
 
