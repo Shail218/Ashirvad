@@ -434,3 +434,63 @@ function CheckRights() {
    
 }
 
+
+function DateConvert(FromDate, Text)
+{
+    var Type ="Live";
+    var str1 = GetSiteURL();
+    var str2 = "localhost";
+    var FromDateupdate;
+    if (str1.indexOf(str2) != -1)
+    {
+        Type ="Local"
+    }
+    var Data = FromDate.value.split("/");
+    if (Data.length == 1 && FromDate.value != "") {
+        Data = FromDate.value.split("-");
+        var Date = Data[0];
+        var Month = Data[1];
+        var Year = Data[2];
+        if (Type == 'Local')
+        {
+           FromDateupdate = Date + "-" + Month + "-" + Year;
+            
+        }
+        else
+        {
+            FromDateupdate = Year + "-" + Month + "-" + Date;
+           
+        }
+    } else
+    {
+        var Date = Data[0];
+        var Month = Data[1];
+        var Year = Data[2];
+        if (Type == 'Local')
+        {
+             FromDateupdate = Date + "/" + Month + "/" + Year;
+            
+        }
+        else
+        {
+             FromDateupdate = Year + "/" + Month + "/" + Date;
+           
+        }
+    }
+
+    $("#" + Text).val(FromDateupdate);
+}
+function GetSiteURL() {
+
+    var str = window.location.href;
+    var res = str.split("/");
+    var URL = '';
+    if (res[2].toLowerCase() === 'localhost'.toLowerCase() || res[2].toLowerCase() === '127.0.0.1'.toLowerCase()) {
+        URL = window.location.protocol + "//" + res[2].toLowerCase() + "/" + res[3].toLowerCase();
+    }
+    else {
+        URL = window.location.protocol + "//" + res[2].toLowerCase() + "/";
+    }
+    SiteURL = URL;
+    return URL;
+}

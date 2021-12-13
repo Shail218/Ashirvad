@@ -121,7 +121,7 @@ namespace Ashirvad.Web.Controllers
         {
             AboutUsDetailEntity data = new AboutUsDetailEntity();
             
-            if (entity.ImageFile != null)
+            if (entity.ImageFile[0] != null)
             {
 
                 foreach (var item in entity.ImageFile)
@@ -134,22 +134,25 @@ namespace Ashirvad.Web.Controllers
                     item.SaveAs(_path);
                     entity.HeaderImageText = _FileName;
                     entity.FilePath = _Filepath;
-                    entity.TransactionInfo = GetTransactionData(entity.DetailID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-                    entity.RowStatus = new RowStatusEntity()
-                    {
-                        RowStatusId = (int)Enums.RowStatus.Active
-                    };
-                    entity.BranchInfo = new BranchEntity();
-                    if (SessionContext.Instance.LoginUser.UserType != Enums.UserType.SuperAdmin)
-                    {
-
-                        entity.BranchInfo.BranchID = (int)SessionContext.Instance.LoginUser.BranchInfo.BranchID;
-                    }                   
-                    data = await _aboutUsService.AboutUsDetailMaintenance(entity);
+                   
                     
                 }
 
             }
+
+            entity.TransactionInfo = GetTransactionData(entity.DetailID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            entity.RowStatus = new RowStatusEntity()
+            {
+                RowStatusId = (int)Enums.RowStatus.Active
+            };
+            entity.BranchInfo = new BranchEntity();
+            if (SessionContext.Instance.LoginUser.UserType != Enums.UserType.SuperAdmin)
+            {
+
+                entity.BranchInfo.BranchID = (int)SessionContext.Instance.LoginUser.BranchInfo.BranchID;
+            }
+            data = await _aboutUsService.AboutUsDetailMaintenance(entity);
+
             if (data.DetailID >0)
             {
                 return Json(true);

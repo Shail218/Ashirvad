@@ -272,7 +272,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 StandardID = u.STD_MASTER.std_id,
                                 Standard = u.STD_MASTER.standard
                             },
-                            AttendanceDate = u.attendance_dt,
+                            AttendanceDate = u.attendance_dt,                           
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
                             BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
@@ -303,6 +303,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                   }).ToList();
 
                 data.AttendanceDetail = detailInfo;
+                data.AttendanceDatetxt = data.AttendanceDate.ToString("yyyy/MM/dd");
             }
             return data;
         }
