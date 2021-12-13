@@ -14,14 +14,14 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         public async Task<long> CheckBranch(int BranchID)
         {
             long result;
-            bool isExists = this.context.ABOUTUS_MASTER.Where(s => (BranchID == 0 || s.branch_id != BranchID) && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.ABOUTUS_MASTER.Where(s => (s.branch_id == BranchID) && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
         public async Task<long> AboutUsMaintenance(AboutUsEntity aboutUsInfo)
         {
             Model.ABOUTUS_MASTER aboutUsMaster = new Model.ABOUTUS_MASTER();
-            if (CheckBranch((int)aboutUsInfo.BranchInfo.BranchID).Result != -1)
+            if (/*CheckBranch((int)aboutUsInfo.BranchInfo.BranchID).Result*/ 1!= -1)
             {
                 bool isUpdate = true;
                 var data = (from aboutus in this.context.ABOUTUS_MASTER

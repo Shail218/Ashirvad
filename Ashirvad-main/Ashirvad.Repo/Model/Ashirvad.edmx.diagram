@@ -46,7 +46,6 @@
         <EntityTypeShape EntityType="AshirvadModel.CATEGORY_MASTER" Width="1.5" PointX="13.25" PointY="17.375" />
         <AssociationConnector Association="AshirvadModel.FK_CATEGORY_MASTER_TRANSACTION_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.ABOUTUS_DETAIL_REL" Width="1.5" PointX="10.25" PointY="30.375" />
-        <EntityTypeShape EntityType="AshirvadModel.ABOUTUS_MASTER" Width="1.5" PointX="5.25" PointY="41.125" />
         <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.TEST_PAPER_REL" Width="1.5" PointX="17.75" PointY="19.375" />
         <AssociationConnector Association="AshirvadModel.FK_TEST_PAPER_REL_TEST_MASTER" />
@@ -80,7 +79,6 @@
         <EntityTypeShape EntityType="AshirvadModel.BRANCH_MASTER" Width="1.5" PointX="3" PointY="12.875" />
         <EntityTypeShape EntityType="AshirvadModel.BRANCH_STAFF" Width="1.5" PointX="5.25" PointY="12.375" />
         <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER" />
@@ -181,6 +179,8 @@
         <AssociationConnector Association="AshirvadModel.FK_STUDENT_MAINT_STUDENT_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.ABOUTUS_MASTER" Width="1.5" PointX="5.25" PointY="8.25" />
+        <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

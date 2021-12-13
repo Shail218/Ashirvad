@@ -18,7 +18,6 @@ namespace Ashirvad.Repo.Model
         public BRANCH_MASTER()
         {
             this.ABOUTUS_DETAIL_REL = new HashSet<ABOUTUS_DETAIL_REL>();
-            this.ABOUTUS_MASTER = new HashSet<ABOUTUS_MASTER>();
             this.ATTENDANCE_HDR = new HashSet<ATTENDANCE_HDR>();
             this.BATCH_MASTER = new HashSet<BATCH_MASTER>();
             this.BRANCH_AGREEMENT = new HashSet<BRANCH_AGREEMENT>();
@@ -52,6 +51,7 @@ namespace Ashirvad.Repo.Model
             this.NEW_LIBRARY_MASTER = new HashSet<NEW_LIBRARY_MASTER>();
             this.APPROVAL_MASTER = new HashSet<APPROVAL_MASTER>();
             this.STUDENT_MASTER = new HashSet<STUDENT_MASTER>();
+            this.ABOUTUS_MASTER = new HashSet<ABOUTUS_MASTER>();
         }
     
         public long branch_id { get; set; }
@@ -67,8 +67,6 @@ namespace Ashirvad.Repo.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ABOUTUS_DETAIL_REL> ABOUTUS_DETAIL_REL { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ABOUTUS_MASTER> ABOUTUS_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ATTENDANCE_HDR> ATTENDANCE_HDR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -137,5 +135,7 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<APPROVAL_MASTER> APPROVAL_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<STUDENT_MASTER> STUDENT_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ABOUTUS_MASTER> ABOUTUS_MASTER { get; set; }
     }
 }

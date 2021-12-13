@@ -5,6 +5,7 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Attendance;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -38,6 +39,8 @@ namespace Ashirvad.Web.Controllers
                     RowStatusId = (int)Enums.RowStatus.Active
                 };
                 //aInfo.AttendanceDetail = attendanceDetailEntities;
+                //var Test= DateTime.ParseExact(aInfo.AttendanceDatetxt, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                var Test= DateTime.ParseExact(aInfo.AttendanceDatetxt, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
                 var line = JsonConvert.DeserializeObject<List<AttendanceDetailEntity>>(aInfo.JsonData);
                 aInfo.AttendanceDetail = line;
                 long attendanceID = await _attendanceContext.AttendanceMaintenance(aInfo);

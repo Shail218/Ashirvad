@@ -47,6 +47,12 @@ function SaveAboutUs() {
             if (data.AboutUsID > 0) {
 
                 ShowMessage('About us added Successfully.', 'Success');
+                window.location.href = "AboutUsMaintenance?aboutID=0&detailid=0";
+
+            }
+            else if (data.AboutUsID < 0) {
+
+                ShowMessage('Already Exist.', 'Error');
 
             }
             else {
