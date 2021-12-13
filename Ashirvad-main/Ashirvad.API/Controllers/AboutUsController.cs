@@ -30,13 +30,8 @@ namespace Ashirvad.API.Controllers
         {
             var data =  this._aboutUsService.GetAboutUsByUniqueID(0, BranchID).Result;
             OperationResult<AboutUsEntity> result = new OperationResult<AboutUsEntity>();
-            result.Completed = false;
-            result.Data = null;
-            if (data.AboutUsID > 0)
-            {
-                result.Completed = true;
-                result.Data = data;
-            }
+            result.Completed = true;
+            result.Data = data;
             return result;
         }
 

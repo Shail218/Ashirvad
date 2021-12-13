@@ -183,18 +183,8 @@ namespace Ashirvad.Repo.Services.Area.Paper
                             }
                         }).ToList();
 
-            if (data?.Count > 0)
-            {
-                foreach (var item in data)
-                {
-                    int idx = data.IndexOf(item);
-                    data[idx].PaperData.PaperContentText = data[idx].PaperData.PaperContent.Length > 0 ? Convert.ToBase64String(data[idx].PaperData.PaperContent) : "";
-                }
-            }
-
             return data;
         }
-
 
         public async Task<List<PaperEntity>> GetAllPaperWithoutContent(long branchID)
         {

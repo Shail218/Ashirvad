@@ -83,7 +83,7 @@ namespace Ashirvad.Data
     {
         public T Data { get; set; }
         public string Message { get; set; }
-        public string Permission { get; set; }
+        public List<BranchWiseRightEntity> Permission { get; set; }
         public override string ToString()
         {
             return Environment.NewLine + typeof(OperationResult).Name + "<" + typeof(T).Name + ">:" + Environment.NewLine + Data + Environment.NewLine + base.ToString();

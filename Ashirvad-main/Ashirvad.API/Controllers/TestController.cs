@@ -326,7 +326,7 @@ namespace Ashirvad.API.Controllers
             testPaperEntity.TestID = TestID;
             testPaperEntity.TestPaperID = TestPaperID;
             testPaperEntity.PaperTypeID = Paper_Type;
-            testPaperEntity.DocLink = Doc_Link == "none" ? "" : Doc_Link;
+            testPaperEntity.DocLink = Doc_Link == "none" ? "" : Decode(Doc_Link);
             testPaperEntity.Remarks = Paper_Remark == "none" ? null : Decode(Paper_Remark);
             if(testPaperEntity.TestID > 0 && Doc_Link == "none" && HasFile == false)
             {

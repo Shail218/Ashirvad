@@ -180,7 +180,7 @@ namespace Ashirvad.API.Controllers
             studentEntity.BatchInfo.BatchType = (Enums.BatchType)Batch_TimeID;
             studentEntity.LastYearResult = Convert.ToInt32(result_status[0]) == -1 ? 0 : Convert.ToInt32(result_status[0]);
             studentEntity.Grade = Grade == "none" ? "" : Grade;
-            studentEntity.LastYearClassName = Class_Name == "none" ? null : Class_Name;
+            studentEntity.LastYearClassName = Class_Name == "none" ? null : Decode(Class_Name);
             studentEntity.ContactNo = Student_Contact_No == "none" ? null : Student_Contact_No;
             if (Admission_Date.Equals("01-01-0001"))
             {

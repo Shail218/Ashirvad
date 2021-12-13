@@ -91,6 +91,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                             LeavingDT = u.leaving_dt,
                             MobileNo = u.mobile_no,
                             Name = u.name,
+                            UserID = li.user_id,
                             StaffID = u.staff_id,
                             BranchInfo = new BranchEntity()
                             {

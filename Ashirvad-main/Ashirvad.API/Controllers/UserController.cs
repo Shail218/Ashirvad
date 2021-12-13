@@ -35,7 +35,7 @@ namespace Ashirvad.API.Controllers
             if(data.Result != null)
             {
                 var BranchRightData = _BranchRightService.GetBranchRightsByBranchID(data.Result.BranchInfo.BranchID);
-                result.Permission = JsonConvert.SerializeObject(BranchRightData);
+                result.Permission = BranchRightData.Result;
                 result.Completed = true;
                 result.Data = data.Result;              
                 if (result.Permission == null)
