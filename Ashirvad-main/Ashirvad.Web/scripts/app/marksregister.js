@@ -171,6 +171,6 @@ $("#Batchtime").change(function () {
 $("#testddl").change(function () {
     var Data = $("#testddl option:selected").val();
     var Text = $("#testddl option:selected").text();
-    $('#testEntityInfo_TestID').val(Data);
-    LoadSubject(Text);
+    var Date1 = ConvertData(Text);
+    LoadSubject(Date1);
 });
