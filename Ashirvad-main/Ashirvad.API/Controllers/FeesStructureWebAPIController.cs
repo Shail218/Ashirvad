@@ -151,7 +151,7 @@ namespace Ashirvad.API.Controllers
         [HttpPost]
         public OperationResult<List<FeesEntity>> GetAllFees()
         {
-            var FeesData = this._FeesService.GetAllFees();
+            var FeesData = this._FeesService.GetAllFees(0);
             OperationResult<List<FeesEntity>> result = new OperationResult<List<FeesEntity>>();
             result.Data = FeesData.Result;
             result.Completed = true;

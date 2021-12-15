@@ -616,7 +616,7 @@ namespace Ashirvad.API.Controllers
                     {
                         FilePath = "http://highpack-001-site12.dtempurl.com" + FileName
                     };
-                    result.Completed = false;
+                    result.Completed = true;
                     result.Message = "Success";
                 }
                 else

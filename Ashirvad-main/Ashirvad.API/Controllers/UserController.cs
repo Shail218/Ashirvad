@@ -35,10 +35,11 @@ namespace Ashirvad.API.Controllers
             if(data.Result != null)
             {
                 var BranchRightData = _BranchRightService.GetBranchRightsByBranchID(data.Result.BranchInfo.BranchID);
-                result.Permission = BranchRightData.Result;
+                
                 result.Completed = true;
-                result.Data = data.Result;              
-                if (result.Permission == null)
+                result.Data = data.Result;
+                result.Data.Permission = BranchRightData.Result;
+                if (result.Data.Permission == null)
                 {
                     result.Message = "You have no permission!!!";
                 }

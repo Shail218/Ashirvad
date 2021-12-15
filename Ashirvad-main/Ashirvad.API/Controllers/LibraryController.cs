@@ -79,7 +79,7 @@ namespace Ashirvad.API.Controllers
             };
             if (VideoLink != "none")
             {
-                libraryEntity.VideoLink = VideoLink;
+                libraryEntity.VideoLink = Decode(VideoLink);
                 libraryEntity.ThumbnailFileName = "";
                 libraryEntity.ThumbnailFilePath = "";
                 libraryEntity.DocFileName = "";

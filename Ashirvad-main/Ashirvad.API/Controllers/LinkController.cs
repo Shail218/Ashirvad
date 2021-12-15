@@ -36,7 +36,7 @@ namespace Ashirvad.API.Controllers
         [HttpGet]
         public OperationResult<List<LinkEntity>> GetLiveVideoLinks()
         {
-            var data = this._linkService.GetAllLink(1);
+            var data = this._linkService.GetAllLink(1,0);
             OperationResult<List<LinkEntity>> result = new OperationResult<List<LinkEntity>>();
             result = data.Result;
             return result;
@@ -90,7 +90,7 @@ namespace Ashirvad.API.Controllers
         [HttpGet]
         public OperationResult<List<LinkEntity>> GetYouTubeVideoLinks()
         {
-            var data = this._linkService.GetAllLink(2);
+            var data = this._linkService.GetAllLink(2,0);
             OperationResult<List<LinkEntity>> result = new OperationResult<List<LinkEntity>>();
             result = data.Result;
             return result;
