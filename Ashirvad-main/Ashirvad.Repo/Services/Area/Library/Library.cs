@@ -515,6 +515,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                    ThumbnailFileName = u.thumbnail_img,
                                    ThumbnailFilePath = u.thumbnail_path == null || u.thumbnail_path == "" ? "" : "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
                                    Type = u.type.Value,
+                                   Library_Type = (int)u.library_type,
                                    Description = u.doc_desc,
                                    DocFileName = u.library_image,
                                    CreatebyBranch = u.createby_branch.Value,
@@ -640,7 +641,7 @@ namespace Ashirvad.Repo.Services.Area.Library
             return libraryEntities;
         }
 
-        public async Task<List<LibraryEntity>> GetLibraryApprovalByBranchStd(long standardID, long BranchId,string standard)
+        public async Task<List<LibraryEntity>> GetLibraryApprovalByBranchStd(long standardID, long BranchId, string standard)
         {
             List<LibraryEntity> libraryEntities = new List<LibraryEntity>();
             libraryEntities = (from u in this.context.APPROVAL_MASTER
