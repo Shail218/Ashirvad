@@ -83,6 +83,10 @@ namespace Ashirvad.Web.Controllers
             foreach (var item in List)
             {
                 PackageRight.Transaction = GetTransactionData(rightsID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+                PackageRight.RowStatus = new RowStatusEntity()
+                {
+                    RowStatusId = (int)Enums.RowStatus.Active
+                };
                 PackageRight.PackageRightsId = rightsID == 0 ? rightsID : item.PackageRightsId;
                 PackageRight.PageInfo = item.PageInfo;
                 PackageRight.Createstatus = item.Createstatus;

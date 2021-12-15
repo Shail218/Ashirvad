@@ -83,11 +83,11 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
        
-        public async Task<List<FeesEntity>> GetAllFees()
+        public async Task<List<FeesEntity>> GetAllFees(long BranchID)
         {
             try
             {
-                return await this._FeesContext.GetAllFees();
+                return await this._FeesContext.GetAllFees(BranchID);
             }
             catch (Exception ex)
             {

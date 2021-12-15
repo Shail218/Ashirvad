@@ -36,7 +36,7 @@ namespace Ashirvad.Web.Controllers
             }
 
             //var branchData = await _upiService.GetAllUPIs(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            var branchData = await _upiService.GetAllUPIs(0);
+            var branchData = await _upiService.GetAllUPIs(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             branch.UPIData = branchData.Data;
 
             return View("Index", branch);

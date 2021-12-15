@@ -46,11 +46,14 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
                 RightsMaster.package_id = RightsInfo.Packageinfo.PackageID;
                 RightsMaster.page_id = RightsInfo.PageInfo.PageID;
+               // RightsMaster.row_sta_cd = RightsInfo.RowStatus.RowStatus == Enums.RowStatus.Active ? (int)Enums.RowStatus.Active : (int)Enums.RowStatus.Inactive;
                 RightsMaster.row_sta_cd = RightsInfo.RowStatus.RowStatusId;
                 RightsMaster.createstatus = RightsInfo.Createstatus;
                 RightsMaster.viewstatus = RightsInfo.Viewstatus;
                 RightsMaster.deletestatus = RightsInfo.Deletestatus;
-                RightsMaster.trans_id = this.AddTransactionData(RightsInfo.Transaction);
+                RightsMaster.trans_id = RightsInfo.Transaction.TransactionId > 0 ? RightsInfo.Transaction.TransactionId : this.AddTransactionData(RightsInfo.Transaction);
+
+              //  RightsMaster.trans_id = this.AddTransactionData(RightsInfo.Transaction);
                 this.context.PACKAGE_RIGHTS_MASTER.Add(RightsMaster);
                 if (isUpdate)
                 {
@@ -109,7 +112,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                         Package = u.PACKAGE_MASTER.package,
                                         PackageID = u.PACKAGE_MASTER.package_id
                                     },
-                                    
+
                                 }).Distinct().ToList();
             }
             else
@@ -153,6 +156,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
                        .Include("PACKAGE_MASTER")                       
+                                  
                         where u.row_sta_cd == 1 && u.package_id == RightsID
                         select new PackageRightEntity()
                         {
@@ -162,7 +166,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 PackageID = u.PACKAGE_MASTER.package_id,
                                 Package = u.PACKAGE_MASTER.package
                             },
-                            
+                           
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                         }).FirstOrDefault();
             return data;

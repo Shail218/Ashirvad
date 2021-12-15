@@ -13,7 +13,7 @@ namespace Ashirvad.Repo.Services.Area
     public class Fees : ModelAccess, IFeesAPI
     {
 
-        public async Task<long> CheckFees(int BranchID, int StdID,int feesid)
+        public async Task<long> CheckFees(int BranchID, int StdID, int feesid)
         {
             long result;
             bool isExists = this.context.FEE_STRUCTURE_MASTER.Where(s => (feesid == 0 || s.fee_struct_mst_id != feesid) && s.branch_id == BranchID && s.std_id == StdID && s.row_sta_cd == 1).FirstOrDefault() != null;
@@ -101,11 +101,11 @@ namespace Ashirvad.Repo.Services.Area
             return this.context.SaveChanges() > 0 ? FeesMaster.fee_struct_dtl_id : 0;
         }
 
-        public async Task<List<FeesEntity>> GetAllFees()
+        public async Task<List<FeesEntity>> GetAllFees(long BranchID)
         {
             var data = (from u in this.context.FEE_STRUCTURE_MASTER
                         join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
-                        where u.row_sta_cd == 1
+                        where u.row_sta_cd == 1 && u.branch_id == BranchID
                         select new FeesEntity()
                         {
                             RowStatus = new RowStatusEntity()

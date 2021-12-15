@@ -35,7 +35,7 @@ namespace Ashirvad.Web.Controllers
                 branch.LinkInfo = result.Data;
             }
 
-            var branchData = await _linkService.GetAllLink(2);
+            var branchData = await _linkService.GetAllLink(2,SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             branch.LinkData = branchData.Data;
 
             return View("Index", branch);

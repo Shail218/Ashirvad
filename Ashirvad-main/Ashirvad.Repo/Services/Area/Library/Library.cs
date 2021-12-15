@@ -377,6 +377,15 @@ namespace Ashirvad.Repo.Services.Area.Library
                                     }).Distinct().ToList(),
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value }
                         }).ToList();
+            //var standard = (from u in this.context.LIBRARY_STD_MASTER
+            //                        .Include("STD_MASTER")
+            //                where u.library_id == item.LibraryID
+            //                select new LibraryStandardEntity()
+            //                {
+            //                    std_id = (long)u.STD_MASTER.std_id,
+            //                    standard = u.STD_MASTER.standard
+            //                }).ToList();
+            //item.list.AddRange(standard);
             return data;
         }
 
@@ -556,16 +565,6 @@ namespace Ashirvad.Repo.Services.Area.Library
                     {
                         item.approval = res;
                     }
-
-                    var standard = (from u in this.context.LIBRARY_STD_MASTER
-                                    .Include("STD_MASTER")
-                                    where u.library_id == item.LibraryID
-                                    select new LibraryStandardEntity()
-                                    {
-                                        std_id = (long)u.STD_MASTER.std_id,
-                                        standard = u.STD_MASTER.standard
-                                    }).ToList();
-                    item.list.AddRange(standard);
                 }
             }
             return libraryEntities;

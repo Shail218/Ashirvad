@@ -34,7 +34,7 @@ namespace Ashirvad.ServiceAPI.Services.Link
             return link;
         }
 
-        public async Task<OperationResult<List<LinkEntity>>> GetAllLink(int type, long branchID = 0, long stdID = 0)
+        public async Task<OperationResult<List<LinkEntity>>> GetAllLink(int type, long branchID, long stdID = 0)
         {
             try
             {

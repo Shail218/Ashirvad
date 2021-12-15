@@ -10,7 +10,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Link
     public interface ILinkService
     {
         Task<LinkEntity> LinkMaintenance(LinkEntity linkInfo);
-        Task<OperationResult<List<LinkEntity>>> GetAllLink(int type, long branchID = 0, long stdID = 0);
+        Task<OperationResult<List<LinkEntity>>> GetAllLink(int type, long branchID, long stdID = 0);
         Task<OperationResult<LinkEntity>> GetLinkByUniqueID(long uniqueID);
         bool RemoveLink(long linkID, string lastupdatedby);
     }

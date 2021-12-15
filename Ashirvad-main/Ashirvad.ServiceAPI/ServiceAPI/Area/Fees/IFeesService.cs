@@ -10,7 +10,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
     public interface IFeesService
     {
         Task<FeesEntity> FeesMaintenance(FeesEntity FeesInfo);
-        Task<List<FeesEntity>> GetAllFees();
+        Task<List<FeesEntity>> GetAllFees(long BranchID);
     
         Task<List<FeesEntity>> GetAllFeesWithoutImage();
         Task<FeesEntity> GetFeesByFeesID(long FeesID);

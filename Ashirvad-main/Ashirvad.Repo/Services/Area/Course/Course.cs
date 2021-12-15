@@ -109,7 +109,7 @@ namespace Ashirvad.Repo.Services.Area.Course
                             },
                             CourseID = u.course_id,
                             CourseName = u.course_name,
-                            filepath = u.file_path,
+                            filepath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
                             filename = u.file_name,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
 

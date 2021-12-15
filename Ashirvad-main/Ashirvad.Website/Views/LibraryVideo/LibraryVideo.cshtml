@@ -66,18 +66,22 @@
                     <!-- START PORTFOLIO ITEM -->
                     @foreach (var item in Model.librarYImage)
                     {
-                        <li class="grid_item @item.CategoryInfo.CategoryID">
-                            <div class="gallery_item">
-                                <a href="@item.VideoLink" class="image_link">
-                                    <iframe id="Videoiframe" class="videolink" src="@item.VideoLink"></iframe>
-                                </a>
-                            </div>
+                        if (item.BranchID == 0)
+                        {
+                            <li class="grid_item @item.CategoryInfo.CategoryID">
+                                <div class="gallery_item">
+                                    <a href="@item.VideoLink" class="image_link">
+                                        <iframe id="Videoiframe" class="videolink" src="@item.VideoLink"></iframe>
+                                    </a>
+                                </div>
 
-                            
-                            <div class="team_title radius_lbrb_10 text-center">
-                                <h5><a href="@item.VideoLink" target="_blank">@item.LibraryTitle</a></h5>
-                            </div>
-                        </li>
+
+                                <div class="team_title radius_lbrb_10 text-center">
+                                    <h5><a href="@item.VideoLink" target="_blank">@item.LibraryTitle</a></h5>
+                                </div>
+                            </li>
+                        }
+
                     }
                     <!-- END PORTFOLIO ITEM -->
                 </ul>

@@ -1,5 +1,6 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
+using Ashirvad.Repo.DataAcceessAPI.Area;
 using Ashirvad.Repo.DataAcceessAPI.Area.Page;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,15 @@ using System.Threading.Tasks;
 
 namespace Ashirvad.Repo.Services.Area.Page
 {
-   public class Pages : ModelAccess, IPageAPI
+    public class Pages : ModelAccess, IPageAPI
     {
+        private readonly IPackageRightsAPI _packageRights;
+
+        public Pages(IPackageRightsAPI packageRights)
+        {
+            this._packageRights = packageRights;
+        }
+
         public async Task<long> CheckPage(string name, long branch, long Id)
         {
             long result;
@@ -30,7 +38,7 @@ namespace Ashirvad.Repo.Services.Area.Page
                             select page).FirstOrDefault();
                 if (data == null)
                 {
-                   pageMaster = new Model.PAGE_MASTER();
+                    pageMaster = new Model.PAGE_MASTER();
 
                     isUpdate = false;
                 }
@@ -49,7 +57,15 @@ namespace Ashirvad.Repo.Services.Area.Page
                 {
                     this.context.Entry(pageMaster).State = System.Data.Entity.EntityState.Modified;
                 }
-                return this.context.SaveChanges() > 0 ? pageMaster.page_id : 0;
+                var Result = this.context.SaveChanges();
+                //  return this.context.SaveChanges() > 0 ? pageMaster.page_id : 0;
+                if (Result > 0)
+                {
+                    pageInfo.PageID = pageMaster.page_id;
+                    pageInfo.Transaction.TransactionId = pageMaster.trans_id;
+                    PageMasterMaintenance(pageInfo);
+                }
+                return Result > 0 ? pageInfo.PageID : 0;
             }
             else
             {
@@ -143,5 +159,54 @@ namespace Ashirvad.Repo.Services.Area.Page
 
             return data;
         }
+
+        public async Task<long> PageMasterMaintenance(PageEntity pageEntity)
+        {
+            try
+            {
+                long result = 0;
+                var data = (from Package in this.context.PACKAGE_RIGHTS_MASTER
+                            where Package.row_sta_cd==1
+                            select new PackageEntity
+                            {
+                                PackageID = Package.package_id
+                            }).Distinct().ToList();
+
+                PackageRightEntity packageRight = new PackageRightEntity();
+                packageRight.PageInfo = new PageEntity()
+                {
+                    PageID = pageEntity.PageID,
+                    Page = pageEntity.Page
+                };
+                packageRight.Transaction = new TransactionEntity();
+                packageRight.Transaction = pageEntity.Transaction;
+                packageRight.Createstatus = false;
+                packageRight.Deletestatus = false;
+                packageRight.Viewstatus = false;
+                packageRight.RowStatus = new RowStatusEntity()
+                {
+                    RowStatus = Enums.RowStatus.Active
+                };
+                foreach (var item in data)
+                {
+                    packageRight.Packageinfo = new PackageEntity()
+                    {
+                        PackageID = item.PackageID,
+
+                    };
+                    packageRight.PackageRightsId = 0;
+                    result = _packageRights.RightsMaintenance(packageRight).Result;
+                }
+
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
     }
 }

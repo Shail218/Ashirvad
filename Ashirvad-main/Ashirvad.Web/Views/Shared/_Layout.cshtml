@@ -198,16 +198,16 @@
                                         <li id="AuM" class="AboutUsMaster">
                                             <a href="@Url.Action("AboutUsMaintenance","AboutUs", new { @aboutID=0 })">About Us Master</a>
                                         </li>
-                                        <li id="fc" class="AboutUsMaster">
+                                        <li id="fc" class="FacultyMaster">
                                             <a href="@Url.Action("FacultyMaintenance","Faculty", new { @facultyID = 0})">Faculty Master</a>
                                         </li>
-                                        <li>
+                                        <li id="Bcour" class="BranchCourseMaster">
                                             <a href="@Url.Action("CourseMaintenance","BranchCourse", new { @courseID=0 })">Branch Course Master</a>
                                         </li>
-                                        <li>
+                                        <li id="Bclass" class="BranchClassMaster"> 
                                             <a href="@Url.Action("ClassMaintenance","BranchClass", new { @ClassID=0 })">Branch Class Master</a>
                                         </li>
-                                        <li>
+                                        <li id="BS" class="BranchSubjectMaster">
                                             <a href="@Url.Action("SubjectMaintenance","BranchSubject", new { @SubjectID=0,@CourseID=0})">Branch Subject Master</a>
                                         </li>
                                     }
@@ -336,12 +336,12 @@
                                                 Video
                                             </a>
                                         </li>
-                                        <li class="treeview">
+                                        <li class="treeview  ShowLibrary">
                                             <a href="@Url.Action("ShowLibraryMaintenance","ShowLibrary",new {@branchID=0})">
                                                 Show Library
                                             </a>
                                         </li>
-                                        <li class="treeview">
+                                        <li class="treeview ManageLibrary">
                                             <a href="@Url.Action("ManageLibraryMaintenance","ManageLibrary")">
                                                 Manage Library
                                             </a>

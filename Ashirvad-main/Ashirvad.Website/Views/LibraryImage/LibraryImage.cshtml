@@ -61,27 +61,29 @@
                     <!-- START PORTFOLIO ITEM -->
                     @foreach (var image in Model.librarYImage)
                     {
-                        <li class="grid_item @image.CategoryInfo.CategoryID">
-                            <div class="gallery_item">
-                                <a href="#" class="image_link">
-                                    <img src="@image.ThumbnailFilePath" alt="image" height="240" width="360">
-                                </a>
-                                <div class="gallery_content">
-                                    <div class="link_container">
+                        if (image.BranchID == 0)
+                        {
+                            <li class="grid_item @image.CategoryInfo.CategoryID">
+                                <div class="gallery_item">
+                                    <a href="#" class="image_link">
+                                        <img src="@image.ThumbnailFilePath" alt="image" height="240" width="360">
+                                    </a>
+                                    <div class="gallery_content">
+                                        <div class="link_container">
 
-                                        <a href="@Url.Action("Download","LibraryImage",new { @filedata=image.DocFilePath,@FileName=image.DocFileName})"   id="paperdownload" download="@image.DocFileName">
-                                            <span class="ripple"><i class="ion-image"></i></span>
-                                        </a>
-
+                                            <a href="@Url.Action("Download","LibraryImage",new { @filedata=image.DocFilePath,@FileName=image.DocFileName})" id="paperdownload" download="@image.DocFileName">
+                                                <span class="ripple"><i class="ion-image"></i></span>
+                                            </a>
+                                        </div>
 
                                     </div>
-
                                 </div>
-                            </div>
-                            <div class="team_title radius_lbrb_10 text-center">
-                                <h5><a href="#">@image.LibraryTitle</a></h5>
-                            </div>
-                        </li>
+                                <div class="team_title radius_lbrb_10 text-center">
+                                    <h5><a href="#">@image.LibraryTitle</a></h5>
+                                </div>
+                            </li>
+                        }
+
                     }
 
                 </ul>

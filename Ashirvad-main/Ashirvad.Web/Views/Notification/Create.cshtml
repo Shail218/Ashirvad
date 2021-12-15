@@ -35,22 +35,22 @@
                         <td>
                             @if (Model.NotificationType != null && Model.NotificationType.Where(x => x.TypeID == 1 && x.ID > 0).FirstOrDefault() != null)
                             {
-                                <input type="checkbox" name="Subtype" class="checkboxRequired" alt="SubType" id="rowStaAdmin" value="Admin" checked />
+                                <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaAdmin" value="Admin" checked />
                             }
                             else
                             {
-                                <input type="checkbox" name="Subtype" class="checkboxRequired" alt="SubType" id="rowStaAdmin" value="Admin" />
+                                <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaAdmin" value="Admin" />
                             }
                             <lable for="rowStaAdmin">Admin</lable>
                         </td>
                         <td>
                             @if (Model.NotificationType != null && Model.NotificationType.Where(x => x.TypeID == 2 && x.ID > 0).FirstOrDefault() != null)
                             {
-                                <input type="checkbox" name="Subtype" class="checkboxRequired" alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" checked />
+                                <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" checked />
                             }
                             else
                             {
-                                <input type="checkbox" name="Subtype" class="checkboxRequired" alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" />
+                                <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" />
                             }
 
                             <lable for="rowStaTeacher">Teacher</lable>
@@ -58,11 +58,11 @@
                         <td>
                             @if (Model.NotificationType != null && Model.NotificationType.Where(x => x.TypeID == 3 && x.ID > 0).FirstOrDefault() != null)
                             {
-                                <input type="checkbox" name="Subtype" class="checkboxRequired" alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" checked />
+                                <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" checked />
                             }
                             else
                             {
-                                <input type="checkbox" name="Subtype" class="checkboxRequired" alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" />
+                                <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" />
                             }
 
                             <lable for="rowStaStudent">Student</lable>

@@ -10,7 +10,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Fees
     public interface IFeesAPI
     {
         Task<long> FeesMaintenance(FeesEntity branchInfo);
-        Task<List<FeesEntity>> GetAllFees();
+        Task<List<FeesEntity>> GetAllFees(long branchID);
         Task<List<FeesEntity>> GetAllFeesWithoutImage();
         Task<FeesEntity> GetFeesByFeesID(long FeesID);
 
