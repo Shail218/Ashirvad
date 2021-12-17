@@ -7,7 +7,9 @@ using System.Web.Http;
 using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
+using Ashirvad.Repo.Services.Area.Faculty;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Faculty;
+using Ashirvad.ServiceAPI.Services.Area.Faculty;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -17,6 +19,11 @@ namespace Ashirvad.Web.Controllers
         public FacultyController(IFacultyService facultyService)
         {
             _facultyService = facultyService;
+        }
+
+        public FacultyController()
+        {
+            _facultyService = new FacultyService(new Faculty());
         }
 
         [Route("FacultyMaintenance/{facultyID}/{StaffID}/{Subject_dtl_id}/{course_dtl_id}/{Class_dtl_id}/{BranchID}/{Descripation}/{SubmitDate}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
