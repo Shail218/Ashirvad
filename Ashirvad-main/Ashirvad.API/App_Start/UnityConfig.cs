@@ -94,6 +94,10 @@ using Ashirvad.ServiceAPI.Services.Area.Page;
 using Ashirvad.Repo.Services.Area.Page;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Package;
 using Ashirvad.ServiceAPI.Services.Area.Package;
+using Ashirvad.Repo.DataAcceessAPI.Area.Faculty;
+using Ashirvad.Repo.Services.Area.Faculty;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Faculty;
+using Ashirvad.ServiceAPI.Services.Area.Faculty;
 
 namespace Ashirvad.API
 {
@@ -197,8 +201,8 @@ namespace Ashirvad.API
             container.RegisterType<IBranchRightsAPI, BranchRights>();
             container.RegisterType<IBranchRightsService, BranchRightsService>();
 
-            container.RegisterType<IBranchRightsAPI, BranchRights>();
-            container.RegisterType<IBranchRightsService, BranchRightsService>();
+            container.RegisterType<IFacultyAPI, Faculty>();
+            container.RegisterType<IFacultyService, FacultyService>();
 
             container.RegisterType<IBranchCourseAPI, BranchCourse>();
             container.RegisterType<IBranchCourseService, BranchCourseService>();
