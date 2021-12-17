@@ -250,6 +250,7 @@
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BranchCourseController.cs" />
     <Compile Include="Controllers\BranchSubjectController.cs" />
+    <Compile Include="Controllers\FacultyController.cs" />
     <Compile Include="Controllers\FeesStructureWebAPIController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeworkController.cs" />
