@@ -26,7 +26,7 @@ namespace Ashirvad.Web.Controllers
             _facultyService = new FacultyService(new Faculty());
         }
 
-        [Route("FacultyMaintenance/{facultyID}/{StaffID}/{Subject_dtl_id}/{course_dtl_id}/{Class_dtl_id}/{BranchID}/{Descripation}/{SubmitDate}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("FacultyMaintenance/{facultyID}/{StaffID}/{Subject_dtl_id}/{course_dtl_id}/{Class_dtl_id}/{BranchID}/{Descripation}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
         [HttpPost]
         public async Task<OperationResult<FacultyEntity>> FacultyMaintenance(long facultyID, long StaffID, long Subject_dtl_id, long course_dtl_id, long Class_dtl_id, long BranchID, string Descripation, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
         {
@@ -77,6 +77,10 @@ namespace Ashirvad.Web.Controllers
                 FacultyContentFileName = FileName,
                 FilePath = FilePath,
                 FacultyID = facultyID,
+                BranchInfo = new BranchEntity()
+                {
+                    BranchID = BranchID
+                },
                 staff = new StaffEntity()
                 {
                     StaffID = StaffID
