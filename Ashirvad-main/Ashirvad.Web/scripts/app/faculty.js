@@ -72,6 +72,7 @@ function LoadCourse() {
                 $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
             }
         }
+       
         if ($("#BranchCourse_course_dtl_id").val() != "") {
             $('#CourseName option[value="' + $("#BranchCourse_course_dtl_id").val() + '"]').attr("selected", "selected");
             LoadClass($("#BranchCourse_course_dtl_id").val());
@@ -94,6 +95,7 @@ function LoadClass(CourseID) {
                 $("#ClassName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
             }
         }
+
         if ($("#BranchClass_Class_dtl_id").val() != "") {
             $('#ClassName option[value="' + $("#BranchClass_Class_dtl_id").val() + '"]').attr("selected", "selected");
             LoadSubject($("#BranchClass_Class_dtl_id").val(), CourseID);
@@ -101,7 +103,7 @@ function LoadClass(CourseID) {
 
         HideLoader();
     }).fail(function () {
-        
+        HideLoader();
     });
 }
 

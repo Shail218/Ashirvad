@@ -140,12 +140,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                                },
                                            }).Distinct().ToList();
             }
-            else
-            {
-                BranchClassEntity entity = new BranchClassEntity();
-                entity.BranchClassData = new List<BranchClassEntity>();
-                data.Add(entity);
-            }
+            
             return data;
 
         }
