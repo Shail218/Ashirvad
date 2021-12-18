@@ -52,9 +52,10 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                 facultymaster.row_sta_cd = facultyInfo.RowStatus.RowStatusId;
                 facultymaster.trans_id = this.AddTransactionData(facultyInfo.Transaction);
                 facultymaster.branch_id = facultyInfo.BranchInfo.BranchID;
-                if (!isUpdate)
+                this.context.FACULTY_MASTER.Add(facultymaster);
+                if (isUpdate)
                 {
-                    this.context.FACULTY_MASTER.Add(facultymaster);
+                    this.context.Entry(facultymaster).State = System.Data.Entity.EntityState.Modified;
                 }
 
                 return this.context.SaveChanges() > 0 ? facultymaster.faculty_id : 0;
