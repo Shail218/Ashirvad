@@ -340,21 +340,27 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
         public bool RemoveStandard(string ClassName, long BranchID, string lastupdatedby)
         {
-            var data = (from u in this.context.STD_MASTER
-                        where u.branch_id == BranchID && u.standard == ClassName && u.row_sta_cd == (int)Enums.RowStatus.Active
+            var data1 = (from u in this.context.CLASS_DTL_MASTER
+                        where u.branch_id == BranchID && u.CLASS_MASTER.class_name == ClassName && u.row_sta_cd == (int)Enums.RowStatus.Active
                         select u).ToList();
-            if (data != null)
+            if(data1.Count == 0)
             {
-                foreach (var item in data)
+                var data = (from u in this.context.STD_MASTER
+                            where u.branch_id == BranchID && u.CLASS_DTL_MASTER.CLASS_MASTER.class_name == ClassName && u.row_sta_cd == (int)Enums.RowStatus.Active
+                            select u).ToList();
+                if (data != null)
                 {
-                    item.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
-                    this.context.SaveChanges();
+                    foreach (var item in data)
+                    {
+                        item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                        this.context.SaveChanges();
+                    }
+
+                    return true;
                 }
 
-                return true;
             }
-
             return false;
         }
 

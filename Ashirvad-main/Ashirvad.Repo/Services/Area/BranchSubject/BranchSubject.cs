@@ -319,21 +319,28 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
         public bool RemoveSubjectMaster(string SubjectName, long BranchID, string lastupdatedby)
         {
-            var data = (from u in this.context.SUBJECT_MASTER
-                        where u.branch_id == BranchID && u.subject == SubjectName && u.row_sta_cd == (int)Enums.RowStatus.Active
+            var data1 = (from u in this.context.SUBJECT_DTL_MASTER
+                        where u.branch_id == BranchID && u.SUBJECT_BRANCH_MASTER.subject_name == SubjectName && u.row_sta_cd == (int)Enums.RowStatus.Active
                         select u).ToList();
-            if (data != null)
+            if (data1.Count == 0)
             {
-                foreach (var item in data)
+
+
+                var data = (from u in this.context.SUBJECT_MASTER
+                            where u.branch_id == BranchID && u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name == SubjectName && u.row_sta_cd == (int)Enums.RowStatus.Active
+                            select u).ToList();
+                if (data != null)
                 {
-                    item.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
-                    this.context.SaveChanges();
+                    foreach (var item in data)
+                    {
+                        item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                        this.context.SaveChanges();
+                    }
+
+                    return true;
                 }
-
-                return true;
             }
-
             return false;
         }
 
