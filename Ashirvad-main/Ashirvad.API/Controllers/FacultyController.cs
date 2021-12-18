@@ -13,6 +13,7 @@ using Ashirvad.ServiceAPI.Services.Area.Faculty;
 
 namespace Ashirvad.Web.Controllers
 {
+    [RoutePrefix("api/faculty/v1")]
     public class FacultyController : ApiController
     {
         private readonly IFacultyService _facultyService;
@@ -70,7 +71,7 @@ namespace Ashirvad.Web.Controllers
             else
             {
                 FileName = filename[0];
-                FilePath = "/FeesImage/" + filename[1] + "." + Extension;
+                FilePath = "/FacultyImage/" + filename[1] + "." + Extension;
             }
             var facultyEntity = new FacultyEntity()
             {

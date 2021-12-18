@@ -32,18 +32,11 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._userService.ValidateUser(userName, password);
             OperationResult<UserEntity> result = new OperationResult<UserEntity>();
-            if(data.Result != null)
+            if (data.Result != null)
             {
-                var BranchRightData = _BranchRightService.GetBranchRightsByBranchID(data.Result.BranchInfo.BranchID);
-                
                 result.Completed = true;
                 result.Data = data.Result;
-                result.Data.Permission = BranchRightData.Result;
-                if (result.Data.Permission == null)
-                {
-                    result.Message = "You have no permission!!!";
-                }
-
+                result.Message = "Login Successfully.";
             }
             else
             {
@@ -51,11 +44,31 @@ namespace Ashirvad.API.Controllers
                 result.Data = data.Result;
                 result.Message = "Invalid UserName or Password!!!";
             }
-            
             return result;
         }
 
-       
+        [Route("GetUserPermission")]
+        [HttpGet]
+        public OperationResult<UserEntity> GetUserPermission(long BranchID)
+        {
+            var data = this._BranchRightService.GetBranchRightsByBranchID(BranchID);
+            OperationResult<UserEntity> result = new OperationResult<UserEntity>();
+            if (data.Result.Count > 0)
+            {
+                result.Data = new UserEntity();
+                result.Completed = true;
+                result.Data.Permission = data.Result;
+                result.Message = "Success";
+            }
+            else
+            {
+                result.Data = new UserEntity();
+                result.Completed = false;
+                result.Data.Permission = data.Result;
+                result.Message = "You have no permission!!!";
+            }
+            return result;
+        }
 
         [Route("UserMaintenance")]
         [HttpPost]

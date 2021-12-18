@@ -123,7 +123,7 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                                 TransactionId = u.trans_id
                             },
 
-                            FilePath = u.file_path,
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
                             FacultyContentFileName = u.file_name,
                             FacultyID = u.faculty_id,
                             Descripation = u.description,
