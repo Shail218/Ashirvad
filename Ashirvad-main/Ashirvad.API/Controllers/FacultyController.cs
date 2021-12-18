@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -32,6 +33,8 @@ namespace Ashirvad.Web.Controllers
         public async Task<OperationResult<FacultyEntity>> FacultyMaintenance(long facultyID, long StaffID, long Subject_dtl_id, long course_dtl_id, long Class_dtl_id, long BranchID, string Descripation, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
         {
             var httpRequest = HttpContext.Current.Request;
+            OperationResult<FacultyEntity> response = new OperationResult<FacultyEntity>();
+            FacultyEntity data = new FacultyEntity();
             string[] filename = FileName.Split(',');
             string FilePath = "";
             if (HasFile)
@@ -98,7 +101,7 @@ namespace Ashirvad.Web.Controllers
                 {
                     Class_dtl_id = Class_dtl_id
                 },
-                Descripation = Descripation,
+                Descripation = Descripation == "none" ? null : Decode(Descripation),
                 RowStatus = new RowStatusEntity()
                 {
                     RowStatusId = (int)Enums.RowStatus.Active
@@ -112,10 +115,26 @@ namespace Ashirvad.Web.Controllers
                     CreatedId = CreateId,
                 }
             };
-            var data = await _facultyService.FacultyMaintenance(facultyEntity);
-            OperationResult<FacultyEntity> response = new OperationResult<FacultyEntity>();
-            response.Completed = true;
-            response.Data = data;
+            data = await _facultyService.FacultyMaintenance(facultyEntity);
+            response.Completed = false;
+            response.Data = null;
+            if(data.FacultyID > 0)
+            {
+                response.Completed = true;
+                response.Data = data;
+                if (facultyID > 0)
+                {
+                    response.Message = "Faculty Updated Successfully.";
+                }
+                else
+                {
+                    response.Message = "Faculty Created Successfully.";
+                }
+            }
+            else
+            {
+                response.Message = "Faculty Already Exists!!";
+            }
             return response;
         }
 
@@ -139,6 +158,13 @@ namespace Ashirvad.Web.Controllers
             response.Completed = true;
             response.Data = result;
             return response;
+        }
+
+        public static string Decode(string Path)
+        {
+            byte[] mybyte = Convert.FromBase64String(Path);
+            string returntext = Encoding.UTF8.GetString(mybyte);
+            return returntext;
         }
     }
 }
