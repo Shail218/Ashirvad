@@ -61,6 +61,10 @@ function SaveAgreement() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
+        var date1 = $("#AgreementFromDate").val();
+        $("#AgreementFromDate").val(ConvertData(date1));
+        var date2 = $("#AgreementToDate").val();
+        $("#AgreementToDate").val(ConvertData(date2));
         var postCall = $.post(commonData.Agreement + "SaveAgreement", $('#fAgreementDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
