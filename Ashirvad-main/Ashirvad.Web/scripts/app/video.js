@@ -7,21 +7,8 @@ $(document).ready(function () {
     if ($("#UniqueID").val() > 0) {
         $("#fuImage").addClass("editForm");
     }
-
-    LoadBranch(function () {
-        if ($("#Branch_BranchID").val() != "") {
-            $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-        }
-
-        if (commonData.BranchID != "0") {
-            $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
-            $("#Branch_BranchID").val(commonData.BranchID);
-        }
-    });
-
-    if ($("#Branch_BranchID").val() != "") {
-        $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-    }
+    HideLoader();
+ 
 
 });
 

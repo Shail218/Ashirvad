@@ -44,22 +44,32 @@ namespace Ashirvad.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SaveVideos(GalleryEntity videos)
+        public async Task<JsonResult> SaveVideos(GalleryEntity videos,HttpPostedFileBase ImageFile)
         {
+       
+            if(videos.ImageFile != null)
+            {
+                string _FileName = Path.GetFileName(videos.ImageFile.FileName);
+                string extension = System.IO.Path.GetExtension(videos.ImageFile.FileName);
+                string randomfilename = Common.Common.RandomString(20);
+                string _Filepath = "/GalleryImage/" + randomfilename + extension;
+                string _path = Path.Combine(Server.MapPath("~/GalleryImage"), randomfilename + extension);
+                videos.ImageFile.SaveAs(_path);
+                videos.FileName = _FileName;
+                videos.FilePath = _Filepath;
+                
+            }
+            
             //photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
-            string _FileName = Path.GetFileName(videos.ImageFile.FileName);
-            string extension = System.IO.Path.GetExtension(videos.ImageFile.FileName);
-            string randomfilename = Common.Common.RandomString(20);
-            string _Filepath = "/GalleryImage/" + randomfilename + extension;
-            string _path = Path.Combine(Server.MapPath("~/GalleryImage"), randomfilename + extension);
-            videos.ImageFile.SaveAs(_path);
-            videos.FileName = _FileName;
-            videos.FilePath = _Filepath;
             videos.GalleryType = 2;
             videos.Transaction = GetTransactionData(videos.UniqueID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             videos.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
+            };
+            videos.Branch = new BranchEntity()
+            {
+                BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
             };
             var data = await _gallaryService.GalleryMaintenance(videos);
             if (data != null)

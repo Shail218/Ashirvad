@@ -11,6 +11,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.User
     {
         Task<long> UserMaintenance(UserEntity userInfo);
         Task<UserEntity> ValidateUser(string userName, string password);
+        Task<bool> CheckAgreement(long branchID);
 
         Task<UserEntity> ValidateStudent(string userName, string password);
         List<UserEntity> GetAllUsers(long branchID, List<int> userType);

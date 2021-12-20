@@ -44,7 +44,7 @@ function LoadClass(CourseID) {
         $('#ClassName').empty();
         $('#ClassName').select2();
         $("#ClassName").append("<option value=" + 0 + ">---Select Class---</option>");
-        if (data != null) {
+        if (data != 0) {
             for (i = 0; i < data.length; i++) {
                 $("#ClassName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
             }

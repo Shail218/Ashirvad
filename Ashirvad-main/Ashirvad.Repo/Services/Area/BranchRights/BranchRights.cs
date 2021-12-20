@@ -276,11 +276,12 @@ namespace Ashirvad.Repo.Services.Area
 
         public async Task<List<BranchWiseRightEntity>> GetAllRightsByBranch(long PackageRightID)
         {
-            var data = (from u in this.context.BRANCH_RIGHTS_MASTER
+            var data = (from u in this.context.BRANCH_RIGHTS_MASTER                       
                         .Include("PACKAGE_MASTER")
                          .Include("BRANCH_MASTER")
                         join PM in this.context.PACKAGE_RIGHTS_MASTER on u.package_id equals PM.package_id
                         join page in this.context.PAGE_MASTER on PM.page_id equals page.page_id
+                        orderby PM.PAGE_MASTER.page
                         where u.row_sta_cd == 1 && u.branch_id == PackageRightID && PM.row_sta_cd == 1 && page.row_sta_cd == 1
                         select new BranchWiseRightEntity()
                         {

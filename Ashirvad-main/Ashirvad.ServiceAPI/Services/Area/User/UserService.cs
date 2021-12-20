@@ -52,6 +52,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
 
             return null;
         }
+
+        public async Task<bool> CheckAgreement(long branchID)
+        {
+            try
+            {
+                return await this._userContext.CheckAgreement(branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return false;
+        }
+
         public async Task<UserEntity> ValidateStudent(string userName, string password)
         {
             try

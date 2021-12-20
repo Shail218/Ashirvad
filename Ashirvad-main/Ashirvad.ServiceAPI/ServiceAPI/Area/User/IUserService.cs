@@ -11,6 +11,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.User
     {
         Task<UserEntity> UserMaintenance(UserEntity UserInfo);
         Task<UserEntity> ValidateUser(string userName, string password);
+        Task<bool> CheckAgreement(long branchID);
         Task<UserEntity> ValidateStudent(string userName, string password);
         List<UserEntity> GetAllUsers(long branchID, List<int> userType = null);
         List<UserEntity> GetAllUsersddl(long branchID);
@@ -20,6 +21,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.User
         Task<bool> ChangePassword(long userID, string password, string oldPassword);
         Task<UserEntity> GetUserByID(long userID);
         List<UserEntity> GetAllUsers(string userName, string contactNo);
-        
-        }
+
+    }
 }

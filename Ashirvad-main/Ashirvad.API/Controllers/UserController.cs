@@ -30,19 +30,31 @@ namespace Ashirvad.API.Controllers
         [HttpGet]
         public OperationResult<UserEntity> ValidateUser(string userName, string password)
         {
-            var data = this._userService.ValidateUser(userName, password);
+            var data = this._userService.ValidateUser(userName, password);            
             OperationResult<UserEntity> result = new OperationResult<UserEntity>();
-            if (data.Result != null)
+            if (data.Result.UserID == 0)
             {
-                result.Completed = true;
-                result.Data = data.Result;
-                result.Message = "Login Successfully.";
+                result.Completed = false;
+                result.Data = null;
+                result.Message = "Invalid Username Or Password !!";
+
             }
             else
             {
-                result.Completed = false;
-                result.Data = data.Result;
-                result.Message = "Invalid UserName or Password!!!";
+                var isAggrement = this._userService.CheckAgreement(data.Result.BranchInfo.BranchID);
+                if (isAggrement.Result)
+                {
+                    result.Completed = true;
+                    result.Data = data.Result;
+                    result.Message = "Login Successfully!!";
+                }
+                else
+                {
+                    result.Completed = false;
+                    result.Data = data.Result;
+                    result.Message = "Your agreement was expired!!!";
+                }
+
             }
             return result;
         }
@@ -85,7 +97,7 @@ namespace Ashirvad.API.Controllers
         [HttpPost]
         public OperationResult<bool> RemoveUser(long userID, string lastupdatedby)
         {
-            var data = this._userService.RemoveUser(userID,lastupdatedby);
+            var data = this._userService.RemoveUser(userID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
             result.Completed = true;
             result.Data = data;
@@ -185,21 +197,29 @@ namespace Ashirvad.API.Controllers
         public OperationResult<UserEntity> ValidateStudent(string userName, string password)
         {
             var data = this._userService.ValidateStudent(userName, password);
-
             OperationResult<UserEntity> result = new OperationResult<UserEntity>();
-           
-            if (data.Result.UserID==0)
+            if (data.Result.UserID == 0)
             {
                 result.Completed = false;
                 result.Data = null;
                 result.Message = "Invalid Username Or Password !!";
-                
+
             }
             else
             {
-                result.Completed = true;
-                result.Data = data.Result;
-                result.Message = "Login Successfully!!";
+                var isAggrement = this._userService.CheckAgreement(data.Result.BranchInfo.BranchID);
+                if (isAggrement.Result)
+                {
+                    result.Completed = true;
+                    result.Data = data.Result;
+                    result.Message = "Login Successfully!!";
+                }
+                else
+                {
+                    result.Completed = false;
+                    result.Data = data.Result;
+                    result.Message = "Your agreement was expired!!!";
+                }
             }
             return result;
         }

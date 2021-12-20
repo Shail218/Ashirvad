@@ -4,6 +4,7 @@ using Ashirvad.Repo.DataAcceessAPI.Area.User;
 using Ashirvad.Repo.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,7 +55,7 @@ namespace Ashirvad.Repo.Services.Area.User
         {
             var user = (from u in this.context.USER_DEF
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
-                        where u.username == userName && u.password == password && (u.user_type == (int)Enums.UserType.Staff||u.user_type == (int)Enums.UserType.Admin || u.user_type == (int)Enums.UserType.SuperAdmin) && u.row_sta_cd== (int)Enums.RowStatus.Active
+                        where u.username == userName && u.password == password && (u.user_type == (int)Enums.UserType.Staff || u.user_type == (int)Enums.UserType.Admin || u.user_type == (int)Enums.UserType.SuperAdmin) && u.row_sta_cd == (int)Enums.RowStatus.Active
                         select new UserEntity()
                         {
                             //ClientSecret = u.client_secret,
@@ -89,11 +90,12 @@ namespace Ashirvad.Repo.Services.Area.User
             }
             return user;
         }
+
         public async Task<UserEntity> ValidateStudent(string userName, string password)
         {
             var user = (from u in this.context.USER_DEF
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
-                        where u.username == userName && u.password == password && u.user_type== (int)Enums.UserType.Student && u.row_sta_cd == (int)Enums.RowStatus.Active
+                        where u.username == userName && u.password == password && u.user_type == (int)Enums.UserType.Student && u.row_sta_cd == (int)Enums.RowStatus.Active
                         select new UserEntity()
                         {
                             //ClientSecret = u.client_secret,
@@ -132,6 +134,7 @@ namespace Ashirvad.Repo.Services.Area.User
             }
             return user;
         }
+
         public List<UserEntity> GetAllUsers(long branchID, List<int> userType)
         {
             bool noUserType = userType.Count == 0;
@@ -508,7 +511,7 @@ namespace Ashirvad.Repo.Services.Area.User
 
         public bool RemoveUser(long userID, string lastupdatedby)
         {
-            var data = (from u in this.context.USER_DEF                       
+            var data = (from u in this.context.USER_DEF
                         where u.user_id == userID
                         select u).FirstOrDefault();
             if (data != null)
@@ -524,10 +527,13 @@ namespace Ashirvad.Repo.Services.Area.User
 
         public List<UserEntity> GetAllUsersddl(long branchID)
         {
-            
+
             var data = (from u in this.context.BRANCH_STAFF
                         join UD in this.context.USER_DEF on u.staff_id equals UD.staff_id
-                        where u.branch_id == branchID && UD.user_type==(int)Enums.UserType.Staff && UD.row_sta_cd == (int)Enums.RowStatus.Active
+                        where u.branch_id == branchID 
+                        && UD.user_type == (int)Enums.UserType.Staff 
+                        && UD.row_sta_cd == (int)Enums.RowStatus.Active
+                        && u.row_sta_cd == (int)Enums.RowStatus.Active
                         select new UserEntity()
                         {
                             UserID = u.staff_id,
@@ -542,6 +548,30 @@ namespace Ashirvad.Repo.Services.Area.User
                 }
             }
             return data;
+        }
+
+        public async Task<bool> CheckAgreement(long branchID)
+        {
+            TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            DateTime indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+            var ToDayDate = indianTime.ToString("yyyy/MM/dd");
+            DateTime dt = DateTime.ParseExact(ToDayDate, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var data = (from u in this.context.BRANCH_AGREEMENT
+                        where u.branch_id == branchID
+                        && u.to_dt > dt
+                        select new BranchAgreementEntity()
+                        {
+                            AgreementFromDate = u.from_dt,
+                            AgreementToDate = u.to_dt
+                        }).FirstOrDefault();
+            if (data != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

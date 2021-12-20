@@ -76,7 +76,11 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     {
                         RowStatus = ClassInfo.isClass == true ? Enums.RowStatus.Active : Enums.RowStatus.Inactive
                     };
-                    var Result2 = StandardMaintenance(standardInfo);
+                    if (ClassInfo.isClass)
+                    {
+                        var Result2 = StandardMaintenance(standardInfo);
+                    }
+                   
                     return result > 0 ? ClassInfo.Class_dtl_id : 0;
                 }
                 return this.context.SaveChanges() > 0 ? 1 : 0;
@@ -287,7 +291,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         {
             
             bool isExists = this.context.STD_MASTER.Where(s => (class_dtl_id == 0 || s.class_dtl_id != class_dtl_id)
-            && s.standard == ClasName && s.branch_id == BranchID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            && s.CLASS_DTL_MASTER.CLASS_MASTER.class_name == ClasName && s.branch_id == BranchID && s.row_sta_cd == 1).FirstOrDefault() != null;
            
             return isExists;
         }
@@ -340,22 +344,39 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
         public bool RemoveStandard(string ClassName, long BranchID, string lastupdatedby)
         {
-            var data = (from u in this.context.STD_MASTER
-                        where u.branch_id == BranchID && u.standard == ClassName && u.row_sta_cd == (int)Enums.RowStatus.Active
-                        select u).ToList();
-            if (data != null)
+            try
             {
-                foreach (var item in data)
+                var data1 = (from u in this.context.CLASS_DTL_MASTER
+                             where u.branch_id == BranchID
+                             && u.CLASS_MASTER.class_name == ClassName
+                             && u.is_class == true
+                             && u.row_sta_cd == (int)Enums.RowStatus.Active
+                             select u).ToList();
+                if (data1.Count == 0)
                 {
-                    item.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
-                    this.context.SaveChanges();
+                    var data = (from u in this.context.STD_MASTER
+                                where u.branch_id == BranchID && u.CLASS_DTL_MASTER.CLASS_MASTER.class_name == ClassName && u.row_sta_cd == (int)Enums.RowStatus.Active
+                                select u).ToList();
+                    if (data?.Count>0)
+                    {
+                        foreach (var item in data)
+                        {
+                            item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                            item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                            this.context.SaveChanges();
+                        }
+
+                        return true;
+                    }
+
                 }
-
-                return true;
+                return false;
             }
-
-            return false;
+            catch(Exception ex)
+            {
+                throw;
+            }
+            
         }
 
         public async Task<List<BranchClassEntity>> GetAllSelectedClasses(long BranchID, long CourseID)
