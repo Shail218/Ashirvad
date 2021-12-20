@@ -35,10 +35,11 @@ namespace Ashirvad.Repo.Services.Area.Gallery
             galleryMaster.uplaod_type = galleryInfo.GalleryType;
             galleryMaster.remarks = galleryInfo.Remarks;
             galleryMaster.file_name = galleryInfo.FileName;
-            galleryMaster.file_path = galleryInfo.FilePath;
-            if (!isUpdate)
+            galleryMaster.file_path = galleryInfo.FilePath;            
+            this.context.GALLERY_MASTER.Add(galleryMaster);
+            if (isUpdate)
             {
-                this.context.GALLERY_MASTER.Add(galleryMaster);
+                this.context.Entry(galleryMaster).State = System.Data.Entity.EntityState.Modified;
             }
             var uniqueID = this.context.SaveChanges() > 0 ? galleryMaster.unique_id : 0;
             return uniqueID;
