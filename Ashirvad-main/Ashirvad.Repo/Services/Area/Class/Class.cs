@@ -95,6 +95,7 @@ namespace Ashirvad.Repo.Services.Area.Class
         public async Task<List<ClassEntity>> GetAllClass()
         {
             var data = (from u in this.context.CLASS_MASTER
+                        orderby u.class_name descending
                         where u.row_sta_cd == 1
                         select new ClassEntity()
                         {

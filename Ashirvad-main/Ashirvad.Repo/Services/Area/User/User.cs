@@ -530,7 +530,10 @@ namespace Ashirvad.Repo.Services.Area.User
 
             var data = (from u in this.context.BRANCH_STAFF
                         join UD in this.context.USER_DEF on u.staff_id equals UD.staff_id
-                        where u.branch_id == branchID && UD.user_type == (int)Enums.UserType.Staff && UD.row_sta_cd == (int)Enums.RowStatus.Active
+                        where u.branch_id == branchID 
+                        && UD.user_type == (int)Enums.UserType.Staff 
+                        && UD.row_sta_cd == (int)Enums.RowStatus.Active
+                        && u.row_sta_cd == (int)Enums.RowStatus.Active
                         select new UserEntity()
                         {
                             UserID = u.staff_id,

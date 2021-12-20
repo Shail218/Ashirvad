@@ -129,7 +129,7 @@ namespace Ashirvad.Web.Controllers
                 }
                 else
                 {
-                    return Json(null);
+                    return Json(0);
                 }
 
             }

@@ -80,7 +80,11 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     {
                         RowStatus = SubjectInfo.isSubject == true ? Enums.RowStatus.Active : Enums.RowStatus.Inactive
                     };
-                    var Result2 = SubjectMasterMaintenance(Subjectmaster);
+                    if (SubjectInfo.isSubject)
+                    {
+                        var Result2 = SubjectMasterMaintenance(Subjectmaster);
+                    }
+                    
                     return result > 0 ? SubjectInfo.Subject_dtl_id : 0;
                 }
                 return this.context.SaveChanges() > 0 ? 1 : 0;
@@ -268,7 +272,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         {
 
             bool isExists = this.context.SUBJECT_MASTER.Where(s => (SubjectID == 0 || s.subject_dtl_id != SubjectID)
-            && s.subject == Subject && s.branch_id == BranchID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            && s.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name == Subject && s.branch_id == BranchID && s.row_sta_cd == 1).FirstOrDefault() != null;
             return isExists;
         }
 
@@ -320,16 +324,17 @@ namespace Ashirvad.Repo.Services.Area.Branch
         public bool RemoveSubjectMaster(string SubjectName, long BranchID, string lastupdatedby)
         {
             var data1 = (from u in this.context.SUBJECT_DTL_MASTER
-                        where u.branch_id == BranchID && u.SUBJECT_BRANCH_MASTER.subject_name == SubjectName && u.row_sta_cd == (int)Enums.RowStatus.Active
+                        where u.branch_id == BranchID 
+                        && u.SUBJECT_BRANCH_MASTER.subject_name == SubjectName 
+                        && u.is_subject == true 
+                        && u.row_sta_cd == (int)Enums.RowStatus.Active
                         select u).ToList();
             if (data1.Count == 0)
             {
-
-
                 var data = (from u in this.context.SUBJECT_MASTER
                             where u.branch_id == BranchID && u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name == SubjectName && u.row_sta_cd == (int)Enums.RowStatus.Active
                             select u).ToList();
-                if (data != null)
+                if (data?.Count>0)
                 {
                     foreach (var item in data)
                     {
