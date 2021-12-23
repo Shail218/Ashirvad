@@ -125,6 +125,26 @@ function RemoveDetails(detailID) {
     }
 }
 
+$("#fuHeaderImage").change(function () {
+    readURL(this);
+});
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.readAsDataURL(input.files[0]);
+        reader.onload = function (e) {
+
+            $('#imgStud').attr('src', e.target.result);
+            var bas = reader.result;
+            var PANtUploadval = bas;
+            var ssmdPAN = PANtUploadval.replace("data:image/*;base64,", "")
+            var code = ssmdPAN.split(",");
+            $('#HeaderImageText').val(code[1]);
+        }
+    }
+}
+
 
 
 

@@ -165,6 +165,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                                 RowStatusId = u.row_sta_cd
                             },
                             UserID= ud.user_id,
+                            Userrole = (Enums.UserType)ud.user_type,
                             Address = u.address,
                             ApptDT = u.appt_dt,
                             DOB = u.dob,

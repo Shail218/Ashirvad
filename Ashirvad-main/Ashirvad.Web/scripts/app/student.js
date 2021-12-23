@@ -207,9 +207,9 @@ $("#BatchTime").change(function () {
     $('#BatchInfo_BatchType').val(Data);
 });
 
-//$("#fuStudentImage").change(function () {
-//    readURL(this);
-//});
+$("#fuStudentImage").change(function () {
+    readURL(this);
+});
 
 $('input[type=radio][name=Status]').change(function () {   
     if (this.value == '1') {

@@ -33,12 +33,8 @@ namespace Ashirvad.Web.Controllers
                 var result = await _paperService.GetPaperByPaperID(paperID);
                 branch.PaperInfo = result.Data;
             }
-
-            var paperData = await _paperService.GetAllPaperWithoutContent();
+            var paperData = await _paperService.GetAllPaperWithoutContent(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
                 branch.PaperData = paperData.Data;
-            
-
-
             return View("Index", branch);
         }
 

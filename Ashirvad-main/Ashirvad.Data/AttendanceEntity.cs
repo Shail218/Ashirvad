@@ -15,6 +15,8 @@ namespace Ashirvad.Data
         public int BatchTypeID { get; set; }
         public string BatchTypeText { get; set; }
         public DateTime AttendanceDate { get; set; }
+        public DateTime From_Date { get; set; }
+        public DateTime To_Date { get; set; }
         public string AttendanceDatetxt { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }

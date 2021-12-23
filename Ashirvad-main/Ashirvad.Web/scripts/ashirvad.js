@@ -304,11 +304,11 @@ function ConvertData(FromDate,Type) {
         var Month = Data[1];
         var Year = Data[2];
         if (Type == 'Local') {
-            var FromDateupdate = Date + "-" + Month + "-" + Year;
+            var FromDateupdate = Year + "-" + Month + "-" + Date;
             return FromDateupdate
         }
         else {
-            var FromDateupdate = Month + "-" + Date + "-" + Year;
+            var FromDateupdate = Year + "-" + Month + "-" + Date;
             return FromDateupdate
         }
     } else {
@@ -316,11 +316,11 @@ function ConvertData(FromDate,Type) {
         var Month = Data[1];
         var Year = Data[2];
         if (Type == 'Local') {
-            var FromDateupdate = Date + "/" + Month + "/" + Year;
+            var FromDateupdate = Year + "/" + Month + "/" + Date;
             return FromDateupdate
         }
         else {
-            var FromDateupdate = Month + "/" + Date + "/" + Year;
+            var FromDateupdate = Year + "-" + Month + "-" + Date;
             return FromDateupdate
         }
     }

@@ -40,8 +40,10 @@ namespace Ashirvad.Web.Controllers
             {
                 branch.BannerInfo = new BannerEntity();
             }
-
-            var branchData = await _bannerService.GetAllBanner(0, 0);
+            var branchData = await _bannerService.GetAllBanner(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 :
+               SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 :
+               (int)SessionContext.Instance.LoginUser.UserType);
+            //var branchData = await _bannerService.GetAllBanner(0, 0);
             //var branchData = await _bannerService.GetAllBannerWithoutImage(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             //var branchData = await _bannerService.GetAllBanner(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : (int)SessionContext.Instance.LoginUser.UserType);
             branch.BannerData = branchData.Data;

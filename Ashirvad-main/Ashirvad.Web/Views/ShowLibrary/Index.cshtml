@@ -132,9 +132,9 @@
                                                 <label Style="background: white; color: black; border-radius: 5px; padding: 5px;">@item.Description</label>
                                                 <ul class="sci">
                                                     <li>
-                                                        @if (item.DocFilePath != null && item.DocFilePath != "")
+                                                        @if (item.ThumbnailFilePath != null && item.ThumbnailFilePath != "")
                                                         {
-                                                            <a style="margin-left:20px;" href="@item.DocFilePath" target="_blank">
+                                                            <a style="margin-left:20px;" href="@item.ThumbnailFilePath" target="_blank">
                                                                 <img src="~/ThemeData/images/icons8-preview-pane-24.png" />
                                                             </a>
                                                         }

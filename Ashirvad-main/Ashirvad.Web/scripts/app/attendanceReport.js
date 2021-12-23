@@ -80,32 +80,17 @@ function SaveReport() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        //var fromdate = $("#from_date").val();
-        var date1 = $("#from_date").val();
-        var fromdate=$("#AttendanceDate").val(ConvertData(date1));
-        //var todate = $("#to_Date").val();
-        var date2 = $("#to_Date").val();
-        var todate = $("#AttendanceDate").val(ConvertData(date2));
+        var date1 = $("#From_Date").val();
+        var fromdate= ConvertData(date1);
+        var date2 = $("#To_Date").val();
+        var todate = ConvertData(date2);
         var branch = $("#Branch_BranchID").val();
         var standard = $("#Standard_StandardID").val();
         var batchtime = $("#BatchTypeID").val();
         var postCall = $.post(commonData.AttendanceReport + "SaveReport", { "FromDate": fromdate, "ToDate": todate, "BranchId": branch, "StandardId": standard, "BatchTime": batchtime });
         postCall.done(function (data) {
             HideLoader();
-            //$('#ReportData').html('');
-            //$('#subcategorytbl2 tbody').remove();
-            //$('#studenttbl tbody').removeData();
-            //$('#ReportData').replaceWith(data);
             $('#ReportData').html(data);
-
-            //var seen ;
-            //$('#studenttbl tbody tr').each(function () {
-            //    var txt = $(this).text();
-            //    if (seen==txt)
-            //        $(this).remove();
-            //    else
-            //        seen = txt;
-            //});
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

@@ -40,7 +40,7 @@ namespace Ashirvad.Web.Controllers
                 };
                 //aInfo.AttendanceDetail = attendanceDetailEntities;
                 //var Test= DateTime.ParseExact(aInfo.AttendanceDatetxt, "yyyy/MM/dd", CultureInfo.InvariantCulture);
-                var Test= DateTime.ParseExact(aInfo.AttendanceDatetxt, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                //var Test= DateTime.ParseExact(aInfo.AttendanceDatetxt, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
                 var line = JsonConvert.DeserializeObject<List<AttendanceDetailEntity>>(aInfo.JsonData);
                 aInfo.AttendanceDetail = line;
                 long attendanceID = await _attendanceContext.AttendanceMaintenance(aInfo);
