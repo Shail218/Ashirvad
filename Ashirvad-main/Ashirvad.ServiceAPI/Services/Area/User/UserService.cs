@@ -18,6 +18,25 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
             this._userContext = userContext;
         }
 
+        public async Task<long> ProfileMaintenance(UserEntity userInfo)
+        {
+            UserEntity user = new UserEntity();
+            try
+            {
+                long userID = await this._userContext.ProfileMaintenance(userInfo);
+                if (userID > 0)
+                {
+                    user.UserID = userID;
+                }
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return user.UserID;
+        }
+
         public async Task<UserEntity> UserMaintenance(UserEntity UserInfo)
         {
             UserEntity user = new UserEntity();

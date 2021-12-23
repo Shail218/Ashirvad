@@ -52,6 +52,7 @@
     BranchClass: $("#hdnFldVDName").val() + "BranchClass/",
     BranchSubject: $("#hdnFldVDName").val() + "BranchSubject/",
     ManageLibrary: $("#hdnFldVDName").val() + "ManageLibrary/",
+    Profile: $("#hdnFldVDName").val() + "Profile/",
 };
 
 function GetExtention(image){

@@ -10,6 +10,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.User
     public interface IUserAPI
     {
         Task<long> UserMaintenance(UserEntity userInfo);
+        Task<long> ProfileMaintenance(UserEntity userInfo);
         Task<UserEntity> ValidateUser(string userName, string password);
         Task<bool> CheckAgreement(long branchID);
 

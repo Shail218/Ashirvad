@@ -11,7 +11,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
 {
     public class Staff : ModelAccess, IStaffAPI
     {
-  
+
         public async Task<long> CheckUser(string emailid, string mobileno, long branch, long userID)
         {
             long result;
@@ -23,7 +23,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
         public async Task<long> StaffMaintenance(StaffEntity staffInfo)
         {
             Model.BRANCH_STAFF branchStaff = new Model.BRANCH_STAFF();
-            if (CheckUser(staffInfo.EmailID, staffInfo.MobileNo, staffInfo.BranchInfo.BranchID,staffInfo.StaffID).Result != -1)
+            if (CheckUser(staffInfo.EmailID, staffInfo.MobileNo, staffInfo.BranchInfo.BranchID, staffInfo.StaffID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from staff in this.context.BRANCH_STAFF
@@ -58,6 +58,29 @@ namespace Ashirvad.Repo.Services.Area.Staff
                 {
                     this.context.Entry(branchStaff).State = System.Data.Entity.EntityState.Modified;
                 }
+                return this.context.SaveChanges() > 0 ? branchStaff.staff_id : 0;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        public async Task<long> UpdateProfile(StaffEntity staffInfo)
+        {
+            Model.BRANCH_STAFF branchStaff = new Model.BRANCH_STAFF();
+            if (CheckUser(staffInfo.EmailID, staffInfo.MobileNo, staffInfo.BranchInfo.BranchID, staffInfo.StaffID).Result != -1)
+            {
+                var data = (from staff in this.context.BRANCH_STAFF
+                            where staff.staff_id == staffInfo.StaffID
+                            select staff).FirstOrDefault();
+                branchStaff = data;
+                staffInfo.Transaction.TransactionId = data.trans_id;
+                branchStaff.name = staffInfo.Name;
+                branchStaff.email_id = staffInfo.EmailID;
+                branchStaff.mobile_no = staffInfo.MobileNo;
+                this.context.BRANCH_STAFF.Add(branchStaff);
+                this.context.Entry(branchStaff).State = System.Data.Entity.EntityState.Modified;
                 return this.context.SaveChanges() > 0 ? branchStaff.staff_id : 0;
             }
             else
@@ -164,7 +187,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = u.row_sta_cd
                             },
-                            UserID= ud.user_id,
+                            UserID = ud.user_id,
                             Userrole = (Enums.UserType)ud.user_type,
                             Address = u.address,
                             ApptDT = u.appt_dt,

@@ -51,6 +51,21 @@ namespace Ashirvad.Repo.Services.Area.User
             return user.user_id;
         }
 
+        public async Task<long> ProfileMaintenance(UserEntity userInfo)
+        {
+            USER_DEF user = new USER_DEF();
+            var data = (from u in this.context.USER_DEF
+                        where u.user_id == userInfo.UserID
+                        select u).FirstOrDefault();
+            user = data;
+            user.trans_id = this.AddTransactionData(userInfo.Transaction);
+            user.username = userInfo.Username;
+            this.context.USER_DEF.Add(user);
+            this.context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            this.context.SaveChanges();
+            return user.user_id;
+        }
+
         public async Task<UserEntity> ValidateUser(string userName, string password)
         {
             var user = (from u in this.context.USER_DEF
@@ -74,6 +89,10 @@ namespace Ashirvad.Repo.Services.Area.User
                                 BranchID = u.branch_id,
                                 BranchName = b.branch_name,
                                 ContactNo = b.contact_no
+                            },
+                            Transaction = new TransactionEntity()
+                            {
+                                TransactionId = u.TRANSACTION_MASTER.trans_id
                             },
                             UserType = u.user_type == 5 ? Enums.UserType.SuperAdmin : u.user_type == 1 ? Enums.UserType.Admin : u.user_type == 2 ? Enums.UserType.Student : u.user_type == 3 ? Enums.UserType.Parent : Enums.UserType.Staff
                         }).FirstOrDefault();
@@ -530,8 +549,8 @@ namespace Ashirvad.Repo.Services.Area.User
 
             var data = (from u in this.context.BRANCH_STAFF
                         join UD in this.context.USER_DEF on u.staff_id equals UD.staff_id
-                        where u.branch_id == branchID 
-                        && UD.user_type == (int)Enums.UserType.Staff 
+                        where u.branch_id == branchID
+                        && UD.user_type == (int)Enums.UserType.Staff
                         && UD.row_sta_cd == (int)Enums.RowStatus.Active
                         && u.row_sta_cd == (int)Enums.RowStatus.Active
                         select new UserEntity()

@@ -49,6 +49,29 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
             return staff;
         }
 
+        public async Task<StaffEntity> UpdateProfile(StaffEntity staffInfo)
+        {
+            StaffEntity staff = new StaffEntity();
+            try
+            {
+                bool isUpdate = staffInfo.StaffID > 0;
+                long staffID = await _staffContext.UpdateProfile(staffInfo);
+                staff.StaffID = staffID;
+                var user = await _userContext.ProfileMaintenance(new UserEntity()
+                {
+                    Username = staffInfo.MobileNo,
+                    Transaction = staffInfo.Transaction,
+                    UserID = staffInfo.UserID
+                });
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Severity.Error, ex);
+            }
+
+            return staff;
+        }
+
         private async Task<UserEntity> GetUserData(StaffEntity staffInfo, long studentID)
         {
             var result = await _branchContext.GetAllBranch();
@@ -63,7 +86,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
                 Username = staffInfo.MobileNo,
                 //UserType = Enums.UserType.Staff
                 UserType = staffInfo.Userrole,
-                UserID=staffInfo.UserID
+                UserID = staffInfo.UserID
             };
 
             return user;
@@ -87,7 +110,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
         {
             try
             {
-                return this._staffContext.RemoveStaff(StaffID,lastupdatedby);
+                return this._staffContext.RemoveStaff(StaffID, lastupdatedby);
             }
             catch (Exception ex)
             {
