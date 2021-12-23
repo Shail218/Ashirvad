@@ -77,6 +77,7 @@ function ValidateAttendanceData() {
     if (isSuccess) {
         ShowLoader();
         var date1 = $("#AttendanceDate").val();
+        $("#AttendanceDate").val(ConvertData(date1));
         var postCall = $.post(commonData.AttendanceEntry + "VerifyAttendanceRegister", $('#fAttendanceReportDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
@@ -140,8 +141,8 @@ function SaveAttendance() {
             AttendanceData.push(Map);
         }
     });
-    var date1 = $("#AttendanceDate").val();
-    $("#AttendanceDate").val(ConvertData(date1));
+    //var date1 = $("#AttendanceDate").val();
+    //$("#AttendanceDate").val(ConvertData(date1));
     $('#JsonData').val(JSON.stringify(AttendanceData));
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {

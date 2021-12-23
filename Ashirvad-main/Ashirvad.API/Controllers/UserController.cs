@@ -32,7 +32,7 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._userService.ValidateUser(userName, password);            
             OperationResult<UserEntity> result = new OperationResult<UserEntity>();
-            if (data.Result.UserID == 0)
+            if (data.Result == null)
             {
                 result.Completed = false;
                 result.Data = null;

@@ -94,8 +94,7 @@ namespace Ashirvad.API.Controllers
                 try
                 {
                     if (httpRequest.Files.Count == 2)
-                    {
-                        libraryEntity.LibraryID = LibraryDetailID;
+                    {                       
                         string fileName;
                         string extension;
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
@@ -139,14 +138,14 @@ namespace Ashirvad.API.Controllers
                 {
                     try
                     {
-                        libraryEntity.LibraryID = LibraryDetailID;
+                        
                         string fileName;
                         string extension;
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        //string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                         // for local server
-                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                         var thumbnailFile = httpRequest.Files[0];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(thumbnailFile.FileName);
@@ -168,10 +167,9 @@ namespace Ashirvad.API.Controllers
                 if (HasDocFile)
                 {
                     try
-                    {
-                        libraryEntity.LibraryID = LibraryDetailID;
+                    {                       
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
                         var docFile = httpRequest.Files[0];
                         string docrandomfilename = Common.Common.RandomString(20);
                         string docExtension = Path.GetExtension(docFile.FileName);
