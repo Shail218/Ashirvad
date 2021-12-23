@@ -200,6 +200,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="CourseImage\empty_cart.png" />
+    <Content Include="FacultyImage\empty_cart.png" />
     <Content Include="FeesImage\empty_cart.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="GalleryImage\L0QG6TB71KDIZUCO3PKT.png" />
@@ -1419,8 +1421,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="CourseImage\" />
-    <Folder Include="FacultyImage\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
     <Folder Include="ZipFiles\HomeworkDetails\" />

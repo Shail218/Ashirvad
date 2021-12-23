@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Branch
 {
@@ -22,5 +23,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Branch
 
         Task<OperationResult<BranchAgreementEntity>> GetAgreementByAgreementID(long agreementID);
         bool RemoveAgreement(long agreementID, string lastupdatedby);
+
+        Task<List<BranchEntity>> GetAllCustomBranch(DataTableAjaxPostModel model);
     }
 }

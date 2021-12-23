@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Branch
 {
@@ -110,11 +111,54 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
 
-                        }).ToList();
+                        }).Take(20).ToList();
 
             return data;
         }
 
+        public async Task<List<BranchEntity>> GetAllCustomBranch(DataTableAjaxPostModel model)
+        {
+            var Result = new List<BranchEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = this.context.BRANCH_MASTER.Where(s => s.row_sta_cd == 1).Distinct().Count();
+            var data = (from u in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
+                        where u.branch_type == 2                         
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.branch_name.ToLower().Contains(model.search.value))
+                        select new BranchEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd,
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                            },
+                            BranchID = u.branch_id,
+                            BranchName = u.branch_name,
+                            AboutUs = u.about_us,
+                            EmailID = u.email_id,
+                            ContactNo = u.contact_no,
+                            BranchType = u.branch_type,
+                            MobileNo = u.mobile_no,
+                            Count=count,
+                            BranchMaint = new BranchMaint()
+                            {
+                                BranchId = u.BRANCH_MAINT.branch_id,
+                                Website = u.BRANCH_MAINT.website,
+                                FileName = u.BRANCH_MAINT.file_name,
+                                FilePath = "http://highpack-001-site12.dtempurl.com" + u.BRANCH_MAINT.file_path
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+
+                        }).OrderBy(model.order[0].name, Isasc)
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+
+            return data;
+        }
+        
         public async Task<List<BranchEntity>> GetAllBranchWithoutImage()
         {
             var data = (from u in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")

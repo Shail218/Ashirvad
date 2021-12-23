@@ -17,6 +17,7 @@ namespace Ashirvad.Data
             this.Transaction = new TransactionEntity();
         }
         public long BranchID { get; set; }
+        public long Count { get; set; }
         public string BranchName { get; set; }
         public string AboutUs { get; set; }
         public string ContactNo { get; set; }

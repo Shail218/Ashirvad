@@ -5,8 +5,10 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Page;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Page
 {
@@ -77,7 +79,7 @@ namespace Ashirvad.Repo.Services.Area.Page
         public async Task<List<PageEntity>> GetAllPages(long branchID)
         {
             var data = (from u in this.context.PAGE_MASTER
-                        where u.row_sta_cd == 1/*branchID == 0 || u.branch_id == branchID && */
+                        where u.row_sta_cd == 1
                         select new PageEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -97,7 +99,42 @@ namespace Ashirvad.Repo.Services.Area.Page
 
             return data;
         }
+        public async Task<List<PageEntity>> GetAllCustomPages(DataTableAjaxPostModel model)
+        {
+            var Result = new List<PageEntity>();
+            long count = this.context.PAGE_MASTER.Where(s => s.row_sta_cd == 1).Distinct().ToList().Count;
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            var data = (from u in this.context.PAGE_MASTER                       
+                        where u.row_sta_cd == 1
+                        && (model.search.value == null 
+                        || model.search.value=="" 
+                        || u.page.ToLower().Contains(model.search.value))
+                        select new PageEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            Page = u.page,
+                            PageID = u.page_id,
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Count=count,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        })
+                        // have to give a default order when skipping .. so use the PK
+                        .OrderBy(model.order[0].name, Isasc)
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
 
+            
+            return data;
+        }
         public async Task<List<PageEntity>> GetAllPages()
         {
             var data = (from u in this.context.PAGE_MASTER
@@ -207,6 +244,9 @@ namespace Ashirvad.Repo.Services.Area.Page
             }
 
         }
+
+
+        
 
     }
 }

@@ -9,6 +9,7 @@ namespace Ashirvad.Data
   public  class PageEntity
     {
         public long PageID { get; set; }
+        public long Count { get; set; }
         public string Page { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }

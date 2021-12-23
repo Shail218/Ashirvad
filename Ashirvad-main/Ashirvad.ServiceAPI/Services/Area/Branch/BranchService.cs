@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Branch
 {
@@ -88,6 +89,22 @@ namespace Ashirvad.ServiceAPI.Services.Area.Branch
             return null;
         }
 
+        public async Task<List<BranchEntity>> GetAllCustomBranch(DataTableAjaxPostModel model)
+        {
+            try
+            {
+                return await this._branchContext.GetAllCustomBranch(model);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+        
+        
+        
         public bool RemoveBranch(long BranchID, string lastupdatedby)
         {
             try
@@ -171,5 +188,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Branch
             return false;
         }
 
+        public Task<List<BranchEntity>> GetAllBranch(Common.Common.DataTableAjaxPostModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

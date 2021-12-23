@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -40,8 +41,8 @@ namespace Ashirvad.Web.Controllers
                     RowStatusId = 1
                 };
             }
-            var branchData = await _branchService.GetAllBranchWithoutImage();
-            branch.BranchData = branchData.Data;
+            //var branchData = await _branchService.GetAllBranchWithoutImage();
+            branch.BranchData = new List<BranchEntity>();
 
             return View("Index", branch);
         }
@@ -88,6 +89,35 @@ namespace Ashirvad.Web.Controllers
             //}
 
             return Json(branchData);
+        }
+
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            // action inside a standard controller
+            List<string> columns = new List<string>();
+            columns.Add("BranchName");
+            columns.Add("");
+            columns.Add("RowStatusText");
+            foreach (var item in model.order)
+            {
+                item.name = columns[item.column];
+            }
+            var branchData = await _branchService.GetAllCustomBranch(model);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                // this is what datatables wants sending back
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
         }
 
     }

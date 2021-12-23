@@ -3,12 +3,74 @@
 
 
 $(document).ready(function () {
-    //ShowLoader();
+    ShowLoader();
+    var test = "" + GetSiteURL() + "/Page/CustomServerSideSearchAction";
+    var table = $('#pagetble').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": "Processing...",
+        "serverSide": true,
+        "ajax": {
+            url: "" + GetSiteURL() + "/Page/CustomServerSideSearchAction",
+            type: 'POST',
+           
+        },
+        
+        "columns": [
+            { "data": "Page" },
+            { "data": "PageID" },
+            { "data": "PageID" }
+        ],
+        "columnDefs": [
+            {
+                targets: 1,
+                render: function (data, type, full, meta) {
+                    
+                    if (type === 'display') {
+                        data =
+                            '<a style="text-align:center !important;" href="PageMaintenance?branchID=' + data +'"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                            
+                    }
 
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 2,
+                render: function (data, type, full, meta) {
+                   
+                    if (type === 'display') {
+                        data =
+                            '<a href="#" onclick="RemovePage(' + data +');"><img src= "../ThemeData/images/delete.png"/></a>'
+                            
 
-    if ($("#BranchInfo_BranchID").val() != "") {
-        $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
-    }
+                    }
+                    HideLoader();
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ],
+        createdRow: function (tr)
+        {
+            $(tr.children[1]).addClass('textalign');
+            $(tr.children[2]).addClass('textalign');
+            
+               
+        },
+    });
+  
+    //if ($("#BranchInfo_BranchID").val() != "") {
+    //    $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
+    //}
 });
 
 function LoadBranch(onLoaded) {

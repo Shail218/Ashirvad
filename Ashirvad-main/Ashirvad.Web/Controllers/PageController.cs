@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -36,8 +37,8 @@ namespace Ashirvad.Web.Controllers
                 branch.PageInfo = result;
             }
 
-            var branchData = await _pageService.GetAllPages(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            branch.PageData = branchData;
+            //var branchData = await _pageService.GetAllPages(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            branch.PageData = new List<PageEntity>();
 
             return View("Index", branch);
         }
@@ -98,6 +99,33 @@ namespace Ashirvad.Web.Controllers
         {
             var branchData = await _pageService.GetAllPages(branchID);
             return Json(branchData);
+        }
+
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            // action inside a standard controller
+            List<string> columns = new List<string>();
+            columns.Add("Page");
+            foreach(var item in model.order)
+            {
+                item.name = columns[item.column];
+            }
+            var branchData = await _pageService.GetAllCustomPages(model);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                // this is what datatables wants sending back
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+            
         }
     }
 }

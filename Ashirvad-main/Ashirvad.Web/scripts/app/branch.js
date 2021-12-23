@@ -6,6 +6,81 @@
 
 $(document).ready(function () {
 
+    ShowLoader();
+    var test = "" + GetSiteURL() + "/Branch/CustomServerSideSearchAction";
+    var table = $('#branchtble').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": "Processing...",
+        "serverSide": true,
+        "ajax": {
+            url: "" + GetSiteURL() + "/Branch/CustomServerSideSearchAction",
+            type: 'POST',
+
+        },
+
+        "columns": [
+            { "data": "BranchName" },
+            { "data": "BranchMaint.FilePath" },
+            { "data": "RowStatus.RowStatusText" },
+            { "data": "BranchID" },
+
+        ],
+        "columnDefs": [
+            {
+                targets: 1,
+                render: function (data, type, full, meta) {
+
+                    if (type === 'display') {
+                        data =
+                            '<img src = "' + data + '" style="height:40px;width:40px;margin-left:40px;"/>'
+
+                    }
+
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 2,                
+                orderable: false,
+                
+            },
+            {
+                targets: 3,
+                render: function (data, type, full, meta) {
+
+                    if (type === 'display') {
+                        data =
+                            '<a style="text-align:center !important;" href="PageMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+
+
+                    }
+                    HideLoader();
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+
+        ],
+        createdRow: function (tr) {
+            $(tr.children[1]).addClass('textalign');
+            $(tr.children[1]).addClass('image - cls');
+            $(tr.children[2]).addClass('textalign');
+            $(tr.children[3]).addClass('textalign');
+
+
+        },
+        
+    });
+
     if ($("#BranchID").val() > 0) {
         $("#fuBranchImage").addClass("editForm");
     }
