@@ -46,7 +46,8 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
                         studentInfo.StudentMaint.ParentID = 0;
                         var user = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, studentID, Enums.UserType.Student));
                         studentInfo.StudentMaint.ParentID = info.StudentMaint.ParentID;
-                        studentInfo.StudentPassword2 = info.StudentMaint.ParentPassword2;
+                        studentInfo.StudentPassword2 = info.StudentPassword2;
+                        //studentInfo.StudentPassword2 = info.StudentMaint.ParentPassword2;
                         long parentId = info.StudentMaint.ParentID;
                         var user2 = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, parentId, Enums.UserType.Parent));
                     }
@@ -64,14 +65,15 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
         {
             long? a = null;
             var result = await _branchContext.GetAllBranch();
-            studentInfo.StudentMaint.ParentPassword = studentInfo.StudentMaint.ParentPassword == "" || studentInfo.StudentMaint.ParentPassword == null ? studentInfo.StudentMaint.ParentPassword2 : studentInfo.StudentMaint.ParentPassword;
+            //studentInfo.StudentMaint.ParentPassword = studentInfo.StudentMaint.ParentPassword == "" || studentInfo.StudentMaint.ParentPassword == null ? studentInfo.StudentMaint.ParentPassword2 : studentInfo.StudentMaint.ParentPassword;
+            studentInfo.StudentMaint.ParentPassword = studentInfo.StudentPassword == "" || studentInfo.StudentPassword == null ? studentInfo.StudentPassword2 : studentInfo.StudentPassword;
             studentInfo.StudentPassword = studentInfo.StudentPassword == "" || studentInfo.StudentPassword == null ? studentInfo.StudentPassword2 : studentInfo.StudentPassword;
             UserEntity user = new UserEntity()
             {
                 BranchInfo = result.Where(x => x.BranchID == studentInfo.BranchInfo.BranchID).FirstOrDefault(),
                 ClientSecret = "TESTGUID",
                 ParentID = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ParentID : a,
-                Password = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ParentPassword : studentInfo.StudentPassword,
+                Password = userType == Enums.UserType.Parent ? studentInfo.StudentPassword : studentInfo.StudentPassword,
                 //Password = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ContactNo : studentInfo.ContactNo,
                 RowStatus = studentInfo.RowStatus,
                 StudentID = studentInfo.StudentID,

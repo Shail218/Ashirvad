@@ -138,12 +138,12 @@
                 </table>
             </div>
             <div class="col-md-3">
-                @Html.Label("Percentage / Grade", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.Grade, new { @class = "form-control required", @alt = "Percentage / Grade", autocomplete = "off" })
+                @Html.Label("Percentage / Grade", htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(x => x.Grade, new { @class = "form-control", @alt = "Percentage / Grade", autocomplete = "off" })
             </div>
             <div class="col-md-3">
-                @Html.Label("Class Name of Last Year", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.LastYearClassName, new { @class = "form-control required", @alt = "Class Name of Last Year", autocomplete = "off" })
+                @Html.Label("Class Name of Last Year", htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(x => x.LastYearClassName, new { @class = "form-control", @alt = "Class Name of Last Year", autocomplete = "off" })
             </div>
         </div>
         <div class="row" style="margin-top: 5px;">
@@ -152,12 +152,12 @@
                 @Html.TextBoxFor(x => x.ContactNo, new { @class = "form-control required mobile", @alt = "ContactNo", autocomplete = "off", maxlength = 10, minlength = 10 })
             </div>
             <div class="col-md-3">
-                @Html.Label("Father's Occupation", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.StudentMaint.FatherOccupation, new { @class = "form-control required", @alt = "Father's Occupation", autocomplete = "off" })
+                @Html.Label("Father's Occupation", htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(x => x.StudentMaint.FatherOccupation, new { @class = "form-control", @alt = "Father's Occupation", autocomplete = "off" })
             </div>
             <div class="col-md-3">
-                @Html.Label("Mother's Occupation", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.StudentMaint.MotherOccupation, new { @class = "form-control required", @alt = "Mother's Occupation", autocomplete = "off" })
+                @Html.Label("Mother's Occupation", htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(x => x.StudentMaint.MotherOccupation, new { @class = "form-control", @alt = "Mother's Occupation", autocomplete = "off" })
             </div>
             <div class="col-md-3">
                 @Html.Label("Status", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
@@ -191,8 +191,8 @@
                 @Html.TextBoxFor(x => x.Address, new { @class = "form-control required", @alt = "Address", autocomplete = "off" })
             </div>
             <div class="col-md-2" style="margin-top:10px;">
-                @Html.Label("Upload Photo", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <input class="file-upload fileRequired" alt="Student Image" id="fuStudentImage" name="ImageFile" type="file" accept="image/*" />
+                @Html.Label("Upload Photo", htmlAttributes: new { @class = "control-label" })
+                <input class="file-upload" alt="Student Image" id="fuStudentImage" name="ImageFile" type="file" accept="image/*" />
                 @Html.HiddenFor(x => x.StudImage)
                 @Html.HiddenFor(x => x.FileName)
                 @Html.HiddenFor(x => x.FilePath)
@@ -228,14 +228,14 @@
                     @Html.Label("Parent's Contact No (Login ID)", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
                     @Html.TextBoxFor(x => x.StudentMaint.ContactNo, new { @class = "form-control required mobile", @alt = "Parent's Contact No (Login ID)", autocomplete = "off", maxlength = 10, minlength = 10 })
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" style="display:none;">
                     @Html.Label("Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
-                    @Html.TextBoxFor(x => x.StudentMaint.ParentPassword, new { @class = "form-control required", @alt = "Password", autocomplete = "off", @Id = "ParentPassword1" })
+                    @Html.TextBoxFor(x => x.StudentMaint.ParentPassword, new { @class = "form-control", @alt = "Password", autocomplete = "off", @Id = "ParentPassword1" })
                     @Html.HiddenFor(x => x.StudentPassword2)
                     @Html.HiddenFor(x => x.StudentMaint.ParentPassword2)
                     @Html.HiddenFor(x => x.StudentMaint.StudentID)
                 </div>
-                <div class="col-md-3 ManageStudentMasterCreate" style="text-align: right;margin-top:27px;">
+                <div class="col-md-6 ManageStudentMasterCreate" style="text-align: right;margin-top:27px;">
                     <a onclick="return SaveStudent();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                         <span class="ladda-label">
                             Save

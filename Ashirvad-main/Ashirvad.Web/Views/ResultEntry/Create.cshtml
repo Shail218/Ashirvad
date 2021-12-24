@@ -70,8 +70,8 @@
                 @Html.TextBoxFor(x => x.Remarks, null, new { @class = "form-control", autocomplete = "off", @readonly = "readonly" })
             </div>
             <div class="col-md-3">
-                @Html.Label("Solution Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <input class="file-upload fileRequired" alt="Solution Image" id="MarksImage" name="ImageFile" type="file" />
+                @Html.Label("Solution Image", htmlAttributes: new { @class = "control-label" })
+                <input class="file-upload" alt="Solution Image" id="MarksImage" name="ImageFile" type="file" />
                 @Html.HiddenFor(x => x.MarksContentFileName)
                 @Html.HiddenFor(x => x.MarksFilepath)
                 @Html.HiddenFor(x => x.JsonData)

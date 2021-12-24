@@ -66,6 +66,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                         BranchID = ClassInfo.branch.BranchID,
 
                     };
+                    ClassInfo.isClass = standardInfo.BranchInfo.BranchID == 2 ? true : ClassInfo.isClass;
                     standardInfo.Branchclass = new BranchClassEntity();
                     standardInfo.Transaction = new TransactionEntity();
                     standardInfo.Transaction.TransactionId = ClassMaster.trans_id;

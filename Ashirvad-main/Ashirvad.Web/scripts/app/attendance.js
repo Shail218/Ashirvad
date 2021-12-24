@@ -97,14 +97,12 @@ function GetStudentDetail() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        var date1 = $("#AttendanceDate").val();
-        $("#AttendanceDate").val(ConvertData(date1));
+        //var date1 = $("#AttendanceDate").val();
+        //$("#AttendanceDate").val(ConvertData(date1));
         var postCall = $.post(commonData.AttendanceEntry + "GetAllStudentByBranchStdBatch", $('#fAttendanceReportDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
             $('#AttendanceData').html(data);
-            //ShowMessage("Student added Successfully.", "Success");
-            //window.location.href = "StudentMaintenance?studentID=0";
         }).fail(function () {
             HideLoader();
             //ShowMessage("An unexpected error occcurred while processing request!", "Error");

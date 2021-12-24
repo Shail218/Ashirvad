@@ -391,22 +391,21 @@ namespace Ashirvad.Repo.Services.Area.Library
 
         public bool RemoveLibrary(long libraryID, string lastupdatedby)
         {
-            bool Isvalid = CheckHistory(libraryID);
-            if (Isvalid)
+            var data = (from u in this.context.LIBRARY_MASTER
+                        where u.library_id == libraryID
+                        select u).FirstOrDefault();
+            if (data != null)
             {
-                var data = (from u in this.context.LIBRARY_MASTER
-                            where u.library_id == libraryID
-                            select u).FirstOrDefault();
-                if (data != null)
-                {
-                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id.Value, LastUpdateBy = lastupdatedby });
-                    this.context.SaveChanges();
-                    return true;
-                }
+                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id.Value, LastUpdateBy = lastupdatedby });
+                this.context.SaveChanges();
+                return true;
             }
-
-
+            //bool Isvalid = CheckHistory(libraryID);
+            //if (Isvalid)
+            //{
+               
+            //}
             return false;
         }
 

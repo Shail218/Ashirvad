@@ -342,58 +342,12 @@ namespace Ashirvad.Repo.Services.Area.User
         {
             var data = (from u in this.context.USER_DEF
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
-                        join tdUserType in this.context.TYPE_DESC on u.user_type equals tdUserType.type
                         join stud in this.context.STUDENT_MASTER on u.student_id equals stud.student_id into tempStud
                         from student in tempStud.DefaultIfEmpty()
-                        join par in this.context.STUDENT_MAINT on u.parent_id equals par.parent_id into tempPar
-                        from parent in tempPar.DefaultIfEmpty()
-                        join staff in this.context.BRANCH_STAFF on u.staff_id equals staff.staff_id into tempStaff
-                        from stf in tempStaff.DefaultIfEmpty()
-                        where u.user_id == userID && tdUserType.@class == (int)Enums.ClassID.UserType
+                        where u.user_id == userID
                         select new UserEntity()
                         {
-                            //ClientSecret = u.client_secret,
-                            ParentID = u.parent_id,
-                            RowStatus = new RowStatusEntity()
-                            {
-                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = u.row_sta_cd
-                            },
-                            StaffID = u.staff_id,
-                            StudentID = u.student_id,
-                            UserID = u.user_id,
-                            Username = u.username,
-                            UserType = u.user_type == 5 ? Enums.UserType.SuperAdmin : u.user_type == 1 ? Enums.UserType.Admin : u.user_type == 2 ? Enums.UserType.Student : u.user_type == 3 ? Enums.UserType.Parent : Enums.UserType.Staff,
-                            UserTypeText = tdUserType.short_desc,
-                            BranchInfo = new BranchEntity()
-                            {
-                                BranchID = u.branch_id,
-                                BranchName = b.branch_name,
-                                ContactNo = b.contact_no
-                            },
-                            ParentDetail = parent != null ? new StudentMaint()
-                            {
-                                ParentName = parent.parent_name,
-                                ContactNo = parent.contact_no,
-                                FatherOccupation = parent.father_occupation,
-                                MotherOccupation = parent.mother_occupation,
-                                ParentID = parent.parent_id,
-                                StudentID = parent.student_id
-                            } : null,
-                            StaffDetail = stf != null ? new StaffEntity()
-                            {
-                                Name = stf.name,
-                                Address = stf.address,
-                                ApptDT = stf.appt_dt,
-                                DOB = stf.dob,
-                                Education = stf.education,
-                                EmailID = stf.email_id,
-                                JoinDT = stf.join_dt,
-                                StaffID = stf.staff_id,
-                                MobileNo = stf.mobile_no,
-                                LeavingDT = stf.leaving_dt
-                            } : null,
-                            StudentDetail = student != null ? new StudentEntity()
+                            StudentDetail = new StudentEntity()
                             {
                                 FirstName = student.first_name,
                                 Address = student.address,
@@ -402,15 +356,15 @@ namespace Ashirvad.Repo.Services.Area.User
                                 DOB = student.dob,
                                 Grade = student.grade,
                                 GrNo = student.gr_no,
-                                LastName = student.last_name
-                            } : null
+                                LastName = student.last_name,
+                                BatchInfo = new BatchEntity()
+                                {
+                                    BatchID = student.batch_time
+                                },
+                                FilePath = "http://highpack-001-site12.dtempurl.com" + student.file_path,
+                                FileName = student.file_name
+                            }
                         }).FirstOrDefault();
-
-            if (data != null)
-            {
-
-                data.Roles = this.GetRolesByUser(data.UserID);
-            }
 
             return data;
         }

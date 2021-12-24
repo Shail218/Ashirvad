@@ -121,8 +121,8 @@
         @Html.TextBoxFor(x => x.Remarks, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
     </div>
     <div class="col-md-12" style="margin-top: 5px">
-        @Html.Label("Upload HomeWork", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-        <input class="file-upload fileRequired" alt="Homework" id="fuHomeworkDoc" name="ThumbnailFile" type="file" />
+        @Html.Label("Upload HomeWork", htmlAttributes: new { @class = "control-label" })
+        <input class="file-upload" alt="Homework" id="fuHomeworkDoc" name="ThumbnailFile" type="file" />
         @Html.HiddenFor(x => x.HomeworkContentText)
         @Html.HiddenFor(x => x.FilePath)
         @Html.HiddenFor(x => x.HomeworkContentFileName)

@@ -70,7 +70,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                         BranchID = SubjectInfo.branch.BranchID,
 
                     };
-
+                    SubjectInfo.isSubject = Subjectmaster.BranchInfo.BranchID == 2 ? true : SubjectInfo.isSubject;
                     Subjectmaster.BranchSubject = new BranchSubjectEntity();
                     Subjectmaster.Transaction = new TransactionEntity();
                     Subjectmaster.Transaction.TransactionId = SubjectMaster.trans_id;

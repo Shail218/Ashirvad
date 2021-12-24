@@ -142,10 +142,10 @@ function SaveStudent() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        var a = $("#stupass").val();
-        $("#StudentPassword").val(a);
-        var b = $("#parentpass").val();
-        $("#StudentMaint_ParentPassword").val(b);
+        //var a = $("#StudentPassword1").val();
+        //$("#StudentPassword").val(a);
+        //var b = $("#ParentPassword1").val();
+        //$("#StudentMaint_ParentPassword").val(b);
         var date1 = $("#DOB").val();
         $("#DOB").val(ConvertData(date1));
         var date2 = $("#AdmissionDate").val();

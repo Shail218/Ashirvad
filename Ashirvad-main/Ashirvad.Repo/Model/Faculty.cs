@@ -15,26 +15,24 @@ namespace Ashirvad.Repo.Model
 using System;
     using System.Collections.Generic;
     
-public partial class STUDENT_PAYMENT_REL
+public partial class Faculty
 {
 
-    public long payment_rel_id { get; set; }
+    public string name { get; set; }
 
-    public long payment_id { get; set; }
+    public long class_id { get; set; }
 
-    public byte[] payment_content { get; set; }
+    public long course_id { get; set; }
 
-    public string file_name { get; set; }
+    public long subject_id { get; set; }
 
-    public int row_sta_cd { get; set; }
+    public string subject_name { get; set; }
 
-    public long trans_id { get; set; }
+    public string file_path { get; set; }
 
+    public string branch_name { get; set; }
 
-
-    public virtual STUDENT_PAYMENT_MASTER STUDENT_PAYMENT_MASTER { get; set; }
-
-    public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
+    public long faculty_id { get; set; }
 
 }
 
