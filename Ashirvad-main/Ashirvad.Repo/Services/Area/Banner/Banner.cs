@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Banner
 {
@@ -131,9 +132,67 @@ namespace Ashirvad.Repo.Services.Area.Banner
             {
                 foreach (var item in data)
                 {
+                    string Type = "";
                     int idx = data.IndexOf(item);
-                    data[idx].BannerType = this.context.BANNER_TYPE_REL.Where(z => z.banner_id == item.BannerID).Select(y => new BannerTypeEntity() { ID = y.unique_id, TypeID = y.sub_type_id, TypeText = y.sub_type_id == 1 ? "Admin" : y.sub_type_id == 2 ? "Teacher" : "Student" }).ToList();
+                    data[idx].BannerType = this.context.BANNER_TYPE_REL.Where(z => z.banner_id == item.BannerID)
+                        .Select(y => new BannerTypeEntity() { ID = y.unique_id, TypeID = y.sub_type_id, TypeText = y.sub_type_id == 1 ? "Admin" : y.sub_type_id == 2 ? "Teacher" : "Student" }).ToList();
                     //data[idx].BannerImageText = data[idx].BannerImage.Length > 0 ? Convert.ToBase64String(data[idx].BannerImage) : "";
+
+
+                    var result = this.context.BANNER_TYPE_REL.Where(z => z.banner_id == item.BannerID)
+                    .Select(y => new BannerTypeEntity() { ID = y.unique_id, TypeID = y.sub_type_id, TypeText = y.sub_type_id == 1 ? "Admin" : y.sub_type_id == 2 ? "Teacher" : "Student" }).ToList();
+                    foreach(var item1 in result)
+                    {
+                        Type = Type + "-" + item1.TypeText;
+                    }
+                    item.BannerTypeText = Type.Substring(1);
+                }
+            }
+
+            return data;
+        }
+
+        public async Task<List<BannerEntity>> GetAllCustomBanner(DataTableAjaxPostModel model, long branchID, int bannerTypeID)
+        {
+            var Result = new List<BannerEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = this.context.BANNER_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Distinct().Count();
+            var data = (from u in this.context.BANNER_MASTER.Include("BRANCH_MASTER")
+                        join bt in this.context.BANNER_TYPE_REL on u.banner_id equals bt.banner_id
+                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempB
+                        from branch in tempB.DefaultIfEmpty()
+                        where (0 == branchID || u.branch_id == 0 || u.branch_id.Value == branchID)
+                        && (0 == bannerTypeID || bt.sub_type_id == bannerTypeID) && u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == "")
+                        select new BannerEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FileName = u.file_name,
+                            BannerID = u.banner_id,
+                            BranchInfo = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).OrderBy(model.order[0].name, Isasc)
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+            if (data?.Count > 0)
+            {
+                foreach (var item in data)
+                {
+                    string Type = "";                   
+                    var result = this.context.BANNER_TYPE_REL.Where(z => z.banner_id == item.BannerID)
+                    .Select(y => new BannerTypeEntity() { ID = y.unique_id, TypeID = y.sub_type_id, TypeText = y.sub_type_id == 1 ? "Admin" : y.sub_type_id == 2 ? "Teacher" : "Student" }).ToList();
+                    foreach (var item1 in result)
+                    {
+                        Type = Type + "-" + item1.TypeText;
+                    }
+                    item.BannerTypeText = Type.Substring(1);
                 }
             }
 

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Faculty
 {
@@ -86,6 +87,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Faculty
             }
 
             return false;
+        }
+
+        public async Task<List<FacultyEntity>> GetAllCustomFaculty(DataTableAjaxPostModel model, long branchID)
+        {
+            try
+            {
+                return await this._facultyContext.GetAllCustomFaculty(model,branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
         }
 
         //website

@@ -1,0 +1,78 @@
+﻿﻿@model Ashirvad.Data.BranchCourseEntity
+<div class="col-md-12">
+    <form id="fBranchCourseDetail">
+        <div>
+            @Html.HiddenFor(x => x.JsonData)
+            @Html.HiddenFor(x => x.IsEdit)
+            <div class="col-md-12">
+                <table style="width: 100%;" id="choiceList" class="table table-striped dataTable no-footer">
+                    <thead>
+                        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+                            <th style="width:13%">
+                                <input type="checkbox" class="allselected" onchange="OnSelectStatus(this,'iscourse');" Id="allselect" /> All
+                            </th>
+                            <th>Course Name</th>
+                        </tr>
+                    </thead>
+                    @if (Model.BranchCourseData.Count > 0)
+                    {
+                        <tbody>
+                            @foreach (var item in Model.BranchCourseData)
+                            {
+
+                                <tr>
+                                    <td class="js-export-checkbox">
+                                        @Html.CheckBoxFor(m => item.iscourse, new { @class = "iscourse",@onchange= "checkstatus()" })
+                                        <input type="hidden" value="@item.course_dtl_id" class="coursedtlid" />
+                                    </td>
+                                    <td>
+                                        @item.course.CourseName
+                                        <input type="hidden" value="@item.course.CourseID" class="CourseID" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                    else
+                    {
+                        <tbody>
+                            @foreach (var item in Model.CourseData)
+                            {
+
+                                <tr>
+                                    <td class="js-export-checkbox">
+                                        @Html.CheckBox("iscourse", new { @class = "iscourse", @Id = "iscourse", @onchange = "checkstatus()" })
+                                        <input type="hidden" value="0" class="coursedtlid" />
+                                    </td>
+                                    <td>
+                                        @Html.HiddenFor(x=>item.CourseID, new { @class = "CourseID" })
+                                        @item.CourseName
+                                        
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                </table>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12" style="text-align: right;">
+                    <br />
+                    <a onclick="return SaveCourseDetail();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                        <span class="ladda-label">
+                            Save
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>
+                    <a href="@Url.Action("CourseMaintenance","BranchCourse", new { @courseID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                        <span class="ladda-label">
+                            Cancel
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

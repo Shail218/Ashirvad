@@ -1,4 +1,5 @@
 ﻿using Ashirvad.Common;
+using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Student;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -27,12 +29,12 @@ namespace Ashirvad.Web.Controllers
         public async Task<ActionResult> ManageStudentMaintenance(long branchID)
         {
             StudentMaintenanceModel branch = new StudentMaintenanceModel();
-            if (branchID > 0)
-            {
-                var result = await _studentService.GetAllStudentWithoutContent(branchID);
-                branch.StudentData = result;
-            }
-
+            //if (branchID > 0)
+            //{
+            //    var result = await _studentService.GetAllStudentWithoutContent(branchID);
+            //    branch.StudentData = result;
+            //}
+            branch.StudentData = new List<StudentEntity>();
             return View("Index", branch);
         }
 
@@ -63,6 +65,37 @@ namespace Ashirvad.Web.Controllers
         {
             var result = _studentService.GetStudentByStd(Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime).Result;
             return Json(result);
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            // action inside a standard controller
+            List<string> columns = new List<string>();
+            columns.Add("");
+            columns.Add("Name");
+            columns.Add("AdmissionDate");
+            columns.Add("");
+            columns.Add("");
+            columns.Add("ContactNo");
+            foreach (var item in model.order)
+            {
+                item.name = columns[item.column];
+            }
+            var branchData = await _studentService.GetAllCustomStudent(model,SessionContext.Instance.LoginUser.BranchInfo.BranchID,0);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                // this is what datatables wants sending back
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
         }
     }
 }

@@ -1,0 +1,32 @@
+﻿<div class="row">
+    <div class="form-group">
+        <div class="col-md-4">
+            @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.DropDownList("Branch", new List<SelectListItem>
+                           {
+                           new SelectListItem{ Text="---Select-Branch---", Value = "-1" },
+                            new SelectListItem{ Text="Branch", Value = "1" },
+                            }, new { @class = "form-control", id = "Branch" })
+        </div>
+        <div class="col-md-4">
+            @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.DropDownList("Standard", new List<SelectListItem>
+                           {
+                           new SelectListItem{ Text="---Select-Standard---", Value = "-1" },
+                            new SelectListItem{ Text="Standard", Value = "1" },
+                            }, new { @class = "form-control", id = "Standard" })
+        </div>
+        <div class="col-md-4">
+            @Html.Label("Select Batch Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.DropDownList("BatchTime", new List<SelectListItem>
+                           {
+                           new SelectListItem{ Text="---Select-Batch-Time---", Value = "-1" },
+                            new SelectListItem{ Text="Batch Time", Value = "1" },
+                            }, new { @class = "form-control", id = "BatchTime" })
+        </div>
+    </div>
+</div>
+
+
+
+

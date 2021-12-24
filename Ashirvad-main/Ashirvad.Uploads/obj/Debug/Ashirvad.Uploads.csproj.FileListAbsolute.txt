@@ -1,0 +1,17 @@
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\bin\Debug\Ashirvad.Uploads.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\bin\Debug\Ashirvad.Uploads.pdb
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\bin\Debug\Ashirvad.Common.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\bin\Debug\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\bin\Debug\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\bin\Debug\Microsoft.IdentityModel.Logging.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\bin\Debug\Ashirvad.Common.pdb
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\bin\Debug\Microsoft.IdentityModel.Tokens.xml
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\bin\Debug\System.IdentityModel.Tokens.Jwt.xml
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\bin\Debug\Microsoft.IdentityModel.Logging.xml
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.xml
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\obj\Debug\Ashirvad.Uploads.csprojAssemblyReference.cache
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\obj\Debug\Ashirvad.Uploads.csproj.CoreCompileInputs.cache
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\obj\Debug\Ashirvad.Uploads.csproj.CopyComplete
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\obj\Debug\Ashirvad.Uploads.dll
+C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Uploads\obj\Debug\Ashirvad.Uploads.pdb

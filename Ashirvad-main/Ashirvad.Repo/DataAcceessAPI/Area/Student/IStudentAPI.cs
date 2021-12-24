@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.DataAcceessAPI.Area.Student
 {
@@ -16,5 +17,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Student
         bool RemoveStudent(long StudentID, string lastupdatedby);
         Task<StudentEntity> GetStudentByID(long studenID);
         Task<List<StudentEntity>> GetAllStudent(string studName, string contactNo);
+        Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model, long branchID, int status);
     }
 }

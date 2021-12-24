@@ -19,5 +19,6 @@ namespace Ashirvad.Data
         public BranchEntity BranchInfo { get; set; }
         public StandardEntity StandardInfo { get; set; }
         public Enums.BatchType BatchType { get; set; }
+        public string BatchText { get; set; }
     }
 }

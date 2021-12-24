@@ -10,7 +10,9 @@ namespace Ashirvad.Data
     public class BannerEntity
     {
         public long BannerID { get; set; }
+        public long Count { get; set; }
         public List<BannerTypeEntity> BannerType { get; set; }
+        public string BannerTypeText { get; set; }
         public BranchEntity BranchInfo { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public BannerTypeEntity bannerTypeEntity { get; set; }

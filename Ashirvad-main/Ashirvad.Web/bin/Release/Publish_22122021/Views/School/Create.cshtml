@@ -1,0 +1,47 @@
+﻿@model Ashirvad.Data.SchoolEntity
+<form id="fSchoolDetail">
+    <div class="form-group" id="dInformation">
+        <div class="col-md-12">
+            @Html.Label("School Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBoxFor(x => x.SchoolName, new { @class = "form-control required", @alt = "School Name", autocomplete = "off" })
+            @Html.HiddenFor(x => x.SchoolID)
+        </div>
+        @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+        {
+            <div class="col-md-12">
+                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BranchName" id="BranchName" class="form-control requiredDDL select2" alt="Branch">
+                    <option value="0">--Select Branch--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchInfo.BranchID)
+            </div>
+        }
+        else
+        {
+            <div class="col-md-12" style="display: none;">
+                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BranchName" id="BranchName" class="form-control" alt="Branch">
+                    <option value="0">--Select Branch--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchInfo.BranchID)
+            </div>
+        }
+        <div class="form-group SchoolMasterCreate">
+            <div class="col-md-12" style="text-align: right;">
+                <br />
+                <a onclick="return SaveSchool();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Save
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+                <a href="@Url.Action("SchoolMaintenance","School", new { @branchID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                    <span class="ladda-label">
+                        Cancel
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</form>

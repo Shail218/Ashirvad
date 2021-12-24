@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Student
 {
@@ -157,6 +158,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             try
             {
                 return await this._studentContext.GetAllStudent(studName, contactNo);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model, long branchID, int status = 0)
+        {
+            try
+            {
+                return await this._studentContext.GetAllCustomStudent(model,branchID,status);
             }
             catch (Exception ex)
             {

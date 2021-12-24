@@ -10,6 +10,7 @@ using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Faculty;
 using Newtonsoft.Json;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -40,8 +41,8 @@ namespace Ashirvad.Web.Controllers
                 faculty.FacultyInfo = new FacultyEntity();
             }
 
-            var branchData = await _facultyService.GetAllFaculty(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            faculty.FacultyData = branchData;
+            //var branchData = await _facultyService.GetAllFaculty(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            faculty.FacultyData = new List<FacultyEntity>();
 
             return View("Index", faculty);
         }
@@ -79,6 +80,25 @@ namespace Ashirvad.Web.Controllers
         {
             var result = _facultyService.RemoveFaculty(facultyID, SessionContext.Instance.LoginUser.Username);
             return Json(result);
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            var branchData = await _facultyService.GetAllCustomFaculty(model,SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                // this is what datatables wants sending back
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
         }
 
     }

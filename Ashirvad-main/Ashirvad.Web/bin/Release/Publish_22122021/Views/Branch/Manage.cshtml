@@ -1,0 +1,63 @@
+﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.BranchEntity>
+
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+
+            <th>
+                Branch Name
+            </th>
+
+            <th style="text-align:center;">
+                Logo
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Edit
+            </th>
+            @*<th>
+            Delete
+        </th>*@
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+
+        <td>
+            @item.BranchName
+
+            @Html.HiddenFor(x => item.BranchID)
+        </td>
+
+            <td>
+                @if (item.BranchMaint.FilePath != null && item.BranchMaint.FilePath != "")
+                {
+                    <img src="@item.BranchMaint.FilePath" id="bannerImg" style="height:40px;width:40px;margin-left:40px;" />
+                }
+                else
+                {
+                    <img src="~/ThemeData/images/Default.png" id="bannerImg" style="height:40px;width:40px;margin-left:40px;" />
+                }
+            </td>
+            <td>
+                @item.RowStatus.RowStatusText
+            </td>
+            <td>
+                <a href="@Url.Action("BranchMaintenance", "Branch", new { branchID = item.BranchID })">
+                    <img src="~/ThemeData/images/viewIcon.png" />
+                </a>
+            </td>
+            @*<td>
+                <a href="#" onclick="RemoveBranch(@item.BranchID);">
+                    <img src="~/ThemeData/images/delete.png" />
+                </a>
+            </td>*@
+        </tr>
+    }
+
+</table>

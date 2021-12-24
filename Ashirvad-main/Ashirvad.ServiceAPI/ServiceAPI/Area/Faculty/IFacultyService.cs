@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Faculty
 {
@@ -14,6 +15,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Faculty
         Task<OperationResult<FacultyEntity>> GetFacultyByFacultyID(long facultyID);
         bool RemoveFaculty(long facultyID, string lastupdatedby);
         Task<OperationResult<List<FacultyEntity>>> GetAllFaculty(long branchID, int typeID);
+        Task<List<FacultyEntity>> GetAllCustomFaculty(DataTableAjaxPostModel model, long branchID);
 
         //website
 

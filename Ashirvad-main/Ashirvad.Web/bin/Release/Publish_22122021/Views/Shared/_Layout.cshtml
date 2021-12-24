@@ -1,0 +1,531 @@
+﻿@{
+    /**/
+
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Welcome</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+    <!-- Bootstrap 3.3.6 -->
+    <!-- jQuery 2.2.3 -->
+
+    <link rel="stylesheet" href="~/ThemeData/bootstrap/css/bootstrap.min.css" />
+    <link href="~/ThemeData/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+    <link href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css" />
+    <!-- Theme style -->
+    <link href="~/ThemeData/plugins/select2/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/ThemeData/dist/css/AdminLTE.min.css" />
+    <link href="~/ThemeData/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="~/ThemeData/dist/css/skins/_all-skins.min.css" />
+    <script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/ThemeData/bootstrap/js/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="~/ThemeData/bootstrap/js/bootstrap.min.js"></script>
+    @*<script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>*@
+    @*<script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>*@
+    <!-- Select2 -->
+    <script src="~/ThemeData/plugins/select2/select2.full.min.js"></script>
+    <!-- InputMask -->
+    @*<script src="~/ThemeData/plugins/input-mask/jquery.inputmask.js"></script>
+        <script src="~/ThemeData/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+        <script src="~/ThemeData/plugins/input-mask/jquery.inputmask.extensions.js"></script>*@
+    <!-- SlimScroll 1.3.0 -->
+    <script src="~/ThemeData/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- iCheck 1.0.1 -->
+    <script src="~/ThemeData/plugins/iCheck/icheck.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/ThemeData/plugins/fastclick/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    @*<script src="~/ThemeData/dist/js/app.min.js"></script>*@
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/ThemeData/dist/js/demo.js"></script>
+    <style>
+
+        .nav > li > a {
+            position: relative;
+            display: block;
+            padding: 10px 6px;
+            margin-top: 5px;
+        }
+
+        .navbar-brand {
+            display: inline-block;
+            padding-top: .3125rem;
+            padding-bottom: .3125rem;
+            margin-right: .5rem;
+            font-size: 1.25rem;
+            line-height: inherit;
+            white-space: nowrap;
+        }
+
+        .dropdown-toggle::after {
+            display: inline-block;
+            margin-left: .255em;
+            vertical-align: .255em;
+            content: "";
+            border-top: .3em solid;
+            border-right: .3em solid transparent;
+            border-bottom: 0;
+            border-left: .3em solid transparent;
+        }
+
+        .input-sm {
+            height: 25px !important;
+        }
+
+        .h3 {
+            font-weight: 500 !important;
+        }
+
+        .displayNone {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="skin-blue layout-top-nav">
+    <input id="rightslist" hidden value="@SessionContext.Instance.userRightsList" />
+    <input type="hidden" id="hdnFldVDName" value="@Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["VDName"])" />
+    @if (SessionContext.Instance.LoginUser.UserType != Ashirvad.Common.Enums.UserType.SuperAdmin)
+    {
+        <input type="hidden" id="hdnBranchID" value="@SessionContext.Instance.LoginUser.BranchInfo.BranchID" />
+    }
+    else
+    {
+        <input type="hidden" id="hdnBranchID" value="0" />
+    }
+
+    <script type="text/javascript" src='~/scripts/app/common.js'></script>
+    <script type="text/javascript" src='~/scripts/ashirvad.js'></script>
+
+    <script type="text/javascript">
+        //var prm = Sys.WebForms.PageRequestManager.getInstance();
+        //prm.add_beginRequest(beginRequest);
+        //function beginRequest() {
+        //    prm._scrollPosition = null;
+        //}
+    </script>
+    <div class="wrapper" id="main-menu">
+        <header class="main-header">
+            <!-- Logo -->
+            <nav class="navbar navbar-static-top" style="background: #3f478b; padding: .5rem .5rem;">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <img Style="width: 50px; height: 50px;position: relative;" src="~/ThemeData/images/logo.png" />
+                    </div>
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="treeview" style="margin-left:20px;">
+                                <a href="@Url.Action("Index","Home")">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li class="dropdown" id="MasterMenu" style="margin-left:10px;">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Masters
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+                                    {
+                                        <li id="StM">
+                                            <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master</a>
+                                        </li>
+                                        <li id="BrM">
+                                            <a href="@Url.Action("BranchMaintenance","Branch", new { @branchID=0 })">Branch Master</a>
+                                        </li>
+                                        <li id="Banner">
+                                            <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })" )">Banner Master</a>
+                                        </li>
+                                        <li id="NotificationMaster">
+                                            <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
+                                        </li>
+                                        <li id="StM">
+                                            <a href="@Url.Action("UserMaintenance","User", new { @branchID=0 })">User Master</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("CourseMaintenance","Caurse", new { @courseID=0 })">Course Master</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("ClassMaintenance","Class", new { @classID=0 })">Class Master</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("SubjectMaintenance","SuperAdminSubject", new { @subjectID=0 })">Subject Master</a>
+                                        </li>
+                                    }
+                                    else if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
+                                    {
+                                        <li id="StM" class="AnnouncementMaster">
+                                            <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master</a>
+                                        </li>
+                                        <li id="StM" class="UserMaster">
+                                            <a href="@Url.Action("UserMaintenance","User", new { @branchID=0 })">User Master</a>
+                                        </li>
+                                        <li id="ScM" class="SchoolMaster">
+                                            <a href="@Url.Action("SchoolMaintenance","School", new { @branchID=0 })">School Master</a>
+                                        </li>
+                                        <li id="StuM" class="StudentMaster">
+                                            <a href="@Url.Action("StudentMaintenance","Student", new { @studentID=0 })">Student Master</a>
+                                        </li>
+                                        <li id="MsM" class="ManageStudentMaster">
+                                            <a href="@Url.Action("ManageStudentMaintenance","ManageStudent", new { @branchID= @SessionContext.Instance.LoginUser.BranchInfo.BranchID})">Manage Student Master</a>
+                                        </li>
+                                        <li id="Notification" class="NotificationMaster">
+                                            <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
+                                        </li>
+                                        <li id="BaM" class="BatchMaster">
+                                            <a href="@Url.Action("BatchMaintenance","Batch", new { @branchID=0 })">Batch Master</a>
+                                        </li>
+                                        <li id="Banner" class="BannerMaster">
+                                            <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })">Banner Master</a>
+                                        </li>
+                                        <li id="AuM" class="AboutUsMaster">
+                                            <a href="@Url.Action("AboutUsMaintenance","AboutUs", new { @aboutID=0 })">About Us Master</a>
+                                        </li>
+                                        <li id="fc" class="FacultyMaster">
+                                            <a href="@Url.Action("FacultyMaintenance","Faculty", new { @facultyID = 0})">Faculty Master</a>
+                                        </li>
+                                        <li id="Bcour" class="BranchCourseMaster">
+                                            <a href="@Url.Action("CourseMaintenance","BranchCourse", new { @courseID=0 })">Branch Course Master</a>
+                                        </li>
+                                        <li id="Bclass" class="BranchClassMaster"> 
+                                            <a href="@Url.Action("ClassMaintenance","BranchClass", new { @ClassID=0 })">Branch Class Master</a>
+                                        </li>
+                                        <li id="BS" class="BranchSubjectMaster">
+                                            <a href="@Url.Action("SubjectMaintenance","BranchSubject", new { @SubjectID=0,@CourseID=0})">Branch Subject Master</a>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </li>
+                            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+                            {
+                                <li class="dropdown" visible="true" style="margin-left:10px;">
+                                    <a href="@Url.Action("AgreementMaintenance","Agreement", new { @agreeID=0 })">
+                                        Agreement
+                                    </a>
+                                </li>
+                            }
+                            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
+                            {
+                                <li class="dropdown" id="StudentMenu" style="margin-left:10px;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Student
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li id="stfest" class="StudentFeesStructure">
+                                            <a href="@Url.Action("FeesMaintenance","FeesStructure",new { @FeesID = 0})">Student Fees Structure</a>
+                                        </li>
+                                        <li id="stonpa" class="StudentOnlinePayment">
+                                            <a href="@Url.Action("Index","OnlinePaymentList")">Student Online Payment</a>
+                                        </li>
+                                        <li id="adupde" class="AddUPIDetails">
+                                            <a href="@Url.Action("UPIMaintenance","Upi",new { @upiID=0 })">Add UPI Details</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown" id="AttendanceMenu" style="margin-left:10px;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Attendance
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li id="Ae" class="AttendanceEntry">
+                                            <a href="@Url.Action("Index","AttendanceEntry")">Attendance Entry</a>
+                                        </li>
+                                        <li id="Ar" class="AttendanceRegister">
+                                            <a href="@Url.Action("Index","AttendanceRegister")">Attendance Register</a>
+                                        </li>
+                                        <li id="Sar" class="StudentAttendanceReport">
+                                            <a href="@Url.Action("Index","AttendanceReport")">Student Attendance Report</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown" id="TestMenu" style="margin-left:10px;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Test
+
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li id="Utp" class="TestPaperEntry">
+                                            <a href="@Url.Action("TestPaperMaintenance","TestPaper", new { @testID=0 })">Test Paper Entry</a>
+                                        </li>
+                                        <li id="Me" class="MarksEntry">
+                                            <a href="@Url.Action("MarksMaintenance","ResultEntry", new { @MarksID=0 })">Marks Entry</a>
+                                        </li>
+                                        <li id="Mr" class="MarksRegister">
+                                            <a href="@Url.Action("Index","ResultRegister")">Marks Register</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li class="dropdown" id="GalleryMenu" style="margin-left:10px;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Gallery
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="treeview Photos" id="Gallery">
+                                            <a href="@Url.Action("PhotosMaintenance","Photos", new { @photoID=0 })">
+                                                Photos
+                                            </a>
+                                        </li>
+                                        <li class="treeview Video" id="Video">
+                                            <a href="@Url.Action("VideosMaintenance","Videos", new { @videoID=0 })">
+                                                Video
+                                            </a>
+                                        </li>
+                                        <li class="treeview LiveVideos" id="LiveVideos">
+                                            <a href="@Url.Action("LiveVideoMaintenance","LiveVideo", new { @linkID=0 })">
+                                                Live Videos
+                                            </a>
+                                        </li>
+                                        <li class="treeview YoutubeVideos" id="Li1">
+                                            <a href="@Url.Action("YoutubeMaintenance","Youtube", new { @linkID=0 })">
+                                                Youtube Videos
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                @*<li class="dropdown" id="LibraryMenu" style="margin-left:10px;">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                           Branch Library
+                                        </a>
+                                        <ul class="dropdown-menu">
+
+                                            <li class="treeview LibraryImage">
+                                                <a href="@Url.Action("LibraryMaintenance","NewLibrary",new { @LibraryID=0,Type=2 })">
+                                                    Image/Document
+                                                </a>
+                                            </li>
+                                            <li class="treeview LibraryVideo">
+                                                <a href="@Url.Action("LibraryMaintenance","NewLibrary",new { @LibraryID=0,Type=1 })">
+                                                    Video
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>*@
+                                <li class="dropdown" id="LibraryMenu" style="margin-left:10px;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Library
+                                    </a>
+                                    <ul class="dropdown-menu">
+
+                                        <li class="treeview LibraryImage">
+                                            <a href="@Url.Action("LibraryMaintenance","Library",new { @libraryID=0,Type=2})">
+                                                Image/Document
+                                            </a>
+                                        </li>
+                                        <li class="treeview LibraryVideo">
+                                            <a href="@Url.Action("LibraryMaintenance","Library",new { @libraryID=0,Type=1})">
+                                                Video
+                                            </a>
+                                        </li>
+                                        <li class="treeview  ShowLibrary">
+                                            <a href="@Url.Action("ShowLibraryMaintenance","ShowLibrary",new {@branchID=0})">
+                                                Show Library
+                                            </a>
+                                        </li>
+                                        <li class="treeview ManageLibrary">
+                                            <a href="@Url.Action("ManageLibraryMaintenance","ManageLibrary")">
+                                                Manage Library
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown" id="ChartReport" visible="false" style="margin-left:10px;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Chart Reports
+
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="treeview" id="Li4">
+                                            <a href="@Url.Action("Index","StandardWiseChart")">
+                                                Standard Wise
+                                            </a>
+                                        </li>
+                                        <li class="treeview" id="Li5">
+                                            <a href="#">
+                                                Batch Wise
+                                            </a>
+                                        </li>
+                                        <li class="treeview" id="Li8">
+                                            <a href="#">
+                                                List Of Student
+                                            </a>
+                                        </li>
+                                        <li class="treeview" id="Li9">
+                                            <a href="#">
+                                                Student Progress Chart
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown" id="MoreMenu" visible="true" style="margin-left:10px;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        More
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="treeview PracticePapers" id="PracticePaper">
+                                            <a href="@Url.Action("PaperMaintenance","Papers", new { @paperID=0 })">
+                                                Practice Papers
+                                            </a>
+                                        </li>
+                                        <li class="treeview Homework" id="Homework">
+                                            <a href="@Url.Action("HomeworkMaintenance","Homework", new { @homeworkID=0, @branchID=0 })">
+                                                Homework
+                                            </a>
+                                        </li>
+                                        <li class="treeview To-DoEntry" id="tde">
+                                            <a href="@Url.Action("ToDoMaintenance","ToDo",new { @todoID=0 })">
+                                                To-Do Entry
+                                            </a>
+                                        </li>
+                                        <li class="treeview To-DoRegister" id="tdr">
+                                            <a href="@Url.Action("ToDoRegisterMaintenance","ToDoRegister",new { @todoID=0 })">
+                                                To-Do Register
+                                            </a>
+                                        </li>
+                                        <li class="treeview ReminderEntry" id="Li3">
+                                            <a href="@Url.Action("ReminderMaintenance","Reminder", new { @reminderID=0 })">
+                                                Reminder Entry
+                                            </a>
+                                        </li>
+                                        <li class="treeview Report" id="Li3">
+                                            <a href="@Url.Action("GetAllReportData","AdminReport")">
+                                                Report
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+                            }
+                            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+                            {
+                                <li class="dropdown" id="Library" style="margin-left:10px;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Library
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="treeview">
+                                            <a href="@Url.Action("CategoryMaintenance","Category",new { @categoryID=0 })">
+                                                Category Master
+                                            </a>
+                                        </li>
+                                        <li class="treeview LibraryImage">
+                                            <a href="@Url.Action("LibraryMaintenance","Library",new { @libraryID=0,Type=2})">
+                                                Image/Document
+                                            </a>
+                                        </li>
+                                        <li class="treeview LibraryVideo">
+                                            <a href="@Url.Action("LibraryMaintenance","Library",new { @libraryID=0,Type=1})">
+                                                Video
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown" id="td" visible="true">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        User Permission
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="treeview" id="pg">
+                                            <a href="@Url.Action("PageMaintenance", "Page", new { @branchID = 0 })">
+                                                Page
+                                            </a>
+                                        </li>
+                                        <li class="treeview" id="pack">
+                                            <a href="@Url.Action("PackageMaintenance", "Package", new { @branchID = 0 })">
+                                                Package
+                                            </a>
+                                        </li>
+                                        <li class="treeview" id="pright">
+                                            <a href="@Url.Action("PackageRightMaintenance", "PackageRight", new { @PackageRightID = 0 })">
+                                                Package Right
+                                            </a>
+                                        </li>
+                                        <li class="treeview" id="bwr">
+                                            <a href="@Url.Action("BranchRightMaintenance", "BranchWiseRight", new { @BranchRightID = 0 })">
+                                                Branch Wise Rights
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            }
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+
+                            <li class="dropdown user user-menu" style="height: 50px">
+                                <a href="#" class="dropdown-toggle" style="height: 50px" data-toggle="dropdown">
+                                    <img src="~/ThemeData/dist/img/avatar5.png" class="user-image" alt="User Image" />
+                                    <span class="hidden-xs">
+                                        <label id="lblUserName">@SessionContext.Instance.LoginUser.Username</label>
+                                        <input id="Role_Name" hidden value="@SessionContext.Instance.LoginUser.UserType" />
+                                        <input id="Branch_Name" hidden value="@SessionContext.Instance.LoginUser.BranchInfo.BranchID" />
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer"><a href="@Url.Action("Index","Profile")"><i class="fa fa-user fa-lg"></i>Profile</a></li>
+                                    <li class="user-footer"><a href="@Url.Action("Index","ChangePassword")"><i class="fa fa-key fa-lg"></i>Change Password</a></li>
+                                    <li class="user-footer"><a href="@Url.Action("Index","Login")"><i class="fa fa-sign-out fa-lg"></i>Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <h4 style="color: white;" id="lblBranchName">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</h4>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="content-wrapper">
+            <div id="loader" style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #ffffff; opacity: 0.8;">
+                <img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif"
+                     AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />
+                <span style="border-width: 0px; position: fixed; padding: 30px; background-color: #FFFFFF; color: #0472C4; font-size: 25px; left: 44%; top: 35%;">Please Wait ...</span>
+            </div>
+            @RenderBody()
+        </div>
+
+    </div>
+    @*@Scripts.Render("~/bundles/jquery")*@
+
+    @RenderSection("scripts", required: false)
+    <!-- Page script -->
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            //$(".select2").select2();
+            //Datemask dd/mm/yyyy
+            //$("#datemask").inputmask("dd/mm/yyyy", { "placeholder": "dd/mm/yyyy" });
+            //Money Euro
+            //$("[data-mask]").inputmask();
+        });
+    </script>
+    <script>
+        window.alert = function () { };
+    </script>
+</body>
+</html>

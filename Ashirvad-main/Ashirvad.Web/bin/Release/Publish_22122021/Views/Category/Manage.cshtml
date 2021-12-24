@@ -1,0 +1,45 @@
+﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.CategoryEntity>
+
+
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Category Name
+            </th>
+            
+
+            <th>
+                Edit
+            </th>
+            <th>
+                Delete
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Category
+                @Html.HiddenFor(x => item.CategoryID)
+            </td>
+            
+            
+            <td>
+                <a href="@Url.Action("CategoryMaintenance", "Category", new { categoryID = item.CategoryID })">
+                    <img src="~/ThemeData/images/viewIcon.png" />
+                </a>
+            </td>
+            <td>
+                <a href="#" onclick="RemoveCategory(@item.CategoryID);">
+                    <img src="~/ThemeData/images/delete.png" />
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+

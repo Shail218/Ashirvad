@@ -1,0 +1,87 @@
+﻿﻿@model Ashirvad.Data.LinkEntity
+<form id="flinkDetail">
+    <div class="form-group" id="dInformation">
+        @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+        {
+            <div class="col-md-6">
+                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BranchName" id="BranchName" class="form-control requiredDDL select2" alt="Branch">
+                    <option value="0">--Select Branch--</option>
+                </select>
+                @Html.HiddenFor(x => x.Branch.BranchID)
+                @Html.HiddenFor(x => x.UniqueID)
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                    <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
+                        <option value="0">--Select Standard--</option>
+                    </select>
+                    @Html.HiddenFor(x => x.StandardID)
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top:5px;">
+                @Html.Label("Title", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextBoxFor(x => x.Title, new { @class = "form-control required", @alt = "Title", autocomplete = "off" })
+            </div>
+            <div class="col-md-12">
+                @Html.Label("Video URL", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextBoxFor(x => x.LinkURL, new { @class = "form-control required", @alt = "Video URL", autocomplete = "off" })
+            </div>
+            <div class="col-md-12">
+                @Html.Label("Video Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextAreaFor(x => x.LinkDesc, new { @class = "form-control required", @alt = "Video Description", autocomplete = "off" })
+            </div>
+        }
+        else
+        {
+            <div class="col-md-12" style="display: none;">
+                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BranchName" id="BranchName" class="form-control" alt="Branch">
+                    <option value="0">--Select Branch--</option>
+                </select>
+                @Html.HiddenFor(x => x.Branch.BranchID)
+                @Html.HiddenFor(x => x.UniqueID)
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                    <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
+                        <option value="0">--Select Standard--</option>
+                    </select>
+                    @Html.HiddenFor(x => x.StandardID)
+                </div>
+            </div>
+            <div class="col-md-6">
+                @Html.Label("Title", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextBoxFor(x => x.Title, new { @class = "form-control required", @alt = "Title", autocomplete = "off" })
+            </div>
+            <div class="col-md-12">
+                @Html.Label("Video URL", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextBoxFor(x => x.LinkURL, new { @class = "form-control required", @alt = "Video URL", autocomplete = "off" })
+            </div>
+            <div class="col-md-12">
+                @Html.Label("Video Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextAreaFor(x => x.LinkDesc, new { @class = "form-control required", @alt = "Video Description", autocomplete = "off" })
+            </div>
+        }
+
+        <div class="form-group LiveVideosCreate">
+            <div class="col-md-12" style="text-align: right;">
+                <a href="#" onclick="return SaveLink();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Save
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+                <a href="@Url.Action("LiveVideoMaintenance","LiveVideo", new { @linkID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                    <span class="ladda-label">
+                        Cancel
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</form>

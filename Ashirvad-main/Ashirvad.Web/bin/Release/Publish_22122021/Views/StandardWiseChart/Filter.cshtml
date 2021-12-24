@@ -1,0 +1,22 @@
+﻿<div class="row">
+    <div class="form-group">
+        <div class="col-md-6">
+            @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.DropDownList("Standard", new List<SelectListItem>
+                           {
+                           new SelectListItem{ Text="---Select-Standard---", Value = "-1" },
+                            new SelectListItem{ Text="Standard", Value = "1" },
+                            }, new { @class = "form-control", id = "Standard" })
+        </div>
+        <div class="col-md-6">
+            @Html.Label("Select Student", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.DropDownList("Student", new List<SelectListItem>
+                           {
+                           new SelectListItem{ Text="---Select-Student---", Value = "-1" },
+                            new SelectListItem{ Text="Student", Value = "1" },
+                            }, new { @class = "form-control", id = "Student" })
+        </div>
+    </div>
+</div>
+
+

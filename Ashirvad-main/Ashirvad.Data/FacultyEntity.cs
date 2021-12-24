@@ -14,6 +14,7 @@ namespace Ashirvad.Data
         public Enums.BoardType board { get; set; }
         public long boardtype { get; set; }
         public long FacultyID { get; set; }
+        public long Count { get; set; }
         public UserEntity user { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }

@@ -10,8 +10,10 @@ namespace Ashirvad.Data
     public class StaffEntity : ResponseModel
     {
         public long StaffID { get; set; }
+        public long Count { get; set; }
         public string Name { get; set; }
         public string Education { get; set; }
+        public string GenderText { get; set; }
         public DateTime? DOB { get; set; }
         public Enums.Gender Gender { get; set; }
         public Enums.UserType Userrole { get; set; }

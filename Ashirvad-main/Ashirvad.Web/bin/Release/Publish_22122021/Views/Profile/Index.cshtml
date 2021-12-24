@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="content">
+    <div class="row" style="padding-left:35%">
+        <div class="col-md-7">
+            <div class="box box-warning">
+                <div class="box-header with-border" style="height:60px">
+                    <h3 class="box-title" style="padding:10px">Profile</h3>
+                </div>
+                <div class="box-body" style="padding:10px">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.Label("Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                                @Html.TextBox("Name", null, new { @class = "form-control", autocomplete = "off" })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.Label("Mobile No (LogIn ID)", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                                @Html.TextBox("MobileNo", null, new { @class = "form-control", autocomplete = "off" })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.Label("Email ID", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                                @Html.TextBox("EmailID", null, new { @class = "form-control", autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="text-align: right;margin-top:27px;">
+                            <a href="#" onclick="btnSave_Click()" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                                <span class="ladda-label">
+                                    Save
+                                </span>
+                                <span class="ladda-spinner"></span>
+                            </a>
+                            <a href="@Url.Action("LibraryMaintenance","Library", new { @libraryID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                                <span class="ladda-label">
+                                    Cancel
+                                </span>
+                                <span class="ladda-spinner"></span>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

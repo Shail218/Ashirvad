@@ -1,0 +1,46 @@
+﻿﻿@model Ashirvad.Data.GalleryEntity
+<form id="fVideosDetail">
+    <div class="form-group" id="dInformation" style="padding-top:10px">
+        <div class="row">
+           
+                <div class="col-md-12" style="display: none;">
+                    @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                    <select name="BranchName" id="BranchName" class="form-control" alt="Branch">
+                        <option value="0">--Select Branch--</option>
+                    </select>
+                    @Html.HiddenFor(x => x.Branch.BranchID)
+                    @Html.HiddenFor(x => x.UniqueID)
+                    @Html.HiddenFor(x => x.FileInfo)
+                </div>
+            
+            <div class="col-md-12" style="margin-top:10px;">
+                @Html.Label("Video", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <input class="file-upload fileRequired" alt="Document" id="fuImage" name="ImageFile" type="file" accept="video/*" />
+              
+                @Html.HiddenFor(x => x.FileName)
+                @Html.HiddenFor(x => x.FilePath)
+            
+     
+            </div>
+            <div class="col-md-12" style="margin-top:10px;">
+                @Html.Label("Image Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
+            </div>
+            <div class="col-md-12 VideoCreate" style="text-align: right;">
+                <a href="#" onclick="return SaveVideo();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Save
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+                <a href="@Url.Action("VideosMaintenance","Videos", new { @videoID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                    <span class="ladda-label">
+                        Cancel
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</form>

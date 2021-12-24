@@ -1,0 +1,103 @@
+﻿﻿@model Ashirvad.Data.LibraryEntity
+
+<form id="fLibraryDetail">
+    <div class="form-group" id="dInformation">
+        <div class="col-md-12">
+            @Html.Label("Title", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBoxFor(x => x.LibraryTitle, new { @class = "form-control required", @alt = "Category Name", autocomplete = "off" })
+        </div>
+        <div class="col-md-12">
+            @Html.Label("Select Category Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="CategoryName" id="CategoryName" class="form-control requiredDDL select2" alt="Category">
+                <option value="0">--Select Category Name--</option>
+            </select>
+            @Html.HiddenFor(x => x.CategoryInfo.CategoryID)
+        </div>
+        <div class="col-md-12">
+            @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <table id="rdbType" class="radioboxlist form-control">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="radio" name="Type3" id="rowStaAll" value="All" checked />
+                            <lable for="rowStaAll">All</lable>
+                        </td>
+                        <td>
+                            <input type="radio" name="Type3" id="rowStaBranch" value="Branch" style="margin-left:10px" />
+                            <lable for="rowStaBranch">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</lable>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            @Html.HiddenFor(x => x.LibraryID)
+            @Html.HiddenFor(x => x.BranchID)
+            @Html.HiddenFor(x => x.StandardArray)
+            @Html.HiddenFor(x => x.StandardNameArray)
+            @Html.HiddenFor(x => x.JsonList)
+        </div>
+        <div class="col-md-12">
+            @Html.Label("Video Link", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBoxFor(x => x.VideoLink, new { @class = "form-control required", @alt = "Link Name", autocomplete = "off" })
+           
+        </div>
+        <div class="col-md-12" style="margin-top:5px;">
+            @Html.Label("Select type", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <table id="rdbType" class="radioboxlist form-control">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="radio" name="Type1" id="rowGeneral" value="General" checked />
+                            <lable for="rowGeneral">General</lable>
+                        </td>
+                        <td>
+                            <input type="radio" name="Type1" id="rowstandard" value="Standard" style="margin-left:10px" />
+                            <lable for="rowstandard">Standard</lable>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            @Html.HiddenFor(x => x.Type)
+            @Html.HiddenFor(x => x.Library_Type)
+        </div>
+        <div class="col-md-6" style="margin-top:10px;" id="standard">
+            @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="StandardName" multiple="multiple" data-placeholder="--Standard--" id="StandardName" class="form-control select2" alt="Standard">
+                <option value="0">--Select Standard--</option>
+            </select>
+            @Html.HiddenFor(x => x.StandardID)
+            @Html.HiddenFor(x => x.StandardArray)
+            @Html.HiddenFor(x => x.StandardNameArray, new { @class = "form-control requiredStd", @alt = "Standard", autocomplete = "off" })
+        </div>
+        <div class="col-md-6" style="margin-top:10px;" id="subject">
+            @Html.Label("Select Subject", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="SubjectName" id="SubjectName" class="form-control select2" alt="Subject">
+                <option value="0">--Select Subject--</option>
+            </select>
+            @Html.HiddenFor(x => x.SubjectID)
+            @Html.HiddenFor(x => x.subject.Subject, new { @class = "form-control requiredSub", @alt = "Standard", autocomplete = "off" })
+        </div>
+        <div class="col-md-12" style="margin-top: 10px">
+            @Html.Label("Link Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextAreaFor(x => x.Description, new { @class = "form-control required", @alt = "Description", autocomplete = "off" })
+        </div>
+        <div class="col-md-12" style="text-align: right;">
+            <div class="form-group">
+                <div class="col-md-12" style="text-align: right;">
+                    <a href="#" onclick="return SaveLibraryVideo();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                        <span class="ladda-label">
+                            Save
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>
+                    <a href="@Url.Action("LibraryMaintenance","Library", new { @libraryID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                        <span class="ladda-label">
+                            Cancel
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

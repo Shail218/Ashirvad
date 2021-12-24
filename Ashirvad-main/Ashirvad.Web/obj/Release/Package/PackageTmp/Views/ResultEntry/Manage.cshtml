@@ -1,0 +1,63 @@
+﻿@model List<Ashirvad.Data.StudentEntity>
+
+@{
+
+    Layout = null;
+}
+<style>
+    .customwidth {
+        width :30% !important;
+    }
+</style>
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Student Name
+            </th>
+            <th>
+                Achieved Marks
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                    @Html.HiddenFor(x => item.StudentID)
+                </td>
+                <td>
+                    @Html.TextBox("Marks", null, new { @class = "form-control customwidth required", @alt = "Remarks", autocomplete = "off", Id = "Marks" })
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div class="form-group">
+    <div class="col-md-12" style="text-align: right;">
+        <a href="#" onclick="return SaveMarks();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+            <span class="ladda-label">
+                Save
+            </span>
+            <span class="ladda-spinner"></span>
+        </a>
+        <a href="@Url.Action("Index","AttendanceEntry")" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+            <span class="ladda-label">
+                Cancel
+            </span>
+            <span class="ladda-spinner"></span>
+        </a>
+    </div>
+</div>
+
+
+
+
+
+
+

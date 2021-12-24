@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Student
 {
@@ -17,5 +18,8 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Student
         Task<List<StudentEntity>> GetAllStudent(string studName, string contactNo);
 
         Task<List<StudentEntity>> GetStudentByStd(long Std, long BranchID,long BatchTime);
+        Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model, long branchID, int status = 0);
+
+
     }
 }

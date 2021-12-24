@@ -1,0 +1,58 @@
+﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.LinkEntity>
+
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Title
+            </th>
+            <th>
+                Video Description
+            </th>
+            <th>
+                Standard
+            </th>
+            <th>
+                Video URL
+            </th>
+            <th>
+                Edit
+            </th>
+            <th class="LiveVideosDelete">
+                Delete
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @item.Title
+        </td>
+        <td>
+            @item.LinkDesc
+        </td>
+        <td>
+            @item.StandardName
+        </td>
+        <td>
+            @item.LinkURL
+        </td>
+        <td>
+            <a href="@Url.Action("LiveVideoMaintenance", "LiveVideo", new { linkID = item.UniqueID })">
+                <img src="~/ThemeData/images/viewIcon.png" />
+            </a>
+        </td>
+        <td class="LiveVideosDelete" style="text-align:center;">
+            <a href="#" onclick="RemoveLink(@item.UniqueID);">
+                <img src="~/ThemeData/images/delete.png" />
+            </a>
+        </td>
+    </tr>
+    }
+
+</table>
+
+

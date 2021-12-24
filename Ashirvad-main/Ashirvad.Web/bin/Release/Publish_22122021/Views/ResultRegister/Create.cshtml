@@ -1,0 +1,62 @@
+﻿@model Ashirvad.Data.MarksEntity
+<form id="fMarks">
+    <div class="form-group" id="dInformation">
+        <div class="row">
+            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
+                <div class="col-md-3">
+                    @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                    <select name="BranchName" id="BranchName" class="form-control select2" alt="Branch">
+                        <option value="0">--Select Branch--</option>
+                    </select>
+                    @Html.HiddenFor(x => x.BranchInfo.BranchID)
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3" style="display: none;">
+                    @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                    <select name="BranchName" id="BranchName" class="form-control select2" alt="Branch">
+                        <option value="0">--Select Branch--</option>
+                    </select>
+                    @Html.HiddenFor(x => x.BranchInfo.BranchID)
+                </div>
+            }
+            <div class="col-md-3">
+                @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
+                    <option value="0">--Select Standard--</option>
+                </select>
+                @Html.HiddenFor(x => x.StandardInfo.StandardID)
+                @Html.HiddenFor(x => x.BranchInfo.BranchID)
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Select Batch Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="Batchtime" id="Batchtime" class="form-control requiredDDL select2" alt="BatchTime">
+                    <option value="0">--Select Batch Time--</option>
+                    <option value="1">Morning</option>
+                    <option value="2">Afternoon</option>
+                    <option value="3">Evening</option>
+                </select>
+                @Html.HiddenFor(x => x.BatchTime)
+                @Html.HiddenFor(x => x.BatchType)
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Test Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="Test" id="testddl" class="form-control requiredDDL select2" alt="Standard">
+                    <option value="0">--Select Test Date--</option>
+                </select>
+                @Html.HiddenFor(x => x.testEntityInfo.TestID)
+            </div>
+
+            <div class="col-md-3">
+                @Html.Label("Subject Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="SubjectName" id="SubjectName" class="form-control requiredDDL select2" alt="Subject">
+                    <option value="0">--Select Subject--</option>
+                </select>
+                @Html.HiddenFor(x => x.SubjectInfo.SubjectID)
+
+            </div>
+        </div>
+    </div>
+</form>

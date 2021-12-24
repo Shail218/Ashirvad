@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Staff
 {
@@ -118,6 +119,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
             }
 
             return false;
+        }
+
+        public async Task<List<StaffEntity>> GetAllCustomStaff(DataTableAjaxPostModel model, long branchID)
+        {
+            try
+            {
+                return await this._staffContext.GetAllCustomStaff(model,branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
         }
 
         public async Task<List<StaffEntity>> GetAllStaff()

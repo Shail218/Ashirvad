@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -38,8 +39,8 @@ namespace Ashirvad.Web.Controllers
                 userData.StaffInfo = result;
             }
 
-            var staffData = await _staffService.GetAllStaff(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            userData.StaffData = staffData;
+            //var staffData = await _staffService.GetAllStaff(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            userData.StaffData = new List<StaffEntity>();
 
             return View("Index", userData);
         }
@@ -91,6 +92,34 @@ namespace Ashirvad.Web.Controllers
         {
             var result = _staffService.RemoveStaff(userID, SessionContext.Instance.LoginUser.Username);
             return Json(result);
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            // action inside a standard controller
+            List<string> columns = new List<string>();
+            columns.Add("Name");
+            columns.Add("MobileNo");
+            columns.Add("EmailID");
+            foreach (var item in model.order)
+            {
+                item.name = columns[item.column];
+            }
+            var branchData = await _staffService.GetAllCustomStaff(model, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                // this is what datatables wants sending back
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
         }
 
     }

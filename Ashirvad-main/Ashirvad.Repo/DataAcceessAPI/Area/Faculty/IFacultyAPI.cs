@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.DataAcceessAPI.Area.Faculty
 {
@@ -16,5 +17,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Faculty
         Task<List<FacultyEntity>> GetAllFaculty(long branchID, int typeID);
         Task<List<FacultyEntity>> GetAllFacultyWebsite(long branchID, long courseID, long classID, long subjectID);
         Task<List<FacultyEntity>> GetFacultyDetail(long facultyID);
+        Task<List<FacultyEntity>> GetAllCustomFaculty(DataTableAjaxPostModel model, long branchID);
     }
 }

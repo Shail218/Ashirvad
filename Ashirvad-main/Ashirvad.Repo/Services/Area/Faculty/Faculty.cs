@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Faculty
 {
@@ -129,6 +130,87 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                             FacultyID = u.faculty_id,
                             Descripation = u.description,
                         }).ToList();
+
+            return data;
+        }
+
+        public async Task<List<FacultyEntity>> GetAllCustomFaculty(DataTableAjaxPostModel model, long branchID)
+        {
+            var Result = new List<FacultyEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = this.context.FACULTY_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Distinct().Count();
+            var data = (from u in this.context.FACULTY_MASTER
+                          .Include("COURSE_DTL_MASTER")
+                          .Include("CLASS_DTL_MASTER")
+                          .Include("SUBJECT_DTL_MASTER")
+                          .Include("BRANCH_MASTER")
+                          .Include("BRANCH_STAFF")
+                        where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.BRANCH_STAFF.name.ToLower().Contains(model.search.value)
+                        || u.COURSE_DTL_MASTER.COURSE_MASTER.course_name.ToLower().Contains(model.search.value)
+                        || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.ToLower().Contains(model.search.value)
+                        || u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name.ToLower().Contains(model.search.value)) orderby u.faculty_id descending
+                        select new FacultyEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
+                            BranchClass = new BranchClassEntity()
+                            {
+                                Class_dtl_id = u.class_dtl_id,
+                                Class = new ClassEntity()
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
+                            },
+                            branchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
+                                }
+                            },
+                            staff = new StaffEntity()
+                            {
+                                StaffID = u.BRANCH_STAFF.staff_id,
+                                Name = u.BRANCH_STAFF.name,
+                                DOB = u.BRANCH_STAFF.dob,
+                                Education = u.BRANCH_STAFF.education,
+                                EmailID = u.BRANCH_STAFF.email_id,
+                                Address = u.BRANCH_STAFF.address,
+                                MobileNo = u.BRANCH_STAFF.mobile_no,
+                            },
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Transaction = new TransactionEntity()
+                            {
+                                TransactionId = u.trans_id
+                            },
+                            Count = count,
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FacultyContentFileName = u.file_name,
+                            FacultyID = u.faculty_id,
+                            Descripation = u.description,
+                        }).OrderBy(model.order[0].name, Isasc)
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
 
             return data;
         }

@@ -1,0 +1,81 @@
+﻿@model List<Ashirvad.Data.MarksEntity>
+
+@{
+
+    Layout = null;
+}
+<style>
+    .customwidth {
+        width: 30% !important;
+    }
+</style>
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Student Name
+            </th>
+            <th>
+                Subject Name
+            </th>
+            <th>
+                Total Marks
+            </th>
+            <th>
+                Achieved Marks
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @item.student.Name
+                @Html.HiddenFor(x => item.student.StudentID)
+                @Html.HiddenFor(x => item.MarksID)
+            </td>
+            <td>
+                @item.SubjectInfo.Subject
+            </td>
+            <td>
+                @item.testEntityInfo.Marks
+            </td>
+            <td>
+                @Html.TextBoxFor(x => item.AchieveMarks, new { @class = "form-control customwidth required", @alt = "Achieve Mark", autocomplete = "off", Id = "Marks_"+ item.MarksID +"" })
+            </td>
+            <td>
+                <a onclick="UpdateMarks('@item.MarksID', '@item.student.StudentID')" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Save
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+            </td>
+        </tr>
+        }
+    </tbody>
+
+</table>
+
+<script>
+    $(document).ready(function () {
+
+        $('#studenttbl').DataTable({
+            "bPaginate": true,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bInfo": true,
+            "bAutoWidth": true
+        });
+    });</script>
+
+
+
+
+
+
+

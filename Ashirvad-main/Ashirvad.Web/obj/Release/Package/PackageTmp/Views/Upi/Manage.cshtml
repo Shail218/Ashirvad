@@ -1,0 +1,43 @@
+﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.UPIEntity>
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                UPI ID
+            </th>
+            <th>
+                Branch Name
+            </th>
+            <th>
+                Edit
+            </th>
+            <th class="AddUPIDetailsDelete">
+                Delete
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.UPICode
+            </td>
+            <td>
+                @item.BranchData.BranchName
+            </td>
+            <td>
+                <a href="@Url.Action("UPIMaintenance", "Upi", new { upiID = item.UPIId })">
+                    <img src="~/ThemeData/images/viewIcon.png" />
+                </a>
+            </td>
+            <td class="AddUPIDetailsDelete">
+                <a href="#" onclick="RemoveUPI(@item.UPIId);">
+                    <img src="~/ThemeData/images/delete.png" />
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>

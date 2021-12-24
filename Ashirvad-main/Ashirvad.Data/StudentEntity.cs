@@ -19,6 +19,7 @@ namespace Ashirvad.Data
         public string Address { get; set; }
         public int? SchoolTime { get; set; }
         public int? LastYearResult { get; set; }
+        public long Count { get; set; }
         public string Grade { get; set; }
         public string LastYearClassName { get; set; }
         public string ContactNo { get; set; }

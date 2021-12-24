@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Staff
 {
@@ -123,6 +124,56 @@ namespace Ashirvad.Repo.Services.Area.Staff
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
+
+            return data;
+        }
+
+        public async Task<List<StaffEntity>> GetAllCustomStaff(DataTableAjaxPostModel model, long branchID)
+        {
+            var Result = new List<StaffEntity>();
+            long Type = branchID == 0 ? 0 : (long)Enums.UserType.Staff;
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = this.context.BRANCH_STAFF.Where(s => s.row_sta_cd == 1 && (branchID == 0 || s.branch_id == branchID)).Distinct().Count();
+            var data = (from u in this.context.BRANCH_STAFF
+                        .Include("BRANCH_MASTER")
+                        join li in this.context.USER_DEF on u.staff_id equals li.staff_id into ps
+                        from li in ps.DefaultIfEmpty()
+                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1 && (Type == 0 || li.user_type == Type)
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.name.ToLower().Contains(model.search.value)
+                        || u.mobile_no.ToLower().Contains(model.search.value)
+                        || u.email_id.ToLower().Contains(model.search.value)) orderby u.staff_id descending
+                        select new StaffEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            Address = u.address,
+                            ApptDT = u.appt_dt,
+                            DOB = u.dob,
+                            Count = count,
+                            Education = u.education,
+                            EmailID = u.email_id,
+                            GenderText = u.gender == 1 ? "Male" : u.gender == 2 ? "Female" : "Transgender",
+                            JoinDT = u.join_dt,
+                            LeavingDT = u.leaving_dt,
+                            MobileNo = u.mobile_no,
+                            Name = u.name,
+                            UserID = li.user_id,
+                            StaffID = u.staff_id,
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).OrderBy(model.order[0].name, Isasc)
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
 
             return data;
         }

@@ -1,0 +1,70 @@
+﻿@model Ashirvad.Data.Model.AboutUsMaintenanceModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="messagealert" id="alert_container"></div>
+        <section class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">About Us Entry</h3>
+                </div>
+                <div class="box-body">
+                    @{
+                        Html.RenderPartial("Create", new ViewDataDictionary(Model.AboutusInfo));
+                    }
+                </div>
+            </div>
+        </section>
+        <section class="col-md-5">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Detail Entry</h3>
+                </div>
+                <div class="box-body">
+                    @{
+                        Html.RenderPartial("DetailCreate", new ViewDataDictionary(Model.detailInfo));
+                    }
+                </div>
+            </div>
+        </section>
+        <section class="col-md-7">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="col-md-6">Details</h3>
+
+                    @{
+                        Html.RenderPartial("Manage", new ViewDataDictionary(Model.detailData));
+                    }
+                </div>
+            </div>
+        </section>
+    </div>
+    @section Scripts {
+        <script type="text/javascript" src="~/scripts/app/aboutus.js"></script>
+        <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#studenttbl').DataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": true
+                });
+            });
+        </script>
+        <script type="text/javascript">
+            function ConfirmationDialog() {
+                if (confirm("Are you sure to continue?"))
+                    return true;
+                else
+                    return false;
+            }
+        </script>
+    }
+</section>

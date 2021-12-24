@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Student
 {
@@ -368,6 +369,92 @@ namespace Ashirvad.Repo.Services.Area.Student
                         data.StudentMaint.ParentPassword2 = d.password;
                     }
                 }
+            }
+            return data;
+        }
+
+        public async Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model,long branchID, int status)
+        {
+            var Result = new List<StudentEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = this.context.STUDENT_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Distinct().Count();
+            var data = (from u in this.context.STUDENT_MASTER
+                        .Include("STD_MASTER")
+                        .Include("SCHOOL_MASTER")
+                        .Include("BRANCH_MASTER")
+                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id orderby u.student_id descending
+                        where branchID == 0 || u.branch_id == branchID
+                        && (0 == status || u.row_sta_cd == status)
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.first_name.ToLower().Contains(model.search.value.ToLower())
+                        || u.last_name.ToLower().Contains(model.search.value.ToLower())
+                        || u.STD_MASTER.standard.ToLower().Contains(model.search.value.ToLower())
+                        || u.contact_no.ToLower().Contains(model.search.value.ToLower())
+                        || u.admission_date.ToString().ToLower().Contains(model.search.value.ToLower()))
+                        select new StudentEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            StudentID = u.student_id,
+                            Address = u.address,
+                            DOB = u.dob,
+                            FirstName = u.first_name,
+                            LastName = u.last_name,
+                            Name = u.first_name + " " + u.last_name,
+                            MiddleName = u.middle_name,
+                            ContactNo = u.contact_no,
+                            LastYearResult = u.last_yr_result,
+                            LastYearClassName = u.last_yr_class_name,
+                            Grade = u.grade,
+                            AdmissionDate = u.admission_date,
+                            GrNo = u.gr_no,
+                            Count = count,
+                            SchoolTime = u.school_time,
+                            FileName = u.file_name,
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
+                            StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
+                            SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
+                            BatchInfo = new BatchEntity()
+                            {
+                                BatchTime = u.batch_time,
+                                BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening,
+                                BatchText = u.batch_time == 1 ? "Morning" : u.batch_time == 2 ? "Afternoon" : "Evening"
+                            },
+                            StudentMaint = new StudentMaint()
+                            {
+                                ParentName = maint.parent_name,
+                                ParentID = maint.parent_id,
+                                ContactNo = maint.contact_no,
+                                FatherOccupation = maint.father_occupation,
+                                MotherOccupation = maint.mother_occupation,
+                                StudentID = maint.student_id
+                            },
+                            BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).OrderBy(model.order[0].name, Isasc)
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+            foreach (var item in data)
+            {
+                var res = this.context.USER_DEF.Where(s => s.student_id == item.StudentID
+                && s.row_sta_cd == 1 && s.user_type == (int)Enums.UserType.Student).FirstOrDefault();
+                if (res != null)
+                {
+                    item.StudentPassword = res.password;
+                }
+                var res2 = this.context.USER_DEF.Where(s => s.student_id == item.StudentID
+                && s.row_sta_cd == 1 && s.user_type == (int)Enums.UserType.Parent).FirstOrDefault();
+                if (res2 != null)
+                {
+                    item.StudentPassword2 = res2.password;
+                }
+                return data;
             }
             return data;
         }

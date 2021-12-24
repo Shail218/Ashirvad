@@ -1,0 +1,139 @@
+﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.BranchWiseRightEntity>
+
+<table style="width: 100%;" id="subcategorytbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th style="width:5%">Page Details</th>
+            <th>
+                Package
+            </th>
+            <th>
+                Branch Name
+            </th>
+
+            <th>
+                Edit
+            </th>
+
+            <th>
+                Delete
+            </th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        @if (Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+
+                <tr>
+
+
+                    <td>
+
+                        <img src="~/ThemeData/images/plus.png" height="30" />
+                        <div style="display:none">
+                            <div style="max-height: 200px; overflow-y: scroll !important">
+                                <table style="width: 100%;" id="subcategorytbl2" class="table table-striped dataTable no-footer">
+                                    <thead>
+                                        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+
+                                            <th>
+                                                Page
+                                            </th>
+                                            <th>
+                                                Create Status
+                                            </th>
+
+                                            <th>
+                                                Delete Status
+                                            </th>
+                                            <th>
+                                                View Status
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var item1 in item.list)
+                                        {
+
+                                            <tr>
+
+                                                
+                                                    <td>
+                                                        @item1.PageInfo.Page
+                                                    </td>
+                                                    <td>
+                                                        @item1.Createstatus
+                                                    </td>
+
+                                                    <td>
+                                                        @item1.Deletestatus
+                                                    </td>
+                                                    <td>
+                                                        @item1.Viewstatus
+                                                    </td>
+                                                
+
+
+
+                                            </tr>
+
+                                        }
+                                    </tbody>
+
+
+
+                                </table>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td>
+                        @item.Packageinfo.Package
+                    </td>
+                    <td>
+                        @item.branchinfo.BranchName
+                    </td>
+
+                    <td>
+                        <a href="@Url.Action("BranchRightMaintenance","BranchWiseRight", new { @BranchRightID = item.BranchWiseRightsID })">
+                            <img src="/ThemeData/images/viewIcon.png" />
+                        </a>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)" onclick="RemoveBranchRight('@item.BranchWiseRightsID')">
+                            <img src="~/ThemeData/images/Delete.png" />
+                        </a>
+                    </td>
+
+                </tr>
+            }
+        }
+    </tbody>
+
+</table>
+
+<script type="text/javascript">
+    //Assign Click event to Plus Image.
+
+    $("body").on("click", "img[src*='plus.png']", function () {
+        $(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>");
+        $(this).attr("src", "../ThemeData/images/minus.png");
+    });
+    //Assign Click event to Minus Image.
+    $("body").on("click", "img[src*='minus.png']", function () {
+        $(this).attr("src", "../ThemeData/images/plus.png");
+        $(this).closest("tr").next().remove();
+    });
+</script>
+
+
+
+
+

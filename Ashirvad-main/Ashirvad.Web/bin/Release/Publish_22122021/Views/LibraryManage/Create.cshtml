@@ -1,0 +1,53 @@
+﻿<div class="row">
+    <div class="form-group">
+        <div class="col-md-6">
+            @Html.Label("Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBox("Standard", null, new { @class = "form-control", autocomplete = "off" })
+        </div>
+        <div class="col-md-6">
+            @Html.Label("Subject", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBox("Subject", null, new { @class = "form-control", autocomplete = "off" })
+        </div>
+        <div class="col-md-12">
+            @Html.Label("Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextArea("Description", null, new { @class = "form-control", autocomplete = "off" })
+        </div>
+        <div class="col-md-12">
+            @Html.Label("Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
+            @Html.TextBox("Branch", null, new { @class = "form-control", autocomplete = "off" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-6">
+            @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.DropDownList("Standard", new List<SelectListItem>
+                           {
+                           new SelectListItem{ Text="---Select-Standard---", Value = "-1" },
+                            new SelectListItem{ Text="Standard", Value = "1" },
+                            }, new { @class = "form-control", id = "Standard" })
+        </div>
+        <div class="col-md-6">
+            @Html.Label("Select Subject", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.DropDownList("Subject", new List<SelectListItem>
+                           {
+                           new SelectListItem{ Text="---Select-Subject---", Value = "-1" },
+                            new SelectListItem{ Text="Subject", Value = "1" },
+                            }, new { @class = "form-control", id = "Subject" })
+        </div>
+        <div class="col-md-12">
+            @Html.Label("Select Status", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
+            @Html.RadioButton("RequestForSample", "Approved", htmlAttributes: new { @class = "radioboxlist" }) Approved
+            @Html.RadioButton("RequestForSample", "Reject", htmlAttributes: new { @class = "radioboxlist" }) Reject
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top: 10px;">
+    <div class="form-group">
+        <div class="col-md-12" style="text-align: right;">
+            <button class="btn btn-danger" OnClick="btnDelete_Click">Cancel</button>&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-primary" OnClick="btnSave_Click">Save</button>
+            <button class="btn btn-primary" OnClick="btnUpdate_Click">Update</button>
+        </div>
+    </div>
+</div>
+

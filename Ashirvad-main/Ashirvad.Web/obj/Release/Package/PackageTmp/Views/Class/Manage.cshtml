@@ -1,0 +1,40 @@
+﻿@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.ClassEntity>
+<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Class Name
+            </th>
+            <th style="text-align:center;">
+                Edit
+            </th>
+            <th style="text-align:center;">
+                Delete
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.ClassName
+                    @Html.HiddenFor(x => item.ClassID)
+                </td>
+                <td>
+                    <a style="margin-left:70px;" href="@Url.Action("ClassMaintenance", "Class", new { classID = item.ClassID })">
+                        <img src="~/ThemeData/images/viewIcon.png" />
+                    </a>
+                </td>
+                <td>
+                    <a style="margin-left:70px;" href="#" onclick="RemoveClass(@item.ClassID);">
+                        <img src="~/ThemeData/images/delete.png" />
+                    </a>
+                </td>
+            </tr>
+        }
+
+</table>
+
+
