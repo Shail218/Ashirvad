@@ -127,6 +127,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             return null;
         }
 
+        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID)
+        {
+            try
+            {
+                return await this._studentContext.GetAllStudentsName(branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public bool RemoveStudent(long StudentID, string lastupdatedby)
         {
             try

@@ -125,12 +125,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
 
             return false;
         }
-        public async Task<OperationResult<List<AttendanceEntity>>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, int batchTimeID)
+        public async Task<OperationResult<List<AttendanceEntity>>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, int batchTimeID, long studentid)
         {
             try
             {
                 OperationResult<List<AttendanceEntity>> attendance = new OperationResult<List<AttendanceEntity>>();
-                attendance.Data = await _attendanceContext.GetAllAttendanceByFilter(fromDate, toDate, branchID, stdID, batchTimeID);
+                attendance.Data = await _attendanceContext.GetAllAttendanceByFilter(fromDate, toDate, branchID, stdID, batchTimeID, studentid);
                 attendance.Completed = true;
                 return attendance;
             }
