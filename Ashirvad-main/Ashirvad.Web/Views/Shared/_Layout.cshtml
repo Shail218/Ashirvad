@@ -98,9 +98,11 @@
         .displayNone {
             display: none !important;
         }
+
         .textalign {
             text-align: center !important;
         }
+
         .image-cls {
             height: 40px;
             width: 40px;
@@ -212,7 +214,7 @@
                                         <li id="Bcour" class="BranchCourseMaster">
                                             <a href="@Url.Action("CourseMaintenance","BranchCourse", new { @courseID=0 })">Branch Course Master</a>
                                         </li>
-                                        <li id="Bclass" class="BranchClassMaster"> 
+                                        <li id="Bclass" class="BranchClassMaster">
                                             <a href="@Url.Action("ClassMaintenance","BranchClass", new { @ClassID=0 })">Branch Class Master</a>
                                         </li>
                                         <li id="BS" class="BranchSubjectMaster">
@@ -326,8 +328,13 @@
                                             </a>
                                         </li>
                                         <li class="treeview  ShowLibrary">
-                                            <a href="@Url.Action("ShowLibraryMaintenance","ShowLibrary",new {@branchID=0})">
-                                                Show Library
+                                            <a href="@Url.Action("ShowLibraryMaintenance","ShowLibrary",new {@type=2})">
+                                                Show Books Library
+                                            </a>
+                                        </li>
+                                        <li class="treeview  ShowLibrary">
+                                            <a href="@Url.Action("ShowLibraryMaintenance","ShowLibrary",new {@type=1})">
+                                                Show Video Library
                                             </a>
                                         </li>
                                         <li class="treeview ManageLibrary">

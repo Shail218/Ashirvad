@@ -24,12 +24,20 @@ namespace Ashirvad.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> ShowLibraryMaintenance()
+        public async Task<ActionResult> ShowLibraryMaintenance(int type)
         {
             LibraryEntity approval = new LibraryEntity();
+            List<LibraryEntity> libraryEntities = new List<LibraryEntity>();
             var branchData = await _libraryService.GetLibraryApprovalByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            //approval.LibraryData = branchData;
-            return View("Index", branchData);
+            if (branchData.Count > 0)
+            {
+                foreach (LibraryEntity entity in branchData)
+                {
+                    if (type == entity.Library_Type)
+                        libraryEntities.Add(entity);
+                }
+            }
+            return View("Index", libraryEntities);
         }
     }
 }
