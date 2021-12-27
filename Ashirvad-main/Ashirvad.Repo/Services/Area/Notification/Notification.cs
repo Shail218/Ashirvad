@@ -31,6 +31,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
             }
 
             notificationMaster.row_sta_cd = notificationInfo.RowStatus.RowStatusId;
+            notificationMaster.notification_date = notificationInfo.Notification_Date;
             notificationMaster.trans_id = this.AddTransactionData(notificationInfo.Transaction);
             notificationMaster.branch_id = notificationInfo.Branch != null ? (long?)notificationInfo.Branch.BranchID : null;
             notificationMaster.notif_message = notificationInfo.NotificationMessage;
@@ -107,7 +108,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
             var data = (from u in this.context.NOTIFICATION_MASTER
                         join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
-                        from branch in tempBranch.DefaultIfEmpty()
+                        from branch in tempBranch.DefaultIfEmpty() orderby u.notif_id descending
                         where (branchID == 0 || u.branch_id == 0 || u.branch_id.Value == branchID)
                         && (0 == typeID || t.sub_type_id == typeID) && u.row_sta_cd == 1
                         select new NotificationEntity()
@@ -119,6 +120,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
                             },
                             NotificationMessage = u.notif_message,
                             NotificationID = u.notif_id,
+                            Notification_Date = u.notification_date,
                             Branch = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).Distinct().ToList();
@@ -150,6 +152,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
                             },
                             NotificationMessage = u.notif_message,
                             NotificationID = u.notif_id,
+                            Notification_Date = u.notification_date,
                             Branch = u.branch_id != null ? new BranchEntity() { BranchID = u.branch_id.Value, BranchName = branch != null ? branch.branch_name : "" } : null,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();

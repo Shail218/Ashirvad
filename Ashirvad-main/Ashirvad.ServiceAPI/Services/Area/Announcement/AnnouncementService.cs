@@ -24,10 +24,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Announcement
             try
             {
                 long announceID = await _announcementContext.AnnouncementMaintenance(annInfo);
-                if (announceID > 0)
-                {
-                    ann.AnnouncementID = announceID;
-                }
+                ann.AnnouncementID = announceID;
             }
             catch (Exception ex)
             {

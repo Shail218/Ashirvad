@@ -69,6 +69,7 @@ namespace Ashirvad.Repo.Services.Area.User
         public async Task<UserEntity> ValidateUser(string userName, string password)
         {
             var user = (from u in this.context.USER_DEF
+                        .Include("BRANCH_STAFF")
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
                         where u.username == userName && u.password == password && (u.user_type == (int)Enums.UserType.Staff || u.user_type == (int)Enums.UserType.Admin || u.user_type == (int)Enums.UserType.SuperAdmin) && u.row_sta_cd == (int)Enums.RowStatus.Active
                         select new UserEntity()
@@ -89,6 +90,10 @@ namespace Ashirvad.Repo.Services.Area.User
                                 BranchID = u.branch_id,
                                 BranchName = b.branch_name,
                                 ContactNo = b.contact_no
+                            },
+                            StaffDetail = new StaffEntity()
+                            {
+                                Name = u.BRANCH_STAFF.name
                             },
                             Transaction = new TransactionEntity()
                             {

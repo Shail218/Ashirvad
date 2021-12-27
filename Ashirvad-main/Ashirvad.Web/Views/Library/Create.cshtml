@@ -6,36 +6,38 @@
             @Html.Label("Title", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextBoxFor(x => x.LibraryTitle, new { @class = "form-control required", @alt = "Category Name", autocomplete = "off" })
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" style="margin-bottom:10px;">
             @Html.Label("Select Category Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <select name="CategoryName" id="CategoryName" class="form-control requiredDDL select2" alt="Category">
                 <option value="0">--Select Category Name--</option>
             </select>
             @Html.HiddenFor(x => x.CategoryInfo.CategoryID)
         </div>
-        <div class="col-md-12">
-            @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <table id="rdbType" class="radioboxlist form-control">
-                <tbody>
-                    <tr>
-                        <td>
-                            <input type="radio" name="Type3" id="rowStaAll" value="All" checked />
-                            <lable for="rowStaAll">All</lable>
-                        </td>
-                        <td>
-                            <input type="radio" name="Type3" id="rowStaBranch" value="Branch" style="margin-left:10px" />
-                            <lable for="rowStaBranch">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</lable>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            @Html.HiddenFor(x => x.LibraryID)
-            @Html.HiddenFor(x => x.BranchID)
-            @Html.HiddenFor(x => x.VideoLink)
-            @Html.HiddenFor(x => x.list)
-            @Html.HiddenFor(x => x.JsonList)
-        </div>
-
+        @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+        {
+            <div class="col-md-12">
+                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <table id="rdbType" class="radioboxlist form-control">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="radio" name="Type3" id="rowStaAll" value="All" checked />
+                                <lable for="rowStaAll">All</lable>
+                            </td>
+                            <td>
+                                <input type="radio" name="Type3" id="rowStaBranch" value="Branch" style="margin-left:10px" />
+                                <lable for="rowStaBranch">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</lable>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        @Html.HiddenFor(x => x.LibraryID)
+        @Html.HiddenFor(x => x.BranchID)
+        @Html.HiddenFor(x => x.VideoLink)
+        @Html.HiddenFor(x => x.list)
+        @Html.HiddenFor(x => x.JsonList)
         <div class="col-md-6">
             @Html.Label("Thumbnail", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <input class="file-upload fileRequired" alt="Thumbnail Image" id="fuThumbnailImage" name="ThumbnailFile" type="file" accept="image/*" />
@@ -45,7 +47,7 @@
         </div>
         <div class="col-md-6">
             @Html.Label("Document", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <input class="file-upload fileRequired" alt="Document" id="fuDocument" name="DocFile" type="file"/>
+            <input class="file-upload fileRequired" alt="Document" id="fuDocument" name="DocFile" type="file" />
             @Html.HiddenFor(x => x.DocFile)
             @Html.HiddenFor(x => x.DocFileName)
             @Html.HiddenFor(x => x.DocFilePath)
@@ -77,7 +79,7 @@
             @Html.HiddenFor(x => x.StandardID)
             @Html.HiddenFor(x => x.StandardArray)
             @Html.HiddenFor(x => x.StandardNameArray, new { @class = "form-control requiredStd", @alt = "Standard", autocomplete = "off" })
-  
+
         </div>
         <div class="col-md-6" style="margin-top:10px;" id="subject">
             @Html.Label("Select Subject", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>

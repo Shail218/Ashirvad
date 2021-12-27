@@ -288,7 +288,7 @@ namespace Ashirvad.Repo.Services.Area.Library
 
         public async Task<List<LibraryEntity>> GetAllLibrarybybranch(int Type, long BranchID)
         {
-            var data = (from u in this.context.LIBRARY_MASTER
+            var data = (from u in this.context.LIBRARY_MASTER orderby u.library_id descending
                         where u.row_sta_cd == 1 && u.library_type == Type && (u.createby_branch == BranchID || BranchID == 0)
                         select new LibraryEntity()
                         {

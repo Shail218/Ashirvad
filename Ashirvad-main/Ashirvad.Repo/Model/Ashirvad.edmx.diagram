@@ -8,7 +8,6 @@
         <EntityTypeShape EntityType="AshirvadModel.BANNER_TYPE_REL" Width="1.5" PointX="5" PointY="4.125" />
         <EntityTypeShape EntityType="AshirvadModel.BATCH_MASTER" Width="1.5" PointX="5.25" PointY="18.125" />
         <EntityTypeShape EntityType="AshirvadModel.BRANCH_LICENSE" Width="1.5" PointX="8.25" PointY="18.625" />
-        <EntityTypeShape EntityType="AshirvadModel.NOTIFICATION_MASTER" Width="1.5" PointX="0.75" PointY="0.875" />
         <EntityTypeShape EntityType="AshirvadModel.NOTIFICATION_TYPE_REL" Width="1.5" PointX="3" PointY="1.125" />
         <EntityTypeShape EntityType="AshirvadModel.SCHOOL_MASTER" Width="1.5" PointX="8.25" PointY="14.5" />
         <EntityTypeShape EntityType="AshirvadModel.STUDENT_MAINT" Width="1.5" PointX="12.75" PointY="20.625" />
@@ -18,7 +17,6 @@
         <EntityTypeShape EntityType="AshirvadModel.USER_ROLE" Width="1.5" PointX="12.75" PointY="14.25" />
         <AssociationConnector Association="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_SCHOOL_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_USER_DEF_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_USER_ROLE_USER_DEF" />
@@ -182,6 +180,8 @@
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_SUBJECT_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.NOTIFICATION_MASTER" Width="1.5" PointX="0.75" PointY="0.875" />
+        <AssociationConnector Association="AshirvadModel.FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

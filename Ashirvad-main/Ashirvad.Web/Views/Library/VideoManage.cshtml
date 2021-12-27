@@ -10,6 +10,9 @@
                 Branch Name
             </th>
             <th>
+                Category Name
+            </th>
+            <th>
                 Video Link
             </th>
             <th>
@@ -75,6 +78,9 @@
                 <label>@SessionContext.Instance.LoginUser.BranchInfo.BranchName</label>
             }
             @Html.HiddenFor(x => item.BranchID)
+        </td>
+        <td>
+            @item.CategoryInfo.Category
         </td>
         <td>
             <a href="@item.VideoLink" target="_blank" style="color:blue;text-decoration:underline;">Go to link</a>

@@ -20,6 +20,7 @@ namespace Ashirvad.Data
         public string AttendanceDatetxt { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }
+        public StudentEntity studentEntity { get; set; }
         public List<AttendanceDetailEntity> AttendanceDetail { get; set; }
     }
 

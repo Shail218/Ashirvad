@@ -39,8 +39,8 @@ namespace Ashirvad.Web.Controllers
                 userData.StaffInfo = result;
             }
 
-            //var staffData = await _staffService.GetAllStaff(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            userData.StaffData = new List<StaffEntity>();
+            var staffData = await _staffService.GetAllStaff(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            userData.StaffData = staffData;
 
             return View("Index", userData);
         }

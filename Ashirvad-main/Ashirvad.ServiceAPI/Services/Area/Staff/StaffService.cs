@@ -80,7 +80,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
             {
                 BranchInfo = result.Where(x => x.BranchID == staffInfo.BranchInfo.BranchID).FirstOrDefault(),
                 ClientSecret = "TESTGUID",
-                Password = staffInfo.MobileNo,
+                Password = staffInfo.User_Password,
                 RowStatus = staffInfo.RowStatus,
                 StaffID = studentID,
                 Transaction = staffInfo.Transaction,

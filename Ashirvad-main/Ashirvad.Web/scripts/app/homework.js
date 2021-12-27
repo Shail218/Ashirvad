@@ -8,7 +8,6 @@ $(document).ready(function () {
         $("#fuHomeworkDoc").addClass("editForm");
     }
 
-
     $("#datepickerhomework").datepicker({
         autoclose: true,
         todayHighlight: true,

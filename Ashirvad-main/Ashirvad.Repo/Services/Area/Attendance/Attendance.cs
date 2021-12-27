@@ -80,7 +80,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
-                        where u.branch_id == branchID && u.STD_MASTER.std_id == stdID && u.batch_time == batchID
+                        where u.branch_id == branchID && u.STD_MASTER.std_id == stdID && u.batch_time == batchID && u.row_sta_cd == 1
                         select new StudentEntity()
                         {
                             RowStatus = new RowStatusEntity()

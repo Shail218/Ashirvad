@@ -11,6 +11,9 @@
                 Branch Name
             </th>
             <th>
+                Category Name
+            </th>
+            <th>
                 Thumbnail
             </th>
             <th>
@@ -78,6 +81,9 @@
                     <label>@SessionContext.Instance.LoginUser.BranchInfo.BranchName</label>
                 }
                 @Html.HiddenFor(x => item.BranchID)
+            </td>
+            <td>
+                @item.CategoryInfo.Category
             </td>
             <td>
                 @if (item.ThumbnailFilePath != null && item.ThumbnailFilePath != "")

@@ -17,6 +17,12 @@ $(document).ready(function () {
 
     });
 
+    LoadStudent(function () {
+        if ($("#studentEntity_Name").val() != "") {
+            $('#StudentName option[value="' + $("#studentEntity_Name").val() + '"]').attr("selected", "selected");
+        }
+    });
+
     LoadBranch(function () {
         if ($("#Branch_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
@@ -41,6 +47,24 @@ $(document).ready(function () {
 
 function LoadBranch(onLoaded) {
     var postCall = $.post(commonData.Branch + "BranchData");
+    postCall.done(function (data) {
+        $('#BranchName').empty();
+        $('#BranchName').select2();
+        $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
+        for (i = 0; i < data.length; i++) {
+            $("#BranchName").append("<option value='" + data[i].BranchID + "'>" + data[i].BranchName + "</option>");
+        }
+        if (onLoaded != undefined) {
+            onLoaded();
+        }
+
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+function LoadStudent(onLoaded) {
+    var postCall = $.post(commonData.AttendanceEntry + "GetAllStudentByBranchStdBatch");
     postCall.done(function (data) {
         $('#BranchName').empty();
         $('#BranchName').select2();
@@ -87,7 +111,7 @@ function SaveReport() {
         var branch = $("#Branch_BranchID").val();
         var standard = $("#Standard_StandardID").val();
         var batchtime = $("#BatchTypeID").val();
-        var postCall = $.post(commonData.AttendanceReport + "SaveReport", { "FromDate": fromdate, "ToDate": todate, "BranchId": branch, "StandardId": standard, "BatchTime": batchtime });
+        var postCall = $.post(commonData.AttendanceReport + "SaveReport", { "FromDate": fromdate, "ToDate": todate, "StandardId": standard, "BatchTime": batchtime });
         postCall.done(function (data) {
             HideLoader();
             $('#ReportData').html(data);
@@ -107,6 +131,11 @@ $("#BranchName").change(function () {
 $("#StandardName").change(function () {
     var Data = $("#StandardName option:selected").val();
     $('#Standard_StandardID').val(Data);
+});
+
+$("#StudentName").change(function () {
+    var Data = $("#StudentName option:selected").val();
+    $('#studentEntity_Name').val(Data);
 });
 
 $("#BatchTime").change(function () {

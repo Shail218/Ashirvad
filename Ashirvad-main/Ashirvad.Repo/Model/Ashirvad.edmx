@@ -413,6 +413,7 @@
           <Property Name="notif_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="branch_id" Type="bigint" />
           <Property Name="notif_message" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="notification_date" Type="datetime" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
         </EntityType>
@@ -2749,7 +2750,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <EntitySet Name="BANNER_TYPE_REL" EntityType="AshirvadModel.BANNER_TYPE_REL" />
           <EntitySet Name="BATCH_MASTER" EntityType="AshirvadModel.BATCH_MASTER" />
           <EntitySet Name="BRANCH_LICENSE" EntityType="AshirvadModel.BRANCH_LICENSE" />
-          <EntitySet Name="NOTIFICATION_MASTER" EntityType="AshirvadModel.NOTIFICATION_MASTER" />
           <EntitySet Name="NOTIFICATION_TYPE_REL" EntityType="AshirvadModel.NOTIFICATION_TYPE_REL" />
           <EntitySet Name="SCHOOL_MASTER" EntityType="AshirvadModel.SCHOOL_MASTER" />
           <EntitySet Name="STUDENT_MAINT" EntityType="AshirvadModel.STUDENT_MAINT" />
@@ -2764,10 +2764,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <AssociationSet Name="FK_BRANCH_LICENSE_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BRANCH_LICENSE" EntitySet="BRANCH_LICENSE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER" Association="AshirvadModel.FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER">
-            <End Role="NOTIFICATION_MASTER" EntitySet="NOTIFICATION_MASTER" />
-            <End Role="NOTIFICATION_TYPE_REL" EntitySet="NOTIFICATION_TYPE_REL" />
           </AssociationSet>
           <AssociationSet Name="FK_SCHOOL_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_SCHOOL_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
@@ -3315,6 +3311,11 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
             <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
           </AssociationSet>
+          <EntitySet Name="NOTIFICATION_MASTER" EntityType="AshirvadModel.NOTIFICATION_MASTER" />
+          <AssociationSet Name="FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER" Association="AshirvadModel.FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER">
+            <End Role="NOTIFICATION_MASTER" EntitySet="NOTIFICATION_MASTER" />
+            <End Role="NOTIFICATION_TYPE_REL" EntitySet="NOTIFICATION_TYPE_REL" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_TYPE_REL">
           <Key>
@@ -3353,17 +3354,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER" FromRole="BRANCH_LICENSE" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_LICENSE_BRANCH_MASTER" FromRole="BRANCH_LICENSE" ToRole="BRANCH_MASTER" />
-        </EntityType>
-        <EntityType Name="NOTIFICATION_MASTER">
-          <Key>
-            <PropertyRef Name="notif_id" />
-          </Key>
-          <Property Name="notif_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="branch_id" Type="Int64" />
-          <Property Name="notif_message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="NOTIFICATION_TYPE_REL" Relationship="AshirvadModel.FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER" FromRole="NOTIFICATION_MASTER" ToRole="NOTIFICATION_TYPE_REL" />
         </EntityType>
         <EntityType Name="NOTIFICATION_TYPE_REL">
           <Key>
@@ -3503,18 +3493,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             </Principal>
             <Dependent Role="BRANCH_LICENSE">
               <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER">
-          <End Type="AshirvadModel.NOTIFICATION_MASTER" Role="NOTIFICATION_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.NOTIFICATION_TYPE_REL" Role="NOTIFICATION_TYPE_REL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NOTIFICATION_MASTER">
-              <PropertyRef Name="notif_id" />
-            </Principal>
-            <Dependent Role="NOTIFICATION_TYPE_REL">
-              <PropertyRef Name="notif_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5795,6 +5773,30 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="NOTIFICATION_MASTER">
+          <Key>
+            <PropertyRef Name="notif_id" />
+          </Key>
+          <Property Name="notif_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branch_id" Type="Int64" />
+          <Property Name="notif_message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="notification_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NOTIFICATION_TYPE_REL" Relationship="AshirvadModel.FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER" FromRole="NOTIFICATION_MASTER" ToRole="NOTIFICATION_TYPE_REL" />
+        </EntityType>
+        <Association Name="FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER">
+          <End Type="AshirvadModel.NOTIFICATION_MASTER" Role="NOTIFICATION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.NOTIFICATION_TYPE_REL" Role="NOTIFICATION_TYPE_REL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NOTIFICATION_MASTER">
+              <PropertyRef Name="notif_id" />
+            </Principal>
+            <Dependent Role="NOTIFICATION_TYPE_REL">
+              <PropertyRef Name="notif_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5833,17 +5835,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
                 <ScalarProperty Name="license_key" ColumnName="license_key" />
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="license_id" ColumnName="license_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="NOTIFICATION_MASTER">
-            <EntityTypeMapping TypeName="AshirvadModel.NOTIFICATION_MASTER">
-              <MappingFragment StoreEntitySet="NOTIFICATION_MASTER">
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="notif_message" ColumnName="notif_message" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
-                <ScalarProperty Name="notif_id" ColumnName="notif_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6684,6 +6675,18 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
                 <ScalarProperty Name="course_id" ColumnName="course_id" />
                 <ScalarProperty Name="class_id" ColumnName="class_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NOTIFICATION_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.NOTIFICATION_MASTER">
+              <MappingFragment StoreEntitySet="NOTIFICATION_MASTER">
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="notification_date" ColumnName="notification_date" />
+                <ScalarProperty Name="notif_message" ColumnName="notif_message" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="notif_id" ColumnName="notif_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

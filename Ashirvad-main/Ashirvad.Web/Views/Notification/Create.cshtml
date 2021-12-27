@@ -6,27 +6,72 @@
 }
 <form id="fNotificationDetail">
     <div class="form-group" id="dInformation">
-        <div class="col-md-12">
-            @Html.Label("Select type", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
-            <table id="rdbType" class="radioboxlist form-control">
-                <tbody>
-                    <tr>
-                        <td>
-                            <input type="radio" name="Type" id="rowStaAll" value="All" checked />
-                            <lable for="rowStaAll">All</lable>
-                        </td>
-                        <td>
-                            <input type="radio" name="Type" id="rowStaBranch" value="Branch" style="margin-left:10px" />
-                            <lable for="rowStaBranch">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</lable>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            @Html.HiddenFor(x => x.NotificationID)
-            @Html.HiddenFor(x => x.NotificationType)
-            @Html.HiddenFor(x => x.JSONData)
-            @Html.HiddenFor(x => x.Branch.BranchID)
-        </div>
+        @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+        {
+            <div class="col-md-6">
+                @Html.Label("Select type", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
+                <table id="rdbType" class="radioboxlist form-control">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="radio" name="Type" id="rowStaAll" value="All" checked />
+                                <lable for="rowStaAll">All</lable>
+                            </td>
+                            <td>
+                                <input type="radio" name="Type" id="rowStaBranch" value="Branch" style="margin-left:10px" />
+                                <lable for="rowStaBranch">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</lable>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                @Html.Label("Notification Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <div id="notification" class="input-group date" data-date-format="dd/mm/yyyy">
+                    @if (Model == null || Model.Notification_Date.ToString("dd/MM/yyyy") == "01/01/0001" || Model.Notification_Date.ToString("dd-MM-yyyy") == "01-01-0001")
+                {
+                    @Html.TextBoxFor(x => x.Notification_Date, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "Notification Date", autocomplete = "off", @readonly = "readonly" })
+                }
+                else
+                {
+                    if (Model.Notification_Date == null || Model.Notification_Date.ToString("dd/MM/yyyy") == "01/01/0001" || Model.Notification_Date.ToString("dd-MM-yyyy") == "01-01-0001")
+                    {
+                        @Html.TextBoxFor(x => x.Notification_Date, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Notification Date" })
+                    }
+                    else
+                    {
+                       @Html.TextBoxFor(x => x.Notification_Date, Model.Notification_Date.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Notification Date" }) 
+                    }
+                }
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <div class="col-md-12" style="margin-bottom:10px;">
+                @Html.Label("Notification Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <div id="notification" class="input-group date" data-date-format="dd/mm/yyyy">
+                    @if (Model == null || Model.Notification_Date.ToString("dd/MM/yyyy") == "01/01/0001" || Model.Notification_Date.ToString("dd-MM-yyyy") == "01-01-0001")
+                {
+                    @Html.TextBoxFor(x => x.Notification_Date, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "Notification Date", autocomplete = "off", @readonly = "readonly" })
+                }
+                else
+                {
+                    if (Model.Notification_Date == null || Model.Notification_Date.ToString("dd/MM/yyyy") == "01/01/0001" || Model.Notification_Date.ToString("dd-MM-yyyy") == "01-01-0001")
+                    {
+                        @Html.TextBoxFor(x => x.Notification_Date, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Notification Date" })
+                    }
+                    else
+                    {
+                       @Html.TextBoxFor(x => x.Notification_Date, Model.Notification_Date.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Notification Date" }) 
+                    }
+                }
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+            </div>
+        }
         <div class="col-md-12">
             @Html.Label("Select subtype", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
             <table id="chkSubtype" class="radioboxlist form-control">
@@ -35,22 +80,22 @@
                         <td>
                             @if (Model.NotificationType != null && Model.NotificationType.Where(x => x.TypeID == 1 && x.ID > 0).FirstOrDefault() != null)
                             {
-                                <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaAdmin" value="Admin" checked />
+                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaAdmin" value="Admin" checked />
                             }
                             else
                             {
-                                <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaAdmin" value="Admin" />
+                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaAdmin" value="Admin" />
                             }
                             <lable for="rowStaAdmin">Admin</lable>
                         </td>
                         <td>
                             @if (Model.NotificationType != null && Model.NotificationType.Where(x => x.TypeID == 2 && x.ID > 0).FirstOrDefault() != null)
                             {
-                                <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" checked />
+                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" checked />
                             }
                             else
                             {
-                                <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" />
+                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" />
                             }
 
                             <lable for="rowStaTeacher">Teacher</lable>
@@ -58,13 +103,16 @@
                         <td>
                             @if (Model.NotificationType != null && Model.NotificationType.Where(x => x.TypeID == 3 && x.ID > 0).FirstOrDefault() != null)
                             {
-                                <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" checked />
+                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" checked />
                             }
                             else
                             {
-                                <input type="checkbox" name="Subtype"  alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" />
+                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" />
                             }
-
+                            @Html.HiddenFor(x => x.NotificationID)
+                            @Html.HiddenFor(x => x.NotificationType)
+                            @Html.HiddenFor(x => x.JSONData)
+                            @Html.HiddenFor(x => x.Branch.BranchID)
                             <lable for="rowStaStudent">Student</lable>
                         </td>
                     </tr>
@@ -73,7 +121,7 @@
         </div>
         <div class="col-md-12">
             @Html.Label("Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextAreaFor(x => x.NotificationMessage, new { @class = "form-control required", @alt = "Message", autocomplete = "off" })
+            @Html.TextAreaFor(x => x.NotificationMessage, new { @class = "form-control required", @alt = "Description", autocomplete = "off" })
         </div>
         <div class="col-md-12 NotificationMasterCreate" style="text-align: right;">
             <a href="#" onclick="return SaveNotification();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">

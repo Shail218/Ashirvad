@@ -23,9 +23,8 @@
             </th>
         </tr>
     </thead>
-    <tbody></tbody>
 
-    @*@foreach (var item in Model)
+    @foreach (var item in Model)
     {
         <tr>
             <td>
@@ -42,30 +41,19 @@
                 @item.Gender
                 @Html.HiddenFor(x => item.BranchInfo.BranchID)
                 @Html.HiddenFor(x => item.StaffID)
-            </td>
-            
-            @*<td>
-                @item.BranchInfo.BranchName               
-            </td>*@
-            @*<td>
-                @item.RowStatus.RowStatus
-            </td>
+            </td>           
             <td>
                 <a href="@Url.Action("UserMaintenance", "User", new { branchID = item.StaffID })">
                     <img src="~/ThemeData/images/viewIcon.png" />
                 </a>
-                @*<a href="@Url.Action("Index", "/User/UserMaintenance", new { branchID = item.StaffID })">
-            <img src="~/ThemeData/images/viewIcon.png" />
-        </a>
             </td>
             <td>
                 <a style="margin-left:20px;" href="#" onclick="RemoveUser(@item.StaffID);">
                     <img src="~/ThemeData/images/delete.png" />
                 </a>
             </td>
-
         </tr>
-    }*@
+    }
 
 </table>
 

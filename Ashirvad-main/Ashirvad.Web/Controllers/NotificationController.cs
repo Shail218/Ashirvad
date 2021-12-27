@@ -51,7 +51,14 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveNotification(NotificationEntity notification)
         {
-            if(notification.Branch.BranchID == 1)
+            if(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin)
+            {
+                if (notification.Branch.BranchID == 1)
+                {
+                    notification.Branch.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
+                }
+            }
+            else
             {
                 notification.Branch.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }

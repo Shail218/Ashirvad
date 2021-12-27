@@ -96,7 +96,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
             var data = (from u in this.context.BRANCH_STAFF
                         .Include("BRANCH_MASTER")
                         join li in this.context.USER_DEF on u.staff_id equals li.staff_id into ps
-                        from li in ps.DefaultIfEmpty()
+                        from li in ps.DefaultIfEmpty() orderby u.staff_id descending
                         where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1 && (Type == 0 || li.user_type == Type)
                         select new StaffEntity()
                         {
@@ -257,6 +257,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                             MobileNo = u.mobile_no,
                             Name = u.name,
                             StaffID = u.staff_id,
+                            User_Password = ud.password,
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();

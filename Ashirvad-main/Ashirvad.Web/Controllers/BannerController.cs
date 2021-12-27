@@ -47,17 +47,26 @@ namespace Ashirvad.Web.Controllers
             //var branchData = await _bannerService.GetAllBannerWithoutImage(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             //var branchData = await _bannerService.GetAllBanner(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : (int)SessionContext.Instance.LoginUser.UserType);
             branch.BannerData = branchData.Data;
-
             return View("Index", branch);
         }
 
         [HttpPost]
         public async Task<JsonResult> SaveBanner(BannerEntity bannerEntity)
         {
-            if(bannerEntity.BranchInfo.BranchID == 1)
+            if(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin)
             {
-                bannerEntity.BranchInfo.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
+                if (bannerEntity.BranchInfo.BranchID == 1)
+                {
+                    bannerEntity.BranchInfo.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
+                }
             }
+            else
+            {
+                bannerEntity.BranchInfo = new BranchEntity()
+                {
+                    BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
+                };
+            }          
             var banner = JsonConvert.DeserializeObject<List<BannerTypeEntity>>(bannerEntity.JSONData);
             bannerEntity.BannerType = banner;
             if (bannerEntity.ImageFile != null)

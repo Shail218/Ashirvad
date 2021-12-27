@@ -45,7 +45,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveAnnouncement(AnnouncementEntity announcement)
         {
-            if(announcement.BranchData.BranchID == 1)
+            if(SessionContext.Instance.LoginUser.UserType == Enums.UserType.Admin)
             {
                 announcement.BranchData.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }

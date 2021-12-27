@@ -2,19 +2,32 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-  
-    if ($("#BranchData_BranchID").val() != "") {
-        if ($("#BranchData_BranchID").val() == "0") {
-            $("#rowStaAll").attr('checked', 'checked');
-            $("#BranchData_BranchID").val(0);
-        } else {
-            $("#rowStaBranch").attr('checked', 'checked');
-            $("#BranchData_BranchID").val(1);
+
+    ShowLoader();
+    LoadBranch(function () {
+        if ($("#BranchData_BranchID").val() != "") {
+            $('#BranchName option[value="' + $("#BranchData_BranchID").val() + '"]').attr("selected", "selected");
         }
-    } else {
-        $("#BranchData_BranchID").val(0);
-    }
+    });
 });
+
+function LoadBranch(onLoaded) {
+    var postCall = $.post(commonData.Branch + "BranchData");
+    postCall.done(function (data) {
+        $('#BranchName').empty();
+        $('#BranchName').select2();
+        $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
+        for (i = 0; i < data.length; i++) {
+            $("#BranchName").append("<option value='" + data[i].BranchID + "'>" + data[i].BranchName + "</option>");
+        }
+        if (onLoaded != undefined) {
+            onLoaded();
+        }
+        HideLoader();
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
 
 function SaveAnnouncement() {
     var isSuccess = ValidateData('dInformation');
@@ -22,12 +35,13 @@ function SaveAnnouncement() {
         ShowLoader();
         var postCall = $.post(commonData.Announcement + "SaveAnnouncement", $('#fAnnouncementDetail').serialize());
         postCall.done(function (data) {
-            if (data) {
+            HideLoader();
+            if (data.AnnouncementID >= 0) {
                 HideLoader();
                 ShowMessage("Announcement Inserted Successfully.", "Success");
                 setTimeout(function () { window.location.href = "AnnouncementMaintenance?annoID=0"; }, 2000);
             } else {
-                HideLoader();
+                ShowMessage("Announcement Already Exist!!!", "Error");             
             }           
         }).fail(function () {
             HideLoader();
@@ -51,11 +65,7 @@ function RemoveAnnouncement(annoID) {
     }
 }
 
-$('input[type=radio][name=Type]').change(function () {
-    if (this.value == 'All') {
-        $("#BranchData_BranchID").val(0);
-    }
-    else {
-        $("#BranchData_BranchID").val(1);
-    }
+$("#BranchName").change(function () {
+    var Data = $("#BranchName option:selected").val();
+    $('#BranchData_BranchID').val(Data);
 });

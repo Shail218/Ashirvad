@@ -33,6 +33,8 @@ public partial class NOTIFICATION_MASTER
 
     public string notif_message { get; set; }
 
+    public System.DateTime notification_date { get; set; }
+
     public long trans_id { get; set; }
 
     public int row_sta_cd { get; set; }

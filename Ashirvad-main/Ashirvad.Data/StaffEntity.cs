@@ -15,6 +15,7 @@ namespace Ashirvad.Data
         public string Education { get; set; }
         public string GenderText { get; set; }
         public DateTime? DOB { get; set; }
+        public string User_Password { get; set; }
         public Enums.Gender Gender { get; set; }
         public Enums.UserType Userrole { get; set; }
         public string Address { get; set; }

@@ -2,11 +2,11 @@
 <form id="fAttendanceReportDetail">
     <div class="form-group" id="dInformation">
         <div class="col-md-2">
-            @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <select name="BranchName" id="BranchName" class="form-control requiredDDL select2" alt="Branch">
-                <option value="0">--Select Branch--</option>
+            @Html.Label("Select Student", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="StudentName" id="StudentName" class="form-control requiredDDL select2" alt="Student Name">
+                <option value="0">--Select Student--</option>
             </select>
-            @Html.HiddenFor(x => x.Branch.BranchID)
+            @Html.HiddenFor(x => x.studentEntity.Name)
         </div>
         <div class="col-md-2">
             @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -25,6 +25,7 @@
             </select>
             @Html.HiddenFor(x => x.BatchTypeText)
             @Html.HiddenFor(x => x.BatchTypeID)
+            @Html.HiddenFor(x => x.Branch.BranchID)
         </div>
         <div class="col-md-2">
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>

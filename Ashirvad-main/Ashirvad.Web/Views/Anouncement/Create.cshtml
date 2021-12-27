@@ -1,25 +1,18 @@
 ﻿@model Ashirvad.Data.AnnouncementEntity
 <form id="fAnnouncementDetail">
     <div class="form-group" id="dInformation" style="padding-top:10px">
-        <div class="col-md-12">
+        @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+        {
+        <div class="col-md-12" style="margin-bottom:10px;">
             @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <table id="rdbType" class="radioboxlist form-control">
-                <tbody>
-                    <tr>
-                        <td>
-                            <input type="radio" name="Type" id="rowStaAll" value="All" checked />
-                            <lable for="rowStaAll">All</lable>
-                        </td>
-                        <td>
-                            <input type="radio" name="Type" id="rowStaBranch" value="Branch" style="margin-left:10px" />
-                            <lable for="rowStaBranch">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</lable>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            @Html.HiddenFor(x => x.AnnouncementID)
+            <select name="BranchName" id="BranchName" class="form-control requiredDDL select2" alt="Branch">
+                <option value="0">--Select Branch--</option>
+            </select>
             @Html.HiddenFor(x => x.BranchData.BranchID)
         </div>
+        }
+        @Html.HiddenFor(x => x.AnnouncementID)
+        @Html.HiddenFor(x => x.BranchData.BranchID)
         <div class="col-md-12">
             @Html.Label("Announcement", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextBoxFor(x => x.AnnouncementText, new { @class = "form-control required", @alt = "Announcement", autocomplete = "off" })

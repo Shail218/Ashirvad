@@ -299,7 +299,7 @@
                                         </li>
                                         <li class="treeview LiveVideos" id="LiveVideos">
                                             <a href="@Url.Action("LiveVideoMaintenance","LiveVideo", new { @linkID=0 })">
-                                                Live Videos
+                                                Online Class
                                             </a>
                                         </li>
                                         <li class="treeview YoutubeVideos" id="Li1">
@@ -467,7 +467,7 @@
                                 <a href="#" class="dropdown-toggle" style="height: 50px" data-toggle="dropdown">
                                     <img src="~/ThemeData/dist/img/avatar5.png" class="user-image" alt="User Image" />
                                     <span class="hidden-xs">
-                                        <label id="lblUserName">@SessionContext.Instance.LoginUser.Username</label>
+                                        <label id="lblUserName">@SessionContext.Instance.LoginUser.StaffDetail.Name</label>
                                         <input id="Role_Name" hidden value="@SessionContext.Instance.LoginUser.UserType" />
                                         <input id="Branch_Name" hidden value="@SessionContext.Instance.LoginUser.BranchInfo.BranchID" />
                                     </span>

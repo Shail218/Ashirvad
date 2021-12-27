@@ -29,12 +29,12 @@ namespace Ashirvad.Web.Controllers
         public async Task<ActionResult> ManageStudentMaintenance(long branchID)
         {
             StudentMaintenanceModel branch = new StudentMaintenanceModel();
-            //if (branchID > 0)
-            //{
-            //    var result = await _studentService.GetAllStudentWithoutContent(branchID);
-            //    branch.StudentData = result;
-            //}
-            branch.StudentData = new List<StudentEntity>();
+            if (branchID > 0)
+            {
+                var result = await _studentService.GetAllStudentWithoutContent(branchID);
+                branch.StudentData = result;
+            }
+            //branch.StudentData = new List<StudentEntity>();
             return View("Index", branch);
         }
 
@@ -67,7 +67,7 @@ namespace Ashirvad.Web.Controllers
             return Json(result);
         }
 
-        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model,int status = 0)
         {
             // action inside a standard controller
             List<string> columns = new List<string>();
@@ -81,7 +81,7 @@ namespace Ashirvad.Web.Controllers
             {
                 item.name = columns[item.column];
             }
-            var branchData = await _studentService.GetAllCustomStudent(model,SessionContext.Instance.LoginUser.BranchInfo.BranchID,0);
+            var branchData = await _studentService.GetAllCustomStudent(model,SessionContext.Instance.LoginUser.BranchInfo.BranchID,status);
             long total = 0;
             if (branchData.Count > 0)
             {

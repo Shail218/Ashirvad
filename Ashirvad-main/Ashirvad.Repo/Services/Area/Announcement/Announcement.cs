@@ -11,35 +11,47 @@ namespace Ashirvad.Repo.Services.Area.Announcement
 {
     public class Announcement : ModelAccess, IAnnouncementAPI
     {
+        public async Task<long> CheckAnnouncement(int BranchID, int announcement_id)
+        {
+            long result;
+            bool isExists = this.context.ANNOUNCE_MASTER.Where(s => (announcement_id == 0 || s.announce_id != announcement_id) && s.branch_id == BranchID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            result = isExists == true ? -1 : 1;
+            return result;
+        }
+
         public async Task<long> AnnouncementMaintenance(AnnouncementEntity annInfo)
         {
             Model.ANNOUNCE_MASTER annMaster = new Model.ANNOUNCE_MASTER();
-            bool isUpdate = true;
-            var data = (from ann in this.context.ANNOUNCE_MASTER
-                        where ann.announce_id == annInfo.AnnouncementID
-                        select ann).FirstOrDefault();
-            if (data == null)
+            if (CheckAnnouncement((int)annInfo.BranchData.BranchID, (int)annInfo.AnnouncementID).Result != -1)
             {
-                data = new Model.ANNOUNCE_MASTER();
-                isUpdate = false;
-            }
-            else
-            {
-                annMaster = data;
-                annInfo.TransactionData.TransactionId = data.trans_id;
-            }
+                bool isUpdate = true;
+                var data = (from ann in this.context.ANNOUNCE_MASTER
+                            where ann.announce_id == annInfo.AnnouncementID
+                            select ann).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.ANNOUNCE_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    annMaster = data;
+                    annInfo.TransactionData.TransactionId = data.trans_id;
+                }
 
-            annMaster.row_sta_cd = annInfo.RowStatusData.RowStatusId;
-            annMaster.trans_id = this.AddTransactionData(annInfo.TransactionData);
-            annMaster.branch_id = annInfo.BranchData != null ? (long?)annInfo.BranchData.BranchID : null;
-            annMaster.announce_text = annInfo.AnnouncementText;
-            if (!isUpdate)
-            {
-                this.context.ANNOUNCE_MASTER.Add(annMaster);
-            }
+                annMaster.row_sta_cd = annInfo.RowStatusData.RowStatusId;
+                annMaster.trans_id = this.AddTransactionData(annInfo.TransactionData);
+                annMaster.branch_id = annInfo.BranchData != null ? (long?)annInfo.BranchData.BranchID : null;
+                annMaster.announce_text = annInfo.AnnouncementText;
+                if (!isUpdate)
+                {
+                    this.context.ANNOUNCE_MASTER.Add(annMaster);
+                }
 
-            var annID = this.context.SaveChanges() > 0 ? annMaster.announce_id : 0;
-            return annID;
+                var annID = this.context.SaveChanges() > 0 ? annMaster.announce_id : 0;
+                return annID;
+            }
+            return -1;
         }
 
         public async Task<List<AnnouncementEntity>> GetAllAnnouncement(long branchID)
@@ -48,7 +60,7 @@ namespace Ashirvad.Repo.Services.Area.Announcement
             {
                 var data = (from u in this.context.ANNOUNCE_MASTER
                             join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
-                            from branch in tempBranch.DefaultIfEmpty()
+                            from branch in tempBranch.DefaultIfEmpty() orderby u.announce_id descending
                             where (0 == branchID || u.branch_id == 0 || (u.branch_id.HasValue && u.branch_id.Value == branchID)) && u.row_sta_cd == 1
                             select new AnnouncementEntity()
                             {

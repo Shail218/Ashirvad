@@ -1,87 +1,89 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
+//var table;
+
 $(document).ready(function () {
     
     LoadBranch();
 
-    ShowLoader();
-    var table = $('#Studenttable').DataTable({
-        "bPaginate": true,
-        "bLengthChange": false,
-        "bFilter": true,
-        "bInfo": true,
-        "bAutoWidth": true,
-        "proccessing": true,
-        "sLoadingRecords": "Loading...",
-        "sProcessing": true,
-        "serverSide": true,
-        "language": {
-            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
-        },
-        "ajax": {
-            url: "" + GetSiteURL() + "/ManageStudent/CustomServerSideSearchAction",
-            type: 'POST',
+    //ShowLoader();
+    //table = $('#Studenttable').DataTable({
+    //    "bPaginate": true,
+    //    "bLengthChange": false,
+    //    "bFilter": true,
+    //    "bInfo": true,
+    //    "bAutoWidth": true,
+    //    "proccessing": true,
+    //    "sLoadingRecords": "Loading...",
+    //    "sProcessing": true,
+    //    "serverSide": true,
+    //    "language": {
+    //        processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+    //    },
+    //    "ajax": {
+    //        url: "" + GetSiteURL() + "/ManageStudent/CustomServerSideSearchAction",
+    //        type: 'POST',
 
-        },
-        "columns": [
-            { "data": "FilePath" },
-            { "data": "Name" },
-            { "data": "AdmissionDate" },
-            { "data": "StandardInfo.Standard" },
-            { "data": "BatchInfo.BatchText" },
-            { "data": "ContactNo" },
-            { "data": "StudentID"}
-        ],
-        "columnDefs": [
-            {
-                targets: 0,
-                render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data = (data == null || data == "http://highpack-001-site12.dtempurl.com") ? '<img src="../ThemeData/images/Default.png" id="branchImg" style="height:60px;width:60px;margin-left:20px;" />' : '<img src = "' + data + '" style="height:60px;width:60px;margin-left:20px;"/>'
-                    }
-                    return data;
-                },
-                orderable: false,
-                searchable: false
-            },
-            {
-                targets: 1,
-                orderable: true,
-                searchable: true
-            },
-            {
-                targets: 2,
-                render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data = ConvertMiliDateFrom(data)
-                    }
-                    return data;
-                },
-                orderable: true,
-                searchable: true
-            },
-            {
-                targets: 5,
-                orderable: true,
-                searchable: true
-            },
-            {
-                targets: 6,
-                render: function (data, type, full, meta) {
+    //    },
+    //    "columns": [
+    //        { "data": "FilePath" },
+    //        { "data": "Name" },
+    //        { "data": "AdmissionDate" },
+    //        { "data": "StandardInfo.Standard" },
+    //        { "data": "BatchInfo.BatchText" },
+    //        { "data": "ContactNo" },
+    //        { "data": "StudentID"}
+    //    ],
+    //    "columnDefs": [
+    //        {
+    //            targets: 0,
+    //            render: function (data, type, full, meta) {
+    //                if (type === 'display') {
+    //                    data = (data == null || data == "http://highpack-001-site12.dtempurl.com") ? '<img src="../ThemeData/images/Default.png" id="branchImg" style="height:60px;width:60px;margin-left:20px;" />' : '<img src = "' + data + '" style="height:60px;width:60px;margin-left:20px;"/>'
+    //                }
+    //                return data;
+    //            },
+    //            orderable: false,
+    //            searchable: false
+    //        },
+    //        {
+    //            targets: 1,
+    //            orderable: true,
+    //            searchable: true
+    //        },
+    //        {
+    //            targets: 2,
+    //            render: function (data, type, full, meta) {
+    //                if (type === 'display') {
+    //                    data = ConvertMiliDateFrom(data)
+    //                }
+    //                return data;
+    //            },
+    //            orderable: true,
+    //            searchable: true
+    //        },
+    //        {
+    //            targets: 5,
+    //            orderable: true,
+    //            searchable: true
+    //        },
+    //        {
+    //            targets: 6,
+    //            render: function (data, type, full, meta) {
 
-                    if (type === 'display') {
-                        data =
-                            '<a onclick = "EditStudent(' + data + ')"><img src = "../ThemeData/images/viewIcon.png" /></a >';                           
-                    }
-                    HideLoader();
-                    return data;
-                },
-                orderable: false,
-                searchable: false
-            }
-        ]
-    });
+    //                if (type === 'display') {
+    //                    data =
+    //                        '<a onclick = "EditStudent(' + data + ')"><img src = "../ThemeData/images/viewIcon.png" /></a >';                           
+    //                }
+    //                HideLoader();
+    //                return data;
+    //            },
+    //            orderable: false,
+    //            searchable: false
+    //        }
+    //    ]
+    //});
 });
 
 function EditStudent(ID) {
@@ -118,6 +120,82 @@ function LoadActiveStudent() {
 
 function LoadInActiveStudent() {
     ShowLoader();
+    //table = $('#Studenttable').DataTable({
+    //    "bPaginate": true,
+    //    "bLengthChange": false,
+    //    "bFilter": true,
+    //    "bInfo": true,
+    //    "bAutoWidth": true,
+    //    "proccessing": true,
+    //    "sLoadingRecords": "Loading...",
+    //    "sProcessing": true,
+    //    "serverSide": true,
+    //    "language": {
+    //        processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+    //    },
+    //    "ajax": {
+    //        url: "" + GetSiteURL() + "/ManageStudent/CustomServerSideSearchAction?status=2",
+    //        type: 'POST',
+
+    //    },
+    //    "columns": [
+    //        { "data": "FilePath" },
+    //        { "data": "Name" },
+    //        { "data": "AdmissionDate" },
+    //        { "data": "StandardInfo.Standard" },
+    //        { "data": "BatchInfo.BatchText" },
+    //        { "data": "ContactNo" },
+    //        { "data": "StudentID" }
+    //    ],
+    //    "columnDefs": [
+    //        {
+    //            targets: 0,
+    //            render: function (data, type, full, meta) {
+    //                if (type === 'display') {
+    //                    data = (data == null || data == "http://highpack-001-site12.dtempurl.com") ? '<img src="../ThemeData/images/Default.png" id="branchImg" style="height:60px;width:60px;margin-left:20px;" />' : '<img src = "' + data + '" style="height:60px;width:60px;margin-left:20px;"/>'
+    //                }
+    //                return data;
+    //            },
+    //            orderable: false,
+    //            searchable: false
+    //        },
+    //        {
+    //            targets: 1,
+    //            orderable: true,
+    //            searchable: true
+    //        },
+    //        {
+    //            targets: 2,
+    //            render: function (data, type, full, meta) {
+    //                if (type === 'display') {
+    //                    data = ConvertMiliDateFrom(data)
+    //                }
+    //                return data;
+    //            },
+    //            orderable: true,
+    //            searchable: true
+    //        },
+    //        {
+    //            targets: 5,
+    //            orderable: true,
+    //            searchable: true
+    //        },
+    //        {
+    //            targets: 6,
+    //            render: function (data, type, full, meta) {
+
+    //                if (type === 'display') {
+    //                    data =
+    //                        '<a onclick = "EditStudent(' + data + ')"><img src = "../ThemeData/images/viewIcon.png" /></a >';
+    //                }
+    //                HideLoader();
+    //                return data;
+    //            },
+    //            orderable: false,
+    //            searchable: false
+    //        }
+    //    ]
+    //});
     var Data = commonData.BranchID;
     var postCall = $.post(commonData.ManageStudent + "GetAllInActiveStudent", { "branchID": Data });
     postCall.done(function (data) {

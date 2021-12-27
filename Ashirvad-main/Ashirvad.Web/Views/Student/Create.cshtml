@@ -170,7 +170,7 @@
                             </td>
                             <td>
                                 <input type="radio" name="Status" id="rowStaInactive" value="2" style="margin-left:10px" />
-                                <lable for="rowStaInactive">Inactive</lable>
+                                <lable for="rowStaInactive">Deactive</lable>
                                 @Html.HiddenFor(x => x.RowStatus.RowStatusId)
                             </td>
                         </tr>
@@ -178,14 +178,7 @@
                 </table>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-3">
-                @Html.Label("Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.StudentPassword, new { @class = "form-control required", @alt = "Password", autocomplete = "off", @Id = "StudentPassword1" })
-                @Html.HiddenFor(x => x.UserID)
-                @Html.HiddenFor(x => x.StudentMaint.ParentID)
-                @Html.HiddenFor(x => x.StudentMaint.UserID)
-            </div>
+        <div class="row">          
             <div class="col-md-6">
                 @Html.Label("Address", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 @Html.TextBoxFor(x => x.Address, new { @class = "form-control required", @alt = "Address", autocomplete = "off" })
@@ -228,6 +221,13 @@
                     @Html.Label("Parent's Contact No (Login ID)", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
                     @Html.TextBoxFor(x => x.StudentMaint.ContactNo, new { @class = "form-control required mobile", @alt = "Parent's Contact No (Login ID)", autocomplete = "off", maxlength = 10, minlength = 10 })
                 </div>
+                <div class="col-md-3">
+                    @Html.Label("Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                    @Html.TextBoxFor(x => x.StudentPassword, new { @class = "form-control required", @alt = "Password", autocomplete = "off", @Id = "StudentPassword1" })
+                    @Html.HiddenFor(x => x.UserID)
+                    @Html.HiddenFor(x => x.StudentMaint.ParentID)
+                    @Html.HiddenFor(x => x.StudentMaint.UserID)
+                </div>
                 <div class="col-md-3" style="display:none;">
                     @Html.Label("Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
                     @Html.TextBoxFor(x => x.StudentMaint.ParentPassword, new { @class = "form-control", @alt = "Password", autocomplete = "off", @Id = "ParentPassword1" })
@@ -235,7 +235,7 @@
                     @Html.HiddenFor(x => x.StudentMaint.ParentPassword2)
                     @Html.HiddenFor(x => x.StudentMaint.StudentID)
                 </div>
-                <div class="col-md-6 ManageStudentMasterCreate" style="text-align: right;margin-top:27px;">
+                <div class="col-md-3 ManageStudentMasterCreate" style="text-align: right;margin-top:27px;">
                     <a onclick="return SaveStudent();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                         <span class="ladda-label">
                             Save

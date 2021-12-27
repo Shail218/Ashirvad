@@ -28,15 +28,14 @@
                     Contact No
                 </th>
                 <th>
+                    Status
+                </th>
+                <th>
                     Edit
                 </th>
-                @*<th>
-                    Delete
-                </th>*@
             </tr>
         </thead>
-        <tbody> </tbody>
-            @*@if (Model != null)
+            @if (Model != null)
             {
                 foreach (var item in Model)
                 {
@@ -75,18 +74,16 @@
                     @item.ContactNo
                 </td>
                 <td>
+                    @item.RowStatus.RowStatus
+                </td>
+                <td>
                     <a href="@Url.Action("StudentMaintenance", "Student", new { studentID = item.StudentID })">
                         <img src="~/ThemeData/images/viewIcon.png" />
                     </a>
                 </td>
-                <td>
-            <a style="margin-left:20px;" href="#" onclick="RemoveStudent(@item.StudentID);">
-                <img src="~/ThemeData/images/delete.png" />
-            </a>
-        </td>
             </tr>
                 }
-            }*@
+            }
     </table>
 </div>
 
@@ -95,7 +92,7 @@
 <script>
     $(document).ready(function () {
 
-        $('#studenttbl').DataTable({
+        $('#Studenttable').DataTable({
             "bPaginate": true,
             "bLengthChange": false,
             "bFilter": true,

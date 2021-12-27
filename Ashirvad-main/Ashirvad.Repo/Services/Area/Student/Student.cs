@@ -87,7 +87,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
-                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
+                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id orderby u.student_id descending
                         where branchID == 0 || u.branch_id == branchID
                         && (0 == status || u.row_sta_cd == status)
                         select new StudentEntity()
@@ -110,7 +110,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             AdmissionDate = u.admission_date,
                             GrNo = u.gr_no,
                             SchoolTime = u.school_time,
-                            FilePath = u.file_path,
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
                             FileName = u.file_name,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
@@ -128,10 +128,6 @@ namespace Ashirvad.Repo.Services.Area.Student
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
-            //foreach (var item in data)
-            //{
-            //    data[data.IndexOf(item)].StudImage = item.StudentImgByte != null && item.StudentImgByte.Length > 0 ? Convert.ToBase64String(item.StudentImgByte) : "";
-            //}
             return data;
         }
         public async Task<List<StudentEntity>> GetAllStudentByStd(long Std, long Branch, long Batch)
@@ -165,7 +161,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
-                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
+                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id orderby u.student_id descending
                         where branchID == 0 || u.branch_id == branchID
                         && (0 == status || u.row_sta_cd == status)
                         select new StudentEntity()

@@ -3,6 +3,12 @@
 
 $(document).ready(function () {
 
+    $("#notification").datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format: 'dd/mm/yyyy',
+    });
+
     if ($("#Branch_BranchID").val() != "") {
         if ($("#Branch_BranchID").val() == "0") {
             $("#rowStaAll").attr('checked', 'checked');
@@ -14,15 +20,6 @@ $(document).ready(function () {
     } else {
         $("#Branch_BranchID").val(0);
     }
-    
-    $('input[type=radio][name=Status]').change(function () {
-        if (this.value == 'Active') {
-            $("#RowStatus_RowStatusId").val(1);
-        }
-        else {
-            $("#RowStatus_RowStatusId").val(2);
-        }
-    });
 
     if ($("#RowStatus_RowStatusId").val() != "") {
         var rowStatus = $("#RowStatus_RowStatusId").val();
@@ -58,6 +55,8 @@ function SaveNotification() {
         });
     }
     $('#JSONData').val(JSON.stringify(NotificationTypeList));
+    var date2 = $("#Notification_Date").val();
+    $("#Notification_Date").val(ConvertData(date2));
     if (isSuccess) {
         ShowLoader();
         var postCall = $.post(commonData.Notification + "SaveNotification", $('#fNotificationDetail').serialize());

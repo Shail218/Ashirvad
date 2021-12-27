@@ -28,9 +28,9 @@ namespace Ashirvad.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveReport(DateTime FromDate, DateTime ToDate, long BranchId, long StandardId, int BatchTime)
+        public async Task<ActionResult> SaveReport(DateTime FromDate, DateTime ToDate, long StandardId, int BatchTime)
         {
-            var data = await this._attendanceService.GetAllAttendanceByFilter(FromDate, ToDate,BranchId,StandardId,BatchTime);
+            var data = await this._attendanceService.GetAllAttendanceByFilter(FromDate, ToDate,SessionContext.Instance.LoginUser.BranchInfo.BranchID,StandardId,BatchTime);
             return View("~/Views/AttendanceReport/Manage.cshtml", data.Data);
         }
     }

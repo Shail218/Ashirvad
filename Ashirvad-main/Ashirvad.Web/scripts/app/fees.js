@@ -78,7 +78,6 @@ function SaveFeeStructure() {
                 ShowMessage("Fee Structure added Successfully.", "Success");
                 window.location.href = "FeesMaintenance?FeesID=0";
             }
-
             else {
                 ShowMessage("Fee Structure Already Exist. ","Error");
             }

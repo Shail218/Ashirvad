@@ -8,6 +8,9 @@
                 Branch Name
             </th>
             <th>
+                Notification Date
+            </th>
+            <th>
                 Description
             </th>
             <th>
@@ -28,6 +31,9 @@
             <td>
                 @item.Branch.BranchName
                 @Html.HiddenFor(x => item.Branch.BranchID)
+            </td>
+            <td>
+                @item.Notification_Date.ToString("dd/MM/yyyy")
             </td>
             <td>
                 @item.NotificationMessage

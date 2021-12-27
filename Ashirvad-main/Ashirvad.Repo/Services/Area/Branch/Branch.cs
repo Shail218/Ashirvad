@@ -111,7 +111,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
 
-                        }).Take(20).ToList();
+                        }).Take(15).ToList();
 
             return data;
         }

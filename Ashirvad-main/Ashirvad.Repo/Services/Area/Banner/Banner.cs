@@ -111,7 +111,7 @@ namespace Ashirvad.Repo.Services.Area.Banner
             var data = (from u in this.context.BANNER_MASTER
                         join bt in this.context.BANNER_TYPE_REL on u.banner_id equals bt.banner_id
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempB
-                        from branch in tempB.DefaultIfEmpty()
+                        from branch in tempB.DefaultIfEmpty() orderby u.banner_id descending
                         where (0 == branchID || u.branch_id == 0 || u.branch_id.Value == branchID)
                         && (0 == bannerTypeID || bt.sub_type_id == bannerTypeID) && u.row_sta_cd == 1
                         select new BannerEntity()
