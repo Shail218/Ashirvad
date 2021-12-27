@@ -98,6 +98,10 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Faculty;
 using Ashirvad.Repo.Services.Area.Faculty;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Faculty;
 using Ashirvad.ServiceAPI.Services.Area.Faculty;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Announcement;
+using Ashirvad.ServiceAPI.Services.Area.Announcement;
+using Ashirvad.Repo.DataAcceessAPI.Area.Announcement;
+using Ashirvad.Repo.Services.Area.Announcement;
 
 namespace Ashirvad.API
 {
@@ -212,6 +216,9 @@ namespace Ashirvad.API
 
             container.RegisterType<IBranchSubjectAPI, BranchSubject>();
             container.RegisterType<IBranchSubjectService, BranchSubjectService>();
+
+            container.RegisterType<IAnnouncementService, AnnouncementService>();
+            container.RegisterType<IAnnouncementAPI, Announcement>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

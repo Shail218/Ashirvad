@@ -1,6 +1,11 @@
 ﻿using Ashirvad.API.Filter;
 using Ashirvad.Data;
+using Ashirvad.Repo.Services.Area.Announcement;
+using Ashirvad.Repo.Services.Area.Notification;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Announcement;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Notification;
+using Ashirvad.ServiceAPI.Services.Area.Announcement;
+using Ashirvad.ServiceAPI.Services.Area.Notification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +20,17 @@ namespace Ashirvad.API.Controllers
     public class NotificationController : ApiController
     {
         private readonly INotificationService _notificationService = null;
-        public NotificationController(INotificationService notifService)
+        private readonly IAnnouncementService _announcementService = null;
+        public NotificationController(INotificationService notifService, IAnnouncementService announcementService)
         {
             this._notificationService = notifService;
+            this._announcementService = announcementService;
+        }
+
+        public NotificationController()
+        {
+            this._notificationService = new NotificationService(new Notification());
+            this._announcementService = new AnnouncementService(new Announcement());
         }
 
         [Route("NotificationMaintenance")]
@@ -80,6 +93,17 @@ namespace Ashirvad.API.Controllers
             OperationResult<bool> result = new OperationResult<bool>();
             result.Completed = true;
             result.Data = data;
+            return result;
+        }
+
+        [Route("GetAllAnnouncement")]
+        [HttpPost]
+        public OperationResult<List<AnnouncementEntity>> GetAllAnnouncement(long branchID)
+        {
+            var branchData = this._announcementService.GetAllAnnouncement(branchID);
+            OperationResult<List<AnnouncementEntity>> result = new OperationResult<List<AnnouncementEntity>>();
+            result.Completed = true;
+            result = branchData.Result;
             return result;
         }
     }
