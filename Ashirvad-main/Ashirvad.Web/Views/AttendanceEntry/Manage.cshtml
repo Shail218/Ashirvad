@@ -14,13 +14,10 @@
         width: 70%;
     }
 </style>
-<div style="height:300px;overflow-y:scroll">
+<div style="overflow-y:scroll">
     <table style="width: 100%;" id="attendancetable" class="table table-striped dataTable no-footer">
         <thead>
             <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
-                @*<th>
-                    Student G.R.No
-                </th>*@
                 <th>
                     Student Name
                 </th>
@@ -38,10 +35,6 @@
                 foreach (var item in Model)
                 {
                     <tr>
-                        @*<td>
-                            @item.GrNo
-                            
-                        </td>*@
                         <td>
                             @Html.HiddenFor(x => item.GrNo)
                             @Html.HiddenFor(x => item.StudentID)
@@ -84,8 +77,8 @@
 <script>
     $(document).ready(function () {
 
-        $('#studenttbl').DataTable({
-            "bPaginate": false,
+        $('#attendancetable').DataTable({
+            "bPaginate": true,
             "bLengthChange": false,
             "bFilter": true,
             "bInfo": true,

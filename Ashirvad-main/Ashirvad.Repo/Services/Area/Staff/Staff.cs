@@ -117,6 +117,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                             Name = u.name,
                             UserID = li.user_id,
                             StaffID = u.staff_id,
+                            User_Password = li.password,
                             BranchInfo = new BranchEntity()
                             {
                                 BranchID = u.branch_id,

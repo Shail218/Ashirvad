@@ -65,9 +65,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAttendanceByFilter")]
         [HttpGet]
-        public OperationResult<List<AttendanceEntity>> GetAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, int batchTimeID)
+        public OperationResult<List<AttendanceEntity>> GetAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, int batchTimeID, long studentid)
         {
-            var data = this._attendanceService.GetAllAttendanceByFilter(fromDate, toDate, branchID, stdID, batchTimeID);
+            var data = this._attendanceService.GetAllAttendanceByFilter(fromDate, toDate, branchID, stdID, batchTimeID,studentid);
             OperationResult<List<AttendanceEntity>> result = new OperationResult<List<AttendanceEntity>>();
             result = data.Result;
             return result;

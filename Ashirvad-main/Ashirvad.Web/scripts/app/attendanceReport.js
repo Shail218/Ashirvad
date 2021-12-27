@@ -64,13 +64,13 @@ function LoadBranch(onLoaded) {
 }
 
 function LoadStudent(onLoaded) {
-    var postCall = $.post(commonData.AttendanceEntry + "GetAllStudentByBranchStdBatch");
+    var postCall = $.post(commonData.AttendanceReport + "StudentData");
     postCall.done(function (data) {
-        $('#BranchName').empty();
-        $('#BranchName').select2();
-        $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
+        $('#StudentName').empty();
+        $('#StudentName').select2();
+        $("#StudentName").append("<option value=" + 0 + ">---Select Student---</option>");
         for (i = 0; i < data.length; i++) {
-            $("#BranchName").append("<option value='" + data[i].BranchID + "'>" + data[i].BranchName + "</option>");
+            $("#StudentName").append("<option value='" + data[i].StudentID + "'>" + data[i].Name + "</option>");
         }
         if (onLoaded != undefined) {
             onLoaded();
@@ -108,10 +108,10 @@ function SaveReport() {
         var fromdate= ConvertData(date1);
         var date2 = $("#To_Date").val();
         var todate = ConvertData(date2);
-        var branch = $("#Branch_BranchID").val();
         var standard = $("#Standard_StandardID").val();
         var batchtime = $("#BatchTypeID").val();
-        var postCall = $.post(commonData.AttendanceReport + "SaveReport", { "FromDate": fromdate, "ToDate": todate, "StandardId": standard, "BatchTime": batchtime });
+        var student_id = $("#studentEntity_Name").val();
+        var postCall = $.post(commonData.AttendanceReport + "SaveReport", { "FromDate": fromdate, "ToDate": todate, "StandardId": standard, "BatchTime": batchtime, "studentid": student_id });
         postCall.done(function (data) {
             HideLoader();
             $('#ReportData').html(data);

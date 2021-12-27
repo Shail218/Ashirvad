@@ -1,5 +1,6 @@
 ﻿using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Attendance;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Student;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,13 @@ namespace Ashirvad.Web.Controllers
     {
 
         private readonly IAttendanceService _attendanceService = null;
+        private readonly IStudentService _studentService;
         // GET: AttendanceReport
 
-        public AttendanceReportController(IAttendanceService attendanceService)
+        public AttendanceReportController(IAttendanceService attendanceService, IStudentService studentService)
         {
             _attendanceService = attendanceService;
+            _studentService = studentService;
         }
         public async Task<ActionResult> Index()
         {
@@ -28,10 +31,16 @@ namespace Ashirvad.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveReport(DateTime FromDate, DateTime ToDate, long StandardId, int BatchTime)
+        public async Task<ActionResult> SaveReport(DateTime FromDate, DateTime ToDate, long StandardId, int BatchTime,long studentid)
         {
-            var data = await this._attendanceService.GetAllAttendanceByFilter(FromDate, ToDate,SessionContext.Instance.LoginUser.BranchInfo.BranchID,StandardId,BatchTime);
+            var data = await this._attendanceService.GetAllAttendanceByFilter(FromDate, ToDate,SessionContext.Instance.LoginUser.BranchInfo.BranchID,StandardId,BatchTime,studentid);
             return View("~/Views/AttendanceReport/Manage.cshtml", data.Data);
+        }
+
+        public async Task<JsonResult> StudentData()
+        {
+            var studentData = await _studentService.GetAllStudentsName(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            return Json(studentData);
         }
     }
 }

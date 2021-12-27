@@ -474,7 +474,14 @@
                                 <a href="#" class="dropdown-toggle" style="height: 50px" data-toggle="dropdown">
                                     <img src="~/ThemeData/dist/img/avatar5.png" class="user-image" alt="User Image" />
                                     <span class="hidden-xs">
-                                        <label id="lblUserName">@SessionContext.Instance.LoginUser.StaffDetail.Name</label>
+                                        @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+                                        {
+                                            <label id="lblUserName">Super Admin</label>
+                                        }
+                                        else
+                                        {
+                                            <label id="lblUserName">@SessionContext.Instance.LoginUser.StaffDetail.Name</label>
+                                        }
                                         <input id="Role_Name" hidden value="@SessionContext.Instance.LoginUser.UserType" />
                                         <input id="Branch_Name" hidden value="@SessionContext.Instance.LoginUser.BranchInfo.BranchID" />
                                     </span>

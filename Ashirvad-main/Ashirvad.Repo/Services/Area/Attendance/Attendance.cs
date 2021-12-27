@@ -184,15 +184,17 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return data;
         }
 
-        public async Task<List<AttendanceEntity>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, int batchTimeID)
+        public async Task<List<AttendanceEntity>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, int batchTimeID, long studentid)
         {
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
+                        join student in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals student.attd_hdr_id
                         where (0 == branchID || u.branch_id == branchID)
                         && (0 == stdID || u.std_id == stdID)
                         && (0 == batchTimeID || u.batch_time_type == batchTimeID)
                         && (u.attendance_dt >= fromDate && u.attendance_dt <= toDate)
+                        && student.student_id == studentid
                         select new AttendanceEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -225,7 +227,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                     long hdrID = data[idx].AttendanceID;
                     var detailInfo = (from dtl in this.context.ATTENDANCE_DTL
                                       join stu in this.context.STUDENT_MASTER on dtl.student_id equals stu.student_id
-                                      where dtl.attd_hdr_id == hdrID
+                                      where dtl.attd_hdr_id == hdrID && dtl.student_id == studentid
                                       select new AttendanceDetailEntity()
                                       {
 

@@ -223,6 +223,19 @@ namespace Ashirvad.Repo.Services.Area.Student
             return data;
         }
 
+        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID)
+        {
+            var data = (from u in this.context.STUDENT_MASTER                       
+                        orderby u.student_id descending
+                        where u.branch_id == branchID && u.row_sta_cd == 1
+                        select new StudentEntity()
+                        {
+                            StudentID = u.student_id,
+                            Name = u.first_name + " " + u.last_name,                            
+                        }).ToList();
+            return data;
+        }
+
         public async Task<List<StudentEntity>> GetAllStudent(string studName, string contactNo)
         {
             var data = (from u in this.context.STUDENT_MASTER

@@ -19,7 +19,14 @@
                             </td>
                             <td>
                                 <input type="radio" name="Type" id="rowStaBranch" value="Branch" style="margin-left:10px" />
-                                <lable for="rowStaBranch">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</lable>
+                                @if (Model.BranchInfo.BranchName == null)
+                                {
+                                    <lable for="rowStaBranch">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</lable>
+                                }
+                                else
+                                {
+                                    <lable for="rowStaBranch">@Model.BranchInfo.BranchName</lable>
+                                }
                             </td>
                         </tr>
                     </tbody>
