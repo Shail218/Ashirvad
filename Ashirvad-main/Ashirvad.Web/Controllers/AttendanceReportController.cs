@@ -37,9 +37,9 @@ namespace Ashirvad.Web.Controllers
             return View("~/Views/AttendanceReport/Manage.cshtml", data.Data);
         }
 
-        public async Task<JsonResult> StudentData()
+        public async Task<JsonResult> StudentData(int BatchTime, long std)
         {
-            var studentData = await _studentService.GetAllStudentsName(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            var studentData = await _studentService.GetAllStudentsName(SessionContext.Instance.LoginUser.BranchInfo.BranchID,BatchTime,std);
             return Json(studentData);
         }
     }

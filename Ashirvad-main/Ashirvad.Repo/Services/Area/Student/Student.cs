@@ -95,7 +95,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                             RowStatus = new RowStatusEntity()
                             {
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = u.row_sta_cd
+                                RowStatusId = u.row_sta_cd,
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Deactive"
                             },
                             StudentID = u.student_id,
                             Address = u.address,
@@ -169,7 +170,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                             RowStatus = new RowStatusEntity()
                             {
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = u.row_sta_cd
+                                RowStatusId = u.row_sta_cd,
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Deactive"
                             },
                             StudentID = u.student_id,
                             Address = u.address,
@@ -223,11 +225,11 @@ namespace Ashirvad.Repo.Services.Area.Student
             return data;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID)
+        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, int batchtime, long stdid)
         {
             var data = (from u in this.context.STUDENT_MASTER                       
                         orderby u.student_id descending
-                        where u.branch_id == branchID && u.row_sta_cd == 1
+                        where u.branch_id == branchID && u.row_sta_cd == 1 && u.batch_time == batchtime && u.std_id == stdid
                         select new StudentEntity()
                         {
                             StudentID = u.student_id,

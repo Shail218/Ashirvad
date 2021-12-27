@@ -17,12 +17,6 @@ $(document).ready(function () {
 
     });
 
-    LoadStudent(function () {
-        if ($("#studentEntity_Name").val() != "") {
-            $('#StudentName option[value="' + $("#studentEntity_Name").val() + '"]').attr("selected", "selected");
-        }
-    });
-
     LoadBranch(function () {
         if ($("#Branch_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
@@ -42,6 +36,7 @@ $(document).ready(function () {
 
     if ($("#BatchTypeID").val() != "") {
         $('#BatchTime option[value="' + $("#BatchTypeID").val() + '"]').attr("selected", "selected");
+        LoadStudent($("#BatchTypeID").val());
     }
 });
 
@@ -63,26 +58,7 @@ function LoadBranch(onLoaded) {
     });
 }
 
-function LoadStudent(onLoaded) {
-    var postCall = $.post(commonData.AttendanceReport + "StudentData");
-    postCall.done(function (data) {
-        $('#StudentName').empty();
-        $('#StudentName').select2();
-        $("#StudentName").append("<option value=" + 0 + ">---Select Student---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#StudentName").append("<option value='" + data[i].StudentID + "'>" + data[i].Name + "</option>");
-        }
-        if (onLoaded != undefined) {
-            onLoaded();
-        }
-
-    }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
-}
-
 function LoadStandard(branchID) {
-
     var postCall = $.post(commonData.Standard + "StandardData", { "branchID": branchID });
     postCall.done(function (data) {
         $('#StandardName').empty();
@@ -93,6 +69,23 @@ function LoadStandard(branchID) {
         }
         if ($("#Standard_StandardID").val() != "") {
             $('#StandardName option[value="' + $("#Standard_StandardID").val() + '"]').attr("selected", "selected");
+        }
+        HideLoader();
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+function LoadStudent(batchtime) {
+    ShowLoader();
+    var std_id = $("#Standard_StandardID").val();
+    var postCall = $.post(commonData.AttendanceReport + "StudentData", { "std": std_id ,"BatchTime": batchtime });
+    postCall.done(function (data) {
+        $('#StudentName').empty();
+        $('#StudentName').select2();
+        $("#StudentName").append("<option value=" + 0 + ">---Select Student---</option>");
+        for (i = 0; i < data.length; i++) {
+            $("#StudentName").append("<option value='" + data[i].StudentID + "'>" + data[i].Name + "</option>");
         }
         HideLoader();
     }).fail(function () {
@@ -141,4 +134,5 @@ $("#StudentName").change(function () {
 $("#BatchTime").change(function () {
     var Data = $("#BatchTime option:selected").val();
     $('#BatchTypeID').val(Data);
+    LoadStudent(Data);
 });
