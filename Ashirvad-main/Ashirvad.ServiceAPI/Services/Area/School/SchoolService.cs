@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.School
 {
@@ -38,6 +39,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.School
             try
             {
                 return await this._schoolContext.GetAllSchools(branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<SchoolEntity>> GetAllCustomSchools(DataTableAjaxPostModel model, long branchID)
+        {
+            try
+            {
+                return await this._schoolContext.GetAllCustomSchools(model, branchID);
             }
             catch (Exception ex)
             {

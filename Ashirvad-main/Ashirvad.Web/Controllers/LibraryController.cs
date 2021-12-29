@@ -119,17 +119,10 @@ namespace Ashirvad.Web.Controllers
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            if(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin)
-            {
-                if (library.BranchID == null)
-                {
-                    library.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
-                }
-            }
-            else
+            if (library.BranchID == null)
             {
                 library.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
-            }           
+            }
             library.Transaction = GetTransactionData(library.LibraryID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             library.CreatebyBranch = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             if (library.Type != 1)

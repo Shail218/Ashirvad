@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.School
 {
@@ -58,7 +59,7 @@ namespace Ashirvad.Repo.Services.Area.School
 
         public async Task<List<SchoolEntity>> GetAllSchools(long branchID)
         {
-            var data = (from u in this.context.SCHOOL_MASTER
+            var data = (from u in this.context.SCHOOL_MASTER orderby u.school_id descending
                         where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
                         select new SchoolEntity()
                         {
@@ -81,9 +82,43 @@ namespace Ashirvad.Repo.Services.Area.School
             return data;
         }
 
+        public async Task<List<SchoolEntity>> GetAllCustomSchools(DataTableAjaxPostModel model, long branchID)
+        {
+            var Result = new List<SchoolEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = this.context.SCHOOL_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Distinct().Count();
+            var data = (from u in this.context.SCHOOL_MASTER where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.school_name.ToLower().Contains(model.search.value))
+                        orderby u.school_id descending
+                        select new SchoolEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            SchoolName = u.school_name,
+                            Count = count,
+                            SchoolID = u.school_id,
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+            return data;
+        }
+
         public async Task<List<SchoolEntity>> GetAllSchools()
         {
             var data = (from u in this.context.SCHOOL_MASTER
+                        orderby u.school_id descending
                         select new SchoolEntity()
                         {
                             RowStatus = new RowStatusEntity()

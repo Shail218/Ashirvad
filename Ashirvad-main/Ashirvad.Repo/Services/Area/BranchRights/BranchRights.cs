@@ -70,7 +70,7 @@ namespace Ashirvad.Repo.Services.Area
         public async Task<List<BranchWiseRightEntity>> GetAllRights()
         {
             var data = (from u in this.context.BRANCH_RIGHTS_MASTER
-                                .Include("BRANCH_MASTER")
+                                .Include("BRANCH_MASTER") orderby u.branchrights_id descending
                        where u.row_sta_cd == 1
                        select new BranchWiseRightEntity()
                        {
@@ -244,7 +244,7 @@ namespace Ashirvad.Repo.Services.Area
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
                         .Include("PAGE_MASTER")
-
+                        orderby u.packagerights_id descending
                         where u.row_sta_cd == 1 && u.package_id == PackageRightID
                         select new BranchWiseRightEntity()
                         {

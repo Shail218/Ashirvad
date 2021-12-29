@@ -8,7 +8,7 @@
     <div class="form-group" id="dInformation">
         @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
         {
-            <div class="col-md-6">
+            <div class="col-md-7">
                 @Html.Label("Select type", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
                 <table id="rdbType" class="radioboxlist form-control">
                     <tbody>
@@ -25,14 +25,21 @@
                                 }
                                 else
                                 {
-                                    <lable for="rowStaBranch">@Model.Branch.BranchName</lable>
+                                    if (Model.Branch.BranchID == 0)
+                                    {
+                                        <lable for="rowStaBranch">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</lable>
+                                    }
+                                    else
+                                    {
+                                        <lable for="rowStaBranch">@Model.Branch.BranchName</lable>
+                                    }
                                 }
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
                 @Html.Label("Notification Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <div id="notification" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null || Model.Notification_Date.ToString("dd/MM/yyyy") == "01/01/0001" || Model.Notification_Date.ToString("dd-MM-yyyy") == "01-01-0001")
@@ -120,6 +127,7 @@
                             @Html.HiddenFor(x => x.NotificationType)
                             @Html.HiddenFor(x => x.JSONData)
                             @Html.HiddenFor(x => x.Branch.BranchID)
+                            @Html.HiddenFor(x => x.BranchType)
                             <lable for="rowStaStudent">Student</lable>
                         </td>
                     </tr>

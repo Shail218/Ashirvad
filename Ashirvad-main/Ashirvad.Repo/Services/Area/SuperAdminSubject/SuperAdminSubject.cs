@@ -94,7 +94,7 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
 
         public async Task<List<SuperAdminSubjectEntity>> GetAllSubject()
         {
-            var data = (from u in this.context.SUBJECT_BRANCH_MASTER
+            var data = (from u in this.context.SUBJECT_BRANCH_MASTER orderby u.subject_id descending
                         where u.row_sta_cd == 1
                         select new SuperAdminSubjectEntity()
                         {

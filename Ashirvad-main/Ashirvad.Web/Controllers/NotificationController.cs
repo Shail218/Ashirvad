@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -37,30 +38,44 @@ namespace Ashirvad.Web.Controllers
             else
             {
                 branch.NotificationInfo = new NotificationEntity();
-            }
-
-            
-            var data = await _notificationService.GetAllNotification(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : 
-                SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : 
-                (int)SessionContext.Instance.LoginUser.UserType);
-            branch.NotificationData = data.Data;
-
+            }           
+            //var data = await _notificationService.GetAllNotification(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : 
+            //    SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : 
+            //    (int)SessionContext.Instance.LoginUser.UserType);
+            branch.NotificationData = new List<NotificationEntity>();
             return View("Index", branch);
         }
 
         [HttpPost]
         public async Task<JsonResult> SaveNotification(NotificationEntity notification)
         {
-            if(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin)
+            if(SessionContext.Instance.LoginUser.UserType == Enums.UserType.Admin)
             {
-                if (notification.Branch.BranchID == 1)
-                {
-                    notification.Branch.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
-                }
+                notification.Branch.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }
             else
             {
-                notification.Branch.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
+                if (notification.BranchType == 1 && notification.NotificationID == 0)
+                {
+                    notification.Branch = new BranchEntity()
+                    {
+                        BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
+                    };
+                }
+                else if (notification.BranchType == 0)
+                {
+                    notification.Branch = new BranchEntity()
+                    {
+                        BranchID = 0
+                    };
+                }
+                else if (notification.BranchType == 1 && notification.Branch.BranchID == 0)
+                {
+                    notification.Branch = new BranchEntity()
+                    {
+                        BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
+                    };
+                }
             }
             var nt = JsonConvert.DeserializeObject<List<NotificationTypeEntity>>(notification.JSONData);
             notification.NotificationType = nt;
@@ -82,6 +97,33 @@ namespace Ashirvad.Web.Controllers
         {
             var result = _notificationService.RemoveNotification(notificationID, SessionContext.Instance.LoginUser.Username);
             return Json(result);
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            List<string> columns = new List<string>();
+            columns.Add("Notification_Date");
+            columns.Add("NotificationMessage");
+            foreach (var item in model.order)
+            {
+                item.name = columns[item.column];
+            }
+            var branchData = await _notificationService.GetAllCustomNotification(model, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 :
+                SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 :
+                (int)SessionContext.Instance.LoginUser.UserType);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
         }
 
     }

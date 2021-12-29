@@ -58,7 +58,7 @@ namespace Ashirvad.Repo.Services.Area.UPI
         public async Task<List<UPIEntity>> GetAllUPIs(long branchID)
         {
             var data = (from u in this.context.UPI_MASTER
-                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
+                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id orderby u.unique_id descending
                         where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new UPIEntity()
                         {

@@ -1,19 +1,19 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
-
 $(document).ready(function () {
     if ($("#BannerID").val() > 0) {
         $("#fuBannerImage").addClass("editForm");
     }
 
-    if ($("#BranchInfo_BranchID").val() != "") {
+    if ($("#BranchInfo_BranchID").val() != "")
+    {
         if ($("#BranchInfo_BranchID").val() == "0") {
             $("#rowStaAll").attr('checked', 'checked');
-            $("#BranchInfo_BranchID").val(0);
+            $("#BranchType").val(0);
         } else {
             $("#rowStaBranch").attr('checked', 'checked');
-            $("#BranchInfo_BranchID").val(1);
+            $("#BranchType").val(1);
         }
     } else {
         $("#BranchInfo_BranchID").val(0);
@@ -117,9 +117,9 @@ function RemoveBanner(branchID) {
 
 $('input[type=radio][name=Type]').change(function () {
     if (this.value == 'All') {
-        $("#BranchInfo_BranchID").val(0);
+        $("#BranchType").val(0);
     }
     else {
-        $("#BranchInfo_BranchID").val(1);
+        $("#BranchType").val(1);
     }
 });

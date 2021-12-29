@@ -85,7 +85,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
         public async Task<List<BranchEntity>> GetAllBranch()
         {
-            var data = (from u in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
+            var data = (from u in this.context.BRANCH_MASTER.Include("BRANCH_MAINT") orderby u.branch_id descending
                         where u.branch_type == 2 && u.row_sta_cd == 1
                         select new BranchEntity()
                         {
@@ -121,7 +121,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
             var Result = new List<BranchEntity>();
             bool Isasc = model.order[0].dir == "desc" ? false : true;
             long count = this.context.BRANCH_MASTER.Where(s => s.row_sta_cd == 1).Distinct().Count();
-            var data = (from u in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
+            var data = (from u in this.context.BRANCH_MASTER.Include("BRANCH_MAINT") orderby u.branch_id descending
                         where u.branch_type == 2                         
                         && (model.search.value == null
                         || model.search.value == ""
@@ -151,7 +151,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
 
-                        }).OrderBy(model.order[0].name, Isasc)
+                        })
                         .Skip(model.start)
                         .Take(model.length)
                         .ToList();
@@ -162,6 +162,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         public async Task<List<BranchEntity>> GetAllBranchWithoutImage()
         {
             var data = (from u in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
+                        orderby u.branch_id descending
                         where u.branch_type == 2 
                         select new BranchEntity()
                         {
@@ -281,6 +282,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         {
             var data = (from u in this.context.BRANCH_AGREEMENT
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
+                        orderby u.agreement_id descending
                         where (0 == branchID || u.branch_id == branchID) //&& u.row_sta_cd == 1
                         select new BranchAgreementEntity()
                         {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.DataAcceessAPI.Area.Notification
 {
@@ -14,5 +15,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Notification
         Task<NotificationEntity> GetNotificationByNotificationID(long NotificationID);
         bool RemoveNotification(long NotificationID, string lastupdatedby);
         Task<List<NotificationEntity>> GetAllNotification(long branchID, int typeID);
+        Task<List<NotificationEntity>> GetAllCustomNotification(DataTableAjaxPostModel model, long branchID, int typeID);
     }
 }

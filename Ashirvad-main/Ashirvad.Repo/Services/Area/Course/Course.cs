@@ -97,7 +97,7 @@ namespace Ashirvad.Repo.Services.Area.Course
 
         public async Task<List<CourseEntity>> GetAllCourse()
         {
-            var data = (from u in this.context.COURSE_MASTER
+            var data = (from u in this.context.COURSE_MASTER orderby u.course_id descending
                         where u.row_sta_cd == 1
                         select new CourseEntity()
                         {

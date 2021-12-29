@@ -59,7 +59,7 @@ namespace Ashirvad.Repo.Services.Area
 
         public async Task<List<LibraryEntity1>> GetAllLibrary(int Type, int BranchID)
         {
-            var data = (from u in this.context.NEW_LIBRARY_MASTER
+            var data = (from u in this.context.NEW_LIBRARY_MASTER orderby u.new_library_id descending
                         where (u.row_sta_cd == 1 && u.type == Type) && (u.branch_id == BranchID || BranchID == 0)
                         select new LibraryEntity1()
                         {

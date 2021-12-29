@@ -77,7 +77,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
-                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
+                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id orderby u.test_id descending
                         where u.branch_id == branchID && u.row_sta_cd == 1
                         select new TestEntity()
                         {
@@ -132,6 +132,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
+                        orderby u.test_id descending
                         where u.branch_id == branchID && u.row_sta_cd == 1
                         select new TestEntity()
                         {
@@ -177,6 +178,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
                         join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
+                        orderby u.test_id descending
                         where u.branch_id == branchID && u.batch_time_id == BatchType
                         select new TestEntity()
                         {
@@ -228,6 +230,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
+                        orderby u.test_id descending
                         where u.branch_id == branchID && u.STD_MASTER.std_id == stdID
                         && (batchTime == 0 || u.batch_time_id == batchTime)
                         select new TestEntity()
@@ -271,6 +274,7 @@ namespace Ashirvad.Repo.Services.Area.Test
         public async Task<List<TestEntity>> TestDateDDL(long branchID, long stdID, int batchTime)
         {
             var data = (from u in this.context.TEST_MASTER
+                        orderby u.test_id descending
                         where u.branch_id == branchID && u.STD_MASTER.std_id == stdID
                         && (batchTime == 0 || u.batch_time_id == batchTime)
                         select new TestEntity()
@@ -463,8 +467,9 @@ namespace Ashirvad.Repo.Services.Area.Test
 
         public async Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID)
         {
-            var data = (from u in this.context.TEST_PAPER_REL
+            var data = (from u in this.context.TEST_PAPER_REL 
                         .Include("TEST_MASTER")
+                        orderby u.test_paper_id descending
                         where u.test_id == testID
                         select new TestPaperEntity()
                         {
@@ -504,6 +509,7 @@ namespace Ashirvad.Repo.Services.Area.Test
         {
             var data = (from u in this.context.TEST_PAPER_REL
                         .Include("TEST_MASTER")
+                        orderby u.test_paper_id descending
                         where u.TEST_MASTER.branch_id == branchID
                         && u.TEST_MASTER.std_id == stdID
                         && u.TEST_MASTER.test_dt == dt
@@ -554,6 +560,7 @@ namespace Ashirvad.Repo.Services.Area.Test
         {
             var data = (from u in this.context.TEST_PAPER_REL
                         .Include("TEST_MASTER")
+                        orderby u.test_paper_id descending
                         where u.test_id == testID
                         select new TestPaperEntity()
                         {
@@ -609,6 +616,7 @@ namespace Ashirvad.Repo.Services.Area.Test
         {
             var data = (from u in this.context.TEST_MASTER_DTL
                         .Include("TEST_MASTER")
+                        orderby u.Test_master_dtl_id descending
                         where u.Test_id == paperID
                         select new TestEntity()
                         {
@@ -1027,6 +1035,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("TEST_MASTER")
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
+                        orderby u.test_paper_id descending
                         where u.TEST_MASTER.branch_id == branchID && u.TEST_MASTER.std_id == stdID
                         && (batchTime == 0 || u.TEST_MASTER.batch_time_id == batchTime) && !u.doc_link.Equals(" ")
                         select new TestPaperEntity()
@@ -1100,6 +1109,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             var data = (from u in this.context.STUDENT_ANS_SHEET
                         .Include("TEST_MASTER")
                         .Include("STD_MASTER")
+                        orderby u.ans_sheet_id descending
                         where u.test_id == TestID
                         select new StudentAnswerSheetEntity()
                         {

@@ -2,6 +2,72 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
+    ShowLoader();
+
+    var table = $('#notificationtable').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+        },
+        "ajax": {
+            url: "" + GetSiteURL() + "/Notification/CustomServerSideSearchAction",
+            type: 'POST',
+        },
+        "columns": [
+            { "data": "Branch.BranchName" },
+            { "data": "Notification_Date" },
+            { "data": "NotificationMessage" },
+            { "data": "NotificationTypeText" },
+            { "data": "NotificationID" },
+            { "data": "NotificationID" }
+        ],
+        "columnDefs": [
+            {
+                targets: 1,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = ConvertMiliDateFrom(data)
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 4,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="NotificationMaintenance?notificationID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 5,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemoveNotification(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    HideLoader();
+                    return data;
+                },                
+                orderable: false,
+                searchable: false                
+            }            
+        ]
+    });
 
     $("#notification").datepicker({
         autoclose: true,
@@ -12,10 +78,10 @@ $(document).ready(function () {
     if ($("#Branch_BranchID").val() != "") {
         if ($("#Branch_BranchID").val() == "0") {
             $("#rowStaAll").attr('checked', 'checked');
-            $("#Branch_BranchID").val(0);
+            $("#BranchType").val(0);
         } else {
             $("#rowStaBranch").attr('checked', 'checked');
-            $("#Branch_BranchID").val(1);
+            $("#BranchType").val(1);
         }
     } else {
         $("#Branch_BranchID").val(0);
@@ -87,12 +153,36 @@ function RemoveNotification(branchID) {
     }
 }
 
-
 $('input[type=radio][name=Type]').change(function () {
     if (this.value == 'All') {
-        $("#Branch_BranchID").val(0);
+        $("#BranchType").val(0);
     }
     else {
-        $("#Branch_BranchID").val(1);
+        $("#BranchType").val(1);
     }
 });
+
+function ConvertMiliDateFrom(date) {
+    if (date != null) {
+        var sd = date.split("/Date(");
+        var sd2 = sd[1].split(")/");
+        var date1 = new Date(parseInt(sd2[0]));
+        var d = date1.getDate();
+        var m = date1.getMonth() + 1;
+        var y = date1.getFullYear();
+        var hr = date1.getHours();
+        var min = date1.getMinutes();
+        var sec = date1.getSeconds();
+
+        if (parseInt(d) < 10) {
+            d = "0" + d;
+        }
+        if (parseInt(m) < 10) {
+            m = "0" + m;
+        }
+        var Final = d + "-" + m + "-" + y + " ";
+        var d = date1.toString("dd/MM/yyyy HH:mm:SS");
+        return Final;
+    }
+    return "";;
+}

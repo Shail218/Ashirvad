@@ -115,7 +115,7 @@ namespace Ashirvad.Repo.Services.Area.Library
 
         public async Task<List<LibraryEntity>> GetAllLibrary(long branchID, long stdID)
         {
-            var data = (from u in this.context.LIBRARY_MASTER
+            var data = (from u in this.context.LIBRARY_MASTER orderby u.library_id descending
                         where (0 == u.branch_id || u.branch_id == branchID)
                         // (0 == stdID || u.std_id == stdID)
                         select new LibraryEntity()
@@ -149,6 +149,7 @@ namespace Ashirvad.Repo.Services.Area.Library
         {
             var data = (from u in this.context.LIBRARY_MASTER
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
+                        orderby u.library_id descending
                         from branch in tempBranch.DefaultIfEmpty()
                         where (0 == branchID || u.branch_id == null || u.branch_id == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
                         //  (0 == stdID || u.std_id == stdID || u.std_id == null || u.std_id == 0) && u.row_sta_cd == 1//
@@ -238,6 +239,7 @@ namespace Ashirvad.Repo.Services.Area.Library
         public async Task<List<LibraryEntity>> GetAllLibrary(int Type, long BranchID)
         {
             var data = (from u in this.context.LIBRARY_MASTER
+                        orderby u.library_id descending
                         where u.row_sta_cd == 1 && u.library_type == Type && (u.branch_id == BranchID || BranchID == 0)
                         select new LibraryEntity()
                         {
@@ -340,6 +342,7 @@ namespace Ashirvad.Repo.Services.Area.Library
         public async Task<List<LibraryEntity>> GetAllMobileLibrary(int Type, long BranchID)
         {
             var data = (from u in this.context.LIBRARY_MASTER
+                        orderby u.library_id descending
                         where u.row_sta_cd == 1 && u.library_type == Type && (u.createby_branch == BranchID || BranchID == 0)
                         select new LibraryEntity()
                         {
@@ -502,6 +505,7 @@ namespace Ashirvad.Repo.Services.Area.Library
             libraryEntities = (from u in this.context.LIBRARY_MASTER
                                join li in this.context.LIBRARY_STD_MASTER on u.library_id equals li.library_id into ps
                                from li in ps.DefaultIfEmpty()
+                               orderby u.library_id descending
                                where u.row_sta_cd == 1
                                && u.branch_id == 0
                                && u.createby_branch != BranchId
@@ -577,6 +581,7 @@ namespace Ashirvad.Repo.Services.Area.Library
             libraryEntities = (from li in this.context.LIBRARY_MASTER
                                join u in this.context.APPROVAL_MASTER on li.library_id equals u.library_id into ps
                                from u in ps.DefaultIfEmpty()
+                               orderby u.library_id descending
                                where u.row_sta_cd == 1
                                && u.branch_id == BranchId
                                && u.library_status == 2
@@ -646,6 +651,7 @@ namespace Ashirvad.Repo.Services.Area.Library
             libraryEntities = (from u in this.context.APPROVAL_MASTER
                                join li in this.context.LIBRARY_MASTER on u.library_id equals li.library_id
                                join ls in this.context.LIBRARY_STD_MASTER on li.library_id equals ls.library_id
+                               orderby u.approval_id descending
                                where u.row_sta_cd == 1
                                && u.branch_id == BranchId
                                && u.library_status == 2

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.ServiceAPI.Area.School
 {
@@ -14,5 +15,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.School
         Task<List<SchoolEntity>> GetAllSchools();
         Task<SchoolEntity> GetSchoolsByID(long schoolInfo);
         bool RemoveSchool(long SchoolID, string lastupdatedby);
+        Task<List<SchoolEntity>> GetAllCustomSchools(DataTableAjaxPostModel model, long branchID);
     }
 }

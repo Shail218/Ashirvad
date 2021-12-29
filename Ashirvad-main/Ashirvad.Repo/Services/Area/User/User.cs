@@ -170,7 +170,7 @@ namespace Ashirvad.Repo.Services.Area.User
                         join par in this.context.STUDENT_MAINT on u.parent_id equals par.parent_id into tempPar
                         from parent in tempPar.DefaultIfEmpty()
                         join staff in this.context.BRANCH_STAFF on u.staff_id equals staff.staff_id into tempStaff
-                        from stf in tempStaff.DefaultIfEmpty()
+                        from stf in tempStaff.DefaultIfEmpty() orderby u.user_id descending
                         where (branchID == 0 || u.branch_id == branchID) && tdUserType.@class == (int)Enums.ClassID.UserType
                         && (noUserType || userType.Contains(u.user_type))
                         select new UserEntity()
@@ -249,6 +249,7 @@ namespace Ashirvad.Repo.Services.Area.User
                         from parent in tempPar.DefaultIfEmpty()
                         join staff in this.context.BRANCH_STAFF on u.staff_id equals staff.staff_id into tempStaff
                         from stf in tempStaff.DefaultIfEmpty()
+                        orderby u.user_id descending
                         where (string.IsNullOrEmpty(userName) || u.username == userName) && tdUserType.@class == (int)Enums.ClassID.UserType
                         && (string.IsNullOrEmpty(contactNo) || (student != null ? student.contact_no == contactNo : 1 == 1 && stf != null ? stf.mobile_no == contactNo : 1 == 1))
                         select new UserEntity()
@@ -508,6 +509,7 @@ namespace Ashirvad.Repo.Services.Area.User
 
             var data = (from u in this.context.BRANCH_STAFF
                         join UD in this.context.USER_DEF on u.staff_id equals UD.staff_id
+                        orderby u.staff_id descending
                         where u.branch_id == branchID
                         && UD.user_type == (int)Enums.UserType.Staff
                         && UD.row_sta_cd == (int)Enums.RowStatus.Active

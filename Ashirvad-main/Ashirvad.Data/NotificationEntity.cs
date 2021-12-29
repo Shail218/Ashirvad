@@ -15,7 +15,10 @@ namespace Ashirvad.Data
         public TransactionEntity Transaction { get; set; }
         public string NotificationMessage { get; set; }
         public DateTime Notification_Date { get; set; }
+        public int BranchType { get; set; }
         public string JSONData { get; set; }
+        public string NotificationTypeText { get; set; }
+        public long Count { get; set; }
     }
 
     public class NotificationTypeEntity

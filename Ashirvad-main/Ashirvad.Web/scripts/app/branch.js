@@ -4,7 +4,6 @@
 $(document).ready(function () {
 
     ShowLoader();
-    var test = "" + GetSiteURL() + "/Branch/CustomServerSideSearchAction";
     var table = $('#branchtble').DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -32,7 +31,7 @@ $(document).ready(function () {
 
                     if (type === 'display') {
                         data =
-                            '<img src = "' + data + '" style="height:40px;width:40px;margin-left:40px;"/>'
+                            '<img src = "' + data + '" style="height:40px;width:40px;"/>'
                     }
                     return data;
                 },

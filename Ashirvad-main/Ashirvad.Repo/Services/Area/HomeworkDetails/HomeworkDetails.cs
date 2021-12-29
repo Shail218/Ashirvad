@@ -62,7 +62,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
             var data = (from u in this.context.HOMEWORK_MASTER_DTL
                        .Include("HOMEWORK_MASTER")
                        .Include("STUDENT_MASTER")
-                       .Include("BRANCH_MASTER")
+                       .Include("BRANCH_MASTER") orderby u.homework_master_dtl_id descending
                         where u.homework_id == homeworkID
                         select new HomeworkDetailEntity()
                         {
@@ -97,14 +97,6 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
-            //if (data?.Count > 0)
-            //{
-            //    foreach (var item in data)
-            //    {
-            //        int idx = data.IndexOf(item);
-            //        data[idx].AnswerSheetContentText = Convert.ToBase64String(data[idx].AnswerSheetContent);
-            //    }
-            //}
             return data;
         }
 
@@ -114,6 +106,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                        .Include("TEST_MASTER")
                        .Include("STUDENT_MASTER")
                        .Include("BRANCH_MASTER")
+                        orderby u.homework_master_dtl_id descending
                         where u.homework_id == homeworkID
                         select new HomeworkDetailEntity()
                         {
@@ -156,6 +149,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         .Include("TEST_MASTER")
                         .Include("STUDENT_MASTER")
                         .Include("BRANCH_MASTER")
+                        orderby u.homework_master_dtl_id descending
                         where u.homework_id == homeworkID && u.stud_id == studentID
                         select new HomeworkDetailEntity()
                         {

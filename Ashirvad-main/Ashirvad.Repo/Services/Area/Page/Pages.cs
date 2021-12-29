@@ -78,7 +78,7 @@ namespace Ashirvad.Repo.Services.Area.Page
 
         public async Task<List<PageEntity>> GetAllPages(long branchID)
         {
-            var data = (from u in this.context.PAGE_MASTER
+            var data = (from u in this.context.PAGE_MASTER orderby u.page_id descending
                         where u.row_sta_cd == 1
                         select new PageEntity()
                         {
@@ -104,7 +104,7 @@ namespace Ashirvad.Repo.Services.Area.Page
             var Result = new List<PageEntity>();
             long count = this.context.PAGE_MASTER.Where(s => s.row_sta_cd == 1).Distinct().ToList().Count;
             bool Isasc = model.order[0].dir == "desc" ? false : true;
-            var data = (from u in this.context.PAGE_MASTER                       
+            var data = (from u in this.context.PAGE_MASTER orderby u.page_id descending                   
                         where u.row_sta_cd == 1
                         && (model.search.value == null 
                         || model.search.value=="" 
@@ -127,7 +127,6 @@ namespace Ashirvad.Repo.Services.Area.Page
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         })
                         // have to give a default order when skipping .. so use the PK
-                        .OrderBy(model.order[0].name, Isasc)
                         .Skip(model.start)
                         .Take(model.length)
                         .ToList();
@@ -137,7 +136,7 @@ namespace Ashirvad.Repo.Services.Area.Page
         }
         public async Task<List<PageEntity>> GetAllPages()
         {
-            var data = (from u in this.context.PAGE_MASTER
+            var data = (from u in this.context.PAGE_MASTER orderby u.page_id descending
                         select new PageEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -234,19 +233,12 @@ namespace Ashirvad.Repo.Services.Area.Page
                     packageRight.PackageRightsId = 0;
                     result = _packageRights.RightsMaintenance(packageRight).Result;
                 }
-
-
                 return result;
             }
             catch (Exception ex)
             {
                 throw;
             }
-
-        }
-
-
-        
-
+        }      
     }
 }

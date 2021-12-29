@@ -61,7 +61,7 @@ namespace Ashirvad.Repo.Services.Area
 
         public async Task<List<MarksEntity>> GetAllMarks()
         {
-            var data = (from u in this.context.MARKS_MASTER
+            var data = (from u in this.context.MARKS_MASTER orderby u.marks_id descending
                         where u.row_sta_cd == 1
                         select new MarksEntity()
                         {
@@ -89,6 +89,7 @@ namespace Ashirvad.Repo.Services.Area
                         .Include("STUDENT_MASTER")
                         .Include("TEST_MASTER")
                         .Include("SUBJECT_MASTER")
+                        orderby u.marks_id descending
                         where u.branch_id == Branch && u.subject_id == MarksID && (u.test_id == Std || Std == 0) && (u.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1
                         select new MarksEntity()
                         {
@@ -192,6 +193,7 @@ namespace Ashirvad.Repo.Services.Area
                         .Include("STUDENT_MASTER")
                         .Include("TEST_MASTER")
                         .Include("SUBJECT_MASTER")
+                        orderby u.marks_id descending
                         where (u.branch_id == BranchID || BranchID == 0) && u.student_id == StudentID && u.row_sta_cd == 1
                         select new MarksEntity()
                         {

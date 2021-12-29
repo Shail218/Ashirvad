@@ -104,7 +104,7 @@ namespace Ashirvad.Repo.Services.Area
         public async Task<List<FeesEntity>> GetAllFees(long BranchID)
         {
             var data = (from u in this.context.FEE_STRUCTURE_MASTER
-                        join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
+                        join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id orderby u.fee_struct_mst_id descending
                         where u.row_sta_cd == 1 && u.branch_id == BranchID
                         select new FeesEntity()
                         {
@@ -129,6 +129,7 @@ namespace Ashirvad.Repo.Services.Area
         {
             var data = (from u in this.context.FEE_STRUCTURE_MASTER
                         join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
+                        orderby u.fee_struct_mst_id descending
                         where u.row_sta_cd == 1 && u.branch_id == BranchID && (u.std_id == StdID || StdID == 0)
                         select new FeesEntity()
                         {

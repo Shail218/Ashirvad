@@ -1,9 +1,59 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
-
 $(document).ready(function () {
     ShowLoader();
+
+    var table = $('#schooltable').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+        },
+        "ajax": {
+            url: "" + GetSiteURL() + "/School/CustomServerSideSearchAction",
+            type: 'POST',
+        },
+        "columns": [
+            { "data": "SchoolName" },
+            { "data": "SchoolID" },
+            { "data": "SchoolID" }
+        ],
+        "columnDefs": [
+            {
+                targets: 1,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a style="text-align:center !important;" href="SchoolMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 2,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a style="text-align:center !important;" onclick = "RemoveSchool(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ]
+    });
+
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
@@ -13,7 +63,7 @@ $(document).ready(function () {
             $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
             $("#BranchInfo_BranchID").val(commonData.BranchID);
         }
-    });
+    });   
 
     if ($("#BranchInfo_BranchID").val() != "") {
         $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");

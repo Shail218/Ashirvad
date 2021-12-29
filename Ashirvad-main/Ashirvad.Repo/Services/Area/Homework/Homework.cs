@@ -69,7 +69,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
             var data = (from u in this.context.HOMEWORK_MASTER
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
-                        .Include("SUBJECT_MASTER")
+                        .Include("SUBJECT_MASTER") orderby u.homework_id descending
                             //join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id
                         where u.branch_id == branchID
                         && (u.std_id == stdID)
@@ -148,7 +148,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
-                        join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id
+                        join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id orderby u.homework_id descending
                         where u.branch_id == branchID
                         && (u.std_id == stdID)
                         && ( u.batch_time_id == batchTime) && u.row_sta_cd == 1
@@ -256,6 +256,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
+                        orderby u.homework_id descending
                         where u.branch_id == branchID
                         && (0 == stdID || u.std_id == stdID) && u.row_sta_cd == 1
                         select new HomeworkEntity()
@@ -331,10 +332,6 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
-            //if (data != null)
-            //{
-            //    data.HomeworkContentText = Convert.ToBase64String(data.HomeworkContent);
-            //}
             return data;
         }
 
@@ -345,7 +342,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         .Include("HOMEWORK_MASTER")
                         .Include("STD_MASTER")
                         .Include("STUDENT_MASTER")
-
+                        orderby u.homework_master_dtl_id descending
                         where u.homework_id == homeworkID
                         select new HomeworkEntity()
                         {
@@ -373,10 +370,6 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             BatchTimeText = u.HOMEWORK_MASTER.batch_time_id == 1 ? "Morning" : u.HOMEWORK_MASTER.batch_time_id == 2 ? "Afternoon" : "Evening",
                            
                         }).Distinct().ToList();
-            //if (data != null)
-            //{
-            //    data.HomeworkContentText = Convert.ToBase64String(data.HomeworkContent);
-            //}
             return data;
         }
         public async Task<List<HomeworkEntity>> GetStudentHomeworkFile(long homeworkID)
@@ -389,14 +382,8 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         select new HomeworkEntity()
                         {
                             FilePath=u.homework_filepath,
-                            HomeworkContentFileName=u.homework_sheet_name,
-                           
-
+                            HomeworkContentFileName=u.homework_sheet_name,                           
                         }).ToList();
-            //if (data != null)
-            //{
-            //    data.HomeworkContentText = Convert.ToBase64String(data.HomeworkContent);
-            //}
             return data;
         }
         

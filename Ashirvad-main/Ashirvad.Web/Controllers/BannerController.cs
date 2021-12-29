@@ -43,9 +43,6 @@ namespace Ashirvad.Web.Controllers
             var branchData = await _bannerService.GetAllBanner(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 :
                SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 :
                (int)SessionContext.Instance.LoginUser.UserType);
-            //var branchData = await _bannerService.GetAllBanner(0, 0);
-            //var branchData = await _bannerService.GetAllBannerWithoutImage(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            //var branchData = await _bannerService.GetAllBanner(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : (int)SessionContext.Instance.LoginUser.UserType);
             branch.BannerData = branchData.Data;
             return View("Index", branch);
         }
@@ -53,20 +50,38 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveBanner(BannerEntity bannerEntity)
         {
-            if(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin)
-            {
-                if (bannerEntity.BranchInfo.BranchID == 1)
-                {
-                    bannerEntity.BranchInfo.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
-                }
-            }
-            else
+            
+            if(SessionContext.Instance.LoginUser.UserType == Enums.UserType.Admin)
             {
                 bannerEntity.BranchInfo = new BranchEntity()
                 {
                     BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
                 };
-            }          
+            }
+            else
+            {
+                if (bannerEntity.BranchType == 1 && bannerEntity.BannerID == 0)
+                {
+                    bannerEntity.BranchInfo = new BranchEntity()
+                    {
+                        BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
+                    };
+                }
+                else if(bannerEntity.BranchType == 0)
+                {
+                    bannerEntity.BranchInfo = new BranchEntity()
+                    {
+                        BranchID = 0
+                    };
+                }
+                else if(bannerEntity.BranchType == 1 && bannerEntity.BranchInfo.BranchID == 0)
+                {
+                    bannerEntity.BranchInfo = new BranchEntity()
+                    {
+                        BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
+                    };
+                }
+            }
             var banner = JsonConvert.DeserializeObject<List<BannerTypeEntity>>(bannerEntity.JSONData);
             bannerEntity.BannerType = banner;
             if (bannerEntity.ImageFile != null)

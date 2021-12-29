@@ -13,26 +13,23 @@
             </select>
             @Html.HiddenFor(x => x.CategoryInfo.CategoryID)
         </div>
-        @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
-        {
-            <div class="col-md-12">
-                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <table id="rdbType" class="radioboxlist form-control">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <input type="radio" name="Type3" id="rowStaAll" value="All" checked />
-                                <lable for="rowStaAll">All</lable>
-                            </td>
-                            <td>
-                                <input type="radio" name="Type3" id="rowStaBranch" value="Branch" style="margin-left:10px" />
-                                <lable for="rowStaBranch">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</lable>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        }
+        <div class="col-md-12">
+            @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <table id="rdbType" class="radioboxlist form-control">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="radio" name="Type3" id="rowStaAll" value="All" checked />
+                            <lable for="rowStaAll">All</lable>
+                        </td>
+                        <td>
+                            <input type="radio" name="Type3" id="rowStaBranch" value="Branch" style="margin-left:10px" />
+                            <lable for="rowStaBranch">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</lable>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         @Html.HiddenFor(x => x.LibraryID)
         @Html.HiddenFor(x => x.BranchID)
         @Html.HiddenFor(x => x.VideoLink)

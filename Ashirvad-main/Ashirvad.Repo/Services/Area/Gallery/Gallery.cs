@@ -48,7 +48,7 @@ namespace Ashirvad.Repo.Services.Area.Gallery
         public async Task<List<GalleryEntity>> GetAllGallery(int type, long branchID)
         {
             var data = (from u in this.context.GALLERY_MASTER
-                        .Include("BRANCH_MASTER")
+                        .Include("BRANCH_MASTER") orderby u.unique_id descending
                         where u.uplaod_type == type
                         && (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new GalleryEntity()
@@ -66,16 +66,6 @@ namespace Ashirvad.Repo.Services.Area.Gallery
                             GalleryType = u.uplaod_type,
                             Remarks = u.remarks
                         }).ToList();
-
-            //if (data?.Count > 0)
-            //{
-            //    foreach (var item in data)
-            //    {
-            //        int idx = data.IndexOf(item);
-            //        data[idx].FileEncoded = data[idx].FileInfo.Length > 0 ? Convert.ToBase64String(data[idx].FileInfo) : "";
-            //    }
-            //}
-
             return data;
         }
 
@@ -83,6 +73,7 @@ namespace Ashirvad.Repo.Services.Area.Gallery
         {
             var data = (from u in this.context.GALLERY_MASTER
                         .Include("BRANCH_MASTER")
+                        orderby u.unique_id descending
                         where u.uplaod_type == type
                         && (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new GalleryEntity()
@@ -124,12 +115,6 @@ namespace Ashirvad.Repo.Services.Area.Gallery
                             GalleryType = u.uplaod_type,
                             Remarks = u.remarks
                         }).FirstOrDefault();
-
-            //if (data != null)
-            //{
-            //    data.FileEncoded = data.FileInfo.Length > 0 ? Convert.ToBase64String(data.FileInfo) : "";
-            //}
-
             return data;
         }
 

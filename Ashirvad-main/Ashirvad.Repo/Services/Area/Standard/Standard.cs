@@ -62,7 +62,7 @@ namespace Ashirvad.Repo.Services.Area.Standard
         public async Task<List<StandardEntity>> GetAllStandards(long branchID)
         {
             var data = (from u in this.context.STD_MASTER
-                        .Include("CLASS_DTL_MASTER")
+                        .Include("CLASS_DTL_MASTER") orderby u.std_id descending
                         where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new StandardEntity()
                         {
@@ -88,6 +88,7 @@ namespace Ashirvad.Repo.Services.Area.Standard
         {
             var data = (from u in this.context.STD_MASTER
                         .Include("CLASS_DTL_MASTER")
+                        orderby u.std_id descending
                         where u.row_sta_cd == 1 && (u.branch_id == branchid || branchid == 0)
                         select new StandardEntity()
                         {                           
@@ -101,6 +102,7 @@ namespace Ashirvad.Repo.Services.Area.Standard
         {
             var data = (from u in this.context.STD_MASTER
                         .Include("CLASS_DTL_MASTER")
+                        orderby u.std_id descending
                         where u.row_sta_cd == 1 && u.CLASS_DTL_MASTER.CLASS_MASTER.class_name == standardname && (u.branch_id == branchid || branchid == 0)
                         select new StandardEntity()
                         {

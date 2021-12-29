@@ -65,7 +65,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         public async Task<List<AboutUsDetailEntity>> GetAllAboutUs(long branchID)
         {
             var data = (from u in this.context.ABOUTUS_DETAIL_REL
-                        .Include("BRANCH_MASTER")                        
+                        .Include("BRANCH_MASTER") orderby u.brand_id descending                      
                         where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new AboutUsDetailEntity()
                         {
@@ -89,7 +89,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         public async Task<List<AboutUsEntity>> GetAllAboutUsWithoutContent(long branchID)
         {
             var data = (from u in this.context.ABOUTUS_MASTER
-                        .Include("BRANCH_MASTER")
+                        .Include("BRANCH_MASTER") orderby u.aboutus_id descending
                         where (0 == branchID || u.branch_id == branchID)
                         select new AboutUsEntity()
                         {
@@ -213,7 +213,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         public async Task<List<AboutUsDetailEntity>> GetAllAboutUsDetails(long aboutusID, long branchID)
         {
             var data = (from u in this.context.ABOUTUS_DETAIL_REL
-                        .Include("ABOUTUS_MASTER")
+                        .Include("ABOUTUS_MASTER") orderby u.brand_id descending
                         join branch in this.context.BRANCH_MASTER on u.branch_id equals branch.branch_id
                         where (0 == branchID || u.branch_id == branchID)
 
@@ -305,12 +305,6 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                             HeaderImageText=u.header_img
                             
                         }).FirstOrDefault();
-
-            //if (data != null)
-            //{
-            //    data.HeaderImageText = data.HeaderImage.Length > 0 ? Convert.ToBase64String(data.HeaderImage) : "";
-            //}
-
             return detaildata;
         }
 

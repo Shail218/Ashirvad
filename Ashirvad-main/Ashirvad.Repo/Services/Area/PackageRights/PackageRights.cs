@@ -75,7 +75,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
                         .Include("PACKAGE_MASTER")
-                        .Include("PAGE_MASTER")
+                        .Include("PAGE_MASTER") orderby u.packagerights_id descending
                         where u.row_sta_cd == 1
                         select new PackageRightEntity()
                         {
@@ -131,6 +131,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
                        .Include("PACKAGE_MASTER")
                        .Include("PAGE_MASTER")
+                        orderby u.packagerights_id descending
                         where u.row_sta_cd == 1 && u.package_id == RightsID
                         select new PackageRightEntity()
                         {

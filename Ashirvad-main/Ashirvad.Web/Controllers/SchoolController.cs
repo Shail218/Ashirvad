@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -37,8 +38,8 @@ namespace Ashirvad.Web.Controllers
                 branch.SchoolInfo = result;
             }
 
-            var branchData = await _schoolService.GetAllSchools(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            branch.SchoolData = branchData;
+            //var branchData = await _schoolService.GetAllSchools(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            branch.SchoolData = new List<SchoolEntity>();
 
             return View("Index", branch);
         }
@@ -85,17 +86,34 @@ namespace Ashirvad.Web.Controllers
             return Json(result);
         }
 
-        //public async Task<JsonResult> SchoolData()
-        //{
-        //    var branchData = await _schoolService.GetAllSchools();
-        //    return Json(branchData);
-        //}
-
         public async Task<JsonResult> SchoolData(long branchID)
         {
             var branchData = await _schoolService.GetAllSchools(branchID);
             return Json(branchData);
         }
 
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            List<string> columns = new List<string>();
+            columns.Add("SchoolName");
+            foreach (var item in model.order)
+            {
+                item.name = columns[item.column];
+            }
+            var branchData = await _schoolService.GetAllCustomSchools(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
+        }
     }
 }

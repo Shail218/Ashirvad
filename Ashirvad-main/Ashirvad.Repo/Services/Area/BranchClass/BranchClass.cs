@@ -93,7 +93,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         {
             var data = (from u in this.context.CLASS_DTL_MASTER
                         .Include("CLASS_MASTER")
-                        .Include("BRANCH_MASTER")
+                        .Include("BRANCH_MASTER") orderby u.class_dtl_id descending
                         where (BranchID == 0 || u.branch_id == BranchID) && (ClassID == 0 || u.course_dtl_id == ClassID) && u.row_sta_cd == 1 && u.is_class == true
                         select new BranchClassEntity()
                         {
@@ -155,6 +155,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
             var data = (from u in this.context.CLASS_DTL_MASTER
                               .Include("CLASS_MASTER")
                               .Include("BRANCH_MASTER")
+                        orderby u.class_dtl_id descending
                         where (BranchID == 0 || u.branch_id == BranchID) && (ClassID == 0 || u.course_dtl_id == ClassID) && u.row_sta_cd == 1
                         select new BranchClassEntity()
                         {
@@ -207,6 +208,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         {
             var data = (from u in this.context.CLASS_DTL_MASTER
                        .Include("CLASS_MASTER")
+                        orderby u.class_dtl_id descending
                         where u.row_sta_cd == 1 && u.course_dtl_id == ClassID && u.branch_id == BranchID
                         select new BranchClassEntity()
                         {

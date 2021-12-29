@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Notification
 {
@@ -76,7 +77,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
         {
             var data = (from u in this.context.NOTIFICATION_MASTER.Include("NOTIFICATION_TYPE_REL")
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
-                        from branch in tempBranch.DefaultIfEmpty()
+                        from branch in tempBranch.DefaultIfEmpty() orderby u.notif_id descending
                         where (0 == branchID || u.branch_id == null || (u.branch_id.HasValue && u.branch_id.Value == branchID) && u.row_sta_cd == 1)
                         select new NotificationEntity()
                         {
@@ -180,6 +181,59 @@ namespace Ashirvad.Repo.Services.Area.Notification
             }
 
             return false;
+        }
+
+        public async Task<List<NotificationEntity>> GetAllCustomNotification(DataTableAjaxPostModel model, long branchID, int typeID)
+        {
+            var Result = new List<NotificationEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = (from u in this.context.NOTIFICATION_MASTER
+                         join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
+                         where (branchID == 0 || u.branch_id == 0 || u.branch_id == branchID)
+                         && (typeID == 0 || t.sub_type_id == typeID) && u.row_sta_cd == 1
+                         select new { }).Count();
+            var data = (from u in this.context.NOTIFICATION_MASTER
+                        join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
+                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
+                        from branch in tempBranch.DefaultIfEmpty()
+                        orderby u.notif_id descending
+                        where (branchID == 0 || u.branch_id == 0 || u.branch_id.Value == branchID)
+                        && (0 == typeID || t.sub_type_id == typeID) && u.row_sta_cd == 1 && (model.search.value == null
+                        || model.search.value == ""
+                        || u.notif_message.ToLower().Contains(model.search.value)
+                        || u.notification_date.ToString().ToLower().Contains(model.search.value))
+                        select new NotificationEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            NotificationMessage = u.notif_message,
+                            Count = count,
+                            NotificationID = u.notif_id,
+                            Notification_Date = u.notification_date,
+                            Branch = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+
+            if (data?.Count > 0)
+            {                           
+                foreach (var item in data)
+                {
+                    string Type = "";
+                    var result = this.context.NOTIFICATION_TYPE_REL.Where(z => z.notif_id == item.NotificationID)
+                    .Select(y => new NotificationTypeEntity() { ID = y.unique_id, TypeID = y.sub_type_id, TypeText = y.sub_type_id == 1 ? "Admin" : y.sub_type_id == 2 ? "Teacher" : "Student" }).ToList();
+                    foreach (var item1 in result)
+                    {
+                        Type = Type + "-" + item1.TypeText;
+                    }
+                    item.NotificationTypeText = Type.Substring(1);                    
+                }
+            }
+            return data;
         }
     }
 }

@@ -39,8 +39,8 @@ namespace Ashirvad.Web.Controllers
                 userData.StaffInfo = result;
             }
 
-            var staffData = await _staffService.GetAllStaff(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            userData.StaffData = staffData;
+            //var staffData = await _staffService.GetAllStaff(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            userData.StaffData = new List<StaffEntity>();
 
             return View("Index", userData);
         }
@@ -96,7 +96,6 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
         {
-            // action inside a standard controller
             List<string> columns = new List<string>();
             columns.Add("Name");
             columns.Add("MobileNo");
@@ -113,7 +112,6 @@ namespace Ashirvad.Web.Controllers
             }
             return Json(new
             {
-                // this is what datatables wants sending back
                 draw = model.draw,
                 iTotalRecords = total,
                 iTotalDisplayRecords = total,

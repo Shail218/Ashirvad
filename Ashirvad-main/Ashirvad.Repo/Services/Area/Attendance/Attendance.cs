@@ -79,7 +79,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
-                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
+                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id orderby u.student_id descending
                         where u.branch_id == branchID && u.STD_MASTER.std_id == stdID && u.batch_time == batchID && u.row_sta_cd == 1
                         select new StudentEntity()
                         {
@@ -126,7 +126,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
         {
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("STD_MASTER") orderby u.attendance_hdr_id descending
                         where u.branch_id == branchID && u.row_sta_cd == 1
                         select new AttendanceEntity()
                         {
@@ -189,7 +189,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
-                        join student in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals student.attd_hdr_id
+                        join student in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals student.attd_hdr_id orderby u.attendance_hdr_id descending
                         where (0 == branchID || u.branch_id == branchID)
                         && (0 == stdID || u.std_id == stdID)
                         && (0 == batchTimeID || u.batch_time_type == batchTimeID)
@@ -317,7 +317,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         .Include("STD_MASTER")
                         .Include("ATTENDANCE_DTL")
                         join detail in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals detail.attd_hdr_id
-                        join stu in this.context.STUDENT_MASTER on detail.student_id equals stu.student_id
+                        join stu in this.context.STUDENT_MASTER on detail.student_id equals stu.student_id orderby u.attendance_hdr_id descending
                         where detail.student_id == studentID
                         select new AttendanceEntity()
                         {

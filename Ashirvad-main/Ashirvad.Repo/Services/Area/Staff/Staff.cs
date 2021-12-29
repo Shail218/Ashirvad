@@ -134,17 +134,16 @@ namespace Ashirvad.Repo.Services.Area.Staff
             var Result = new List<StaffEntity>();
             long Type = branchID == 0 ? 0 : (long)Enums.UserType.Staff;
             bool Isasc = model.order[0].dir == "desc" ? false : true;
-            //long count = this.context.BRANCH_STAFF.Where(s => s.row_sta_cd == 1 && (branchID == 0 || s.branch_id == branchID)).Distinct().Count();
             long count = (from u in this.context.BRANCH_STAFF
                         .Include("BRANCH_MASTER")
                           join li in this.context.USER_DEF on u.staff_id equals li.staff_id into ps
                           from li in ps.DefaultIfEmpty()
                           where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1 && (Type == 0 || li.user_type == Type)                
-                          select new { }).Distinct().Count();
+                          select new { }).Count();
             var data = (from u in this.context.BRANCH_STAFF
                         .Include("BRANCH_MASTER")
                         join li in this.context.USER_DEF on u.staff_id equals li.staff_id into ps
-                        from li in ps.DefaultIfEmpty()
+                        from li in ps.DefaultIfEmpty() 
                         where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1 && (Type == 0 || li.user_type == Type)
                         && (model.search.value == null
                         || model.search.value == ""
@@ -177,7 +176,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).OrderBy(model.order[0].name, Isasc)
+                        })
                         .Skip(model.start)
                         .Take(model.length)
                         .ToList();
@@ -187,7 +186,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
 
         public async Task<List<StaffEntity>> GetAllStaff()
         {
-            var data = (from u in this.context.BRANCH_STAFF
+            var data = (from u in this.context.BRANCH_STAFF orderby u.staff_id descending
                         select new StaffEntity()
                         {
                             RowStatus = new RowStatusEntity()

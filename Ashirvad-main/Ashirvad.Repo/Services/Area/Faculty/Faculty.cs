@@ -207,7 +207,7 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                             FacultyContentFileName = u.file_name,
                             FacultyID = u.faculty_id,
                             Descripation = u.description,
-                        }).OrderBy(model.order[0].name, Isasc)
+                        })
                         .Skip(model.start)
                         .Take(model.length)
                         .ToList();
@@ -222,7 +222,7 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                           .Include("CLASS_DTL_MASTER")
                           .Include("SUBJECT_DTL_MASTER")
                          .Include("BRANCH_MASTER")
-                         .Include("BRANCH_STAFF")
+                         .Include("BRANCH_STAFF") orderby u.faculty_id descending
                         where branchID == 0 || u.branch_id == branchID && u.row_sta_cd == 1
                         select new FacultyEntity()
                         {

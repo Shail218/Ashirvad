@@ -62,7 +62,7 @@ namespace Ashirvad.Repo.Services.Area.Batch
 
         public async Task<List<BatchEntity>> GetAllBatches(long branchID,long STDID=0)
         {
-            var data = (from u in this.context.BATCH_MASTER
+            var data = (from u in this.context.BATCH_MASTER orderby u.batch_id descending
                         where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1 && (STDID == 0 || u.std_id == STDID)
                         select new BatchEntity()
                         {
@@ -96,6 +96,7 @@ namespace Ashirvad.Repo.Services.Area.Batch
         public async Task<List<BatchEntity>> GetAllBatches()
         {
             var data = (from u in this.context.BATCH_MASTER
+                        orderby u.batch_id descending
                         select new BatchEntity()
                         {
                             RowStatus = new RowStatusEntity()

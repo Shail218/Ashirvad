@@ -48,7 +48,6 @@ namespace Ashirvad.Web.Controllers
 
             if (branch.ImageFile != null)
             {
-                //photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
                 string _FileName = Path.GetFileName(branch.ImageFile.FileName);
                 string extension = System.IO.Path.GetExtension(branch.ImageFile.FileName);
                 string randomfilename = Common.Common.RandomString(20);
@@ -58,7 +57,6 @@ namespace Ashirvad.Web.Controllers
                 branch.FileName = _FileName;
                 branch.FilePath = _Filepath;
             }
-           // branch.StudentID = 0;
             branch.Transaction = GetTransactionData(branch.StudentID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             if (branch.StudentID == 0)
             {

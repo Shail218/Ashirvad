@@ -53,7 +53,7 @@ namespace Ashirvad.Repo.Services.Area.ToDo
         {
             var data = (from u in this.context.TODO_MASTER
                         .Include("BRANCH_MASTER")
-                        join ud in this.context.BRANCH_STAFF on u.user_id equals ud.staff_id
+                        join ud in this.context.BRANCH_STAFF on u.user_id equals ud.staff_id orderby u.todo_id descending
                         where u.branch_id == branchID
                         && (0 == userID || u.user_id == userID) && u.row_sta_cd == 1
                         select new ToDoEntity()
@@ -88,6 +88,7 @@ namespace Ashirvad.Repo.Services.Area.ToDo
             var data = (from u in this.context.TODO_MASTER
                         .Include("BRANCH_MASTER")
                         join ud in this.context.USER_DEF on u.user_id equals ud.user_id
+                        orderby u.todo_id descending
                         where u.branch_id == branchID
                         && (0 == userID || u.user_id == userID) && u.row_sta_cd == 1
                         select new ToDoEntity()
@@ -122,6 +123,7 @@ namespace Ashirvad.Repo.Services.Area.ToDo
             var data = (from u in this.context.TODO_MASTER
                         .Include("BRANCH_MASTER")
                         join ud in this.context.USER_DEF on u.user_id equals ud.staff_id
+                        orderby u.todo_id descending
                         where u.todo_id == todoID
                         select new ToDoEntity()
                         {

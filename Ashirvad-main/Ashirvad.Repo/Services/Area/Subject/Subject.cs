@@ -61,7 +61,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
         public async Task<List<SubjectEntity>> GetAllSubjects(long branchID)
         {
             var data = (from u in this.context.SUBJECT_MASTER
-                        .Include("SUBJECT_DTL_MASTER")
+                        .Include("SUBJECT_DTL_MASTER") orderby u.subject_id descending
                         where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new SubjectEntity()
                         {
@@ -85,7 +85,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
 
         public async Task<List<SubjectEntity>> GetAllSubjects()
         {
-            var data = (from u in this.context.SUBJECT_MASTER
+            var data = (from u in this.context.SUBJECT_MASTER orderby u.subject_id descending
                         select new SubjectEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -110,6 +110,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
         {
             var data = (from u in this.context.SUBJECT_MASTER
                         .Include("SUBJECT_DTL_MASTER")
+                        orderby u.subject_id descending
                         where u.row_sta_cd == 1 && (u.branch_id == branchid || branchid == 0)
                         select new SubjectEntity()
                         {
@@ -122,6 +123,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
         {
             var data = (from u in this.context.SUBJECT_MASTER
                         .Include("SUBJECT_DTL_MASTER")
+                        orderby u.subject_id descending
                         where u.row_sta_cd == 1 && u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name == subjectName && (u.branch_id == branchid || branchid == 0)
                         select new SubjectEntity()
                         {
@@ -176,6 +178,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
             DateTime dateTime = Convert.ToDateTime(TestDate);
             var data = (from u in this.context.TEST_MASTER
                         join sm in this.context.SUBJECT_MASTER on u.sub_id equals sm.subject_id
+                        orderby u.test_id descending
                         where (u.test_dt == dateTime && u.row_sta_cd == 1)
                         select new SubjectEntity()
                         {

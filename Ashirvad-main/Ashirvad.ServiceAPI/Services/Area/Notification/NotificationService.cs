@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Notification
 {
@@ -25,6 +26,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.Notification
             notif.Completed = true;
             return notif;
         }
+
+        public async Task<List<NotificationEntity>> GetAllCustomNotification(DataTableAjaxPostModel model, long branchID, int typeID)
+        {
+            try
+            {
+                return await this._notificationContext.GetAllCustomNotification(model, branchID, typeID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<NotificationEntity> NotificationMaintenance(NotificationEntity notifInfo)
         {
             NotificationEntity notif = new NotificationEntity();

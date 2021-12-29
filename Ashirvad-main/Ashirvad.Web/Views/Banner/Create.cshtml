@@ -25,7 +25,14 @@
                                 }
                                 else
                                 {
-                                    <lable for="rowStaBranch">@Model.BranchInfo.BranchName</lable>
+                                    if (Model.BranchInfo.BranchID == 0)
+                                    {
+                                        <lable for="rowStaBranch">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</lable>
+                                    }
+                                    else
+                                    {
+                                        <lable for="rowStaBranch">@Model.BranchInfo.BranchName</lable>
+                                    }
                                 }
                             </td>
                         </tr>
@@ -76,6 +83,7 @@
                                 @Html.HiddenFor(X => X.BannerType)
                                 @Html.HiddenFor(x => x.JSONData)
                                 @Html.HiddenFor(x => x.BranchInfo.BranchID)
+                                @Html.HiddenFor(x => x.BranchType)
                             </td>
                         </tr>
                     </tbody>

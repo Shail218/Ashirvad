@@ -69,7 +69,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                         .Include("PRACTICE_PAPER_REL")
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
-                        .Include("SUBJECT_MASTER")
+                        .Include("SUBJECT_MASTER") orderby u.paper_id descending
                         where (0 == branchID || u.branch_id == branchID && u.row_sta_cd == 1)
                         select new PaperEntity()
                         {
@@ -106,16 +106,6 @@ namespace Ashirvad.Repo.Services.Area.Paper
                                 UniqueID = u.PRACTICE_PAPER_REL.Count == 0 ? 0 : u.PRACTICE_PAPER_REL.FirstOrDefault().unique_id
                             }
                         }).ToList();
-
-            //if (data?.Count > 0)
-            //{
-            //    foreach (var item in data)
-            //    {
-            //        int idx = data.IndexOf(item);
-            //        data[idx].PaperData.PaperContentText = data[idx].PaperData.PaperContent.Length > 0 ? Convert.ToBase64String(data[idx].PaperData.PaperContent) : "";
-            //    }
-            //}
-
             return data;
         }
 
@@ -125,6 +115,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
             var data = (from u in this.context.PRACTICE_PAPER
                         .Include("PRACTICE_PAPER_REL")
                         .Include("SUBJECT_MASTER")
+                        orderby u.paper_id descending
                         where u.branch_id == branchID
                         && u.std_id == stdID
                         select new SubjectEntity()
@@ -143,6 +134,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
+                        orderby u.paper_id descending
                         where u.branch_id == branchID
                         && (0 == stdID || u.std_id == stdID)
                         && (0 == subID || u.sub_id == subID)
@@ -193,6 +185,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
+                        orderby u.paper_id descending
                         where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new PaperEntity()
                         {
@@ -276,12 +269,6 @@ namespace Ashirvad.Repo.Services.Area.Paper
                                 UniqueID = u.PRACTICE_PAPER_REL.Count == 0 ? 0 : u.PRACTICE_PAPER_REL.FirstOrDefault().unique_id
                             }
                         }).FirstOrDefault();
-
-            //if (data != null)
-            //{
-            //    data.PaperData.PaperContentText = data.PaperData.PaperContent.Length > 0 ? Convert.ToBase64String(data.PaperData.PaperContent) : "";
-            //}
-
             return data;
         }
 

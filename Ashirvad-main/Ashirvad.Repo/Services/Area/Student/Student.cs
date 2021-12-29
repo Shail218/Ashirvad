@@ -149,10 +149,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Name = u.first_name + " " + u.last_name
                         }).ToList();
-            //foreach (var item in data)
-            //{
-            //    data[data.IndexOf(item)].StudImage = item.StudentImgByte != null && item.StudentImgByte.Length > 0 ? Convert.ToBase64String(item.StudentImgByte) : "";
-            //}
+            
             return data;
         }
 
@@ -360,10 +357,6 @@ namespace Ashirvad.Repo.Services.Area.Student
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
             data.StudImage = data.StudentImgByte != null && data.StudentImgByte.Length > 0 ? Convert.ToBase64String(data.StudentImgByte) : "";
-            //foreach (var item in data)
-            //{
-            //    data[data.IndexOf(item)].StudImage = item.StudentImgByte != null && item.StudentImgByte.Length > 0 ? Convert.ToBase64String(item.StudentImgByte) : "";
-            //}
             if (data != null)
             {
                 if (data.UserID == null)

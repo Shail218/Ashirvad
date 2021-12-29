@@ -58,7 +58,7 @@ namespace Ashirvad.Repo.Services.Area
 
         public async Task<List<CategoryEntity>> GetAllCategorys(long branchID)
         {
-            var data = (from u in this.context.CATEGORY_MASTER
+            var data = (from u in this.context.CATEGORY_MASTER orderby u.category_id descending
                         where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new CategoryEntity()
                         {
@@ -84,6 +84,7 @@ namespace Ashirvad.Repo.Services.Area
         public async Task<List<CategoryEntity>> GetAllCategorys()
         {
             var data = (from u in this.context.CATEGORY_MASTER
+                        orderby u.category_id descending
                         select new CategoryEntity()
                         {
                             RowStatus = new RowStatusEntity()

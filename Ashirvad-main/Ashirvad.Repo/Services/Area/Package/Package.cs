@@ -60,7 +60,7 @@ namespace Ashirvad.Repo.Services.Area.Package
 
         public async Task<List<PackageEntity>> GetAllPackages(long branchID)
         {
-            var data = (from u in this.context.PACKAGE_MASTER
+            var data = (from u in this.context.PACKAGE_MASTER orderby u.package_id descending
                         where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new PackageEntity()
                         {
@@ -84,7 +84,9 @@ namespace Ashirvad.Repo.Services.Area.Package
 
         public async Task<List<PackageEntity>> GetAllPackages()
         {
-            var data = (from u in this.context.PACKAGE_MASTER where u.row_sta_cd == 1
+            var data = (from u in this.context.PACKAGE_MASTER
+                        orderby u.package_id descending
+                        where u.row_sta_cd == 1
                         select new PackageEntity()
                         {
                             RowStatus = new RowStatusEntity()

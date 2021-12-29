@@ -23,6 +23,7 @@ namespace Ashirvad.Data
         public string JSONData { get; set; }
         public string FilePath { get; set; }
         public string FileName { get; set; }
+        public int BranchType { get; set; }
 
     }
 
