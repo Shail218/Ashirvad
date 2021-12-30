@@ -35,69 +35,11 @@
                 </th>
             </tr>
         </thead>
-            @if (Model != null)
-            {
-                foreach (var item in Model)
-                {
-            <tr>
+           <tbody>
 
-                @if (item.FileName != null && item.FileName != "")
-                {
-                    <td>
-                        <img src="@item.FilePath" id="branchImg" style="height:60px;width:60px;margin-left:20px;" />
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        <img src="~/ThemeData/images/Default.png" id="branchImg" style="height:60px;width:60px;margin-left:20px;" />
-                    </td>
-                }
-                <td>
-                    @item.FirstName @item.LastName
-                    @Html.HiddenFor(x => item.StudentID)
-                    @Html.HiddenFor(x => item.BranchInfo.BranchID)
-                </td>
-                <td>
-                    @if (item.AdmissionDate != null)
-                    {
-                        @item.AdmissionDate.Value.ToString("dd/MM/yyyy")
-                    }
-                </td>
-                <td>
-                    @item.StandardInfo.Standard
-                </td>
-                <td>
-                    @item.BatchInfo.BatchType
-                </td>
-                <td>
-                    @item.ContactNo
-                </td>
-                <td>
-                    @item.RowStatus.RowStatusText
-                </td>
-                <td>
-                    <a href="@Url.Action("StudentMaintenance", "Student", new { studentID = item.StudentID })">
-                        <img src="~/ThemeData/images/viewIcon.png" />
-                    </a>
-                </td>
-            </tr>
-                }
-            }
+           </tbody>
     </table>
 </div>
 
 <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
-<script>
-    $(document).ready(function () {
-
-        $('#Studenttable').DataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-    });
-</script>

@@ -29,12 +29,12 @@ namespace Ashirvad.Web.Controllers
         public async Task<ActionResult> ManageStudentMaintenance(long branchID)
         {
             StudentMaintenanceModel branch = new StudentMaintenanceModel();
-            if (branchID > 0)
-            {
-                var result = await _studentService.GetAllStudentWithoutContent(branchID);
-                branch.StudentData = result;
-            }
-            //branch.StudentData = new List<StudentEntity>();
+            //if (branchID > 0)
+            //{
+            //    var result = await _studentService.GetAllStudentWithoutContent(branchID);
+            //    branch.StudentData = result;
+            //}
+            branch.StudentData = new List<StudentEntity>();
             return View("Index", branch);
         }
 
@@ -67,9 +67,10 @@ namespace Ashirvad.Web.Controllers
             return Json(result);
         }
 
-        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model,int status = 0)
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model,string status)
         {
             // action inside a standard controller
+            int statusid = 0;
             List<string> columns = new List<string>();
             columns.Add("");
             columns.Add("Name");
@@ -77,11 +78,25 @@ namespace Ashirvad.Web.Controllers
             columns.Add("");
             columns.Add("");
             columns.Add("ContactNo");
-            foreach (var item in model.order)
+            if (model.order != null)
             {
-                item.name = columns[item.column];
+                foreach (var item in model.order)
+                {
+                    item.name = columns[item.column];
+                }
             }
-            var branchData = await _studentService.GetAllCustomStudent(model,SessionContext.Instance.LoginUser.BranchInfo.BranchID,status);
+            model.length = model.length == 0 ? 10 : model.length;
+            model.draw = model.draw == 0 ? 1 : model.draw;
+            model.search = new Search 
+            { 
+                regex="False",
+                value=null,
+            };
+            if (!string.IsNullOrEmpty(status))   
+            {
+                statusid = Convert.ToInt32(status);
+            }
+            var branchData = await _studentService.GetAllCustomStudent(model,SessionContext.Instance.LoginUser.BranchInfo.BranchID, statusid);
             long total = 0;
             if (branchData.Count > 0)
             {

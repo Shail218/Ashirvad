@@ -380,7 +380,11 @@ namespace Ashirvad.Repo.Services.Area.Student
         public async Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model,long branchID, int status)
         {
             var Result = new List<StudentEntity>();
-            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            bool Isasc=true;
+            if (model.order?.Count > 0)
+            {
+                Isasc = model.order[0].dir == "desc" ? false : true;
+            }           
             long count = this.context.STUDENT_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Distinct().Count();
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
@@ -401,7 +405,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                             RowStatus = new RowStatusEntity()
                             {
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = u.row_sta_cd
+                                RowStatusId = u.row_sta_cd,
+                                RowStatusText= u.row_sta_cd == 1?"Active":"Deactive"
                             },
                             StudentID = u.student_id,
                             Address = u.address,
@@ -440,7 +445,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                             },
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).OrderBy(model.order[0].name, Isasc)
+                        })
+                        .OrderByDescending(s=>s.StudentMaint.StudentID)
                         .Skip(model.start)
                         .Take(model.length)
                         .ToList();

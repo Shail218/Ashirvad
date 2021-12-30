@@ -394,7 +394,7 @@ function CheckRights() {
                 }
             });
             $('#main-menu ' + DeleteClass).each(function () {
-                if (!DeleteClass) {
+                if (!Deletestatus) {
                     //$(this).addClass("displayNone");
                     $(this).html("");
                 }

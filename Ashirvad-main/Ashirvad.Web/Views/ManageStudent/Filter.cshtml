@@ -6,13 +6,13 @@
         @Html.Hidden("BranchID")
     </div>*@
     <div class="col-md-6" style="margin-left:-1%">
-        <a onclick="return LoadActiveStudent();" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+        <a onclick="return ChangeStatusStudent('1');" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
             <span class="ladda-label">
                 Active Students
             </span>
             <span class="ladda-spinner"></span>
         </a>
-        <a onclick="return LoadInActiveStudent();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+        <a onclick="return ChangeStatusStudent('2');" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
             <span class="ladda-label">
                 Deactive Students
             </span>
