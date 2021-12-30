@@ -112,7 +112,6 @@ namespace Ashirvad.Repo.Services.Area.Notification
                         join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
                         from branch in tempBranch.DefaultIfEmpty()
-                        orderby u.notif_id descending
                         where (branchID == 0 || u.branch_id == 0 || u.branch_id.Value == branchID)
                         && (0 == typeID || t.sub_type_id == typeID) && u.row_sta_cd == 1
                         select new NotificationEntity()
@@ -127,7 +126,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
                             Notification_Date = u.notification_date,
                             Branch = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).Distinct().ToList();
+                        }).Distinct().OrderByDescending(a => a.NotificationID).ToList();
 
             if (data?.Count > 0)
             {
@@ -223,6 +222,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
                         }).Skip(model.start)
                         .Take(model.length)
                         .Distinct()
+                        .OrderByDescending(a => a.NotificationID)
                         .ToList();
 
             if (data?.Count > 0)

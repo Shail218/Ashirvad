@@ -239,7 +239,6 @@ namespace Ashirvad.Repo.Services.Area.Library
         public async Task<List<LibraryEntity>> GetAllLibrary(int Type, long BranchID)
         {
             var data = (from u in this.context.LIBRARY_MASTER
-                        orderby u.library_id descending
                         where u.row_sta_cd == 1 && u.library_type == Type && (u.branch_id == BranchID || BranchID == 0)
                         select new LibraryEntity()
                         {
@@ -265,7 +264,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                 RowStatusId = (int)u.row_sta_cd
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value }
-                        }).Distinct().ToList();
+                        }).Distinct().OrderByDescending(a => a.LibraryID).ToList();
             if (data.Count > 0)
             {
                 data[0].libraryEntities = new List<LibraryEntity>();
@@ -316,7 +315,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                 RowStatusId = (int)u.row_sta_cd
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value }
-                        }).Distinct().ToList();
+                        }).Distinct().OrderByDescending(a => a.LibraryID).ToList();
             if (data.Count > 0)
             {
                 data[0].libraryEntities = new List<LibraryEntity>();

@@ -61,7 +61,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
         public async Task<List<SubjectEntity>> GetAllSubjects(long branchID)
         {
             var data = (from u in this.context.SUBJECT_MASTER
-                        .Include("SUBJECT_DTL_MASTER") orderby u.subject_id descending
+                        .Include("SUBJECT_DTL_MASTER")
                         where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new SubjectEntity()
                         {
@@ -78,7 +78,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).Distinct().ToList();
+                        }).Distinct().OrderByDescending(a => a.SubjectID).ToList();
 
             return data;
         }

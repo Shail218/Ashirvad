@@ -17,36 +17,36 @@
             </th>
         </tr>
     </thead>
-
+    <tbody></tbody>
     @*@foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.CourseName
-                @Html.HiddenFor(x => item.CourseID)
-            </td>
-            <td>
-                @if (item.filepath != null && item.filepath != "")
-                {
-                    <img src="@item.filepath" id="FeeImg" style="height:40px;width:40px;margin-left:40px;" />
-                }
-                else
-                {
-                    <img src="~/ThemeData/images/Default.png" id="FeeImg" style="height:40px;width:40px;margin-left:40px;" />
-                }
-            </td>
-            <td>
-                <a style="margin-left:70px;" href="@Url.Action("CourseMaintenance", "Caurse", new { courseID = item.CourseID })">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
-            </td>
-            <td>
-                <a style="margin-left:70px;" href="#" onclick="RemoveCourse(@item.CourseID);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-        </tr>
-    }*@
+        {
+            <tr>
+                <td>
+                    @item.CourseName
+                    @Html.HiddenFor(x => item.CourseID)
+                </td>
+                <td>
+                    @if (item.filepath != null && item.filepath != "")
+                    {
+                        <img src="@item.filepath" id="FeeImg" style="height:40px;width:40px;margin-left:40px;" />
+                    }
+                    else
+                    {
+                        <img src="~/ThemeData/images/Default.png" id="FeeImg" style="height:40px;width:40px;margin-left:40px;" />
+                    }
+                </td>
+                <td>
+                    <a style="margin-left:70px;" href="@Url.Action("CourseMaintenance", "Caurse", new { courseID = item.CourseID })">
+                        <img src="~/ThemeData/images/viewIcon.png" />
+                    </a>
+                </td>
+                <td>
+                    <a style="margin-left:70px;" href="#" onclick="RemoveCourse(@item.CourseID);">
+                        <img src="~/ThemeData/images/delete.png" />
+                    </a>
+                </td>
+            </tr>
+        }*@
 
 </table>
 

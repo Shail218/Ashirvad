@@ -48,8 +48,9 @@ namespace Ashirvad.Repo.Services.Area.Reminder
         
         public async Task<List<ReminderEntity>> GetAllRemindersByBranch(long branchID, long userID)
         {
-            var data = (from u in this.context.REMINDER_MASTER.Include("BRANCH_MASTER") orderby u.reminder_id descending
+            var data = (from u in this.context.REMINDER_MASTER.Include("BRANCH_MASTER")
                         join ud in this.context.USER_DEF on u.user_id equals ud.user_id
+                        orderby u.reminder_id descending
                         where u.branch_id == branchID
                         && (0 == userID || u.user_id == userID) && u.row_sta_cd == 1
                         select new ReminderEntity()
