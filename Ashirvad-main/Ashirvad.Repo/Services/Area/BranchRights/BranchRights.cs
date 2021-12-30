@@ -70,7 +70,7 @@ namespace Ashirvad.Repo.Services.Area
         public async Task<List<BranchWiseRightEntity>> GetAllRights()
         {
             var data = (from u in this.context.BRANCH_RIGHTS_MASTER
-                                .Include("BRANCH_MASTER") orderby u.branchrights_id descending
+                                .Include("BRANCH_MASTER")
                        where u.row_sta_cd == 1
                        select new BranchWiseRightEntity()
                        {
@@ -86,7 +86,7 @@ namespace Ashirvad.Repo.Services.Area
                            },
                            BranchWiseRightsID = u.branchrights_id,
 
-                       }).Distinct().ToList();
+                       }).Distinct().OrderByDescending(a => a.BranchWiseRightsID).ToList();
 
             if (data?.Count > 0)
             {

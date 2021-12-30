@@ -129,7 +129,7 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                             FacultyContentFileName = u.file_name,
                             FacultyID = u.faculty_id,
                             Descripation = u.description,
-                        }).ToList();
+                        }).OrderByDescending(a => a.FacultyID).ToList();
 
             return data;
         }

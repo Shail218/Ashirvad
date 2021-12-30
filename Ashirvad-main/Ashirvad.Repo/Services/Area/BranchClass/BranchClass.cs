@@ -181,7 +181,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
             var data = (from u in this.context.CLASS_DTL_MASTER
                               .Include("CLASS_MASTER")
                               .Include("BRANCH_MASTER")
-                        orderby u.class_dtl_id descending
                         where (BranchID == 0 || u.branch_id == BranchID)
                         && (ClassID == 0 || u.course_dtl_id == ClassID)
                         && u.row_sta_cd == 1
@@ -204,6 +203,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             Count = count
                         })
                         .Distinct()
+                        .OrderByDescending(a => a.Class_dtl_id)
                         .ToList();
             foreach (BranchClassEntity branchClassEntity in data)
             {
@@ -242,7 +242,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
             var data = (from u in this.context.CLASS_DTL_MASTER
                               .Include("CLASS_MASTER")
                               .Include("BRANCH_MASTER")
-                        orderby u.class_dtl_id descending
                         where (BranchID == 0 || u.branch_id == BranchID) && (ClassID == 0 || u.course_dtl_id == ClassID) && u.row_sta_cd == 1
                         select new BranchClassEntity()
                         {
@@ -260,7 +259,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                     CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
                                 }
                             },
-                        }).Distinct().ToList();
+                        }).Distinct().OrderByDescending(a => a.Class_dtl_id).ToList();
             foreach (BranchClassEntity branchClassEntity in data)
             {
                 branchClassEntity.BranchClassData = (from u in this.context.CLASS_DTL_MASTER
@@ -490,7 +489,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 },
                             }
 
-                        }).Distinct().ToList();
+                        }).Distinct().OrderByDescending(a => a.Class.ClassName).ToList();
 
             return data;
 
