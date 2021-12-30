@@ -1,6 +1,68 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
+$(document).ready(function () {
+    ShowLoader();
+    var table = $('#studenttbl').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": "Processing...",
+        "serverSide": true,
+        "language": {
+            processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'
+        },
+        "ajax": {
+            url: "" + GetSiteURL() + "/Class/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        "columns": [
+            { "data": "ClassName" },
+            { "data": "ClassID" },
+            { "data": "ClassID" },
+        ],
+        "columnDefs": [
+            {
+                targets: 1,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a style="text-align:center !important;" href="ClassMaintenance?classID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 2,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = '<a onclick = "RemoveClass(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ],
+        createdRow: function (tr) {
+            $(tr.children[1]).addClass('textalign');
+            $(tr.children[2]).addClass('textalign');
+        },
+    });
+
+});
+
+
 function SaveClass() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
 {
@@ -94,7 +95,8 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
 
         public async Task<List<SuperAdminSubjectEntity>> GetAllSubject()
         {
-            var data = (from u in this.context.SUBJECT_BRANCH_MASTER orderby u.subject_id descending
+            var data = (from u in this.context.SUBJECT_BRANCH_MASTER
+                        orderby u.subject_id descending
                         where u.row_sta_cd == 1
                         select new SuperAdminSubjectEntity()
                         {
@@ -199,5 +201,27 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
 
         }
 
+        public async Task<List<SuperAdminSubjectEntity>> GetAllCustomSubject(DataTableAjaxPostModel model)
+        {
+            var Count = this.context.SUBJECT_BRANCH_MASTER.Where(a => a.row_sta_cd == 1).Count();
+            var data = (from u in this.context.SUBJECT_BRANCH_MASTER
+                        orderby u.subject_id descending
+                        where u.row_sta_cd == 1
+                        select new SuperAdminSubjectEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd,
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                            },
+                            SubjectID = u.subject_id,
+                            SubjectName = u.subject_name,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            Count = Count
+                        }).ToList();
+
+            return data;
+        }
     }
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -34,8 +35,8 @@ namespace Ashirvad.Web.Controllers
                 cl.subjectInfo = result.Data;
             }
 
-            var classData = await _subjectService.GetAllSubject();
-            cl.subjectData = classData.Data;
+            //var classData = await _subjectService.GetAllSubject();
+            cl.subjectData = new List<SuperAdminSubjectEntity>();
 
             return View("Index", cl);
         }
@@ -62,6 +63,24 @@ namespace Ashirvad.Web.Controllers
         {
             var result = _subjectService.RemoveSubject(subjectID, SessionContext.Instance.LoginUser.Username);
             return Json(result);
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            var branchData = await _subjectService.GetAllCustomSubject(model);
+            long total = 0;
+            if (branchData.Data.Count > 0)
+            {
+                total = branchData.Data[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData.Data
+            });
+
         }
     }
 }

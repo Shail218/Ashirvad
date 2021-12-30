@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.DataAcceessAPI.Area.SuperAdminSubject
 {
@@ -13,5 +14,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.SuperAdminSubject
         Task<SuperAdminSubjectEntity> GetSubjectBySubjectID(long subjectID);
         Task<List<SuperAdminSubjectEntity>> GetAllSubject();
         bool RemoveSubject(long subjectID, string lastupdatedby);
+        Task<List<SuperAdminSubjectEntity>> GetAllCustomSubject(DataTableAjaxPostModel model);
     }
 }

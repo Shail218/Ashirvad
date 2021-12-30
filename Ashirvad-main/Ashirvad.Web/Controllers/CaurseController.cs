@@ -95,7 +95,7 @@ namespace Ashirvad.Web.Controllers
                 draw = model.draw,
                 iTotalRecords = total,
                 iTotalDisplayRecords = total,
-                data = branchData
+                data = branchData.Data
             });
 
         }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.SuperAdminSubject
 {
@@ -58,6 +59,23 @@ namespace Ashirvad.ServiceAPI.Services.Area.SuperAdminSubject
             {
                 OperationResult<List<SuperAdminSubjectEntity>> course = new OperationResult<List<SuperAdminSubjectEntity>>();
                 course.Data = await _subjectService.GetAllSubject();
+                course.Completed = true;
+                return course;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<OperationResult<List<SuperAdminSubjectEntity>>> GetAllCustomSubject(DataTableAjaxPostModel model)
+        {
+            try
+            {
+                OperationResult<List<SuperAdminSubjectEntity>> course = new OperationResult<List<SuperAdminSubjectEntity>>();
+                course.Data = await _subjectService.GetAllCustomSubject(model);
                 course.Completed = true;
                 return course;
             }

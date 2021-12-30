@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -34,8 +35,8 @@ namespace Ashirvad.Web.Controllers
                 cl.ClassInfo = result.Data;
             }
 
-            var classData = await _classService.GetAllClass();
-            cl.ClassData = classData.Data;
+            //var classData = await _classService.GetAllClass();
+            cl.ClassData = new List<ClassEntity>();
 
             return View("Index", cl);
         }
@@ -62,6 +63,24 @@ namespace Ashirvad.Web.Controllers
         {
             var result = _classService.RemoveClass(classID, SessionContext.Instance.LoginUser.Username);
             return Json(result);
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            var branchData = await _classService.GetAllCustomClass(model);
+            long total = 0;
+            if (branchData.Data.Count > 0)
+            {
+                total = branchData.Data[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData.Data
+            });
+
         }
     }
 }

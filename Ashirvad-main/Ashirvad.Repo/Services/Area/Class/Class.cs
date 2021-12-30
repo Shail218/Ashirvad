@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Class
 {
@@ -109,6 +110,29 @@ namespace Ashirvad.Repo.Services.Area.Class
                             ClassName = u.class_name,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
 
+                        }).ToList();
+
+            return data;
+        }
+
+        public async Task<List<ClassEntity>> GetAllCustomClass(DataTableAjaxPostModel model)
+        {
+            var Count = context.CLASS_MASTER.Where(a => a.row_sta_cd == 1).Count();
+            var data = (from u in this.context.CLASS_MASTER
+                        orderby u.class_name descending
+                        where u.row_sta_cd == 1
+                        select new ClassEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd,
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                            },
+                            ClassID = u.class_id,
+                            ClassName = u.class_name,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            Count = Count
                         }).ToList();
 
             return data;
