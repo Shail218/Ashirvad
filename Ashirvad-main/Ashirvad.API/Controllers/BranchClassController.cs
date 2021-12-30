@@ -122,7 +122,7 @@ namespace Ashirvad.Web.Controllers
         [HttpGet]
         public OperationResult<List<BranchClassEntity>> GetAllClassDDL(long BranchID,long CourseID)
         {
-            var data = this._branchClassService.GetAllBranchClass(BranchID,CourseID);
+            var data = this._branchClassService.GetAllBranchClassDDL(BranchID,CourseID);
             OperationResult<List<BranchClassEntity>> result = new OperationResult<List<BranchClassEntity>>();
             result.Completed = true;
             result.Data = data.Result;

@@ -1564,18 +1564,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PACKAGE_MASTER_BRANCH_MASTER">
-          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
-          <End Role="PACKAGE_MASTER" Type="Self.PACKAGE_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="PACKAGE_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
           <End Role="PACKAGE_MASTER" Type="Self.PACKAGE_MASTER" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1601,18 +1589,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             </Principal>
             <Dependent Role="PACKAGE_RIGHTS_MASTER">
               <PropertyRef Name="page_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PAGE_MASTER_BRANCH_MASTER">
-          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
-          <End Role="PAGE_MASTER" Type="Self.PAGE_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="PAGE_MASTER">
-              <PropertyRef Name="branch_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2541,10 +2517,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             <End Role="NOTIFICATION_MASTER" EntitySet="NOTIFICATION_MASTER" />
             <End Role="NOTIFICATION_TYPE_REL" EntitySet="NOTIFICATION_TYPE_REL" />
           </AssociationSet>
-          <AssociationSet Name="FK_PACKAGE_MASTER_BRANCH_MASTER" Association="Self.FK_PACKAGE_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" Association="Self.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
             <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
             <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
@@ -2552,10 +2524,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" Association="Self.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER">
             <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
             <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PAGE_MASTER_BRANCH_MASTER" Association="Self.FK_PAGE_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_PRACTICE_PAPER_BRANCH_MASTER" Association="Self.FK_PRACTICE_PAPER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />

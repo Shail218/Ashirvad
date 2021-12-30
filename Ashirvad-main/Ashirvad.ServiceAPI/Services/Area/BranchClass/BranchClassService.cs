@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area
 {
@@ -71,11 +72,11 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public async Task<List<BranchClassEntity>> GetAllBranchClass(long BranchID=0,long ClassID=0)
+        public async Task<List<BranchClassEntity>> GetAllBranchClass(DataTableAjaxPostModel model,long BranchID=0,long ClassID=0)
         {
             try
             {
-                return await this._BranchClassContext.GetAllClass(BranchID, ClassID);
+                return await this._BranchClassContext.GetAllClass(model,BranchID, ClassID);
             }
             catch (Exception ex)
             {
@@ -84,7 +85,19 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return null;
         }
+        public async Task<List<BranchClassEntity>> GetAllBranchClassDDL(long BranchID = 0, long ClassID = 0)
+        {
+            try
+            {
+                return await this._BranchClassContext.GetAllClassDDL(BranchID, ClassID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
 
+            return null;
+        }
         public async Task<List<BranchClassEntity>> GetMobileAllBranchClass(long BranchID = 0, long ClassID = 0)
         {
             try

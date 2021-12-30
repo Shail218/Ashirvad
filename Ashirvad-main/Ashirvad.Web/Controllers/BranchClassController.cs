@@ -125,7 +125,7 @@ namespace Ashirvad.Web.Controllers
 
             try
             {
-                var BranchCourse = await _branchClassService.GetAllBranchClass(SessionContext.Instance.LoginUser.BranchInfo.BranchID, CourseID);
+                var BranchCourse = await _branchClassService.GetAllBranchClassDDL(SessionContext.Instance.LoginUser.BranchInfo.BranchID, CourseID);
                 if (BranchCourse.Count > 0)
                 {
                     return Json(BranchCourse);
@@ -145,7 +145,7 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
         {
-            var branchData = await _branchClassService.GetMobileAllBranchClass(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            var branchData = await _branchClassService.GetAllBranchClass(model,SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             long total = 0;
             if (branchData.Count > 0)
             {

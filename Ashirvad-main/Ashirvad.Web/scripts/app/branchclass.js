@@ -49,9 +49,10 @@ $(document).ready(function () {
             {
                 targets: 0,
                 render: function (data, type, full, meta) {
+
                     if (type === 'display') {
-                        format(data.BranchClassData)
-                        data = '<img src="../ThemeData/images/plus.png" height="30" />'
+                        var ch = format(data.BranchClassData)
+                        data = '<img src="../ThemeData/images/plus.png" height="30" />' + ch;
                     }
                     return data;
                 },
@@ -89,17 +90,68 @@ $(document).ready(function () {
 
 function format(d) {
     // `d` is the original data object for the row
-    return '<table id="child_details" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-        '<tr>' +
-        '<td>Class</td>' +
-        '<td>' + d + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td>Select</td>' +
-        '<td>' + d + '</td>' +
-        '</tr>' +
-        '</table>';
+    var tabledata = tabletd(d);
+    return `<div style = "display:none">
+                            <div style="max-height: 200px; overflow-y: scroll !important"><table style="width: 100%;" id="subcategorytbl2" class="table table-bordered dataTable no-footer">
+                                <thead>
+                                    <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+
+                                        <th>
+                                            Class
+                                        </th>
+                                        <th>
+                                            Selected
+                                        </th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>`+
+    tabledata+
+                                    `</tbody>
+                            </table>
+                            </div>
+
+                </div> `;
 }
+
+function tabletd(d)
+{
+    var data = ``;
+    for (var i = 0; i < d.length; i++)
+    {
+        var ClassName = d[i].Class.ClassName;
+        var IsClass = d[i].isClass == true ? "YES" : "NO";
+        data= data +
+            `<tr>
+             <td>
+             `+ ClassName + `
+             </td>
+             <td>
+            `+ IsClass + `
+            </td>
+            </tr>`;
+    }
+    return data;
+}
+
+$('#subcategorytbl tbody').on('click', 'td.dt-control', function () {
+    var tr = $(this).closest('tr');
+    var row = table.row(tr);
+
+    if (row.child.isShown()) {
+        // This row is already open - close it
+        row.child.hide();
+        tr.removeClass('shown');
+    }
+    else {
+        // Open this row
+        row.child(format(row.data())).show();
+        tr.addClass('shown');
+    }
+});
+
+
 
 function LoadCourse() {
     var postCall = $.post(commonData.BranchCourse + "GetCourseDDL");

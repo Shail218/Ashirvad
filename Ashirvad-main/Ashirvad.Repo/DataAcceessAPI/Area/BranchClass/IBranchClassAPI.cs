@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.DataAcceessAPI.Area
 {
     public interface IBranchClassAPI
     {
         Task<long> ClassMaintenance(BranchClassEntity ClassInfo);
-        Task<List<BranchClassEntity>> GetAllClass(long BranchID,long ClassID= 0);
+        Task<List<BranchClassEntity>> GetAllClass(DataTableAjaxPostModel model,long BranchID,long ClassID= 0);
+        Task<List<BranchClassEntity>> GetAllClassDDL(long BranchID,long ClassID= 0);
         Task<List<BranchClassEntity>> GetMobileAllClass(long BranchID, long ClassID = 0);
         Task<List<BranchClassEntity>> GetClassByClassID(long ClassID,long BranchID);
         bool RemoveClass(long ClassID, long BranchID, string lastupdatedby);
