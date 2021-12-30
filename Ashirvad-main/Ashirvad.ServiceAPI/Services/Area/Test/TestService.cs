@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Test
 {
@@ -54,6 +55,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
+        public async Task<List<TestEntity>> GetAllCustomTest(DataTableAjaxPostModel model, long branchID)
+        {
+            try
+            {
+                return await this._testContext.GetAllCustomTest(model, branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
 
         public async Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAPI(long branchID)
         {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.DataAcceessAPI.Area.Test
 {
@@ -44,5 +45,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Test
 
         Task<List<TestEntity>> TestDateDDL(long branchID, long stdID, int batchTime);
         Task<List<TestEntity>> GetAllTestByBranchAPI(long branchID);
+        Task<List<TestEntity>> GetAllCustomTest(DataTableAjaxPostModel model, long branchID);
     }
 }

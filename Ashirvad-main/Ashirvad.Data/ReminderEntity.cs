@@ -17,5 +17,6 @@ namespace Ashirvad.Data
         public string ReminderDesc { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }
+        public long Count { get; set; }
     }
 }

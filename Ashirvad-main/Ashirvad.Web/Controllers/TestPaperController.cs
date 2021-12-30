@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -45,8 +46,8 @@ namespace Ashirvad.Web.Controllers
                 branch.TestInfo.test = new TestPaperEntity();
             }
 
-            var testpaperByBranch = await _testService.GetAllTestByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            branch.TestData = testpaperByBranch.Data;
+            //var testpaperByBranch = await _testService.GetAllTestByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            branch.TestData = new List<TestEntity>();
            
             return View("Index", branch);
         }
@@ -102,7 +103,6 @@ namespace Ashirvad.Web.Controllers
             {
                 return Json(true);
             }
-
             return Json(false);
         }
 
@@ -120,73 +120,9 @@ namespace Ashirvad.Web.Controllers
             return Json(result);
         }
 
-
         public async Task<ActionResult> StudentAnswerSheetMaintenance(long testID)
         {
             return View(await _testService.GetAnswerSheetdata(testID));
-        }
-
-        public async Task<JsonResult> Downloadtestpaper(long paperid)
-        {
-            string[] array = new string[4];
-            try
-            {
-                var operationResult = await _testService.GetTestPaperByPaperID(paperid);
-                if (operationResult != null)
-                {
-                    string contentType = "";
-                    string[] extarray = operationResult.FileName.Split('.');
-                    string ext = extarray[extarray.Count()-1];
-                    switch (ext)
-                    {
-                        case "pdf":
-                            contentType = "application/pdf";
-                            break;
-                        case "xlsx":
-                            contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                            break;
-                        case "docx":
-                            contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-                            break;
-                        case "png":
-                            contentType = "image/png";
-                            break;
-                        case "jpg":
-                            contentType = "image/jpeg";
-                            break;
-                        case "txt":
-                            contentType = "application/text/plain";
-                            break;
-                        case "mp4":
-                            contentType = "application/video";
-                            break;
-                        case "pptx":
-                            contentType = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
-                            break;
-                        case "zip":
-                            contentType = "application/zip";
-                            break;
-                        case "rar":
-                            contentType = "application/x-rar-compressed";
-                            break;
-                        case "xls":
-                            contentType = "application/vnd.ms-excel";
-                            break;
-                    }
-                    string file = operationResult.DocContentText;
-                    string filename = extarray[0];
-                    array[0] = ext;
-                    array[1] = file;
-                    array[2] = filename;
-                    array[3] = contentType;
-                    return Json(array);
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return Json(array);
         }
 
         public async Task<JsonResult> GetTestDatesByBatch(long BranchID,long stdID, int BatchType)
@@ -242,22 +178,12 @@ namespace Ashirvad.Web.Controllers
             {
 
             }
-
-            //HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
-            //homeworkDetail.HomeworkEntity = new HomeworkEntity();
-            //homeworkDetail.StudentInfo = new StudentEntity();
-            //homeworkDetail.HomeworkEntity.HomeworkID = homeworkid;
-            //homeworkDetail.StudentInfo.StudentID = StudentID;
-            //homeworkDetail.StudentFilePath = FileName;
-            //homeworkDetail.Transaction = GetTransactionData(Common.Enums.TransactionType.Insert);
-            //var result1 = _homeworkdetailService.HomeworkdetailFileupdate(homeworkDetail);
             return Json(FileName);
 
         }
 
         public async Task<JsonResult> UpdateAnsdetails(long TestID, long StudentID, string Remark, int Status)
         {
-            // var result = _homeworkdetailService.GetAllHomeworkdetailByHomeWork(StudhID);
             StudentAnswerSheetEntity answerSheetEntity = new StudentAnswerSheetEntity();
             answerSheetEntity.TestInfo = new TestEntity();
             answerSheetEntity.StudentInfo = new StudentEntity();
@@ -280,5 +206,30 @@ namespace Ashirvad.Web.Controllers
             return Json(response);
         }
 
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            List<string> columns = new List<string>();
+            columns.Add("TestDate");
+            columns.Add("TestStartTime");
+            columns.Add("Marks");
+            foreach (var item in model.order)
+            {
+                item.name = columns[item.column];
+            }
+            var branchData = await _testService.GetAllCustomTest(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
+        }
     }
 }

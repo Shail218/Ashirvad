@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -34,8 +35,8 @@ namespace Ashirvad.Web.Controllers
                 branch.ReminderInfo = reminder.Data;
             }
 
-            var reminderData = await _reminderService.GetAllReminderByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserID);
-            branch.ReminderData = reminderData.Data;
+            //var reminderData = await _reminderService.GetAllReminderByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserID);
+            branch.ReminderData = new List<ReminderEntity>();
 
             return View("Index", branch);
         }
@@ -70,5 +71,29 @@ namespace Ashirvad.Web.Controllers
             return Json(result);
         }
 
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            List<string> columns = new List<string>();
+            columns.Add("ReminderDate");
+            columns.Add("ReminderDesc");
+            foreach (var item in model.order)
+            {
+                item.name = columns[item.column];
+            }
+            var branchData = await _reminderService.GetAllCustomReminder(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
+        }
     }
 }
