@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.DataAcceessAPI.Area.Paper
 {
@@ -16,5 +17,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Paper
         bool RemovePaper(long paperID, string lastupdatedby);
         Task<List<PaperEntity>> GetPracticePapersByStandardSubjectAndBranch(long branchID, long stdID, long subID, int batchTypeID);
         Task<List<SubjectEntity>> GetPracticePaperSubject(long branchID, long stdID);
+        Task<List<PaperEntity>> GetAllCustomPaper(DataTableAjaxPostModel model, long branchID);
     }
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Link
 {
@@ -42,6 +43,20 @@ namespace Ashirvad.ServiceAPI.Services.Link
                 link.Data = await _linkContext.GetAllLink(type, branchID, stdID);
                 link.Completed = true;
                 return link;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<LinkEntity>> GetAllCustomVideoLink(DataTableAjaxPostModel model, long branchID,int type)
+        {
+            try
+            {
+                return await this._linkContext.GetAllCustomLiveVideo(model, branchID,type);
             }
             catch (Exception ex)
             {

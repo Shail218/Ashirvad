@@ -28,6 +28,7 @@ namespace Ashirvad.Data
         public string StudentFilePath { get; set; }
         public StudentEntity StudentInfo { get; set; }
         public int Status { get; set; }
+        public long Count { get; set; }
     }
     public class HomeworkDetailEntity
     {

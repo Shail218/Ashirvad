@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -37,8 +38,8 @@ namespace Ashirvad.Web.Controllers
                 branch.GalleryInfo = result.Data;
             }
 
-            var branchData = await _gallaryService.GetAllGalleryWithoutContent(2,SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            branch.GalleryData = branchData.Data;
+            //var branchData = await _gallaryService.GetAllGalleryWithoutContent(2,SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            branch.GalleryData = new List<GalleryEntity>();
 
             return View("Index", branch);
         }
@@ -87,65 +88,28 @@ namespace Ashirvad.Web.Controllers
             return Json(result);
         }
 
-        [HttpPost]
-        public async Task<string> GetPhoto(long videoID)
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
         {
-            var data = await _gallaryService.GetGalleryByUniqueID(videoID);
-            var result = data.Data;
-
-            return "data:video/*;base64, " + result.FileEncoded;
-        }
-
-        public async Task<JsonResult> DownloadVideo(long videoID)
-        {
-            string[] array = new string[3];
-            try
+            List<string> columns = new List<string>();
+            columns.Add("Remark");
+            foreach (var item in model.order)
             {
-                OperationResult<GalleryEntity> operationResult = new OperationResult<GalleryEntity>();
-                operationResult = await _gallaryService.GetGalleryByUniqueID(videoID);
-                if (operationResult != null)
-                {
-                    string ext = GetFileExtension(operationResult.Data.FileEncoded);
-                    string file = operationResult.Data.FileEncoded;
-                    string filename = DateTime.Now.ToString("dd/MM/yyyy");
-                    array[0] = ext;
-                    array[1] = file;
-                    array[2] = filename;
-                    return Json(array);
-                }
+                item.name = columns[item.column];
             }
-            catch(Exception ex)
+            var branchData = await _gallaryService.GetAllCustomPhotos(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID, 2);
+            long total = 0;
+            if (branchData.Count > 0)
             {
-
+                total = branchData[0].Count;
             }
-            return Json(array);
-        }
-
-        public static string GetFileExtension(string base64String)
-        {
-            var data = base64String.Substring(0, 5);
-
-            switch (data.ToUpper())
+            return Json(new
             {
-                case "IVBOR":
-                    return "png";
-                case "/9J/4":
-                    return "jpg";
-                case "AAAAF":
-                    return "mp4";
-                case "AAAAG":
-                    return "mp4";
-                case "JVBER":
-                    return "pdf";
-                case "AAABA":
-                    return "ico";
-                case "UMFYI":
-                    return "rar";
-                case "UEsDBB":
-                    return "docx";
-                default:
-                    return string.Empty;
-            }
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
         }
 
     }

@@ -45,11 +45,6 @@
                             @foreach (var item in Model.AttendanceDetail)
                             {
                                 <tr>
-                                    @*<td>
-                                        @item.Student.GrNo
-                                        
-
-                                    </td>*@
                                     <td>
                                         @Html.HiddenFor(x => item.Student.StudentID)
                                         @Html.HiddenFor(x => item.DetailID)

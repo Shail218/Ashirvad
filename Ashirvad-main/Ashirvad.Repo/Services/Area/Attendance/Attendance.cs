@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Attendance
 {
@@ -181,6 +182,50 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                     data[idx].AttendanceDetail = detailInfo;
                 }
             }
+            return data;
+        }
+
+        public async Task<List<AttendanceEntity>> GetAllCustomAttendanceRegister(DataTableAjaxPostModel model, long branchID)
+        {
+            var Result = new List<AttendanceEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = this.context.ATTENDANCE_HDR.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Count();
+            var data = (from u in this.context.ATTENDANCE_HDR
+                        .Include("BRANCH_MASTER")
+                        .Include("STD_MASTER")
+                        where u.branch_id == branchID && u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.STD_MASTER.standard.ToLower().Contains(model.search.value)
+                        || u.attendance_dt.ToString().ToLower().Contains(model.search.value))
+                        orderby u.attendance_hdr_id descending
+                        select new AttendanceEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            Branch = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Standard = new StandardEntity()
+                            {
+                                StandardID = u.STD_MASTER.std_id,
+                                Standard = u.STD_MASTER.standard
+                            },
+                            Count = count,
+                            AttendanceDate = u.attendance_dt,
+                            AttendanceID = u.attendance_hdr_id,
+                            BatchTypeID = u.batch_time_type,
+                            BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
             return data;
         }
 

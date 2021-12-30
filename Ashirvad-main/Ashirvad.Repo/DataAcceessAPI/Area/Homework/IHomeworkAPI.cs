@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.DataAcceessAPI.Area.Homework
 {
@@ -18,5 +19,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Homework
         bool RemoveHomework(long homeworkID, string lastupdatedby);
         Task<List<HomeworkEntity>> GetAllHomeworks(DateTime hwDate, string searchParam);
         Task<List<HomeworkEntity>> GetStudentHomeworkFile(long homeworkID);
+        Task<List<HomeworkEntity>> GetAllCustomHomework(DataTableAjaxPostModel model, long branchID);
     }
 }

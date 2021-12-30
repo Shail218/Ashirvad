@@ -4,7 +4,7 @@
 
     Layout = null;
 }
-<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+<table style="width: 100%;" id="attendanceregistertable" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
             <th>
@@ -17,14 +17,15 @@
                 Batch Time
             </th>
             <th>
-                Show
+                Edit
             </th>
             <th>
                 Delete
             </th>
         </tr>
     </thead>
-    @if (Model != null)
+    <tbody></tbody>
+    @*@if (Model != null)
     {
         foreach (var item in Model)
         {
@@ -51,43 +52,8 @@
                 </td>
             </tr>
         }
-    }
+    }*@
 </table>
-
-
-@*<div class="form-group">
-    <div class="col-md-12" style="text-align: right;">
-        <a href="@Url.Action("Index","AttendanceRegister")" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
-            <span class="ladda-label">
-                Cancel
-            </span>
-            <span class="ladda-spinner"></span>
-        </a>
-        <a href="#" onclick="return SaveAttendance();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
-            <span class="ladda-label">
-                Save
-            </span>
-            <span class="ladda-spinner"></span>
-        </a>
-    </div>
-</div>*@
-
-<script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-
-        $('#studenttbl').DataTable({
-            "bPaginate": false,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-
-    });
-</script>
 
 
 

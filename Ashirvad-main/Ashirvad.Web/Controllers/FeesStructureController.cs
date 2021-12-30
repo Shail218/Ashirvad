@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -36,8 +37,8 @@ namespace Ashirvad.Web.Controllers
                 Fees.FeesInfo = result;
             }
 
-            var FeesData = await _FeesService.GetAllFees(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            Fees.FeesData = FeesData;
+            //var FeesData = await _FeesService.GetAllFees(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            Fees.FeesData = new List<FeesEntity>();
 
             return View("Index", Fees);
         }       
@@ -47,8 +48,6 @@ namespace Ashirvad.Web.Controllers
         {
             if (Fees.ImageFile != null)
             {
-                //fileModel= fileUploadCommon.SaveFileUploadweb(Fees.ImageFile, "FeesImage").Result;
-                //Fees.Fees_Content = Common.Common.ReadFully(Fees.ImageFile.InputStream);
                 string _FileName = Path.GetFileName(Fees.ImageFile.FileName);
                 string extension = System.IO.Path.GetExtension(Fees.ImageFile.FileName);
                 string randomfilename = Common.Common.RandomString(20);
@@ -85,6 +84,30 @@ namespace Ashirvad.Web.Controllers
             var FeesData = await _FeesService.GetAllFeesWithoutImage();           
 
             return Json(FeesData);
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            List<string> columns = new List<string>();
+            columns.Add("Remark");
+            foreach (var item in model.order)
+            {
+                item.name = columns[item.column];
+            }
+            var branchData = await _FeesService.GetAllCustomFees(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
         }
     }
 }

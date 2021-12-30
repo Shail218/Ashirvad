@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -26,8 +27,9 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> GetAllAttendanceByBranch(long branchID)
         {
-            var data = await this._attendanceService.GetAllAttendanceByBranch(branchID);
-            return View("~/Views/AttendanceRegister/Manage.cshtml", data.Data);
+            //var data = await this._attendanceService.GetAllAttendanceByBranch(branchID);
+            List<AttendanceEntity> entity = new List<AttendanceEntity>();
+            return View("~/Views/AttendanceRegister/Manage.cshtml", entity);
         }
 
         public async Task<ActionResult> GetAttendanceByID(long attendanceID)
@@ -41,6 +43,30 @@ namespace Ashirvad.Web.Controllers
         {
             var data = this._attendanceService.RemoveAttendance(attendanceID, SessionContext.Instance.LoginUser.Username);
             return Json(data);
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            List<string> columns = new List<string>();
+            columns.Add("AttendanceDate");
+            foreach (var item in model.order)
+            {
+                item.name = columns[item.column];
+            }
+            var branchData = await _attendanceService.GetAllCustomAttendanceRegister(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
         }
 
     }

@@ -3,6 +3,65 @@
 
 $(document).ready(function () {
     ShowLoader();
+
+    var table = $('#batchtable').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+        },
+        "ajax": {
+            url: "" + GetSiteURL() + "/Batch/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        "columns": [
+            { "data": "StandardInfo.Standard" },
+            { "data": "BatchText" },
+            { "data": "MonFriBatchTime" },
+            { "data": "SatBatchTime" },
+            { "data": "SunBatchTime" },
+            { "data": "BatchID" },
+            { "data": "BatchID" }
+        ],
+        "columnDefs": [
+            {
+                targets: 5,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="BatchMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 6,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemoveBatch(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ]
+    });
+
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
@@ -40,11 +99,9 @@ function LoadBranch(onLoaded) {
         for (i = 0; i < data.length; i++) {
             $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
         }
-
         if (onLoaded != undefined) {
             onLoaded();
         }
-
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

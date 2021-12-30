@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -38,8 +39,8 @@ namespace Ashirvad.Web.Controllers
                 branch.BatchInfo = result;
             }
 
-            var batchData = await _batchService.GetAllBatches(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            branch.BatchData = batchData;
+            //var batchData = await _batchService.GetAllBatches(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            branch.BatchData = new List<BatchEntity>();
 
             return View("Index", branch);
         }
@@ -84,6 +85,30 @@ namespace Ashirvad.Web.Controllers
         {
             var result = _batchService.RemoveBatch(batchID, SessionContext.Instance.LoginUser.Username);
             return Json(result);
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            List<string> columns = new List<string>();
+            columns.Add("BatchText");
+            foreach (var item in model.order)
+            {
+                item.name = columns[item.column];
+            }
+            var branchData = await _batchService.GetAllCustomBatch(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
         }
     }
 }

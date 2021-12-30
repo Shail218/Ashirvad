@@ -8,6 +8,101 @@ $(document).ready(function () {
         $("#fuHomeworkDoc").addClass("editForm");
     }
 
+    var table = $('#homeworktable').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+        },
+        "ajax": {
+            url: "" + GetSiteURL() + "/HomeWork/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        "columns": [
+            { "data": "HomeworkDate" },
+            { "data": "StandardInfo.Standard" },
+            { "data": "SubjectInfo.Subject" },
+            { "data": "BatchTimeText" },
+            { "data": "HomeworkContentFileName" },
+            { "data": "HomeworkID" },
+            { "data": "HomeworkID" },
+            { "data": "HomeworkID" }
+        ],
+        "columnDefs": [
+            {
+                targets: 0,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = ConvertMiliDateFrom(data)
+                    }
+                    return data;
+                },
+                orderable: false
+            },
+            {
+                targets: 4,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        if (data != null && data != "")
+                        {
+                            data = '<a href= "' + full.FilePath.replace("http://highpack-001-site12.dtempurl.com", "") + '" id="paperdownload" download="' + full.HomeworkContentFileName + '"> <img src="../ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
+                        }                       
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 5,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="HomeworkMaintenance?homeworkID=' + data + '&branchID=' + full.BranchInfo.BranchID + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 6,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemoveHomework(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 7,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="StudentHomeworkDetails?StudhID=' + data + '"><img src = "../ThemeData/images/tick.png" style="height:35px;width:35px"/></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ]
+    });
+
     $("#datepickerhomework").datepicker({
         autoclose: true,
         todayHighlight: true,
@@ -205,6 +300,32 @@ $("#Type").change(function () {
     }
     $('#PaperTypeID').val(Data);
 });
+
+function ConvertMiliDateFrom(date) {
+    if (date != null) {
+        var sd = date.split("/Date(");
+        var sd2 = sd[1].split(")/");
+        var date1 = new Date(parseInt(sd2[0]));
+        var d = date1.getDate();
+        var m = date1.getMonth() + 1;
+        var y = date1.getFullYear();
+        var hr = date1.getHours();
+        var min = date1.getMinutes();
+        var sec = date1.getSeconds();
+
+        if (parseInt(d) < 10) {
+            d = "0" + d;
+        }
+        if (parseInt(m) < 10) {
+            m = "0" + m;
+        }
+        var Final = d + "-" + m + "-" + y + " ";
+        var d = date1.toString("dd/MM/yyyy HH:mm:SS");
+        return Final;
+    }
+    return "";
+}
+
 
 function DownloadHomeworkdetail(HomeworkID) {
     ShowLoader();

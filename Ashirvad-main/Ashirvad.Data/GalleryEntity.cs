@@ -20,5 +20,6 @@ namespace Ashirvad.Data
         public TransactionEntity Transaction { get; set; }
         public int GalleryType { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
+        public long Count { get; set; }
     }
 }

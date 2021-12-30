@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Paper
 {
@@ -223,6 +224,64 @@ namespace Ashirvad.Repo.Services.Area.Paper
                             }
                         }).ToList();
 
+            return data;
+        }
+
+        public async Task<List<PaperEntity>> GetAllCustomPaper(DataTableAjaxPostModel model, long branchID)
+        {
+            var Result = new List<PaperEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = this.context.PRACTICE_PAPER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Count();
+            var data = (from u in this.context.PRACTICE_PAPER
+                        .Include("PRACTICE_PAPER_REL")
+                        .Include("BRANCH_MASTER")
+                        .Include("STD_MASTER")
+                        .Include("SUBJECT_MASTER")
+                        where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.STD_MASTER.standard.ToLower().Contains(model.search.value)
+                        || u.SUBJECT_MASTER.subject.ToLower().Contains(model.search.value))
+                        orderby u.paper_id descending
+                        select new PaperEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            Branch = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Standard = new StandardEntity()
+                            {
+                                StandardID = u.std_id,
+                                Standard = u.STD_MASTER.standard
+                            },
+                            Subject = new SubjectEntity()
+                            {
+                                SubjectID = u.SUBJECT_MASTER.subject_id,
+                                Subject = u.SUBJECT_MASTER.subject
+                            },
+                            BatchTypeID = u.batch_type,
+                            Count = count,
+                            BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : "Evening",
+                            PaperID = u.paper_id,
+                            Remarks = u.remarks,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            PaperData = new PaperData()
+                            {
+                                FilePath = u.PRACTICE_PAPER_REL.Count == 0 ? " " : "http://highpack-001-site12.dtempurl.com" + u.PRACTICE_PAPER_REL.FirstOrDefault().file_path,
+                                PaperID = u.PRACTICE_PAPER_REL.Count == 0 ? 0 : u.PRACTICE_PAPER_REL.FirstOrDefault().paper_id,
+                                PaperPath = u.PRACTICE_PAPER_REL.Count == 0 ? " " : u.PRACTICE_PAPER_REL.FirstOrDefault().paper_file,
+                                UniqueID = u.PRACTICE_PAPER_REL.Count == 0 ? 0 : u.PRACTICE_PAPER_REL.FirstOrDefault().unique_id
+                            }
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
             return data;
         }
 

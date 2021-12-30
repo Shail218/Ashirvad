@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Gallery
 {
@@ -45,6 +46,20 @@ namespace Ashirvad.ServiceAPI.Services.Gallery
                 banner.Data = await _galleryContext.GetAllGalleryWithoutContent(type, branchID);
                 banner.Completed = true;
                 return banner;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<GalleryEntity>> GetAllCustomPhotos(DataTableAjaxPostModel model, long branchID,int type)
+        {
+            try
+            {
+                return await this._galleryContext.GetAllCustomPhotos(model, branchID,type);
             }
             catch (Exception ex)
             {

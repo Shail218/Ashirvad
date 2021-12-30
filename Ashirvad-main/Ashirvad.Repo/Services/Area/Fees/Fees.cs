@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area
 {
@@ -122,6 +123,48 @@ namespace Ashirvad.Repo.Services.Area
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id }
                         }).ToList();
 
+            return data;
+        }
+
+        public async Task<List<FeesEntity>> GetAllCustomFees(DataTableAjaxPostModel model, long branchID)
+        {
+            var Result = new List<FeesEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = (from u in this.context.FEE_STRUCTURE_MASTER
+                          join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
+                          orderby u.fee_struct_mst_id descending
+                          where u.row_sta_cd == 1 && u.branch_id == branchID
+                          select new FeesEntity() {
+                              FeesID = u.fee_struct_mst_id
+                          }).Distinct().Count();
+            var data = (from u in this.context.FEE_STRUCTURE_MASTER.Include("STD_MASTER")
+                        join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
+                        orderby u.fee_struct_mst_id descending
+                        where u.row_sta_cd == 1 && u.branch_id == branchID
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.STD_MASTER.standard.ToLower().Contains(model.search.value)
+                        || u.remarks.ToLower().Contains(model.search.value))
+                        orderby u.fee_struct_mst_id descending
+                        select new FeesEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            FeesID = u.fee_struct_mst_id,
+                            FeesDetailID = b.fee_struct_dtl_id,
+                            Remark = u.remarks,
+                            Count = count,
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + b.file_path,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            standardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
+                            BranchInfo = new BranchEntity() { BranchID = u.branch_id }
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
             return data;
         }
 

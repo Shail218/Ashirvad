@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Batch
 {
@@ -38,6 +39,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Batch
             try
             {
                 return await this._batchContext.GetAllBatches(branchID, STDID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<BatchEntity>> GetAllCustomBatch(DataTableAjaxPostModel model, long branchID)
+        {
+            try
+            {
+                return await this._batchContext.GetAllCustomBatch(model, branchID);
             }
             catch (Exception ex)
             {

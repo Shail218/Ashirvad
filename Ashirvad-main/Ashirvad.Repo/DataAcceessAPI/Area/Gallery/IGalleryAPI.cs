@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.DataAcceessAPI.Area.Gallery
 {
@@ -14,5 +15,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Gallery
         Task<List<GalleryEntity>> GetAllGalleryWithoutContent(int type, long branchID);
         Task<GalleryEntity> GetGalleryByUniqueID(long uniqueID);
         bool RemoveGallery(long uniqueID, string lastupdatedby);
+        Task<List<GalleryEntity>> GetAllCustomPhotos(DataTableAjaxPostModel model, long branchID, int type);
     }
 }

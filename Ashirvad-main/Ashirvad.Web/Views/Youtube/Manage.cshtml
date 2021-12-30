@@ -1,16 +1,9 @@
 ﻿@using Ashirvad.Web.Controllers;
 @model List<Ashirvad.Data.LinkEntity>
 
-<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+<table style="width: 100%;" id="youtubetable" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
-             @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
-            {
-                <th>
-                    Branch Name
-                </th>
-            }
-
             <th>
                 Standard
             </th>
@@ -31,16 +24,10 @@
             </th>
         </tr>
     </thead>
-    @foreach (var item in Model)
+    <tbody></tbody>
+    @*@foreach (var item in Model)
     {
         <tr>
-            @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
-            {
-                <td>
-                    @item.Branch.BranchName
-                </td>
-            }
-
             <td>
                 @item.StandardName
             </td>
@@ -61,7 +48,7 @@
                 </a>
             </td>
         </tr>
-    }
+    }*@
 </table>
 
 

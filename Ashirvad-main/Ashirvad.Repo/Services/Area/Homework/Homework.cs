@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Homework
 {
@@ -291,6 +292,60 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
 
+            return data;
+        }
+
+        public async Task<List<HomeworkEntity>> GetAllCustomHomework(DataTableAjaxPostModel model, long branchID)
+        {
+            var Result = new List<FeesEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = this.context.HOMEWORK_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Count();                          
+            var data = (from u in this.context.HOMEWORK_MASTER
+                        .Include("BRANCH_MASTER")
+                        .Include("STD_MASTER")
+                        .Include("SUBJECT_MASTER")
+                        where u.branch_id == branchID &&  u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.homework_dt.ToString().ToLower().Contains(model.search.value)
+                        || u.STD_MASTER.standard.ToLower().Contains(model.search.value)
+                        || u.SUBJECT_MASTER.subject.ToLower().Contains(model.search.value))
+                        orderby u.homework_id descending
+                        select new HomeworkEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            HomeworkID = u.homework_id,
+                            HomeworkContentFileName = u.homework_file,
+                            HomeworkDate = u.homework_dt,
+                            Remarks = u.remarks,
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            StandardInfo = new StandardEntity()
+                            {
+                                Standard = u.STD_MASTER.standard,
+                                StandardID = u.STD_MASTER.std_id
+                            },
+                            SubjectInfo = new SubjectEntity()
+                            {
+                                Subject = u.SUBJECT_MASTER.subject,
+                                SubjectID = u.SUBJECT_MASTER.subject_id
+                            },
+                            Count = count,
+                            BatchTimeID = u.batch_time_id,
+                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
             return data;
         }
 

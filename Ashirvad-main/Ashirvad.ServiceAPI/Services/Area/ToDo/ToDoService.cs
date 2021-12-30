@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.ToDo
 {
@@ -44,6 +45,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.ToDo
             {
                 var data = await _todoContext.GetAllToDoByBranch(branchID, userID);
                 return data;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<ToDoEntity>> GetAllCustomToDo(DataTableAjaxPostModel model, long branchID)
+        {
+            try
+            {
+                return await this._todoContext.GetAllCustomToDo(model, branchID);
             }
             catch (Exception ex)
             {

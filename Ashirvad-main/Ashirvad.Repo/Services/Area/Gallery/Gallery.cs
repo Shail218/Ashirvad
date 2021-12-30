@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Gallery
 {
@@ -92,6 +93,40 @@ namespace Ashirvad.Repo.Services.Area.Gallery
                             Remarks = u.remarks
                         }).ToList();
 
+            return data;
+        }
+
+        public async Task<List<GalleryEntity>> GetAllCustomPhotos(DataTableAjaxPostModel model, long branchID, int type)
+        {
+            var Result = new List<GalleryEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = this.context.GALLERY_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID && s.uplaod_type == type).Count();
+            var data = (from u in this.context.GALLERY_MASTER
+                        .Include("BRANCH_MASTER")
+                        where u.uplaod_type == type && (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.remarks.ToLower().Contains(model.search.value))
+                        orderby u.unique_id descending
+                        select new GalleryEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            UniqueID = u.unique_id,
+                            FileName = u.file_name,
+                            FilePath = u.file_path,
+                            Branch = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            GalleryType = u.uplaod_type,
+                            Count = count,
+                            Remarks = u.remarks
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
             return data;
         }
 

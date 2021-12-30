@@ -8,6 +8,74 @@ $(document).ready(function () {
         $("#fuPaperImage").addClass("editForm");
     }
 
+    var table = $('#papertable').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+        },
+        "ajax": {
+            url: "" + GetSiteURL() + "/Papers/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        "columns": [
+            { "data": "Standard.Standard" },
+            { "data": "Subject.Subject" },
+            { "data": "BatchTypeText" },
+            { "data": "PaperData.FilePath" },
+            { "data": "PaperID" },
+            { "data": "PaperID" }
+        ],
+        "columnDefs": [
+            {
+                targets: 3,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = '<a href= "' + full.PaperData.FilePath.replace("http://highpack-001-site12.dtempurl.com", "") + '" id="paperdownload" download="' + full.PaperData.PaperPath + '"> <img src="../ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 4,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="PaperMaintenance?paperID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 5,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemovePaper(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ]
+    });
+
     LoadBranch(function () {
         if ($("#Branch_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
@@ -45,15 +113,9 @@ function LoadBranch(onLoaded) {
         for (i = 0; i < data.length; i++) {
             $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
         }
-
-        //$.each(data, function (i) {
-        //    $("#BranchName").append($("<option></option>").val(data[i].BranchID).html(data[i].BranchName));
-        //});
-
         if (onLoaded != undefined) {
             onLoaded();
         }
-
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

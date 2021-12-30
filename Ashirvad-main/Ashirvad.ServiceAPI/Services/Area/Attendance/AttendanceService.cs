@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Attendance
 {
@@ -42,6 +43,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
                 attendance.Data = await _attendanceContext.GetAllAttendanceByBranch(branchID);
                 attendance.Completed = true;
                 return attendance;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<AttendanceEntity>> GetAllCustomAttendanceRegister(DataTableAjaxPostModel model, long branchID)
+        {
+            try
+            {
+                return await this._attendanceContext.GetAllCustomAttendanceRegister(model, branchID);
             }
             catch (Exception ex)
             {

@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Paper
 {
@@ -105,6 +106,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Paper
                 paper.Data = await _paperContext.GetAllPaperWithoutContent(branchID);
                 paper.Completed = true;
                 return paper;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<PaperEntity>> GetAllCustomPaper(DataTableAjaxPostModel model, long branchID)
+        {
+            try
+            {
+                return await this._paperContext.GetAllCustomPaper(model, branchID);
             }
             catch (Exception ex)
             {

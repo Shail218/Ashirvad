@@ -19,6 +19,7 @@ namespace Ashirvad.Data
         public RowStatusEntity RowStatus { get; set; }
         public TransactionEntity Transaction { get; set; }
         public PaperData PaperData { get; set; }
+        public long Count { get; set; }
     }
 
     public class PaperData

@@ -13,7 +13,7 @@
             <div class="box box-warning">
                 <div class="box-header with-border">
                     <h3 class="box-title">Online Class Entry</h3>
-               
+
                     @{
                         Html.RenderPartial("Create", new ViewDataDictionary(Model.LinkInfo));
                     }
@@ -34,12 +34,11 @@
     </div>
 
     @section Scripts {
-        <script type="text/javascript" src="~/scripts/app/link.js"></script>
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
-        <script>
+        <script type="text/javascript" src="~/scripts/app/link.js"></script>
+        @*<script>
             $(document).ready(function () {
-
                 $('#studenttbl').DataTable({
                     "bPaginate": true,
                     "bLengthChange": false,
@@ -48,9 +47,8 @@
                     "bAutoWidth": true,
                     "order": [[0, "desc"]]
                 });
-
             });
-        </script>
+        </script>*@
         <script type="text/javascript">
             function ConfirmationDialog() {
                 if (confirm("Are you sure to continue?"))

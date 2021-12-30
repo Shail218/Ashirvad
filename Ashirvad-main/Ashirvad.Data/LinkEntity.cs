@@ -18,5 +18,6 @@ namespace Ashirvad.Data
         public TransactionEntity Transaction { get; set; }
         public string Title { get; set; }
         public int LinkType { get; set; }
+        public long Count { get; set; }
     }
 }

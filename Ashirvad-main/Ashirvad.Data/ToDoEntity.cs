@@ -23,5 +23,6 @@ namespace Ashirvad.Data
         public bool? Registerstatus { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public TransactionEntity Transaction { get; set; }
+        public long Count { get; set; }
     }
 }

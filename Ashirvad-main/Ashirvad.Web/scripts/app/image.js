@@ -8,6 +8,72 @@ $(document).ready(function () {
         $("#fuImage").addClass("editForm");
     }
 
+    var table = $('#imagetable').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+        },
+        "ajax": {
+            url: "" + GetSiteURL() + "/Photos/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        "columns": [
+            { "data": "FilePath" },
+            { "data": "Remarks" },
+            { "data": "UniqueID" },
+            { "data": "UniqueID" }
+        ],
+        "columnDefs": [
+            {
+                targets: 0,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = '<img src = "' + data + '" style="height:40px;width:40px;margin-left:40px;"/>'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 2,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="PhotosMaintenance?photoID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 3,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemovePhotos(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ]
+    });
+
     LoadBranch(function () {
         if ($("#Branch_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
@@ -22,19 +88,6 @@ $(document).ready(function () {
     if ($("#Branch_BranchID").val() != "") {
         $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
     }
-
-    //$("#studenttbl tr").each(function () {       
-    //    var elemImg = $(this).find("#Img");
-    //    var photoID = $(this).find("#item_UniqueID").val();
-    //    if (elemImg.length > 0 && photoID.length > 0) {
-    //        var postCall = $.post(commonData.Photos + "GetPhoto", { "photoID": photoID });
-    //        postCall.done(function (data) {
-    //            $(elemImg).attr('src', data);
-    //        }).fail(function () {
-    //            $(elemImg).attr('src', "../ThemeData/images/Default.png");
-    //        });
-    //    }
-    //});
 
 });
 

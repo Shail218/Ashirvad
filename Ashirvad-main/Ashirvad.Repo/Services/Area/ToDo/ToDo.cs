@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.ToDo
 {
@@ -80,6 +81,57 @@ namespace Ashirvad.Repo.Services.Area.ToDo
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
+            return data;
+        }
+
+        public async Task<List<ToDoEntity>> GetAllCustomToDo(DataTableAjaxPostModel model, long branchID)
+        {
+            var Result = new List<ToDoEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = (from u in this.context.TODO_MASTER.Include("BRANCH_MASTER")
+                          join ud in this.context.BRANCH_STAFF on u.user_id equals ud.staff_id orderby u.todo_id descending
+                          where u.branch_id == branchID && u.row_sta_cd == 1
+                          select new ToDoEntity()
+                          {
+                              ToDoID = u.todo_id
+                          }).Distinct().Count();
+            var data = (from u in this.context.TODO_MASTER .Include("BRANCH_MASTER")
+                        join ud in this.context.BRANCH_STAFF on u.user_id equals ud.staff_id
+                        where u.branch_id == branchID && u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.todo_dt.ToString().ToLower().Contains(model.search.value)
+                        || u.todo_desc.ToLower().Contains(model.search.value)
+                        || ud.name.ToLower().Contains(model.search.value))
+                        orderby u.todo_id descending
+                        select new ToDoEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            ToDoID = u.todo_id,
+                            ToDoFileName = u.todo_doc_name,
+                            ToDoDate = u.todo_dt,
+                            ToDoDescription = u.todo_desc,
+                            UserInfo = new UserEntity()
+                            {
+                                UserID = ud.staff_id,
+                                Username = ud.name
+                            },
+                            Count = count,
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
             return data;
         }
 

@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Homework
 {
@@ -88,6 +89,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
             {
                 var data = await _homeworkContext.GetAllHomeworkWithoutContentByBranch(branchID, stdID);
                 return data;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<HomeworkEntity>> GetAllCustomHomework(DataTableAjaxPostModel model, long branchID)
+        {
+            try
+            {
+                return await this._homeworkContext.GetAllCustomHomework(model, branchID);
             }
             catch (Exception ex)
             {

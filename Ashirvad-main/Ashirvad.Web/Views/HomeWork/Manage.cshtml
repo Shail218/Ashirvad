@@ -1,25 +1,21 @@
 ﻿@using Ashirvad.Web.Controllers;
 @model List<Ashirvad.Data.HomeworkEntity>
 
-<table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+<table style="width: 100%;" id="homeworktable" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
             <th>
                 Date
             </th>
-
             <th>
                 Standard
             </th>
-
             <th>
                 Subject
             </th>
-
             <th>
                 Batch Time
             </th>
-
             <th>
                 Homework
             </th>
@@ -34,8 +30,8 @@
             </th>
         </tr>
     </thead>
-
-    @foreach (var item in Model)
+    <tbody></tbody>
+    @*@foreach (var item in Model)
     {
         <tr>
             <td>
@@ -79,7 +75,7 @@
                 </a>
             </td>
         </tr>
-    }
+    }*@
 
 </table>
 

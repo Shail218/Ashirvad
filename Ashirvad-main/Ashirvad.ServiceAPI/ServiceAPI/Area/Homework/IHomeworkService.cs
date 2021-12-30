@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Homework
 {
@@ -17,7 +18,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Homework
         Task<List<HomeworkEntity>> GetStudentHomeworkChecking(long hwID);
         bool RemoveHomework(long hwID, string lastupdatedby);
         Task<List<HomeworkEntity>> GetAllHomeworks(DateTime hwDate, string searchParam);
-
+        Task<List<HomeworkEntity>> GetAllCustomHomework(DataTableAjaxPostModel model, long branchID);
         Task<List<HomeworkEntity>> GetHomeworkdetailsFiles(long hwID);
     }
 }

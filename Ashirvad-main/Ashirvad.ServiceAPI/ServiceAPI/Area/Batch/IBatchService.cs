@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Batch
 {
@@ -14,6 +15,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Batch
         bool RemoveBatch(long BatchID, string lastupdatedby);
         Task<BatchEntity> GetBatchByID(long schoolID);
         Task<List<BatchEntity>> GetAllBatches();
-        
+        Task<List<BatchEntity>> GetAllCustomBatch(DataTableAjaxPostModel model, long branchID);
     }
 }

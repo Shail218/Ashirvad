@@ -7,6 +7,78 @@ $(document).ready(function () {
         $("#FileInfo").addClass("editForm");
     }
 
+    var table = $('#testpapertable').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+        },
+        "ajax": {
+            url: "" + GetSiteURL() + "/TestPaper/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        "columns": [
+            { "data": "Standard.Standard" },
+            { "data": "BatchTimeText" },
+            { "data": "TestDate" },
+            { "data": "TestStartTime" + " " + "TestEndTime" },
+            { "data": "Subject.Subject" },
+            { "data": "Marks" },
+            { "data": "test.FilePath" },
+            { "data": "TestID","test.TestPaperID" },
+            { "data": "TestID" },
+            { "data": "TestID" },
+        ],
+        "columnDefs": [
+            {
+                targets: 1,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = '<img src = "' + data + '" style="height:60px;width:60px;margin-left:20px;"/>'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 3,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="FeesMaintenance?FeesID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 4,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemoveFees(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ]
+    });
+
     $("#datepickertest").datepicker({
         autoclose: true,
         todayHighlight: true,

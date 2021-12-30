@@ -20,7 +20,7 @@
         }
         <section class="col-md-12">
             <div class="box box-primary">
-                <div class="box-body" id="AttendanceData"  style="padding:10px">
+                <div class="box-body" id="AttendanceData" style="padding:10px">
                     @{
                         Html.RenderPartial("Manage", new ViewDataDictionary(Model));
                     }
@@ -29,22 +29,22 @@
         </section>
     </div>
     @section Scripts {
-        @*<script src="~/themedata/plugins/datatables/jquery.datatables.min.js"></script>
-        <script src="~/themedata/plugins/datatables/datatables.bootstrap.min.js"></script>*@
+        <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
         <script type="text/javascript" src="~/scripts/app/attendanceRegister.js"></script>
         @*<script>
-            $(document).ready(function () {
+                $(document).ready(function () {
 
-                $('#studenttbl').datatable({
-                    "bpaginate": true,
-                    "blengthchange": false,
-                    "bfilter": true,
-                    "binfo": true,
-                    "bautowidth": true
+                    $('#studenttbl').datatable({
+                        "bpaginate": true,
+                        "blengthchange": false,
+                        "bfilter": true,
+                        "binfo": true,
+                        "bautowidth": true
+                    });
+
                 });
-
-            });
-        </script>*@
+            </script>*@
         <script type="text/javascript">
             function ConfirmationDialog() {
                 if (confirm("Are you sure to continue?"))

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Link
 {
@@ -74,7 +75,51 @@ namespace Ashirvad.Repo.Services.Area.Link
 
             return data;
         }
-        
+
+        public async Task<List<LinkEntity>> GetAllCustomLiveVideo(DataTableAjaxPostModel model, long branchID,int type)
+        {
+            var Result = new List<LinkEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = (from u in this.context.LINK_MASTER
+                          join std in this.context.STD_MASTER on u.std_id equals std.std_id orderby u.unique_id descending
+                          where u.type == type && u.branch_id == branchID && u.row_sta_cd == 1
+                          select new LinkEntity()
+                          {
+                              UniqueID = u.unique_id
+                          }).Distinct().Count();
+            var data = (from u in this.context.LINK_MASTER
+                        join std in this.context.STD_MASTER on u.std_id equals std.std_id
+                        where u.type == type && u.branch_id == branchID && u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.title.ToLower().Contains(model.search.value)
+                        || u.vid_desc.ToLower().Contains(model.search.value)
+                        || u.vid_url.ToLower().Contains(model.search.value))
+                        orderby u.unique_id descending
+                        select new LinkEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            UniqueID = u.unique_id,
+                            Branch = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            LinkDesc = u.vid_desc,
+                            LinkURL = u.vid_url,
+                            LinkType = u.type,
+                            StandardID = u.std_id,
+                            Count = count,
+                            StandardName = std.standard,
+                            Title = u.title
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+            return data;
+        }
+
         public async Task<LinkEntity> GetLinkByUniqueID(long uniqueID)
         {
             var data = (from u in this.context.LINK_MASTER

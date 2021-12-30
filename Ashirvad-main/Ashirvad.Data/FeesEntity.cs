@@ -20,5 +20,6 @@ namespace Ashirvad.Data
         public TransactionEntity Transaction { get; set; }
         public string FilePath { get; set; }
         public string Remark { get; set; }
+        public long Count { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Batch
 {
@@ -92,7 +93,54 @@ namespace Ashirvad.Repo.Services.Area.Batch
 
             return data;
         }
-        
+
+        public async Task<List<BatchEntity>> GetAllCustomBatch(DataTableAjaxPostModel model, long branchID)
+        {
+            var Result = new List<BatchEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = this.context.BATCH_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Count();
+            var data = (from u in this.context.BATCH_MASTER                       
+                        where u.branch_id == branchID && u.row_sta_cd == 1 
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.mon_fri_batch_time.ToLower().Contains(model.search.value)
+                        || u.sat_batch_time.ToLower().Contains(model.search.value)
+                        || u.sun_batch_time.ToLower().Contains(model.search.value))
+                        orderby u.batch_id descending
+                        select new BatchEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            BatchTime = u.batch_time,
+                            MonFriBatchTime = u.mon_fri_batch_time,
+                            SatBatchTime = u.sat_batch_time,
+                            SunBatchTime = u.sun_batch_time,
+                            BatchID = u.batch_id,
+                            StandardInfo = new StandardEntity()
+                            {
+                                StandardID = u.std_id,
+                                Standard = u.STD_MASTER.standard
+                            },
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Count = count,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening,
+                            BatchText = u.batch_time == 1 ? "Morning" : u.batch_time == 2 ? "Afternoon" : "Evening"
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+
+            return data;
+        }
+
         public async Task<List<BatchEntity>> GetAllBatches()
         {
             var data = (from u in this.context.BATCH_MASTER

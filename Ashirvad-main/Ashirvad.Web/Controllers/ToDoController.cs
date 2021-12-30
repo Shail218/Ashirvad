@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -35,8 +36,8 @@ namespace Ashirvad.Web.Controllers
                 branch.ToDoInfo = todo;
             }
 
-            var todoData = await _todoService.GetAllToDoByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            branch.ToDoData = todoData;
+            //var todoData = await _todoService.GetAllToDoByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            branch.ToDoData = new List<ToDoEntity>();
 
             return View("Index", branch);
         }
@@ -46,8 +47,6 @@ namespace Ashirvad.Web.Controllers
         {
             if (toDoEntity.FileInfo != null)
             {
-                //fileModel= fileUploadCommon.SaveFileUploadweb(Fees.ImageFile, "FeesImage").Result;
-                //Fees.Fees_Content = Common.Common.ReadFully(Fees.ImageFile.InputStream);
                 string _FileName = Path.GetFileName(toDoEntity.FileInfo.FileName);
                 string extension = System.IO.Path.GetExtension(toDoEntity.FileInfo.FileName);
                 string randomfilename = Common.Common.RandomString(20);
@@ -78,67 +77,29 @@ namespace Ashirvad.Web.Controllers
             return Json(result);
         }
 
-        public async Task<JsonResult> Downloadtodo(long todoid)
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
         {
-            string[] array = new string[4];
-            try
+            List<string> columns = new List<string>();
+            columns.Add("ToDoDate");
+            columns.Add("ToDoDescription");
+            foreach (var item in model.order)
             {
-                var operationResult = await _todoService.GetToDoByToDoID(todoid);
-                if (operationResult != null)
-                {
-                    string contentType = "";
-                    string[] extarray = operationResult.ToDoFileName.Split('.');
-                    string ext = extarray[1];
-                    switch (ext)
-                    {
-                        case "pdf":
-                            contentType = "application/pdf";
-                            break;
-                        case "xlsx":
-                            contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                            break;
-                        case "docx":
-                            contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-                            break;
-                        case "png":
-                            contentType = "image/png";
-                            break;
-                        case "jpg":
-                            contentType = "image/jpeg";
-                            break;
-                        case "txt":
-                            contentType = "application/text/plain";
-                            break;
-                        case "mp4":
-                            contentType = "application/video";
-                            break;
-                        case "pptx":
-                            contentType = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
-                            break;
-                        case "zip":
-                            contentType = "application/zip";
-                            break;
-                        case "rar":
-                            contentType = "application/x-rar-compressed";
-                            break;
-                        case "xls":
-                            contentType = "application/vnd.ms-excel";
-                            break;
-                    }
-                    string file = operationResult.ToDoContentText;
-                    string filename = extarray[0];
-                    array[0] = ext;
-                    array[1] = file;
-                    array[2] = filename;
-                    array[3] = contentType;
-                    return Json(array);
-                }
+                item.name = columns[item.column];
             }
-            catch (Exception ex)
+            var branchData = await _todoService.GetAllCustomToDo(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            long total = 0;
+            if (branchData.Count > 0)
             {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
 
-            }
-            return Json(array);
         }
 
     }

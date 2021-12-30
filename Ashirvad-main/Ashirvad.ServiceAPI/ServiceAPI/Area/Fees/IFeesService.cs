@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.ServiceAPI.Area
 {
@@ -16,6 +17,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
         Task<FeesEntity> GetFeesByFeesID(long FeesID);
         Task<List<FeesEntity>> GetFeesByBranchID(long BranchID,long STDID);
         bool RemoveFees(long FeesID, string lastupdatedby);
-        
+        Task<List<FeesEntity>> GetAllCustomFees(DataTableAjaxPostModel model, long branchID);
     }
 }

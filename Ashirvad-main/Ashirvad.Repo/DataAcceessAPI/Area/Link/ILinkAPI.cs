@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.DataAcceessAPI.Area.Link
 {
@@ -13,5 +14,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Link
         Task<List<LinkEntity>> GetAllLink(int type, long branchID, long stdID);
         Task<LinkEntity> GetLinkByUniqueID(long uniqueID);
         bool RemoveLink(long uniqueID, string lastupdatedby);
+        Task<List<LinkEntity>> GetAllCustomLiveVideo(DataTableAjaxPostModel model, long branchID, int type);
     }
 }
