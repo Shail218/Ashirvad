@@ -10,6 +10,7 @@ namespace Ashirvad.Data
     public class CourseEntity
     {
         public long CourseID { get; set; }
+        public long Count { get; set; }
         public string CourseName { get; set; }
         public string filepath { get; set; }
         public string filename { get; set; }

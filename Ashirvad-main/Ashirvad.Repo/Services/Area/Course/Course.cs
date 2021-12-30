@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Course
 {
@@ -97,7 +98,8 @@ namespace Ashirvad.Repo.Services.Area.Course
 
         public async Task<List<CourseEntity>> GetAllCourse()
         {
-            var data = (from u in this.context.COURSE_MASTER orderby u.course_id descending
+            var data = (from u in this.context.COURSE_MASTER
+                        orderby u.course_id descending
                         where u.row_sta_cd == 1
                         select new CourseEntity()
                         {
@@ -115,6 +117,30 @@ namespace Ashirvad.Repo.Services.Area.Course
 
                         }).ToList();
 
+            return data;
+        }
+
+        public async Task<List<CourseEntity>> GetAllCustomCourse(DataTableAjaxPostModel model)
+        {
+            var Count = context.COURSE_MASTER.Where(a => a.row_sta_cd == 1).Count();
+            var data = (from u in this.context.COURSE_MASTER
+                        orderby u.course_id descending
+                        where u.row_sta_cd == 1
+                        select new CourseEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd,
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                            },
+                            CourseID = u.course_id,
+                            CourseName = u.course_name,
+                            filepath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            filename = u.file_name,
+                            Count = Count,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                        }).ToList();
             return data;
         }
 
@@ -172,7 +198,7 @@ namespace Ashirvad.Repo.Services.Area.Course
 
                 return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }

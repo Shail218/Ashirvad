@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -34,9 +35,9 @@ namespace Ashirvad.Web.Controllers
                 course.CourseInfo = result.Data;
             }
 
-            var courseData = await _courseService.GetAllCourse();
-            course.CourseData = courseData.Data;
-
+            //var courseData = await _courseService.GetAllCourse();
+            //course.CourseData = courseData.Data;
+            course.CourseData = new List<CourseEntity>();
             return View("Index", course);
         }
 
@@ -80,5 +81,24 @@ namespace Ashirvad.Web.Controllers
             var branchData = await _courseService.GetAllCourse();
             return Json(branchData.Data);
         }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            var branchData = await _courseService.GetAllCustomCourse(model);
+            long total = 0;
+            if (branchData.Data.Count > 0)
+            {
+                total = branchData.Data[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
+        }
+
     }
 }

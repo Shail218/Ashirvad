@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Course
 {
@@ -58,6 +59,23 @@ namespace Ashirvad.ServiceAPI.Services.Area.Course
             {
                 OperationResult<List<CourseEntity>> course = new OperationResult<List<CourseEntity>>();
                 course.Data = await _coursecontext.GetAllCourse();
+                course.Completed = true;
+                return course;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<OperationResult<List<CourseEntity>>> GetAllCustomCourse(DataTableAjaxPostModel model)
+        {
+            try
+            {
+                OperationResult<List<CourseEntity>> course = new OperationResult<List<CourseEntity>>();
+                course.Data = await _coursecontext.GetAllCustomCourse(model);
                 course.Completed = true;
                 return course;
             }

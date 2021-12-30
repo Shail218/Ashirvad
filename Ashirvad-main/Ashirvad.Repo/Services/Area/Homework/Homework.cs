@@ -16,9 +16,9 @@ namespace Ashirvad.Repo.Services.Area.Homework
         public async Task<long> CheckHomework(HomeworkEntity homeworkInfo)
         {
             long result;
-            bool isExists = this.context.HOMEWORK_MASTER.Where(s => (homeworkInfo.HomeworkID == 0 || s.homework_id != homeworkInfo.HomeworkID) && 
-            s.homework_dt == homeworkInfo.HomeworkDate && s.branch_id == homeworkInfo.BranchInfo.BranchID && s.std_id == homeworkInfo.StandardInfo.StandardID 
-            && s.sub_id == homeworkInfo.SubjectInfo.SubjectID && s.batch_time_id== homeworkInfo.BatchTimeID && s.row_sta_cd==1).FirstOrDefault() != null;
+            bool isExists = this.context.HOMEWORK_MASTER.Where(s => (homeworkInfo.HomeworkID == 0 || s.homework_id != homeworkInfo.HomeworkID) &&
+            s.homework_dt == homeworkInfo.HomeworkDate && s.branch_id == homeworkInfo.BranchInfo.BranchID && s.std_id == homeworkInfo.StandardInfo.StandardID
+            && s.sub_id == homeworkInfo.SubjectInfo.SubjectID && s.batch_time_id == homeworkInfo.BatchTimeID && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -70,8 +70,9 @@ namespace Ashirvad.Repo.Services.Area.Homework
             var data = (from u in this.context.HOMEWORK_MASTER
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
-                        .Include("SUBJECT_MASTER") orderby u.homework_id descending
-                            //join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id
+                        .Include("SUBJECT_MASTER")
+                        orderby u.homework_id descending
+                        //join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id
                         where u.branch_id == branchID
                         && (u.std_id == stdID)
                         && (u.batch_time_id == batchTime) && u.row_sta_cd == 1 /*&& hd.stud_id == studentId*/
@@ -112,7 +113,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             //},
 
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).Distinct().ToList();
+                        }).ToList();
             if (data?.Count > 0)
             {
                 foreach (var item in data)
@@ -149,10 +150,11 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
-                        join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id orderby u.homework_id descending
+                        join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id
+                        orderby u.homework_id descending
                         where u.branch_id == branchID
                         && (u.std_id == stdID)
-                        && ( u.batch_time_id == batchTime) && u.row_sta_cd == 1
+                        && (u.batch_time_id == batchTime) && u.row_sta_cd == 1
                         select new HomeworkEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -184,14 +186,14 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             },
                             homeworkDetailEntity = new HomeworkDetailEntity()
                             {
-                                StatusText = hd.status== (int)Enums.HomeWorkStatus.Done? "Done": "Pending",
+                                StatusText = hd.status == (int)Enums.HomeWorkStatus.Done ? "Done" : "Pending",
                                 Remarks = hd.remarks,
-                                Status=hd.status
+                                Status = hd.status
                             },
-                            
+
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
-            
+
             return data;
         }
 
@@ -299,12 +301,12 @@ namespace Ashirvad.Repo.Services.Area.Homework
         {
             var Result = new List<FeesEntity>();
             bool Isasc = model.order[0].dir == "desc" ? false : true;
-            long count = this.context.HOMEWORK_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Count();                          
+            long count = this.context.HOMEWORK_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Count();
             var data = (from u in this.context.HOMEWORK_MASTER
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
-                        where u.branch_id == branchID &&  u.row_sta_cd == 1
+                        where u.branch_id == branchID && u.row_sta_cd == 1
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.homework_dt.ToString().ToLower().Contains(model.search.value)
@@ -401,8 +403,8 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         where u.homework_id == homeworkID
                         select new HomeworkEntity()
                         {
-                            
-                            HomeworkID = u.homework_id,                            
+
+                            HomeworkID = u.homework_id,
                             HomeworkDate = u.submit_dt,
                             Status = u.status,
                             Remarks = u.remarks,
@@ -419,12 +421,12 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             },
                             StudentInfo = new StudentEntity()
                             {
-                                StudentID=u.stud_id,
-                                Name=u.STUDENT_MASTER.first_name+" "+ u.STUDENT_MASTER.last_name
+                                StudentID = u.stud_id,
+                                Name = u.STUDENT_MASTER.first_name + " " + u.STUDENT_MASTER.last_name
                             },
                             BatchTimeText = u.HOMEWORK_MASTER.batch_time_id == 1 ? "Morning" : u.HOMEWORK_MASTER.batch_time_id == 2 ? "Afternoon" : "Evening",
-                           
-                        }).Distinct().ToList();
+
+                        }).ToList();
             return data;
         }
         public async Task<List<HomeworkEntity>> GetStudentHomeworkFile(long homeworkID)
@@ -436,12 +438,12 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         where u.homework_id == homeworkID
                         select new HomeworkEntity()
                         {
-                            FilePath=u.homework_filepath,
-                            HomeworkContentFileName=u.homework_sheet_name,                           
+                            FilePath = u.homework_filepath,
+                            HomeworkContentFileName = u.homework_sheet_name,
                         }).ToList();
             return data;
         }
-        
+
         public bool RemoveHomework(long homeworkID, string lastupdatedby)
         {
             var data = (from u in this.context.HOMEWORK_MASTER
@@ -458,6 +460,6 @@ namespace Ashirvad.Repo.Services.Area.Homework
             return false;
         }
 
-       
+
     }
 }
