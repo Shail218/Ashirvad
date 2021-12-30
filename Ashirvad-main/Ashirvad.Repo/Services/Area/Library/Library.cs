@@ -376,7 +376,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                         sub_id = b.SUBJECT_MASTER.subject_id,
                                         standard = b.STD_MASTER.standard,
                                         subject = b.SUBJECT_MASTER.subject
-                                    }).Distinct().OrderByDescending(a => a.LibraryID).ToList(),
+                                    }).Distinct().ToList(),
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value }
                         }).ToList();
             //var standard = (from u in this.context.LIBRARY_STD_MASTER
