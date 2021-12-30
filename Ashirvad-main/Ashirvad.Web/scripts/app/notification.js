@@ -15,12 +15,17 @@ $(document).ready(function () {
         "sProcessing": true,
         "serverSide": true,
         "language": {
-            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+            processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'
         },
         "ajax": {
             url: "" + GetSiteURL() + "/Notification/CustomServerSideSearchAction",
             type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
         },
+        "data": HideLoader(),
         "columns": [
             { "data": "Branch.BranchName" },
             { "data": "Notification_Date" },
@@ -60,7 +65,6 @@ $(document).ready(function () {
                         data =
                             '<a onclick = "RemoveNotification(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
                     }
-                    HideLoader();
                     return data;
                 },                
                 orderable: false,

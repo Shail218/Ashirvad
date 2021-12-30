@@ -77,7 +77,8 @@ namespace Ashirvad.Repo.Services.Area.Banner
         {
             var data = (from u in this.context.BANNER_MASTER.Include("BANNER_TYPE_REL")
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempB
-                        from branch in tempB.DefaultIfEmpty() orderby u.banner_id descending
+                        from branch in tempB.DefaultIfEmpty()
+                        orderby u.banner_id descending
                         where (0 == branchID || u.branch_id == null || (u.branch_id.HasValue && u.branch_id.Value == branchID) && u.row_sta_cd == 1)
                         select new BannerEntity()
                         {
@@ -111,7 +112,8 @@ namespace Ashirvad.Repo.Services.Area.Banner
             var data = (from u in this.context.BANNER_MASTER
                         join bt in this.context.BANNER_TYPE_REL on u.banner_id equals bt.banner_id
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempB
-                        from branch in tempB.DefaultIfEmpty() orderby u.banner_id descending
+                        from branch in tempB.DefaultIfEmpty()
+                        orderby u.banner_id descending
                         where (0 == branchID || u.branch_id == 0 || u.branch_id.Value == branchID)
                         && (0 == bannerTypeID || bt.sub_type_id == bannerTypeID) && u.row_sta_cd == 1
                         select new BannerEntity()
@@ -141,7 +143,7 @@ namespace Ashirvad.Repo.Services.Area.Banner
 
                     var result = this.context.BANNER_TYPE_REL.Where(z => z.banner_id == item.BannerID)
                     .Select(y => new BannerTypeEntity() { ID = y.unique_id, TypeID = y.sub_type_id, TypeText = y.sub_type_id == 1 ? "Admin" : y.sub_type_id == 2 ? "Teacher" : "Student" }).ToList();
-                    foreach(var item1 in result)
+                    foreach (var item1 in result)
                     {
                         Type = Type + "-" + item1.TypeText;
                     }
@@ -155,16 +157,24 @@ namespace Ashirvad.Repo.Services.Area.Banner
         public async Task<List<BannerEntity>> GetAllCustomBanner(DataTableAjaxPostModel model, long branchID, int bannerTypeID)
         {
             var Result = new List<BannerEntity>();
-            bool Isasc = model.order[0].dir == "desc" ? false : true;
-            long count = this.context.BANNER_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Distinct().Count();
+            long count = (from u in this.context.BANNER_MASTER.Include("BRANCH_MASTER")
+                          join bt in this.context.BANNER_TYPE_REL on u.banner_id equals bt.banner_id
+                          join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempB
+                          from branch in tempB.DefaultIfEmpty()
+                          orderby u.banner_id descending
+                          where (0 == branchID || u.branch_id == 0 || u.branch_id.Value == branchID)
+                          && (0 == bannerTypeID || bt.sub_type_id == bannerTypeID) && u.row_sta_cd == 1
+                          select new BannerEntity()
+                          {
+                              BannerID = u.banner_id
+                          }).Distinct().Count();
             var data = (from u in this.context.BANNER_MASTER.Include("BRANCH_MASTER")
                         join bt in this.context.BANNER_TYPE_REL on u.banner_id equals bt.banner_id
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempB
                         from branch in tempB.DefaultIfEmpty()
+                        orderby u.banner_id descending
                         where (0 == branchID || u.branch_id == 0 || u.branch_id.Value == branchID)
                         && (0 == bannerTypeID || bt.sub_type_id == bannerTypeID) && u.row_sta_cd == 1
-                        && (model.search.value == null
-                        || model.search.value == "")
                         select new BannerEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -176,16 +186,18 @@ namespace Ashirvad.Repo.Services.Area.Banner
                             FileName = u.file_name,
                             BannerID = u.banner_id,
                             BranchInfo = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
+                            Count = count,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).OrderBy(model.order[0].name, Isasc)
+                        })
                         .Skip(model.start)
                         .Take(model.length)
+                        .Distinct()
                         .ToList();
             if (data?.Count > 0)
             {
                 foreach (var item in data)
                 {
-                    string Type = "";                   
+                    string Type = "";
                     var result = this.context.BANNER_TYPE_REL.Where(z => z.banner_id == item.BannerID)
                     .Select(y => new BannerTypeEntity() { ID = y.unique_id, TypeID = y.sub_type_id, TypeText = y.sub_type_id == 1 ? "Admin" : y.sub_type_id == 2 ? "Teacher" : "Student" }).ToList();
                     foreach (var item1 in result)
@@ -247,8 +259,8 @@ namespace Ashirvad.Repo.Services.Area.Banner
                             },
                             BannerID = u.banner_id,
                             BannerImage = u.banner_img,
-                            FileName=u.file_name,
-                            FilePath=u.file_path,
+                            FileName = u.file_name,
+                            FilePath = u.file_path,
                             BranchInfo = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();

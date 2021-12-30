@@ -77,7 +77,8 @@ namespace Ashirvad.Repo.Services.Area.Notification
         {
             var data = (from u in this.context.NOTIFICATION_MASTER.Include("NOTIFICATION_TYPE_REL")
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
-                        from branch in tempBranch.DefaultIfEmpty() orderby u.notif_id descending
+                        from branch in tempBranch.DefaultIfEmpty()
+                        orderby u.notif_id descending
                         where (0 == branchID || u.branch_id == null || (u.branch_id.HasValue && u.branch_id.Value == branchID) && u.row_sta_cd == 1)
                         select new NotificationEntity()
                         {
@@ -110,7 +111,8 @@ namespace Ashirvad.Repo.Services.Area.Notification
             var data = (from u in this.context.NOTIFICATION_MASTER
                         join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
-                        from branch in tempBranch.DefaultIfEmpty() orderby u.notif_id descending
+                        from branch in tempBranch.DefaultIfEmpty()
+                        orderby u.notif_id descending
                         where (branchID == 0 || u.branch_id == 0 || u.branch_id.Value == branchID)
                         && (0 == typeID || t.sub_type_id == typeID) && u.row_sta_cd == 1
                         select new NotificationEntity()
@@ -188,10 +190,13 @@ namespace Ashirvad.Repo.Services.Area.Notification
             var Result = new List<NotificationEntity>();
             bool Isasc = model.order[0].dir == "desc" ? false : true;
             long count = (from u in this.context.NOTIFICATION_MASTER
-                         join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
-                         where (branchID == 0 || u.branch_id == 0 || u.branch_id == branchID)
-                         && (typeID == 0 || t.sub_type_id == typeID) && u.row_sta_cd == 1
-                         select new { }).Count();
+                          join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
+                          where (branchID == 0 || u.branch_id == 0 || u.branch_id == branchID)
+                          && (typeID == 0 || t.sub_type_id == typeID) && u.row_sta_cd == 1
+                          select new
+                          {
+                              NotificationID = u.notif_id
+                          }).Distinct().Count();
             var data = (from u in this.context.NOTIFICATION_MASTER
                         join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
@@ -217,10 +222,11 @@ namespace Ashirvad.Repo.Services.Area.Notification
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).Skip(model.start)
                         .Take(model.length)
+                        .Distinct()
                         .ToList();
 
             if (data?.Count > 0)
-            {                           
+            {
                 foreach (var item in data)
                 {
                     string Type = "";
@@ -230,7 +236,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
                     {
                         Type = Type + "-" + item1.TypeText;
                     }
-                    item.NotificationTypeText = Type.Substring(1);                    
+                    item.NotificationTypeText = Type.Substring(1);
                 }
             }
             return data;

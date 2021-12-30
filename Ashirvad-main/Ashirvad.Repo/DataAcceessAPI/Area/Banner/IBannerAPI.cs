@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.DataAcceessAPI.Area.Banner
 {
@@ -15,5 +16,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Banner
         Task<BannerEntity> GetBannerByBannerID(long bannerID);
         bool RemoveBanner(long bannerID, string lastupdatedby);
         Task<List<BannerEntity>> GetAllBanner(long branchID, int bannerTypeID);
+        Task<List<BannerEntity>> GetAllCustomBanner(DataTableAjaxPostModel model, long branchID, int bannerTypeID);
     }
 }

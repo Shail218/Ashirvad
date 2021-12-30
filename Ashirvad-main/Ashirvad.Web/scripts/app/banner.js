@@ -5,9 +5,78 @@ $(document).ready(function () {
     if ($("#BannerID").val() > 0) {
         $("#fuBannerImage").addClass("editForm");
     }
+    ShowLoader();
+    var studenttbl = $("#studenttbl").DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'
+        },
+        "ajax": {
+            url: "" + GetSiteURL() + "/Banner/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        columns: [
+            { "data": "BranchInfo.BranchName" },
+            { "data": "FilePath" },
+            { "data": "BannerTypeText" },
+            { "data": "BannerID" },
+            { "data": "BannerID" }
+        ],
+        "columnDefs": [
+            {
+                targets: 1,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = (data == null || data == "http://highpack-001-site12.dtempurl.com") ? '<img src="../ThemeData/images/Default.png" id="branchImg" style="height:60px;width:60px;margin-left:20px;" />' : '<img src = "' + data + '" style="height:60px;width:60px;margin-left:20px;"/>'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 3,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="BannerMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 4,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemoveBanner(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ],
+        createdRow: function (tr) {
+            $(tr.children[1]).addClass('image - cls');
+        }
+    });
 
-    if ($("#BranchInfo_BranchID").val() != "")
-    {
+    if ($("#BranchInfo_BranchID").val() != "") {
         if ($("#BranchInfo_BranchID").val() == "0") {
             $("#rowStaAll").attr('checked', 'checked');
             $("#BranchType").val(0);
@@ -45,27 +114,27 @@ function chkOnChange(elem, hdnID, selText) {
     }
 }
 
-function SaveBanner() {  
+function SaveBanner() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         var NotificationTypeList = [];
         if ($('input[type=checkbox][id=rowStaAdmin]').is(":checked")) {
             NotificationTypeList.push({
-               // ID: 0,
+                // ID: 0,
                 TypeText: "Admin",
                 TypeID: 1
             });
         }
         if ($('input[type=checkbox][id=rowStaTeacher]').is(":checked")) {
             NotificationTypeList.push({
-              //  ID: 0,
+                //  ID: 0,
                 TypeText: "Teacher",
                 TypeID: 2
             });
         }
         if ($('input[type=checkbox][id=rowStaStudent]').is(":checked")) {
             NotificationTypeList.push({
-              //  ID: 0,
+                //  ID: 0,
                 TypeText: "Student",
                 TypeID: 3
             });
@@ -84,7 +153,7 @@ function SaveBanner() {
         var frm = $('#fBannerDetail');
         var formData = new FormData(frm[0]);
         formData.append('ImageFile', bannerData.ImageFile);
-        AjaxCallWithFileUpload(commonData.Banner + 'SaveBanner', formData, function (data) {           
+        AjaxCallWithFileUpload(commonData.Banner + 'SaveBanner', formData, function (data) {
             if (data) {
                 HideLoader();
                 ShowMessage('Banner details saved!', 'Success');

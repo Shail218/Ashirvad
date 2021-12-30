@@ -15,12 +15,17 @@ $(document).ready(function () {
         "sLoadingRecords": "Loading...",
         "sProcessing": "Processing...",
         "serverSide": true,
+        "language": {
+            processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'
+        },
         "ajax": {
             url: "" + GetSiteURL() + "/Page/CustomServerSideSearchAction",
             type: 'POST',
-           
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
         },
-        
         "columns": [
             { "data": "Page" },
             { "data": "PageID" },
@@ -30,11 +35,10 @@ $(document).ready(function () {
             {
                 targets: 1,
                 render: function (data, type, full, meta) {
-                    
+
                     if (type === 'display') {
                         data =
-                            '<a style="text-align:center !important;" href="PageMaintenance?branchID=' + data +'"><img src = "../ThemeData/images/viewIcon.png" /></a >'
-                            
+                            '<a style="text-align:center !important;" href="PageMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
                     }
 
                     return data;
@@ -45,29 +49,25 @@ $(document).ready(function () {
             {
                 targets: 2,
                 render: function (data, type, full, meta) {
-                   
+
                     if (type === 'display') {
                         data =
-                            '<a href="#" onclick="RemovePage(' + data +');"><img src= "../ThemeData/images/delete.png"/></a>'
-                            
+                            '<a href="#" onclick="RemovePage(' + data + ');"><img src= "../ThemeData/images/delete.png"/></a>'
+
 
                     }
-                    HideLoader();
                     return data;
                 },
                 orderable: false,
                 searchable: false
             }
         ],
-        createdRow: function (tr)
-        {
+        createdRow: function (tr) {
             $(tr.children[1]).addClass('textalign');
             $(tr.children[2]).addClass('textalign');
-            
-               
         },
     });
-  
+
     //if ($("#BranchInfo_BranchID").val() != "") {
     //    $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
     //}

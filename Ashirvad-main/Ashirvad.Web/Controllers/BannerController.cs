@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using System.IO;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -40,18 +41,19 @@ namespace Ashirvad.Web.Controllers
             {
                 branch.BannerInfo = new BannerEntity();
             }
-            var branchData = await _bannerService.GetAllBanner(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 :
-               SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 :
-               (int)SessionContext.Instance.LoginUser.UserType);
-            branch.BannerData = branchData.Data;
+            //var branchData = await _bannerService.GetAllBanner(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 :
+            //   SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 :
+            //   (int)SessionContext.Instance.LoginUser.UserType);
+
+            branch.BannerData = new List<BannerEntity>();
             return View("Index", branch);
         }
 
         [HttpPost]
         public async Task<JsonResult> SaveBanner(BannerEntity bannerEntity)
         {
-            
-            if(SessionContext.Instance.LoginUser.UserType == Enums.UserType.Admin)
+
+            if (SessionContext.Instance.LoginUser.UserType == Enums.UserType.Admin)
             {
                 bannerEntity.BranchInfo = new BranchEntity()
                 {
@@ -67,14 +69,14 @@ namespace Ashirvad.Web.Controllers
                         BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
                     };
                 }
-                else if(bannerEntity.BranchType == 0)
+                else if (bannerEntity.BranchType == 0)
                 {
                     bannerEntity.BranchInfo = new BranchEntity()
                     {
                         BranchID = 0
                     };
                 }
-                else if(bannerEntity.BranchType == 1 && bannerEntity.BranchInfo.BranchID == 0)
+                else if (bannerEntity.BranchType == 1 && bannerEntity.BranchInfo.BranchID == 0)
                 {
                     bannerEntity.BranchInfo = new BranchEntity()
                     {
@@ -124,5 +126,22 @@ namespace Ashirvad.Web.Controllers
             return "data:image/jpg;base64, " + result.BannerImageText;
         }
 
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            var branchData = await _bannerService.GetAllCustomBanner(model, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : (int)SessionContext.Instance.LoginUser.UserType);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
+        }
     }
 }

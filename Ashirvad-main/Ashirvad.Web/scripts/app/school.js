@@ -20,6 +20,10 @@ $(document).ready(function () {
         "ajax": {
             url: "" + GetSiteURL() + "/School/CustomServerSideSearchAction",
             type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
         },
         "columns": [
             { "data": "SchoolName" },

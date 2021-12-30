@@ -42,11 +42,15 @@ $(document).ready(function () {
         "sProcessing": true,
         "serverSide": true,
         "language": {
-            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+            processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'            
         },
         "ajax": {
             url: "" + GetSiteURL() + "/User/CustomServerSideSearchAction",
             type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
         },
         "columns": [
             { "data": "Name" },

@@ -2,15 +2,104 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-    //ShowLoader();
+    ShowLoader();
 
     LoadCourse();
+
     var IsEdit = $("#IsEdit").val();
     if (IsEdit == "True") {
         checkstatus();
     }
-    
+
+    var studenttbl = $("#subcategorytbl").DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'
+        },
+        "ajax": {
+            url: GetSiteURL() + "/BranchClass/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        columns: [
+            //{ "data": "BranchCourse.course_dtl_id" },
+            {
+                "className": 'details-control',
+                "orderable": false,
+                "data": null,
+                "defaultContent": ''
+            },
+            { "data": "branch.BranchName" },
+            { "data": "BranchCourse.course.CourseName" },
+            { "data": "BranchCourse.course_dtl_id" },
+            { "data": "BranchCourse.course_dtl_id" }
+        ],
+        "columnDefs": [
+            {
+                targets: 0,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        format(data.BranchClassData)
+                        data = '<img src="../ThemeData/images/plus.png" height="30" />'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 3,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="ClassMaintenance?ClassID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 4,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemoveClass(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ]
+    });
+
 });
+
+function format(d) {
+    // `d` is the original data object for the row
+    return '<table id="child_details" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+        '<tr>' +
+        '<td>Class</td>' +
+        '<td>' + d + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td>Select</td>' +
+        '<td>' + d + '</td>' +
+        '</tr>' +
+        '</table>';
+}
 
 function LoadCourse() {
     var postCall = $.post(commonData.BranchCourse + "GetCourseDDL");
@@ -18,8 +107,7 @@ function LoadCourse() {
         $('#CourseName').empty();
         $('#CourseName').select2();
         $("#CourseName").append("<option value=" + 0 + ">---Select Course---</option>");
-        if (data != null)
-        {
+        if (data != null) {
             for (i = 0; i < data.length; i++) {
                 $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
             }
@@ -27,15 +115,12 @@ function LoadCourse() {
         if ($("#BranchCourse_course_dtl_id").val() != "") {
             $('#CourseName option[value="' + $("#BranchCourse_course_dtl_id").val() + '"]').attr("selected", "selected");
         }
-        
+
         HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
-
-
-
 
 function OnSelectStatus(Data, classData) {
     if (Data.checked == true) {
@@ -115,7 +200,7 @@ function GetData() {
         var ClassName = ClassNameData[i];
 
         MainArray.push({
-            "Class": { "ClassID": ClassID, "ClassName": ClassName},
+            "Class": { "ClassID": ClassID, "ClassName": ClassName },
             "Class_dtl_id": ClassDetailID,
             "isClass": IsClass,
 

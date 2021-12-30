@@ -1,4 +1,5 @@
-﻿using Ashirvad.Data;
+﻿using Ashirvad.Common;
+using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Class;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -48,8 +50,9 @@ namespace Ashirvad.Web.Controllers
             var ClassData = await _ClassService.GetAllClass();
             branchClass.BranchClassInfo.ClassData = ClassData.Data;
 
-            var BranchClass = await _branchClassService.GetAllBranchClass(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            branchClass.BranchClassData = BranchClass;
+            //var BranchClass = await _branchClassService.GetAllBranchClass(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            branchClass.BranchClassData = new List<BranchClassEntity>();
+            //branchClass.BranchClassData = BranchClass;
             return View("Index", branchClass);
         }
 
@@ -119,7 +122,7 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> GetClassDDL(long CourseID)
         {
-           
+
             try
             {
                 var BranchCourse = await _branchClassService.GetAllBranchClass(SessionContext.Instance.LoginUser.BranchInfo.BranchID, CourseID);
@@ -140,5 +143,22 @@ namespace Ashirvad.Web.Controllers
 
         }
 
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            var branchData = await _branchClassService.GetMobileAllBranchClass(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
+        }
     }
 }

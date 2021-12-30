@@ -14,9 +14,16 @@ $(document).ready(function () {
         "sLoadingRecords": "Loading...",
         "sProcessing": "Processing...",
         "serverSide": true,
+        "language": {
+            processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'            
+        },
         "ajax": {
             url: "" + GetSiteURL() + "/Branch/CustomServerSideSearchAction",
             type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
         },
         "columns": [
             { "data": "BranchName" },
@@ -49,7 +56,6 @@ $(document).ready(function () {
                         data =
                             '<a style="text-align:center !important;" href="BranchMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
                     }
-                    HideLoader();
                     return data;
                 },
                 orderable: false,

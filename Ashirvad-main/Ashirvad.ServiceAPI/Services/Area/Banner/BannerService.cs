@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Banner
 {
@@ -101,6 +102,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.Banner
             return false;
         }
 
+        public async Task<List<BannerEntity>> GetAllCustomBanner(DataTableAjaxPostModel model, long branchID, int bannerTypeID)
+        {
+            try
+            {
+                return await this._bannerContext.GetAllCustomBanner(model, branchID, bannerTypeID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
 
         public async Task<OperationResult<List<BannerEntity>>> GetAllBanner(long branchID, int bannerTypeID)
         {
