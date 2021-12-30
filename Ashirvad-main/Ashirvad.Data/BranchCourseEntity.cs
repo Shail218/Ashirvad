@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Ashirvad.Data
 {
-    public class BranchCourseEntity:ResponseModel
+    public class BranchCourseEntity : ResponseModel
     {
         public long course_dtl_id { get; set; }
+        public int Count { get; set; }
         public string JsonData { get; set; }
         public BranchEntity branch { get; set; }
         public CourseEntity course { get; set; }
