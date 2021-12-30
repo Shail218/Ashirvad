@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Test
 {
@@ -122,6 +123,83 @@ namespace Ashirvad.Repo.Services.Area.Test
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
 
+            return data;
+        }
+
+        public async Task<List<TestEntity>> GetAllCustomTest(DataTableAjaxPostModel model, long branchID)
+        {
+            var Result = new List<TestEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = (from u in this.context.TEST_MASTER
+                          join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
+                          orderby u.test_id descending
+                          where u.branch_id == branchID && u.row_sta_cd == 1
+                          select new TestEntity()
+                          {
+                              TestID = u.test_id
+                          }).Distinct().Count();
+            var data = (from u in this.context.TEST_MASTER
+                        .Include("TEST_PAPER_REL")
+                        .Include("BRANCH_MASTER")
+                        .Include("STD_MASTER")
+                        .Include("SUBJECT_MASTER")
+                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
+                        where u.branch_id == branchID && u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.STD_MASTER.standard.ToLower().Contains(model.search.value)
+                        || u.test_dt.ToString().ToLower().Contains(model.search.value)
+                        || u.test_st_time.ToLower().Contains(model.search.value)
+                        || u.test_end_time.ToLower().Contains(model.search.value)
+                        || u.SUBJECT_MASTER.subject.ToLower().Contains(model.search.value)
+                        || u.total_marks.ToString().ToLower().Contains(model.search.value))
+                        orderby u.test_id descending
+                        select new TestEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            Branch = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Standard = new StandardEntity()
+                            {
+                                StandardID = u.std_id,
+                                Standard = u.STD_MASTER.standard
+                            },
+                            Subject = new SubjectEntity()
+                            {
+                                SubjectID = u.SUBJECT_MASTER.subject_id,
+                                Subject = u.SUBJECT_MASTER.subject
+                            },
+                            BatchTimeID = u.batch_time_id,
+                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
+                            TestID = u.test_id,
+                            Remarks = u.remarks,
+                            Marks = u.total_marks,
+                            TestDate = u.test_dt,
+                            Count = count,
+                            TestEndTime = u.test_end_time,
+                            TestName = u.test_name,
+                            TestStartTime = u.test_st_time,
+                            test = new TestPaperEntity()
+                            {
+                                DocContent = TestPaper.doc_content,
+                                TestPaperID = TestPaper.test_paper_id,
+                                PaperType = TestPaper.paper_type.ToString(),
+                                DocLink = TestPaper.doc_link.ToString(),
+                                FilePath = "http://highpack-001-site12.dtempurl.com" + TestPaper.file_path,
+                                FileName = TestPaper.file_name
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
             return data;
         }
 

@@ -22,30 +22,26 @@ $(document).ready(function () {
         },
         "ajax": {
             url: "" + GetSiteURL() + "/TestPaper/CustomServerSideSearchAction",
-            type: 'POST',
-            dataFilter: function (data) {
-                HideLoader();
-                return data;
-            }.bind(this)
+            type: 'POST'
         },
         "columns": [
             { "data": "Standard.Standard" },
             { "data": "BatchTimeText" },
             { "data": "TestDate" },
-            { "data": "TestStartTime" + " " + "TestEndTime" },
+            { "data": "TestStartTime" },
             { "data": "Subject.Subject" },
             { "data": "Marks" },
             { "data": "test.FilePath" },
-            { "data": "TestID","test.TestPaperID" },
+            { "data": "TestID" },
             { "data": "TestID" },
             { "data": "TestID" },
         ],
         "columnDefs": [
             {
-                targets: 1,
+                targets: 2,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data = '<img src = "' + data + '" style="height:60px;width:60px;margin-left:20px;"/>'
+                        data = ConvertMiliDateFrom(data)
                     }
                     return data;
                 },
@@ -53,11 +49,14 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 3,
+                targets: 6,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data =
-                            '<a href="FeesMaintenance?FeesID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        if (data.replace("http://highpack-001-site12.dtempurl.com", "") != null && data.replace("http://highpack-001-site12.dtempurl.com", "") != "") {
+                            '<a href="' + data.replace("http://highpack-001-site12.dtempurl.com", "") + '" id="paperdownload" download="' + full.test.FileName + '"><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
+                        } else {
+                            '<a href="' + full.test.DocLink + '" target="_blank" style="color:blue;text-decoration:underline;">Go to link</a>'
+                        }
                     }
                     return data;
                 },
@@ -65,11 +64,35 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 4,
+                targets: 7,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
-                            '<a onclick = "RemoveFees(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                            '<a href="TestPaperMaintenance?testID=' + data + '&paperID=' + full.test.TestPaperID + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 8,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="StudentAnswerSheetMaintenance?testID=' + data + '"><img src = "../ThemeData/images/tick.png" style="height:35px;width:35px;margin-left:20px"/></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 9,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemoveTest(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
                     }
                     return data;
                 },
@@ -329,3 +352,27 @@ $("#Status").change(function () {
    
 });
 
+function ConvertMiliDateFrom(date) {
+    if (date != null) {
+        var sd = date.split("/Date(");
+        var sd2 = sd[1].split(")/");
+        var date1 = new Date(parseInt(sd2[0]));
+        var d = date1.getDate();
+        var m = date1.getMonth() + 1;
+        var y = date1.getFullYear();
+        var hr = date1.getHours();
+        var min = date1.getMinutes();
+        var sec = date1.getSeconds();
+
+        if (parseInt(d) < 10) {
+            d = "0" + d;
+        }
+        if (parseInt(m) < 10) {
+            m = "0" + m;
+        }
+        var Final = d + "-" + m + "-" + y + " ";
+        var d = date1.toString("dd/MM/yyyy HH:mm:SS");
+        return Final;
+    }
+    return "";
+}

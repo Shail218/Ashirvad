@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Reminder
 {
@@ -45,6 +46,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Reminder
                 banner.Data = await _reminderContext.GetAllRemindersByBranch(branchID, userID);
                 banner.Completed = true;
                 return banner;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<ReminderEntity>> GetAllCustomReminder(DataTableAjaxPostModel model, long branchID)
+        {
+            try
+            {
+                return await this._reminderContext.GetAllCustomReminder(model, branchID);
             }
             catch (Exception ex)
             {

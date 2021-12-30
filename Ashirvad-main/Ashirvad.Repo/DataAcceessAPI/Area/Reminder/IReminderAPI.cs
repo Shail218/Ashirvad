@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.DataAcceessAPI.Area.Reminder
 {
@@ -13,6 +14,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Reminder
         Task<List<ReminderEntity>> GetAllRemindersByBranch(long branchID, long userID);
         Task<ReminderEntity> GetReminderByID(long reminderID);
         bool RemoveReminder(long reminderID, string lastupdatedby);
-
+        Task<List<ReminderEntity>> GetAllCustomReminder(DataTableAjaxPostModel model, long branchID);
     }
 }

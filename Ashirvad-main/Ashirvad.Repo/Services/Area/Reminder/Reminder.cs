@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Reminder
 {
@@ -68,6 +69,42 @@ namespace Ashirvad.Repo.Services.Area.Reminder
                             Username = ud.username
                         }).ToList();
 
+            return data;
+        }
+
+        public async Task<List<ReminderEntity>> GetAllCustomReminder(DataTableAjaxPostModel model, long branchID)
+        {
+            var Result = new List<ReminderEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = this.context.REMINDER_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Count();
+            var data = (from u in this.context.REMINDER_MASTER.Include("BRANCH_MASTER")
+                        join ud in this.context.USER_DEF on u.user_id equals ud.user_id
+                        where u.branch_id == branchID && u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.reminder_desc.ToLower().Contains(model.search.value)
+                        || u.reminder_dt.ToString().ToLower().Contains(model.search.value))
+                        orderby u.reminder_id descending
+                        select new ReminderEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            ReminderDesc = u.reminder_desc,
+                            ReminderID = u.reminder_id,
+                            BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            ReminderDate = u.reminder_dt,
+                            ReminderTime = u.reminder_time,
+                            UserID = u.user_id,
+                            Username = ud.username,
+                            Count = count
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
             return data;
         }
 
