@@ -9,6 +9,7 @@ namespace Ashirvad.Data
    public class PackageEntity
     {
         public long PackageID { get; set; }
+        public int Count { get; set; }
         public string Package { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }

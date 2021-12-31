@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -36,8 +37,8 @@ namespace Ashirvad.Web.Controllers
                 branch.PackageInfo = result;
             }
 
-            var branchData = await _packageService.GetAllPackages(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            branch.PackageData = branchData;
+            //var branchData = await _packageService.GetAllPackages(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            branch.PackageData = new List<PackageEntity>();
 
             return View("Index", branch);
         }
@@ -96,6 +97,24 @@ namespace Ashirvad.Web.Controllers
         {
             var branchData = await _packageService.GetAllPackages(branchID);
             return Json(branchData);
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            var branchData = await _packageService.GetAllCustomPackage(model, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData.Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
         }
     }
 }

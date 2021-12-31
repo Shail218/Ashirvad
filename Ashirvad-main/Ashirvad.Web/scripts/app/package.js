@@ -2,11 +2,76 @@
 /// <reference path="../ashirvad.js" />
 
 
+
 $(document).ready(function () {
- 
-    
-    
+    ShowLoader();
+    var test = "" + GetSiteURL() + "/Page/CustomServerSideSearchAction";
+    var table = $('#studenttbl').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": "Processing...",
+        "serverSide": true,
+        "language": {
+            processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'
+        },
+        "ajax": {
+            url: "" + GetSiteURL() + "/Package/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        "columns": [
+            { "data": "Package" },
+            { "data": "PackageID" },
+            { "data": "PackageID" }
+        ],
+        "columnDefs": [
+            {
+                targets: 1,
+                render: function (data, type, full, meta) {
+
+                    if (type === 'display') {
+                        data =
+                            '<a style="text-align:center !important;" href="PackageMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 2,
+                render: function (data, type, full, meta) {
+
+                    if (type === 'display') {
+                        data =
+                            '<a href="#" onclick="RemovePackage(' + data + ');"><img src= "../ThemeData/images/delete.png"/></a>'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ],
+        createdRow: function (tr) {
+            $(tr.children[1]).addClass('textalign');
+            $(tr.children[2]).addClass('textalign');
+        },
+    });
+
+    //if ($("#BranchInfo_BranchID").val() != "") {
+    //    $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
+    //}
 });
+
 
 function LoadBranch(onLoaded) {
     var postCall = $.post(commonData.Branch + "BranchData");

@@ -47,6 +47,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Package
             return null;
         }
 
+        public async Task<List<PackageEntity>> GetAllCustomPackage(Common.Common.DataTableAjaxPostModel model, long branchID)
+        {
+            try
+            {
+                return await this._packageContext.GetAllCustomPackage(model, branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<List<PackageEntity>> GetAllPackages()
         {
             try

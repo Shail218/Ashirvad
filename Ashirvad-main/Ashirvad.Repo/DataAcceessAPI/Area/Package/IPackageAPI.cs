@@ -1,4 +1,5 @@
-﻿using Ashirvad.Data;
+﻿using Ashirvad.Common;
+using Ashirvad.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Package
         bool RemovePackage(long PackageID, string lastupdatedby);
         Task<List<PackageEntity>> GetAllPackages();
         Task<PackageEntity> GetPackageByID(long packageID);
+        Task<List<PackageEntity>> GetAllCustomPackage(Common.Common.DataTableAjaxPostModel model, long branchID);
     }
 }
