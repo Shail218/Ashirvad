@@ -494,3 +494,19 @@ function GetSiteURL() {
     SiteURL = URL;
     return URL;
 }
+
+function CheckMobileno(mobile)
+{
+   
+    if (mobile.value.length != 10) {
+
+        var Alt = mobile.alt;
+        ShowMessage('Please Enter Valid ' + Alt+'!', 'Error');
+        mobile.value = "";
+    }
+    
+}
+    
+
+
+

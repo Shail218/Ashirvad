@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Library
 {
@@ -32,5 +33,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Library
         Task<List<LibraryEntity>> GetLibraryApprovalByBranch(long BranchId);
 
         Task<List<LibraryEntity>> GetLibraryApprovalByBranchStd(long standardID, long BranchId, string standard);
+        Task<List<LibraryEntity>> GetAllCustomLibrary(DataTableAjaxPostModel model, int Type = 0, long stdID = 0);
     }
 }

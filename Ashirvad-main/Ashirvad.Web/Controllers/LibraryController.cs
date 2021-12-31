@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -55,16 +56,17 @@ namespace Ashirvad.Web.Controllers
             {
                 BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }
-            if (SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin)
-            {
-                var branchData = await _libraryService.GetAllLibrary(Type, 0);
-                branch.LibraryData = branchData;
-            }
-            else
-            {
-                var branchData = await _libraryService.GetAllLibrarybybranch(Type, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-                branch.LibraryData = branchData;
-            }
+            //if (SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin)
+            //{
+            //    var branchData = await _libraryService.GetAllLibrary(Type, 0);
+            //    branch.LibraryData = branchData;
+            //}
+            //else
+            //{
+            //    var branchData = await _libraryService.GetAllLibrarybybranch(Type, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            //    branch.LibraryData = branchData;
+            //}
+            branch.LibraryData = new List<LibraryEntity>();
             if (Type == (int)Enums.GalleryType.Image)
             {
                 return View("Index", branch);
@@ -165,6 +167,64 @@ namespace Ashirvad.Web.Controllers
         {
             var result = _libraryService.RemoveLibrary(libraryID, SessionContext.Instance.LoginUser.Username);
             return Json(result);
+        }
+        [HttpPost]
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            // action inside a standard controller
+            try
+            {
+                var branchData = await _libraryService.GetAllCustomLibrary(model,2, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                long total = 0;
+                if (branchData.Count > 0)
+                {
+                    total = branchData[0].Count;
+                }
+                return Json(new
+                {
+                    // this is what datatables wants sending back
+                    draw = model.draw,
+                    iTotalRecords = total,
+                    iTotalDisplayRecords = total,
+                    data = branchData
+                });
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+           
+
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> CustomServerSideSearchAction2(DataTableAjaxPostModel model)
+        {
+            // action inside a standard controller
+            try
+            {
+                var branchData = await _libraryService.GetAllCustomLibrary(model, 1, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                long total = 0;
+                if (branchData.Count > 0)
+                {
+                    total = branchData[0].Count;
+                }
+                return Json(new
+                {
+                    // this is what datatables wants sending back
+                    draw = model.draw,
+                    iTotalRecords = total,
+                    iTotalDisplayRecords = total,
+                    data = branchData
+                });
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+
         }
     }
 }

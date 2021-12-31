@@ -18,7 +18,7 @@ $(document).ready(function () {
             processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'
         },
         "ajax": {
-            url: GetSiteURL() + "/Library/CustomServerSideSearchAction",
+            url: GetSiteURL() + "/Library/CustomServerSideSearchAction2",
             type: 'POST',
             dataFilter: function (data) {
                 HideLoader();
@@ -35,8 +35,8 @@ $(document).ready(function () {
             },
             { "data": "BranchID" },
             { "data": "CategoryInfo.Category" },
-            { "data": "ThumbnailFilePath" },
-            { "data": "DocFilePath" },
+            { "data": "VideoLink" },
+            
             { "data": "Description" },
             { "data": "LibraryID" },
             { "data": "LibraryID" }
@@ -75,28 +75,16 @@ $(document).ready(function () {
                 render: function (data, type, full, meta) {
 
                     if (type === 'display') {
-                        data = (data == null || data == "http://highpack-001-site12.dtempurl.com") ? '<img src="../ThemeData/images/Default.png" id="branchImg" style="height:60px;width:60px;margin-left:20px;" />' : '<img src = "' + data + '" style="height:60px;width:60px;margin-left:20px;"/>'
+                        data = '<a href="' + data+'" target="_blank" style="color:blue;text-decoration:underline;">Go to link</a>';
                     }
                     return data;
                 },
                 orderable: false,
                 searchable: false
             },
+            
             {
-                targets: 4,
-                render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        var link = data.replace("http://highpack-001-site12.dtempurl.com", "");
-                        data =
-                            '<a style="margin-left:20px;" href="' + link + '" download="' + full.DocFileName + '"><img src="../ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
-                    }
-                    return data;
-                },
-                orderable: false,
-                searchable: false
-            },
-            {
-                targets: 6,
+                targets: 5,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
@@ -108,7 +96,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 7,
+                targets: 6,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
@@ -193,7 +181,7 @@ $(document).ready(function () {
     }
 
 
-   
+
 
 });
 

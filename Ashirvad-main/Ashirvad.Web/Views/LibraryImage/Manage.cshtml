@@ -25,8 +25,9 @@
             </th>
         </tr>
     </thead>
-
-    @foreach (var item in Model)
+    <tbody></tbody>
+    
+    @*@foreach (var item in Model)
     {
         <tr>
             <td>
@@ -40,9 +41,7 @@
                     @Html.HiddenFor(x => item.BranchInfo.BranchID)
                 </td>
             }
-            @*<td>
-                    @item.RowStatus.RowStatus
-                </td>*@
+            
             <td>
                 <a href="@Url.Action("LibraryMaintenance", " NewLibrary", new { LibraryID = item.LibraryID })">
                     <img src="~/ThemeData/images/viewIcon.png" />
@@ -54,7 +53,7 @@
                 </a>
             </td>
         </tr>
-    }
+    }*@
 
 </table>
 

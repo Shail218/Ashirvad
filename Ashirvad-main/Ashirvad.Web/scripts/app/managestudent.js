@@ -40,7 +40,7 @@ $(document).ready(function () {
                 targets: 0,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data = (data == null || data == "http://highpack-001-site12.dtempurl.com") ? '<img src="../ThemeData/images/Default.png" id="branchImg" style="height:60px;width:60px;margin-left:20px;" />' : '<img src = "' + data + '" style="height:60px;width:60px;margin-left:20px;"/>'
+                        data = (data == null || data == "https://mastermind.org.in") ? '<img src="../ThemeData/images/Default.png" id="branchImg" style="height:60px;width:60px;margin-left:20px;" />' : '<img src = "' + data + '" style="height:60px;width:60px;margin-left:20px;"/>'
                     }
                     return data;
                 },
@@ -119,18 +119,7 @@ function LoadBranch() {
     });
 }
 
-function LoadActiveStudent() {
-    ShowLoader();
-    var Data = commonData.BranchID;
-    var postCall = $.post(commonData.ManageStudent + "GetAllActiveStudent", { "branchID": Data });
-    postCall.done(function (data) {
-        HideLoader();
-        $('#studentData').html(data);
-    }).fail(function () {
-        HideLoader();
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
-}
+
 
 function ChangeStatusStudent(Status) {
     ShowLoader();
@@ -149,14 +138,13 @@ function ChangeStatusStudent(Status) {
             processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
         },
         "ajax": {
-            url: "" + GetSiteURL() + "/ManageStudent/CustomServerSideSearchAction?status='" + Status+"'",
+            url: "" + GetSiteURL() + "/ManageStudent/CustomServerSideSearchAction",
             type: 'POST',
             "data": function (d) {
-                debugger;
+                
                 HideLoader();
                 d.status = Status;
-                // d.custom = $('#myInput').val();
-                // etc
+               
             }
 
         },
@@ -175,7 +163,7 @@ function ChangeStatusStudent(Status) {
                 render: function (data, type, full, meta) {
                     debugger;
                     if (type === 'display') {
-                        data = (data == null || data == "http://highpack-001-site12.dtempurl.com") ? '<img src="../ThemeData/images/Default.png" id="branchImg" style="height:60px;width:60px;margin-left:20px;" />' : '<img src = "' + data + '" style="height:60px;width:60px;margin-left:20px;"/>'
+                        data = (data == null || data == "https://mastermind.org.in") ? '<img src="../ThemeData/images/Default.png" id="branchImg" style="height:60px;width:60px;margin-left:20px;" />' : '<img src = "' + data + '" style="height:60px;width:60px;margin-left:20px;"/>'
                     }
                     return data;
                 },

@@ -31,25 +31,26 @@
     </div>
 
     @section Scripts {
-        <script type="text/javascript" src="~/scripts/app/LibraryImage.js"></script>
+
         @*<script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>*@
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
-        <script>
-$(document).ready(function () {
+        <script type="text/javascript" src="~/scripts/app/LibraryImage.js"></script>
+        @*<script>
+            $(document).ready(function () {
 
-                $('#studenttbl').DataTable({
-                    "bPaginate": true,
-                    "bLengthChange": false,
-                    "bFilter": true,
-                    "bInfo": true,
-                    "bAutoWidth": true
-                });
+                            $('#studenttbl').DataTable({
+                                "bPaginate": true,
+                                "bLengthChange": false,
+                                "bFilter": true,
+                                "bInfo": true,
+                                "bAutoWidth": true
+                            });
 
 
-            });</script>
+                        });</script>*@
         <script type="text/javascript">
-function ConfirmationDialog() {
+            function ConfirmationDialog() {
                 if (confirm("Are you sure to continue?"))
                     return true;
                 else

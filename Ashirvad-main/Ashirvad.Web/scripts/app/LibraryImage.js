@@ -3,6 +3,78 @@
 
 $(document).ready(function () {
     ShowLoader();
+
+    var studenttbl = $("#subcategorytbl").DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'
+        },
+        "ajax": {
+            url: GetSiteURL() + "/Library/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        columns: [
+            //{ "data": "BranchCourse.course_dtl_id" },
+            
+            { "data": "Title" },
+            { "data": "BranchInfo.BranchName" },
+            { "data": "LibraryID" },
+            { "data": "LibraryID" }
+        ],
+        "columnDefs": [
+            {
+                targets: 0,
+                render: function (data, type, full, meta) {
+
+                    if (type === 'display') {
+                        var ch = format(data.BranchClassData)
+                        data = '<img src="../ThemeData/images/plus.png" height="30" />' + ch;
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 3,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            `<a href="ClassMaintenance?ClassID=` + data + `"><img src = "../ThemeData/images/viewIcon.png" /></a >
+                             <input hidden value="" id="BranchInfo_BranchID"/> `
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 4,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemoveClass(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ]
+    });
+
     LoadBranch(function () {
         if ($("#BranchInfo_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");

@@ -270,6 +270,7 @@
     <Content Include="scripts\app\anssheetdetail.js" />
     <Content Include="scripts\app\homeworkdetail.js" />
     <Content Include="scripts\app\image.js" />
+    <Content Include="scripts\app\libraryvideo.js" />
     <Content Include="scripts\app\library.js" />
     <Content Include="scripts\app\LibraryImage.js" />
     <Content Include="scripts\app\link.js" />

@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Library
 {
@@ -201,5 +202,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Library
             return null;
         }
 
+        public async Task<List<LibraryEntity>> GetAllCustomLibrary(DataTableAjaxPostModel model,int Type = 0, long stdID = 0)
+        {
+            try
+            {
+                return await this._libraryContext.GetAllCustomLibrary(model, Type, stdID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+       
     }
 }

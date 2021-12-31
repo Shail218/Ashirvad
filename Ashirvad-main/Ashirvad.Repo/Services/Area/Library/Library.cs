@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Library
 {
@@ -729,6 +730,105 @@ namespace Ashirvad.Repo.Services.Area.Library
                 return false;
             }
             return true;
+        }
+
+
+        public async Task<List<LibraryEntity>> GetAllCustomLibrary(DataTableAjaxPostModel model,int Type, long BranchID)
+        {
+            List<LibraryEntity> libraryEntities = new List<LibraryEntity>();
+            try
+            {
+                bool Isasc = model.order[0].dir == "desc" ? false : true;
+                long count = (from u in this.context.LIBRARY_MASTER
+                              orderby u.library_id descending
+                              where u.row_sta_cd == 1 && u.library_type == Type
+                              && (u.createby_branch == BranchID || BranchID == 0)
+                              select new LibraryEntity()
+                              {
+                                  
+                                  LibraryID = u.library_id,
+                                  BranchID = u.branch_id,
+                                  VideoLink = u.video_link,
+                                  LibraryTitle = u.library_title,
+                                  ThumbnailFileName = u.thumbnail_img,
+                                  ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                                  Type = u.type.Value,
+                                  Description = u.doc_desc,
+                                  DocFileName = u.library_image,
+                                  DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                                  CategoryInfo = new CategoryEntity()
+                                  {
+                                      CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
+                                      Category = u.CATEGORY_MASTER.category_name
+                                  },
+
+                                  RowStatus = new RowStatusEntity()
+                                  {
+                                      RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                      RowStatusId = (int)u.row_sta_cd
+                                  },
+                                  Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value }
+                              }).Distinct().Count();
+
+                libraryEntities = (from u in this.context.LIBRARY_MASTER
+                            orderby u.library_id descending
+                            where u.row_sta_cd == 1 && u.library_type == Type && (u.createby_branch == BranchID || BranchID == 0)
+                            select new LibraryEntity()
+                            {
+                                LibraryID = u.library_id,
+                                BranchID = u.branch_id,
+                                VideoLink = u.video_link,
+                                LibraryTitle = u.library_title,
+                                ThumbnailFileName = u.thumbnail_img,
+                                ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                                Type = u.type.Value,
+                                Description = u.doc_desc,
+                                DocFileName = u.library_image,
+                                DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                                CategoryInfo = new CategoryEntity()
+                                {
+                                    CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
+                                    Category = u.CATEGORY_MASTER.category_name
+                                },
+
+                                RowStatus = new RowStatusEntity()
+                                {
+                                    RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                    RowStatusId = (int)u.row_sta_cd
+                                },
+                                Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value }
+                            })
+                       .OrderByDescending(u => u.LibraryID)
+                       .Skip(model.start)
+                       .Take(model.length)
+                       .ToList();
+                if (libraryEntities.Count > 0)
+                {
+
+                    foreach (var item in libraryEntities)
+                    {
+                        item.libraryEntities = (from u in this.context.LIBRARY_STD_MASTER
+                                                where item.RowStatus.RowStatusId == 1 && item.LibraryID == u.library_id
+                                                select new LibraryEntity()
+                                                {
+                                                    //LibraryID = item.LibraryID,
+                                                    standard = new StandardEntity()
+                                                    {
+                                                        //StandardID = u.std_id.HasValue ? u.std_id.Value : 0,
+                                                        Standard = u.STD_MASTER.standard
+                                                    }
+                                                }).Distinct().ToList();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+           
+           
+
+            return libraryEntities;
         }
     }
 }

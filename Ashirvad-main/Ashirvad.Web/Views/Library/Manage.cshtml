@@ -1,6 +1,7 @@
 ﻿﻿@using Ashirvad.Web.Controllers;
 @model List<Ashirvad.Data.LibraryEntity>
 
+<input id="BranchID" value="" hidden/>
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
@@ -32,7 +33,7 @@
     </thead>
 
     <tbody>
-        @if (Model.Count > 0)
+        @*@if (Model.Count > 0)
         {
             foreach (var item in Model)
             {
@@ -117,7 +118,7 @@
             </td>
         </tr>
             }
-        }
+        }*@
     </tbody>
 </table>
 

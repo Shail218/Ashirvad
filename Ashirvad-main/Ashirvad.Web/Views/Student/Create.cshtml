@@ -149,7 +149,7 @@
         <div class="row" style="margin-top: 5px;">
             <div class="col-md-3">
                 @Html.Label("Contact No / Admission Form No", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.ContactNo, new { @class = "form-control required mobile", @alt = "ContactNo", autocomplete = "off", maxlength = 10, minlength = 10 })
+                @Html.TextBoxFor(x => x.ContactNo, new { @class = "form-control required mobile", @alt = "ContactNo", autocomplete = "off", type="number",@onchange= "CheckMobileno(this);" })
             </div>
             <div class="col-md-3">
                 @Html.Label("Father's Occupation", htmlAttributes: new { @class = "control-label" })
@@ -219,7 +219,7 @@
                 </div>
                 <div class="col-md-3">
                     @Html.Label("Parent's Contact No (Login ID)", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
-                    @Html.TextBoxFor(x => x.StudentMaint.ContactNo, new { @class = "form-control required mobile", @alt = "Parent's Contact No (Login ID)", autocomplete = "off", maxlength = 10, minlength = 10 })
+                    @Html.TextBoxFor(x => x.StudentMaint.ContactNo, new { @class = "form-control required mobile", @alt = "Parent's Contact No (Login ID)", autocomplete = "off",type = "number", @onchange = "CheckMobileno(this);" })
                 </div>
                 <div class="col-md-3">
                     @Html.Label("Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>

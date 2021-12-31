@@ -70,6 +70,7 @@ namespace Ashirvad.Web.Controllers
         public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model,string status)
         {
             // action inside a standard controller
+
             int statusid = 0;
             List<string> columns = new List<string>();
             columns.Add("");

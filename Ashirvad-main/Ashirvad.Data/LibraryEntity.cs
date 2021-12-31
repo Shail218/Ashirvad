@@ -18,6 +18,7 @@ namespace Ashirvad.Data
         public string DocFileName { get; set; }
         public string DocFilePath { get; set; }
         public int Type { get; set; }
+        public int Count { get; set; }
         public int Library_Type { get; set; }
         public long? StandardID { get; set; }
         public long? SubjectID { get; set; }
