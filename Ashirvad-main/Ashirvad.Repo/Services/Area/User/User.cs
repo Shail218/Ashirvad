@@ -367,7 +367,7 @@ namespace Ashirvad.Repo.Services.Area.User
                                 {
                                     BatchID = student.batch_time
                                 },
-                                FilePath = "http://highpack-001-site12.dtempurl.com" + student.file_path,
+                                FilePath = "https://mastermind.org.in" + student.file_path,
                                 FileName = student.file_name
                             }
                         }).FirstOrDefault();

@@ -18,42 +18,7 @@
             <th class="textalign">
                 Edit
             </th>
-            @*<th>
-            Delete
-        </th>*@
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-    {
-    <tr>
-
-        <td>
-            @item.BranchName
-
-            @Html.HiddenFor(x => item.BranchID)
-        </td>
-
-            <td>
-                @if (item.BranchMaint.FilePath != null && item.BranchMaint.FilePath != "")
-                {
-                    <img src="@item.BranchMaint.FilePath" id="bannerImg" style="height:40px;width:40px;margin-left:40px;" />
-                }
-                else
-                {
-                    <img src="~/ThemeData/images/Default.png" id="bannerImg" style="height:40px;width:40px;margin-left:40px;" />
-                }
-            </td>
-            <td>
-                @item.RowStatus.RowStatusText
-            </td>
-            <td>
-                <a href="@Url.Action("BranchMaintenance", "Branch", new { branchID = item.BranchID })">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
-            </td>
-            
-        </tr>
-    }*@
-
 </table>

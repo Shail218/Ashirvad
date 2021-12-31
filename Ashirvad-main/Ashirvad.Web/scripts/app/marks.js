@@ -9,6 +9,10 @@ $(document).ready(function () {
         format: 'dd/mm/yyyy',
 
     });
+
+    table = $('#marksentrytable').DataTable({
+        "bLengthChange": false
+    });
    
     var BrandID = $("#Branch_Name").val();
     LoadStandard(BrandID);
@@ -93,30 +97,13 @@ function LoadTestDetails(TestID, Subject) {
     });
 }
 
-//function LoadTestDetails(TestID,Subject) {
-//    var postCall = $.post(commonData.TestPaper + "GetTestDetails", { "TestID": TestID, "SubjectID": Subject});
-//    postCall.done(function (data) {
-//        $("#TotalMarks").val(data.Marks);
-//        $("#Remarks").val(data.Remarks);
-
-//        var Std = $('#StandardInfo_StandardID').val();
-//        var Batch = $('#batchEntityInfo_BatchID').val();
-//        LoadStudentDetails(Std, Batch);
-      
-
-//    }).fail(function () {
-//        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
-//    });
-//}
-
-
 function SaveMarks() {
     var status = true;
     var MarksData = [];
     var test = $('#testEntityInfo_TestID').val();
     Map = {};
-    $("#studenttbl tbody tr").each(function () {
-        var StudentID = $(this).find("#item_StudentID").val();
+    $("#marksentrytable tbody tr").each(function () {
+        var StudentID = $(this).find("#StudentID").val();
         var marks = $(this).find("#Marks").val();
         if (marks == "" || marks == null) {
             status = false;
@@ -160,11 +147,9 @@ function SaveMarks() {
 }
 
 function LoadTestDates(BatchType) {
-
     var BranchID = $("#Branch_Name").val();
     var STD = $('#StandardInfo_StandardID').val();
     var BatchType = BatchType;
-
     if (BranchID > 0 && BatchType > 0 && STD>0) {
         var postCall = $.post(commonData.TestPaper + "GetTestDatesByBatch", { "BranchID": BranchID, "BatchType": BatchType, "stdID": STD });
         postCall.done(function (data) {
@@ -176,8 +161,7 @@ function LoadTestDates(BatchType) {
                 var test = ConvertDateFrom(data[i].TestDate);
                 var TestDate = convertddmmyyyy(test);
                 $("#testddl").append("<option value='" + data[i].TestID + "'>" + TestDate+ "</option>");
-            }
-           
+            }          
             HideLoader();
         }).fail(function () {
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -185,21 +169,61 @@ function LoadTestDates(BatchType) {
     }
     else {
         $('#testddl').empty();
-        $('#testddl').select2();
-       
+        $('#testddl').select2();       
     }
 }
 
 function LoadStudentDetails(Std, Batch)
 {
-    var postCall = $.post(commonData.ResultEntry + "GetStudentByStd", { "Std": Std, "BatchTime": Batch });
-    postCall.done(function (data) {
-        $("#StudentDetail").html(data);
-
-
-    }).fail(function () {
-        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    ShowLoader();
+    table.destroy();
+    table = $('#marksentrytable').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+        },
+        "ajax": {
+            url: "" + GetSiteURL() + "/ResultEntry/CustomServerSideSearchAction?Std='" + Std + "'&BatchTime='" + Batch + "'",
+            type: 'POST',
+            "data": function (d) {
+                HideLoader();
+                d.Std = Std;
+                d.BatchTime = Batch;
+            }
+        },
+        "columns": [
+            { "data": "Name" }
+        ],
+        "columnDefs": [
+            {
+                targets: 1,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = `<input name="Marks" class="form-control customwidth required" alt="Achieve Mark" autocomplete="off" Id="Marks" />
+                        <input hidden value= `+ full.StudentID +` Id="StudentID" />`
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ]
     });
+    //var postCall = $.post(commonData.ResultEntry + "GetStudentByStd", { "Std": Std, "BatchTime": Batch });
+    //postCall.done(function (data) {
+    //    $("#StudentDetail").html(data);
+
+    //}).fail(function () {
+    //    //ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    //});
 }
 
 $("#BranchName").change(function () {

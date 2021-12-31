@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area
 {
@@ -124,6 +125,74 @@ namespace Ashirvad.Repo.Services.Area
             return data;
         }
 
+        public async Task<List<MarksEntity>> GetAllCustomMarks(DataTableAjaxPostModel model, long Std, long Branch, long Batch, long MarksID)
+        {
+            var Result = new List<MarksEntity>();
+            bool Isasc = true;
+            if (model.order?.Count > 0)
+            {
+                Isasc = model.order[0].dir == "desc" ? false : true;
+            }
+            long count = (from u in this.context.MARKS_MASTER
+                        .Include("STUDENT_MASTER")
+                        .Include("TEST_MASTER")
+                        .Include("SUBJECT_MASTER")
+                          orderby u.marks_id descending
+                          where u.branch_id == Branch && u.subject_id == MarksID &&
+                          (u.test_id == Std || Std == 0) && (u.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1
+                          select new MarksEntity()
+                          {
+                              MarksID = u.marks_id
+                          }).Count();
+            var data = (from u in this.context.MARKS_MASTER
+                        .Include("STUDENT_MASTER")
+                        .Include("TEST_MASTER")
+                        .Include("SUBJECT_MASTER")
+                        orderby u.marks_id descending
+                        where u.branch_id == Branch && u.subject_id == MarksID && (u.test_id == Std || Std == 0) && (u.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.STUDENT_MASTER.first_name.ToLower().Contains(model.search.value.ToLower())
+                        || u.STUDENT_MASTER.last_name.ToLower().Contains(model.search.value.ToLower())
+                        || u.SUBJECT_MASTER.subject.ToLower().Contains(model.search.value.ToLower())
+                        || u.achive_marks.ToLower().Contains(model.search.value.ToLower()))
+                        select new MarksEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            MarksID = u.marks_id,
+                            MarksDate = u.marks_dt,
+                            AchieveMarks = u.achive_marks,
+                            MarksContentFileName = u.file_name,
+                            MarksFilepath = u.file_path,
+                            Count = count,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            BranchInfo = new BranchEntity() { BranchID = u.branch_id },
+                            testEntityInfo = new TestEntity()
+                            {
+                                TestID = u.test_id,
+                                Marks = u.TEST_MASTER.total_marks,
+                            },
+                            student = new StudentEntity()
+                            {
+                                StudentID = u.student_id,
+                                Name = u.STUDENT_MASTER.first_name + " " + u.STUDENT_MASTER.last_name
+                            },
+                            SubjectInfo = new SubjectEntity()
+                            {
+                                SubjectID = u.SUBJECT_MASTER.subject_id,
+                                Subject = u.SUBJECT_MASTER.subject
+                            }
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();           
+            return data;
+        }
+
         public async Task<MarksEntity> GetMarksByMarksID(long MarksID)
         {
             var data = (from u in this.context.MARKS_MASTER
@@ -200,7 +269,7 @@ namespace Ashirvad.Repo.Services.Area
                             MarksID = u.marks_id,
                             MarksDate = u.marks_dt,                            
                             AchieveMarks = u.achive_marks,
-                            MarksFilepath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            MarksFilepath = "https://mastermind.org.in" + u.file_path,
                             MarksContentFileName = u.file_name,
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id },
                             testEntityInfo = new TestEntity()

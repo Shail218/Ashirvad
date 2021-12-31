@@ -70,21 +70,6 @@ $(document).ready(function () {
             }
         ]
     });
-
-    //LoadBranch(function () {
-    //    if ($("#Branch_BranchID").val() != "") {
-    //        $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-    //    }
-    //    if (commonData.BranchID != "0") {
-    //        $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
-    //        $("#BranchInfo_BranchID").val(commonData.BranchID);
-    //        GetAttendanceDetail(commonData.BranchID);
-    //    }
-    //});
-
-    //if ($("#Branch_BranchID").val() != "") {
-    //    $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
-    //}
 });
 
 function LoadBranch(onLoaded) {
@@ -115,7 +100,7 @@ function GetAttendanceDetail(branchID) {
     });
 }
 
-function GetAttendanceByID(attendanceID) {    
+function GetAttendanceByID(attendanceID) {
     var postCall = $.post(commonData.AttendanceRegister + "GetAttendanceByID", { "attendanceID": attendanceID });
     postCall.done(function (data) {
     }).fail(function () {

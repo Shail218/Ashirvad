@@ -125,7 +125,7 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                                 TransactionId = u.trans_id
                             },
 
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             FacultyContentFileName = u.file_name,
                             FacultyID = u.faculty_id,
                             Descripation = u.description,
@@ -203,7 +203,7 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                                 TransactionId = u.trans_id
                             },
                             Count = count,
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             FacultyContentFileName = u.file_name,
                             FacultyID = u.faculty_id,
                             Descripation = u.description,
@@ -387,7 +387,7 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                                  }
                              },
                              FacultyID = u.faculty_id,
-                             FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                             FilePath = "https://mastermind.org.in" + u.file_path,
                             // FacultyContentFileName=u.file_name,
                          }).ToList();
             foreach (var item in faculties)
@@ -454,7 +454,7 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                                         //    TransactionId = u.trans_id
                                         //},
 
-                                        FilePath = "http://highpack-001-site12.dtempurl.com"+ u.file_path,
+                                        FilePath = "https://mastermind.org.in"+ u.file_path,
                                       //  FacultyContentFileName = u.file_name,
                                       //  FacultyID = u.faculty_id,
                                       //  Descripation = u.description,
@@ -526,7 +526,7 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                                 TransactionId = u.trans_id
                             },
 
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             FacultyContentFileName = u.file_name,
                             FacultyID = u.faculty_id,
                             Descripation = u.description,

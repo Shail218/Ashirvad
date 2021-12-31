@@ -25,36 +25,6 @@
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.Standard.Standard
-                @Html.HiddenFor(x => item.PaperID)
-            </td>
-            <td>
-                @item.Subject.Subject
-            </td>
-            <td>
-                @item.BatchTypeText
-            </td>
-            <td>
-                <a href="@item.PaperData.FilePath.Replace("http://highpack-001-site12.dtempurl.com","")" id="paperdownload" download="@item.PaperData.PaperPath" target="_blank"><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
-                @Html.HiddenFor(x => item.PaperID)
-                <input hidden id="UniqID" value="@item.PaperID" />
-            </td>
-            <td>
-                <a href="@Url.Action("PaperMaintenance", "Papers", new { paperID = item.PaperID})">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
-            </td>
-            <td>
-                <a href="#" style="margin-left:20px;" onclick="RemovePaper(@item.PaperID);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-        </tr>
-    }*@
 
 </table>
 

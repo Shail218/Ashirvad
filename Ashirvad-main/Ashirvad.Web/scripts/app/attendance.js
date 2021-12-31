@@ -11,6 +11,10 @@ $(document).ready(function () {
 
     });
 
+    table = $('#attendancetable').DataTable({
+        "bLengthChange": false
+    });
+
     LoadBranch(function () {
         if ($("#Branch_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
@@ -93,19 +97,66 @@ function ValidateAttendanceData() {
     }
 }
 
-function GetStudentDetail() {
+function GetStudentDetail() {    
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        //var date1 = $("#AttendanceDate").val();
-        //$("#AttendanceDate").val(ConvertData(date1));
-        var postCall = $.post(commonData.AttendanceEntry + "GetAllStudentByBranchStdBatch", $('#fAttendanceReportDetail').serialize());
-        postCall.done(function (data) {
-            HideLoader();
-            $('#AttendanceData').html(data);
-        }).fail(function () {
-            HideLoader();
-            //ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        var STD = $('#Standard_StandardID').val();
+        var BatchTime = $('#BatchTypeID').val();
+        table.destroy();
+        table = $('#attendancetable').DataTable({
+            "bPaginate": true,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "proccessing": true,
+            "sLoadingRecords": "Loading...",
+            "sProcessing": true,
+            "serverSide": true,
+            "language": {
+                processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+            },
+            "ajax": {
+                url: "" + GetSiteURL() + "/AttendanceEntry/CustomServerSideSearchAction?STD='" + STD + "'&BatchTime='" + BatchTime + "'",
+                type: 'POST',
+                "data": function (d) {
+                    HideLoader();
+                    d.STD = STD;
+                    d.BatchTime = BatchTime;
+                }
+            },
+            "columns": [
+                { "data": "Name" },
+                { "data": "StudentID" }
+            ],
+            "columnDefs": [
+                {
+                    targets: 1,
+                    render: function (data, type, full, meta) {
+                        if (type === 'display') {
+                            data = `<input type="checkbox" value="` + data + `" name="cb" id = "cb"/> <span style="margin-left:20px;">Absent</span>
+                                <input hidden value = `+ full.StudentID +` Id = "StudentID" />
+                                <input hidden value = `+ full.GrNo +` Id = "GrNo" />`
+                        }
+                        return data;
+                    },
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    targets: 2,
+                    render: function (data, type, full, meta) {
+                        if (type === 'display') {
+                            data =
+                                '<input name="Remarks" class = "remark" alt="Remarks" autocomplete="off" id="Remarks" />'
+                        }
+                        return data;
+                    },
+                    orderable: false,
+                    searchable: false
+                }
+            ]
         });
     }
 }
@@ -116,9 +167,8 @@ function SaveAttendance() {
     Map = {};
     $("#attendancetable tbody tr").each(function () {       
         var IsAbsent, IsPresent;
-        var GrNo = $(this).find("#item_GrNo").val();
         var Remarks = $(this).find("#Remarks").val();
-        var StudentID = $(this).find("#item_StudentID").val();
+        var StudentID = $(this).find("#StudentID").val();
         var checked = $(this).find("#cb").prop("checked");
         if (checked) {
             IsAbsent = true;

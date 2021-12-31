@@ -28,38 +28,5 @@
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-    {
-    <tr>
-
-        <td>
-            @item.staff.Name
-            @Html.HiddenFor(x => item.staff.StaffID)
-        </td>
-        <td>
-            @if (item.FilePath != null && item.FilePath != "")
-            {
-                <img src="@item.FilePath" id="FeeImg" style="height:60px;width:50px;" />
-            }
-            else
-            {
-                <img src="~/ThemeData/images/Default.png" id="FeeImg" style="height:60px;width:50px;" />
-            }
-        </td>
-        <td>@item.BranchCourse.course.CourseName</td>
-        <td>@item.BranchClass.Class.ClassName</td>
-        <td>@item.branchSubject.Subject.SubjectName</td>
-
-        <td>
-            <a href="@Url.Action("FacultyMaintenance", "Faculty", new { facultyID = item.FacultyID })">
-                <img src="~/ThemeData/images/viewIcon.png" />
-            </a>
-        </td>
-        <td>
-            <a href="#" onclick="RemoveFaculty(@item.FacultyID);">
-                <img src="~/ThemeData/images/delete.png" />
-            </a>
-        </td>
-    </tr>
-    }*@
+    
 </table>

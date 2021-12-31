@@ -25,5 +25,6 @@ namespace Ashirvad.Data
         public List<ClassEntity> ClassData { get; set; } = new List<ClassEntity>();
         public bool isClass { get; set; }
         public bool isSubject { get; set; }
+        public long Count { get; set; }
     }
 }

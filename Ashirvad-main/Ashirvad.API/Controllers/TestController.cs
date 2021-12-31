@@ -370,7 +370,7 @@ namespace Ashirvad.API.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                            string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                             // for local server
                             //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
@@ -461,7 +461,7 @@ namespace Ashirvad.API.Controllers
                         string extension;
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
                         //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                         var postedFile = httpRequest.Files[file];
@@ -595,14 +595,14 @@ namespace Ashirvad.API.Controllers
                             //zip.AddFile(filePath, "Files");
                             using (var client = new WebClient())
                             {
-                                var buffer = client.DownloadData("http://highpack-001-site12.dtempurl.com" + item.FilePath);
+                                var buffer = client.DownloadData("https://mastermind.org.in" + item.FilePath);
                                 zip.AddEntry(item.AnswerSheetName, buffer);
                             }
                         }
 
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
                         //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                         //Save the Zip File to MemoryStream.
@@ -614,7 +614,7 @@ namespace Ashirvad.API.Controllers
 
                     result.Data = new HomeworkEntity()
                     {
-                        FilePath = "http://highpack-001-site12.dtempurl.com" + FileName
+                        FilePath = "https://mastermind.org.in" + FileName
                     };
                     result.Completed = true;
                     result.Message = "Success";

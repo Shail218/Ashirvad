@@ -16,7 +16,7 @@
             <th>
                 Batch Time
             </th>
-            <th>
+            <th  class="textalign">
                 Homework
             </th>
             <th>
@@ -25,58 +25,13 @@
             <th class="HomeworkDelete">
                 Delete
             </th>
-            <th>
+            <th  class="textalign">
                 Show Homewok
             </th>
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.HomeworkDate.ToString("dd/MM/yyyy")
-            </td>
-
-            <td style="text-align:center;">
-                @item.StandardInfo.Standard
-            </td>
-            <td>
-                @item.SubjectInfo.Subject
-            </td>
-            <td>
-                @item.BatchTimeText
-                @Html.HiddenFor(x => item.BatchTimeID)
-                @Html.HiddenFor(x => item.HomeworkID)
-                @Html.HiddenFor(x => item.BranchInfo.BranchID)
-            </td>
-            <td style="text-align:center;">
-                @if (item.HomeworkContentFileName != "" && item.HomeworkContentFileName != null)
-                {
-                    <a href="@item.FilePath.Replace("http://highpack-001-site12.dtempurl.com","")" id="paperdownload" download="@item.HomeworkContentFileName"><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
-                    @Html.HiddenFor(x => item.HomeworkID)
-                    <input hidden id="UniqID" value="@item.HomeworkID" />
-                }
-            </td>
-            <td>
-                <a href="@Url.Action("HomeworkMaintenance", "HomeWork", new { homeworkID = item.HomeworkID, branchID = item.BranchInfo.BranchID})">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
-            </td>
-            <td class="HomeworkDelete" style="text-align:center;">
-                <a href="#" onclick="RemoveHomework(@item.HomeworkID);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-            <td style="text-align:center;">
-
-                <a href="@Url.Action("StudentHomeworkDetails", "HomeWork",new { StudhID=item.HomeworkID})">
-                    <img src="~/ThemeData/images/tick.png" style="height:35px;width:35px" />
-                </a>
-            </td>
-        </tr>
-    }*@
-
+  
 </table>
 
 

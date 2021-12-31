@@ -117,7 +117,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 TestPaperID = TestPaper.test_paper_id,
                                 PaperType = TestPaper.paper_type.ToString(),
                                 DocLink = TestPaper.doc_link.ToString(),
-                                FilePath = "http://highpack-001-site12.dtempurl.com" + TestPaper.file_path,
+                                FilePath = "https://mastermind.org.in" + TestPaper.file_path,
                                 FileName = TestPaper.file_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
@@ -192,7 +192,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 TestPaperID = TestPaper.test_paper_id,
                                 PaperType = TestPaper.paper_type.ToString(),
                                 DocLink = TestPaper.doc_link.ToString(),
-                                FilePath = "http://highpack-001-site12.dtempurl.com" + TestPaper.file_path,
+                                FilePath = "https://mastermind.org.in" + TestPaper.file_path,
                                 FileName = TestPaper.file_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
@@ -456,7 +456,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 TestPaperID = TestPaper.test_paper_id,
                                 PaperType = TestPaper.paper_type.ToString(),
                                 DocLink = TestPaper.doc_link.ToString(),
-                                FilePath = "http://highpack-001-site12.dtempurl.com" + TestPaper.file_path,
+                                FilePath = "https://mastermind.org.in" + TestPaper.file_path,
                                 FileName = TestPaper.file_name
                             },
                             BatchTimeID = u.batch_time_id,
@@ -620,7 +620,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestDate = u.TEST_MASTER.test_dt,
                             TestName = u.TEST_MASTER.test_name,
                             TestPaperID = u.test_paper_id,
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
             //if (data?.Count > 0)
@@ -654,7 +654,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                             FileName = u.file_name,
                             TestDate = u.TEST_MASTER.test_dt,
                             TestPaperID = u.test_paper_id,
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
 

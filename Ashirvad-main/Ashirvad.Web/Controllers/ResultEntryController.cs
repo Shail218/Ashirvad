@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -39,20 +40,8 @@ namespace Ashirvad.Web.Controllers
                 var result = await _MarksService.GetMarksByMarksID(MarksID);
                 Marks.MarksInfo = result;
             }
-            Marks.StudentData = new List<StudentEntity>();
-            //var MarksData = await _MarksService.GetAllMarks();
-            //Marks.MarksData = MarksData;
-
             return View("Index", Marks);
         }
-
-        //[HttpPost]
-        //public async Task<string> GetMarksLogo(long MarksID)
-        //{
-        //    var data = await _MarksService.GetMarksByMarksID(MarksID);
-        //    var result = data.Data;
-        //    return "data:image/jpg;base64, " + Convert.ToBase64String(result.MarksMaint.MarksLogo, 0, result.MarksMaint.MarksLogo.Length);
-        //}
 
         [HttpPost]
         public async Task<JsonResult> SaveMarks(MarksEntity Marks)
@@ -111,6 +100,25 @@ namespace Ashirvad.Web.Controllers
         {
             var result = _studentService.GetStudentByStd(Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime).Result;
             return View("~/Views/ResultEntry/Manage.cshtml", result);
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model, long Std, long BatchTime)
+        {
+            List<string> columns = new List<string>();
+            var branchData = await _studentService.GetAllCustomStudentMarks(model, Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
         }
     }
 }

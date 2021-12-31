@@ -79,7 +79,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
                             HeaderImageText = u.header_img,
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.header_img_path,
+                            FilePath = "https://mastermind.org.in" + u.header_img_path,
                             BrandName = u.brand_name,
                             DetailID=u.brand_id                            
                         }).ToList();
@@ -134,7 +134,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                             WebsiteURL = u.website,
                             WhatsAppNo = u.whatsapp_no,
                             AboutUsDesc=u.aboutus_desc,
-                            FilePath= "http://highpack-001-site12.dtempurl.com" + u.header_img_path
+                            FilePath= "https://mastermind.org.in" + u.header_img_path
                         }).FirstOrDefault();
             
 

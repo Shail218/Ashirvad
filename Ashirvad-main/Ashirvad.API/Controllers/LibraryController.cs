@@ -99,7 +99,7 @@ namespace Ashirvad.API.Controllers
                         string extension;
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
                         //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                         var thumbnailFile = httpRequest.Files[0];
@@ -143,7 +143,7 @@ namespace Ashirvad.API.Controllers
                         string extension;
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
                         //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                         var thumbnailFile = httpRequest.Files[0];
@@ -169,7 +169,7 @@ namespace Ashirvad.API.Controllers
                     try
                     {                       
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                        string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                        string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         var docFile = httpRequest.Files[0];
                         string docrandomfilename = Common.Common.RandomString(20);
                         string docExtension = Path.GetExtension(docFile.FileName);

@@ -17,26 +17,6 @@
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.Page
-                @Html.HiddenFor(x => item.PageID)
-                @Html.HiddenFor(x => item.BranchInfo.BranchID)
-            </td>
-            <td style="text-align:center !important;">
-                <a href="@Url.Action("PageMaintenance", "Page", new { branchID = item.PageID })">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
-            </td>
-            <td style="text-align:center !important;">
-                <a href="#" onclick="RemovePage(@item.PageID);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-        </tr>
-    }*@
 
 </table>
 

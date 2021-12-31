@@ -35,7 +35,6 @@ namespace Ashirvad.Web.Controllers
                 branch.UPIInfo = result.Data;
             }
 
-            //var branchData = await _upiService.GetAllUPIs(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             var branchData = await _upiService.GetAllUPIs(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             branch.UPIData = branchData.Data;
 
@@ -49,6 +48,10 @@ namespace Ashirvad.Web.Controllers
             upi.RowStatusData = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
+            };
+            upi.BranchData = new BranchEntity()
+            {
+                BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
             };
             var data = await _upiService.UPIMaintenance(upi);
             if(data != null)

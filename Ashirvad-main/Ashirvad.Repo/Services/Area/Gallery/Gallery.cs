@@ -60,7 +60,7 @@ namespace Ashirvad.Repo.Services.Area.Gallery
                                 RowStatusId = (int)u.row_sta_cd
                             },
                             UniqueID = u.unique_id,
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             FileName = u.file_name,
                             Branch = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },

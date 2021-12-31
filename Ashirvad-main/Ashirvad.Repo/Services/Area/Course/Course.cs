@@ -111,7 +111,7 @@ namespace Ashirvad.Repo.Services.Area.Course
                             },
                             CourseID = u.course_id,
                             CourseName = u.course_name,
-                            filepath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            filepath = "https://mastermind.org.in" + u.file_path,
                             filename = u.file_name,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
 
@@ -136,7 +136,7 @@ namespace Ashirvad.Repo.Services.Area.Course
                             },
                             CourseID = u.course_id,
                             CourseName = u.course_name,
-                            filepath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            filepath = "https://mastermind.org.in" + u.file_path,
                             filename = u.file_name,
                             Count = Count,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },

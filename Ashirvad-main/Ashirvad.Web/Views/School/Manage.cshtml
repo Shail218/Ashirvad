@@ -16,35 +16,5 @@
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-    {
-    <tr>
-        <td>
-            @item.SchoolName
-            @Html.HiddenFor(x => item.SchoolID)
-            @Html.HiddenFor(x => item.BranchInfo.BranchID)
-        </td>
-        @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
-        {
-            <td>
-                @item.BranchInfo.BranchName
-            </td>
-        }
-        @*<td>
-            @item.RowStatus.RowStatus
-        </td>
-        <td>
-            <a style="margin-left:70px;" href="@Url.Action("SchoolMaintenance", "School", new { branchID = item.SchoolID })">
-                <img src="~/ThemeData/images/viewIcon.png" />
-            </a>
-        </td>
-        <td class="SchoolMasterDelete">
-            <a style="margin-left:70px;" href="#" onclick="RemoveSchool(@item.SchoolID);">
-                <img src="~/ThemeData/images/delete.png" />
-            </a>
-        </td>
-    </tr>
-    }*@
-
 </table>
 

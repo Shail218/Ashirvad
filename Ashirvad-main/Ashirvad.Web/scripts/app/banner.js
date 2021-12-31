@@ -39,7 +39,7 @@ $(document).ready(function () {
                 targets: 1,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data = (data == null || data == "http://highpack-001-site12.dtempurl.com") ? '<img src="../ThemeData/images/Default.png" id="branchImg" style="height:60px;width:60px;margin-left:20px;" />' : '<img src = "' + data + '" style="height:60px;width:60px;margin-left:20px;"/>'
+                        data = (data == null || data == "https://mastermind.org.in") ? '<img src="../ThemeData/images/Default.png" id="branchImg" style="height:60px;width:60px;margin-left:20px;" />' : '<img src = "' + data + '" style="height:60px;width:60px;margin-left:20px;"/>'
                     }
                     return data;
                 },

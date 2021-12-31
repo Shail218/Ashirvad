@@ -52,7 +52,7 @@ $(document).ready(function () {
                 targets: 3,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data = '<a href= "' + full.FilePath.replace("http://highpack-001-site12.dtempurl.com", "") + '" id="paperdownload" download="' + full.ToDoFileName + '"> <img src="../ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
+                        data = '<a href= "' + full.FilePath.replace("https://mastermind.org.in", "") + '" id="paperdownload" download="' + full.ToDoFileName + '"> <img src="../ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
                     }
                     return data;
                 },

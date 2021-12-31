@@ -101,7 +101,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             PaperData = new PaperData()
                             {
-                                FilePath = u.PRACTICE_PAPER_REL.Count == 0 ? " " : "http://highpack-001-site12.dtempurl.com" + u.PRACTICE_PAPER_REL.FirstOrDefault().file_path,
+                                FilePath = u.PRACTICE_PAPER_REL.Count == 0 ? " " : "https://mastermind.org.in" + u.PRACTICE_PAPER_REL.FirstOrDefault().file_path,
                                 PaperID = u.PRACTICE_PAPER_REL.Count == 0 ? 0 : u.PRACTICE_PAPER_REL.FirstOrDefault().paper_id,
                                 PaperPath = u.PRACTICE_PAPER_REL.Count == 0 ? " " : u.PRACTICE_PAPER_REL.FirstOrDefault().paper_file,
                                 UniqueID = u.PRACTICE_PAPER_REL.Count == 0 ? 0 : u.PRACTICE_PAPER_REL.FirstOrDefault().unique_id
@@ -169,7 +169,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             PaperData = new PaperData()
                             {
-                                FilePath = u.PRACTICE_PAPER_REL.Count == 0 ? " " : "http://highpack-001-site12.dtempurl.com" + u.PRACTICE_PAPER_REL.FirstOrDefault().file_path,
+                                FilePath = u.PRACTICE_PAPER_REL.Count == 0 ? " " : "https://mastermind.org.in" + u.PRACTICE_PAPER_REL.FirstOrDefault().file_path,
                                 PaperID = u.PRACTICE_PAPER_REL.Count == 0 ? 0 : u.PRACTICE_PAPER_REL.FirstOrDefault().paper_id,
                                 PaperPath = u.PRACTICE_PAPER_REL.Count == 0 ? " " : u.PRACTICE_PAPER_REL.FirstOrDefault().paper_file,
                                 UniqueID = u.PRACTICE_PAPER_REL.Count == 0 ? 0 : u.PRACTICE_PAPER_REL.FirstOrDefault().unique_id
@@ -217,7 +217,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             PaperData = new PaperData()
                             {
-                                FilePath = u.PRACTICE_PAPER_REL.Count == 0?" " :"http://highpack-001-site12.dtempurl.com" + u.PRACTICE_PAPER_REL.FirstOrDefault().file_path,
+                                FilePath = u.PRACTICE_PAPER_REL.Count == 0?" " :"https://mastermind.org.in" + u.PRACTICE_PAPER_REL.FirstOrDefault().file_path,
                                 PaperID = u.PRACTICE_PAPER_REL.Count == 0 ? 0 : u.PRACTICE_PAPER_REL.FirstOrDefault().paper_id,
                                 PaperPath = u.PRACTICE_PAPER_REL.Count == 0 ? " " : u.PRACTICE_PAPER_REL.FirstOrDefault().paper_file,
                                 UniqueID = u.PRACTICE_PAPER_REL.Count == 0 ? 0 : u.PRACTICE_PAPER_REL.FirstOrDefault().unique_id
@@ -273,7 +273,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             PaperData = new PaperData()
                             {
-                                FilePath = u.PRACTICE_PAPER_REL.Count == 0 ? " " : "http://highpack-001-site12.dtempurl.com" + u.PRACTICE_PAPER_REL.FirstOrDefault().file_path,
+                                FilePath = u.PRACTICE_PAPER_REL.Count == 0 ? " " : "https://mastermind.org.in" + u.PRACTICE_PAPER_REL.FirstOrDefault().file_path,
                                 PaperID = u.PRACTICE_PAPER_REL.Count == 0 ? 0 : u.PRACTICE_PAPER_REL.FirstOrDefault().paper_id,
                                 PaperPath = u.PRACTICE_PAPER_REL.Count == 0 ? " " : u.PRACTICE_PAPER_REL.FirstOrDefault().paper_file,
                                 UniqueID = u.PRACTICE_PAPER_REL.Count == 0 ? 0 : u.PRACTICE_PAPER_REL.FirstOrDefault().unique_id

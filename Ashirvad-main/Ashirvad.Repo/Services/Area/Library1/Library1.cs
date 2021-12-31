@@ -73,7 +73,7 @@ namespace Ashirvad.Repo.Services.Area
                             link = u.video_link,
                             Title = u.library_title,
                             Description = u.description,
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,                            
+                            FilePath = "https://mastermind.org.in" + u.thumbnail_path,                            
                             FileName = u.thumbnail_img,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             CategoryInfo = new CategoryEntity() {

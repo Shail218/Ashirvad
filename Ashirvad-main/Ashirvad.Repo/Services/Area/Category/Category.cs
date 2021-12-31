@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area
 {
@@ -78,6 +79,39 @@ namespace Ashirvad.Repo.Services.Area
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
 
+            return data;
+        }
+
+        public async Task<List<CategoryEntity>> GetAllCustomCategory(DataTableAjaxPostModel model, long branchID)
+        {
+            var Result = new List<CategoryEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = this.context.CATEGORY_MASTER.Where(s => s.row_sta_cd == 1 && (s.branch_id == branchID || branchID == 0)).Count();
+            var data = (from u in this.context.CATEGORY_MASTER where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.category_name.ToLower().Contains(model.search.value))
+                        orderby u.category_id descending
+                        select new CategoryEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            Count = count,
+                            Category = u.category_name,
+                            CategoryID = u.category_id,
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
             return data;
         }
 

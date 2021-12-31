@@ -107,7 +107,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 BranchId = u.BRANCH_MAINT.branch_id,
                                 Website = u.BRANCH_MAINT.website,
                                 FileName = u.BRANCH_MAINT.file_name,
-                                FilePath = "http://highpack-001-site12.dtempurl.com" + u.BRANCH_MAINT.file_path
+                                FilePath = "https://mastermind.org.in" + u.BRANCH_MAINT.file_path
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
 
@@ -147,7 +147,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 BranchId = u.BRANCH_MAINT.branch_id,
                                 Website = u.BRANCH_MAINT.website,
                                 FileName = u.BRANCH_MAINT.file_name,
-                                FilePath = "http://highpack-001-site12.dtempurl.com" + u.BRANCH_MAINT.file_path
+                                FilePath = "https://mastermind.org.in" + u.BRANCH_MAINT.file_path
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
 
@@ -184,7 +184,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 BranchId = u.BRANCH_MAINT.branch_id,
                                 Website = u.BRANCH_MAINT.website,
                                 FileName = u.BRANCH_MAINT.file_name,
-                                FilePath = "http://highpack-001-site12.dtempurl.com" + u.BRANCH_MAINT.file_path
+                                FilePath = "https://mastermind.org.in" + u.BRANCH_MAINT.file_path
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
 

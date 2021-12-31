@@ -27,7 +27,6 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> GetAllAttendanceByBranch(long branchID)
         {
-            //var data = await this._attendanceService.GetAllAttendanceByBranch(branchID);
             List<AttendanceEntity> entity = new List<AttendanceEntity>();
             return View("~/Views/AttendanceRegister/Manage.cshtml", entity);
         }

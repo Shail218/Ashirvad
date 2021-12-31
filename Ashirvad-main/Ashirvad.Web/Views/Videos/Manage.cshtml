@@ -20,29 +20,6 @@
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                <a href="@item.FilePath" id="videoDownload" download="@item.FileName"><img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" /></a>
-                @Html.HiddenFor(x => item.UniqueID)
-                <input hidden id="UniqID" value="@item.UniqueID" />
-            </td>
-            <td>
-                @item.Remarks
-            </td>
-            <td>
-                <a href="@Url.Action("VideosMaintenance", "Videos", new { videoID = item.UniqueID})">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
-            </td>
-            <td class="VideoDelete">
-                <a href="#" onclick="RemoveVideos(@item.UniqueID);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-        </tr>
-    }*@
 
 </table>
 

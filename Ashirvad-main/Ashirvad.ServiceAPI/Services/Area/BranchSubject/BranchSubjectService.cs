@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area
 {
@@ -99,6 +100,20 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return null;
         }
+
+        public async Task<List<BranchSubjectEntity>> GetAllSubjects(DataTableAjaxPostModel model, long BranchID)
+        {
+            try
+            {
+                return await this._BranchSubjectContext.GetAllSubjects(model, BranchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
+
         public async Task<List<BranchSubjectEntity>> GetMobileAllBranchSubject(long BranchID=0)
         {
             try

@@ -7,12 +7,14 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+    });
 
+    table = $('#marksregistertable').DataTable({
+        "bLengthChange": false
     });
 
     var BrandID = $("#Branch_Name").val();
     LoadStandard(BrandID);
-
 });
 
 function LoadBranch(onLoaded) {
@@ -75,11 +77,9 @@ function LoadSubject(branchID) {
 }
 
 function LoadTestDates(BatchType) {
-
     var BranchID = $("#Branch_Name").val();
     var STD = $('#StandardInfo_StandardID').val();
     var BatchType = BatchType;
-
     if (BranchID > 0 && BatchType > 0 && STD > 0) {
         var postCall = $.post(commonData.TestPaper + "GetTestDatesByBatch", { "BranchID": BranchID, "BatchType": BatchType, "stdID": STD });
         postCall.done(function (data) {
@@ -104,15 +104,70 @@ function LoadTestDates(BatchType) {
 }
 
 function LoadStudentDetails() {
+    ShowLoader();
     var STD = $('#testEntityInfo_TestID').val();
     var Subject = $('#SubjectInfo_SubjectID').val();
     var BatchType = $('#BatchType').val();
-    var postCall = $.post(commonData.MarksRegister + "GetAllAchieveMarks", { "Std": STD, "Batch": BatchType, "MarksID": Subject});
-    postCall.done(function (data) {
-        $("#StudentDetail").html(data);
-    }).fail(function () {
-        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    table.destroy();
+    table = $('#marksregistertable').DataTable({
+            "bPaginate": true,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "proccessing": true,
+            "sLoadingRecords": "Loading...",
+            "sProcessing": true,
+            "serverSide": true,
+            "language": {
+                processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+            },
+        "ajax": {
+            url: "" + GetSiteURL() + "/ResultRegister/CustomServerSideSearchAction?Std='" + STD + "'&Batch='" + BatchType + "'&MarksID='" + Subject + "'",
+            type: 'POST',
+            "data": function (d) {
+                HideLoader();
+                d.Std = STD;
+                d.Batch = BatchType;
+                d.MarksID = Subject;
+            }
+            },
+            "columns": [
+                { "data": "student.Name" },
+                { "data": "SubjectInfo.Subject" },
+                { "data": "testEntityInfo.Marks" },
+                { "data": "AchieveMarks" },
+                { "data": "MarksID" }
+            ],
+            "columnDefs": [
+                {
+                    targets: 3,
+                    render: function (data, type, full, meta) {
+                        if (type === 'display') {
+                            data = '<input value="' + data + '" name="' + data + '" class="form-control customwidth required" alt="Achieve Mark" autocomplete="off" Id="Marks_' + full.MarksID + '" />'
+                        }
+                        return data;
+                    },
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    targets: 4,
+                    render: function (data, type, full, meta) {
+                        if (type === 'display') {
+                            data =
+                                `<a onclick = "UpdateMarks(` + data + `,` + full.student.StudentID + `)" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left"> <span class="ladda-label">
+                        Save
+                    </span >
+        <span class="ladda-spinner"></span></a >`
+                        }
+                        return data;
+                    },
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
 }
 
 function UpdateMarks(MarksID, StudentID) {

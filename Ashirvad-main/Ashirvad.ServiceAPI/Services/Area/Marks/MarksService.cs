@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area
 {
@@ -84,6 +85,20 @@ namespace Ashirvad.ServiceAPI.Services.Area
             try
             {
                 return await this._MarksContext.GetAllAchieveMarks(Std,Branch,Batch,MarksID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<MarksEntity>> GetAllCustomMarks(DataTableAjaxPostModel model, long Std, long Branch, long Batch, long MarksID)
+        {
+            try
+            {
+                return await this._MarksContext.GetAllCustomMarks(model, Std, Branch, Batch, MarksID);
             }
             catch (Exception ex)
             {

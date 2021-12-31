@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Branch
 {
@@ -75,7 +76,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
                         .Include("PACKAGE_MASTER")
-                        .Include("PAGE_MASTER") orderby u.packagerights_id descending
+                        .Include("PAGE_MASTER")
                         where u.row_sta_cd == 1
                         select new PackageRightEntity()
                         {
@@ -125,13 +126,80 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
         }
 
+        public async Task<List<PackageRightEntity>> GetAllCustomRights(DataTableAjaxPostModel model)
+        {
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = (from u in this.context.PACKAGE_RIGHTS_MASTER
+                        .Include("PACKAGE_MASTER")
+                        .Include("PAGE_MASTER")
+                          orderby u.packagerights_id descending
+                          where u.row_sta_cd == 1
+                          select new PackageRightEntity()
+                          {
+                              Packageinfo = new PackageEntity()
+                              {
+                                  Package = u.PACKAGE_MASTER.package,
+                                  PackageID = u.PACKAGE_MASTER.package_id
+                              }
+                          }).Distinct().Count();
+            var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
+                        .Include("PACKAGE_MASTER")
+                        .Include("PAGE_MASTER")
+                        orderby u.packagerights_id descending
+                        where u.row_sta_cd == 1 && (model.search.value == null
+                        || model.search.value == ""
+                        || u.PACKAGE_MASTER.package.ToLower().Contains(model.search.value))
+                        select new PackageRightEntity()
+                        {
+                            Packageinfo = new PackageEntity()
+                            {
+                                Package = u.PACKAGE_MASTER.package,
+                                PackageID = u.PACKAGE_MASTER.package_id
+                            },
+                            Count = count
+                        }).Distinct()
+                        .OrderByDescending(a => a.Packageinfo.PackageID)
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+            foreach (var item in data)
+            {
+                item.list = (from u in this.context.PACKAGE_RIGHTS_MASTER
+                              .Include("PACKAGE_MASTER")
+                               .Include("PAGE_MASTER")
+                                           where u.row_sta_cd == 1 && u.package_id == item.Packageinfo.PackageID
+                                           select new PackageRightEntity()
+                                           {
+                                               RowStatus = new RowStatusEntity()
+                                               {
+                                                   RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                                   RowStatusId = (int)u.row_sta_cd
+                                               },
+                                               PageInfo = new PageEntity()
+                                               {
+                                                   Page = u.PAGE_MASTER.page,
+                                                   PageID = u.page_id
+                                               },
+                                               Packageinfo = new PackageEntity()
+                                               {
+                                                   Package = u.PACKAGE_MASTER.package,
+                                                   PackageID = u.PACKAGE_MASTER.package_id
+                                               },                                               
+                                               Createstatus = u.createstatus,
+                                               Viewstatus = u.viewstatus,
+                                               Deletestatus = u.deletestatus,
+                                               Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                                           }).ToList();
+            }
+            return data;
+        }
+
 
         public async Task<List<PackageRightEntity>> GetRightsByRightsID(long RightsID)
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
                        .Include("PACKAGE_MASTER")
                        .Include("PAGE_MASTER")
-                        orderby u.packagerights_id descending
                         where u.row_sta_cd == 1 && u.package_id == RightsID
                         select new PackageRightEntity()
                         {
@@ -156,8 +224,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
         public async Task<PackageRightEntity> GetPackagebyID(long RightsID)
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
-                       .Include("PACKAGE_MASTER")                       
-                                  
+                       .Include("PACKAGE_MASTER")                                                         
                         where u.row_sta_cd == 1 && u.package_id == RightsID
                         select new PackageRightEntity()
                         {

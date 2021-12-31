@@ -57,11 +57,11 @@
                 @Html.TextBoxFor(x => x.Title, new { @class = "form-control required", @alt = "Title", autocomplete = "off" })
             </div>
             <div class="col-md-12">
-                @Html.Label("Video URL", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.Label("Google Meet / Zoom URL", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 @Html.TextBoxFor(x => x.LinkURL, new { @class = "form-control required", @alt = "Video URL", autocomplete = "off" })
             </div>
             <div class="col-md-12">
-                @Html.Label("Video Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.Label("Description / Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 @Html.TextAreaFor(x => x.LinkDesc, new { @class = "form-control required", @alt = "Video Description", autocomplete = "off" })
             </div>
         }

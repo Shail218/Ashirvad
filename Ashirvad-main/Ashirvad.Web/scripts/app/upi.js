@@ -7,11 +7,6 @@ $(document).ready(function () {
         if ($("#BranchData_BranchID").val() != "") {
             $('#BranchName option[value="' + $("#BranchData_BranchID").val() + '"]').attr("selected", "selected");
         }
-
-        //if (commonData.BranchID != "0") {
-        //    $('#BranchName option[value="' + commonData.BranchID + '"]').attr("selected", "selected");
-        //    $("#BranchData_BranchID").val(commonData.BranchID);
-        //}
     });
 
     if ($("#BranchData_BranchID").val() != "") {

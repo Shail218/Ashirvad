@@ -37,8 +37,6 @@ namespace Ashirvad.Web.Controllers
                 var result = await _schoolService.GetSchoolsByID(schoolID);
                 branch.SchoolInfo = result;
             }
-
-            //var branchData = await _schoolService.GetAllSchools(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             branch.SchoolData = new List<SchoolEntity>();
 
             return View("Index", branch);

@@ -8,13 +8,13 @@
                 Title
             </th>
             <th>
-                Video Description
+                Description/Password
             </th>
             <th>
                 Standard
             </th>
             <th>
-                Video URL
+                Google Meet/Zoom URL
             </th>
             <th>
                 Edit
@@ -25,34 +25,7 @@
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-    {
-    <tr>
-        <td>
-            @item.Title
-        </td>
-        <td>
-            @item.LinkDesc
-        </td>
-        <td>
-            @item.StandardName
-        </td>
-        <td>
-            @item.LinkURL
-        </td>
-        <td>
-            <a href="@Url.Action("LiveVideoMaintenance", "LiveVideo", new { linkID = item.UniqueID })">
-                <img src="~/ThemeData/images/viewIcon.png" />
-            </a>
-        </td>
-        <td class="LiveVideosDelete" style="text-align:center;">
-            <a href="#" onclick="RemoveLink(@item.UniqueID);">
-                <img src="~/ThemeData/images/delete.png" />
-            </a>
-        </td>
-    </tr>
-    }*@
-
+    
 </table>
 
 

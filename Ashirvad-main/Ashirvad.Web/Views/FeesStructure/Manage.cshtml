@@ -21,39 +21,5 @@
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.standardInfo.Standard
-                @Html.HiddenFor(x => item.BranchInfo.BranchID)
-                @Html.HiddenFor(x => item.standardInfo.StandardID)
-                @Html.HiddenFor(x => item.FilePath)
-                @Html.HiddenFor(x => item.FileName)
-            </td>
-            <td>
-                @if (item.FilePath != null && item.FilePath != "")
-                {
-                    <img src="@item.FilePath" id="FeeImg" style="height:40px;width:40px;margin-left:40px;" />
-                }
-                else
-                {
-                    <img src="~/ThemeData/images/Default.png" id="FeeImg" style="height:40px;width:40px;margin-left:40px;" />
-                }
-            </td>
-            <td>
-                @item.Remark
-            </td>
-            <td>
-                <a href="@Url.Action("FeesMaintenance", "FeesStructure", new { FeesID = item.FeesID })">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
-            </td>
-            <td class="StudentFeesStructureDelete">
-                <a style="margin-left:20px;" href="#" onclick="RemoveFees(@item.FeesID);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-        </tr>
-    }*@
+   
 </table>

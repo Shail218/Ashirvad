@@ -19,36 +19,7 @@
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @if (item.FilePath != null && item.FilePath != "")
-                {
-                    <img src="@item.FilePath" id="Img" style="height:40px;width:40px;margin-left:40px;" />
-                }
-                else
-                {
-                    <img src="~/ThemeData/images/Default.png" id="Img" style="height:40px;width:40px;margin-left:40px;" />
-                }
-                @Html.HiddenFor(x => item.UniqueID)
-            </td>
-            <td>
-                @item.Remarks
-            </td>
-            <td>
-                <a href="@Url.Action("PhotosMaintenance", "Photos", new { photoID = item.UniqueID})">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
-            </td>
-            <td class="PhotosDelete">
-                <a href="#" onclick="RemovePhotos(@item.UniqueID);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-        </tr>
-    }*@
-
+   
 </table>
 
 

@@ -22,31 +22,6 @@
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.ReminderDate.ToString("dd/MM/yyyy")
-            </td>
-
-            <td>
-                @item.ReminderTime
-            </td>
-            <td>
-                @item.ReminderDesc
-            </td>
-            <td>
-                <a href="@Url.Action("ReminderMaintenance", "Reminder", new { reminderID = item.ReminderID})">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
-            </td>
-            <td class="ReminderEntryDelete">
-                <a style="margin-left:20px;" href="#" onclick="RemoveReminder(@item.ReminderID);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-        </tr>
-    }*@
 
 </table>
 

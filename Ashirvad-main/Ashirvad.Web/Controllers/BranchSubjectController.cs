@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -48,8 +49,8 @@ namespace Ashirvad.Web.Controllers
             var SubjectData = await _subjectService.GetAllSubject();
             branchSubject.BranchSubjectInfo.SubjectData = SubjectData.Data;
 
-            var BranchSubject = await _branchSubjectService.GetAllBranchSubject(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            branchSubject.BranchSubjectData = BranchSubject;
+            //var BranchSubject = await _branchSubjectService.GetAllBranchSubject(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            branchSubject.BranchSubjectData = new List<BranchSubjectEntity>();
             return View("Index", branchSubject);
         }
 
@@ -139,6 +140,24 @@ namespace Ashirvad.Web.Controllers
             {
                 return Json(null);
             }
+
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            var branchData = await _branchSubjectService.GetAllSubjects(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
 
         }
     }

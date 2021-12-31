@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.DataAcceessAPI.Area
 {
@@ -17,6 +18,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
         Task<List<BranchSubjectEntity>> GetAllSelectedSubjects(long BranchID, long CourseID, long ClassID);
         Task<List<BranchSubjectEntity>> GetMobileAllSubject(long BranchID);
         Task<List<BranchSubjectEntity>> GetMobileSubjectBySubjectID(long SubjectID, long BranchID, long CourseID);
-
+        Task<List<BranchSubjectEntity>> GetAllSubjects(DataTableAjaxPostModel model, long BranchID);
     }
 }

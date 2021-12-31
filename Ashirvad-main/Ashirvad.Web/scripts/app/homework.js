@@ -56,7 +56,7 @@ $(document).ready(function () {
                     if (type === 'display') {
                         if (data != null && data != "")
                         {
-                            data = '<a href= "' + full.FilePath.replace("http://highpack-001-site12.dtempurl.com", "") + '" id="paperdownload" download="' + full.HomeworkContentFileName + '"> <img src="../ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
+                            data = '<a href= "' + full.FilePath.replace("https://mastermind.org.in", "") + '" id="paperdownload" download="' + full.HomeworkContentFileName + '"> <img src="../ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
                         }                       
                     }
                     return data;
@@ -100,7 +100,11 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false
             }
-        ]
+        ],
+        createdRow: function (tr) {
+            $(tr.children[4]).addClass('textalign');
+            $(tr.children[7]).addClass('textalign');
+        },
     });
 
     $("#datepickerhomework").datepicker({

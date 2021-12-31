@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -36,7 +37,6 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> UpdateMarksDetails(long MarksID, long StudentID, string AchieveMarks)
         {
-            // var result = _homeworkdetailService.GetAllHomeworkdetailByHomeWork(StudhID);
             MarksEntity marks = new MarksEntity();
             marks.testEntityInfo = new TestEntity();
             marks.student = new StudentEntity();
@@ -56,6 +56,33 @@ namespace Ashirvad.Web.Controllers
                 response.Message = "Marks Failed To Updated!!";
             }
             return Json(response);
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model, long Std, long Batch, long MarksID)
+        {
+            List<string> columns = new List<string>();
+            columns.Add("AchieveMarks");
+            if (model.order != null)
+            {
+                foreach (var item in model.order)
+                {
+                    item.name = columns[item.column];
+                }
+            }
+            var branchData = await _MarksService.GetAllCustomMarks(model, Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, Batch, MarksID);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
         }
     }
 }

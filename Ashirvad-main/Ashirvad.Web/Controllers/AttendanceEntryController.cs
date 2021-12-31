@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -68,6 +69,26 @@ namespace Ashirvad.Web.Controllers
             list= await this._attendanceContext.GetAllStudentByBranchStdBatch(attendanceInfo.Branch.BranchID, attendanceInfo.Standard.StandardID, attendanceInfo.BatchTypeID);
             return View("~/Views/AttendanceEntry/Manage.cshtml", list);
         }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model, long STD, long BatchTime)
+        {
+            List<string> columns = new List<string>();
+            var branchData = await _attendanceContext.GetAllCustomAttendance(model, STD, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
+        }
+
         [HttpPost]
         public async Task<JsonResult> VerifyAttendanceRegister(AttendanceEntity attendanceInfo)
         {

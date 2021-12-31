@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Branch
 {
@@ -175,7 +176,115 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 data.Add(entity);
             }
             return data;
+        }
 
+        public async Task<List<BranchSubjectEntity>> GetAllSubjects(DataTableAjaxPostModel model, long BranchID)
+        {
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = (from u in this.context.SUBJECT_DTL_MASTER
+                          orderby u.subject_dtl_id descending
+                          where u.branch_id == BranchID && u.row_sta_cd == 1 && u.is_subject == true
+                          select new BranchSubjectEntity()
+                          {
+                              branch = new BranchEntity()
+                              {
+                                  BranchID = u.BRANCH_MASTER.branch_id,
+                                  BranchName = u.BRANCH_MASTER.branch_name
+                              },
+                              BranchCourse = new BranchCourseEntity()
+                              {
+                                  course_dtl_id = u.course_dtl_id,
+                                  course = new CourseEntity()
+                                  {
+                                      CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                  }
+                              },
+                              BranchClass = new BranchClassEntity()
+                              {
+                                  Class_dtl_id = u.class_dtl_id,
+                              }
+                          }).Distinct().Count();
+            var data = (from u in this.context.SUBJECT_DTL_MASTER
+                        .Include("Subject_MASTER")
+                        .Include("BRANCH_MASTER")
+                        where (BranchID == 0 || u.branch_id == BranchID) && u.row_sta_cd == 1 && u.is_subject == true
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.COURSE_DTL_MASTER.COURSE_MASTER.course_name.ToLower().Contains(model.search.value)
+                        || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.ToLower().Contains(model.search.value))
+                        select new BranchSubjectEntity()
+                        {                            
+                            branch = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },                           
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
+                            BranchClass = new BranchClassEntity()
+                            {
+                                Class_dtl_id = u.class_dtl_id,
+                            },
+                            Count = count,
+                            Class = new ClassEntity()
+                            {
+                                ClassID = u.CLASS_DTL_MASTER.CLASS_MASTER.class_id,
+                                ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                            }                            
+                        })
+                        .Distinct()
+                        .OrderByDescending(a => a.BranchClass.Class_dtl_id)
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+            foreach (BranchSubjectEntity branchSubjectEntity in data)
+            {
+                branchSubjectEntity.BranchSubjectData = (from u in this.context.SUBJECT_DTL_MASTER
+                              .Include("Subject_MASTER")
+                              .Include("BRANCH_MASTER")
+                                             where u.class_dtl_id == branchSubjectEntity.BranchClass.Class_dtl_id && u.row_sta_cd == 1 && u.is_subject == true
+                                             select new BranchSubjectEntity()
+                                             {
+                                                 RowStatus = new RowStatusEntity()
+                                                 {
+                                                     RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                                     RowStatusId = (int)u.row_sta_cd
+                                                 },
+                                                 branch = new BranchEntity()
+                                                 {
+                                                     BranchID = u.BRANCH_MASTER.branch_id,
+                                                     BranchName = u.BRANCH_MASTER.branch_name
+                                                 },
+                                                 isSubject = u.is_subject == true ? true : false,
+                                                 Subject_dtl_id = u.subject_dtl_id,
+                                                 BranchCourse = new BranchCourseEntity()
+                                                 {
+                                                     course_dtl_id = u.course_dtl_id,
+                                                     course = new CourseEntity()
+                                                     {
+                                                         CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                                     }
+                                                 },
+                                                 BranchClass = new BranchClassEntity()
+                                                 {
+                                                     Class_dtl_id = u.class_dtl_id,
+
+                                                 },
+                                                 Subject = new SuperAdminSubjectEntity()
+                                                 {
+                                                     SubjectID = u.SUBJECT_BRANCH_MASTER.subject_id,
+                                                     SubjectName = u.SUBJECT_BRANCH_MASTER.subject_name
+                                                 },
+                                                 Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                                             }).Distinct().ToList();
+            }
+            return data;
         }
 
         public async Task<List<BranchSubjectEntity>> GetSubjectBySubjectID(long SubjectID, long BranchID, long CourseID)

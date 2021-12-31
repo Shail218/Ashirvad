@@ -31,12 +31,12 @@ $(document).ready(function () {
             { "data": "TestStartTime" },
             { "data": "Subject.Subject" },
             { "data": "Marks" },
-            { "data": "test.FilePath" },
+            { "data": "test.FileName" },
             { "data": "TestID" },
             { "data": "TestID" },
             { "data": "TestID" },
         ],
-        "columnDefs": [
+        "columnDefs": [            
             {
                 targets: 2,
                 render: function (data, type, full, meta) {
@@ -49,13 +49,24 @@ $(document).ready(function () {
                 searchable: false
             },
             {
+                targets: 3,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = data + "  -  " + full.TestEndTime
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
                 targets: 6,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        if (data.replace("http://highpack-001-site12.dtempurl.com", "") != null && data.replace("http://highpack-001-site12.dtempurl.com", "") != "") {
-                            '<a href="' + data.replace("http://highpack-001-site12.dtempurl.com", "") + '" id="paperdownload" download="' + full.test.FileName + '"><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
+                        if (full.test.FileName != null && full.test.FileName != "") {
+                            data = '<a href="' + full.test.FilePath.replace("https://mastermind.org.in", "") + '" download="' + full.test.FileName + '"><img src="../ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
                         } else {
-                            '<a href="' + full.test.DocLink + '" target="_blank" style="color:blue;text-decoration:underline;">Go to link</a>'
+                            data = '<a href="' + full.test.DocLink + '" target="_blank" style="color:blue;text-decoration:underline;">Go to link</a>'
                         }
                     }
                     return data;
@@ -80,7 +91,7 @@ $(document).ready(function () {
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
-                            '<a href="StudentAnswerSheetMaintenance?testID=' + data + '"><img src = "../ThemeData/images/tick.png" style="height:35px;width:35px;margin-left:20px"/></a >'
+                            '<a href="StudentAnswerSheetMaintenance?testID=' + data + '"><img src = "../ThemeData/images/tick.png" style="height:35px;width:35px;text-align:center;"/></a >'
                     }
                     return data;
                 },
@@ -99,7 +110,11 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false
             }
-        ]
+        ],
+        createdRow: function (tr) {
+            $(tr.children[6]).addClass('textalign');
+            $(tr.children[8]).addClass('textalign');
+        },
     });
 
     $("#datepickertest").datepicker({

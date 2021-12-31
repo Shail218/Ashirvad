@@ -1,27 +1,24 @@
 ﻿@using Ashirvad.Web.Controllers;
 @model List<Ashirvad.Data.PackageRightEntity>
 
-<table style="width: 100%;" id="subcategorytbl" class="table table-striped dataTable no-footer">
+<table style="width: 100%;" id="packagerightstable" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
             <th style="width:5%">Page Details</th>
             <th>
                 Package
             </th>
-
             <th>
                 Edit
             </th>
-
             <th>
                 Delete
             </th>
         </tr>
     </thead>
 
-
     <tbody>
-        @if (Model.Count > 0)
+        @*@if (Model.Count > 0)
         {
             foreach (var item in Model[0].list)
             {
@@ -111,7 +108,7 @@
 
                 </tr>
             }
-        }
+        }*@
     </tbody>
 
 </table>

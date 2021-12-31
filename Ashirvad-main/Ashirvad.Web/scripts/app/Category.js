@@ -2,28 +2,66 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-   
+    ShowLoader();
+
+    var table = $('#categorytable').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": "Processing...",
+        "serverSide": true,
+        "language": {
+            processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'
+        },
+        "ajax": {
+            url: "" + GetSiteURL() + "/Category/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        "columns": [
+            { "data": "Category" },
+            { "data": "CategoryID" },
+            { "data": "CategoryID" }
+        ],
+        "columnDefs": [
+            {
+                targets: 1,
+                render: function (data, type, full, meta) {
+
+                    if (type === 'display') {
+                        data = '<a style="text-align:center !important;" href="CategoryMaintenance?categoryID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 2,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a style="text-align:center !important;" onclick = "RemoveCategory(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ],
+        createdRow: function (tr) {
+            $(tr.children[1]).addClass('image - cls');
+        },
+    });
    
 });
-
-function LoadBranch(onLoaded) {
-    ShowLoader();
-    var postCall = $.post(commonData.Branch + "BranchData");
-    postCall.done(function (data) {
-        $('#BranchName').empty();
-        $('#BranchName').select2();
-        $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#BranchName").append("<option value='" + data[i].BranchID + "'>" + data[i].BranchName + "</option>");
-        }
-        if (onLoaded != undefined) {
-            onLoaded();
-        }
-        HideLoader();
-    }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
-}
 
 function Savecategory() {
     var isSuccess = ValidateData('dInformation');
@@ -60,11 +98,3 @@ function RemoveCategory(categoryID) {
         });
     }
 }
-
-
-
-$("#BranchName").change(function () {
-    var Data = $("#BranchName option:selected").val();
-    $('#BranchInfo_BranchID').val(Data);
-});
-

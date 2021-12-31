@@ -2,16 +2,135 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
-    //ShowLoader();
-
-    LoadCourse();
+    ShowLoader();
  
     var IsEdit = $("#IsEdit").val();
     if (IsEdit == "True") {
         checkstatus();
     }
 
+    var studenttbl = $("#branchsubjecttable").DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'
+        },
+        "ajax": {
+            url: GetSiteURL() + "/BranchSubject/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        columns: [
+            //{ "data": "BranchCourse.course_dtl_id" },
+            {
+                "SubjectName": 'details-control',
+                "orderable": false,
+                "data": null,
+                "defaultContent": ''
+            },
+            { "data": "branch.BranchName" },
+            { "data": "BranchCourse.course.CourseName" },
+            { "data": "Class.ClassName" },
+            { "data": "BranchClass.Class_dtl_id" },
+            { "data": "BranchCourse.course_dtl_id" }
+        ],
+        "columnDefs": [
+            {
+                targets: 0,
+                render: function (data, type, full, meta) {
+
+                    if (type === 'display') {
+                        var ch = format(data.BranchSubjectData)
+                        data = '<img src="../ThemeData/images/plus.png" height="30" />' + ch;
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 4,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="SubjectMaintenance?SubjectID=' + data + '&CourseID=' + full.BranchCourse.course_dtl_id + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 5,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemoveSubject(' + data + ',' + full.BranchClass.Class_dtl_id + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ]
+    });
+
+    LoadCourse();
 });
+
+function format(d) {
+    var tabledata = tabletd(d);
+    return `<div style = "display:none">
+                            <div style="max-height: 200px; overflow-y: scroll !important"><table style="width: 100%;" id="subcategorytbl2" class="table table-bordered dataTable no-footer">
+                                <thead>
+                                    <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+
+                                    <th>
+                                        Subject
+                                    </th>
+                                    <th>
+                                        Selected
+                                    </th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>`+
+        tabledata +
+        `</tbody>
+                            </table>
+                            </div>
+
+                </div> `;
+}
+
+function tabletd(d) {
+    var data = ``;
+    for (var i = 0; i < d.length; i++) {
+        var SubjectName = d[i].Subject.SubjectName;
+        var IsSubject = d[i].isSubject == true ? "YES" : "NO";
+        data = data +
+            `<tr>
+             <td>
+             `+ SubjectName + `
+             </td>
+             <td>
+            `+ IsSubject + `
+            </td>
+            </tr>`;
+    }
+    return data;
+}
 
 function LoadCourse() {
     var postCall = $.post(commonData.BranchCourse + "GetCourseDDL");
@@ -73,10 +192,7 @@ function OnSelectStatus(Data, SubjectData) {
 
         });
     }
-
-
 }
-
 
 function SaveSubjectDetail() {
     var Array = [];
@@ -91,7 +207,6 @@ function SaveSubjectDetail() {
             if (data.Status == true) {
                 ShowMessage(data.Message, 'Success');
                 setTimeout(function () { window.location.href = "SubjectMaintenance?SubjectID=0&&CourseID=0"; }, 2000);
-
             }
             else {
                 ShowMessage(data.Message, 'Error');
@@ -174,7 +289,7 @@ $("#ClassName").change(function () {
     
 });
 function RemoveSubject(CourseID,ClassID) {
-    if (confirm('Are you sure want to delete this?')) {
+    if (confirm('Are you sure want to delete this Subjects?')) {
         ShowLoader();
         var postCall = $.post(commonData.BranchSubject + "RemoveSubjectDetail", { "CourseID": CourseID, "ClassID": ClassID });
         postCall.done(function (data) {

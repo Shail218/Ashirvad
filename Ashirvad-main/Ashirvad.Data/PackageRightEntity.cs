@@ -23,5 +23,6 @@ namespace Ashirvad.Data
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public BranchEntity BranchInfo { get; set; }
+        public long Count { get; set; }
     }
 }

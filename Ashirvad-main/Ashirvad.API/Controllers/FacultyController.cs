@@ -49,7 +49,7 @@ namespace Ashirvad.Web.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            string UpdatedPath = currentDir.Replace("AshirvadAPI", "ashivadproduct");
+                            string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                             // for local server
                             //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];

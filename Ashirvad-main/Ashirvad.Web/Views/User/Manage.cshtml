@@ -24,36 +24,6 @@
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.Name
-            </td>
-
-            <td>
-                @item.MobileNo
-            </td>
-            <td>
-                @item.EmailID
-            </td>
-            <td>
-                @item.Gender
-                @Html.HiddenFor(x => item.BranchInfo.BranchID)
-                @Html.HiddenFor(x => item.StaffID)
-            </td>           
-            <td>
-                <a href="@Url.Action("UserMaintenance", "User", new { branchID = item.StaffID })">
-                    <img src="~/ThemeData/images/viewIcon.png" />
-                </a>
-            </td>
-            <td>
-                <a style="margin-left:20px;" href="#" onclick="RemoveUser(@item.StaffID);">
-                    <img src="~/ThemeData/images/delete.png" />
-                </a>
-            </td>
-        </tr>
-    }*@
 
 </table>
 

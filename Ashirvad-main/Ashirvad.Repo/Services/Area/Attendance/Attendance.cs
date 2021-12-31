@@ -123,6 +123,82 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return data;
         }
 
+        public async Task<List<StudentEntity>> GetAllCustomAttendance(DataTableAjaxPostModel model, long Std, long Branch, long Batch)
+        {
+            var Result = new List<StudentEntity>();
+            bool Isasc = true;
+            if (model.order?.Count > 0)
+            {
+                Isasc = model.order[0].dir == "desc" ? false : true;
+            }
+            long count = (from u in this.context.STUDENT_MASTER
+                        .Include("STD_MASTER")
+                        .Include("SCHOOL_MASTER")
+                        .Include("BRANCH_MASTER")
+                          join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
+                          orderby u.student_id descending
+                          where u.branch_id == Branch && u.STD_MASTER.std_id == Std && u.batch_time == Batch && u.row_sta_cd == 1
+                          select new StudentEntity()
+                          {
+                              StudentID = u.student_id
+                          }).Distinct().Count();
+            var data = (from u in this.context.STUDENT_MASTER
+                        .Include("STD_MASTER")
+                        .Include("SCHOOL_MASTER")
+                        .Include("BRANCH_MASTER")
+                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
+                        orderby u.student_id descending
+                        where u.branch_id == Branch && u.STD_MASTER.std_id == Std && u.batch_time == Batch && u.row_sta_cd == 1
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.first_name.ToLower().Contains(model.search.value.ToLower())
+                        || u.last_name.ToLower().Contains(model.search.value.ToLower()))
+                        select new StudentEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            StudentID = u.student_id,
+                            Address = u.address,
+                            DOB = u.dob,
+                            FirstName = u.first_name,
+                            LastName = u.last_name,
+                            MiddleName = u.middle_name,
+                            ContactNo = u.contact_no,
+                            LastYearResult = u.last_yr_result,
+                            LastYearClassName = u.last_yr_class_name,
+                            Grade = u.grade,
+                            AdmissionDate = u.admission_date,
+                            GrNo = u.gr_no,
+                            SchoolTime = u.school_time,
+                            FilePath = u.file_path,
+                            FileName = u.file_name,
+                            Name = u.first_name + " " + u.last_name,
+                            //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
+                            StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
+                            SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            StudentMaint = new StudentMaint()
+                            {
+                                ParentName = maint.parent_name,
+                                ParentID = maint.parent_id,
+                                ContactNo = maint.contact_no,
+                                FatherOccupation = maint.father_occupation,
+                                MotherOccupation = maint.mother_occupation,
+                                StudentID = maint.student_id
+                            },
+                            Count = count,
+                            BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+            return data;
+        }
+
         public async Task<List<AttendanceEntity>> GetAllAttendanceByBranch(long branchID)
         {
             var data = (from u in this.context.ATTENDANCE_HDR

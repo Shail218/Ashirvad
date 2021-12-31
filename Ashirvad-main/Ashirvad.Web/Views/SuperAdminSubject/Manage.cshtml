@@ -15,26 +15,6 @@
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.SubjectName
-                    @Html.HiddenFor(x => item.SubjectID)
-                </td>
-                <td>
-                    <a style="margin-left:70px;" href="@Url.Action("SubjectMaintenance", "SuperAdminSubject", new { subjectID = item.SubjectID })">
-                        <img src="~/ThemeData/images/viewIcon.png" />
-                    </a>
-                </td>
-                <td class="SchoolMasterDelete">
-                    <a style="margin-left:70px;" href="#" onclick="RemoveSubject(@item.SubjectID);">
-                        <img src="~/ThemeData/images/delete.png" />
-                    </a>
-                </td>
-            </tr>
-        }*@
-
 </table>
 
 

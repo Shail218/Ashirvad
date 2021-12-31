@@ -15,26 +15,7 @@
         </tr>
     </thead>
     <tbody></tbody>
-    @*@foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.ClassName
-                    @Html.HiddenFor(x => item.ClassID)
-                </td>
-                <td>
-                    <a style="margin-left:70px;" href="@Url.Action("ClassMaintenance", "Class", new { classID = item.ClassID })">
-                        <img src="~/ThemeData/images/viewIcon.png" />
-                    </a>
-                </td>
-                <td>
-                    <a style="margin-left:70px;" href="#" onclick="RemoveClass(@item.ClassID);">
-                        <img src="~/ThemeData/images/delete.png" />
-                    </a>
-                </td>
-            </tr>
-        }*@
-
+    
 </table>
 
 

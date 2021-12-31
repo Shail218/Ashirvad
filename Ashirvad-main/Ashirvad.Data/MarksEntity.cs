@@ -28,5 +28,6 @@ namespace Ashirvad.Data
         public string JsonData { get; set; }
         public int BatchTime { get; set; }
         public Enums.BatchType BatchType { get; set; }
+        public long Count { get; set; }
     }
 }

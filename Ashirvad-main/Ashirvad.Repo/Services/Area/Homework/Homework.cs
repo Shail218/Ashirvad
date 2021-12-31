@@ -83,7 +83,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             HomeworkID = u.homework_id,
                             HomeworkContentFileName = u.homework_file,
                             HomeworkDate = u.homework_dt,
@@ -273,7 +273,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             HomeworkContentFileName = u.homework_file,
                             HomeworkDate = u.homework_dt,
                             Remarks = u.remarks,
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             StandardInfo = new StandardEntity()
                             {
                                 Standard = u.STD_MASTER.standard,
@@ -324,7 +324,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             HomeworkContentFileName = u.homework_file,
                             HomeworkDate = u.homework_dt,
                             Remarks = u.remarks,
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             StandardInfo = new StandardEntity()
                             {
                                 Standard = u.STD_MASTER.standard,

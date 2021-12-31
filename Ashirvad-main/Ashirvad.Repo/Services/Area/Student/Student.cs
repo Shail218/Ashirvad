@@ -111,9 +111,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                             AdmissionDate = u.admission_date,
                             GrNo = u.gr_no,
                             SchoolTime = u.school_time,
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             FileName = u.file_name,
-                            //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
                             BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
@@ -153,6 +152,50 @@ namespace Ashirvad.Repo.Services.Area.Student
             return data;
         }
 
+        public async Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std, long Branch, long Batch)
+        {
+            var Result = new List<StudentEntity>();
+            bool Isasc = true;
+            if (model.order?.Count > 0)
+            {
+                Isasc = model.order[0].dir == "desc" ? false : true;
+            }
+            long count = (from u in this.context.STUDENT_MASTER
+                        .Include("STD_MASTER")
+                        .Include("SCHOOL_MASTER")
+                        .Include("BRANCH_MASTER")
+                        orderby u.student_id descending
+                          where u.std_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active
+                          select new StudentEntity()
+                          {
+                              StudentID = u.student_id
+                          }).Count();
+            var data = (from u in this.context.STUDENT_MASTER
+                        .Include("STD_MASTER")
+                        .Include("SCHOOL_MASTER")
+                        .Include("BRANCH_MASTER") orderby u.student_id descending
+                        where u.std_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active
+                        && (model.search.value == null
+                        || model.search.value == ""
+                        || u.first_name.ToLower().Contains(model.search.value.ToLower())
+                        || u.last_name.ToLower().Contains(model.search.value.ToLower()))
+                        select new StudentEntity()
+                        {
+                            StudentID = u.student_id,
+                            GrNo = u.gr_no,
+                            StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
+                            SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
+                            Name = u.first_name + " " + u.last_name,
+                            Count = count
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+            return data;
+        }
+
         public async Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, int status)
         {
             var data = (from u in this.context.STUDENT_MASTER
@@ -184,7 +227,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             GrNo = u.gr_no,
                             SchoolTime = u.school_time,
                             FileName = u.file_name,
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
@@ -424,7 +467,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             Count = count,
                             SchoolTime = u.school_time,
                             FileName = u.file_name,
-                            FilePath = "http://highpack-001-site12.dtempurl.com" + u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
