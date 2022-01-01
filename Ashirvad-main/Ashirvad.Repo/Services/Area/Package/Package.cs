@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ashirvad.Repo.Services.Area.Package
 {
-   public class Package : ModelAccess, IPackageAPI
+    public class Package : ModelAccess, IPackageAPI
     {
         public async Task<long> CheckPackage(string name, long Id)
         {
@@ -60,7 +60,8 @@ namespace Ashirvad.Repo.Services.Area.Package
 
         public async Task<List<PackageEntity>> GetAllPackages(long branchID)
         {
-            var data = (from u in this.context.PACKAGE_MASTER orderby u.package_id descending
+            var data = (from u in this.context.PACKAGE_MASTER
+                        orderby u.package_id descending
                         where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new PackageEntity()
                         {
@@ -76,6 +77,33 @@ namespace Ashirvad.Repo.Services.Area.Package
                                 BranchID = u.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+
+            return data;
+        }
+
+        public async Task<List<PackageEntity>> GetAllCustomPackage(Common.Common.DataTableAjaxPostModel model, long branchID)
+        {
+            var Count = this.context.PACKAGE_MASTER.Where(a => a.branch_id == branchID && a.row_sta_cd == 1).Count();
+            var data = (from u in this.context.PACKAGE_MASTER
+                        orderby u.package_id descending
+                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
+                        select new PackageEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            Package = u.package,
+                            PackageID = u.package_id,
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Count = Count,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
 
