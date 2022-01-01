@@ -66,7 +66,7 @@ $(document).ready(function () {
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
-                            '<a href="UserMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                            '<a class="UserMasterCreate" href="UserMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
                     }
                     return data;
                 },
@@ -78,8 +78,9 @@ $(document).ready(function () {
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
-                            '<a onclick = "RemoveUser(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                            '<a class="UserMasterDelete" onclick = "RemoveUser(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
                     }
+                    CheckRights();
                     return data;
                 },
                 orderable: false,

@@ -27,8 +27,8 @@ $(document).ready(function () {
         },
         "columns": [
             { "data": "SubjectName" },
-            { "data": "SubjectID" },
-            { "data": "SubjectID" },
+            { "data": "SubjectID" }
+            //{ "data": "SubjectID" },
         ],
         "columnDefs": [
             {
@@ -43,21 +43,21 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false
             },
-            {
-                targets: 2,
-                render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data = '<a onclick = "RemoveSubject(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
-                    }
-                    return data;
-                },
-                orderable: false,
-                searchable: false
-            }
+            //{
+            //    targets: 2,
+            //    render: function (data, type, full, meta) {
+            //        if (type === 'display') {
+            //            data = '<a onclick = "RemoveSubject(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+            //        }
+            //        return data;
+            //    },
+            //    orderable: false,
+            //    searchable: false
+            //}
         ],
         createdRow: function (tr) {
             $(tr.children[1]).addClass('textalign');
-            $(tr.children[2]).addClass('textalign');
+            //$(tr.children[2]).addClass('textalign');
         },
     });
 

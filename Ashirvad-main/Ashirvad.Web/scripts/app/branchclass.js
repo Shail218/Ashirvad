@@ -41,9 +41,9 @@ $(document).ready(function () {
                 "defaultContent": ''
             },
             { "data": "branch.BranchName" },
-            { "data": "BranchCourse.course.CourseName" },
-            { "data": "BranchCourse.course_dtl_id" },
-            { "data": "BranchCourse.course_dtl_id" }
+            { "data": "BranchCourse.course.CourseName" }
+            //{ "data": "BranchCourse.course_dtl_id" },
+            //{ "data": "BranchCourse.course_dtl_id" }
         ],
         "columnDefs": [
             {
@@ -59,30 +59,30 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false
             },
-            {
-                targets: 3,
-                render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a href="ClassMaintenance?ClassID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
-                    }
-                    return data;
-                },
-                orderable: false,
-                searchable: false
-            },
-            {
-                targets: 4,
-                render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a onclick = "RemoveClass(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
-                    }
-                    return data;
-                },
-                orderable: false,
-                searchable: false
-            }
+            //{
+            //    targets: 3,
+            //    render: function (data, type, full, meta) {
+            //        if (type === 'display') {
+            //            data =
+            //                '<a href="ClassMaintenance?ClassID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+            //        }
+            //        return data;
+            //    },
+            //    orderable: false,
+            //    searchable: false
+            //},
+            //{
+            //    targets: 4,
+            //    render: function (data, type, full, meta) {
+            //        if (type === 'display') {
+            //            data =
+            //                '<a onclick = "RemoveClass(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+            //        }
+            //        return data;
+            //    },
+            //    orderable: false,
+            //    searchable: false
+            //}
         ]
     });
 
