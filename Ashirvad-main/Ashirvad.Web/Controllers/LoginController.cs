@@ -32,34 +32,44 @@ namespace Ashirvad.Web.Controllers
         public async Task<ActionResult> ValidateUser(UserEntity user)
         {
             bool success = false;
-            var userInfo = await _userService.ValidateUser(user.Username, user.Password);
-            if(userInfo != null)
+            var userInfo = await _userService.ValidateUser(user.Username, user.Password);            
+            if (userInfo != null)
             {
-                success = true;
-                if(userInfo.UserType== Enums.UserType.SuperAdmin)
+                success = true;                
+                if (userInfo.UserType== Enums.UserType.SuperAdmin)
                 {
                     List<BranchWiseRightEntity> branchWises = new List<BranchWiseRightEntity>();
-                    SessionContext.Instance.userRightsList= JsonConvert.SerializeObject(branchWises); 
+                    SessionContext.Instance.userRightsList= JsonConvert.SerializeObject(branchWises);
+                    if (SessionContext.Instance.userRightsList != null)
+                    {
+                        response.Message = "Login Successfully!!";
+                        response.Status = true;
+                        SessionContext.Instance.LoginUser = userInfo;
+                    }
+                    else
+                    {
+                        SessionContext.Instance.LoginUser = null;
+                        response.Message = "You have no permission of any module!!";
+                        response.Status = false;
+                    }
                 }
                 else
                 {
                     var Get = await GetBranchRights(userInfo.BranchInfo.BranchID);
-                }
-               
-                if (SessionContext.Instance.userRightsList != null)
-                {
-                    response.Message = "Login Successfully!!";
-                    response.Status = true;
-                    SessionContext.Instance.LoginUser = userInfo;
-
-                }
-                else
-                {
-                    SessionContext.Instance.LoginUser = null;
-                    response.Message = "You have no permission of any module!!";
-                    response.Status = false;
-                }
-                
+                    var isAggrement = this._userService.CheckAgreement(userInfo.BranchInfo.BranchID);
+                    if(isAggrement.Result)
+                    {
+                        response.Message = "Login Successfully!!";
+                        response.Status = true;
+                        SessionContext.Instance.LoginUser = userInfo;
+                    }
+                    else
+                    {
+                        response.Message = "Your agreement was expired!!!";
+                        response.Status = false;
+                        SessionContext.Instance.LoginUser = null;
+                    }
+                }                                                           
             }
             else
             {
@@ -67,8 +77,8 @@ namespace Ashirvad.Web.Controllers
                 response.Status = false;
             }
             return Json(response);
-            //return Json(userInfo);
         }
+
         public async Task<string> GetBranchRights(long PackageRightID)
         {
             var BranchRightData = await _BranchRightService.GetBranchRightsByBranchID(PackageRightID);

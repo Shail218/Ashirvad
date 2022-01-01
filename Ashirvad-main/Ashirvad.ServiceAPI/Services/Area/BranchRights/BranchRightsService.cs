@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area
 {
@@ -46,6 +47,19 @@ namespace Ashirvad.ServiceAPI.Services.Area
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
+            return null;
+        }
+
+        public async Task<List<BranchWiseRightEntity>> GetAllCustomRights(DataTableAjaxPostModel model)
+        {
+            try
+            {
+                return await this._BranchRightsContext.GetAllCustomRights(model);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
             return null;
         }
 

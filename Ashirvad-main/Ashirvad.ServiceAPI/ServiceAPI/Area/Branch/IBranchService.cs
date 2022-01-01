@@ -25,5 +25,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Branch
         bool RemoveAgreement(long agreementID, string lastupdatedby);
 
         Task<List<BranchEntity>> GetAllCustomBranch(DataTableAjaxPostModel model);
+        Task<List<BranchAgreementEntity>> GetAllCustomAgreement(DataTableAjaxPostModel model, long branchID);
     }
 }

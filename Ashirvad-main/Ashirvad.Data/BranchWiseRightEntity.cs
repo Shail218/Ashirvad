@@ -25,5 +25,6 @@ namespace Ashirvad.Data
         public List<PageEntity> PageList { get; set; } = new List<PageEntity>();
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }
+        public long Count { get; set; }
     }
 }

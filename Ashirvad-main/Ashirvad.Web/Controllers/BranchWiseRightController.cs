@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -39,8 +40,8 @@ namespace Ashirvad.Web.Controllers
         {
             BranchWiseRightMaintenanceModel BranchRight = new BranchWiseRightMaintenanceModel();
             BranchRight.BranchWiseRightInfo = new BranchWiseRightEntity();
-            var BranchRightData = await _BranchRightService.GetAllBranchRightss();
-            BranchRight.BranchWiseRightData = BranchRightData;
+            //var BranchRightData = await _BranchRightService.GetAllBranchRightss();
+            BranchRight.BranchWiseRightData = new List<BranchWiseRightEntity>();
             
             if (BranchRightID > 0)
             {
@@ -99,6 +100,24 @@ namespace Ashirvad.Web.Controllers
             var BranchRightData = await _BranchRightService.GetAllBranchRightsUniqData(PackageRightID);
 
             return View("~/Views/BranchWiseRight/RightsDataTable.cshtml",BranchRightData);
+        }
+
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
+        {
+            var branchData = await _BranchRightService.GetAllCustomRights(model);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData[0].Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
+
         }
 
     }

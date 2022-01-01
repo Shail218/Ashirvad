@@ -3,18 +3,145 @@
 
 
 $(document).ready(function () {
-
-
     ShowLoader();
+
+    var studenttbl = $("#branchrightstable").DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'
+        },
+        "ajax": {
+            url: GetSiteURL() + "/BranchWiseRight/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        columns: [
+            {
+                "Page": 'details-control',
+                "orderable": false,
+                "data": null,
+                "defaultContent": ''
+            },
+            { "data": "Packageinfo.Package" },
+            { "data": "branchinfo.BranchName" },
+            { "data": "BranchWiseRightsID" },
+            { "data": "BranchWiseRightsID" }
+        ],
+        "columnDefs": [
+            {
+                targets: 0,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        var ch = format(data.list)
+                        data = '<img src="../ThemeData/images/plus.png" height="30" />' + ch;
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 3,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="BranchRightMaintenance?BranchRightID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 4,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemoveBranchRight(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ]
+    });
+
     LoadBranch();
     LoadPackage();
 
     var Id = $("#BranchWiseRightsID").val();
     if (Id > 0) {
         update();
-
     }
 });
+
+function format(d) {
+    var tabledata = tabletd(d);
+    return `<div style = "display:none">
+                            <div style="max-height: 200px; overflow-y: scroll !important"><table style="width: 100%;" id="subcategorytbl2" class="table table-bordered dataTable no-footer">
+                                <thead>
+                                    <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+                                            <th>
+                                                Page
+                                            </th>
+                                            <th>
+                                                Create Status
+                                            </th>
+
+                                            <th>
+                                                Delete Status
+                                            </th>
+                                            <th>
+                                                View Status
+                                            </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>`+
+        tabledata +
+        `</tbody>
+                            </table>
+                            </div>
+                </div> `;
+}
+
+function tabletd(d) {
+    var data = ``;
+    for (var i = 0; i < d.length; i++) {
+        var PageName = d[i].PageInfo.Page;
+        var IsCreate = d[i].Createstatus;
+        var IsDelete = d[i].Deletestatus;
+        var IsView = d[i].Viewstatus;
+        data = data +
+            `<tr>
+             <td>
+             `+ PageName + `
+             </td>
+             <td>
+            `+ IsCreate + `
+            </td>
+            <td>
+                ` + IsDelete + `
+            </td>
+            <td>
+                ` + IsView + `
+            </td>
+            </tr>`;
+    }
+    return data;
+}
 
 function LoadBranch() {
     var postCall = $.post(commonData.Branch + "BranchData");
@@ -62,11 +189,6 @@ $("#BranchName").change(function () {
     $('#branchinfo_BranchID').val(Data);
     //LoadPackage(Data);
 });
-
-//$("#PackageName").change(function () {
-//    var Data = $("#PackageName option:selected").val();
-//    $('#Packageinfo_PackageID').val(Data);
-//});
 
 $("#PackageName").change(function () {
     var Data = $("#PackageName option:selected").val();

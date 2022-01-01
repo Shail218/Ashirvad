@@ -5,6 +5,73 @@ $(document).ready(function () {
     ShowLoader();
     $("#RowStatusData_RowStatusId").val(1);
 
+    var table = $('#agreementtable').DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "proccessing": true,
+        "sLoadingRecords": "Loading...",
+        "sProcessing": true,
+        "serverSide": true,
+        "language": {
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+        },
+        "ajax": {
+            url: "" + GetSiteURL() + "/Agreement/CustomServerSideSearchAction",
+            type: 'POST',
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
+        },
+        "columns": [
+            { "data": "BranchData.BranchName" },
+            { "data": "AgreementFromDate" },
+            { "data": "AgreementToDate" },
+            { "data": "Amount" },
+            { "data": "RowStatusData.RowStatusText" },
+            { "data": "AgreementID" },
+        ],
+        "columnDefs": [
+            {
+                targets: 1,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = ConvertMiliDateFrom(data)
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 2,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = ConvertMiliDateFrom(data)
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 5,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a style="text-align:center !important;" href="AgreementMaintenance?agreeID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ]
+    });
+
     $("#datepickerfromdate").datepicker({
         autoclose: true,
         todayHighlight: true,
@@ -38,6 +105,31 @@ $(document).ready(function () {
         }
     }
 });
+
+function ConvertMiliDateFrom(date) {
+    if (date != null) {
+        var sd = date.split("/Date(");
+        var sd2 = sd[1].split(")/");
+        var date1 = new Date(parseInt(sd2[0]));
+        var d = date1.getDate();
+        var m = date1.getMonth() + 1;
+        var y = date1.getFullYear();
+        var hr = date1.getHours();
+        var min = date1.getMinutes();
+        var sec = date1.getSeconds();
+
+        if (parseInt(d) < 10) {
+            d = "0" + d;
+        }
+        if (parseInt(m) < 10) {
+            m = "0" + m;
+        }
+        var Final = d + "-" + m + "-" + y + " ";
+        var d = date1.toString("dd/MM/yyyy HH:mm:SS");
+        return Final;
+    }
+    return "";
+}
 
 function LoadBranch(onLoaded) {
     var postCall = $.post(commonData.Branch + "BranchData");

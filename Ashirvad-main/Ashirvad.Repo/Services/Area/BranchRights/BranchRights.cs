@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area
 {
@@ -128,69 +129,87 @@ namespace Ashirvad.Repo.Services.Area
                 }
 
             }
-
-
-
-            //var data = (from u in this.context.BRANCH_RIGHTS_MASTER                        
-            //            .Include("PACKAGE_MASTER")
-            //             .Include("BRANCH_MASTER")
-            //            join PM in this.context.PACKAGE_RIGHTS_MASTER on u.package_id equals PM.package_id
-            //            join page in this.context.PAGE_MASTER on PM.page_id equals page.page_id                        
-            //            where u.row_sta_cd == 1
-            //            select new BranchWiseRightEntity()
-            //            {
-
-            //                PageInfo = new PageEntity()
-            //                {
-            //                    Page = page.page,
-            //                    PageID = page.page_id,
-            //                },
-            //                branchinfo = new BranchEntity()
-            //                {
-            //                    BranchName = page.BRANCH_MASTER.branch_name,
-            //                    BranchID = page.branch_id,
-            //                },
-            //                Packageinfo = new PackageEntity()
-            //                {
-            //                    Package = u.PACKAGE_MASTER.package,
-            //                    PackageID = u.package_id,
-            //                },
-            //                Createstatus= PM.createstatus,
-            //                Viewstatus= PM.viewstatus,
-            //                Deletestatus= PM.deletestatus,
-            //                BranchWiseRightsID = u.branchrights_id,
-            //                Transaction = new TransactionEntity() { TransactionId = u.trans_id },                            
-            //            }).ToList();
-            //if (data.Count > 0)
-            //{
-            //    data[0].list = (from u in this.context.BRANCH_RIGHTS_MASTER
-            //                  .Include("BRANCH_MASTER")                       
-            //                    where u.row_sta_cd == 1
-            //                    select new BranchWiseRightEntity()
-            //                    {
-            //                        branchinfo = new BranchEntity()
-            //                        {
-            //                            BranchName = u.BRANCH_MASTER.branch_name,
-
-            //                        },
-            //                        Packageinfo= new PackageEntity()
-            //                        {
-            //                            Package=u.PACKAGE_MASTER.package
-            //                        },
-            //                        BranchWiseRightsID = u.branchrights_id,
-
-            //                    }).Distinct().ToList();
-            //}
-            //else
-            //{
-            //    BranchWiseRightEntity entity = new BranchWiseRightEntity();
-            //    entity.list = new List<BranchWiseRightEntity>();
-            //    data.Add(entity);
-            //}
             return data;
-
         }
 
+        public async Task<List<BranchWiseRightEntity>> GetAllCustomRights(DataTableAjaxPostModel model)
+        {
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = (from u in this.context.BRANCH_RIGHTS_MASTER
+                                .Include("BRANCH_MASTER") orderby u.branchrights_id descending
+                          where u.row_sta_cd == 1
+                          select new BranchWiseRightEntity()
+                          {
+                              branchinfo = new BranchEntity()
+                              {
+                                  BranchName = u.BRANCH_MASTER.branch_name,
+                                  BranchID = u.branch_id
+                              },
+                              Packageinfo = new PackageEntity()
+                              {
+                                  Package = u.PACKAGE_MASTER.package
+                              },
+                              BranchWiseRightsID = u.branchrights_id
+                          }).Distinct().Count();
+            var data = (from u in this.context.BRANCH_RIGHTS_MASTER
+                                .Include("BRANCH_MASTER")
+                        orderby u.branchrights_id descending
+                        where u.row_sta_cd == 1 && (model.search.value == null
+                        || model.search.value == ""
+                        || u.PACKAGE_MASTER.package.ToLower().Contains(model.search.value)
+                        || u.BRANCH_MASTER.branch_name.ToLower().Contains(model.search.value))
+                        select new BranchWiseRightEntity()
+                        {
+                            branchinfo = new BranchEntity()
+                            {
+                                BranchName = u.BRANCH_MASTER.branch_name,
+                                BranchID = u.branch_id
+                            },
+                            Packageinfo = new PackageEntity()
+                            {
+                                Package = u.PACKAGE_MASTER.package
+                            },
+                            BranchWiseRightsID = u.branchrights_id,
+                            Count = count
+                        }).Distinct()
+                        .OrderByDescending(a => a.BranchWiseRightsID)
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+            foreach (var item in data)
+            {
+                item.list = (from u in this.context.BRANCH_RIGHTS_MASTER
+                     .Include("PACKAGE_MASTER")
+                      .Include("BRANCH_MASTER")
+                             join PM in this.context.PACKAGE_RIGHTS_MASTER on u.package_id equals PM.package_id
+                             join page in this.context.PAGE_MASTER on PM.page_id equals page.page_id
+                             where u.row_sta_cd == 1 && u.branch_id == item.branchinfo.BranchID
+                             select new BranchWiseRightEntity()
+                             {
+                                 PageInfo = new PageEntity()
+                                 {
+                                     Page = page.page,
+                                     PageID = page.page_id,
+                                 },
+                                 branchinfo = new BranchEntity()
+                                 {
+                                     BranchName = page.BRANCH_MASTER.branch_name,
+                                     BranchID = page.branch_id,
+                                 },
+                                 Packageinfo = new PackageEntity()
+                                 {
+                                     Package = u.PACKAGE_MASTER.package,
+                                     PackageID = u.package_id,
+                                 },
+                                 Createstatus = PM.createstatus,
+                                 Viewstatus = PM.viewstatus,
+                                 Deletestatus = PM.deletestatus,
+                                 BranchWiseRightsID = u.branchrights_id,
+                                 Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                             }).ToList();
+            }
+            return data;
+        }
 
         public async Task<BranchWiseRightEntity> GetRightsByRightsID(long RightsID)
         {
@@ -236,7 +255,6 @@ namespace Ashirvad.Repo.Services.Area
 
                 return true;
             }
-
             return false;
         }
 
@@ -244,7 +262,6 @@ namespace Ashirvad.Repo.Services.Area
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
                         .Include("PAGE_MASTER")
-                        orderby u.packagerights_id descending
                         where u.row_sta_cd == 1 && u.package_id == PackageRightID
                         select new BranchWiseRightEntity()
                         {

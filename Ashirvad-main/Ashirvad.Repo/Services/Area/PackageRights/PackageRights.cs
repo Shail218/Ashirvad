@@ -194,7 +194,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return data;
         }
 
-
         public async Task<List<PackageRightEntity>> GetRightsByRightsID(long RightsID)
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER

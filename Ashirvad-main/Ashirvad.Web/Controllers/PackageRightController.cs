@@ -53,10 +53,8 @@ namespace Ashirvad.Web.Controllers
                     PackageRight.PackageRightsInfo = result;
                     PackageRight.PackageRightsInfo.list = result2;
                 }
-                var PackageRightData = await _PackageRightService.GetAllPackageRights();
-
-
-                PackageRight.PackageRightsData = PackageRightData;
+                //var PackageRightData = await _PackageRightService.GetAllPackageRights();
+                PackageRight.PackageRightsData = new List<PackageRightEntity>();
 
                 var branchData = await _pageService.GetAllPages(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
                 PackageRight.PackageRightsInfo.PageList = branchData;
