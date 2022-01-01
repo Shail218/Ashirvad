@@ -32,8 +32,8 @@ $(document).ready(function () {
         "columns": [
             { "data": "CourseName" },
             { "data": "filepath" },
-            { "data": "CourseID" },
-            { "data": "CourseID" },
+            { "data": "CourseID" }
+            //{ "data": "CourseID" },
         ],
         "columnDefs": [
             {
@@ -60,17 +60,17 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false
             },
-            {
-                targets: 3,
-                render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data = '<a onclick = "RemoveCourse(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
-                    }
-                    return data;
-                },
-                orderable: false,
-                searchable: false
-            }
+            //{
+            //    targets: 3,
+            //    render: function (data, type, full, meta) {
+            //        if (type === 'display') {
+            //            data = '<a onclick = "RemoveCourse(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+            //        }
+            //        return data;
+            //    },
+            //    orderable: false,
+            //    searchable: false
+            //}
         ],
         createdRow: function (tr) {
             $(tr.children[1]).addClass('image - cls');

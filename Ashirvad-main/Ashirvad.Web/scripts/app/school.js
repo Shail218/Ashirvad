@@ -36,7 +36,7 @@ $(document).ready(function () {
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
-                            '<a style="text-align:center !important;" href="SchoolMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                            '<a class="SchoolMasterCreate" style="text-align:center !important;" href="SchoolMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
                     }
                     return data;
                 },
@@ -48,8 +48,9 @@ $(document).ready(function () {
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
-                            '<a style="text-align:center !important;" onclick = "RemoveSchool(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                            '<a class="SchoolMasterDelete" style="text-align:center !important;" onclick = "RemoveSchool(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
                     }
+                    CheckRights();
                     return data;
                 },
                 orderable: false,

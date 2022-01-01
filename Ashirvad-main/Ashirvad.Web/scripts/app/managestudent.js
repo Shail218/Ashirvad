@@ -73,8 +73,7 @@ $(document).ready(function () {
                 render: function (data, type, full, meta) {
                    
                     if (type === 'display') {
-                        data = full.RowStatus.RowStatusText;
-                            
+                        data = full.RowStatus.RowStatusText;                           
                     }
                     HideLoader();
                     return data;
@@ -88,9 +87,10 @@ $(document).ready(function () {
                     
                     if (type === 'display') {
                         data =
-                            '<a onclick = "EditStudent(' + full.StudentID + ')"><img src = "../ThemeData/images/viewIcon.png" /></a >';
+                            '<a class="ManageStudentMasterCreate" onclick = "EditStudent(' + full.StudentID + ')"><img src = "../ThemeData/images/viewIcon.png" /></a >';
                     }
                     HideLoader();
+                    CheckRights();
                     return data;
                 },
                 orderable: false,

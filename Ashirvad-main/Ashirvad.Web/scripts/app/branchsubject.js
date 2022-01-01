@@ -40,9 +40,9 @@ $(document).ready(function () {
             },
             { "data": "branch.BranchName" },
             { "data": "BranchCourse.course.CourseName" },
-            { "data": "Class.ClassName" },
-            { "data": "BranchClass.Class_dtl_id" },
-            { "data": "BranchCourse.course_dtl_id" }
+            { "data": "Class.ClassName" }
+            //{ "data": "BranchClass.Class_dtl_id" },
+            //{ "data": "BranchCourse.course_dtl_id" }
         ],
         "columnDefs": [
             {
@@ -58,30 +58,30 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false
             },
-            {
-                targets: 4,
-                render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a href="SubjectMaintenance?SubjectID=' + data + '&CourseID=' + full.BranchCourse.course_dtl_id + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
-                    }
-                    return data;
-                },
-                orderable: false,
-                searchable: false
-            },
-            {
-                targets: 5,
-                render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a onclick = "RemoveSubject(' + data + ',' + full.BranchClass.Class_dtl_id + ')"><img src = "../ThemeData/images/delete.png" /></a >'
-                    }
-                    return data;
-                },
-                orderable: false,
-                searchable: false
-            }
+            //{
+            //    targets: 4,
+            //    render: function (data, type, full, meta) {
+            //        if (type === 'display') {
+            //            data =
+            //                '<a href="SubjectMaintenance?SubjectID=' + data + '&CourseID=' + full.BranchCourse.course_dtl_id + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+            //        }
+            //        return data;
+            //    },
+            //    orderable: false,
+            //    searchable: false
+            //},
+            //{
+            //    targets: 5,
+            //    render: function (data, type, full, meta) {
+            //        if (type === 'display') {
+            //            data =
+            //                '<a onclick = "RemoveSubject(' + data + ',' + full.BranchClass.Class_dtl_id + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+            //        }
+            //        return data;
+            //    },
+            //    orderable: false,
+            //    searchable: false
+            //}
         ]
     });
 
