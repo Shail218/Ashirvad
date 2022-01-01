@@ -44,6 +44,7 @@ namespace Ashirvad.Web.Controllers
                     {
                         response.Message = "Login Successfully!!";
                         response.Status = true;
+                        response.URL = "Home/Dashboard";
                         SessionContext.Instance.LoginUser = userInfo;
                     }
                     else
@@ -61,6 +62,7 @@ namespace Ashirvad.Web.Controllers
                     {
                         response.Message = "Login Successfully!!";
                         response.Status = true;
+                        response.URL = "Home/ADashboard";
                         SessionContext.Instance.LoginUser = userInfo;
                     }
                     else

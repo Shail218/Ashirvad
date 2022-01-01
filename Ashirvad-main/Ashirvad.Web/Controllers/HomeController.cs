@@ -6,10 +6,15 @@ using System.Web.Mvc;
 
 namespace Ashirvad.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController :BaseController
     {
         // GET: Home
-        public ActionResult Index()
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
+
+        public ActionResult ADashboard()
         {
             return View();
         }

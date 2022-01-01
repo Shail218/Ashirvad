@@ -1,0 +1,99 @@
+﻿
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<script>
+    Highcharts.chart('container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Branch wise student'
+        },
+        xAxis: {
+            type: 'category'
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        series: [{
+            name: 'Student',
+            colorByPoint: true,
+            data: [
+                {
+                    name: "Branch 1",
+                    y: 60,
+                    drilldown: "Chrome"
+                },
+                {
+                    name: "Branch 2",
+                    y: 20,
+                    drilldown: "Firefox"
+                },
+                {
+                    name: "Branch 3",
+                    y: 10,
+                    drilldown: "Internet Explorer"
+                }
+            ]
+        }],
+        drilldown: {
+            series: [
+                {
+                    name: "Branch 1",
+                    id: "Chrome",
+                    data: [
+                        [
+                            "Std 1",
+                            20
+                        ],
+                        [
+                            "Std 2",
+                            20
+                        ],
+                        [
+                            "Std 3",
+                            20
+                        ]
+                    ]
+                },
+                {
+                    name: "Branch 2",
+                    id: "Firefox",
+                    data: [
+                        [
+                            "Std 1",
+                            10
+                        ],
+                        [
+                            "Std 2",
+                            10
+                        ]
+                    ]
+                },
+                {
+                    name: "Branch 3",
+                    id: "Internet Explorer",
+                    data: [
+                        [
+                            "Std 1",
+                            5
+                        ],
+                        [
+                            "Std 2",
+                            5
+                        ]
+                    ]
+                }
+            ]
+        },
+    });
+</script>

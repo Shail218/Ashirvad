@@ -33,7 +33,7 @@ $(document).ready(function () {
             { "data": "FilePath" },
             { "data": "Remark" },
             { "data": "FeesID" },
-            { "data": "FeesID" }
+            { "className": 'StudentFeesStructureDelete', "data": "FeesID" }
         ],
         "columnDefs": [
             {
@@ -52,7 +52,7 @@ $(document).ready(function () {
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
-                            '<a href="FeesMaintenance?FeesID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                            '<a class="StudentFeesStructureCreate" href="FeesMaintenance?FeesID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
                     }
                     return data;
                 },
@@ -64,14 +64,16 @@ $(document).ready(function () {
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
-                            '<a onclick = "RemoveFees(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                            '<a  onclick = "RemoveFees(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
                     }
+                    CheckRights();
                     return data;
                 },
                 orderable: false,
                 searchable: false
             }
-        ]
+        ],
+        
     });
 
     LoadBranch(function () {

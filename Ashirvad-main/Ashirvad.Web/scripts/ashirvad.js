@@ -296,7 +296,7 @@ function ShowMessage(message, messagetype, onClose) {
     setTimeout(function () { $("#alert_container").hide(); }, 5000);
 }
 
-function ConvertData(FromDate,Type) {
+function ConvertData(FromDate, Type) {
     var Data = FromDate.split("/");
     if (Data.length == 1 && FromDate != "") {
         Data = FromDate.split("-");
@@ -324,7 +324,7 @@ function ConvertData(FromDate,Type) {
             return FromDateupdate
         }
     }
-    
+
 }
 
 
@@ -364,7 +364,7 @@ function CheckRights() {
     var data = $.parseJSON(rightslist);
     if (data.length > 0) {
         for (var i = 0; i < data.length; i++) {
-            
+
             var Page = data[i].PageInfo.Page;
             var Createstatus = data[i].PackageRightinfo.Createstatus;
             var Deletestatus = data[i].PackageRightinfo.Deletestatus;
@@ -431,19 +431,17 @@ function CheckRights() {
             }
         }
     }
-   
+
 }
 
 
-function DateConvert(FromDate, Text)
-{
-    var Type ="Live";
+function DateConvert(FromDate, Text) {
+    var Type = "Live";
     var str1 = GetSiteURL();
     var str2 = "localhost";
     var FromDateupdate;
-    if (str1.indexOf(str2) != -1)
-    {
-        Type ="Local"
+    if (str1.indexOf(str2) != -1) {
+        Type = "Local"
     }
     var Data = FromDate.value.split("/");
     if (Data.length == 1 && FromDate.value != "") {
@@ -451,30 +449,25 @@ function DateConvert(FromDate, Text)
         var Date = Data[0];
         var Month = Data[1];
         var Year = Data[2];
-        if (Type == 'Local')
-        {
-           FromDateupdate = Date + "-" + Month + "-" + Year;
-            
+        if (Type == 'Local') {
+            FromDateupdate = Date + "-" + Month + "-" + Year;
+
         }
-        else
-        {
+        else {
             FromDateupdate = Year + "-" + Month + "-" + Date;
-           
+
         }
-    } else
-    {
+    } else {
         var Date = Data[0];
         var Month = Data[1];
         var Year = Data[2];
-        if (Type == 'Local')
-        {
-             FromDateupdate = Date + "/" + Month + "/" + Year;
-            
+        if (Type == 'Local') {
+            FromDateupdate = Date + "/" + Month + "/" + Year;
+
         }
-        else
-        {
-             FromDateupdate = Year + "/" + Month + "/" + Date;
-           
+        else {
+            FromDateupdate = Year + "/" + Month + "/" + Date;
+
         }
     }
 
@@ -495,18 +488,38 @@ function GetSiteURL() {
     return URL;
 }
 
-function CheckMobileno(mobile)
-{
-   
+function CheckMobileno(mobile) {
+
     if (mobile.value.length != 10) {
 
         var Alt = mobile.alt;
-        ShowMessage('Please Enter Valid ' + Alt+'!', 'Error');
+        ShowMessage('Please Enter Valid ' + Alt + '!', 'Error');
         mobile.value = "";
     }
-    
-}
-    
 
+}
+
+function GetUserRights(PageName) {
+    var rightslist = $("#rightslist").val();
+    var permission = [];
+    var data = $.parseJSON(rightslist);
+    if (data.length > 0) {
+      
+        var Index = data.findIndex(function (entry, i) {
+            if (entry.PageInfo.Page.replace(/\s/g, '') == PageName) {
+                index = i;
+                return i;
+            }
+        });
+
+      var Delete=  data[Index].PackageRightinfo.Deletestatus;
+        var Create =  data[Index].PackageRightinfo.Createstatus;
+        permission.push({
+            "Create": Create,
+            "Delete": Delete
+        })
+    }
+    return permission;
+}
 
 

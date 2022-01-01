@@ -47,10 +47,15 @@ $(document).ready(function () {
             {
                 targets: 3,
                 render: function (data, type, full, meta) {
-                    debugger;
+                    var check = GetUserRights('AttendanceRegister');
                     if (type === 'display') {
-                        data =
-                            '<a onclick="RedirectAttendance(' + data + ')"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        if (check[0].Create) {
+                            data =
+                                '<a onclick="RedirectAttendance(' + data + ')"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        }
+                        else {
+                            data = "";
+                        }
                     }
                     return data;
                 },
@@ -60,10 +65,19 @@ $(document).ready(function () {
             {
                 targets: 4,
                 render: function (data, type, full, meta) {
+                  
+                    var check = GetUserRights('AttendanceRegister');
+                   
                     if (type === 'display') {
-                        data =
-                            '<a onclick = "RemoveAttendance(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        if (check[0].Delete) {
+                            data =
+                                '<a onclick = "RemoveAttendance(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        }
+                        else {
+                            data = "";
+                        }
                     }
+                    
                     return data;
                 },
                 orderable: false,

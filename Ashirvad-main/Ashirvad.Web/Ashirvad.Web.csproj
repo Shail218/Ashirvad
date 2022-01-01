@@ -1231,8 +1231,8 @@
     <Content Include="ThemeData\plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="scripts\jquery-3.3.1.min.map" />
     <Content Include="scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Charts.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Home\Drilldownchart.cshtml" />
     <Content Include="Views\Branch\Index.cshtml" />
     <Content Include="Views\Branch\Create.cshtml" />
     <Content Include="Views\Branch\Manage.cshtml" />
@@ -1413,6 +1413,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\ManageLibrary\Index.cshtml" />
     <Content Include="Views\ShowLibrary\Index.cshtml" />
+    <Content Include="Views\Home\Piechart.cshtml" />
+    <Content Include="Views\Home\Barchart.cshtml" />
+    <Content Include="Views\Home\ADashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -10,7 +10,7 @@ function login() {
             HideLoader();
             if (data.Status == true) {
                 ShowMessage(data.Message, 'Success');
-                setTimeout(function () { window.location.href = commonData.VDName + 'Home/Index';}, 500);
+                setTimeout(function () { window.location.href = commonData.VDName + data.URL;}, 500);
                 
             }
             else {
