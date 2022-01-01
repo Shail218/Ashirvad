@@ -132,9 +132,9 @@ namespace Ashirvad.Repo.Services.Area.Library
                             //  StandardID = u.std_id,
                             //SubjectID = u.subject_id,
                             ThumbnailFileName = u.thumbnail_img,
-                            ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                            ThumbnailFilePath = "https://mastermind.org.in" + u.thumbnail_path,
                             DocFileName = u.library_image,
-                            DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                            DocFilePath = "https://mastermind.org.in" + u.library_path,
                             CategoryInfo = new CategoryEntity()
                             {
                                 CategoryID = u.category_id.HasValue ? u.category_id.Value : 0
@@ -167,9 +167,9 @@ namespace Ashirvad.Repo.Services.Area.Library
 
                             //SubjectID = u.subject_id,
                             ThumbnailFileName = u.thumbnail_img,
-                            ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                            ThumbnailFilePath = "https://mastermind.org.in" + u.thumbnail_path,
                             DocFileName = u.library_image,
-                            DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                            DocFilePath = "https://mastermind.org.in" + u.library_path,
                             CategoryInfo = new CategoryEntity()
                             {
                                 CategoryID = u.category_id.Value
@@ -248,11 +248,11 @@ namespace Ashirvad.Repo.Services.Area.Library
                             VideoLink = u.video_link,
                             LibraryTitle = u.library_title,
                             ThumbnailFileName = u.thumbnail_img,
-                            ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                            ThumbnailFilePath = "https://mastermind.org.in" + u.thumbnail_path,
                             Type = u.type.Value,
                             Description = u.doc_desc,
                             DocFileName = u.library_image,
-                            DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                            DocFilePath = "https://mastermind.org.in" + u.library_path,
                             CategoryInfo = new CategoryEntity()
                             {
                                 CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
@@ -299,11 +299,11 @@ namespace Ashirvad.Repo.Services.Area.Library
                             VideoLink = u.video_link,
                             LibraryTitle = u.library_title,
                             ThumbnailFileName = u.thumbnail_img,
-                            ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                            ThumbnailFilePath = "https://mastermind.org.in" + u.thumbnail_path,
                             Type = u.type.Value,
                             Description = u.doc_desc,
                             DocFileName = u.library_image,
-                            DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                            DocFilePath = "https://mastermind.org.in" + u.library_path,
                             CategoryInfo = new CategoryEntity()
                             {
                                 CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
@@ -351,12 +351,12 @@ namespace Ashirvad.Repo.Services.Area.Library
                             VideoLink = u.video_link,
                             LibraryTitle = u.library_title,
                             ThumbnailFileName = u.thumbnail_img,
-                            ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                            ThumbnailFilePath = "https://mastermind.org.in" + u.thumbnail_path,
                             Type = u.type.Value,
                             Library_Type = (int)u.library_type,
                             Description = u.doc_desc,
                             DocFileName = u.library_image,
-                            DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                            DocFilePath = "https://mastermind.org.in" + u.library_path,
                             CategoryInfo = new CategoryEntity()
                             {
                                 CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
@@ -516,13 +516,13 @@ namespace Ashirvad.Repo.Services.Area.Library
                                    VideoLink = u.video_link,
                                    LibraryTitle = u.library_title,
                                    ThumbnailFileName = u.thumbnail_img,
-                                   ThumbnailFilePath = u.thumbnail_path == null || u.thumbnail_path == "" ? "" : "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                                   ThumbnailFilePath = u.thumbnail_path == null || u.thumbnail_path == "" ? "" : "https://mastermind.org.in" + u.thumbnail_path,
                                    Type = u.type.Value,
                                    Library_Type = (int)u.library_type,
                                    Description = u.doc_desc,
                                    DocFileName = u.library_image,
                                    CreatebyBranch = u.createby_branch.Value,
-                                   DocFilePath = u.library_path == null || u.library_path == "" ? "" : "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                                   DocFilePath = u.library_path == null || u.library_path == "" ? "" : "https://mastermind.org.in" + u.library_path,
                                    CategoryInfo = new CategoryEntity()
                                    {
                                        CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
@@ -592,13 +592,13 @@ namespace Ashirvad.Repo.Services.Area.Library
                                    VideoLink = li.video_link,
                                    LibraryTitle = li.library_title,
                                    ThumbnailFileName = li.thumbnail_img,
-                                   ThumbnailFilePath = li.thumbnail_path == null || li.thumbnail_path == "" ? "" : "http://highpack-001-site12.dtempurl.com" + li.thumbnail_path,
+                                   ThumbnailFilePath = li.thumbnail_path == null || li.thumbnail_path == "" ? "" : "https://mastermind.org.in" + li.thumbnail_path,
                                    Type = li.type.Value,
                                    Library_Type = (int)li.library_type,
                                    Description = li.doc_desc,
                                    DocFileName = li.library_image,
                                    CreatebyBranch = li.createby_branch.Value,
-                                   DocFilePath = li.library_path == null || li.library_path == "" ? "" : "http://highpack-001-site12.dtempurl.com" + li.library_path,
+                                   DocFilePath = li.library_path == null || li.library_path == "" ? "" : "https://mastermind.org.in" + li.library_path,
                                    CategoryInfo = new CategoryEntity()
                                    {
                                        CategoryID = li.category_id.HasValue ? li.category_id.Value : 0,
@@ -621,13 +621,13 @@ namespace Ashirvad.Repo.Services.Area.Library
                                VideoLink = li.video_link,
                                LibraryTitle = li.library_title,
                                ThumbnailFileName = li.thumbnail_img,
-                               ThumbnailFilePath = li.thumbnail_path == null || li.thumbnail_path == "" ? "" : "http://highpack-001-site12.dtempurl.com" + li.thumbnail_path,
+                               ThumbnailFilePath = li.thumbnail_path == null || li.thumbnail_path == "" ? "" : "https://mastermind.org.in" + li.thumbnail_path,
                                Type = li.type.Value,
                                Library_Type = (int)li.library_type,
                                Description = li.doc_desc,
                                DocFileName = li.library_image,
                                CreatebyBranch = li.createby_branch.Value,
-                               DocFilePath = li.library_path == null || li.library_path == "" ? "" : "http://highpack-001-site12.dtempurl.com" + li.library_path,
+                               DocFilePath = li.library_path == null || li.library_path == "" ? "" : "https://mastermind.org.in" + li.library_path,
                                CategoryInfo = new CategoryEntity()
                                {
                                    CategoryID = li.category_id.HasValue ? li.category_id.Value : 0,
@@ -664,13 +664,13 @@ namespace Ashirvad.Repo.Services.Area.Library
                                    VideoLink = li.video_link,
                                    LibraryTitle = li.library_title,
                                    ThumbnailFileName = li.thumbnail_img,
-                                   ThumbnailFilePath = li.thumbnail_path == null || li.thumbnail_path == "" ? "" : "http://highpack-001-site12.dtempurl.com" + li.thumbnail_path,
+                                   ThumbnailFilePath = li.thumbnail_path == null || li.thumbnail_path == "" ? "" : "https://mastermind.org.in" + li.thumbnail_path,
                                    Type = li.type.Value,
                                    Library_Type = (int)li.library_type,
                                    Description = li.doc_desc,
                                    DocFileName = li.library_image,
                                    CreatebyBranch = li.createby_branch.Value,
-                                   DocFilePath = li.library_path == null || li.library_path == "" ? "" : "http://highpack-001-site12.dtempurl.com" + li.library_path,
+                                   DocFilePath = li.library_path == null || li.library_path == "" ? "" : "https://mastermind.org.in" + li.library_path,
                                    CategoryInfo = new CategoryEntity()
                                    {
                                        CategoryID = li.category_id.HasValue ? li.category_id.Value : 0,
@@ -697,13 +697,13 @@ namespace Ashirvad.Repo.Services.Area.Library
                                VideoLink = li.video_link,
                                LibraryTitle = li.library_title,
                                ThumbnailFileName = li.thumbnail_img,
-                               ThumbnailFilePath = li.thumbnail_path == null || li.thumbnail_path == "" ? "" : "http://highpack-001-site12.dtempurl.com" + li.thumbnail_path,
+                               ThumbnailFilePath = li.thumbnail_path == null || li.thumbnail_path == "" ? "" : "https://mastermind.org.in" + li.thumbnail_path,
                                Type = li.type.Value,
                                Library_Type = (int)li.library_type,
                                Description = li.doc_desc,
                                DocFileName = li.library_image,
                                CreatebyBranch = li.createby_branch.Value,
-                               DocFilePath = li.library_path == null || li.library_path == "" ? "" : "http://highpack-001-site12.dtempurl.com" + li.library_path,
+                               DocFilePath = li.library_path == null || li.library_path == "" ? "" : "https://mastermind.org.in" + li.library_path,
                                CategoryInfo = new CategoryEntity()
                                {
                                    CategoryID = li.category_id.HasValue ? li.category_id.Value : 0,
@@ -751,11 +751,11 @@ namespace Ashirvad.Repo.Services.Area.Library
                                   VideoLink = u.video_link,
                                   LibraryTitle = u.library_title,
                                   ThumbnailFileName = u.thumbnail_img,
-                                  ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                                  ThumbnailFilePath = "https://mastermind.org.in" + u.thumbnail_path,
                                   Type = u.type.Value,
                                   Description = u.doc_desc,
                                   DocFileName = u.library_image,
-                                  DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                                  DocFilePath = "https://mastermind.org.in" + u.library_path,
                                   CategoryInfo = new CategoryEntity()
                                   {
                                       CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
@@ -780,11 +780,11 @@ namespace Ashirvad.Repo.Services.Area.Library
                                 VideoLink = u.video_link,
                                 LibraryTitle = u.library_title,
                                 ThumbnailFileName = u.thumbnail_img,
-                                ThumbnailFilePath = "http://highpack-001-site12.dtempurl.com" + u.thumbnail_path,
+                                ThumbnailFilePath = "https://mastermind.org.in" + u.thumbnail_path,
                                 Type = u.type.Value,
                                 Description = u.doc_desc,
                                 DocFileName = u.library_image,
-                                DocFilePath = "http://highpack-001-site12.dtempurl.com" + u.library_path,
+                                DocFilePath = "https://mastermind.org.in" + u.library_path,
                                 CategoryInfo = new CategoryEntity()
                                 {
                                     CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,

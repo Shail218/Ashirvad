@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     $('.facultyimage').each(function () {
-        var Prefix = 'http://highpack-001-site12.dtempurl.com';
+        var Prefix = 'https://mastermind.org.in';
        
         var URL = $(this).attr('src');
         var Middlefix = getId(URL);
