@@ -27,50 +27,46 @@ $(document).ready(function () {
             }.bind(this)
         },
         "columns": [
-            { "data": "Page" },
-            { "data": "PageID" },
-            { "data": "PageID" }
+            { "data": "Page" }
+            //{ "data": "PageID" },
+            //{ "data": "PageID" }
         ],
-        "columnDefs": [
-            {
-                targets: 1,
-                render: function (data, type, full, meta) {
+        //"columnDefs": [
+        //    {
+        //        targets: 1,
+        //        render: function (data, type, full, meta) {
 
-                    if (type === 'display') {
-                        data =
-                            '<a style="text-align:center !important;" href="PageMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
-                    }
+        //            if (type === 'display') {
+        //                data =
+        //                    '<a style="text-align:center !important;" href="PageMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+        //            }
 
-                    return data;
-                },
-                orderable: false,
-                searchable: false
-            },
-            {
-                targets: 2,
-                render: function (data, type, full, meta) {
+        //            return data;
+        //        },
+        //        orderable: false,
+        //        searchable: false
+        //    },
+        //    {
+        //        targets: 2,
+        //        render: function (data, type, full, meta) {
 
-                    if (type === 'display') {
-                        data =
-                            '<a href="#" onclick="RemovePage(' + data + ');"><img src= "../ThemeData/images/delete.png"/></a>'
+        //            if (type === 'display') {
+        //                data =
+        //                    '<a href="#" onclick="RemovePage(' + data + ');"><img src= "../ThemeData/images/delete.png"/></a>'
 
 
-                    }
-                    return data;
-                },
-                orderable: false,
-                searchable: false
-            }
-        ],
-        createdRow: function (tr) {
-            $(tr.children[1]).addClass('textalign');
-            $(tr.children[2]).addClass('textalign');
-        },
+        //            }
+        //            return data;
+        //        },
+        //        orderable: false,
+        //        searchable: false
+        //    }
+        //],
+        //createdRow: function (tr) {
+        //    $(tr.children[1]).addClass('textalign');
+        //    $(tr.children[2]).addClass('textalign');
+        //},
     });
-
-    //if ($("#BranchInfo_BranchID").val() != "") {
-    //    $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
-    //}
 });
 
 function LoadBranch(onLoaded) {
@@ -82,10 +78,6 @@ function LoadBranch(onLoaded) {
         for (i = 0; i < data.length; i++) {
             $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
         }
-
-        //        //$.each(data, function (i) {
-        //        //    $("#BranchName").append($("<option></option>").val(data[i].BranchID).html(data[i].BranchName));
-        //        //});
 
         if (onLoaded != undefined) {
             onLoaded();
