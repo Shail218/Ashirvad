@@ -156,5 +156,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
 
             return null;
         }
+        public async Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID, int batchTimeID, long studentid)
+        {
+            try
+            {
+
+                return  await _attendanceContext.GetAllAttendanceByCustom(model,fromDate, toDate, branchID, stdID, batchTimeID, studentid);
+                
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+        
     }
 }

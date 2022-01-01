@@ -47,9 +47,10 @@ $(document).ready(function () {
             {
                 targets: 3,
                 render: function (data, type, full, meta) {
+                    debugger;
                     if (type === 'display') {
                         data =
-                            '<a href="GetAttendanceByID?attendanceID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                            '<a onclick="RedirectAttendance(' + data + ')"><img src = "../ThemeData/images/viewIcon.png" /></a >'
                     }
                     return data;
                 },
@@ -104,7 +105,7 @@ function GetAttendanceByID(attendanceID) {
     var postCall = $.post(commonData.AttendanceRegister + "GetAttendanceByID", { "attendanceID": attendanceID });
     postCall.done(function (data) {
     }).fail(function () {
-        
+
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
@@ -194,4 +195,8 @@ function ConvertMiliDateFrom(date) {
         return Final;
     }
     return "";
+}
+
+function RedirectAttendance(data) {
+    window.location.href = GetSiteURL() + "AttendanceRegister/GetAttendanceByID?attendanceID=" + data+"";
 }

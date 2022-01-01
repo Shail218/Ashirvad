@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -41,6 +42,35 @@ namespace Ashirvad.Web.Controllers
         {
             var studentData = await _studentService.GetAllStudentsName(SessionContext.Instance.LoginUser.BranchInfo.BranchID,BatchTime,std);
             return Json(studentData);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model, DateTime FromDate, DateTime ToDate, long StandardId=0, int BatchTime=0, long studentid=0)
+        {
+            // action inside a standard controller
+            try
+            {
+                var branchData = await _attendanceService.GetAllAttendanceByCustom(model, FromDate, ToDate, SessionContext.Instance.LoginUser.BranchInfo.BranchID, StandardId, BatchTime, studentid);
+                long total = 0;
+                if (branchData.Count > 0)
+                {
+                    total = branchData[0].Count;
+                }
+                return Json(new
+                {
+                    // this is what datatables wants sending back
+                    draw = model.draw,
+                    iTotalRecords = total,
+                    iTotalDisplayRecords = total,
+                    data = branchData
+                });
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+
         }
     }
 }
