@@ -12,6 +12,7 @@ namespace Ashirvad.Data
         public bool Status { get; set; }
         public bool IsEdit { get; set; }
         public string Permission { get; set; }
+        public string URL { get; set; }
         public object Data { get; set; }
       
   
