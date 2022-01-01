@@ -157,6 +157,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Branch
             return null;
         }
 
+        public async Task<List<BranchAgreementEntity>> GetAllCustomAgreement(DataTableAjaxPostModel model, long branchID)
+        {
+            try
+            {
+                return await this._branchContext.GetAllCustomAgreement(model, branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<OperationResult<BranchAgreementEntity>> GetAgreementByAgreementID(long agreementID)
         {
             try

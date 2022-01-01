@@ -302,6 +302,50 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return data;
         }
 
+        public async Task<List<BranchAgreementEntity>> GetAllCustomAgreement(DataTableAjaxPostModel model, long branchID)
+        {
+            var Result = new List<BranchAgreementEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = (from u in this.context.BRANCH_AGREEMENT
+                          join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
+                          orderby u.agreement_id descending
+                          where (0 == branchID || u.branch_id == branchID)
+                          select new BranchAgreementEntity() { 
+                              AgreementID = u.agreement_id
+                          }).Distinct().Count();
+            var data = (from u in this.context.BRANCH_AGREEMENT
+                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
+                        orderby u.agreement_id descending
+                        where (0 == branchID || u.branch_id == branchID)
+                      && (model.search.value == null
+                        || model.search.value == ""
+                        || u.amount.ToString().ToLower().Contains(model.search.value)
+                        || u.from_dt.ToString().ToLower().Contains(model.search.value)
+                        || u.to_dt.ToString().ToLower().Contains(model.search.value)
+                        || b.branch_name.ToString().ToLower().Contains(model.search.value))
+                        orderby u.agreement_id descending
+                        select new BranchAgreementEntity()
+                        {
+                            RowStatusData = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd,
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                            },
+                            AgreementFromDate = u.from_dt,
+                            AgreementToDate = u.to_dt,
+                            AgreementID = u.agreement_id,
+                            Amount = u.amount,
+                            Count = count,
+                            BranchData = new BranchEntity() { BranchID = b.branch_id, BranchName = b.branch_name },
+                            TranscationData = new TransactionEntity() { TransactionId = u.trans_id }
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+            return data;
+        }
+
         public async Task<BranchAgreementEntity> GetAgreementByID(long agreementID)
         {
             var data = (from u in this.context.BRANCH_AGREEMENT

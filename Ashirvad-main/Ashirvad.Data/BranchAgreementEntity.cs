@@ -15,5 +15,6 @@ namespace Ashirvad.Data
         public double Amount { get; set; }
         public TransactionEntity TranscationData { get; set; }
         public RowStatusEntity RowStatusData { get; set; }
+        public long Count { get; set; }
     }
 }
