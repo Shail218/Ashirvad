@@ -133,7 +133,10 @@ namespace Ashirvad.Repo.Services.Area.Class
                             ClassName = u.class_name,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             Count = Count
-                        }).ToList();
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
 
             return data;
         }
@@ -162,17 +165,17 @@ namespace Ashirvad.Repo.Services.Area.Class
                 var data = (from Class in this.context.CLASS_DTL_MASTER
                             select new BranchClassEntity
                             {
-                                branch=new BranchEntity()
+                                branch = new BranchEntity()
                                 {
                                     BranchID = Class.branch_id
                                 },
-                                Class= new ClassEntity()
+                                Class = new ClassEntity()
                                 {
-                                    ClassID= Class.class_id
+                                    ClassID = Class.class_id
                                 },
-                                BranchCourse= new BranchCourseEntity()
+                                BranchCourse = new BranchCourseEntity()
                                 {
-                                    course_dtl_id= Class.course_dtl_id
+                                    course_dtl_id = Class.course_dtl_id
 
                                 }
                             }).Distinct().ToList();

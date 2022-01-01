@@ -464,7 +464,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
             var data = (from u in this.context.SUBJECT_DTL_MASTER
                       .Include("Subject_MASTER")
                       .Include("BRANCH_MASTER")
-                        orderby u.subject_dtl_id descending
                         where (BranchID == 0 || u.branch_id == BranchID) && u.row_sta_cd == 1
                         select new BranchSubjectEntity()
                         {
@@ -492,7 +491,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 ClassID = u.CLASS_DTL_MASTER.CLASS_MASTER.class_id,
                                 ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
                             },
-                        }).Distinct().ToList();
+                        }).Distinct().OrderByDescending(a => a.BranchClass.Class_dtl_id).ToList();
             if (data?.Count > 0)
             {
                 foreach (var i in data)

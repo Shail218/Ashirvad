@@ -219,7 +219,10 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                             SubjectName = u.subject_name,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             Count = Count
-                        }).ToList();
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
 
             return data;
         }

@@ -535,7 +535,7 @@ namespace Ashirvad.Repo.Services.Area.User
             TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
             DateTime indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
             var ToDayDate = indianTime.ToString("yyyy/MM/dd");
-            DateTime dt = DateTime.ParseExact(ToDayDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime dt = DateTime.ParseExact(ToDayDate, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var data = (from u in this.context.BRANCH_AGREEMENT
                         where u.branch_id == branchID
                         && u.to_dt > dt

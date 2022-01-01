@@ -140,7 +140,10 @@ namespace Ashirvad.Repo.Services.Area.Course
                             filename = u.file_name,
                             Count = Count,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                        }).ToList();
+                        })
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
             return data;
         }
 
