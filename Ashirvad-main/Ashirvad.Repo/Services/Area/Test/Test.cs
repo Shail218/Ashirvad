@@ -1115,7 +1115,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("STD_MASTER")
                         orderby u.test_paper_id descending
                         where u.TEST_MASTER.branch_id == branchID && u.TEST_MASTER.std_id == stdID
-                        && (batchTime == 0 || u.TEST_MASTER.batch_time_id == batchTime) && !u.doc_link.Equals(" ")
+                        && (batchTime == 0 || u.TEST_MASTER.batch_time_id == batchTime) && !u.doc_link.Equals(" ") && u.row_sta_cd == 1
                         select new TestPaperEntity()
                         {
                             TestID = u.test_id,

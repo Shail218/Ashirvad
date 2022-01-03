@@ -166,7 +166,7 @@
                                     else if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
                                     {
                                         <a href="@Url.Action("ADashboard", "Home")">
-                                            ADashboard
+                                            Dashboard
                                         </a>
                                     }
                                 </li>
@@ -374,7 +374,7 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li class="treeview" id="Li4">
-                                                <a href="@Url.Action("Index","StandardWiseChart")">
+                                                <a href="#">
                                                     Standard Wise
                                                 </a>
                                             </li>
@@ -425,11 +425,11 @@
                                                     Reminder Entry
                                                 </a>
                                             </li>
-                                            <li class="treeview Report" id="Li3">
+                                            @*<li class="treeview Report" id="Li3">
                                                 <a href="@Url.Action("GetAllReportData","AdminReport")">
                                                     Report
                                                 </a>
-                                            </li>
+                                            </li>*@
                                         </ul>
                                     </li>
 
