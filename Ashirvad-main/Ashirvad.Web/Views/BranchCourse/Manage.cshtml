@@ -8,10 +8,10 @@
             <th>
                 Branch Name
             </th>
-            @*<th>
+            <th>
                 Edit
             </th>
-            <th>
+            @*<th>
                 Delete
             </th>*@
         </tr>
@@ -83,14 +83,14 @@
                         @item.branch.BranchName
                     </td>
 
-                    @*<td>
+                    <td>
                         <a href="@Url.Action("CourseMaintenance", "BranchCourse", new { @courseID = item.branch.BranchID })">
                             <img src="/ThemeData/images/viewIcon.png" />
                         </a>
                     </td>
 
 
-                    <td>
+                    @*<td>
                         <a href="javascript:void(0)" onclick="RemoveCourse('@item.branch.BranchID')">
                             <img src="~/ThemeData/images/Delete.png" />
                         </a>

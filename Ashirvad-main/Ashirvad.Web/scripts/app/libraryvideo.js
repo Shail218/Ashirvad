@@ -3,7 +3,7 @@
 
 $(document).ready(function () {
     ShowLoader();
-
+    var check = GetUserRights('LibraryVideo');
     var studenttbl = $("#studenttbl").DataTable({
         "bPaginate": true,
         "bLengthChange": false,

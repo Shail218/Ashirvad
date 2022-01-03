@@ -56,7 +56,7 @@ namespace Ashirvad.Web.Controllers
             }
 
             return Json(0);
-        }
+        }        
 
         [HttpPost]
         public JsonResult RemoveClass(long classID)

@@ -6,7 +6,7 @@ $(document).ready(function () {
  
     var IsEdit = $("#IsEdit").val();
     if (IsEdit == "True") {
-        checkstatus();
+        checkstatus('old');
     }
 
     var studenttbl = $("#branchsubjecttable").DataTable({
@@ -40,8 +40,8 @@ $(document).ready(function () {
             },
             { "data": "branch.BranchName" },
             { "data": "BranchCourse.course.CourseName" },
-            { "data": "Class.ClassName" }
-            //{ "data": "BranchClass.Class_dtl_id" },
+            { "data": "Class.ClassName" },
+            { "data": "BranchClass.Class_dtl_id" }
             //{ "data": "BranchCourse.course_dtl_id" }
         ],
         "columnDefs": [
@@ -58,18 +58,18 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false
             },
-            //{
-            //    targets: 4,
-            //    render: function (data, type, full, meta) {
-            //        if (type === 'display') {
-            //            data =
-            //                '<a href="SubjectMaintenance?SubjectID=' + data + '&CourseID=' + full.BranchCourse.course_dtl_id + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
-            //        }
-            //        return data;
-            //    },
-            //    orderable: false,
-            //    searchable: false
-            //},
+            {
+                targets: 4,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="SubjectMaintenance?SubjectID=' + data + '&CourseID=' + full.BranchCourse.course_dtl_id + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
             //{
             //    targets: 5,
             //    render: function (data, type, full, meta) {
@@ -262,11 +262,18 @@ function GetData() {
     return MainArray;
 }
 
-function checkstatus() {
+function checkstatus(status) {
     var Create = true;
     $('#choiceList .isSubject').each(function () {
         if ($(this)[0].checked == false) {
             Create = false;
+        }
+        if ($(this)[0].checked == true) {
+            var IsEdit = $("#IsEdit").val();
+            if (IsEdit == "True" && status == "old") {
+                $(this).prop("disabled", true);
+            }
+
         }
     });
     if (Create) {

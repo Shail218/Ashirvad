@@ -18,71 +18,62 @@ namespace Ashirvad.Repo.Services.Area.Attendance
         {
             Model.ATTENDANCE_HDR attendanceMaster = new Model.ATTENDANCE_HDR();
             bool isUpdate = true;
-            bool res = VerifyAttendanceRegister(attendanceInfo.Branch.BranchID, attendanceInfo.Standard.StandardID, attendanceInfo.BatchTypeID, attendanceInfo.AttendanceDate).Result.Status;
-            if (res)
+            try
             {
-                try
+
+                var data = (from atd in this.context.ATTENDANCE_HDR
+                            where atd.attendance_hdr_id == attendanceInfo.AttendanceID
+                            select atd).FirstOrDefault();
+                if (data == null)
                 {
-
-                    var data = (from atd in this.context.ATTENDANCE_HDR
-                                where atd.attendance_hdr_id == attendanceInfo.AttendanceID
-                                select atd).FirstOrDefault();
-                    if (data == null)
-                    {
-                        attendanceMaster = new Model.ATTENDANCE_HDR();
-                        isUpdate = false;
-                    }
-                    else
-                    {
-                        attendanceMaster = data;
-                        attendanceInfo.Transaction.TransactionId = data.trans_id;
-                    }
-
-                    attendanceMaster.std_id = attendanceInfo.Standard.StandardID;
-                    attendanceMaster.batch_time_type = attendanceInfo.BatchTypeID;
-                    attendanceMaster.attendance_dt = attendanceInfo.AttendanceDate;
-                    attendanceMaster.branch_id = attendanceInfo.Branch.BranchID;
-                    attendanceMaster.row_sta_cd = attendanceInfo.RowStatus.RowStatusId;
-                    attendanceMaster.trans_id = this.AddTransactionData(attendanceInfo.Transaction);
-                    this.context.ATTENDANCE_HDR.Add(attendanceMaster);
-                    if (isUpdate)
-                    {
-                        this.context.Entry(attendanceMaster).State = System.Data.Entity.EntityState.Modified;
-                    }
-
-                    attendanceInfo.AttendanceID = attendanceMaster.attendance_hdr_id;
-                    var detail = (from dtl in this.context.ATTENDANCE_DTL
-                                  where dtl.attd_hdr_id == attendanceInfo.AttendanceID
-                                  select dtl).ToList();
-                    if (detail?.Count > 0)
-                    {
-                        this.context.ATTENDANCE_DTL.RemoveRange(detail);
-                    }
-
-                    foreach (var item in attendanceInfo.AttendanceDetail)
-                    {
-                        ATTENDANCE_DTL dtl = new ATTENDANCE_DTL()
-                        {
-                            absent_fg = item.IsAbsent ? 1 : 0,
-                            present_fg = item.IsPresent ? 1 : 0,
-                            attd_hdr_id = attendanceInfo.AttendanceID,
-                            remarks = item.Remarks,
-                            student_id = item.Student.StudentID
-                        };
-                        this.context.ATTENDANCE_DTL.Add(dtl);
-                    }
+                    attendanceMaster = new Model.ATTENDANCE_HDR();
+                    isUpdate = false;
                 }
-                catch (Exception ex)
+                else
                 {
-
+                    attendanceMaster = data;
+                    attendanceInfo.Transaction.TransactionId = data.trans_id;
                 }
-                return this.context.SaveChanges() > 0 ? attendanceMaster.attendance_hdr_id : 0;
+
+                attendanceMaster.std_id = attendanceInfo.Standard.StandardID;
+                attendanceMaster.batch_time_type = attendanceInfo.BatchTypeID;
+                attendanceMaster.attendance_dt = attendanceInfo.AttendanceDate;
+                attendanceMaster.branch_id = attendanceInfo.Branch.BranchID;
+                attendanceMaster.row_sta_cd = attendanceInfo.RowStatus.RowStatusId;
+                attendanceMaster.trans_id = this.AddTransactionData(attendanceInfo.Transaction);
+                this.context.ATTENDANCE_HDR.Add(attendanceMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(attendanceMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+
+                attendanceInfo.AttendanceID = attendanceMaster.attendance_hdr_id;
+                var detail = (from dtl in this.context.ATTENDANCE_DTL
+                              where dtl.attd_hdr_id == attendanceInfo.AttendanceID
+                              select dtl).ToList();
+                if (detail?.Count > 0)
+                {
+                    this.context.ATTENDANCE_DTL.RemoveRange(detail);
+                }
+
+                foreach (var item in attendanceInfo.AttendanceDetail)
+                {
+                    ATTENDANCE_DTL dtl = new ATTENDANCE_DTL()
+                    {
+                        absent_fg = item.IsAbsent ? 1 : 0,
+                        present_fg = item.IsPresent ? 1 : 0,
+                        attd_hdr_id = attendanceInfo.AttendanceID,
+                        remarks = item.Remarks,
+                        student_id = item.Student.StudentID
+                    };
+                    this.context.ATTENDANCE_DTL.Add(dtl);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return -1;
+
             }
-           
+            return this.context.SaveChanges() > 0 ? attendanceMaster.attendance_hdr_id : 0;
         }
 
         public async Task<List<StudentEntity>> GetAllStudentByBranchStdBatch(long branchID, long stdID, int batchID)

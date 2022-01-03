@@ -1,10 +1,11 @@
-﻿$(document).ready(function () {
+﻿/// <reference path="common.js" />
+/// <reference path="../ashirvad.js" />
+
+$(document).ready(function () {
     var IsEdit = $("#IsEdit").val();
     if (IsEdit == "True") {
-        checkstatus();
-    }
-    
-    
+        checkstatus('old');
+    }   
 });
 
 function OnSelectStatus(Data, classData) {
@@ -19,9 +20,7 @@ function OnSelectStatus(Data, classData) {
             $(this)[0].checked = false;
 
         });
-    }
-
-    
+    }  
 }
 
 
@@ -90,13 +89,20 @@ function GetData() {
     return MainArray;
 }
 
-function checkstatus() {
+function checkstatus(status) {
     var Create = true;  
     $('#choiceList .iscourse').each(function ()
     {
         if ($(this)[0].checked == false)
         {
             Create = false;
+        }
+        if ($(this)[0].checked == true) {
+            var IsEdit = $("#IsEdit").val();
+            if (IsEdit == "True" && status == "old") {
+                $(this).prop("disabled", true);
+            }
+
         }
     });
     if (Create) {

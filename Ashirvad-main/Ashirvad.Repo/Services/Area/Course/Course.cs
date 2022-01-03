@@ -147,19 +147,34 @@ namespace Ashirvad.Repo.Services.Area.Course
             return data;
         }
 
+        public bool CheckHistory(long courseID)
+        {
+            bool Issuccess = true;
+            Issuccess = this.context.COURSE_DTL_MASTER.Where(s => s.course_id == courseID && s.is_course == true && s.row_sta_cd == 1).FirstOrDefault() != null;
+            if (Issuccess)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public bool RemoveCourse(long courseID, string lastupdatedby)
         {
-            var data = (from u in this.context.COURSE_MASTER
-                        where u.course_id == courseID
-                        select u).FirstOrDefault();
-            if (data != null)
+            bool Isvalid = CheckHistory(courseID);
+            if(Isvalid)
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.COURSE_MASTER
+                            where u.course_id == courseID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    return true;
+                }
             }
-
+          
             return false;
         }
 

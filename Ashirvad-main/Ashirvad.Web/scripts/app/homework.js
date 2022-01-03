@@ -68,8 +68,13 @@ $(document).ready(function () {
                 targets: 5,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data =
-                            '<a href="HomeworkMaintenance?homeworkID=' + data + '&branchID=' + full.BranchInfo.BranchID + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        if (check[0].Create) {
+                            data =
+                                '<a href="HomeworkMaintenance?homeworkID=' + data + '&branchID=' + full.BranchInfo.BranchID + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        }
+                        else {
+                            data = "";
+                        }
                     }
                     return data;
                 },
@@ -80,8 +85,13 @@ $(document).ready(function () {
                 targets: 6,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data =
-                            '<a onclick = "RemoveHomework(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        if (check[0].Delete) {
+                            data =
+                                '<a onclick = "RemoveHomework(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        }
+                        else {
+                            data = "";
+                        }
                     }
                     return data;
                 },
