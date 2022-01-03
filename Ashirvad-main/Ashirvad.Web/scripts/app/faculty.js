@@ -19,7 +19,7 @@ $(document).ready(function () {
             LoadUser(commonData.BranchID);
         }
     });
-
+    var check = GetUserRights('NotificationMaster');
     var table = $('#facultytable').DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -74,9 +74,14 @@ $(document).ready(function () {
             {
                 targets: 5,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a href="FacultyMaintenance?facultyID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    if (check[0].Create) {
+                        if (type === 'display') {
+                            data =
+                                '<a href="FacultyMaintenance?facultyID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        }
+                    }
+                    else {
+                        data = "";
                     }
                     return data;
                 },
@@ -86,9 +91,14 @@ $(document).ready(function () {
             {
                 targets: 6,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a onclick = "RemoveFaculty(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    if (check[0].Delete) {
+                        if (type === 'display') {
+                            data =
+                                '<a onclick = "RemoveFaculty(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        }
+                    }
+                    else {
+                        data = "";
                     }
                     return data;
                 },

@@ -30,7 +30,7 @@ $(document).ready(function () {
         format: 'dd/mm/yyyy',
 
     });
-
+    var check = GetUserRights('UserMaster');
     var table = $('#usertable').DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -64,9 +64,14 @@ $(document).ready(function () {
             {
                 targets: 4,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a class="UserMasterCreate" href="UserMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    if (check[0].Create) {
+                        if (type === 'display') {
+                            data =
+                                '<a href="UserMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        }
+                    }
+                    else {
+                        data = "";
                     }
                     return data;
                 },
@@ -76,11 +81,15 @@ $(document).ready(function () {
             {
                 targets: 5,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a class="UserMasterDelete" onclick = "RemoveUser(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    if (check[0].Delete) {
+                        if (type === 'display') {
+                            data =
+                                '<a onclick = "RemoveUser(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        }
                     }
-                    CheckRights();
+                    else {
+                        data = "";
+                    }
                     return data;
                 },
                 orderable: false,

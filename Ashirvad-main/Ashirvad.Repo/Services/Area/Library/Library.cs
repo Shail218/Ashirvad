@@ -761,7 +761,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                       CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
                                       Category = u.CATEGORY_MASTER.category_name
                                   },
-
+                                  
                                   RowStatus = new RowStatusEntity()
                                   {
                                       RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
@@ -790,7 +790,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                     CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
                                     Category = u.CATEGORY_MASTER.category_name
                                 },
-
+                                Count=count,
                                 RowStatus = new RowStatusEntity()
                                 {
                                     RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,

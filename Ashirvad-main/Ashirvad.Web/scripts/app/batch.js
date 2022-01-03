@@ -3,7 +3,7 @@
 
 $(document).ready(function () {
     ShowLoader();
-
+    var check = GetUserRights('BatchMaster');
     var table = $('#batchtable').DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -38,9 +38,14 @@ $(document).ready(function () {
             {
                 targets: 5,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a href="BatchMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    if (check[0].Create) {
+                        if (type === 'display') {
+                            data =
+                                '<a href="BatchMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        }
+                    }
+                    else {
+                        data = "";
                     }
                     return data;
                 },
@@ -50,9 +55,15 @@ $(document).ready(function () {
             {
                 targets: 6,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a onclick = "RemoveBatch(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    if (check[0].Delete) {
+                        if (type === 'display') {
+                            data =
+                                '<a onclick = "RemoveBatch(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        }
+
+                    }
+                    else {
+                        data = "";
                     }
                     return data;
                 },

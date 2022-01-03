@@ -3,7 +3,7 @@
 
 $(document).ready(function () {
     ShowLoader();
-
+    var check = GetUserRights('SchoolMaster');
     var table = $('#schooltable').DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -34,9 +34,14 @@ $(document).ready(function () {
             {
                 targets: 1,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a class="SchoolMasterCreate" style="text-align:center !important;" href="SchoolMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    if (check[0].Create) {
+                        if (type === 'display') {
+                            data =
+                                '<a style="text-align:center !important;" href="SchoolMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        }
+                    }
+                    else {
+                        data = "";
                     }
                     return data;
                 },
@@ -46,11 +51,15 @@ $(document).ready(function () {
             {
                 targets: 2,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a class="SchoolMasterDelete" style="text-align:center !important;" onclick = "RemoveSchool(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    if (check[0].Delete) {
+                        if (type === 'display') {
+                            data =
+                                '<a  style="text-align:center !important;" onclick = "RemoveSchool(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        }
                     }
-                    CheckRights();
+                    else {
+                        data = "";
+                    }
                     return data;
                 },
                 orderable: false,

@@ -6,7 +6,9 @@ $(document).ready(function () {
     ShowLoader();
     if ($("#PaperID").val() > 0) {
         $("#fuPaperImage").addClass("editForm");
+
     }
+    var check = GetUserRights('PracticePapers');
 
     var table = $('#papertable').DataTable({
         "bPaginate": true,
@@ -52,9 +54,14 @@ $(document).ready(function () {
             {
                 targets: 4,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a href="PaperMaintenance?paperID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    if (check[0].Create) {
+                        if (type === 'display') {
+                            data =
+                                '<a href="PaperMaintenance?paperID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        }
+                    }
+                    else {
+                        data = "";
                     }
                     return data;
                 },
@@ -64,9 +71,14 @@ $(document).ready(function () {
             {
                 targets: 5,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a onclick = "RemovePaper(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    if (check[0].Delete) {
+                        if (type === 'display') {
+                            data =
+                                '<a onclick = "RemovePaper(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        }
+                    }
+                    else {
+                        data = "";
                     }
                     return data;
                 },

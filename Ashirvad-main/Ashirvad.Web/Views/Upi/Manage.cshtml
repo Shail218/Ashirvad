@@ -9,7 +9,7 @@
             <th>
                 Branch Name
             </th>
-            <th>
+            <th class="AddUPIDetailsCreate">
                 Edit
             </th>
             <th class="AddUPIDetailsDelete">
@@ -27,7 +27,7 @@
             <td>
                 @item.BranchData.BranchName
             </td>
-            <td>
+            <td class="AddUPIDetailsCreate">
                 <a href="@Url.Action("UPIMaintenance", "Upi", new { upiID = item.UPIId })">
                     <img src="~/ThemeData/images/viewIcon.png" />
                 </a>

@@ -6,6 +6,7 @@ $(document).ready(function () {
         $("#fuBannerImage").addClass("editForm");
     }
     ShowLoader();
+    var check = GetUserRights('BannerMaster');
     var studenttbl = $("#studenttbl").DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -49,9 +50,14 @@ $(document).ready(function () {
             {
                 targets: 3,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a href="BannerMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    if (check[0].Create) {
+                        if (type === 'display') {
+                            data =
+                                '<a href="BannerMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        }
+                    }
+                    else {
+                        data = "";
                     }
                     return data;
                 },
@@ -61,9 +67,14 @@ $(document).ready(function () {
             {
                 targets: 4,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a onclick = "RemoveBanner(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    if (check[0].Delete) {
+                        if (type === 'display') {
+                            data =
+                                '<a onclick = "RemoveBanner(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        }
+                    }
+                    else {
+                        data = "";
                     }
                     return data;
                 },

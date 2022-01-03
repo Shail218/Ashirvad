@@ -10,7 +10,7 @@ $(document).ready(function () {
     if (IsEdit == "True") {
         checkstatus();
     }
-
+   // var check = GetUserRights('BranchClassMaster');
     var studenttbl = $("#subcategorytbl").DataTable({
         "bPaginate": true,
         "bLengthChange": false,

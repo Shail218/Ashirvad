@@ -6,7 +6,7 @@ $(document).ready(function () {
         $("#fuFeeImage").addClass("editForm");
     }
     ShowLoader();
-
+    var check = GetUserRights('StudentFeesStructure');
     var table = $('#feetable').DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -50,9 +50,14 @@ $(document).ready(function () {
             {
                 targets: 3,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a class="StudentFeesStructureCreate" href="FeesMaintenance?FeesID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    if (check[0].Create) {
+                        if (type === 'display') {
+                            data =
+                                '<a  href="FeesMaintenance?FeesID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        }
+                    }
+                    else {
+                        data = "";
                     }
                     return data;
                 },
@@ -62,11 +67,16 @@ $(document).ready(function () {
             {
                 targets: 4,
                 render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a  onclick = "RemoveFees(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    if (check[0].Delete) {
+                        if (type === 'display') {
+                            data =
+                                '<a  onclick = "RemoveFees(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        }
                     }
-                    CheckRights();
+                    else {
+                        data = "";
+                    }
+                    
                     return data;
                 },
                 orderable: false,

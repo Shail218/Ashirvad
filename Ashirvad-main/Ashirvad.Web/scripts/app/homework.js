@@ -7,7 +7,7 @@ $(document).ready(function () {
     if ($("#HomeworkID").val() > 0) {
         $("#fuHomeworkDoc").addClass("editForm");
     }
-
+    var check = GetUserRights('Homework');
     var table = $('#homeworktable').DataTable({
         "bPaginate": true,
         "bLengthChange": false,
