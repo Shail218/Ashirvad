@@ -64,6 +64,7 @@ namespace Ashirvad.Repo.Services.Area.Class
                     classEntity.ClassID = classMaster.class_id;
                     classEntity.Transaction.TransactionId = classEntity.Transaction.TransactionId;
                     ClassMasterMaintenance(classEntity);
+                    UpdateStandard(classEntity);
                 }
                 return Result > 0 ? classEntity.ClassID : 0;
             }
@@ -223,6 +224,55 @@ namespace Ashirvad.Repo.Services.Area.Class
                     result = _BranchClass.ClassMaintenance(branchClass).Result;
                 }
 
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
+        public async Task<long> UpdateStandard(ClassEntity ClassEntity)
+        {
+            try
+            {
+                long result = 0;
+                var data = (from std in this.context.STD_MASTER
+                            .Include("CLASS_DTL_MASTER")
+                            where std.CLASS_DTL_MASTER.class_id==ClassEntity.ClassID 
+                            && std.row_sta_cd==1
+                            select new StandardEntity
+                            {
+                               StandardID=std.std_id
+                            }).Distinct().ToList();
+                if (data?.Count > 0)
+                {
+                    foreach (var item in data)
+                    {
+                        Model.STD_MASTER _MASTER = new Model.STD_MASTER();
+
+                        var master = (from cl in this.context.STD_MASTER
+                                      where cl.std_id == item.StandardID
+                                    select new
+                                    {
+                                        _MASTER = cl
+                                    }).FirstOrDefault();
+                        if (master != null)
+                        {
+                            _MASTER = master._MASTER;
+                            _MASTER.standard = ClassEntity.ClassName;
+                            this.context.STD_MASTER.Add(_MASTER);                            
+                            this.context.Entry(_MASTER).State = System.Data.Entity.EntityState.Modified;
+                            var Result = this.context.SaveChanges();
+
+                        }
+                        
+                       
+                    }
+                }
+               
 
                 return result;
             }

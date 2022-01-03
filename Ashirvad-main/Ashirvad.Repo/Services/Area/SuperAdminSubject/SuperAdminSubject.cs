@@ -64,6 +64,7 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                     subjectEntity.SubjectID = subjectMaster.subject_id;
                     subjectEntity.Transaction.TransactionId = subjectEntity.Transaction.TransactionId;
                     SubjectMasterMaintenance(subjectEntity);
+                    UpdateSubject(subjectEntity);
                 }
                 return this.context.SaveChanges() > 0 ? subjectEntity.SubjectID : 0;
             }
@@ -239,6 +240,55 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                         .ToList();
 
             return data;
+        }
+
+
+        public async Task<long> UpdateSubject(SuperAdminSubjectEntity subjectEntity)
+        {
+            try
+            {
+                long result = 0;
+                var data = (from std in this.context.SUBJECT_MASTER                            
+                            where std.SUBJECT_DTL_MASTER.subject_id == subjectEntity.SubjectID
+                            && std.row_sta_cd == 1
+                            select new SubjectEntity
+                            {
+                                SubjectID = std.subject_id
+                            }).Distinct().ToList();
+                if (data?.Count > 0)
+                {
+                    foreach (var item in data)
+                    {
+                        Model.SUBJECT_MASTER _MASTER = new Model.SUBJECT_MASTER();
+
+                        var master = (from cl in this.context.SUBJECT_MASTER
+                                      where cl.subject_id == item.SubjectID
+                                      select new
+                                      {
+                                          _MASTER = cl
+                                      }).FirstOrDefault();
+                        if (master != null)
+                        {
+                            _MASTER = master._MASTER;
+                            _MASTER.subject = subjectEntity.SubjectName;
+                            this.context.SUBJECT_MASTER.Add(_MASTER);
+                            this.context.Entry(_MASTER).State = System.Data.Entity.EntityState.Modified;
+                            var Result = this.context.SaveChanges();
+
+                        }
+
+
+                    }
+                }
+
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
         }
     }
 }
