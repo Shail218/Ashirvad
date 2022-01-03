@@ -157,9 +157,18 @@
                         <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                             <ul class="nav navbar-nav">
                                 <li class="treeview" style="margin-left:20px;">
-                                    <a href="@Url.Action("Dashboard","Home")">
-                                        Dashboard
-                                    </a>
+                                    @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+                                    {
+                                        <a href="@Url.Action("Dashboard", "Home")">
+                                            Dashboard
+                                        </a>
+                                    }
+                                    else if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
+                                    {
+                                        <a href="@Url.Action("ADashboard", "Home")">
+                                            ADashboard
+                                        </a>
+                                    }
                                 </li>
                                 <li class="dropdown" id="MasterMenu" style="margin-left:10px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
