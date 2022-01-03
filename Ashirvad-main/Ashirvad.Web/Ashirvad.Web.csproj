@@ -1113,6 +1113,7 @@
     <Content Include="ThemeData\plugins\timepicker\bootstrap-timepicker.min.js" />
     <Content Include="ThemeData\plugins\timepicker\jquery.timepicker.min.css" />
     <Content Include="ThemeData\plugins\timepicker\jquery.timepicker.min.js" />
+    <Content Include="ThemeData\ToDo.css" />
     <Content Include="ThumbnailImage\AXJQ4HN19XVLMOB01EK4.png" />
     <Content Include="ToDoDocument\75PILTAVRILZ0B84HY7Z.png" />
     <Content Include="Web.config">
@@ -1416,6 +1417,10 @@
     <Content Include="Views\Home\Piechart.cshtml" />
     <Content Include="Views\Home\Barchart.cshtml" />
     <Content Include="Views\Home\ADashboard.cshtml" />
+    <Content Include="Views\Home\AStandardWiseChart.cshtml" />
+    <Content Include="Views\Home\ATodo.cshtml" />
+    <Content Include="Views\Home\AReminder.cshtml" />
+    <Content Include="Views\Home\ACircle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

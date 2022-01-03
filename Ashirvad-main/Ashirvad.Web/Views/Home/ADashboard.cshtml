@@ -18,12 +18,12 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">
                         <i class="ion ion-stats-bars"></i>
-                        Chart
+                       Standard Wise Chart
                     </h3>
                 </div>
                 <div class="box-body">
                     @{
-                        Html.RenderPartial("Drilldownchart");
+                        Html.RenderPartial("AStandardWiseChart");
                     }
                 </div>
             </div>
@@ -33,29 +33,44 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">
                         <i class="ion ion-stats-bars"></i>
-                        Chart
+                       Circular
                     </h3>
                 </div>
                 <div class="box-body">
                     @{
-                        Html.RenderPartial("Piechart");
+                        Html.RenderPartial("ACircle");
                     }
                 </div>
             </div>
         </section>
     </div>
     <div class="row">
-        <section class="col-lg-12">
+        <section class="col-lg-6">
             <div class="box box-warning">
                 <div class="box-header with-border">
                     <h3 class="box-title">
                         <i class="ion ion-stats-bars"></i>
-                        Chart
+                       To-Do Chart
                     </h3>
                 </div>
                 <div class="box-body">
                     @{
-                        Html.RenderPartial("Barchart");
+                        Html.RenderPartial("AReminder");
+                    }
+                </div>
+            </div>
+        </section>
+        <section class="col-lg-6">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="ion ion-stats-bars"></i>
+                       Remider Chart
+                    </h3>
+                </div>
+                <div class="box-body">
+                    @{
+                        Html.RenderPartial("ATodo");
                     }
                 </div>
             </div>
