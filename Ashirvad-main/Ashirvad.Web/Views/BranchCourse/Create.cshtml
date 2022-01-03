@@ -22,7 +22,7 @@
 
                                 <tr>
                                     <td class="js-export-checkbox">
-                                        @Html.CheckBoxFor(m => item.iscourse, new { @class = "iscourse",@onchange= "checkstatus()" })
+                                        @Html.CheckBoxFor(m => item.iscourse, new { @class = "iscourse",@onchange= "checkstatus('new')" })
                                         <input type="hidden" value="@item.course_dtl_id" class="coursedtlid" />
                                     </td>
                                     <td>

@@ -49,9 +49,9 @@ $(document).ready(function () {
             },
             {
                 targets: 3,
-                render: function (data, type, full, meta) {
-                    if (check[0].Create) {
-                        if (type === 'display') {
+                render: function (data, type, full, meta) {                    
+                    if (type === 'display') {
+                        if (check[0].Create) {
                             data =
                                 '<a href="BannerMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
                         }

@@ -115,19 +115,33 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
             return data;
         }
 
+        public bool CheckHistory(long subjectID)
+        {
+            bool Issuccess = true;
+            Issuccess = this.context.SUBJECT_DTL_MASTER.Where(s => s.subject_id == subjectID && s.is_subject == true && s.row_sta_cd == 1).FirstOrDefault() != null;
+            if (Issuccess)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public bool RemoveSubject(long subjectID, string lastupdatedby)
         {
-            var data = (from u in this.context.SUBJECT_BRANCH_MASTER
-                        where u.subject_id == subjectID
-                        select u).FirstOrDefault();
-            if (data != null)
+            bool Isvalid = CheckHistory(subjectID);
+            if(Isvalid)
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.SUBJECT_BRANCH_MASTER
+                            where u.subject_id == subjectID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    return true;
+                }
             }
-
             return false;
         }
 

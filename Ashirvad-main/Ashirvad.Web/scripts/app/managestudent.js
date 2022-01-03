@@ -23,7 +23,10 @@ $(document).ready(function () {
         "ajax": {
             url: "" + GetSiteURL() + "/ManageStudent/CustomServerSideSearchAction",
             type: 'POST',
-            
+            dataFilter: function (data) {
+                HideLoader();
+                return data;
+            }.bind(this)
 
         },
         "columns": [

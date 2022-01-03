@@ -35,11 +35,12 @@ namespace Ashirvad.Web.Controllers
             var userInfo = await _userService.ValidateUser(user.Username, user.Password);            
             if (userInfo != null)
             {
-                success = true;                
+                success = true;
+                var Get = await GetBranchRights(userInfo.BranchInfo.BranchID);
                 if (userInfo.UserType== Enums.UserType.SuperAdmin)
                 {
                     List<BranchWiseRightEntity> branchWises = new List<BranchWiseRightEntity>();
-                    SessionContext.Instance.userRightsList= JsonConvert.SerializeObject(branchWises);
+                    //SessionContext.Instance.userRightsList= JsonConvert.SerializeObject(branchWises);
                     if (SessionContext.Instance.userRightsList != null)
                     {
                         response.Message = "Login Successfully!!";
@@ -56,7 +57,7 @@ namespace Ashirvad.Web.Controllers
                 }
                 else
                 {
-                    var Get = await GetBranchRights(userInfo.BranchInfo.BranchID);
+                   
                     var isAggrement = this._userService.CheckAgreement(userInfo.BranchInfo.BranchID);
                     if(isAggrement.Result)
                     {

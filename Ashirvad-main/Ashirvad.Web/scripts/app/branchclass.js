@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     var IsEdit = $("#IsEdit").val();
     if (IsEdit == "True") {
-        checkstatus();
+        checkstatus('old');
     }
    // var check = GetUserRights('BranchClassMaster');
     var studenttbl = $("#subcategorytbl").DataTable({
@@ -41,8 +41,8 @@ $(document).ready(function () {
                 "defaultContent": ''
             },
             { "data": "branch.BranchName" },
-            { "data": "BranchCourse.course.CourseName" }
-            //{ "data": "BranchCourse.course_dtl_id" },
+            { "data": "BranchCourse.course.CourseName" },
+            { "data": "BranchCourse.course_dtl_id" }
             //{ "data": "BranchCourse.course_dtl_id" }
         ],
         "columnDefs": [
@@ -59,18 +59,18 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false
             },
-            //{
-            //    targets: 3,
-            //    render: function (data, type, full, meta) {
-            //        if (type === 'display') {
-            //            data =
-            //                '<a href="ClassMaintenance?ClassID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
-            //        }
-            //        return data;
-            //    },
-            //    orderable: false,
-            //    searchable: false
-            //},
+            {
+                targets: 3,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a href="ClassMaintenance?ClassID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
             //{
             //    targets: 4,
             //    render: function (data, type, full, meta) {
@@ -151,8 +151,6 @@ $('#subcategorytbl tbody').on('click', 'td.dt-control', function () {
     }
 });
 
-
-
 function LoadCourse() {
     var postCall = $.post(commonData.BranchCourse + "GetCourseDDL");
     postCall.done(function (data) {
@@ -187,10 +185,7 @@ function OnSelectStatus(Data, classData) {
 
         });
     }
-
-
 }
-
 
 function SaveClassDetail() {
     var Array = [];
@@ -205,7 +200,6 @@ function SaveClassDetail() {
             if (data.Status == true) {
                 ShowMessage(data.Message, 'Success');
                 setTimeout(function () { window.location.href = "ClassMaintenance?ClassID=0"; }, 2000);
-
             }
             else {
                 ShowMessage(data.Message, 'Error');
@@ -255,20 +249,25 @@ function GetData() {
             "Class": { "ClassID": ClassID, "ClassName": ClassName },
             "Class_dtl_id": ClassDetailID,
             "isClass": IsClass,
-
-
         })
     }
     return MainArray;
 }
 
-function checkstatus() {
+function checkstatus(status) {
     var Create = true;
     $('#choiceList .isClass').each(function () {
         if ($(this)[0].checked == false) {
             Create = false;
         }
+        if ($(this)[0].checked == true) {
+            var IsEdit = $("#IsEdit").val();
+            if (IsEdit == "True" && status == "old") {
+                $(this).prop("disabled", true);
+            }           
+        }
     });
+
     if (Create) {
         $("#allselect").prop('checked', true);
     }
@@ -281,6 +280,7 @@ $("#CourseName").change(function () {
     var Data = $("#CourseName option:selected").val();
     $('#BranchCourse_course_dtl_id').val(Data);
 });
+
 function RemoveClass(CourseID) {
     if (confirm('Are you sure want to delete this?')) {
         ShowLoader();
