@@ -32,8 +32,8 @@ $(document).ready(function () {
         "columns": [
             { "data": "CourseName" },
             { "data": "filepath" },
+            { "data": "CourseID" },
             { "data": "CourseID" }
-            //{ "data": "CourseID" },
         ],
         "columnDefs": [
             {
@@ -60,17 +60,17 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false
             },
-            //{
-            //    targets: 3,
-            //    render: function (data, type, full, meta) {
-            //        if (type === 'display') {
-            //            data = '<a onclick = "RemoveCourse(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
-            //        }
-            //        return data;
-            //    },
-            //    orderable: false,
-            //    searchable: false
-            //}
+            {
+                targets: 3,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = '<a onclick = "removecourse(' + data + ')"><img src = "../themedata/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
         ],
         createdRow: function (tr) {
             $(tr.children[1]).addClass('image - cls');
@@ -107,8 +107,13 @@ function RemoveCourse(courseId) {
         var postCall = $.post(commonData.Course + "RemoveCourse", { "courseID": courseId });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Course Removed Successfully.", "Success");
-            window.location.href = "CourseMaintenance?courseID=0";
+            if (data) {
+                ShowMessage("Course Removed Successfully.", "Success");
+                window.location.href = "CourseMaintenance?courseID=0";
+            }
+            else {
+                ShowMessage("Course is Already in used!!!.", "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
