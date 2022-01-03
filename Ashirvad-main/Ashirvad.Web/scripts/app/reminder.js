@@ -3,7 +3,7 @@
 
 $(document).ready(function () {
     ShowLoader();
-
+    var check = GetUserRights('ReminderEntry');
     var table = $('#remindertable').DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -48,8 +48,14 @@ $(document).ready(function () {
                 targets: 3,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data =
-                            '<a href="ReminderMaintenance?reminderID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        if (check[0].Create) {
+                            data =
+                                '<a href="ReminderMaintenance?reminderID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        }
+                        else {
+                            data = "";
+                        }
+                       
                     }
                     return data;
                 },
@@ -60,8 +66,14 @@ $(document).ready(function () {
                 targets: 4,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data =
-                            '<a onclick = "RemoveReminder(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        if (check[0].Delete) {
+                            data =
+                                '<a onclick = "RemoveReminder(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        }
+                        else {
+                            data = "";
+                        }
+                       
                     }
                     return data;
                 },

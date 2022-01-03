@@ -6,7 +6,7 @@ $(document).ready(function () {
     if ($("#ToDoID").val() > 0) {
         $("#fuDocument").addClass("editForm");
     }
-
+    var check = GetUserRights('To-DoEntry');
     var table = $('#todotable').DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -63,7 +63,13 @@ $(document).ready(function () {
                 targets: 4,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data = '<a href="ToDoMaintenance?todoID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        if (check[0].Create) {
+                            data = '<a href="ToDoMaintenance?todoID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        }
+                        else {
+                            data = "";
+                        }
+                       
                     }
                     return data;
                 },
@@ -74,8 +80,14 @@ $(document).ready(function () {
                 targets: 5,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data =
-                            '<a onclick = "RemoveToDo(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        if (check[0].Delete) {
+                            data =
+                                '<a onclick = "RemoveToDo(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        }
+                        else {
+                            data = "";
+                        }
+                       
                     }
                     return data;
                 },

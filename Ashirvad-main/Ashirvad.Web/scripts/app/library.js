@@ -3,7 +3,7 @@
 
 $(document).ready(function () {
     ShowLoader();
-
+    var check = GetUserRights('LibraryImage');
     var studenttbl = $("#studenttbl").DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -99,8 +99,14 @@ $(document).ready(function () {
                 targets: 6,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data =
-                            '<a href="LibraryMaintenance?libraryID=' + data + '&Type=2"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        if (check[0].Create) {
+                            data =
+                                '<a href="LibraryMaintenance?libraryID=' + data + '&Type=2"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        }
+                        else {
+                            data = "";
+                        }
+                       
                     }
                     return data;
                 },
@@ -111,10 +117,16 @@ $(document).ready(function () {
                 targets: 7,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data =
-                            `<a style="margin-left:20px;" href="#" onclick="RemoveLibraryImage(` + data + `);">
+                        if (check[0].Delete) {
+                            data =
+                                `<a style="margin-left:20px;" href="#" onclick="RemoveLibraryImage(` + data + `);">
                             <img src = "../ThemeData/images/delete.png" />
                             </a >`
+                        }
+                        else {
+                            data = "";
+                        }
+                      
                     }
                     return data;
                 },

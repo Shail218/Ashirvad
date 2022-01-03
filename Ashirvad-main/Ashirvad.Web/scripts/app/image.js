@@ -7,7 +7,7 @@ $(document).ready(function () {
     if ($("#UniqueID").val() > 0) {
         $("#fuImage").addClass("editForm");
     }
-
+    var check = GetUserRights('Photos');
     var table = $('#imagetable').DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -50,9 +50,15 @@ $(document).ready(function () {
             {
                 targets: 2,
                 render: function (data, type, full, meta) {
+
                     if (type === 'display') {
-                        data =
-                            '<a href="PhotosMaintenance?photoID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        if (check[0].Create) {
+                            data =
+                                '<a href="PhotosMaintenance?photoID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                        }
+                        else {
+                            data = "";
+                        }                       
                     }
                     return data;
                 },
@@ -63,8 +69,13 @@ $(document).ready(function () {
                 targets: 3,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data =
-                            '<a onclick = "RemovePhotos(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        if (check[0].Delete) {
+                            data =
+                                '<a onclick = "RemovePhotos(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                        }
+                        else {
+                            data = "";
+                        }                       
                     }
                     return data;
                 },
