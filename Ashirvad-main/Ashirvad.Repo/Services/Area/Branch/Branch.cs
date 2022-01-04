@@ -245,37 +245,53 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return false;
         }
 
+        public async Task<long> Checkagreement(long BranchID, long agreementid)
+        {
+            long result;
+            bool isExists = this.context.BRANCH_AGREEMENT.Where(s => (agreementid == 0 || s.agreement_id != agreementid) && s.branch_id == BranchID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            result = isExists == true ? -1 : 1;
+            return result;
+        }
+
         public async Task<long> AgreementMaintenance(BranchAgreementEntity agrInfo)
         {
             Model.BRANCH_AGREEMENT agrMaster = new Model.BRANCH_AGREEMENT();
-            bool isUpdate = true;
-            var data = (from upi in this.context.BRANCH_AGREEMENT
-                        where upi.agreement_id == agrInfo.AgreementID
-                        select upi).FirstOrDefault();
-            if (data == null)
+            if (Checkagreement(agrInfo.BranchData.BranchID, agrInfo.AgreementID).Result != -1)
             {
-                data = new Model.BRANCH_AGREEMENT();
-                isUpdate = false;
+                bool isUpdate = true;
+                var data = (from upi in this.context.BRANCH_AGREEMENT
+                            where upi.agreement_id == agrInfo.AgreementID
+                            select upi).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.BRANCH_AGREEMENT();
+                    isUpdate = false;
+                }
+                else
+                {
+                    agrMaster = data;
+                    agrInfo.TranscationData.TransactionId = data.trans_id;
+                }
+
+                agrMaster.row_sta_cd = agrInfo.RowStatusData.RowStatusId;
+                agrMaster.trans_id = this.AddTransactionData(agrInfo.TranscationData);
+                agrMaster.branch_id = agrInfo.BranchData.BranchID;
+                agrMaster.from_dt = agrInfo.AgreementFromDate;
+                agrMaster.amount = agrInfo.Amount;
+                agrMaster.to_dt = agrInfo.AgreementToDate;
+                if (!isUpdate)
+                {
+                    this.context.BRANCH_AGREEMENT.Add(agrMaster);
+                }
+
+                var agrID = this.context.SaveChanges() > 0 ? agrMaster.agreement_id : 0;
+                return agrID;
             }
             else
             {
-                agrMaster = data;
-                agrInfo.TranscationData.TransactionId = data.trans_id;
+                return -1;
             }
-
-            agrMaster.row_sta_cd = agrInfo.RowStatusData.RowStatusId;
-            agrMaster.trans_id = this.AddTransactionData(agrInfo.TranscationData);
-            agrMaster.branch_id = agrInfo.BranchData.BranchID;
-            agrMaster.from_dt = agrInfo.AgreementFromDate;
-            agrMaster.amount = agrInfo.Amount;
-            agrMaster.to_dt = agrInfo.AgreementToDate;
-            if (!isUpdate)
-            {
-                this.context.BRANCH_AGREEMENT.Add(agrMaster);
-            }
-
-            var agrID = this.context.SaveChanges() > 0 ? agrMaster.agreement_id : 0;
-            return agrID;
+            
         }
 
         public async Task<List<BranchAgreementEntity>> GetAllAgreements(long branchID)

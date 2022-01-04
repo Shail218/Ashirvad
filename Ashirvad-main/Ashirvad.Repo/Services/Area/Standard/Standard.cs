@@ -16,7 +16,7 @@ namespace Ashirvad.Repo.Services.Area.Standard
         public async Task<long> CheckStandard(string std, long branch, long stdID)
         {
             long result;
-            bool isExists = this.context.STD_MASTER.Where(s => (stdID == 0 || s.std_id != stdID) && s.standard == std && s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.STD_MASTER.Where(s => (stdID == 0 || s.std_id != stdID) && s.standard.ToLower() == std.ToLower() && s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -44,8 +44,9 @@ namespace Ashirvad.Repo.Services.Area.Standard
 
                 standardMaster.standard = standardInfo.Standard;
                 standardMaster.branch_id = standardInfo.BranchInfo.BranchID;
-                standardMaster.row_sta_cd = standardInfo.RowStatus.RowStatusId;
-                standardMaster.trans_id = this.AddTransactionData(standardInfo.Transaction);
+                standardMaster.row_sta_cd = (int)standardInfo.RowStatus.RowStatus;
+                standardMaster.class_dtl_id = standardInfo.Branchclass.Class_dtl_id == 0 ? (long?)null : standardInfo.Branchclass.Class_dtl_id;
+                standardMaster.trans_id = standardInfo.Transaction.TransactionId;
                 this.context.STD_MASTER.Add(standardMaster);
                 if (isUpdate)
                 {
@@ -86,13 +87,12 @@ namespace Ashirvad.Repo.Services.Area.Standard
 
         public async Task<List<StandardEntity>> GetAllStandardsName(long branchid)
         {
-            var data = (from u in this.context.STD_MASTER
-                        .Include("CLASS_DTL_MASTER")
-                        orderby u.std_id descending
-                        where u.row_sta_cd == 1 && (u.branch_id == branchid || branchid == 0)
+            var data = (from u in this.context.CLASS_MASTER                       
+                        orderby u.class_id descending
+                        where u.row_sta_cd == 1
                         select new StandardEntity()
                         {                           
-                            Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,                            
+                            Standard = u.class_name,                            
                         }).Distinct().ToList();
 
             return data;

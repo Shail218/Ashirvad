@@ -1,6 +1,7 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.Repo.DataAcceessAPI.Area;
+using Ashirvad.Repo.DataAcceessAPI.Area.Subject;
 using Ashirvad.Repo.DataAcceessAPI.Area.SuperAdminSubject;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,12 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
     public class SuperAdminSubject : ModelAccess, ISuperAdminSubjectAPI
     {
         private readonly IBranchSubjectAPI _BranchSubject;
+        private readonly ISubjectAPI _subject;
 
-        public SuperAdminSubject(IBranchSubjectAPI branchSubject)
+        public SuperAdminSubject(IBranchSubjectAPI branchSubject, ISubjectAPI subject)
         {
             _BranchSubject = branchSubject;
+            _subject = subject;
         }
 
         public async Task<long> CheckSubject(string name, long Id)
@@ -35,7 +38,7 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
             {
                 bool isUpdate = true;
                 var data = (from subject in this.context.SUBJECT_BRANCH_MASTER
-                            where subject.subject_id == subjectMaster.subject_id
+                            where subject.subject_id == subjectEntity.SubjectID
                             select new
                             {
                                 subjectMaster = subject
@@ -88,6 +91,7 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                             },
                             SubjectID = u.subject_id,
                             SubjectName = u.subject_name,
+                            oldsubject = u.subject_name,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
 
@@ -140,6 +144,15 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                     data.row_sta_cd = (int)Enums.RowStatus.Inactive;
                     data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
                     this.context.SaveChanges();
+                }
+                var data1 = (from u in this.context.SUBJECT_DTL_MASTER
+                             where u.subject_id == subjectID && u.is_subject == false && u.row_sta_cd == 1
+                             select u).FirstOrDefault();
+                if (data1 != null)
+                {
+                    data1.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data1.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data1.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
                     return true;
                 }
             }
@@ -179,6 +192,7 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                     SubjectID = subjectentity.SubjectID,
                     SubjectName = subjectentity.SubjectName
                 };
+                branchSubject.UserType = subjectentity.UserType;
                 branchSubject.Transaction = new TransactionEntity();
                 branchSubject.Transaction = subjectentity.Transaction;
                 branchSubject.isClass = false;
@@ -205,8 +219,47 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                     branchSubject.Subject_dtl_id = 0;
                     result = _BranchSubject.SubjectMaintenance(branchSubject).Result;
                 }
+                if ((int)subjectentity.UserType == 5)
+                {
+                    SubjectEntity subject = new SubjectEntity();
+                    subject.BranchInfo = new BranchEntity()
+                    {
+                        BranchID = subjectentity.branchEntity.BranchID,
 
+                    };
+                    subject.BranchSubject = new BranchSubjectEntity()
+                    {
+                        Subject_dtl_id = 0,
+                    };
+                    subject.Subject = subjectentity.SubjectName;
+                    subject.Transaction = new TransactionEntity()
+                    {
+                        TransactionId = 1
+                    };
+                    subject.RowStatus = new RowStatusEntity()
+                    {
+                        RowStatus = Enums.RowStatus.Active
+                    };
+                    if (subjectentity.SubjectID > 0)
+                    {
+                        Model.SUBJECT_MASTER sub_ = new Model.SUBJECT_MASTER();
+                        var std = (from sub in this.context.SUBJECT_MASTER
+                                   where sub.subject == subjectentity.oldsubject
+                                   && sub.row_sta_cd == 1
+                                   && sub.branch_id == subjectentity.branchEntity.BranchID
+                                   select new
+                                   {
+                                       sub_ = sub
+                                   }).FirstOrDefault();
 
+                        if (std != null)
+                        {
+                            subject.SubjectID = std.sub_.subject_id;
+                        }
+                    }
+
+                    result = _subject.SubjectMaintenance(subject).Result;
+                }
                 return result;
             }
             catch (Exception ex)

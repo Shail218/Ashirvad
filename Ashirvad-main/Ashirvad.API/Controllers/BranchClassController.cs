@@ -2,6 +2,7 @@
 using Ashirvad.Data.Model;
 using Ashirvad.Repo.Services.Area.Branch;
 using Ashirvad.Repo.Services.Area.Class;
+using Ashirvad.Repo.Services.Area.Standard;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Class;
 using Ashirvad.ServiceAPI.Services.Area;
@@ -29,7 +30,7 @@ namespace Ashirvad.Web.Controllers
 
         public BranchClassController()
         {
-            _ClassService = new ClassService(new Class(new BranchClass()));
+            _ClassService = new ClassService(new Class(new BranchClass(),new Standard()));
             _branchClassService = new BranchClassService(new BranchClass());
         }
 

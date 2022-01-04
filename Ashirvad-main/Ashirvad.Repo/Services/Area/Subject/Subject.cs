@@ -14,7 +14,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
         public async Task<long> CheckSubject(string name, long branch, long Id)
         {
             long result;
-            bool isExists = this.context.SUBJECT_MASTER.Where(s => (Id == 0 || s.subject_id != Id) && s.subject == name && s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.SUBJECT_MASTER.Where(s => (Id == 0 || s.subject_id != Id) && s.subject.ToLower() == name.ToLower() && s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -42,8 +42,9 @@ namespace Ashirvad.Repo.Services.Area.Subject
 
                 subjectMaster.subject = subjectInfo.Subject;
                 subjectMaster.branch_id = subjectInfo.BranchInfo.BranchID;
-                subjectMaster.row_sta_cd = subjectInfo.RowStatus.RowStatusId;
-                subjectMaster.trans_id = this.AddTransactionData(subjectInfo.Transaction);
+                subjectMaster.row_sta_cd = (int)subjectInfo.RowStatus.RowStatus;
+                subjectMaster.subject_dtl_id = subjectInfo.BranchSubject.Subject_dtl_id == 0 ? (long?)null : subjectInfo.BranchSubject.Subject_dtl_id;
+                subjectMaster.trans_id = subjectInfo.Transaction.TransactionId;
                 this.context.SUBJECT_MASTER.Add(subjectMaster);
                 if (isUpdate)
                 {
@@ -108,13 +109,12 @@ namespace Ashirvad.Repo.Services.Area.Subject
 
         public async Task<List<SubjectEntity>> GetAllSubjectsName(long branchid)
         {
-            var data = (from u in this.context.SUBJECT_MASTER
-                        .Include("SUBJECT_DTL_MASTER")
+            var data = (from u in this.context.SUBJECT_BRANCH_MASTER
                         orderby u.subject_id descending
-                        where u.row_sta_cd == 1 && (u.branch_id == branchid || branchid == 0)
+                        where u.row_sta_cd == 1
                         select new SubjectEntity()
                         {
-                            Subject = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
+                            Subject = u.subject_name
                         }).Distinct().ToList();
             return data;
         }

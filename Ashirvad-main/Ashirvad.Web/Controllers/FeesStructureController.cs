@@ -36,10 +36,7 @@ namespace Ashirvad.Web.Controllers
                 var result = await _FeesService.GetFeesByFeesID(FeesID);
                 Fees.FeesInfo = result;
             }
-
-            //var FeesData = await _FeesService.GetAllFees(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             Fees.FeesData = new List<FeesEntity>();
-
             return View("Index", Fees);
         }       
 

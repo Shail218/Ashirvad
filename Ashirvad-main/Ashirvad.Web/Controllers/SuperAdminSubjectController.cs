@@ -34,10 +34,7 @@ namespace Ashirvad.Web.Controllers
                 var result = await _subjectService.GetSubjectBySubjectID(subjectID);
                 cl.subjectInfo = result.Data;
             }
-
-            //var classData = await _subjectService.GetAllSubject();
             cl.subjectData = new List<SuperAdminSubjectEntity>();
-
             return View("Index", cl);
         }
 
@@ -48,6 +45,11 @@ namespace Ashirvad.Web.Controllers
             cl.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
+            };
+            cl.UserType = SessionContext.Instance.LoginUser.UserType;
+            cl.branchEntity = new BranchEntity()
+            {
+                BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
             };
             var data = await _subjectService.SubjectMaintenance(cl);
             if (data != null)

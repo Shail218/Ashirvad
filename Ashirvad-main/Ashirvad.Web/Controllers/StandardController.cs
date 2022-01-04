@@ -92,7 +92,7 @@ namespace Ashirvad.Web.Controllers
         {
             if(SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
             {
-                var branchData = await _standardService.GetAllStandardsName(0);
+                var branchData = await _standardService.GetAllStandardsName(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
                 return Json(branchData);
             }
             else

@@ -60,6 +60,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 var result = this.context.SaveChanges();
                 if (result > 0)
                 {
+                    
                     StandardEntity standardInfo = new StandardEntity();
 
                     standardInfo.BranchInfo = new BranchEntity()
@@ -67,7 +68,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                         BranchID = ClassInfo.branch.BranchID,
 
                     };
-                    ClassInfo.isClass = standardInfo.BranchInfo.BranchID == 2 ? true : ClassInfo.isClass;
+                    ClassInfo.isClass = ClassInfo.isClass;
                     standardInfo.Branchclass = new BranchClassEntity();
                     standardInfo.Transaction = new TransactionEntity();
                     standardInfo.Transaction.TransactionId = ClassMaster.trans_id;
@@ -363,12 +364,12 @@ namespace Ashirvad.Repo.Services.Area.Branch
                         standardMaster = data;
                         standardInfo.Transaction.TransactionId = data.trans_id;
                     }
-
+                   
                     standardMaster.standard = standardInfo.Standard;
                     standardMaster.branch_id = standardInfo.BranchInfo.BranchID;
                     standardMaster.row_sta_cd = (int)standardInfo.RowStatus.RowStatus;
                     standardMaster.trans_id = standardInfo.Transaction.TransactionId;
-                    standardMaster.class_dtl_id = standardInfo.Branchclass.Class_dtl_id;
+                    standardMaster.class_dtl_id = standardInfo.Branchclass.Class_dtl_id == 0 ? (long?)null : standardInfo.Branchclass.Class_dtl_id;
                     this.context.STD_MASTER.Add(standardMaster);
                     if (isUpdate)
                     {

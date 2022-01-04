@@ -2,6 +2,7 @@
 using Ashirvad.Data;
 using Ashirvad.Repo.DataAcceessAPI.Area;
 using Ashirvad.Repo.DataAcceessAPI.Area.Class;
+using Ashirvad.Repo.DataAcceessAPI.Area.Standard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace Ashirvad.Repo.Services.Area.Class
     public class Class : ModelAccess, IClassAPI
     {
         private readonly IBranchClassAPI _BranchClass;
+        private readonly IStandardAPI _standard;
 
-        public Class(IBranchClassAPI BranchClass)
+        public Class(IBranchClassAPI BranchClass, IStandardAPI standard)
         {
             _BranchClass = BranchClass;
+            _standard = standard;
         }
 
         public async Task<long> CheckClass(string name, long Id)
@@ -88,6 +91,7 @@ namespace Ashirvad.Repo.Services.Area.Class
                             },
                             ClassID = u.class_id,
                             ClassName = u.class_name,
+                            OldStandard = u.class_name,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
 
@@ -166,6 +170,16 @@ namespace Ashirvad.Repo.Services.Area.Class
                     data.row_sta_cd = (int)Enums.RowStatus.Inactive;
                     data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
                     this.context.SaveChanges();
+                    
+                }
+                var data1 = (from u in this.context.CLASS_DTL_MASTER
+                            where u.class_id == classID && u.is_class == false && u.row_sta_cd == 1
+                            select u).FirstOrDefault();
+                if (data1 != null)
+                {
+                    data1.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data1.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data1.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
                     return true;
                 }
             }           
@@ -201,6 +215,7 @@ namespace Ashirvad.Repo.Services.Area.Class
                     ClassID = ClassEntity.ClassID,
                     ClassName = ClassEntity.ClassName
                 };
+                branchClass.UserType = ClassEntity.UserType;
                 branchClass.Transaction = new TransactionEntity();
                 branchClass.Transaction = ClassEntity.Transaction;
                 branchClass.isClass = false;
@@ -208,6 +223,7 @@ namespace Ashirvad.Repo.Services.Area.Class
                 {
                     RowStatus = Enums.RowStatus.Active
                 };
+                
                 foreach (var item in data)
                 {
                     branchClass.branch = new BranchEntity()
@@ -223,7 +239,48 @@ namespace Ashirvad.Repo.Services.Area.Class
                     branchClass.Class_dtl_id = 0;
                     result = _BranchClass.ClassMaintenance(branchClass).Result;
                 }
+                if ((int)ClassEntity.UserType == 5)
+                {
+                    StandardEntity standard = new StandardEntity();
+                    standard.BranchInfo = new BranchEntity()
+                    {
+                        BranchID = ClassEntity.branchEntity.BranchID,
 
+                    };
+                    standard.Branchclass = new BranchClassEntity()
+                    {
+                        Class_dtl_id = 0,
+
+                    };
+                    standard.Standard = ClassEntity.ClassName;
+                    standard.Transaction = new TransactionEntity()
+                    {
+                        TransactionId = 1
+                    };                 
+                    standard.RowStatus= new RowStatusEntity()
+                    {
+                        RowStatus = Enums.RowStatus.Active
+                    };
+                    if (ClassEntity.ClassID > 0)
+                    {
+                        Model.STD_MASTER sTD_ = new Model.STD_MASTER();
+                        var std = (from cl in this.context.STD_MASTER
+                                   where cl.standard == ClassEntity.OldStandard
+                                   && cl.row_sta_cd == 1
+                                   && cl.branch_id == ClassEntity.branchEntity.BranchID
+                                   select new
+                                   {
+                                       sTD_ = cl
+                                   }).FirstOrDefault();
+
+                        if (std != null)
+                        {
+                            standard.StandardID = std.sTD_.std_id;
+                        }
+                    }
+                    
+                    result = _standard.StandardMaintenance(standard).Result;
+                }
 
                 return result;
             }
@@ -242,6 +299,7 @@ namespace Ashirvad.Repo.Services.Area.Class
                 var data = (from std in this.context.STD_MASTER
                             .Include("CLASS_DTL_MASTER")
                             where std.CLASS_DTL_MASTER.class_id==ClassEntity.ClassID 
+                            && std.CLASS_DTL_MASTER.is_class == true
                             && std.row_sta_cd==1
                             select new StandardEntity
                             {
