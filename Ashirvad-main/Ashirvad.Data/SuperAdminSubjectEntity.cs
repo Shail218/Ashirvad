@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ashirvad.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,8 @@ namespace Ashirvad.Data
         public string SubjectName { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }
+        public Enums.UserType UserType { get; set; }
+        public BranchEntity branchEntity { get; set; }
+        public string oldsubject { get; set; }
     }
 }

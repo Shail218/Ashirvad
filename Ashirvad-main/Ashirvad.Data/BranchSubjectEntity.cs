@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ashirvad.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace Ashirvad.Data
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public SuperAdminSubjectEntity Subject { get; set; }
+        public Enums.UserType UserType { get; set; }
         public List<BranchSubjectEntity> BranchSubjectData { get; set; } = new List<BranchSubjectEntity>();
         public List<SuperAdminSubjectEntity> SubjectData { get; set; } = new List<SuperAdminSubjectEntity>();
         public List<BranchCourseEntity> BranchClassList { get; set; } = new List<BranchCourseEntity>();
