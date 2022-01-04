@@ -18,7 +18,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">
                         <i class="ion ion-stats-bars"></i>
-                       Standard Wise Chart
+                        Standard Wise Chart
                     </h3>
                 </div>
                 <div class="box-body">
@@ -33,7 +33,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">
                         <i class="ion ion-stats-bars"></i>
-                       Circular
+                        Circular
                     </h3>
                 </div>
                 <div class="box-body">
@@ -45,36 +45,64 @@
         </section>
     </div>
     @*<div class="row">
-        <section class="col-lg-6">
-            <div class="box box-warning">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <i class="ion ion-stats-bars"></i>
-                       To-Do Chart
-                    </h3>
+            <section class="col-lg-6">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="ion ion-stats-bars"></i>
+                           To-Do Chart
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        @{
+                            Html.RenderPartial("AReminder");
+                        }
+                    </div>
                 </div>
-                <div class="box-body">
-                    @{
-                        Html.RenderPartial("AReminder");
-                    }
+            </section>
+            <section class="col-lg-6">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="ion ion-stats-bars"></i>
+                           Remider Chart
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        @{
+                            Html.RenderPartial("ATodo");
+                        }
+                    </div>
                 </div>
-            </div>
-        </section>
-        <section class="col-lg-6">
-            <div class="box box-warning">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <i class="ion ion-stats-bars"></i>
-                       Remider Chart
-                    </h3>
-                </div>
-                <div class="box-body">
-                    @{
-                        Html.RenderPartial("ATodo");
-                    }
-                </div>
-            </div>
-        </section>
-    </div>*@
+            </section>
+        </div>*@
+    @section Scripts {
+        <script type="text/javascript" src="~/scripts/app/adashboard.js"></script>
+        @*<script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>*@
+        <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        @*<script>
+                $(document).ready(function () {
+
+                    $('#studenttbl').DataTable({
+                        "bPaginate": true,
+                        "bLengthChange": false,
+                        "bFilter": true,
+                        "bInfo": true,
+                        "bAutoWidth": true,
+                        "order": [[0, "desc"]]
+                    });
+                });
+            </script>*@
+        <script type="text/javascript">
+            function ConfirmationDialog() {
+                if (confirm("Are you sure to continue?"))
+                    return true;
+                else
+                    return false;
+            }
+        </script>
+
+    }
 </section>
 

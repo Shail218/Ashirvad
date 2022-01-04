@@ -3,7 +3,7 @@
 
 $(document).ready(function () {
     ShowLoader();
-    $("#RowStatusData_RowStatusId").val(1);
+    //$("#RowStatusData_RowStatusId").val(1);
 
     var table = $('#agreementtable').DataTable({
         "bPaginate": true,

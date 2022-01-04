@@ -1,0 +1,35 @@
+﻿﻿@model Ashirvad.Data.CircularEntity
+
+<form id="fCircularDetail">
+    <div class="row" id="dInformation">
+        <div class="form-group" style="padding-top:15px">
+            <div class="col-md-12">
+                @Html.Label("Title", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextBoxFor(x => x.CircularTitle, new { @class = "form-control required", @alt = "Title", autocomplete = "off" })
+                @Html.HiddenFor(x => x.CircularId)
+            </div>
+            <div class="col-md-12">
+                @Html.Label("File", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <input class="file-upload fileRequired" alt="File" id="fuCircularFile" name="File" type="file" />
+                @Html.HiddenFor(x => x.CircularImageText, htmlAttributes: new { @class = "control-label fileRequired2" })
+                @Html.HiddenFor(x => x.FileName, htmlAttributes: new { @class = "control-label fileRequired2" })
+                @Html.HiddenFor(x => x.FilePath, htmlAttributes: new { @class = "control-label fileRequired2" })
+            </div>
+            <div class="col-md-12 BannerMasterCreate" style="text-align: right;">
+                <a href="#" onclick="return SaveCircular();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Save
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+                <a href="@Url.Action("CircularMaintenance","Circular", new { @circularID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                    <span class="ladda-label">
+                        Cancel
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+

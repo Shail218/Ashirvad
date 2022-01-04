@@ -182,6 +182,8 @@
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_SUBJECT_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.NOTIFICATION_MASTER" Width="1.5" PointX="0.75" PointY="0.875" />
         <AssociationConnector Association="AshirvadModel.FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.CIRCULAR_MASTER" Width="1.5" PointX="3" PointY="35.875" />
+        <AssociationConnector Association="AshirvadModel.FK_CIRCULAR_MASTER_TRANSACTION_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

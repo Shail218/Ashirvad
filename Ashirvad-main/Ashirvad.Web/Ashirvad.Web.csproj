@@ -246,6 +246,7 @@
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="scripts\app\aboutus.js" />
+    <Content Include="scripts\app\adashboard.js" />
     <Content Include="scripts\app\adminreport.js" />
     <Content Include="scripts\app\agreement.js" />
     <Content Include="scripts\app\announcement.js" />
@@ -263,6 +264,7 @@
     <Content Include="scripts\app\branchwiseright.js" />
     <Content Include="scripts\app\Category.js" />
     <Content Include="scripts\app\caurse.js" />
+    <Content Include="scripts\app\circular.js" />
     <Content Include="scripts\app\class.js" />
     <Content Include="scripts\app\common.js" />
     <Content Include="scripts\app\faculty.js" />
@@ -1145,6 +1147,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CaurseController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
+    <Compile Include="Controllers\CircularController.cs" />
     <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\FacultyController.cs" />
     <Compile Include="Controllers\HomeWorkController.cs" />
@@ -1421,6 +1424,9 @@
     <Content Include="Views\Home\ATodo.cshtml" />
     <Content Include="Views\Home\AReminder.cshtml" />
     <Content Include="Views\Home\ACircle.cshtml" />
+    <Content Include="Views\Circular\Index.cshtml" />
+    <Content Include="Views\Circular\Create.cshtml" />
+    <Content Include="Views\Circular\Manage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1430,6 +1436,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="CircularFiles\" />
     <Folder Include="CourseImage\" />
     <Folder Include="FacultyImage\" />
     <Folder Include="Models\" />

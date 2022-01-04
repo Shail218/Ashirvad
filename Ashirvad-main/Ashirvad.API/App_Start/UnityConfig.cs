@@ -102,6 +102,10 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Announcement;
 using Ashirvad.ServiceAPI.Services.Area.Announcement;
 using Ashirvad.Repo.DataAcceessAPI.Area.Announcement;
 using Ashirvad.Repo.Services.Area.Announcement;
+using Ashirvad.Repo.DataAcceessAPI.Area.Circular;
+using Ashirvad.Repo.Services.Area.Circular;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Circular;
+using Ashirvad.ServiceAPI.Services.Area.Circular;
 
 namespace Ashirvad.API
 {
@@ -219,6 +223,9 @@ namespace Ashirvad.API
 
             container.RegisterType<IAnnouncementService, AnnouncementService>();
             container.RegisterType<IAnnouncementAPI, Announcement>();
+
+            container.RegisterType<ICircularAPI, Circular>();
+            container.RegisterType<ICircularService, CircularService>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

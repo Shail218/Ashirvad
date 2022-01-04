@@ -64,6 +64,7 @@
     <Compile Include="ServiceAPI\Area\BranchSubject\IBranchSubjectService.cs" />
     <Compile Include="ServiceAPI\Area\BranchClass\IBranchClassService.cs" />
     <Compile Include="ServiceAPI\Area\BranchRights\IBranchRightsService.cs" />
+    <Compile Include="ServiceAPI\Area\Circular\ICircularService.cs" />
     <Compile Include="ServiceAPI\Area\Class\IClassService.cs" />
     <Compile Include="ServiceAPI\Area\Course\ICourseService.cs" />
     <Compile Include="ServiceAPI\Area\Faculty\IFacultyService.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Services\Area\Batch\BatchService.cs" />
     <Compile Include="Services\Area\BranchSubject\BranchSubjectService.cs" />
     <Compile Include="Services\Area\BranchClass\BranchClassService.cs" />
+    <Compile Include="Services\Area\Circular\CircularService.cs" />
     <Compile Include="Services\Area\Class\ClassService.cs" />
     <Compile Include="Services\Area\Course\CourseService.cs" />
     <Compile Include="Services\Area\Faculty\FacultyService.cs" />

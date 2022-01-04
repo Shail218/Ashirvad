@@ -255,6 +255,14 @@
                                         </a>
                                     </li>
                                 }
+                                @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+                                {
+                                    <li class="dropdown" visible="true" style="margin-left:10px;">
+                                        <a href="@Url.Action("CircularMaintenance","Circular", new { @circularID=0 })">
+                                            Circular
+                                        </a>
+                                    </li>
+                                }
                                 @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
                                 {
                                     <li class="dropdown" id="StudentMenu" style="margin-left:10px;">
@@ -426,10 +434,10 @@
                                                 </a>
                                             </li>
                                             @*<li class="treeview Report" id="Li3">
-                                                <a href="@Url.Action("GetAllReportData","AdminReport")">
-                                                    Report
-                                                </a>
-                                            </li>*@
+                                                    <a href="@Url.Action("GetAllReportData","AdminReport")">
+                                                        Report
+                                                    </a>
+                                                </li>*@
                                         </ul>
                                     </li>
 

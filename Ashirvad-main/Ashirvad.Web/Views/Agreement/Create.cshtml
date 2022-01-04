@@ -61,14 +61,14 @@
                 <tbody>
                     <tr>
                         <td>
-                            <input type="radio" name="Status" id="rowStaActive" value="Active" checked="checked"/>
+                            <input type="radio" name="Status" id="rowStaActive" value="Active" checked="checked" />
                             <lable for="rowStaActive">Active</lable>
                         </td>
                         <td>
                             <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:10px" />
                             <lable for="rowStaInactive">Inactive</lable>
-                            @Html.HiddenFor(x => x.RowStatusData.RowStatusId)
                         </td>
+                        @Html.HiddenFor(x => x.RowStatusData.RowStatusId)
                     </tr>
                 </tbody>
             </table>
