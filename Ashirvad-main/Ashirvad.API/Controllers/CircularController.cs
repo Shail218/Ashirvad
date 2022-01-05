@@ -44,7 +44,7 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-        public OperationResult<List<CircularEntity>> CircularMaintenance(long circularID)
+        public OperationResult<List<CircularEntity>> GetAllCircular()
         {
             var data = _circularService.GetAllCircular();
             OperationResult<List<CircularEntity>> result = new OperationResult<List<CircularEntity>>();
