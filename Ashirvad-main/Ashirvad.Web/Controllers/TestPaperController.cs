@@ -48,13 +48,15 @@ namespace Ashirvad.Web.Controllers
 
             //var testpaperByBranch = await _testService.GetAllTestByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             branch.TestData = new List<TestEntity>();
-           
+
             return View("Index", branch);
         }
 
         [HttpPost]
         public async Task<JsonResult> SaveTest(TestEntity testEntity)
         {
+            testEntity.TestStartTime = DateTime.Parse(testEntity.TestStartTime).ToString("hh:mm tt");
+            testEntity.TestEndTime = DateTime.Parse(testEntity.TestEndTime).ToString("hh:mm tt");
             testEntity.Transaction = GetTransactionData(testEntity.TestID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             testEntity.RowStatus = new RowStatusEntity()
             {
@@ -71,8 +73,6 @@ namespace Ashirvad.Web.Controllers
                 testEntity.test.Transaction = GetTransactionData(testEntity.test.TestPaperID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
                 if (testEntity.FileInfo != null)
                 {
-
-                    
                     string _FileName = Path.GetFileName(testEntity.FileInfo.FileName);
                     string extension = System.IO.Path.GetExtension(testEntity.FileInfo.FileName);
                     string randomfilename = Common.Common.RandomString(20);
@@ -81,13 +81,11 @@ namespace Ashirvad.Web.Controllers
                     testEntity.FileInfo.SaveAs(_path);
                     testEntity.test.FileName = _FileName;
                     testEntity.test.FilePath = _Filepath;
-                    
                 }
-                if (testEntity.test.FilePath != "")
+                if (testEntity.test.FilePath != null && testEntity.test.FilePath != "")
                 {
                     var data2 = await _testService.TestPaperMaintenance(testEntity.test);
                 }
-               
                 return Json(true);
             }
 
@@ -109,7 +107,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public JsonResult RemoveTest(long testID)
         {
-            var result = _testService.RemoveTest(testID, SessionContext.Instance.LoginUser.Username,true);
+            var result = _testService.RemoveTest(testID, SessionContext.Instance.LoginUser.Username, true);
             return Json(result);
         }
 
@@ -125,7 +123,7 @@ namespace Ashirvad.Web.Controllers
             return View(await _testService.GetAnswerSheetdata(testID));
         }
 
-        public async Task<JsonResult> GetTestDatesByBatch(long BranchID,long stdID, int BatchType)
+        public async Task<JsonResult> GetTestDatesByBatch(long BranchID, long stdID, int BatchType)
         {
             var testpaperByBranch = await _testService.TestDateDDL(BranchID, stdID, BatchType);
             return Json(testpaperByBranch.Data);
@@ -133,7 +131,7 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> GetTestDetails(long TestID, long SubjectID)
         {
-            var test = await _testService.GetTestDetails(TestID, SubjectID); 
+            var test = await _testService.GetTestDetails(TestID, SubjectID);
             return Json(test);
         }
 

@@ -78,7 +78,9 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
-                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id orderby u.test_id descending
+                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
+                        orderby u.test_id descending
+                        from branch in tempBranch.DefaultIfEmpty()
                         where u.branch_id == branchID && u.row_sta_cd == 1
                         select new TestEntity()
                         {
@@ -113,12 +115,12 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestStartTime = u.test_st_time,
                             test = new TestPaperEntity()
                             {
-                                DocContent = TestPaper.doc_content,
-                                TestPaperID = TestPaper.test_paper_id,
-                                PaperType = TestPaper.paper_type.ToString(),
-                                DocLink = TestPaper.doc_link.ToString(),
-                                FilePath = "https://mastermind.org.in" + TestPaper.file_path,
-                                FileName = TestPaper.file_name
+                                DocContent = branch == null ? null : branch.doc_content,
+                                TestPaperID = branch == null ? 0 : branch.test_paper_id,
+                                PaperType = branch == null ? "" : branch.paper_type.ToString(),
+                                DocLink = branch == null ? "" : branch.doc_link.ToString(),
+                                FilePath = branch == null ? "" : "https://mastermind.org.in" + branch.file_path,
+                                FileName = branch == null ? "" : branch.file_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
@@ -131,8 +133,9 @@ namespace Ashirvad.Repo.Services.Area.Test
             var Result = new List<TestEntity>();
             bool Isasc = model.order[0].dir == "desc" ? false : true;
             long count = (from u in this.context.TEST_MASTER
-                          join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
+                          join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
                           orderby u.test_id descending
+                          from branch in tempBranch.DefaultIfEmpty()
                           where u.branch_id == branchID && u.row_sta_cd == 1
                           select new TestEntity()
                           {
@@ -143,7 +146,8 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
-                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
+                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
+                        from branch in tempBranch.DefaultIfEmpty()
                         where u.branch_id == branchID && u.row_sta_cd == 1
                         && (model.search.value == null
                         || model.search.value == ""
@@ -188,12 +192,12 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestStartTime = u.test_st_time,
                             test = new TestPaperEntity()
                             {
-                                DocContent = TestPaper.doc_content,
-                                TestPaperID = TestPaper.test_paper_id,
-                                PaperType = TestPaper.paper_type.ToString(),
-                                DocLink = TestPaper.doc_link.ToString(),
-                                FilePath = "https://mastermind.org.in" + TestPaper.file_path,
-                                FileName = TestPaper.file_name
+                                DocContent = branch == null ? null : branch.doc_content,
+                                TestPaperID = branch == null ? 0 : branch.test_paper_id,
+                                PaperType = branch == null ? "" : branch.paper_type.ToString(),
+                                DocLink = branch == null ? "" : branch.doc_link.ToString(),
+                                FilePath = branch == null ? "" : "https://mastermind.org.in" + branch.file_path,
+                                FileName = branch == null ? "" : branch.file_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         })
@@ -255,8 +259,9 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
-                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
+                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
                         orderby u.test_id descending
+                        from branch in tempBranch.DefaultIfEmpty()
                         where u.branch_id == branchID && u.batch_time_id == BatchType
                         select new TestEntity()
                         {
@@ -291,10 +296,12 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestStartTime = u.test_st_time,
                             test = new TestPaperEntity()
                             {
-                                DocContent = TestPaper.doc_content,
-                                TestPaperID = TestPaper.test_paper_id,
-                                PaperType = TestPaper.paper_type.ToString(),
-                                DocLink = TestPaper.doc_link.ToString()
+                                DocContent = branch == null ? null : branch.doc_content,
+                                TestPaperID = branch == null ? 0 : branch.test_paper_id,
+                                PaperType = branch == null ? "" : branch.paper_type.ToString(),
+                                DocLink = branch == null ? "" : branch.doc_link.ToString(),
+                                FilePath = branch == null ? "" : "https://mastermind.org.in" + branch.file_path,
+                                FileName = branch == null ? "" : branch.file_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
@@ -420,13 +427,12 @@ namespace Ashirvad.Repo.Services.Area.Test
         public async Task<TestEntity> GetTestByTestID(long testID)
         {
             var data = (from u in this.context.TEST_MASTER
-                      
                         .Include("TEST_PAPER_REL")
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
-                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id
-
+                        join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
+                        from branch in tempBranch.DefaultIfEmpty()
                         where u.test_id == testID
                         select new TestEntity()
                         {
@@ -452,12 +458,12 @@ namespace Ashirvad.Repo.Services.Area.Test
                             },
                             test = new TestPaperEntity()
                             {
-                                DocContent = TestPaper.doc_content,
-                                TestPaperID = TestPaper.test_paper_id,
-                                PaperType = TestPaper.paper_type.ToString(),
-                                DocLink = TestPaper.doc_link.ToString(),
-                                FilePath = "https://mastermind.org.in" + TestPaper.file_path,
-                                FileName = TestPaper.file_name
+                                DocContent = branch == null ? null : branch.doc_content,
+                                TestPaperID = branch == null ? 0 : branch.test_paper_id,
+                                PaperType = branch == null ? "" : branch.paper_type.ToString(),
+                                DocLink = branch == null ? "" : branch.doc_link.ToString(),
+                                FilePath = branch == null ? "" : "https://mastermind.org.in" + branch.file_path,
+                                FileName = branch == null ? "" : branch.file_name
                             },
                             BatchTimeID = u.batch_time_id,
 
@@ -468,8 +474,8 @@ namespace Ashirvad.Repo.Services.Area.Test
                             TestDate = u.test_dt,
                             TestEndTime = u.test_end_time,
                             TestName = u.test_name,
-                            TestStartTime = u.test_st_time,                   
-                          
+                            TestStartTime = u.test_st_time,
+
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
             return data;
@@ -545,7 +551,7 @@ namespace Ashirvad.Repo.Services.Area.Test
 
         public async Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID)
         {
-            var data = (from u in this.context.TEST_PAPER_REL 
+            var data = (from u in this.context.TEST_PAPER_REL
                         .Include("TEST_MASTER")
                         orderby u.test_paper_id descending
                         where u.test_id == testID
