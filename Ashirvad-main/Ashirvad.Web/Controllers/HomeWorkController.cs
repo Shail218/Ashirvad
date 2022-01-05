@@ -139,7 +139,9 @@ namespace Ashirvad.Web.Controllers
 
                 var homeworks = _homeworkService.GetHomeworkdetailsFiles(homeworkid).Result;
                 //string randomfilename = Common.Common.RandomString(20);
-                string randomfilename = "HomeWork_"+ Homework.ToString("ddMMyyyy") + "_Student_"+ Student +"_Class_"+ Class;
+                string studentname = Student.Replace(" ", "");
+                string classname = Class.Replace(" ", "");
+                string randomfilename = "HomeWork_"+ Homework.ToString("ddMMyyyy") + "_Student_"+ studentname +"_Class_"+ classname;
                 FileName = "/ZipFiles/HomeworkDetails/" + randomfilename + ".zip";
                 if (homeworks.Count > 0)
                 {

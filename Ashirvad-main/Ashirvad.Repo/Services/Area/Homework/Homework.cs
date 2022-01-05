@@ -426,7 +426,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             },
                             BatchTimeText = u.HOMEWORK_MASTER.batch_time_id == 1 ? "Morning" : u.HOMEWORK_MASTER.batch_time_id == 2 ? "Afternoon" : "Evening",
 
-                        }).ToList();
+                        }).Distinct().ToList();
             return data;
         }
         public async Task<List<HomeworkEntity>> GetStudentHomeworkFile(long homeworkID)
