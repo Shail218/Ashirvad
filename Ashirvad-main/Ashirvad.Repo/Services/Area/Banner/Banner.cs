@@ -171,7 +171,6 @@ namespace Ashirvad.Repo.Services.Area.Banner
                         join bt in this.context.BANNER_TYPE_REL on u.banner_id equals bt.banner_id
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempB
                         from branch in tempB.DefaultIfEmpty()
-                        orderby u.banner_id descending
                         where (0 == branchID || u.branch_id == 0 || u.branch_id.Value == branchID)
                         && (0 == bannerTypeID || bt.sub_type_id == bannerTypeID) && u.row_sta_cd == 1
                         select new BannerEntity()
@@ -188,10 +187,10 @@ namespace Ashirvad.Repo.Services.Area.Banner
                             Count = count,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         })
+                        .Distinct()
+                                                .OrderByDescending(a => a.BannerID)
                         .Skip(model.start)
                         .Take(model.length)
-                        .Distinct()
-                        .OrderByDescending(a => a.BannerID)
                         .ToList();
             if (data?.Count > 0)
             {

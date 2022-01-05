@@ -219,10 +219,11 @@ namespace Ashirvad.Repo.Services.Area.Notification
                             Notification_Date = u.notification_date,
                             Branch = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).Skip(model.start)
-                        .Take(model.length)
+                        })
                         .Distinct()
                         .OrderByDescending(a => a.NotificationID)
+                        .Skip(model.start)
+                        .Take(model.length)
                         .ToList();
 
             if (data?.Count > 0)
