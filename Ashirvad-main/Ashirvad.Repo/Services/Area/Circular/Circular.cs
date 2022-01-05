@@ -76,7 +76,7 @@ namespace Ashirvad.Repo.Services.Area.Circular
             long count = this.context.CIRCULAR_MASTER.Where(s => s.row_sta_cd == 1).Count();
             var data = (from u in this.context.CIRCULAR_MASTER
                         orderby u.circular_id descending
-                        where (model.search.value == null
+                        where u.row_sta_cd == 1 && (model.search.value == null
                         || model.search.value == ""
                         || u.circular_title.ToLower().Contains(model.search.value)
                         || u.circular_description.ToLower().Contains(model.search.value))
