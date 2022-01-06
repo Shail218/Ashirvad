@@ -70,6 +70,7 @@
     <Compile Include="DataAcceessAPI\Area\Circular\ICircularAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Class\IClassAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Course\ICourseAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\DashboardChart\IDashboardChartAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Faculty\IFacultyAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\BranchCourse\IBranchCourseAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Library\ILibraryAPI.cs" />
@@ -326,6 +327,7 @@
     <Compile Include="Services\Area\Circular\Circular.cs" />
     <Compile Include="Services\Area\Class\Class.cs" />
     <Compile Include="Services\Area\Course\Course.cs" />
+    <Compile Include="Services\Area\DashboardChart\DashboardChart.cs" />
     <Compile Include="Services\Area\Faculty\Faculty.cs" />
     <Compile Include="Services\Area\BranchCourse\BranchCourse.cs" />
     <Compile Include="Services\Area\Library1\Library1.cs" />

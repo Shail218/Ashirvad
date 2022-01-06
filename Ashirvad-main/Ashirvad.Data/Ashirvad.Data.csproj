@@ -73,6 +73,7 @@
     <Compile Include="Model\AttendanceMaintenanceModel.cs" />
     <Compile Include="Model\BannerMaintenanceModel.cs" />
     <Compile Include="Model\CircularMaintenanceModel.cs" />
+    <Compile Include="Model\CommonChartModel.cs" />
     <Compile Include="Model\WebsiteModel.cs" />
     <Compile Include="Model\BatchMaintenanceModel.cs" />
     <Compile Include="Model\BranchSubjectMaintenanceModel.cs" />
