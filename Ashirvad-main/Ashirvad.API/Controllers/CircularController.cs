@@ -25,6 +25,8 @@ namespace Ashirvad.API.Controllers
             _circularService = new CircularService(new Circular());
         }
 
+        [Route("CircularMaintenance")]
+        [HttpPost]
         public OperationResult<CircularEntity> CircularMaintenance(CircularEntity circularEntity)
         {
             var data = _circularService.CircularMaintenance(circularEntity);
@@ -34,6 +36,7 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("RemoveCircular")]
         [HttpPost]
         public OperationResult<bool> RemoveCircular(long circularID, string lastupdatedby)
         {
@@ -44,6 +47,8 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("GetAllCircular")]
+        [HttpGet]
         public OperationResult<List<CircularEntity>> GetAllCircular()
         {
             var data = _circularService.GetAllCircular();

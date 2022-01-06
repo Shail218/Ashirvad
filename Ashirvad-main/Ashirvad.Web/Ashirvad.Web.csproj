@@ -256,6 +256,7 @@
     <Content Include="scripts\app\attendanceReport.js" />
     <Content Include="scripts\app\banner.js" />
     <Content Include="scripts\app\batch.js" />
+    <Content Include="scripts\app\batchwise.js" />
     <Content Include="scripts\app\branch.js" />
     <Content Include="scripts\app\branchclass.js" />
     <Content Include="scripts\app\branchcourse.js" />
@@ -277,6 +278,7 @@
     <Content Include="scripts\app\library.js" />
     <Content Include="scripts\app\LibraryImage.js" />
     <Content Include="scripts\app\link.js" />
+    <Content Include="scripts\app\listofstudent.js" />
     <Content Include="scripts\app\login.js" />
     <Content Include="scripts\app\managelibrary.js" />
     <Content Include="scripts\app\managestudent.js" />
@@ -288,10 +290,12 @@
     <Content Include="scripts\app\page.js" />
     <Content Include="scripts\app\paper.js" />
     <Content Include="scripts\app\profile.js" />
+    <Content Include="scripts\app\progresschart.js" />
     <Content Include="scripts\app\reminder.js" />
     <Content Include="scripts\app\school.js" />
     <Content Include="scripts\app\showlibrary.js" />
     <Content Include="scripts\app\standard.js" />
+    <Content Include="scripts\app\standardwise.js" />
     <Content Include="scripts\app\student.js" />
     <Content Include="scripts\app\subject.js" />
     <Content Include="scripts\app\superadminsubject.js" />
@@ -306,6 +310,7 @@
     <Content Include="scripts\ashirvad.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="CircularFiles\9QGCR5DXJ2LJQYP54A9R.xls" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
@@ -1436,7 +1441,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="CircularFiles\" />
     <Folder Include="CourseImage\" />
     <Folder Include="FacultyImage\" />
     <Folder Include="Models\" />

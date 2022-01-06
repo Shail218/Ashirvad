@@ -60,11 +60,11 @@
                 </div>
                 <div class="col-md-3">
                     @Html.Label("Test Start Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                    @Html.TextBoxFor(x => x.TestStartTime, null, new { @class = "form-control required readonly timeformat", @alt = "Start Time", autocomplete = "off", @type = "time" })
+                    @Html.TextBoxFor(x => x.TestStartTime, DateTime.Parse(Model.TestStartTime).ToString("hh:mm tt"), new { @class = "form-control required readonly timeformat", @alt = "Start Time", autocomplete = "off", @type = "time" })
                 </div>
                 <div class="col-md-3">
                     @Html.Label("Test End Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                    @Html.TextBoxFor(x => x.TestEndTime, null, new { @class = "form-control required readonly timeformat", @alt = "End Time", autocomplete = "off", @type = "time" })
+                    @Html.TextBoxFor(x => x.TestEndTime, DateTime.Parse(Model.TestEndTime).ToString("hh:mm tt"), new { @class = "form-control required readonly timeformat", @alt = "End Time", autocomplete = "off", @type = "time" })
                 </div>
             </div>
             <div class="col-md-12">
@@ -132,11 +132,11 @@
                 </div>
                 <div class="col-md-3">
                     @Html.Label("Test Start Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                    @Html.TextBoxFor(x => x.TestStartTime, null, new { @class = "form-control readonly timeformat", @alt = "Start Time", autocomplete = "off", @type = "time" })
+                    @Html.TextBoxFor(x => x.TestStartTime, Model.TestStartTime == null ? "" : DateTime.Parse(Model.TestStartTime).ToString("HH:mm"), new { @class = "form-control readonly timeformat", @alt = "Start Time", autocomplete = "off", @type = "time" })
                 </div>
                 <div class="col-md-3">
                     @Html.Label("Test End Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                    @Html.TextBoxFor(x => x.TestEndTime, null, new { @class = "form-control readonly timeformat", @alt = "End Time", autocomplete = "off", @type = "time" })
+                    @Html.TextBoxFor(x => x.TestEndTime, Model.TestEndTime == null ? "" : DateTime.Parse(Model.TestEndTime).ToString("HH:mm"), new { @class = "form-control readonly timeformat", @alt = "End Time", autocomplete = "off", @type = "time" })
                 </div>
                 <div class="col-md-3">
                     @Html.Label("Test Remarks", htmlAttributes: new { @class = "control-label" })
@@ -168,7 +168,7 @@
                 <input class="file-upload" alt="Thumbnail Image" id="FileInfo" name="FileInfo" type="file" />
                 @Html.HiddenFor(x => x.test.DocContentText)
                 @Html.HiddenFor(x => x.test.DocContent)
-              
+
                 @Html.HiddenFor(x => x.test.FileName)
                 @Html.HiddenFor(x => x.test.FilePath)
             </div>
@@ -200,5 +200,5 @@
                 <span class="ladda-spinner"></span>
             </a>
         </div>
-    </div>   
+    </div>
 </form>
