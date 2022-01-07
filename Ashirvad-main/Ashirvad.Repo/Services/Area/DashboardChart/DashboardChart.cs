@@ -131,20 +131,61 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
             ChartBranchEntity entity = new ChartBranchEntity();
             List<ChartBranchEntity> list = new List<ChartBranchEntity>();
 
+            entity = new ChartBranchEntity();
             entity.y = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.ATTENDANCE_HDR.row_sta_cd == 1).Count();
-            entity.name = "Total Days";
+            entity.name = "Total Days";            
             list.Add(entity);
 
+            entity = new ChartBranchEntity();
             entity.y = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.present_fg == 1 && s.ATTENDANCE_HDR.row_sta_cd == 1).Count();
             entity.name = "Present";
             list.Add(entity);
 
+            entity = new ChartBranchEntity();
             entity.y = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.absent_fg == 1 && s.ATTENDANCE_HDR.row_sta_cd == 1).Count();
             entity.name = "Absent";
             list.Add(entity);
 
             return list;
         }
-        
+
+        public async Task<List<DataPoints>> GetHomeworkByStudent(long branchid,long studentid)
+        {
+            DataPoints point = new DataPoints();
+            List<DataPoints> list = new List<DataPoints>();
+            point.Days = 0;
+            var data = (from u in this.context.SUBJECT_MASTER
+                        where (u.branch_id == branchid && u.row_sta_cd == 1)
+                        select new ChartBranchEntity()
+                        {
+                            name = u.subject,
+                            branchid = u.subject_id
+                        }).ToList();
+            if(data?.Count > 0)
+            {
+                foreach (var item in data)
+                {
+                    item.branchstandardlist = (from u in this.context.HOMEWORK_MASTER
+                                               join h in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals h.homework_id
+                                               where (h.STUDENT_MASTER.student_id == studentid && u.row_sta_cd == 1 && u.std_id == item.branchid)
+                                               select new BranchStandardEntity()
+                                               {
+                                                   name = u.SUBJECT_MASTER.subject,
+                                                   branchid = u.homework_id
+                                               }).Distinct().ToList();
+                    if(item.branchstandardlist.Count > 0)
+                    {
+                        point = new DataPoints();
+                        point.label = item.branchstandardlist[0].name;
+                        point.y = item.branchstandardlist.Count;
+                        point.Days += Convert.ToInt32(point.y);
+                        list.Add(point);
+                    }
+                }
+
+            }
+            return list;
+          
+        }
     }
 }
