@@ -93,7 +93,23 @@ namespace Ashirvad.Web.Controllers
                 iTotalDisplayRecords = total,
                 data = branchData
             });
+        }
 
+        public async Task<JsonResult> GetAllReminder(DataTableAjaxPostModel model)
+        {
+            var branchData = await _reminderService.GetAllReminderList(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            long total = 0;
+            if (branchData.Count > 0)
+            {
+                total = branchData.Count;
+            }
+            return Json(new
+            {
+                draw = model.draw,
+                iTotalRecords = total,
+                iTotalDisplayRecords = total,
+                data = branchData
+            });
         }
     }
 }

@@ -15,5 +15,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Reminder
         Task<ReminderEntity> GetReminderByID(long reminderID);
         bool RemoveReminder(long reminderID, string lastupdatedby);
         Task<List<ReminderEntity>> GetAllCustomReminder(DataTableAjaxPostModel model, long branchID);
+        Task<List<ReminderEntity>> GetAllReminderList(long branchid);
     }
 }

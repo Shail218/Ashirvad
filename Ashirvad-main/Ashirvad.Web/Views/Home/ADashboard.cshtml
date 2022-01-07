@@ -44,38 +44,38 @@
             </div>
         </section>
     </div>
-    @*<div class="row">
-            <section class="col-lg-6">
-                <div class="box box-warning">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">
-                            <i class="ion ion-stats-bars"></i>
-                           To-Do Chart
-                        </h3>
-                    </div>
-                    <div class="box-body">
-                        @{
-                            Html.RenderPartial("AReminder");
-                        }
-                    </div>
+    <div class="row">
+        <section class="col-lg-6">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="ion ion-stats-bars"></i>
+                        Today Task
+                    </h3>
                 </div>
-            </section>
-            <section class="col-lg-6">
-                <div class="box box-warning">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">
-                            <i class="ion ion-stats-bars"></i>
-                           Remider Chart
-                        </h3>
-                    </div>
-                    <div class="box-body">
-                        @{
-                            Html.RenderPartial("ATodo");
-                        }
-                    </div>
+                <div class="box-body">
+                    @{
+                        Html.RenderPartial("ATodo");
+                    }
                 </div>
-            </section>
-        </div>*@
+            </div>
+        </section>
+        <section class="col-lg-6">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="ion ion-stats-bars"></i>
+                        Today Reminder
+                    </h3>
+                </div>
+                <div class="box-body">
+                    @{
+                        Html.RenderPartial("AReminder");
+                    }
+                </div>
+            </div>
+        </section>
+    </div>
     @section Scripts {
         <script type="text/javascript" src="~/scripts/app/adashboard.js"></script>
         @*<script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>*@

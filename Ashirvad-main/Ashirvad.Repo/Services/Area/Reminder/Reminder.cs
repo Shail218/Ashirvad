@@ -3,6 +3,7 @@ using Ashirvad.Data;
 using Ashirvad.Repo.DataAcceessAPI.Area.Reminder;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,6 +65,30 @@ namespace Ashirvad.Repo.Services.Area.Reminder
                             ReminderID = u.reminder_id,
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            ReminderDate = u.reminder_dt,
+                            ReminderTime = u.reminder_time,
+                            UserID = u.user_id,
+                            Username = ud.username
+                        }).ToList();
+
+            return data;
+        }
+
+        public async Task<List<ReminderEntity>> GetAllReminderList(long branchid)
+        {
+            TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            DateTime indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+            var ToDayDate = indianTime.ToString("yyyy/MM/dd");
+            DateTime dt = DateTime.ParseExact(ToDayDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var data = (from u in this.context.REMINDER_MASTER.Include("BRANCH_MASTER")
+                        join ud in this.context.USER_DEF on u.user_id equals ud.user_id
+                        orderby u.reminder_id descending
+                        where u.branch_id == branchid && u.row_sta_cd == 1 && u.reminder_dt == dt
+                        select new ReminderEntity()
+                        {
+                            ReminderDesc = u.reminder_desc,
+                            ReminderID = u.reminder_id,
+                            BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             ReminderDate = u.reminder_dt,
                             ReminderTime = u.reminder_time,
                             UserID = u.user_id,

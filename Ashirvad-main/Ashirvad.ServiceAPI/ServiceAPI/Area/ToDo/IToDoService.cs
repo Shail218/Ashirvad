@@ -16,5 +16,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.ToDo
         Task<ToDoEntity> GetToDoByToDoID(long toID);
         bool RemoveToDo(long toID, string lastupdatedby);
         Task<List<ToDoEntity>> GetAllCustomToDo(DataTableAjaxPostModel model, long branchID);
+        Task<List<ToDoEntity>> GetAllToDoList(long branchID);
     }
 }
