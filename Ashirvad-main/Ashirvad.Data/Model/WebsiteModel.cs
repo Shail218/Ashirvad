@@ -21,6 +21,7 @@ namespace Ashirvad.Data.Model
         public List<AboutUsEntity> aboutUs { get; set; } = new List<AboutUsEntity>();
         public List<FacultyEntity> facultyEntities { get; set; } = new List<FacultyEntity>();
         public List<CourseEntity> courseEntities { get; set; } = new List<CourseEntity>();
+        public List<GalleryEntity> galleryEntities { get; set; } = new List<GalleryEntity>();
 
 
     }
