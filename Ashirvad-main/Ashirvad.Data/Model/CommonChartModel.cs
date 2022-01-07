@@ -36,5 +36,6 @@ namespace Ashirvad.Data.Model
     {
         public string label { get; set; }
         public int y { get; set; }
+        public int Days { get; set; }
     }
 }
