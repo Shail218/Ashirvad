@@ -107,16 +107,16 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
             DataPoints points = new DataPoints();
             List<DataPoints> list = new List<DataPoints>();
 
-            decimal totalattendancecount = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid).Count();
+            decimal totalattendancecount = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.ATTENDANCE_HDR.row_sta_cd == 1).Count();
 
-            decimal presentcount = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.present_fg == 1).Count();
+            decimal presentcount = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.present_fg == 1 && s.ATTENDANCE_HDR.row_sta_cd == 1).Count();
             decimal PresentDecimal = (presentcount / totalattendancecount) * 100;
             points = new DataPoints();
             points.label = "Present";
             points.y = Convert.ToInt32(PresentDecimal);
             list.Add(points);
 
-            decimal absentcount = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.absent_fg == 1).Count();
+            decimal absentcount = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.absent_fg == 1 && s.ATTENDANCE_HDR.row_sta_cd == 1).Count();
             decimal AbsentDecimal = (absentcount / totalattendancecount) * 100;
             points = new DataPoints();
             points.label = "Absent";
@@ -131,19 +131,20 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
             ChartBranchEntity entity = new ChartBranchEntity();
             List<ChartBranchEntity> list = new List<ChartBranchEntity>();
 
-            entity.y = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid).Count();
+            entity.y = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.ATTENDANCE_HDR.row_sta_cd == 1).Count();
             entity.name = "Total Days";
             list.Add(entity);
 
-            entity.y = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.present_fg == 1).Count();
+            entity.y = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.present_fg == 1 && s.ATTENDANCE_HDR.row_sta_cd == 1).Count();
             entity.name = "Present";
             list.Add(entity);
 
-            entity.y = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.absent_fg == 1).Count();
+            entity.y = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.absent_fg == 1 && s.ATTENDANCE_HDR.row_sta_cd == 1).Count();
             entity.name = "Absent";
             list.Add(entity);
 
             return list;
         }
+        
     }
 }
