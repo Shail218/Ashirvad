@@ -10,7 +10,8 @@ namespace Ashirvad.Data.Model
     public class CommonChartModel
     {
         public List<ChartBranchEntity> branchlist { get; set; } = new List<ChartBranchEntity>();
-       public  List<BranchStandardEntity> branchstandardlist { get; set; } = new List<BranchStandardEntity>();
+        public List<BranchStandardEntity> branchstandardlist { get; set; } = new List<BranchStandardEntity>();
+        public List<DataPoints> dataPoints { get; set; } = new List<DataPoints>();
     }
     public class ChartBranchEntity
     {
