@@ -79,7 +79,7 @@ namespace Ashirvad.Repo.Services.Area.Reminder
             TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
             DateTime indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
             var ToDayDate = indianTime.ToString("yyyy/MM/dd");
-            DateTime dt = DateTime.ParseExact(ToDayDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime dt = DateTime.ParseExact(ToDayDate, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var data = (from u in this.context.REMINDER_MASTER.Include("BRANCH_MASTER")
                         join ud in this.context.USER_DEF on u.user_id equals ud.user_id
                         orderby u.reminder_id descending

@@ -14,5 +14,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.DashboardChart
         Task<List<DataPoints>> GetStudentAttendanceDetails(long studentid);
         Task<List<ChartBranchEntity>> GetTotalCountList(long studentid);
         Task<List<DataPoints>> GetHomeworkByStudent(long branchid, long studentid);
+        Task<List<TestDataPoints>> GetTestdetailsByStudent(long branchid, long studentid);
     }
 }

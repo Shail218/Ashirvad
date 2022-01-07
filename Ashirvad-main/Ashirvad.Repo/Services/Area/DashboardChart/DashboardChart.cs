@@ -184,8 +184,51 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                 }
 
             }
+            return list;         
+        }
+
+        public async Task<List<TestDataPoints>> GetTestdetailsByStudent(long branchid,long studentid)
+        {
+            TestDataPoints point = new TestDataPoints();
+            List<TestDataPoints> list = new List<TestDataPoints>();
+            decimal totalMarks = 0;
+            decimal totalAchieveMarks = 0;
+            var data = (from u in this.context.SUBJECT_MASTER
+                        where (u.branch_id == branchid && u.row_sta_cd == 1)
+                        select new ChartBranchEntity()
+                        {
+                            name = u.subject,
+                            branchid = u.subject_id
+                        }).ToList();
+            if(data?.Count > 0)
+            {
+                foreach(var item in data)
+                {
+                    item.branchstandardlist = (from u in this.context.TEST_MASTER
+                                               join t in this.context.MARKS_MASTER on u.test_id equals t.test_id
+                                               where (t.STUDENT_MASTER.student_id == studentid && u.row_sta_cd == 1 && u.std_id == item.branchid)
+                                               select new BranchStandardEntity()
+                                               {
+                                                   name = u.SUBJECT_MASTER.subject,
+                                                   branchid = u.test_id,
+                                                   totalmarks = u.total_marks,
+                                                   achievemarks = Convert.ToDouble(t.achive_marks)
+                                               }).Distinct().ToList();
+                    if (item.branchstandardlist.Count > 0)
+                    {
+                        point = new TestDataPoints();                        
+                        point.label = item.branchstandardlist[0].name;
+                        point.TotalMarks = item.branchstandardlist[0].totalmarks;
+                        point.AchieveMarks = item.branchstandardlist[0].achievemarks;
+                        point.y = Math.Round((point.AchieveMarks / point.TotalMarks) * 100, 2);
+                        totalMarks += decimal.Parse(point.TotalMarks.ToString());
+                        totalAchieveMarks += decimal.Parse(point.AchieveMarks.ToString());
+                        point.Days = Math.Round((totalAchieveMarks / totalMarks) * 100, 2).ToString();
+                        list.Add(point);
+                    }
+                }
+            }
             return list;
-          
         }
     }
 }
