@@ -2,6 +2,7 @@
 /// <reference path="../ashirvad.js" />
 
 $(document).ready(function () {
+
     ShowLoader();
     var studenttbl = $("#circulartable").DataTable({
         "bPaginate": false,

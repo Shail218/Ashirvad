@@ -9,6 +9,7 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Branch;
 using Ashirvad.Repo.DataAcceessAPI.Area.Circular;
 using Ashirvad.Repo.DataAcceessAPI.Area.Class;
 using Ashirvad.Repo.DataAcceessAPI.Area.Course;
+using Ashirvad.Repo.DataAcceessAPI.Area.DashboardChart;
 using Ashirvad.Repo.DataAcceessAPI.Area.Faculty;
 using Ashirvad.Repo.DataAcceessAPI.Area.Fees;
 using Ashirvad.Repo.DataAcceessAPI.Area.Gallery;
@@ -41,6 +42,7 @@ using Ashirvad.Repo.Services.Area.Branch;
 using Ashirvad.Repo.Services.Area.Circular;
 using Ashirvad.Repo.Services.Area.Class;
 using Ashirvad.Repo.Services.Area.Course;
+using Ashirvad.Repo.Services.Area.DashboardChart;
 using Ashirvad.Repo.Services.Area.Faculty;
 using Ashirvad.Repo.Services.Area.Gallery;
 using Ashirvad.Repo.Services.Area.Homework;
@@ -103,6 +105,7 @@ using Ashirvad.ServiceAPI.Services.Area.Branch;
 using Ashirvad.ServiceAPI.Services.Area.Circular;
 using Ashirvad.ServiceAPI.Services.Area.Class;
 using Ashirvad.ServiceAPI.Services.Area.Course;
+using Ashirvad.ServiceAPI.Services.Area.DashboardChart;
 using Ashirvad.ServiceAPI.Services.Area.Faculty;
 using Ashirvad.ServiceAPI.Services.Area.Homework;
 using Ashirvad.ServiceAPI.Services.Area.Library;
@@ -261,6 +264,9 @@ namespace Ashirvad.Web
 
             container.RegisterType<ICircularAPI, Circular>();
             container.RegisterType<ICircularService, CircularService>();
+
+            container.RegisterType<IDashboardChartAPI, DashboardChart>();
+            container.RegisterType<IDashboardChartService, DashboardChartService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

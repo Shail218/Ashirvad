@@ -268,6 +268,7 @@
     <Content Include="scripts\app\circular.js" />
     <Content Include="scripts\app\class.js" />
     <Content Include="scripts\app\common.js" />
+    <Content Include="scripts\app\dashboard.js" />
     <Content Include="scripts\app\faculty.js" />
     <Content Include="scripts\app\fees.js" />
     <Content Include="scripts\app\homework.js" />
