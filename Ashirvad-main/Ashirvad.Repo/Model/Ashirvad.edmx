@@ -200,6 +200,18 @@
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
         </EntityType>
+        <EntityType Name="CIRCULAR_MASTER">
+          <Key>
+            <PropertyRef Name="circular_id" />
+          </Key>
+          <Property Name="circular_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="circular_title" Type="nvarchar" MaxLength="255" />
+          <Property Name="circular_description" Type="nvarchar" MaxLength="255" />
+          <Property Name="row_sta_cd" Type="int" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="file_path" Type="nvarchar" MaxLength="255" />
+          <Property Name="file_name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CLASS_DTL_MASTER">
           <Key>
             <PropertyRef Name="class_dtl_id" />
@@ -762,7 +774,7 @@
           <Property Name="has_priv" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_A4B43D_mastermindDB.dbo.Faculty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Faculty">
           <Key>
             <PropertyRef Name="name" />
@@ -1082,6 +1094,20 @@ warning 6002: The table/view 'DB_A4B43D_mastermindDB.dbo.Faculty' does not have 
               <PropertyRef Name="trans_id" />
             </Principal>
             <Dependent Role="CATEGORY_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CIRCULAR_MASTER_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CIRCULAR_MASTER" Type="Self.CIRCULAR_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="CIRCULAR_MASTER">
               <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -2206,6 +2232,7 @@ warning 6002: The table/view 'DB_A4B43D_mastermindDB.dbo.Faculty' does not have 
           <EntitySet Name="BRANCH_RIGHTS_MASTER" EntityType="Self.BRANCH_RIGHTS_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BRANCH_STAFF" EntityType="Self.BRANCH_STAFF" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CATEGORY_MASTER" EntityType="Self.CATEGORY_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CIRCULAR_MASTER" EntityType="Self.CIRCULAR_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CLASS_DTL_MASTER" EntityType="Self.CLASS_DTL_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CLASS_MASTER" EntityType="Self.CLASS_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COURSE_DTL_MASTER" EntityType="Self.COURSE_DTL_MASTER" Schema="dbo" store:Type="Tables" />
@@ -2360,6 +2387,10 @@ warning 6002: The table/view 'DB_A4B43D_mastermindDB.dbo.Faculty' does not have 
           <AssociationSet Name="FK_CATEGORY_MASTER_TRANSACTION_MASTER" Association="Self.FK_CATEGORY_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CIRCULAR_MASTER_TRANSACTION_MASTER" Association="Self.FK_CIRCULAR_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="CIRCULAR_MASTER" EntitySet="CIRCULAR_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_CLASS_DTL_MASTER_BRANCH_MASTER" Association="Self.FK_CLASS_DTL_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
@@ -3284,6 +3315,11 @@ warning 6002: The table/view 'DB_A4B43D_mastermindDB.dbo.Faculty' does not have 
             <End Role="NOTIFICATION_MASTER" EntitySet="NOTIFICATION_MASTER" />
             <End Role="NOTIFICATION_TYPE_REL" EntitySet="NOTIFICATION_TYPE_REL" />
           </AssociationSet>
+          <EntitySet Name="CIRCULAR_MASTER" EntityType="AshirvadModel.CIRCULAR_MASTER" />
+          <AssociationSet Name="FK_CIRCULAR_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_CIRCULAR_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="CIRCULAR_MASTER" EntitySet="CIRCULAR_MASTER" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_TYPE_REL">
           <Key>
@@ -3398,6 +3434,7 @@ warning 6002: The table/view 'DB_A4B43D_mastermindDB.dbo.Faculty' does not have 
           <NavigationProperty Name="NEW_LIBRARY_MASTER" Relationship="AshirvadModel.FK_NEW_LIBRARY_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="NEW_LIBRARY_MASTER" />
           <NavigationProperty Name="APPROVAL_MASTER" Relationship="AshirvadModel.FK_APPROVAL_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="APPROVAL_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="CIRCULAR_MASTER" Relationship="AshirvadModel.FK_CIRCULAR_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="CIRCULAR_MASTER" />
         </EntityType>
         <EntityType Name="TYPE_DESC">
           <Key>
@@ -5765,6 +5802,33 @@ warning 6002: The table/view 'DB_A4B43D_mastermindDB.dbo.Faculty' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CIRCULAR_MASTER">
+          <Key>
+            <PropertyRef Name="circular_id" />
+          </Key>
+          <Property Name="circular_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="circular_title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="circular_description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="file_path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="file_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_CIRCULAR_MASTER_TRANSACTION_MASTER" FromRole="CIRCULAR_MASTER" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <Association Name="FK_CIRCULAR_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.CIRCULAR_MASTER" Role="CIRCULAR_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="CIRCULAR_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6655,6 +6719,19 @@ warning 6002: The table/view 'DB_A4B43D_mastermindDB.dbo.Faculty' does not have 
                 <ScalarProperty Name="notif_message" ColumnName="notif_message" />
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="notif_id" ColumnName="notif_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CIRCULAR_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.CIRCULAR_MASTER">
+              <MappingFragment StoreEntitySet="CIRCULAR_MASTER">
+                <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="circular_description" ColumnName="circular_description" />
+                <ScalarProperty Name="circular_title" ColumnName="circular_title" />
+                <ScalarProperty Name="circular_id" ColumnName="circular_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

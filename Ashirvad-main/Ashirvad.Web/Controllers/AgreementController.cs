@@ -35,10 +35,7 @@ namespace Ashirvad.Web.Controllers
                 var result = await _branchService.GetAgreementByAgreementID(agreeID);
                 agreement.AgreementInfo = result.Data;
             }
-
-            //var branchData = await _branchService.GetAllAgreement(0);
             agreement.AgreementData = new List<BranchAgreementEntity>();
-
             return View("Index", agreement);
         }
 

@@ -125,12 +125,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Branch
             try
             {
                 long agrID = await _branchContext.AgreementMaintenance(agreementInfo);
-                if (agrID > 0)
-                {
-                    //Add User
-                    //Get Branch
-                    agreement.AgreementID = agrID;
-                }
+                agreement.AgreementID = agrID;
             }
             catch (Exception ex)
             {

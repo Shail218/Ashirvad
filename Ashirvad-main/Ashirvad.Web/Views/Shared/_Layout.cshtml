@@ -166,7 +166,7 @@
                                     else if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
                                     {
                                         <a href="@Url.Action("ADashboard", "Home")">
-                                            ADashboard
+                                            Dashboard
                                         </a>
                                     }
                                 </li>
@@ -214,7 +214,7 @@
                                                 <a href="@Url.Action("SchoolMaintenance","School", new { @branchID=0 })">School Master</a>
                                             </li>
                                             <li id="StuM" class="StudentMaster">
-                                                <a href="@Url.Action("StudentMaintenance","Student", new { @studentID=0 })">Student Master</a>
+                                                <a href="@Url.Action("StudentMaintenance","Student", new { @studentID=0 })">Admission Form</a>
                                             </li>
                                             <li id="MsM" class="ManageStudentMaster">
                                                 <a href="@Url.Action("ManageStudentMaintenance","ManageStudent", new { @branchID= @SessionContext.Instance.LoginUser.BranchInfo.BranchID})">Manage Student Master</a>
@@ -252,6 +252,14 @@
                                     <li class="dropdown" visible="true" style="margin-left:10px;">
                                         <a href="@Url.Action("AgreementMaintenance","Agreement", new { @agreeID=0 })">
                                             Agreement
+                                        </a>
+                                    </li>
+                                }
+                                @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+                                {
+                                    <li class="dropdown" visible="true" style="margin-left:10px;">
+                                        <a href="@Url.Action("CircularMaintenance","Circular", new { @circularID=0 })">
+                                            Circular
                                         </a>
                                     </li>
                                 }
@@ -379,17 +387,17 @@
                                                 </a>
                                             </li>
                                             <li class="treeview" id="Li5">
-                                                <a href="#">
+                                                <a href="@Url.Action("Index","BatchWiseChart")">
                                                     Batch Wise
                                                 </a>
                                             </li>
                                             <li class="treeview" id="Li8">
-                                                <a href="#">
+                                                <a href="@Url.Action("Index","ListOfStudent")">
                                                     List Of Student
                                                 </a>
                                             </li>
                                             <li class="treeview" id="Li9">
-                                                <a href="#">
+                                                <a href="@Url.Action("Index","ProgressReportChart")">
                                                     Student Progress Chart
                                                 </a>
                                             </li>
@@ -425,11 +433,11 @@
                                                     Reminder Entry
                                                 </a>
                                             </li>
-                                            <li class="treeview Report" id="Li3">
-                                                <a href="@Url.Action("GetAllReportData","AdminReport")">
-                                                    Report
-                                                </a>
-                                            </li>
+                                            @*<li class="treeview Report" id="Li3">
+                                                    <a href="@Url.Action("GetAllReportData","AdminReport")">
+                                                        Report
+                                                    </a>
+                                                </li>*@
                                         </ul>
                                     </li>
 

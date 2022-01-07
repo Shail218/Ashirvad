@@ -47,6 +47,7 @@ namespace Ashirvad.Repo.Model
             this.NEW_LIBRARY_MASTER = new HashSet<NEW_LIBRARY_MASTER>();
             this.APPROVAL_MASTER = new HashSet<APPROVAL_MASTER>();
             this.STUDENT_MASTER = new HashSet<STUDENT_MASTER>();
+            this.CIRCULAR_MASTER = new HashSet<CIRCULAR_MASTER>();
         }
     
         public long trans_id { get; set; }
@@ -117,5 +118,7 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<APPROVAL_MASTER> APPROVAL_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<STUDENT_MASTER> STUDENT_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CIRCULAR_MASTER> CIRCULAR_MASTER { get; set; }
     }
 }

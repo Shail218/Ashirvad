@@ -69,6 +69,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Reminder
             return null;
         }
 
+        public async Task<List<ReminderEntity>> GetAllReminderList(long branchID)
+        {
+            try
+            {
+                return await this._reminderContext.GetAllReminderList(branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<OperationResult<ReminderEntity>> GetReminderByReminderID(long reminderID)
         {
             try

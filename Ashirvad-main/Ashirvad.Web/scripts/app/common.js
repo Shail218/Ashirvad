@@ -53,6 +53,8 @@
     BranchSubject: $("#hdnFldVDName").val() + "BranchSubject/",
     ManageLibrary: $("#hdnFldVDName").val() + "ManageLibrary/",
     Profile: $("#hdnFldVDName").val() + "Profile/",
+    Circular: $("#hdnFldVDName").val() + "Circular/",
+    Home: $("#hdnFldVDName").val() + "Home/",
 };
 
 function GetExtention(image){

@@ -42,7 +42,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
         {
             try
             {
-                var data = await _homeworkContext.GetAllHomeworkByBranchStudent(branchID, stdID, batchTime, studentId = 0);
+                var data = await _homeworkContext.GetAllHomeworkByBranchStudent(branchID, stdID, batchTime, studentId);
                 return data;
             }
             catch (Exception ex)

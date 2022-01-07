@@ -27,8 +27,8 @@ $(document).ready(function () {
         },
         "columns": [
             { "data": "SubjectName" },
+            { "data": "SubjectID" },
             { "data": "SubjectID" }
-            //{ "data": "SubjectID" },
         ],
         "columnDefs": [
             {
@@ -43,21 +43,21 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false
             },
-            //{
-            //    targets: 2,
-            //    render: function (data, type, full, meta) {
-            //        if (type === 'display') {
-            //            data = '<a onclick = "RemoveSubject(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
-            //        }
-            //        return data;
-            //    },
-            //    orderable: false,
-            //    searchable: false
-            //}
+            {
+                targets: 2,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = '<a onclick = "RemoveSubject(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
         ],
         createdRow: function (tr) {
             $(tr.children[1]).addClass('textalign');
-            //$(tr.children[2]).addClass('textalign');
+            $(tr.children[2]).addClass('textalign');
         },
     });
 
@@ -88,8 +88,13 @@ function RemoveSubject(subjectId) {
         var postCall = $.post(commonData.SuperAdminSubject + "RemoveSubject", { "subjectID": subjectId });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Subject Removed Successfully.", "Success");
-            window.location.href = "SubjectMaintenance?subjectID=0";
+            if (data) {
+                ShowMessage("Subject Removed Successfully.", "Success");
+                window.location.href = "SubjectMaintenance?subjectID=0";
+            } else {
+                ShowMessage("Subject is Already in used!!.", "Error");
+            }
+            
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

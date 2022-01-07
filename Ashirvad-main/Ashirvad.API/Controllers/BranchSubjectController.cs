@@ -2,6 +2,7 @@
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.Repo.Services.Area.Branch;
+using Ashirvad.Repo.Services.Area.Subject;
 using Ashirvad.Repo.Services.Area.SuperAdminSubject;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Subject;
@@ -33,7 +34,7 @@ namespace Ashirvad.Web.Controllers
 
         public BranchSubjectController()
         {
-            _subjectService = new SuperAdminSubjectService(new SuperAdminSubject(new BranchSubject()));
+            _subjectService = new SuperAdminSubjectService(new SuperAdminSubject(new BranchSubject(),new Subject()));
             _branchSubjectService = new BranchSubjectService(new BranchSubject());
         }
 

@@ -79,6 +79,7 @@ namespace Ashirvad.Web.Controllers
                 branchSubject.Subject.SubjectName = item.Subject.SubjectName;
                 branchSubject.isSubject = item.isSubject;
                 branchSubject.BranchClass.Class_dtl_id = ClassDetailID;
+                branchSubject.UserType = SessionContext.Instance.LoginUser.UserType;
                 branchSubject = await _branchSubjectService.BranchSubjectMaintenance(branchSubject);
                 if ((long)branchSubject.Data < 0)
                 {

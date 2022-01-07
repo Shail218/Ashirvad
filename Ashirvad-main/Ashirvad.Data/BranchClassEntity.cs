@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ashirvad.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace Ashirvad.Data
         public BranchCourseEntity BranchCourse { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }
+        public Enums.UserType UserType { get; set; }
         public List<BranchClassEntity> BranchClassData { get; set; } = new List<BranchClassEntity>();
         public List<BranchCourseEntity> BranchClassList { get; set; } = new List<BranchCourseEntity>();
         public List<ClassEntity> ClassData { get; set; } = new List<ClassEntity>();

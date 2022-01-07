@@ -137,34 +137,17 @@ function SaveReport() {
                 }
             },
             "columns": [
-                {
-                    "className": 'details-control',
-                    "orderable": false,
-                    "data": null,
-                    "defaultContent": ''
-                },
                 { "data": "AttendanceDate" },
                 { "data": "Branch.BranchName" },
                 { "data": "Standard.Standard" },
                 { "data": "BatchTypeText" },
+                { "data": "AttendanceDetail" },
+                { "data": "AttendanceDetail" }
 
             ],
             "columnDefs": [
                 {
                     targets: 0,
-                    render: function (data, type, full, meta) {
-
-                        if (type === 'display') {
-                            var ch = format(data.AttendanceDetail)
-                            data = '<img src="../ThemeData/images/plus.png" height="30" />' + ch;
-                        }
-                        return data;
-                    },
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    targets: 1,
                     render: function (data, type, full, meta) {
 
                         if (type === 'display') {
@@ -175,6 +158,29 @@ function SaveReport() {
                     orderable: false,
                     searchable: false
                 },
+                {
+                    targets: 4,
+                    render: function (data, type, full, meta) {
+                        if (type === 'display') {
+                            data = full.AttendanceDetail[0].IsAbsent == true ? "Absent" : "Present"
+                        }
+                        return data;
+                    },
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    targets: 5,
+                    render: function (data, type, full, meta) {
+
+                        if (type === 'display') {
+                            data = full.AttendanceDetail[0].Remarks
+                        }
+                        return data;
+                    },
+                    orderable: false,
+                    searchable: false
+                }
 
             ],
 

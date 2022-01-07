@@ -6,8 +6,10 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Attendance;
 using Ashirvad.Repo.DataAcceessAPI.Area.Banner;
 using Ashirvad.Repo.DataAcceessAPI.Area.Batch;
 using Ashirvad.Repo.DataAcceessAPI.Area.Branch;
+using Ashirvad.Repo.DataAcceessAPI.Area.Circular;
 using Ashirvad.Repo.DataAcceessAPI.Area.Class;
 using Ashirvad.Repo.DataAcceessAPI.Area.Course;
+using Ashirvad.Repo.DataAcceessAPI.Area.DashboardChart;
 using Ashirvad.Repo.DataAcceessAPI.Area.Faculty;
 using Ashirvad.Repo.DataAcceessAPI.Area.Fees;
 using Ashirvad.Repo.DataAcceessAPI.Area.Gallery;
@@ -37,8 +39,10 @@ using Ashirvad.Repo.Services.Area.Attendance;
 using Ashirvad.Repo.Services.Area.Banner;
 using Ashirvad.Repo.Services.Area.Batch;
 using Ashirvad.Repo.Services.Area.Branch;
+using Ashirvad.Repo.Services.Area.Circular;
 using Ashirvad.Repo.Services.Area.Class;
 using Ashirvad.Repo.Services.Area.Course;
+using Ashirvad.Repo.Services.Area.DashboardChart;
 using Ashirvad.Repo.Services.Area.Faculty;
 using Ashirvad.Repo.Services.Area.Gallery;
 using Ashirvad.Repo.Services.Area.Homework;
@@ -67,6 +71,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Attendance;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Banner;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Batch;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Branch;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Circular;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Class;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Course;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Faculty;
@@ -97,8 +102,10 @@ using Ashirvad.ServiceAPI.Services.Area.Attendance;
 using Ashirvad.ServiceAPI.Services.Area.Banner;
 using Ashirvad.ServiceAPI.Services.Area.Batch;
 using Ashirvad.ServiceAPI.Services.Area.Branch;
+using Ashirvad.ServiceAPI.Services.Area.Circular;
 using Ashirvad.ServiceAPI.Services.Area.Class;
 using Ashirvad.ServiceAPI.Services.Area.Course;
+using Ashirvad.ServiceAPI.Services.Area.DashboardChart;
 using Ashirvad.ServiceAPI.Services.Area.Faculty;
 using Ashirvad.ServiceAPI.Services.Area.Homework;
 using Ashirvad.ServiceAPI.Services.Area.Library;
@@ -254,6 +261,12 @@ namespace Ashirvad.Web
 
             container.RegisterType<IBranchSubjectAPI, BranchSubject>();
             container.RegisterType<IBranchSubjectService, BranchSubjectService>();
+
+            container.RegisterType<ICircularAPI, Circular>();
+            container.RegisterType<ICircularService, CircularService>();
+
+            container.RegisterType<IDashboardChartAPI, DashboardChart>();
+            container.RegisterType<IDashboardChartService, DashboardChartService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

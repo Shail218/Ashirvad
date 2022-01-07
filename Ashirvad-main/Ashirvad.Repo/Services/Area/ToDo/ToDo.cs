@@ -3,6 +3,7 @@ using Ashirvad.Data;
 using Ashirvad.Repo.DataAcceessAPI.Area.ToDo;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,6 +65,39 @@ namespace Ashirvad.Repo.Services.Area.ToDo
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
+                            FilePath = "https://mastermind.org.in" + u.file_path,
+                            ToDoID = u.todo_id,
+                            ToDoFileName = u.todo_doc_name,
+                            ToDoDate = u.todo_dt,
+                            ToDoDescription = u.todo_desc,
+                            UserInfo = new UserEntity()
+                            {
+                                UserID = ud.staff_id,
+                                Username = ud.name
+                            },
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+            return data;
+        }
+
+        public async Task<List<ToDoEntity>> GetAllToDoList(long branchid)
+        {
+            TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            DateTime indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+            var ToDayDate = indianTime.ToString("yyyy/MM/dd");
+            DateTime dt = DateTime.ParseExact(ToDayDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var data = (from u in this.context.TODO_MASTER
+                        .Include("BRANCH_MASTER")
+                        join ud in this.context.BRANCH_STAFF on u.user_id equals ud.staff_id
+                        orderby u.todo_id descending
+                        where u.branch_id == branchid && u.row_sta_cd == 1 && u.todo_dt == dt
+                        select new ToDoEntity()
+                        {
                             FilePath = "https://mastermind.org.in" + u.file_path,
                             ToDoID = u.todo_id,
                             ToDoFileName = u.todo_doc_name,

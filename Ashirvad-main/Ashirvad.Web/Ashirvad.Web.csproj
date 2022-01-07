@@ -246,6 +246,7 @@
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="scripts\app\aboutus.js" />
+    <Content Include="scripts\app\adashboard.js" />
     <Content Include="scripts\app\adminreport.js" />
     <Content Include="scripts\app\agreement.js" />
     <Content Include="scripts\app\announcement.js" />
@@ -255,6 +256,7 @@
     <Content Include="scripts\app\attendanceReport.js" />
     <Content Include="scripts\app\banner.js" />
     <Content Include="scripts\app\batch.js" />
+    <Content Include="scripts\app\batchwise.js" />
     <Content Include="scripts\app\branch.js" />
     <Content Include="scripts\app\branchclass.js" />
     <Content Include="scripts\app\branchcourse.js" />
@@ -263,8 +265,10 @@
     <Content Include="scripts\app\branchwiseright.js" />
     <Content Include="scripts\app\Category.js" />
     <Content Include="scripts\app\caurse.js" />
+    <Content Include="scripts\app\circular.js" />
     <Content Include="scripts\app\class.js" />
     <Content Include="scripts\app\common.js" />
+    <Content Include="scripts\app\dashboard.js" />
     <Content Include="scripts\app\faculty.js" />
     <Content Include="scripts\app\fees.js" />
     <Content Include="scripts\app\homework.js" />
@@ -275,6 +279,7 @@
     <Content Include="scripts\app\library.js" />
     <Content Include="scripts\app\LibraryImage.js" />
     <Content Include="scripts\app\link.js" />
+    <Content Include="scripts\app\listofstudent.js" />
     <Content Include="scripts\app\login.js" />
     <Content Include="scripts\app\managelibrary.js" />
     <Content Include="scripts\app\managestudent.js" />
@@ -286,10 +291,12 @@
     <Content Include="scripts\app\page.js" />
     <Content Include="scripts\app\paper.js" />
     <Content Include="scripts\app\profile.js" />
+    <Content Include="scripts\app\progresschart.js" />
     <Content Include="scripts\app\reminder.js" />
     <Content Include="scripts\app\school.js" />
     <Content Include="scripts\app\showlibrary.js" />
     <Content Include="scripts\app\standard.js" />
+    <Content Include="scripts\app\standardwise.js" />
     <Content Include="scripts\app\student.js" />
     <Content Include="scripts\app\subject.js" />
     <Content Include="scripts\app\superadminsubject.js" />
@@ -304,6 +311,7 @@
     <Content Include="scripts\ashirvad.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="CircularFiles\9QGCR5DXJ2LJQYP54A9R.xls" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
@@ -1145,6 +1153,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CaurseController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
+    <Compile Include="Controllers\CircularController.cs" />
     <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\FacultyController.cs" />
     <Compile Include="Controllers\HomeWorkController.cs" />
@@ -1421,6 +1430,9 @@
     <Content Include="Views\Home\ATodo.cshtml" />
     <Content Include="Views\Home\AReminder.cshtml" />
     <Content Include="Views\Home\ACircle.cshtml" />
+    <Content Include="Views\Circular\Index.cshtml" />
+    <Content Include="Views\Circular\Create.cshtml" />
+    <Content Include="Views\Circular\Manage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

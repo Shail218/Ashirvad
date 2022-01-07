@@ -5,6 +5,7 @@
             @Html.Label("Subject Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextBoxFor(x => x.SubjectName, new { @class = "form-control required", @alt = "Subject Name", autocomplete = "off" })
             @Html.HiddenFor(x => x.SubjectID)
+            @Html.HiddenFor(x => x.oldsubject)
         </div>
         <div class="form-group">
             <div class="col-md-12" style="text-align: right;">

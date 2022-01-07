@@ -36,7 +36,7 @@ $(document).ready(function () {
             { "data": "TestID" },
             { "data": "TestID" },
         ],
-        "columnDefs": [            
+        "columnDefs": [
             {
                 targets: 2,
                 render: function (data, type, full, meta) {
@@ -65,8 +65,10 @@ $(document).ready(function () {
                     if (type === 'display') {
                         if (full.test.FileName != null && full.test.FileName != "") {
                             data = '<a href="' + full.test.FilePath.replace("https://mastermind.org.in", "") + '" download="' + full.test.FileName + '"><img src="../ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
-                        } else {
+                        } else if (full.test.DocLink != null && full.test.DocLink != "") {
                             data = '<a href="' + full.test.DocLink + '" target="_blank" style="color:blue;text-decoration:underline;">Go to link</a>'
+                        } else {
+                            data = ""
                         }
                     }
                     return data;
@@ -174,7 +176,7 @@ $(document).ready(function () {
         $('#Type option[value="' + $("#test_PaperTypeID").val() + '"]').attr("selected", "selected");
     }
     if ($("#RowStatus_RowStatusId").val() != "") {
-        var Data = $("#RowStatus_RowStatusId").val();     
+        var Data = $("#RowStatus_RowStatusId").val();
         $('#Status option[value="' + $("#RowStatus_RowStatusId").val() + '"]').attr("selected", "selected");
     }
 
@@ -200,10 +202,10 @@ function LoadBranch(onLoaded) {
 }
 
 function LoadStandard(branchID) {
-    
-    var postCall = $.post(commonData.Standard + "StandardData", { "branchID": branchID});
+
+    var postCall = $.post(commonData.Standard + "StandardData", { "branchID": branchID });
     postCall.done(function (data) {
-        
+
         $('#StandardName').empty();
         $('#StandardName').select2();
         $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
@@ -221,7 +223,7 @@ function LoadStandard(branchID) {
 function LoadSubject(branchID) {
     var postCall = $.post(commonData.Subject + "SubjectDataByBranch", { "branchID": branchID });
     postCall.done(function (data) {
-        
+
         $('#SubjectName').empty();
         $('#SubjectName').select2();
         $("#SubjectName").append("<option value=" + 0 + ">---Select Subject Name---</option>");
@@ -238,7 +240,7 @@ function LoadSubject(branchID) {
 }
 
 function Savetest() {
-    var isSuccess = ValidateData('dInformation');    
+    var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
         var date1 = $("#TestDate").val();
@@ -263,7 +265,7 @@ function Savetest() {
     }
 }
 
-function Savetestpaper(testID,date) {
+function Savetestpaper(testID, date) {
     var isSuccess = ValidateData('dpaperInformation');
     if (isSuccess) {
         ShowLoader();
@@ -374,7 +376,7 @@ $("#Type").change(function () {
 $("#Status").change(function () {
     var Data = $("#Status option:selected").val();
     $('#RowStatus_RowStatusId').val(Data);
-   
+
 });
 
 function ConvertMiliDateFrom(date) {

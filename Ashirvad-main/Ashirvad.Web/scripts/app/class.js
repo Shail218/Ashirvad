@@ -26,8 +26,8 @@ $(document).ready(function () {
         },
         "columns": [
             { "data": "ClassName" },
+            { "data": "ClassID" },
             { "data": "ClassID" }
-            //{ "data": "ClassID" },
         ],
         "columnDefs": [
             {
@@ -42,17 +42,17 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false
             },
-            //{
-            //    targets: 2,
-            //    render: function (data, type, full, meta) {
-            //        if (type === 'display') {
-            //            data = '<a onclick = "RemoveClass(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
-            //        }
-            //        return data;
-            //    },
-            //    orderable: false,
-            //    searchable: false
-            //}
+            {
+                targets: 2,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = '<a onclick = "RemoveClass(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            }
         ],
         createdRow: function (tr) {
             $(tr.children[1]).addClass('textalign');
@@ -88,8 +88,13 @@ function RemoveClass(classId) {
         var postCall = $.post(commonData.Class + "RemoveClass", { "classID": classId });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Class Removed Successfully.", "Success");
-            window.location.href = "ClassMaintenance?classID=0";
+            if (data) {
+                ShowMessage("Class Removed Successfully.", "Success");
+                window.location.href = "ClassMaintenance?classID=0";
+            }
+            else {
+                ShowMessage("Class is Already in used!!.", "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

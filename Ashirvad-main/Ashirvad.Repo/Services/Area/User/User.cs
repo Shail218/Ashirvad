@@ -170,7 +170,8 @@ namespace Ashirvad.Repo.Services.Area.User
                         join par in this.context.STUDENT_MAINT on u.parent_id equals par.parent_id into tempPar
                         from parent in tempPar.DefaultIfEmpty()
                         join staff in this.context.BRANCH_STAFF on u.staff_id equals staff.staff_id into tempStaff
-                        from stf in tempStaff.DefaultIfEmpty() orderby u.user_id descending
+                        from stf in tempStaff.DefaultIfEmpty()
+                        orderby u.user_id descending
                         where (branchID == 0 || u.branch_id == branchID) && tdUserType.@class == (int)Enums.ClassID.UserType
                         && (noUserType || userType.Contains(u.user_type))
                         select new UserEntity()
@@ -538,7 +539,7 @@ namespace Ashirvad.Repo.Services.Area.User
             DateTime dt = DateTime.ParseExact(ToDayDate, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var data = (from u in this.context.BRANCH_AGREEMENT
                         where u.branch_id == branchID
-                        && u.to_dt > dt
+                        && u.to_dt > dt && u.row_sta_cd == 1
                         select new BranchAgreementEntity()
                         {
                             AgreementFromDate = u.from_dt,

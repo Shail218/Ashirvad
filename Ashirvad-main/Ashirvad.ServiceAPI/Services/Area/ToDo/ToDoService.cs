@@ -68,6 +68,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.ToDo
             return null;
         }
 
+        public async Task<List<ToDoEntity>> GetAllToDoList(long branchID)
+        {
+            try
+            {
+                return await this._todoContext.GetAllToDoList(branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<List<ToDoEntity>> GetAllToDoWithoutContentByBranch(long branchID, long userID = 0)
         {
             try

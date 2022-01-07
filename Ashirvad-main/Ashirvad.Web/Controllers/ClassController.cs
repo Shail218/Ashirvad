@@ -49,6 +49,11 @@ namespace Ashirvad.Web.Controllers
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
+            cl.UserType = SessionContext.Instance.LoginUser.UserType;
+            cl.branchEntity = new BranchEntity()
+            {
+                BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
+            };
             var data = await _classService.ClassMaintenance(cl);
             if (data != null)
             {
