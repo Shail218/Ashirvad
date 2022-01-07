@@ -2,6 +2,7 @@
 using Ashirvad.Data;
 using Ashirvad.Repo.Services.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.UPI;
 using Ashirvad.ServiceAPI.Services.Area;
 using Ashirvad.Uploads;
 using System;
@@ -18,9 +19,11 @@ namespace Ashirvad.API.Controllers
     {
         private readonly FileUploadCommon fileUploadCommon = new FileUploadCommon();
         private readonly IFeesService _FeesService;
-        public FeesStructureWebAPIController(IFeesService FeesService)
+        private readonly IUPIService _upiservice;
+        public FeesStructureWebAPIController(IFeesService FeesService, IUPIService upiservice)
         {
             _FeesService = FeesService;
+            _upiservice = upiservice;
         }
         // GET: Fees
 
@@ -165,6 +168,17 @@ namespace Ashirvad.API.Controllers
             var data = this._FeesService.GetFeesByBranchID(BranchID, StdID);
             OperationResult<List<FeesEntity>> result = new OperationResult<List<FeesEntity>>();
             result.Data = data.Result;
+            result.Completed = true;
+            return result;
+        }
+
+        [Route("GetAllUPIByBranch")]
+        [HttpPost]
+        public OperationResult<List<UPIEntity>> GetAllUPIByBranch(long BranchID)
+        {
+            var data = this._upiservice.GetAllUPIs(BranchID);
+            OperationResult<List<UPIEntity>> result = new OperationResult<List<UPIEntity>>();
+            result.Data = data.Result.Data;
             result.Completed = true;
             return result;
         }

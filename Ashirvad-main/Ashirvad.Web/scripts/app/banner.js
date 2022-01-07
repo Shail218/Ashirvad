@@ -53,7 +53,7 @@ $(document).ready(function () {
                     if (type === 'display') {
                         if (check[0].Create) {
                             data =
-                                '<a href="BannerMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                                '<a href="BannerMaintenance?bannerID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
                         }
                     }
                     else {

@@ -92,7 +92,7 @@ $(document).ready(function () {
                 targets: 2,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data = '<a href= "' + full.FilePath.replace("https://mastermind.org.in", "") + '" target="_blank"> <img src="../ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
+                        data = '<a href= "' + full.FilePath.replace("https://mastermind.org.in", "") + '" target="_blank"> <img src="../ThemeData/images/icons8-preview-pane-24.png" /></a>'
                     }
                     return data;
                 },
