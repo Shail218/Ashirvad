@@ -88,5 +88,19 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             return null;
         }
 
+        public async Task<List<AttendanceEntity>> GetStudentAttendanceDetails(long studentID, long type)
+        {
+            try
+            {
+                return await this._studentContext.GetStudentAttendanceDetails(studentID, type);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
     }
 }

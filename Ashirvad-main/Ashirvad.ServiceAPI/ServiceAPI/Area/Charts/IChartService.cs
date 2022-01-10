@@ -15,5 +15,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
         Task<StudentEntity> GetStudentContentByID(long studentID);
         Task<List<StudentEntity>> GetStudentContent(long stdID, long branchID, long batchID);
         Task<List<BranchStandardEntity>> AllBranchStandardWithCountByBranch(long branchid);
+        Task<List<AttendanceEntity>> GetStudentAttendanceDetails(long studentID, long type);
     }
 }

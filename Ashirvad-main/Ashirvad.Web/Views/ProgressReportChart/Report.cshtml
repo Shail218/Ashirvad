@@ -15,7 +15,7 @@
                     <div class="course">
                         <div class="course-info" style="text-align: center">
                             <span style="opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; margin: 5px 0 0 0; font-size: 12px">Total days</span><br />
-                            <a href="#" style="color:red">@Model[0].y</a>
+                            <a onclick="GoToAttendance(0)" href="#" style="color:red">@Model[0].y</a>
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                     <div class="course">
                         <div class="course-info" style="text-align: center">
                             <span style="opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; margin: 5px 0 0 0; font-size: 12px">Present days</span><br />
-                            <a href="#" style="color:red">@Model[1].y</a>
+                            <a onclick="GoToAttendance(1)" href="#" style="color:red">@Model[1].y</a>
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                     <div class="course">
                         <div class="course-info" style="text-align: center">
                             <span style="opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; margin: 5px 0 0 0; font-size: 12px">Absent days</span><br />
-                            <a href="#" style="color:red">@Model[2].y</a>
+                            <a onclick="GoToAttendance(2)" href="#" style="color:red">@Model[2].y</a>
                         </div>
                     </div>
                 </div>
