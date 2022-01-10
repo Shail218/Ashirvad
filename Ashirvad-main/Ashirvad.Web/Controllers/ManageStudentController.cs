@@ -88,11 +88,7 @@ namespace Ashirvad.Web.Controllers
             }
             model.length = model.length == 0 ? 10 : model.length;
             model.draw = model.draw == 0 ? 1 : model.draw;
-            model.search = new Search 
-            { 
-                regex="False",
-                value=null,
-            };
+            
             if (!string.IsNullOrEmpty(status))   
             {
                 statusid = Convert.ToInt32(status);
