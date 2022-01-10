@@ -58,7 +58,8 @@
     StandardWiseChart: $("#hdnFldVDName").val() + "StandardWiseChart/",
     BatchWiseChart: $("#hdnFldVDName").val() + "BatchWiseChart/",
     ListOfStudent: $("#hdnFldVDName").val() + "ListOfStudent/",
-    ProgressReportChart: $("#hdnFldVDName").val() + "ProgressReportChart/"    
+    ProgressReportChart: $("#hdnFldVDName").val() + "ProgressReportChart/",    
+    AttendanceByStudent: $("#hdnFldVDName").val() + "AttendanceByStudent/" 
 };
 
 function GetExtention(image){

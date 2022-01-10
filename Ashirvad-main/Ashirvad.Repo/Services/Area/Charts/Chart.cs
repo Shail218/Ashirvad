@@ -117,5 +117,47 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             branches.Add(standardEntity);
             return branches;
         }
+
+        public async Task<List<AttendanceEntity>> GetStudentAttendanceDetails(long studentID, long type)
+        {
+            List<AttendanceEntity> data = new List<AttendanceEntity>();
+            if (type == 0)
+            {
+                data = (from u in this.context.ATTENDANCE_HDR
+                        join t in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals t.attd_hdr_id
+                        where t.student_id == studentID && u.row_sta_cd == 1
+                        select new AttendanceEntity()
+                        {
+                            AttendanceID = u.attendance_hdr_id,
+                            AttendanceDate = u.attendance_dt,
+                            AttendanceDatetxt = t.present_fg == 1 ? "Present" : "Absent"
+                        }).OrderByDescending(a => a.AttendanceID).ToList();
+            }
+            else if (type == 1)
+            {
+                data = (from u in this.context.ATTENDANCE_HDR
+                        join t in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals t.attd_hdr_id
+                        where t.student_id == studentID && t.present_fg == 1 && u.row_sta_cd == 1
+                        select new AttendanceEntity()
+                        {
+                            AttendanceID = u.attendance_hdr_id,
+                            AttendanceDate = u.attendance_dt,
+                            AttendanceDatetxt = "Present"
+                        }).OrderByDescending(a => a.AttendanceID).ToList();
+            }
+            else if (type == 2)
+            {
+                data = (from u in this.context.ATTENDANCE_HDR
+                        join t in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals t.attd_hdr_id
+                        where t.student_id == studentID && t.absent_fg == 1 && u.row_sta_cd == 1
+                        select new AttendanceEntity()
+                        {
+                            AttendanceID = u.attendance_hdr_id,
+                            AttendanceDate = u.attendance_dt,
+                            AttendanceDatetxt = "Absent"
+                        }).OrderByDescending(a => a.AttendanceID).ToList();
+            }
+            return data;
+        }
     }
 }

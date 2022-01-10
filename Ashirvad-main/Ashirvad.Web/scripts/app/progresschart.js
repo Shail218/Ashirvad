@@ -180,3 +180,7 @@ function GetTestByStudent2(StudentID) {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
+
+function GoToAttendance(type) {
+    window.location.href = "AttendanceByStudent?studentID=" + $("#StudentName option:selected").val() + "&type=" + type;
+}
