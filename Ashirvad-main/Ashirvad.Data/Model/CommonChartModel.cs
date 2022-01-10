@@ -32,7 +32,7 @@ namespace Ashirvad.Data.Model
         public string name { get; set; }
         public string color { get; set; }
         public string standardname { get; set; }
-        public double achievemarks { get; set; }
+        public string achievemarks { get; set; }
         public double totalmarks { get; set; }
         public ArrayList data = new ArrayList();
     }

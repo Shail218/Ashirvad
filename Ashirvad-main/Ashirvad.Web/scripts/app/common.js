@@ -55,6 +55,10 @@
     Profile: $("#hdnFldVDName").val() + "Profile/",
     Circular: $("#hdnFldVDName").val() + "Circular/",
     Home: $("#hdnFldVDName").val() + "Home/",
+    StandardWiseChart: $("#hdnFldVDName").val() + "StandardWiseChart/",
+    BatchWiseChart: $("#hdnFldVDName").val() + "BatchWiseChart/",
+    ListOfStudent: $("#hdnFldVDName").val() + "ListOfStudent/",
+    ProgressReportChart: $("#hdnFldVDName").val() + "ProgressReportChart/"    
 };
 
 function GetExtention(image){

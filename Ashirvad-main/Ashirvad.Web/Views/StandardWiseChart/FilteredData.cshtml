@@ -1,4 +1,10 @@
-﻿<style type="text/css">
+﻿@model List<Ashirvad.Data.StandardEntity>
+
+@{
+    Layout = null;
+}
+
+<style type="text/css">
     .messagealert {
         width: 30%;
         position: fixed;
@@ -97,8 +103,22 @@
             font-size: 24px;
         }
 </style>
-<div class="card">
-    <div class="imgBx" runat="server" onclick="">
-        <a href="#" style="color:#673ab7">Std 1</a>
+
+@if (Model != null)
+{
+    <div class="col-md-12">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-1">
+                    <div class="card">
+                        <div class="imgBx">
+                            <a href="@Url.Action("Index", "BatchWiseChart", new { StandardID = item.StandardID })" style="color:#673ab7">@item.Standard</a>
+                            @*<a href="@Url.Action("AnnouncementMaintenance", "Anouncement", new { annoID = item.Class_dtl_id })" style="color:#673ab7">@item.Class.ClassName</a>*@
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
-</div>
+}

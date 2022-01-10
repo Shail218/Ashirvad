@@ -1138,6 +1138,7 @@
     <Compile Include="Controllers\AdminReportController.cs" />
     <Compile Include="Controllers\AgreementController.cs" />
     <Compile Include="Controllers\AnouncementController.cs" />
+    <Compile Include="Controllers\AttendanceByStudentController.cs" />
     <Compile Include="Controllers\AttendanceEntryController.cs" />
     <Compile Include="Controllers\AttendanceRegisterController.cs" />
     <Compile Include="Controllers\AttendanceReportController.cs" />
@@ -1156,6 +1157,7 @@
     <Compile Include="Controllers\CircularController.cs" />
     <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\FacultyController.cs" />
+    <Compile Include="Controllers\HomeworkByStudentController.cs" />
     <Compile Include="Controllers\HomeWorkController.cs" />
     <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="Controllers\ManageLibraryController.cs" />
@@ -1187,6 +1189,7 @@
     <Compile Include="Controllers\OnlinePaymentListController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Controllers\SuperAdminSubjectController.cs" />
+    <Compile Include="Controllers\TestByStudentController.cs" />
     <Compile Include="Controllers\TestEntryController.cs" />
     <Compile Include="Controllers\TestPaperController.cs" />
     <Compile Include="Controllers\TestPaperLinkController.cs" />
@@ -1433,6 +1436,15 @@
     <Content Include="Views\Circular\Index.cshtml" />
     <Content Include="Views\Circular\Create.cshtml" />
     <Content Include="Views\Circular\Manage.cshtml" />
+    <Content Include="Views\AttendanceByStudent\Index.cshtml" />
+    <Content Include="Views\TestByStudent\Index.cshtml" />
+    <Content Include="Views\HomeworkByStudent\Index.cshtml" />
+    <Content Include="Views\AttendanceByStudent\PersonalInfo.cshtml" />
+    <Content Include="Views\AttendanceByStudent\FilteredData.cshtml" />
+    <Content Include="Views\HomeworkByStudent\PersonalInfo.cshtml" />
+    <Content Include="Views\HomeworkByStudent\FilteredData.cshtml" />
+    <Content Include="Views\TestByStudent\PersonalInfo.cshtml" />
+    <Content Include="Views\TestByStudent\FilteredData.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

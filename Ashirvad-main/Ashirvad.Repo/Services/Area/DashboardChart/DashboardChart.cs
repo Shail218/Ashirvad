@@ -175,11 +175,14 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                                                }).Distinct().ToList();
                     if(item.branchstandardlist.Count > 0)
                     {
-                        point = new DataPoints();
-                        point.label = item.branchstandardlist[0].name;
-                        point.y = item.branchstandardlist.Count;
-                        point.Days += Convert.ToInt32(point.y);
-                        list.Add(point);
+                        foreach (var item1 in item.branchstandardlist)
+                        {
+                            point = new DataPoints();
+                            point.label = item1.name;
+                            point.y = item.branchstandardlist.Count;
+                            point.Days += Convert.ToInt32(point.y);
+                            list.Add(point);
+                        }
                     }
                 }
 
@@ -204,31 +207,61 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
             {
                 foreach(var item in data)
                 {
-                    item.branchstandardlist = (from u in this.context.TEST_MASTER
-                                               join t in this.context.MARKS_MASTER on u.test_id equals t.test_id
-                                               where (t.STUDENT_MASTER.student_id == studentid && u.row_sta_cd == 1 && u.std_id == item.branchid)
-                                               select new BranchStandardEntity()
-                                               {
-                                                   name = u.SUBJECT_MASTER.subject,
-                                                   branchid = u.test_id,
-                                                   totalmarks = u.total_marks,
-                                                   achievemarks = Convert.ToDouble(t.achive_marks)
-                                               }).Distinct().ToList();
-                    if (item.branchstandardlist.Count > 0)
+                    try
                     {
-                        point = new TestDataPoints();                        
-                        point.label = item.branchstandardlist[0].name;
-                        point.TotalMarks = item.branchstandardlist[0].totalmarks;
-                        point.AchieveMarks = item.branchstandardlist[0].achievemarks;
-                        point.y = Math.Round((point.AchieveMarks / point.TotalMarks) * 100, 2);
-                        totalMarks += decimal.Parse(point.TotalMarks.ToString());
-                        totalAchieveMarks += decimal.Parse(point.AchieveMarks.ToString());
-                        point.Days = Math.Round((totalAchieveMarks / totalMarks) * 100, 2).ToString();
-                        list.Add(point);
+                        item.branchstandardlist = (from u in this.context.TEST_MASTER
+                                                   join t in this.context.MARKS_MASTER on u.test_id equals t.test_id
+                                                   where (t.STUDENT_MASTER.student_id == studentid && u.row_sta_cd == 1 && u.std_id == item.branchid)
+                                                   select new BranchStandardEntity()
+                                                   {
+                                                       name = u.SUBJECT_MASTER.subject,
+                                                       branchid = u.test_id,
+                                                       totalmarks = u.total_marks,
+                                                       achievemarks = t.achive_marks
+                                                   }).Distinct().ToList();
+                        if (item.branchstandardlist.Count > 0)
+                        {
+                            foreach (var item1 in item.branchstandardlist)
+                            {
+                                point = new TestDataPoints();
+                                point.label = item1.name;
+                                point.TotalMarks = item1.totalmarks;
+                                point.AchieveMarks = IsNumeric(item1.achievemarks);
+                                point.y = Math.Round((point.AchieveMarks / point.TotalMarks) * 100, 2);
+                                totalMarks += decimal.Parse(point.TotalMarks.ToString());
+                                totalAchieveMarks += decimal.Parse(point.AchieveMarks.ToString());
+                                point.Days = Math.Round((totalAchieveMarks / totalMarks) * 100, 2).ToString();
+                                list.Add(point);
+                            }
+                        }
+                    }catch(Exception ex)
+                    {
+
                     }
                 }
             }
             return list;
         }
-    }
+
+        public double IsNumeric(string strNumber)
+        {
+            if (string.IsNullOrEmpty(strNumber))
+            {
+                return 0;
+            }
+            else
+            {
+                int numberOfChar = strNumber.Count();
+                if (numberOfChar > 0)
+                {
+                    bool r = strNumber.All(char.IsDigit);
+                    return double.Parse(strNumber);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+    }    
 }

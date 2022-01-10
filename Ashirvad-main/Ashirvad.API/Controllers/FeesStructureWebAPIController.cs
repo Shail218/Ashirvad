@@ -1,9 +1,11 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.Repo.Services.Area;
+using Ashirvad.Repo.Services.Area.UPI;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.UPI;
 using Ashirvad.ServiceAPI.Services.Area;
+using Ashirvad.ServiceAPI.Services.Area.UPI;
 using Ashirvad.Uploads;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,12 @@ namespace Ashirvad.API.Controllers
         {
             _FeesService = FeesService;
             _upiservice = upiservice;
+        }
+
+        public FeesStructureWebAPIController()
+        {
+            _FeesService = new FeesService(new Fees()) ;
+            _upiservice = new UPIService(new UPI());
         }
         // GET: Fees
 

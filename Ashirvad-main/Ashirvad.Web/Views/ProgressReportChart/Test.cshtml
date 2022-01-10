@@ -1,127 +1,40 @@
-﻿<div class="col-md-6">
-    <div class="courses-container" style="width: 160px; margin: 10px">
-        <div class="course">
-            <div class="course-info" style="text-align: center">
-                <label Style="opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; margin: 5px 0 0 0; font-size: 12px" runat="server" ID="spanSubject" Text='<%# Eval("label") %>' /><br />
-                <a href="#">100%</a>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-md-6">
-    <div id="testContainer" style="height: 200px; width: 100%;"></div>
-</div>
-<div class="col-md-3"></div>
-<div class="col-md-4">
-    <div class="courses-container" style="width: 150px; margin: 10px; text-align: right">
-        <div class="course">
-            <div class="course-info" style="text-align: center">
-                <label Style="opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; margin: 5px 0 0 0; font-size: 12px" runat="server" ID="spanSubject" Text='Overall' /><br />
-                <a href="#">100%</a>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/drilldown.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<script src="https://code.highcharts.com/modules/accessibility.js"></script>
-<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+﻿@model List<Ashirvad.Data.Model.TestDataPoints>
 
-<script>
-    Highcharts.chart('testContainer', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Branch wise student'
-        },
-        xAxis: {
-            type: 'category'
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true
-                }
-            }
-        },
-        series: [{
-            name: 'Student',
-            colorByPoint: true,
-            data: [
-                {
-                    name: "Branch 1",
-                    y: 60,
-                    drilldown: "Chrome"
-                },
-                {
-                    name: "Branch 2",
-                    y: 20,
-                    drilldown: "Firefox"
-                },
-                {
-                    name: "Branch 3",
-                    y: 10,
-                    drilldown: "Internet Explorer"
-                }
-            ]
-        }],
-        drilldown: {
-            series: [
-                {
-                    name: "Branch 1",
-                    id: "Chrome",
-                    data: [
-                        [
-                            "Std 1",
-                            20
-                        ],
-                        [
-                            "Std 2",
-                            20
-                        ],
-                        [
-                            "Std 3",
-                            20
-                        ]
-                    ]
-                },
-                {
-                    name: "Branch 2",
-                    id: "Firefox",
-                    data: [
-                        [
-                            "Std 1",
-                            10
-                        ],
-                        [
-                            "Std 2",
-                            10
-                        ]
-                    ]
-                },
-                {
-                    name: "Branch 3",
-                    id: "Internet Explorer",
-                    data: [
-                        [
-                            "Std 1",
-                            5
-                        ],
-                        [
-                            "Std 2",
-                            5
-                        ]
-                    ]
-                }
-            ]
-        },
-    });
-</script>
+@{
+    /**/
+    Layout = null;
+}
+
+<h3 style="text-align: center;margin-top:1%">Test</h3>
+@if (Model != null)
+{
+    <div class="col-md-6">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3">
+                <div class="courses-container" style="width: 160px; margin: 10px">
+                    <div class="course">
+                        <div class="course-info" style="text-align: center">
+                            <label Style="opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; margin: 5px 0 0 0; font-size: 12px">@item.label</label><br />
+                            <a href="#" style="color:red">@item.y</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-6">
+        <div id="testContainer" style="height: 200px; width: 100%;"></div>
+    </div>
+    <div class="col-md-3"></div>
+    <div class="col-md-4">
+        <div class="courses-container" style="width: 150px; margin: 10px; text-align: right">
+            <div class="course">
+                <div class="course-info" style="text-align: center">
+                    <label Style="opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; margin: 5px 0 0 0; font-size: 12px">Overall</label><br />
+                    <a href="#" style="color:red">@Model.LastOrDefault().Days %</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

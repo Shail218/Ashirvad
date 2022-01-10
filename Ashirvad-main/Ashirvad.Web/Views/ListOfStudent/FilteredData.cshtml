@@ -1,4 +1,11 @@
-﻿
+﻿@model List<Ashirvad.Data.StudentEntity>
+
+@{
+    /**/
+
+    Layout = null;
+}
+
 <style type="text/css">
 
     .courses-container {
@@ -95,19 +102,32 @@
     }
 </style>
 
-<div class="courses-container">
-    <div class="course">
-        <div class="course-preview">
-            <img style="height: 70px;width:70px " src="~/ThemeData/images/logo.png" />
-        </div>
-        <div class="course-info">
-            <span style="opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; margin: 5px 0 0 0; font-size: 12px">Name :</span>
-            <label>Jainam Doshi</label><br />
-            <span style="opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; margin: 5px 0 0 0; font-size: 12px">Standard :</span>
-            <label>Standard 1</label><br />
-            <span style="opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; margin: 5px 0 0 0; font-size: 12px">Batch Time :</span>
-            <label>Morning</label>
-            <a href="#" class="btn1">Continue</a>
+@if (Model != null)
+{
+    <div class="col-md-12">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3">
+                    <div class="courses-container">
+                        <div class="course">
+                            <div class="course-preview">
+                                <img style="height: 70px;width:70px " src="@item.FilePath" />
+                            </div>
+                            <div class="course-info">
+                                <span style="opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; margin: 5px 0 0 0; font-size: 12px">Name :</span>
+                                <label>@item.Name</label><br />
+                                <span style="opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; margin: 5px 0 0 0; font-size: 12px">Standard :</span>
+                                <label>@item.StandardInfo.Standard</label><br />
+                                <span style="opacity: 0.6; letter-spacing: 0.5px; text-transform: uppercase; margin: 5px 0 0 0; font-size: 12px">Batch Time :</span>
+                                <label>@item.BatchInfo.BatchType</label>
+                                <a href="@Url.Action("Index", "ProgressReportChart", new { StudentID = item.StudentID })" class="btn1">Continue</a>
+                                @*<a href="@Url.Action("AnnouncementMaintenance", "Anouncement", new { annoID = item.Class_dtl_id })" style="color:#673ab7">@item.Class.ClassName</a>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
-</div>
+}

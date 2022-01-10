@@ -71,6 +71,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Attendance;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Banner;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Batch;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Branch;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Charts;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Circular;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Class;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Course;
@@ -267,6 +268,9 @@ namespace Ashirvad.Web
 
             container.RegisterType<IDashboardChartAPI, DashboardChart>();
             container.RegisterType<IDashboardChartService, DashboardChartService>();
+
+            container.RegisterType<IChartAPI, Chart>();
+            container.RegisterType<IChartService, ChartService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

@@ -428,7 +428,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             {
                 Isasc = model.order[0].dir == "desc" ? false : true;
             }           
-            long count = this.context.STUDENT_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Distinct().Count();
+            long count = this.context.STUDENT_MASTER.Where(s => (0 == status || s.row_sta_cd == status) && s.branch_id == branchID).Distinct().Count();
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")

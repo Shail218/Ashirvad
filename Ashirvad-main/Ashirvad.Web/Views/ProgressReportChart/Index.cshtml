@@ -4,12 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
 <section class="content">
     <div class="row">
         <section class="col-md-12">
-            <div class="box box-warning">
+            <div class="box box-warning" style="padding:5px">
                 <div class="box-body">
                     @{
                         Html.RenderPartial("Filter");
@@ -18,13 +16,13 @@
             </div>
         </section>
         <section class="col-md-12">
-            <div class="box box-primary">
+            <div class="box box-primary" id="PersonalDiv">
                 <div class="box-header with-border">
                     <h3 class="box-title">
                         Personal Info
-                        <h3>
+                    </h3>
                 </div>
-                <div class="box-body">
+                <div class="box-body" id="PersonalData">
                     @{
                         Html.RenderPartial("FilteredData");
                     }
@@ -32,8 +30,8 @@
             </div>
         </section>
         <section class="col-md-12">
-            <div class="box box-primary">
-                <div class="box-body">
+            <div class="box box-primary" id="ReportDiv">
+                <div class="box-body" id="ReportData">
                     @{
                         Html.RenderPartial("Report");
                     }
@@ -41,14 +39,8 @@
             </div>
         </section>
         <section class="col-md-12">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        Test
-
-                        <h3>
-                </div>
-                <div class="box-body">
+            <div class="box box-primary" id="TestDiv">
+                <div class="box-body" id="TestData">
                     @{
                         Html.RenderPartial("Test");
                     }
@@ -56,14 +48,8 @@
             </div>
         </section>
         <section class="col-md-12">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        Homework
-
-                        <h3>
-</div>
-                <div class="box-body">
+            <div class="box box-primary" id="HomeworkDiv">
+                <div class="box-body" id="HomeworkData">
                     @{
                         Html.RenderPartial("Homework");
                     }
@@ -72,76 +58,10 @@
         </section>
     </div>
     @section Scripts {
-        <script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
-        <script>
-            $(document).ready(function () {
-
-                $('#studenttbl').DataTable({
-                    "searching": true,
-                    "orderable": true,
-                    "columnDefs": [
-                        {
-                            "targets": [0],
-                            "searchable": false,
-                            "orderable": false,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [1],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [2],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [3],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [4],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [5],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-
-                    ],
-                    "columns": [
-                        { "data": "" },
-                        { "data": "FirstName" },
-                        { "data": "AdmissionDate" },
-                        { "data": "Standard" },
-                        { "data": "BatchTime" },
-                        { "data": "ContactNo" },
-                    ]
-                });
-            });
-        </script>
-        <script type="text/javascript">
-            function ConfirmationDialog() {
-                if (confirm("Are you sure to continue?"))
-                    return true;
-                else
-                    return false;
-            }
-        </script>
-
+        <script type="text/javascript" src="~/scripts/app/progresschart.js"></script>
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     }
-
-
 </section>
 

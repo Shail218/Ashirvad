@@ -387,17 +387,17 @@
                                                 </a>
                                             </li>
                                             <li class="treeview" id="Li5">
-                                                <a href="@Url.Action("Index","BatchWiseChart")">
+                                                <a href="@Url.Action("Index","BatchWiseChart",new { @StandardID = 0})">
                                                     Batch Wise
                                                 </a>
                                             </li>
                                             <li class="treeview" id="Li8">
-                                                <a href="@Url.Action("Index","ListOfStudent")">
+                                                <a href="@Url.Action("Index","ListOfStudent",new { @StandardID = 0,@batchID = -1})">
                                                     List Of Student
                                                 </a>
                                             </li>
                                             <li class="treeview" id="Li9">
-                                                <a href="@Url.Action("Index","ProgressReportChart")">
+                                                <a href="@Url.Action("Index","ProgressReportChart",new { @StudentID = 0 })">
                                                     Student Progress Chart
                                                 </a>
                                             </li>
