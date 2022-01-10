@@ -172,7 +172,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                                                select new BranchStandardEntity()
                                                {
                                                    name = u.SUBJECT_MASTER.subject,
-                                                   branchid = u.homework_id
+                                                   branchid = u.sub_id
                                                }).Distinct().ToList();
                     if(item.branchstandardlist.Count > 0)
                     {
@@ -180,6 +180,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                         {
                             point = new DataPoints();
                             point.label = item1.name;
+                            point.id = item1.branchid;
                             point.y = item.branchstandardlist.Count;
                             point.Days += Convert.ToInt32(point.y);
                             list.Add(point);
@@ -216,7 +217,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                                                    select new BranchStandardEntity()
                                                    {
                                                        name = u.SUBJECT_MASTER.subject,
-                                                       branchid = u.test_id,
+                                                       branchid = u.sub_id,
                                                        totalmarks = u.total_marks,
                                                        achievemarks = t.achive_marks
                                                    }).Distinct().ToList();
@@ -226,6 +227,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                             {
                                 point = new TestDataPoints();
                                 point.label = item1.name;
+                                point.id = item1.branchid;
                                 point.TotalMarks = item1.totalmarks;
                                 point.AchieveMarks = IsNumeric(item1.achievemarks);
                                 point.y = Math.Round((point.AchieveMarks / point.TotalMarks) * 100, 2);

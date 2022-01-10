@@ -41,6 +41,7 @@ namespace Ashirvad.Data.Model
         public string label { get; set; }
         public int y { get; set; }
         public int Days { get; set; }
+        public long id { get; set; }
     }
     public class TestDataPoints
     {
@@ -49,5 +50,6 @@ namespace Ashirvad.Data.Model
         public string Days { get; set; }
         public double TotalMarks { get; set; }
         public double AchieveMarks { get; set; }
+        public long id { get; set; }
     }
 }
