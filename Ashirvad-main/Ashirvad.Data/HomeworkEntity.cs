@@ -50,5 +50,6 @@ namespace Ashirvad.Data
         public RowStatusEntity RowStatus { get; set; }
         public TransactionEntity Transaction { get; set; }
         public DateTime SubmitDate { get; set; }
+        public long Count { get; set; }
     }
 }

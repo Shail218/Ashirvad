@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.DashboardChart
 {
@@ -267,9 +268,10 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
             }
         }
 
-        public async Task<List<MarksEntity>> GetTestDetailsByStudent(long studentid,long subjectid)
+        public async Task<List<MarksEntity>> GetTestDetailsByStudent(DataTableAjaxPostModel model,long studentid,long subjectid)
         {
-            var data = (from u in this.context.MARKS_MASTER.Include("TEST_MASTER") orderby u.marks_id descending
+            int count = this.context.MARKS_MASTER.Where(s => s.row_sta_cd == 1 && s.student_id == studentid && s.subject_id == subjectid).Distinct().Count();
+            var data = (from u in this.context.MARKS_MASTER.Include("TEST_MASTER")
                         where (u.row_sta_cd == 1 && u.student_id == studentid && u.subject_id == subjectid)
                         select new MarksEntity()
                         {
@@ -283,21 +285,32 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                                 Subject = u.SUBJECT_MASTER.subject,
                                 SubjectID = u.subject_id
                             },
+                            Count = count,
                             AchieveMarks = u.achive_marks,
                             Percentage = Math.Round(Convert.ToDouble(u.achive_marks) * 100.0 / u.TEST_MASTER.total_marks, 2).ToString()
-                        }).Distinct().ToList();
+                        }).Distinct()
+                        .OrderByDescending(a => a.MarksID)
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
             return data;
         }
 
-        public async Task<List<HomeworkDetailEntity>> GetHomeworkDetailsByStudent(long studentid, long subjectid)
+        public async Task<List<HomeworkDetailEntity>> GetHomeworkDetailsByStudent(DataTableAjaxPostModel model,long studentid, long subjectid)
         {
-            var data = (from u in this.context.HOMEWORK_MASTER_DTL.Include("HOMEWORK_MASTER") orderby u.homework_master_dtl_id descending
+            int count = this.context.HOMEWORK_MASTER_DTL.Where(s => s.stud_id == studentid).Distinct().Count();
+            var data = (from u in this.context.HOMEWORK_MASTER_DTL.Include("HOMEWORK_MASTER")
                         where (u.stud_id == studentid)
                         select new HomeworkDetailEntity()
                         {
-                            HomeworkDetailID = u.homework_id
-                        }).Distinct().ToList();
-            if(data?.Count > 0)
+                            HomeworkDetailID = u.homework_id,
+                            Count = count
+                        }).Distinct()
+                        .OrderByDescending(a => a.HomeworkDetailID)
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+            if (data?.Count > 0)
             {
                 foreach (var item in data)
                 {
