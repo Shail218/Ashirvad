@@ -184,3 +184,11 @@ function GetTestByStudent2(StudentID) {
 function GoToAttendance(type) {
     window.location.href = "AttendanceByStudent?studentID=" + $("#StudentName option:selected").val() + "&type=" + type;
 }
+
+function GoToHomework(subjectID) {
+    window.location.href = "AttendanceByStudent?studentID=" + $("#StudentName option:selected").val() + "&subjectID=" + subjectID;
+}
+
+function GoToTest(subjectID) {
+    window.location.href = "TestByStudent?studentID=" + $("#StudentName option:selected").val() + "&subjectID=" + subjectID;
+}
