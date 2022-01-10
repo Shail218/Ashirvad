@@ -186,7 +186,7 @@ function GoToAttendance(type) {
 }
 
 function GoToHomework(subjectID) {
-    window.location.href = "AttendanceByStudent?studentID=" + $("#StudentName option:selected").val() + "&subjectID=" + subjectID;
+    window.location.href = "HomeworkByStudent/HomeworkchartMaintenance?StudentID=" + $("#StudentName option:selected").val() + "&subjectID=" + subjectID;
 }
 
 function GoToTest(subjectID) {
