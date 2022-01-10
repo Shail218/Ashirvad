@@ -251,6 +251,7 @@
     <Content Include="scripts\app\agreement.js" />
     <Content Include="scripts\app\announcement.js" />
     <Content Include="scripts\app\attendance.js" />
+    <Content Include="scripts\app\attendancebystudent.js" />
     <Content Include="scripts\app\attendanceEdit.js" />
     <Content Include="scripts\app\attendanceRegister.js" />
     <Content Include="scripts\app\attendanceReport.js" />
@@ -273,6 +274,7 @@
     <Content Include="scripts\app\fees.js" />
     <Content Include="scripts\app\homework.js" />
     <Content Include="scripts\app\anssheetdetail.js" />
+    <Content Include="scripts\app\homeworkbystudent.js" />
     <Content Include="scripts\app\homeworkdetail.js" />
     <Content Include="scripts\app\image.js" />
     <Content Include="scripts\app\libraryvideo.js" />
@@ -301,6 +303,7 @@
     <Content Include="scripts\app\subject.js" />
     <Content Include="scripts\app\superadminsubject.js" />
     <Content Include="scripts\app\test.js" />
+    <Content Include="scripts\app\testbystudent.js" />
     <Content Include="scripts\app\todo.js" />
     <Content Include="scripts\app\todoregister.js" />
     <Content Include="scripts\app\upi.js" />
