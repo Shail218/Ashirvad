@@ -78,11 +78,10 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
                 RowStatus = studentInfo.RowStatus,
                 StudentID = studentInfo.StudentID,
                 Transaction = studentInfo.Transaction,
-                Username = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ContactNo : studentInfo.ContactNo,
+                Username = userType == Enums.UserType.Parent ? studentInfo.StudentMaint.ContactNo : studentInfo.StudentMaint.ContactNo,
                 UserType = userType,
                 UserID = userType == Enums.UserType.Parent ? (long)studentInfo.StudentMaint.UserID : (long)studentInfo.UserID
             };
-
             return user;
         }
 
