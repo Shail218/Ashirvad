@@ -1,4 +1,5 @@
-﻿using Ashirvad.Data;
+﻿using Ashirvad.Common;
+using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.Repo.DataAcceessAPI.Area.DashboardChart;
 using System;
@@ -262,6 +263,66 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                     return 0;
                 }
             }
+        }
+
+        public async Task<List<MarksEntity>> GetTestDetailsByStudent(long studentid,long subjectid)
+        {
+            var data = (from u in this.context.MARKS_MASTER.Include("TEST_MASTER") orderby u.marks_id descending
+                        where (u.row_sta_cd == 1 && u.student_id == studentid && u.subject_id == subjectid)
+                        select new MarksEntity()
+                        {
+                            testEntityInfo = new TestEntity()
+                            {
+                                TestDate = u.TEST_MASTER.test_dt,
+                                Marks = u.TEST_MASTER.total_marks
+                            },
+                            SubjectInfo = new SubjectEntity()
+                            {
+                                Subject = u.SUBJECT_MASTER.subject,
+                                SubjectID = u.subject_id
+                            },
+                            AchieveMarks = u.achive_marks,
+                            Percentage = Math.Round(Convert.ToDouble(u.achive_marks) * 100.0 / u.TEST_MASTER.total_marks, 2).ToString()
+                        }).Distinct().ToList();
+            return data;
+        }
+
+        public async Task<List<HomeworkDetailEntity>> GetHomeworkDetailsByStudent(long studentid, long subjectid)
+        {
+            var data = (from u in this.context.HOMEWORK_MASTER_DTL.Include("HOMEWORK_MASTER") orderby u.homework_master_dtl_id descending
+                        where (u.stud_id == studentid)
+                        select new HomeworkDetailEntity()
+                        {
+                            HomeworkDetailID = u.homework_id
+                        }).Distinct().ToList();
+            if(data?.Count > 0)
+            {
+                foreach (var item in data)
+                {
+                    var a = (from z in this.context.HOMEWORK_MASTER_DTL where z.homework_id == item.HomeworkDetailID && z.HOMEWORK_MASTER.sub_id == subjectid select z).FirstOrDefault();
+                    if (a != null)
+                    {
+                        item.StatusText = a.status == (int)Enums.HomeWorkStatus.Done ? "Done" : "Pending";
+                        item.Remarks = a.remarks;
+                        item.HomeworkEntity = new HomeworkEntity()
+                        {
+                            HomeworkDate = a.HOMEWORK_MASTER.homework_dt,
+                            SubjectName = a.HOMEWORK_MASTER.SUBJECT_MASTER.subject
+                        };
+                    }
+                    else
+                    {
+                        item.StatusText = "Pending";
+                        item.Remarks = "";
+                        item.HomeworkEntity = new HomeworkEntity()
+                        {
+                            HomeworkDate = a.HOMEWORK_MASTER.homework_dt,
+                            SubjectName = a.HOMEWORK_MASTER.SUBJECT_MASTER.subject
+                        };
+                    }
+                }
+            }
+            return data;
         }
     }    
 }

@@ -1,4 +1,5 @@
-﻿using Ashirvad.Data.Model;
+﻿using Ashirvad.Data;
+using Ashirvad.Data.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.DashboardChart
         Task<List<ChartBranchEntity>> GetTotalCountList(long studentid);
         Task<List<DataPoints>> GetHomeworkByStudent(long branchid, long studentid);
         Task<List<TestDataPoints>> GetTestdetailsByStudent(long branchid, long studentid);
+        Task<List<MarksEntity>> GetTestDetailsByStudent(long studentid, long subjectid);
+        Task<List<HomeworkDetailEntity>> GetHomeworkDetailsByStudent(long studentid, long subjectid);
     }
 }

@@ -29,5 +29,6 @@ namespace Ashirvad.Data
         public int BatchTime { get; set; }
         public Enums.BatchType BatchType { get; set; }
         public long Count { get; set; }
+        public string Percentage { get; set; }
     }
 }
