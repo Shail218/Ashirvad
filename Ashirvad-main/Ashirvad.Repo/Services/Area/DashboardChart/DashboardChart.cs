@@ -12,7 +12,7 @@ using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.DashboardChart
 {
-    public class DashboardChart : ModelAccess,IDashboardChartAPI
+    public class DashboardChart : ModelAccess, IDashboardChartAPI
     {
         public async Task<List<ChartBranchEntity>> AllBranchWithCount()
         {
@@ -34,43 +34,43 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                               select new ChartBranchEntity()
                               {
                                   name = u.first_name
-                              }).Distinct().Count();                    
+                              }).Distinct().Count();
                     item.branchstandardlist = AllBranchStandardWithCount(item);
                 }
-            }           
+            }
             return data;
         }
 
         public List<BranchStandardEntity> AllBranchStandardWithCount(ChartBranchEntity chart)
-        {         
+        {
             List<BranchStandardEntity> branches = new List<BranchStandardEntity>();
-            BranchStandardEntity standardEntity = new BranchStandardEntity();        
+            BranchStandardEntity standardEntity = new BranchStandardEntity();
             var data = (from u in this.context.STUDENT_MASTER
                        .Include("STD_MASTER")
                         where (u.branch_id == chart.branchid && u.row_sta_cd == 1)
                         select new BranchStandardEntity()
                         {
-                          name= u.STD_MASTER.standard,
-                         branchid = u.branch_id
+                            name = u.STD_MASTER.standard,
+                            branchid = u.branch_id
                         }).Distinct().ToArray();
-            foreach(var item in data)
+            foreach (var item in data)
             {
                 ArrayList data1 = new ArrayList();
                 int count = (from u in this.context.STUDENT_MASTER
                        .Include("STD_MASTER")
                              where (u.branch_id == chart.branchid && u.row_sta_cd == 1 && u.STD_MASTER.standard == item.name)
                              select new BranchStandardEntity()
-                             {                                 
-                                branchid = u.branch_id
+                             {
+                                 branchid = u.branch_id
                              }).Count();
                 data1.Add("Standard " + item.name);
                 data1.Add(count);
                 standardEntity.data.Add(data1);
             }
-            standardEntity.id = chart.name;           
+            standardEntity.id = chart.name;
             branches.Add(standardEntity);
             return branches;
-        }       
+        }
 
         public async Task<List<BranchStandardEntity>> AllBranchStandardWithCountByBranch(long branchid)
         {
@@ -99,7 +99,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                 data1.Add(count);
                 standardEntity.data.Add(data1);
                 standardEntity.id = item.id;
-            }           
+            }
             branches.Add(standardEntity);
             return branches;
         }
@@ -135,7 +135,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
 
             entity = new ChartBranchEntity();
             entity.y = this.context.ATTENDANCE_DTL.Where(s => s.student_id == studentid && s.ATTENDANCE_HDR.row_sta_cd == 1).Count();
-            entity.name = "Total Days";            
+            entity.name = "Total Days";
             list.Add(entity);
 
             entity = new ChartBranchEntity();
@@ -151,7 +151,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
             return list;
         }
 
-        public async Task<List<DataPoints>> GetHomeworkByStudent(long branchid,long studentid)
+        public async Task<List<DataPoints>> GetHomeworkByStudent(long branchid, long studentid)
         {
             DataPoints point = new DataPoints();
             List<DataPoints> list = new List<DataPoints>();
@@ -163,7 +163,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                             name = u.subject,
                             branchid = u.subject_id
                         }).ToList();
-            if(data?.Count > 0)
+            if (data?.Count > 0)
             {
                 foreach (var item in data)
                 {
@@ -175,7 +175,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                                                    name = u.SUBJECT_MASTER.subject,
                                                    branchid = u.sub_id
                                                }).Distinct().ToList();
-                    if(item.branchstandardlist.Count > 0)
+                    if (item.branchstandardlist.Count > 0)
                     {
                         foreach (var item1 in item.branchstandardlist)
                         {
@@ -190,10 +190,10 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                 }
 
             }
-            return list;         
+            return list;
         }
 
-        public async Task<List<TestDataPoints>> GetTestdetailsByStudent(long branchid,long studentid)
+        public async Task<List<TestDataPoints>> GetTestdetailsByStudent(long branchid, long studentid)
         {
             TestDataPoints point = new TestDataPoints();
             List<TestDataPoints> list = new List<TestDataPoints>();
@@ -206,9 +206,9 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                             name = u.subject,
                             branchid = u.subject_id
                         }).ToList();
-            if(data?.Count > 0)
+            if (data?.Count > 0)
             {
-                foreach(var item in data)
+                foreach (var item in data)
                 {
                     try
                     {
@@ -238,7 +238,8 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                                 list.Add(point);
                             }
                         }
-                    }catch(Exception ex)
+                    }
+                    catch (Exception ex)
                     {
 
                     }
@@ -268,35 +269,67 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
             }
         }
 
-        public async Task<List<MarksEntity>> GetTestDetailsByStudent(DataTableAjaxPostModel model,long studentid,long subjectid)
+        public async Task<List<MarksEntity>> GetTestDetailsByStudent(DataTableAjaxPostModel model, long studentid, long subjectid)
         {
             int count = this.context.MARKS_MASTER.Where(s => s.row_sta_cd == 1 && s.student_id == studentid && s.subject_id == subjectid).Distinct().Count();
-            var data = (from u in this.context.MARKS_MASTER.Include("TEST_MASTER")
-                        where (u.row_sta_cd == 1 && u.student_id == studentid && u.subject_id == subjectid)
-                        select new MarksEntity()
-                        {
-                            testEntityInfo = new TestEntity()
+            try
+            {
+                var data = (from u in this.context.MARKS_MASTER.Include("TEST_MASTER")
+                            where u.row_sta_cd == 1 && u.student_id == studentid && u.subject_id == subjectid
+                            select new MarksEntity()
                             {
-                                TestDate = u.TEST_MASTER.test_dt,
-                                Marks = u.TEST_MASTER.total_marks
-                            },
-                            SubjectInfo = new SubjectEntity()
-                            {
-                                Subject = u.SUBJECT_MASTER.subject,
-                                SubjectID = u.subject_id
-                            },
-                            Count = count,
-                            AchieveMarks = u.achive_marks,
-                            Percentage = Math.Round(Convert.ToDouble(u.achive_marks) * 100.0 / u.TEST_MASTER.total_marks, 2).ToString()
-                        }).Distinct()
-                        .OrderByDescending(a => a.MarksID)
-                        .Skip(model.start)
-                        .Take(model.length)
-                        .ToList();
-            return data;
+                                testEntityInfo = new TestEntity()
+                                {
+                                    TestDate = u.TEST_MASTER.test_dt,
+                                    Marks = u.TEST_MASTER.total_marks
+                                },
+                                SubjectInfo = new SubjectEntity()
+                                {
+                                    Subject = u.SUBJECT_MASTER.subject,
+                                    SubjectID = u.subject_id
+                                },
+                                Count = count,
+                                MarksID = u.marks_id,
+                                AchieveMarks = u.achive_marks
+                            }).Distinct()
+                            .OrderByDescending(a => a.MarksID)
+                            .Skip(model.start)
+                            .Take(model.length)
+                            .ToList();
+                var data2 = (from u in data
+                             where model.search.value == null
+                                || model.search.value == ""
+                                || u.testEntityInfo.TestDate.ToString().ToLower().Contains(model.search.value)
+                                || u.testEntityInfo.Marks.ToString().ToLower().Contains(model.search.value)
+                                || u.SubjectInfo.Subject.ToString().ToLower().Contains(model.search.value)
+                                || u.AchieveMarks.ToString().ToLower().Contains(model.search.value)
+                             select new MarksEntity()
+                             {
+                                 testEntityInfo = new TestEntity()
+                                 {
+                                     TestDate = u.testEntityInfo.TestDate,
+                                     Marks = u.testEntityInfo.Marks
+                                 },
+                                 SubjectInfo = new SubjectEntity()
+                                 {
+                                     Subject = u.SubjectInfo.Subject,
+                                     SubjectID = u.SubjectInfo.SubjectID
+                                 },
+                                 Count = count,
+                                 AchieveMarks = u.AchieveMarks,
+                                 Percentage = Math.Round(Convert.ToDouble(u.AchieveMarks) * 100.0 / u.testEntityInfo.Marks, 2).ToString()
+                             }).ToList();
+                return data2;
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return null;
         }
 
-        public async Task<List<HomeworkDetailEntity>> GetHomeworkDetailsByStudent(DataTableAjaxPostModel model,long studentid, long subjectid)
+        public async Task<List<HomeworkDetailEntity>> GetHomeworkDetailsByStudent(DataTableAjaxPostModel model, long studentid, long subjectid)
         {
             int count = this.context.HOMEWORK_MASTER_DTL.Where(s => s.stud_id == studentid).Distinct().Count();
             var data = (from u in this.context.HOMEWORK_MASTER_DTL.Include("HOMEWORK_MASTER")
@@ -314,7 +347,13 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
             {
                 foreach (var item in data)
                 {
-                    var a = (from z in this.context.HOMEWORK_MASTER_DTL where z.homework_id == item.HomeworkDetailID && z.HOMEWORK_MASTER.sub_id == subjectid select z).FirstOrDefault();
+                    var a = (from z in this.context.HOMEWORK_MASTER_DTL
+                             where z.homework_id == item.HomeworkDetailID && z.HOMEWORK_MASTER.sub_id == subjectid && (model.search.value == null
+                                || model.search.value == ""
+                                || z.remarks.ToLower().Contains(model.search.value)
+                                || z.HOMEWORK_MASTER.SUBJECT_MASTER.subject.ToLower().Contains(model.search.value)
+                                || z.HOMEWORK_MASTER.homework_dt.ToString().ToLower().Contains(model.search.value))
+                             select z).FirstOrDefault();
                     if (a != null)
                     {
                         item.StatusText = a.status == (int)Enums.HomeWorkStatus.Done ? "Done" : "Pending";
@@ -327,17 +366,11 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                     }
                     else
                     {
-                        item.StatusText = "Pending";
-                        item.Remarks = "";
-                        item.HomeworkEntity = new HomeworkEntity()
-                        {
-                            HomeworkDate = a.HOMEWORK_MASTER.homework_dt,
-                            SubjectName = a.HOMEWORK_MASTER.SUBJECT_MASTER.subject
-                        };
+                        data = new List<HomeworkDetailEntity>();
                     }
                 }
             }
             return data;
         }
-    }    
+    }
 }

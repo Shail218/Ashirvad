@@ -76,6 +76,7 @@ $("#BranchName").change(function () {
 });
 
 $("#StudentName").change(function () {
+    ShowLoader();
     var Data = $("#StudentName option:selected").val();
     GetAllStudent(Data);
 });
