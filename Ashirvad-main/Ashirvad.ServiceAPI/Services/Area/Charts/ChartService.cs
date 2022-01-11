@@ -32,6 +32,20 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             return null;
         }
 
+        public async Task<List<StudentEntity>> GetAllStudentsNameByStandard(long StdID)
+        {
+            try
+            {
+                return await this._studentContext.GetAllStudentsNameByStandard(StdID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<List<StandardEntity>> GetAllClassDDL(long branchID)
         {
             try

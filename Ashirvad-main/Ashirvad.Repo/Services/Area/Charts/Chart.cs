@@ -25,6 +25,18 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             return data;
         }
 
+        public async Task<List<StudentEntity>> GetAllStudentsNameByStandard(long StdID)
+        {
+            var data = (from u in this.context.STUDENT_MASTER
+                        where u.std_id == StdID
+                        select new StudentEntity()
+                        {
+                            StudentID = u.student_id,
+                            Name = u.first_name + " " + u.last_name,
+                        }).ToList();
+            return data;
+        }
+
         public async Task<List<StandardEntity>> GetAllClassDDL(long BranchID)
         {
 

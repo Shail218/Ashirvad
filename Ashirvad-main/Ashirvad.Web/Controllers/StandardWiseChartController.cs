@@ -31,6 +31,12 @@ namespace Ashirvad.Web.Controllers
             return Json(studentData);
         }
 
+        public async Task<JsonResult> StudentDataByStandard(long StdID)
+        {
+            var studentData = await _chartService.GetAllStudentsNameByStandard(StdID);
+            return Json(studentData);
+        }
+
         [HttpPost]
         public async Task<ActionResult> GetAllClassDDL(long branchID)
         {

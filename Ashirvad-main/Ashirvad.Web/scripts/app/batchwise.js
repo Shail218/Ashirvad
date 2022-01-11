@@ -6,7 +6,6 @@ $(document).ready(function () {
         ShowLoader();
         LoadBranch();
     } else {
-        LoadStudent(0);
         LoadStandard(0);
         showchartAstdcontainer();
     }
@@ -29,22 +28,6 @@ function LoadBranch() {
     });
 }
 
-function LoadStudent(branchID) {
-    ShowLoader();
-    var postCall = $.post(commonData.StandardWiseChart + "StudentData", { "branchID": branchID });
-    postCall.done(function (data) {
-        $('#StudentName').empty();
-        $('#StudentName').select2();
-        $("#StudentName").append("<option value=" + 0 + ">---Select Student---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#StudentName").append("<option value='" + data[i].StudentID + "'>" + data[i].Name + "</option>");
-        }
-        HideLoader();
-    }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
-}
-
 function LoadStandard(branchID) {
     ShowLoader();
     var postCall = $.post(commonData.BatchWiseChart + "GetAllStandard", { "branchID": branchID });
@@ -60,8 +43,25 @@ function LoadStandard(branchID) {
         var StandardID = search_params.get('StandardID');
         if (StandardID != 0) {
             $('#StandardName option[value="' + StandardID + '"]').attr("selected", "selected");
+            LoadStudentByStandard(StandardID);
             document.getElementById("BatchDiv").style.display = 'block';
             document.getElementById("ChartDiv").style.display = 'block';
+        }
+        HideLoader();
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+function LoadStudentByStandard(stdid) {
+    ShowLoader();
+    var postCall = $.post(commonData.StandardWiseChart + "StudentDataByStandard", { "StdID": stdid });
+    postCall.done(function (data) {
+        $('#StudentName').empty();
+        $('#StudentName').select2();
+        $("#StudentName").append("<option value=" + 0 + ">---Select Student---</option>");
+        for (i = 0; i < data.length; i++) {
+            $("#StudentName").append("<option value='" + data[i].StudentID + "'>" + data[i].Name + "</option>");
         }
         HideLoader();
     }).fail(function () {
@@ -90,6 +90,8 @@ $("#BranchName").change(function () {
 });
 
 $("#StandardName").change(function () {
+    var Data = $("#StandardName option:selected").val();
+    LoadStudentByStandard(Data);
     document.getElementById("BatchDiv").style.display = 'block';
     document.getElementById("ChartDiv").style.display = 'block';
 });
