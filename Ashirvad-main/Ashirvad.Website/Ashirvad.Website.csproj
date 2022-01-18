@@ -206,6 +206,8 @@
     <Content Include="Scripts\app\faculty.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="PDF\0321537114.pdf" />
+    <Content Include="PDF\kecs105.pdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -538,6 +540,7 @@
     <Content Include="Themedata\assets\images\user4.jpg" />
     <Content Include="Themedata\assets\images\user5.jpg" />
     <Content Include="Themedata\assets\images\user6.jpg" />
+    <Content Include="Themedata\assets\images\vadodara.png" />
     <Content Include="Themedata\assets\images\video_bg.jpg" />
     <Content Include="Themedata\assets\images\young-indian-man-wearing-elegant-260nw-1448274716.jpg" />
     <Content Include="Themedata\assets\images\youtube.jpg" />

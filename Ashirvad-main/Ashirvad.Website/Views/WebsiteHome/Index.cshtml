@@ -159,17 +159,19 @@
                     </div>
                 </div>
             </div>   @*&#8226*@
-            <div class="item">
-                <div class="single_categories bgorange">
-                    <h5><p class="font-bold-white text-white" style="padding-left: 42px; padding-top: 10px;">Computer Science</p></h5>
-                    <div class="vsr-banner-Btn">
-                        <a href="#" ><p class="vsr-banner-Btn-name text-white">Coding • Grade 1-8</p></a>
+        <div class="item">
+            <div class="single_categories">
+                <a href="#" class="bgorange">
+                    <h5><p class="font-bold-white text-white">Computer Science</p></h5>
+                    <div class="vsr-banner-Btn" onclick="openpdf('/PDF/kecs105.pdf')">
+                        <p class="vsr-banner-Btn-name text-white">Coding • Grade 1-8</p>
                     </div>
-                    <div class="vsr-banner-Btn">
-                        <a href="#"><p class="vsr-banner-Btn-name text-white">CS Tuitions • Grade 11-12</p></a>
+                    <div class="vsr-banner-Btn" onclick="openpdf('/PDF/0321537114.pdf')">
+                        <p class="vsr-banner-Btn-name text-white">CS Tuitions • Grade 11-12</p>
                     </div>
-                </div>
+                </a>
             </div>
+        </div>
             <div class="item">
                 <div class="single_categories bgorange">
                         <h5><p class="font-bold-white" style="padding-left: 60px; padding-top: 10px;">Crash Course</p></h5>
@@ -618,242 +620,29 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <!--<div class="row">
             <div class="col-md-12 text-center">
-                <ul class="list_none grid_filter animation" data-animation="fadeInUp" data-animation-delay="0.02s">
-                    <li><a href="#" class="current" data-filter="*">All</a></li>
-                    <li><a href="#" data-filter=".library">Library</a></li>
-                    @*<li><a href="#" data-filter=".campus">Campus</a></li>*@
-                    <li><a href="#" data-filter=".events">Events</a></li>
+                <ul class="list_none grid_filter animation" data-animation="fadeInUp" data-animation-delay="0.02s">-->
+        @*<li><a href="#" class="current" data-filter="*">All</a></li>
+            <li><a href="#" data-filter=".library">Library</a></li>*@
+        <!--<li><a href="#" class="current" data-filter=".events">Photos</a></li>
                 </ul>
             </div>
-        </div>
+        </div>-->
         <div class="row">
             <div class="col-md-12">
                 <ul class="grid_container gutter_medium grid_col3 animation" data-animation="fadeInUp" data-animation-delay="0.03s">
+                    @foreach (var item in Model.galleryEntities)
+                    {
                     <li class="grid-sizer"></li>
-                    <!-- START PORTFOLIO ITEM -->
                     <li class="grid_item events">
-                        <div class="gallery_item radius_all_10">
+                        <div class="gallery_item radius_all_10" style="height:200px">
                             <a href="#" class="image_link">
-                                <img src="~/Themedata/assets/images/pexels-pixabay-459971.jpg" alt="image">
+                                <img src="@item.FilePath" onerror="this.src='/Themedata/assets/images/cl_logo5.png';" alt="image">
                             </a>
-                            <!--<div class="gallery_content">
-                                <div class="link_container">-->
-                            @*<a href="~/Themedata/assets/images/gallery_item1.jpg" class="image_popup button-red"><span class="ripple"><i class="ion-image"></i></span></a>*@
-                            <!--</div>
-                                <div class="text_holder text_white">
-                                    <h5>Galley Title</h5>
-                                </div>
-                            </div>-->
                         </div>
                     </li>
-                    <!-- END PORTFOLIO ITEM -->
-                    <!-- START PORTFOLIO ITEM -->
-                    <li class="grid_item library events">
-                        <div class="gallery_item radius_all_10">
-                            <a href="#" class="image_link">
-                                <img src="~/Themedata/assets/images/pexels-andrea-piacquadio-3769021.jpg" alt="image">
-                            </a>
-                            @*<div class="gallery_content">
-                                    <div class="link_container">
-                                        <a href="~/Themedata/assets/images/gallery_item2.jpg" class="image_popup"><span class="ripple"><i class="ion-image"></i></span></a>
-                                    </div>
-                                    <div class="text_holder text_white">
-                                        <h5>Galley Title</h5>
-                                    </div>
-                                </div>*@
-                        </div>
-                    </li>
-                    <!-- END PORTFOLIO ITEM -->
-                    <!-- START PORTFOLIO ITEM -->
-                    <li class="grid_item library">
-                        <div class="gallery_item radius_all_10">
-                            <div class="carousel_slider owl-carousel owl-theme dots_white" data-autoplay="true" data-loop="true" data-autoplay-timeout="3000" data-items="1">
-                                <a href="#" class="image_link">
-                                    <img src="~/Themedata/assets/images/pexels-fauxels-3184163.jpg" alt="image">
-                                </a>
-                                <a href="#" class="image_link">
-                                    <img src="~/Themedata/assets/images/pexels-filipe-sabino-2065490.jpg" alt="image">
-                                </a>
-                            </div>
-                            @*<div class="gallery_content">
-                                    <div class="link_container">
-                                        <a href="~/Themedata/assets/images/gallery_item3.jpg" class="image_popup"><span class="ripple"><i class="ion-image"></i></span></a>
-                                        <a href="~/Themedata/assets/images/gallery_item4.jpg" class="image_popup d-none"></a>
-                                    </div>
-                                    <div class="text_holder text_white">
-                                        <h5>Galley Title</h5>
-                                    </div>
-                                </div>*@
-                        </div>
-                    </li>
-                    <!-- END PORTFOLIO ITEM -->
-                    <!-- START PORTFOLIO ITEM -->
-                    <li class="grid_item library">
-                        <div class="gallery_item radius_all_10">
-                            <a href="#" class="image_link">
-                                <img src="~/Themedata/assets/images/pexels-shvets-production-7516544.jpg" alt="image">
-                            </a>
-                            @*<div class="gallery_content">
-                                    <div class="link_container">
-                                        <a href="~/Themedata/assets/images/gallery_item5.jpg" class="image_popup"><span class="ripple"><i class="ion-image"></i></span></a>
-                                    </div>
-                                    <div class="text_holder text_white">
-                                        <h5>Galley Title</h5>
-                                    </div>
-                                </div>*@
-                        </div>
-                    </li>
-                    <!-- END PORTFOLIO ITEM -->
-                    <!-- START PORTFOLIO ITEM -->
-                    <li class="grid_item events">
-                        <div class="gallery_item radius_all_10">
-                            <div class="carousel_slider owl-carousel owl-theme dots_white" data-autoplay="true" data-loop="true" data-animate-in="fadeIn" data-animate-out="fadeOut" data-autoplay-timeout="3500" data-items="1">
-                                <a href="#" class="image_link">
-                                    <img src="~/Themedata/assets/images/pexels-craig-adderley-1467564.jpg" alt="image">
-                                </a>
-                                <a href="#" class="image_link">
-                                    <img src="~/Themedata/assets/images/pexels-julia-m-cameron-4144096.jpg" alt="image">
-                                </a>
-                            </div>
-                            @*<div class="gallery_content">
-                                    <div class="link_container">
-                                        <a href="~/Themedata/assets/images/gallery_item6.jpg" class="image_popup"><span class="ripple"><i class="ion-image"></i></span></a>
-                                        <a href="~/Themedata/assets/images/gallery_item7.jpg" class="image_popup d-none"><i class="ion-image"></i></a>
-                                    </div>
-                                    <div class="text_holder text_white">
-                                        <h5>Galley Title</h5>
-                                    </div>
-                                </div>*@
-                        </div>
-                    </li>
-                    <!-- END PORTFOLIO ITEM -->
-                    <!-- START PORTFOLIO ITEM -->
-                    <li class="grid_item library events">
-                        <div class="gallery_item radius_all_10">
-                            <a href="#" class="image_link">
-                                <img src="~/Themedata/assets/images/pexels-rodnae-productions-7683779.jpg" alt="image">
-                            </a>
-                            @*<div class="gallery_content">
-                                    <div class="link_container">
-                                        <a href="~/Themedata/assets/images/gallery_item8.jpg" class="image_popup"><span class="ripple"><i class="ion-image"></i></span></a>
-                                    </div>
-                                    <div class="text_holder text_white">
-                                        <h5>Galley Title</h5>
-                                    </div>
-                                </div>*@
-                        </div>
-                    </li>
-                    <!-- END PORTFOLIO ITEM -->
-                    <!-- START PORTFOLIO ITEM -->
-                    <li class="grid_item library">
-                        <div class="gallery_item radius_all_10">
-                            <a href="#" class="image_link">
-                                <img src="~/Themedata/assets/images/pexels-rodnae-productions-7683777.jpg" alt="image">
-                            </a>
-                            @*<div class="gallery_content">
-                                    <div class="link_container">
-                                        <a href="~/Themedata/assets/images/gallery_item9.jpg" class="image_popup"><span class="ripple"><i class="ion-image"></i></span></a>
-                                    </div>
-                                    <div class="text_holder text_white">
-                                        <h5>Galley Title</h5>
-                                    </div>
-                                </div>*@
-                        </div>
-                    </li>
-                    <!-- END PORTFOLIO ITEM -->
-                    <!-- START PORTFOLIO ITEM -->
-                    <li class="grid_item library events">
-                        <div class="gallery_item radius_all_10">
-                            <a href="#" class="image_link">
-                                <img src="~/Themedata/assets/images/pexels-rodnae-productions-7683767.jpg" alt="image">
-                            </a>
-                            @*<div class="gallery_content">
-                                    <div class="link_container">
-                                        <a href="~/Themedata/assets/images/gallery_item10.jpg" class="image_popup"><span class="ripple"><i class="ion-image"></i></span></a>
-                                    </div>
-                                    <div class="text_holder text_white">
-                                        <h5>Galley Title</h5>
-                                    </div>
-                                </div>*@
-                        </div>
-                    </li>
-                    <!-- END PORTFOLIO ITEM -->
-                    <!-- START PORTFOLIO ITEM -->
-                    <li class="grid_item events">
-                        <div class="gallery_item radius_all_10">
-                            <a href="#" class="image_link">
-                                <img src="~/Themedata/assets/images/pexels-ivan-samkov-5676744.jpg" alt="image">
-                            </a>
-                            @*<div class="gallery_content">
-                                    <div class="link_container">
-                                        <a href="~/Themedata/assets/images/gallery_item11.jpg" class="image_popup"><span class="ripple"><i class="ion-image"></i></span></a>
-                                    </div>
-                                    <div class="text_holder text_white">
-                                        <h5>Galley Title</h5>
-                                    </div>
-                                </div>*@
-                        </div>
-                    </li>
-                    <!-- END PORTFOLIO ITEM -->
-                    <!-- START PORTFOLIO ITEM -->
-                    <li class="grid_item events">
-                        <div class="gallery_item radius_all_10">
-                            <div class="carousel_slider owl-carousel owl-theme dots_white" data-autoplay="true" data-loop="true" data-autoplay-timeout="4000" data-items="1">
-                                <a href="#" class="image_link">
-                                    <img src="~/Themedata/assets/images/pexels-julia-m-cameron-4145197.jpg" alt="image">
-                                </a>
-                                <a href="#" class="image_link">
-                                    <img src="~/Themedata/assets/images/pexels-thirdman-8926403.jpg" alt="image">
-                                </a>
-                            </div>
-                            @*<div class="gallery_content">
-                                    <div class="link_container">
-                                        <a href="~/Themedata/assets/images/gallery_item12.jpg" class="image_popup"><span class="ripple"><i class="ion-image"></i></span></a>
-                                        <a href="~/Themedata/assets/images/gallery_item13.jpg" class="image_popup d-none"></a>
-                                    </div>
-                                    <div class="text_holder text_white">
-                                        <h5>Galley Title</h5>
-                                    </div>
-                                </div>*@
-                        </div>
-                    </li>
-                    <!-- END PORTFOLIO ITEM -->
-                    <!-- START PORTFOLIO ITEM -->
-                    <li class="grid_item library">
-                        <div class="gallery_item radius_all_10">
-                            <a href="#" class="image_link">
-                                <img src="~/Themedata/assets/images/pexels-thirdman-8926543.jpg" alt="image">
-                            </a>
-                            @*<div class="gallery_content">
-                                    <div class="link_container">
-                                        <a href="~/Themedata/assets/images/gallery_item14.jpg" class="image_popup"><span class="ripple"><i class="ion-image"></i></span></a>
-                                    </div>
-                                    <div class="text_holder text_white">
-                                        <h5>Galley Title</h5>
-                                    </div>
-                                </div>*@
-                        </div>
-                    </li>
-                    <!-- END PORTFOLIO ITEM -->
-                    <!-- START PORTFOLIO ITEM -->
-                    <li class="grid_item events">
-                        <div class="gallery_item radius_all_10">
-                            <a href="#" class="image_link">
-                                <img src="~/Themedata/assets/images/pexels-thirdman-8926832.jpg" alt="image">
-                            </a>
-                            @*<div class="gallery_content">
-                                    <div class="link_container">
-                                        <a href="~/Themedata/assets/images/gallery_item15.jpg" class="image_popup"><span class="ripple"><i class="ion-image"></i></span></a>
-                                    </div>
-                                    <div class="text_holder text_white">
-                                        <h5>Galley Title</h5>
-                                    </div>
-                                </div>*@
-                        </div>
-                    </li>
-                    <!-- END PORTFOLIO ITEM -->
+                    }
                 </ul>
             </div>
         </div>
@@ -877,44 +666,42 @@
 
             @foreach (var teacher in Model.facultyEntities)
             {
-                <div class="col-lg-3 col-sm-6">
+            <div class="col-lg-3 col-sm-6">
 
-                    <div class="team_box team_style1 box_shadow1 animation" data-animation="fadeInUp" data-animation-delay="0.05s">
+                <div class="team_box team_style1 box_shadow1 animation" data-animation="fadeInUp" data-animation-delay="0.05s">
 
-                        <div class="team_img">
-                            <img src="@teacher.FilePath" onerror="this.src='/Themedata/assets/images/noimage.png';" alt="team4">
-                            <ul class="list_none social_icons social_white">
-                                <li>
-                                    <a>
-                                        <div class="ti-view-list text-body text_white">
-                                            <p><b>HIGHLIGHTS OF THIS FACULTY</b></p>
-                                            <p>@teacher.Descripation</p>
+                    <div class="team_img">
+                        <img src="@teacher.FilePath" onerror="this.src='/Themedata/assets/images/noimage.png';" alt="team4">
+                        <ul class="list_none social_icons social_white">
+                            <li>
+                                <a>
+                                    <div class="ti-view-list text-body text_white">
+                                        <p><b>HIGHLIGHTS OF THIS FACULTY</b></p>
+                                        <p>@teacher.Descripation</p>
 
-                                        </div>
-                                    </a>
+                                    </div>
+                                </a>
 
-                                </li>
-                            </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="team_title radius_lbrb_10 text-center">
+                        <h5><a href="@Url.Action("TeacherDetail","TeacherDetail")">@teacher.staff.Name</a></h5>
+                        <span>@teacher.branchSubject.Subject.SubjectName Professor</span>
+                        <div class="blog_content bg-white">
+                            <h6 class="blog_title">@teacher.BranchClass.Class.ClassName</h6>
+                            <h6 class="blog_title">@teacher.staff.Education</h6>
+                            <p></p>
+                            <p><b> </b></p>
+                            <p></p>
+                            <p><b></b></p>
+                            <!--<a href="teacher.html" class="text-capitalize">Read More</a>-->
                         </div>
-                        <div class="team_title radius_lbrb_10 text-center">
-                            <h5><a href="@Url.Action("TeacherDetail","TeacherDetail")">@teacher.staff.Name</a></h5>
-                            <span>@teacher.branchSubject.Subject.SubjectName Professor</span>
-                            <div class="blog_content bg-white">
-                                <h6 class="blog_title">@teacher.BranchClass.Class.ClassName</h6>
-                                <h6 class="blog_title">@teacher.staff.DOB</h6>
-                                <h6 class="blog_title">@teacher.branchSubject.Subject.SubjectName Expert</h6>
-                                <h6 class="blog_title">@teacher.staff.Education</h6>
-                                <p></p>
-                                <p><b> </b></p>
-                                <p></p>
-                                <p><b></b></p>
-                                <!--<a href="teacher.html" class="text-capitalize">Read More</a>-->
-                            </div>
-                        </div>
-
                     </div>
 
                 </div>
+
+            </div>
             }
         </div>
     </div>
@@ -1129,4 +916,5 @@
         </div>
     </div>
 </section>
+<script src="~/Scripts/app/Common.js"></script>
 <!-- END SECTION CALL TO ACTION -->
