@@ -159,28 +159,29 @@
                     </div>
                 </div>
             </div>   @*&#8226*@
-        <div class="item">
-            <div class="single_categories">
-                <a href="#" class="bgorange">
-                    <h5><p class="font-bold-white text-white">Computer Science</p></h5>
-                    <div class="vsr-banner-Btn" onclick="openpdf('/PDF/kecs105.pdf')">
-                        <p class="vsr-banner-Btn-name text-white">Coding • Grade 1-8</p>
-                    </div>
-                    <div class="vsr-banner-Btn" onclick="openpdf('/PDF/0321537114.pdf')">
-                        <p class="vsr-banner-Btn-name text-white">CS Tuitions • Grade 11-12</p>
-                    </div>
-                </a>
+            <div class="item">
+                <div class="single_categories">
+                    <a href="#" class="bgorange">
+                        <h5><p class="font-bold-white text-white">Computer Science</p></h5>
+                        <div class="vsr-banner-Btn">
+                            @*onclick="openpdf('/PDF/kecs105.pdf')"*@
+                            <p class="vsr-banner-Btn-name text-white">Coding • Grade 1-8</p>
+                        </div>
+                        <div class="vsr-banner-Btn" onclick="openpdf('/PDF/0321537114.pdf')">
+                            <p class="vsr-banner-Btn-name text-white">CS Tuitions • Grade 11-12</p>
+                        </div>
+                    </a>
+                </div>
             </div>
-        </div>
             <div class="item">
                 <div class="single_categories bgorange">
-                        <h5><p class="font-bold-white" style="padding-left: 60px; padding-top: 10px;">Crash Course</p></h5>
-                        <div class="vsr-banner-Btn">
-                            <a href="https://youtu.be/zgM0F6UmC70" target="_blank"><p class="vsr-banner-Btn-name text-white">Zoology</p></a>
-                        </div>
-                        <div class="vsr-banner-Btn">
-                            <a href="https://youtu.be/3yLXNzDUH58" target="_blank"><p class="vsr-banner-Btn-name text-white">Linguistics</p></a>
-                        </div>
+                    <h5><p class="font-bold-white" style="padding-left: 60px; padding-top: 10px;">Crash Course</p></h5>
+                    <div class="vsr-banner-Btn">
+                        <a href="https://youtu.be/zgM0F6UmC70" target="_blank"><p class="vsr-banner-Btn-name text-white">Zoology</p></a>
+                    </div>
+                    <div class="vsr-banner-Btn">
+                        <a href="https://youtu.be/3yLXNzDUH58" target="_blank"><p class="vsr-banner-Btn-name text-white">Linguistics</p></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -572,10 +573,10 @@
                                     <select asp-for="contactcourse" class="form-control">
                                         <option>Select Course</option>
                                         @*@foreach (var item in Model.courseEntities)
-                                        {
-                                            <option>@item.CourseName</option>
-                                            @Html.HiddenFor(model => item.CourseID)
-                                        }*@
+                                            {
+                                                <option>@item.CourseName</option>
+                                                @Html.HiddenFor(model => item.CourseID)
+                                            }*@
                                         <option>Course</option>
                                         <option>Course</option>
                                         <option>Course</option>
@@ -634,14 +635,14 @@
                 <ul class="grid_container gutter_medium grid_col3 animation" data-animation="fadeInUp" data-animation-delay="0.03s">
                     @foreach (var item in Model.galleryEntities)
                     {
-                    <li class="grid-sizer"></li>
-                    <li class="grid_item events">
-                        <div class="gallery_item radius_all_10" style="height:200px">
-                            <a href="#" class="image_link">
-                                <img src="@item.FilePath" onerror="this.src='/Themedata/assets/images/cl_logo5.png';" alt="image">
-                            </a>
-                        </div>
-                    </li>
+                        <li class="grid-sizer"></li>
+                        <li class="grid_item events">
+                            <div class="gallery_item radius_all_10" style="height:200px">
+                                <a href="#" class="image_link">
+                                    <img src="@item.FilePath" onerror="this.src='/Themedata/assets/images/cl_logo5.png';" alt="image">
+                                </a>
+                            </div>
+                        </li>
                     }
                 </ul>
             </div>
@@ -666,42 +667,42 @@
 
             @foreach (var teacher in Model.facultyEntities)
             {
-            <div class="col-lg-3 col-sm-6">
+                <div class="col-lg-3 col-sm-6">
 
-                <div class="team_box team_style1 box_shadow1 animation" data-animation="fadeInUp" data-animation-delay="0.05s">
+                    <div class="team_box team_style1 box_shadow1 animation" data-animation="fadeInUp" data-animation-delay="0.05s">
 
-                    <div class="team_img">
-                        <img src="@teacher.FilePath" onerror="this.src='/Themedata/assets/images/noimage.png';" alt="team4">
-                        <ul class="list_none social_icons social_white">
-                            <li>
-                                <a>
-                                    <div class="ti-view-list text-body text_white">
-                                        <p><b>HIGHLIGHTS OF THIS FACULTY</b></p>
-                                        <p>@teacher.Descripation</p>
+                        <div class="team_img">
+                            <img src="@teacher.FilePath" onerror="this.src='/Themedata/assets/images/noimage.png';" alt="team4">
+                            <ul class="list_none social_icons social_white">
+                                <li>
+                                    <a>
+                                        <div class="ti-view-list text-body text_white">
+                                            <p><b>HIGHLIGHTS OF THIS FACULTY</b></p>
+                                            <p>@teacher.Descripation</p>
 
-                                    </div>
-                                </a>
+                                        </div>
+                                    </a>
 
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="team_title radius_lbrb_10 text-center">
-                        <h5><a href="@Url.Action("TeacherDetail","TeacherDetail")">@teacher.staff.Name</a></h5>
-                        <span>@teacher.branchSubject.Subject.SubjectName Professor</span>
-                        <div class="blog_content bg-white">
-                            <h6 class="blog_title">@teacher.BranchClass.Class.ClassName</h6>
-                            <h6 class="blog_title">@teacher.staff.Education</h6>
-                            <p></p>
-                            <p><b> </b></p>
-                            <p></p>
-                            <p><b></b></p>
-                            <!--<a href="teacher.html" class="text-capitalize">Read More</a>-->
+                                </li>
+                            </ul>
                         </div>
+                        <div class="team_title radius_lbrb_10 text-center">
+                            <h5><a href="@Url.Action("TeacherDetail", "TeacherDetail", new { @branchID = 0, @CourseID = 0, @ClassID = 0, @subjectID = 0, @facultyID = teacher.FacultyID })">@teacher.staff.Name</a></h5>
+                            <span>@teacher.branchSubject.Subject.SubjectName Professor</span>
+                            <div class="blog_content bg-white">
+                                <h6 class="blog_title">@teacher.BranchClass.Class.ClassName</h6>
+                                <h6 class="blog_title">@teacher.staff.Education</h6>
+                                <p></p>
+                                <p><b> </b></p>
+                                <p></p>
+                                <p><b></b></p>
+                                <!--<a href="teacher.html" class="text-capitalize">Read More</a>-->
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
-
-            </div>
             }
         </div>
     </div>
