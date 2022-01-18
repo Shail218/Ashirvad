@@ -687,7 +687,7 @@
                             </ul>
                         </div>
                         <div class="team_title radius_lbrb_10 text-center">
-                            <h5><a href="@Url.Action("TeacherDetail", "TeacherDetail", new { @branchID = 0, @CourseID = 0, @ClassID = 0, @subjectID = 0, @facultyID = teacher.FacultyID })">@teacher.staff.Name</a></h5>
+                            <h5><a href="@Url.Action("TeacherDetail", "TeacherDetail", new { @facultyID = teacher.FacultyID })">@teacher.staff.Name</a></h5>
                             <span>@teacher.branchSubject.Subject.SubjectName Professor</span>
                             <div class="blog_content bg-white">
                                 <h6 class="blog_title">@teacher.BranchClass.Class.ClassName</h6>
