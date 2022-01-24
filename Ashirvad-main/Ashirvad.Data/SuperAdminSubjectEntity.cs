@@ -16,6 +16,8 @@ namespace Ashirvad.Data
         public RowStatusEntity RowStatus { get; set; }
         public Enums.UserType UserType { get; set; }
         public BranchEntity branchEntity { get; set; }
+        public CourseEntity courseEntity { get; set; }
+        public ClassEntity classEntity { get; set; }
         public string oldsubject { get; set; }
     }
 }

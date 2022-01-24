@@ -31,7 +31,6 @@ namespace Ashirvad.Repo.Model
         public Nullable<bool> is_class { get; set; }
     
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
-        public virtual CLASS_MASTER CLASS_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SUBJECT_DTL_MASTER> SUBJECT_DTL_MASTER { get; set; }
@@ -40,5 +39,6 @@ namespace Ashirvad.Repo.Model
         public virtual COURSE_DTL_MASTER COURSE_DTL_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FACULTY_MASTER> FACULTY_MASTER { get; set; }
+        public virtual CLASS_MASTER CLASS_MASTER { get; set; }
     }
 }

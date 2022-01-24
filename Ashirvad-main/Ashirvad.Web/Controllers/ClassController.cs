@@ -2,6 +2,7 @@
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Class;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Course;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,6 +86,35 @@ namespace Ashirvad.Web.Controllers
                 iTotalDisplayRecords = total,
                 data = branchData.Data
             });
+
+        }
+
+        public async Task<JsonResult> CourseData()
+        {
+            var branchData = await _classService.GetAllCourse();
+            return Json(branchData);
+        }
+
+        public async Task<JsonResult> GetClassDDL(long CourseID)
+        {
+
+            try
+            {
+                var BranchCourse = await _classService.GetAllBranchClassDDL(SessionContext.Instance.LoginUser.BranchInfo.BranchID, CourseID);
+                if (BranchCourse.Count > 0)
+                {
+                    return Json(BranchCourse);
+                }
+                else
+                {
+                    return Json(0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(null);
+            }
 
         }
     }

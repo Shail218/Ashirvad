@@ -100,5 +100,33 @@ namespace Ashirvad.ServiceAPI.Services.Area.Class
 
             return false;
         }
+
+        public async Task<List<CourseEntity>> GetAllCourse()
+        {
+            try
+            {
+                return await this._classService.GetAllCourse();
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<ClassEntity>> GetAllBranchClassDDL(long BranchID = 0, long ClassID = 0)
+        {
+            try
+            {
+                return await this._classService.GetAllClassDDL(BranchID, ClassID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
     }
 }

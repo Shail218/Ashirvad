@@ -1,6 +1,15 @@
 ﻿@model Ashirvad.Data.ClassEntity
 <form id="fClassDetail">
     <div class="form-group" id="dInformation">
+        <div style="margin-top:10px;">
+            <div class="col-md-12">
+                @Html.Label("Course Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="CourseName" id="CourseName" class="form-control requiredDDL" alt="Course Name">
+                    <option value="0">--Select Course--</option>
+                </select>
+                @Html.HiddenFor(x => x.courseEntity.CourseID)
+            </div>
+        </div>
         <div class="col-md-12">
             @Html.Label("Class Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextBoxFor(x => x.ClassName, new { @class = "form-control required", @alt = "Class Name", autocomplete = "off" })

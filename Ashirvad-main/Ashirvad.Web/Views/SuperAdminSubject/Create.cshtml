@@ -1,6 +1,22 @@
 ﻿@model Ashirvad.Data.SuperAdminSubjectEntity
 <form id="fSubjectDetail">
     <div class="form-group" id="dInformation">
+        <div style="margin-top:10px;">
+            <div class="col-md-6">
+                @Html.Label("Course Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="CourseName" id="CourseName" class="form-control requiredDDL" alt="Course Name">
+                    <option value="0">--Select Course Name--</option>
+                </select>
+                @Html.HiddenFor(x => x.courseEntity.CourseID)
+            </div>
+            <div class="col-md-6">
+                @Html.Label("Class Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="ClassName" id="ClassName" class="form-control requiredDDL" alt="Class Name">
+                    <option value="0">--Select Class Name--</option>
+                </select>
+                @Html.HiddenFor(x => x.classEntity.ClassID)
+            </div>
+        </div>
         <div class="col-md-12">
             @Html.Label("Subject Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextBoxFor(x => x.SubjectName, new { @class = "form-control required", @alt = "Subject Name", autocomplete = "off" })

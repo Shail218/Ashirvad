@@ -4,6 +4,7 @@
 
 $(document).ready(function () {
     ShowLoader();
+    LoadCourse();
     var table = $('#studenttbl').DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -101,3 +102,62 @@ function RemoveSubject(subjectId) {
         });
     }
 }
+
+function LoadCourse() {
+    var postCall = $.post(commonData.Class + "CourseData");
+    postCall.done(function (data) {
+        $('#CourseName').empty();
+        $('#CourseName').select2();
+        $("#CourseName").append("<option value=" + 0 + ">---Select Course---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                $("#CourseName").append("<option value='" + data[i].CourseID + "'>" + data[i].CourseName + "</option>");
+            }
+        }
+        if ($("#courseEntity_CourseID").val() != "") {
+            $('#CourseName option[value="' + $("#courseEntity_CourseID").val() + '"]').attr("selected", "selected");
+        }
+        var IsEdit = $("#IsEdit").val();
+        if (IsEdit == "True") {
+            LoadClass($("#courseEntity_CourseID").val());
+        }
+
+        HideLoader();
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+function LoadClass(CourseID) {
+    var postCall = $.post(commonData.Class + "GetClassDDL", { "CourseID": CourseID });
+    postCall.done(function (data) {
+        $('#ClassName').empty();
+        $('#ClassName').select2();
+        $("#ClassName").append("<option value=" + 0 + ">---Select Class---</option>");
+        if (data != 0) {
+            for (i = 0; i < data.length; i++) {
+                $("#ClassName").append("<option value='" + data[i].ClassID + "'>" + data[i].ClassName + "</option>");
+            }
+        }
+        if ($("#classEntity_ClassID").val() != "") {
+            $('#ClassName option[value="' + $("#classEntity_ClassID").val() + '"]').attr("selected", "selected");
+        }
+
+        HideLoader();
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+
+$("#CourseName").change(function () {
+    var Data = $("#CourseName option:selected").val();
+    $('#courseEntity_CourseID').val(Data);
+    LoadClass(Data);
+});
+
+$("#ClassName").change(function () {
+    var Data = $("#ClassName option:selected").val();
+    $('#classEntity_ClassID').val(Data);
+
+});

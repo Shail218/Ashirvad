@@ -3,6 +3,7 @@
 
 $(document).ready(function () {
     ShowLoader();
+    LoadCourse();
     var table = $('#studenttbl').DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -26,12 +27,13 @@ $(document).ready(function () {
         },
         "columns": [
             { "data": "ClassName" },
+            { "data": "courseEntity.CourseName" },
             { "data": "ClassID" },
             { "data": "ClassID" }
         ],
         "columnDefs": [
             {
-                targets: 1,
+                targets: 2,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
@@ -43,7 +45,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 2,
+                targets: 3,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data = '<a onclick = "RemoveClass(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
@@ -101,3 +103,29 @@ function RemoveClass(classId) {
         });
     }
 }
+
+function LoadCourse() {
+    var postCall = $.post(commonData.Class + "CourseData");
+    postCall.done(function (data) {
+        $('#CourseName').empty();
+        $('#CourseName').select2();
+        $("#CourseName").append("<option value=" + 0 + ">---Select Course---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                $("#CourseName").append("<option value='" + data[i].CourseID + "'>" + data[i].CourseName + "</option>");
+            }
+        }
+        if ($("#courseEntity_CourseID").val() != "") {
+            $('#CourseName option[value="' + $("#courseEntity_CourseID").val() + '"]').attr("selected", "selected");
+        }
+
+        HideLoader();
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+$("#CourseName").change(function () {
+    var Data = $("#CourseName option:selected").val();
+    $('#courseEntity_CourseID').val(Data);
+});

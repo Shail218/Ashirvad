@@ -68,7 +68,6 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<HOMEWORK_MASTER_DTL> HOMEWORK_MASTER_DTL { get; set; }
         public virtual DbSet<BRANCH_MASTER> BRANCH_MASTER { get; set; }
         public virtual DbSet<BRANCH_STAFF> BRANCH_STAFF { get; set; }
-        public virtual DbSet<CLASS_MASTER> CLASS_MASTER { get; set; }
         public virtual DbSet<COURSE_MASTER> COURSE_MASTER { get; set; }
         public virtual DbSet<SUBJECT_BRANCH_MASTER> SUBJECT_BRANCH_MASTER { get; set; }
         public virtual DbSet<CLASS_DTL_MASTER> CLASS_DTL_MASTER { get; set; }
@@ -88,6 +87,7 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<Faculty> Faculties { get; set; }
         public virtual DbSet<NOTIFICATION_MASTER> NOTIFICATION_MASTER { get; set; }
         public virtual DbSet<CIRCULAR_MASTER> CIRCULAR_MASTER { get; set; }
+        public virtual DbSet<CLASS_MASTER> CLASS_MASTER { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
