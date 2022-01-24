@@ -81,6 +81,7 @@ namespace Ashirvad.Repo.Services.Area.Class
         public async Task<ClassEntity> GetClassByClassID(long classID)
         {
             var data = (from u in this.context.CLASS_MASTER
+                        .Include("COURSE_MASTER")
                         where u.class_id == classID
                         select new ClassEntity()
                         {
@@ -92,7 +93,12 @@ namespace Ashirvad.Repo.Services.Area.Class
                             },
                             ClassID = u.class_id,
                             ClassName = u.class_name,
-                            course_id=u.course_id,
+                            courseEntity=new CourseEntity()
+                            {
+                                CourseID = u.COURSE_MASTER.course_id,
+                                CourseName=u.COURSE_MASTER.course_name
+                            },
+                            
                             OldStandard = u.class_name,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
@@ -125,14 +131,12 @@ namespace Ashirvad.Repo.Services.Area.Class
         public async Task<List<ClassEntity>> GetAllClassDDL(long BranchID, long ClassID = 0)
         {
 
-            var data = (from u in this.context.CLASS_DTL_MASTER
-                        .Include("CLASS_MASTER")
-                        where u.course_dtl_id == ClassID && u.row_sta_cd == 1
+            var data = (from u in this.context.CLASS_MASTER
+                        where u.course_id == ClassID && u.row_sta_cd == 1
                         select new ClassEntity()
                         {
-                            Class_dtl_id = u.class_dtl_id,
-                            ClassID = u.CLASS_MASTER.class_id,
-                            ClassName = u.CLASS_MASTER.class_name
+                            ClassID = u.class_id,
+                            ClassName = u.class_name
                         }).ToList();
             return data;
         }

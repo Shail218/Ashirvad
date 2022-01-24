@@ -12,6 +12,8 @@ namespace Ashirvad.Data
         public long SubjectID { get; set; }
         public int Count { get; set; }
         public string SubjectName { get; set; }
+        public long? courseid { get; set; }
+        public long? classid { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public Enums.UserType UserType { get; set; }

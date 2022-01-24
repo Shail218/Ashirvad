@@ -19,6 +19,7 @@ namespace Ashirvad.Repo.Model
         {
             this.COURSE_DTL_MASTER = new HashSet<COURSE_DTL_MASTER>();
             this.CLASS_MASTER = new HashSet<CLASS_MASTER>();
+            this.SUBJECT_BRANCH_MASTER = new HashSet<SUBJECT_BRANCH_MASTER>();
         }
     
         public long course_id { get; set; }
@@ -33,5 +34,7 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<COURSE_DTL_MASTER> COURSE_DTL_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CLASS_MASTER> CLASS_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SUBJECT_BRANCH_MASTER> SUBJECT_BRANCH_MASTER { get; set; }
     }
 }

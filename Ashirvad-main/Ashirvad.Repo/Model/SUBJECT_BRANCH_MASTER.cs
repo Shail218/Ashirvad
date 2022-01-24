@@ -24,7 +24,16 @@ namespace Ashirvad.Repo.Model
         public string subject_name { get; set; }
         public Nullable<int> row_sta_cd { get; set; }
         public long trans_id { get; set; }
+        public Nullable<long> course_id { get; set; }
+        public Nullable<long> class_id { get; set; }
+        public string extra1 { get; set; }
+        public string extra2 { get; set; }
+        public string extra3 { get; set; }
     
+        public virtual CLASS_MASTER CLASS_MASTER { get; set; }
+        public virtual COURSE_MASTER COURSE_MASTER { get; set; }
+        public virtual SUBJECT_BRANCH_MASTER SUBJECT_BRANCH_MASTER1 { get; set; }
+        public virtual SUBJECT_BRANCH_MASTER SUBJECT_BRANCH_MASTER2 { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SUBJECT_DTL_MASTER> SUBJECT_DTL_MASTER { get; set; }

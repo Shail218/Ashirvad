@@ -4,7 +4,7 @@
 
 $(document).ready(function () {
     ShowLoader();
-    LoadCourse();
+    
     var table = $('#studenttbl').DataTable({
         "bPaginate": true,
         "bLengthChange": false,
@@ -28,12 +28,14 @@ $(document).ready(function () {
         },
         "columns": [
             { "data": "SubjectName" },
+            { "data": "classEntity.ClassName" },
+            { "data": "courseEntity.CourseName" },
             { "data": "SubjectID" },
             { "data": "SubjectID" }
         ],
         "columnDefs": [
             {
-                targets: 1,
+                targets: 3,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
@@ -45,7 +47,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 2,
+                targets: 4,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data = '<a onclick = "RemoveSubject(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
@@ -61,7 +63,7 @@ $(document).ready(function () {
             $(tr.children[2]).addClass('textalign');
         },
     });
-
+    LoadCourse();
 });
 
 function SaveSubject() {
@@ -116,12 +118,8 @@ function LoadCourse() {
         }
         if ($("#courseEntity_CourseID").val() != "") {
             $('#CourseName option[value="' + $("#courseEntity_CourseID").val() + '"]').attr("selected", "selected");
-        }
-        var IsEdit = $("#IsEdit").val();
-        if (IsEdit == "True") {
             LoadClass($("#courseEntity_CourseID").val());
         }
-
         HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");

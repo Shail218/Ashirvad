@@ -56,6 +56,8 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                 subjectMaster.subject_name = subjectEntity.SubjectName;
                 subjectMaster.row_sta_cd = subjectEntity.RowStatus.RowStatusId;
                 subjectMaster.trans_id = this.AddTransactionData(subjectEntity.Transaction);
+                subjectMaster.course_id = subjectEntity.courseEntity.CourseID;
+                subjectMaster.class_id = subjectEntity.classEntity.ClassID;
                 this.context.SUBJECT_BRANCH_MASTER.Add(subjectMaster);
                 if (isUpdate)
                 {
@@ -80,6 +82,8 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
         public async Task<SuperAdminSubjectEntity> GetSubjectBySubjectID(long subjectID)
         {
             var data = (from u in this.context.SUBJECT_BRANCH_MASTER
+                        .Include("COURSE_MASTER")
+                        .Include("CLASS_MASTER")
                         where u.subject_id == subjectID
                         select new SuperAdminSubjectEntity()
                         {
@@ -88,6 +92,16 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd,
                                 RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                            },
+                            courseEntity = new CourseEntity()
+                            {
+                                CourseID = u.COURSE_MASTER.course_id,
+                                CourseName = u.COURSE_MASTER.course_name
+                            },
+                            classEntity = new ClassEntity()
+                            {
+                                ClassID = u.CLASS_MASTER.class_id,
+                                ClassName = u.CLASS_MASTER.class_name
                             },
                             SubjectID = u.subject_id,
                             SubjectName = u.subject_name,
@@ -134,7 +148,7 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
         public bool RemoveSubject(long subjectID, string lastupdatedby)
         {
             bool Isvalid = CheckHistory(subjectID);
-            if(Isvalid)
+            if (Isvalid)
             {
                 var data = (from u in this.context.SUBJECT_BRANCH_MASTER
                             where u.subject_id == subjectID
@@ -273,6 +287,8 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
         {
             var Count = this.context.SUBJECT_BRANCH_MASTER.Where(a => a.row_sta_cd == 1).Count();
             var data = (from u in this.context.SUBJECT_BRANCH_MASTER
+                        .Include("COURSE_MASTER")
+                        .Include("CLASS_MASTER")
                         orderby u.subject_id descending
                         where u.row_sta_cd == 1
                         select new SuperAdminSubjectEntity()
@@ -283,7 +299,17 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                                 RowStatusId = (int)u.row_sta_cd,
                                 RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
                             },
+                            courseEntity = new CourseEntity()
+                            {
+                                CourseName = u.COURSE_MASTER.course_name
+                            },
+                            classEntity = new ClassEntity()
+                            {
+                                ClassName = u.CLASS_MASTER.class_name
+                            },
                             SubjectID = u.subject_id,
+                            courseid = u.course_id,
+                            classid = u.class_id,
                             SubjectName = u.subject_name,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             Count = Count
@@ -301,7 +327,7 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
             try
             {
                 long result = 0;
-                var data = (from std in this.context.SUBJECT_MASTER                            
+                var data = (from std in this.context.SUBJECT_MASTER
                             where std.SUBJECT_DTL_MASTER.subject_id == subjectEntity.SubjectID
                             && std.row_sta_cd == 1
                             select new SubjectEntity
