@@ -279,6 +279,23 @@ function checkstatus(status) {
 $("#CourseName").change(function () {
     var Data = $("#CourseName option:selected").val();
     $('#BranchCourse_course_dtl_id').val(Data);
+
+    var Data = $("#CourseName option:selected").val();
+    if (Data > 0) {
+        ShowLoader();
+        var postCall = $.post(commonData.BranchClass + "GetAllClassByCourse", { "courseid": Data });
+        postCall.done(function (data) {
+            HideLoader();
+            $("#classdetaildiv").html(data);
+
+        }).fail(function () {
+            HideLoader();
+        });
+    }
+    else {
+        $("#UserDetails").html("");
+
+    }
 });
 
 function RemoveClass(CourseID) {

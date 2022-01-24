@@ -1,0 +1,34 @@
+﻿
+@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.BranchClassEntity>
+@{
+    Layout = null;
+}
+
+<table style="width: 100%;" id="choiceList" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th style="width:13%">
+                <input type="checkbox" class="allselected" onchange="OnSelectStatus(this,'isClass');" Id="allselect" /> All
+            </th>
+            <th>Class Name</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td class="js-export-checkbox">
+                @Html.CheckBoxFor(m => item.isClass, new { @class = "isClass", @onchange = "checkstatus('new')" })
+                <input type="hidden" value="@item.Class_dtl_id" class="Classdtlid" />
+            </td>
+            <td>
+                @item.Class.ClassName
+                <input type="hidden" value="@item.Class.ClassID" class="ClassID" />
+                @Html.HiddenFor(x => item.Class.ClassName, new { @class = "ClassName" })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

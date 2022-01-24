@@ -18,6 +18,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Class
         Task<OperationResult<List<ClassEntity>>> GetAllCustomClass(DataTableAjaxPostModel model);
         Task<List<CourseEntity>> GetAllCourse();
         Task<List<ClassEntity>> GetAllBranchClassDDL(long BrancchID = 0, long CourseID = 0);
+        Task<OperationResult<List<ClassEntity>>> GetAllClassByCourse(long courseid);
 
     }
 }

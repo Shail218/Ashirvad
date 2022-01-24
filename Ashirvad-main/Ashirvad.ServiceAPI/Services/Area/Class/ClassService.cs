@@ -70,6 +70,23 @@ namespace Ashirvad.ServiceAPI.Services.Area.Class
             return null;
         }
 
+        public async Task<OperationResult<List<ClassEntity>>> GetAllClassByCourse(long courseid)
+        {
+            try
+            {
+                OperationResult<List<ClassEntity>> course = new OperationResult<List<ClassEntity>>();
+                course.Data = await _classService.GetAllClassByCourse(courseid);
+                course.Completed = true;
+                return course;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<OperationResult<List<ClassEntity>>> GetAllCustomClass(DataTableAjaxPostModel model)
         {
             try

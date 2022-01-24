@@ -122,6 +122,28 @@ namespace Ashirvad.Repo.Services.Area.Class
             return data;
         }
 
+        public async Task<List<ClassEntity>> GetAllClassByCourse(long courseid)
+        {
+            var data = (from u in this.context.CLASS_MASTER
+                        orderby u.class_name descending
+                        where u.row_sta_cd == 1 && u.course_id == courseid
+                        select new ClassEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd,
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                            },
+                            ClassID = u.class_id,
+                            ClassName = u.class_name,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+
+                        }).OrderByDescending(a => a.ClassID).ToList();
+
+            return data;
+        }
+
         public async Task<List<ClassEntity>> GetAllClassDDL(long BranchID, long ClassID = 0)
         {
 

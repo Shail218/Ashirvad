@@ -41,14 +41,15 @@ namespace Ashirvad.Web.Controllers
                 if (result.Count > 0)
                 {
                     branchClass.BranchClassInfo = result[0].branchClass;
+                    branchClass.BranchClassInfo.Class_dtl_id = result[0].Class_dtl_id;
                 }
                 branchClass.BranchClassInfo.BranchClassData = result;
 
                 branchClass.BranchClassInfo.IsEdit = true;
             }
 
-            var ClassData = await _ClassService.GetAllClass();
-            branchClass.BranchClassInfo.ClassData = ClassData.Data;
+            //var ClassData = await _ClassService.GetAllClass();
+            //branchClass.BranchClassInfo.ClassData = ClassData.Data;
 
             //var BranchClass = await _branchClassService.GetAllBranchClass(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             branchClass.BranchClassData = new List<BranchClassEntity>();
@@ -160,6 +161,11 @@ namespace Ashirvad.Web.Controllers
                 data = branchData
             });
 
+        }
+        public ActionResult GetAllClassByCourse(long courseid)
+        {
+            var data = _ClassService.GetAllClassByCourse(courseid);
+            return View("~/Views/BranchClass/ClassDetailDataTable.cshtml", data.Result.Data);
         }
     }
 }
