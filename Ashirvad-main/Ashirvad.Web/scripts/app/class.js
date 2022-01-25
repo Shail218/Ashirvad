@@ -57,8 +57,8 @@ $(document).ready(function () {
             }
         ],
         createdRow: function (tr) {
-            $(tr.children[1]).addClass('textalign');
             $(tr.children[2]).addClass('textalign');
+            $(tr.children[3]).addClass('textalign');
         },
     });
 

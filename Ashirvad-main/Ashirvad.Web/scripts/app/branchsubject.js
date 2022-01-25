@@ -293,7 +293,23 @@ $("#CourseName").change(function () {
 $("#ClassName").change(function () {
     var Data = $("#ClassName option:selected").val();
     $('#BranchClass_Class_dtl_id').val(Data);
-    
+    var Data = $("#ClassName option:selected").val();
+    var Data1 = $("#CourseName option:selected").val();
+    if (Data > 0 && Data1 > 0) {
+        ShowLoader();
+        var postCall = $.post(commonData.BranchSubject + "GetAllSubjectByCourse", { "courseid": Data1, "classid": Data });
+        postCall.done(function (data) {
+            HideLoader();
+            $("#classdetaildiv").html(data);
+
+        }).fail(function () {
+            HideLoader();
+        });
+    }
+    else {
+        $("#UserDetails").html("");
+
+    }
 });
 function RemoveSubject(CourseID,ClassID) {
     if (confirm('Are you sure want to delete this Subjects?')) {

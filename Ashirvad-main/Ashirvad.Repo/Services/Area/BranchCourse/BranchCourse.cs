@@ -67,8 +67,11 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return -1;
         }
 
+
+
         public async Task<List<BranchCourseEntity>> GetAllCourse(long BranchID)
         {
+           
             var data = (from u in this.context.COURSE_DTL_MASTER
                         .Include("COURSE_MASTER")
                         .Include("BRANCH_MASTER") orderby u.course_dtl_id descending

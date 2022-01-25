@@ -134,6 +134,33 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
             return data;
         }
 
+        public async Task<List<SuperAdminSubjectEntity>> GetAllSubjectByCourseClass(long courseid,long classid)
+        {
+            long CourseID = 0, ClassID = 0;
+            var coursedata = this.context.COURSE_DTL_MASTER.Where(s => s.course_dtl_id == courseid && s.row_sta_cd == 1).FirstOrDefault();
+            CourseID = coursedata == null ? CourseID : coursedata.course_id;
+            var classdata = this.context.CLASS_DTL_MASTER.Where(s => s.class_dtl_id == classid && s.row_sta_cd == 1).FirstOrDefault();
+            ClassID = classdata == null ? ClassID : classdata.class_id;
+            var data = (from u in this.context.SUBJECT_BRANCH_MASTER
+                        orderby u.subject_id descending
+                        where u.row_sta_cd == 1 && u.course_id == CourseID && u.class_id == ClassID
+                        select new SuperAdminSubjectEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd,
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                            },
+                            SubjectID = u.subject_id,
+                            SubjectName = u.subject_name,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+
+                        }).OrderByDescending(a => a.SubjectID).ToList();
+
+            return data;
+        }
+
         public bool CheckHistory(long subjectID)
         {
             bool Issuccess = true;

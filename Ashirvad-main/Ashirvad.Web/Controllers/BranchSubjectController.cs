@@ -40,14 +40,15 @@ namespace Ashirvad.Web.Controllers
                 if (result.Count > 0)
                 {
                     branchSubject.BranchSubjectInfo = result[0].branchSubject;
+                    branchSubject.BranchSubjectInfo.Subject_dtl_id = result[0].Subject_dtl_id;
                 }
                 branchSubject.BranchSubjectInfo.BranchSubjectData = result;
 
                 branchSubject.BranchSubjectInfo.IsEdit = true;
             }
 
-            var SubjectData = await _subjectService.GetAllSubject();
-            branchSubject.BranchSubjectInfo.SubjectData = SubjectData.Data;
+            //var SubjectData = await _subjectService.GetAllSubject();
+            //branchSubject.BranchSubjectInfo.SubjectData = SubjectData.Data;
 
             //var BranchSubject = await _branchSubjectService.GetAllBranchSubject(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             branchSubject.BranchSubjectData = new List<BranchSubjectEntity>();
@@ -160,6 +161,12 @@ namespace Ashirvad.Web.Controllers
                 data = branchData
             });
 
+        }
+
+        public ActionResult GetAllSubjectByCourse(long courseid,long classid)
+        {
+            var data = _subjectService.GetAllSubjectByCourseClass(courseid,classid);
+            return View("~/Views/BranchSubject/SubjectDetailDataTable.cshtml", data.Result.Data);
         }
     }
 }

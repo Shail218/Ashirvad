@@ -1448,6 +1448,10 @@
     <Content Include="Views\HomeworkByStudent\FilteredData.cshtml" />
     <Content Include="Views\TestByStudent\PersonalInfo.cshtml" />
     <Content Include="Views\TestByStudent\FilteredData.cshtml" />
+    <Content Include="Views\BranchClass\ClassDetailDataTable.cshtml" />
+    <Content Include="Views\BranchClass\UpdateClassDataTable.cshtml" />
+    <Content Include="Views\BranchSubject\SubjectDetailDataTable.cshtml" />
+    <Content Include="Views\BranchSubject\UpdateSubjectDataTable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

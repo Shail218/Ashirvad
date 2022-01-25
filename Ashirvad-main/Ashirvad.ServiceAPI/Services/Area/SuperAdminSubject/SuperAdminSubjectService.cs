@@ -70,6 +70,23 @@ namespace Ashirvad.ServiceAPI.Services.Area.SuperAdminSubject
             return null;
         }
 
+        public async Task<OperationResult<List<SuperAdminSubjectEntity>>> GetAllSubjectByCourseClass(long courseid, long classid)
+        {
+            try
+            {
+                OperationResult<List<SuperAdminSubjectEntity>> course = new OperationResult<List<SuperAdminSubjectEntity>>();
+                course.Data = await _subjectService.GetAllSubjectByCourseClass(courseid,classid);
+                course.Completed = true;
+                return course;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<OperationResult<List<SuperAdminSubjectEntity>>> GetAllCustomSubject(DataTableAjaxPostModel model)
         {
             try

@@ -130,9 +130,12 @@ namespace Ashirvad.Repo.Services.Area.Class
 
         public async Task<List<ClassEntity>> GetAllClassByCourse(long courseid)
         {
+            long CourseID = 0;
+            var coursedata = this.context.COURSE_DTL_MASTER.Where(s => s.course_dtl_id == courseid && s.row_sta_cd == 1).FirstOrDefault();
+            CourseID = coursedata == null ? CourseID : coursedata.course_id;
             var data = (from u in this.context.CLASS_MASTER
                         orderby u.class_name descending
-                        where u.row_sta_cd == 1 && u.course_id == courseid
+                        where u.row_sta_cd == 1 && u.course_id == CourseID
                         select new ClassEntity()
                         {
                             RowStatus = new RowStatusEntity()
