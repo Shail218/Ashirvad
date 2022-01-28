@@ -14,17 +14,17 @@ namespace Ashirvad.Repo.Services.Area
     public class Fees : ModelAccess, IFeesAPI
     {
 
-        public async Task<long> CheckFees(int BranchID, int StdID, int feesid)
+        public async Task<long> CheckFees(long BranchID, long StdID, long feesid,long courseid)
         {
             long result;
-            bool isExists = this.context.FEE_STRUCTURE_MASTER.Where(s => (feesid == 0 || s.fee_struct_mst_id != feesid) && s.branch_id == BranchID && s.std_id == StdID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.FEE_STRUCTURE_MASTER.Where(s => (feesid == 0 || s.fee_struct_mst_id != feesid) && s.branch_id == BranchID && s.class_dtl_id == StdID && s.course_dtl_id==courseid && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
         public async Task<long> FeesMaintenance(FeesEntity FeesInfo)
         {
             Model.FEE_STRUCTURE_MASTER FeesMaster = new Model.FEE_STRUCTURE_MASTER();
-            if (CheckFees((int)FeesInfo.BranchInfo.BranchID, (int)FeesInfo.standardInfo.StandardID, (int)FeesInfo.FeesID).Result != -1)
+            if (CheckFees(FeesInfo.BranchInfo.BranchID, FeesInfo.BranchClass.Class_dtl_id, FeesInfo.FeesID, FeesInfo.BranchCourse.course_dtl_id).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from Fees in this.context.FEE_STRUCTURE_MASTER
@@ -45,7 +45,8 @@ namespace Ashirvad.Repo.Services.Area
                 }
 
                 FeesMaster.branch_id = FeesInfo.BranchInfo.BranchID;
-                FeesMaster.std_id = FeesInfo.standardInfo.StandardID;
+                FeesMaster.class_dtl_id = FeesInfo.BranchClass.Class_dtl_id;
+                FeesMaster.course_dtl_id = FeesInfo.BranchCourse.course_dtl_id;
                 FeesMaster.remarks = FeesInfo.Remark;
                 FeesMaster.row_sta_cd = FeesInfo.RowStatus.RowStatusId;
                 FeesMaster.trans_id = this.AddTransactionData(FeesInfo.Transaction);
@@ -119,7 +120,24 @@ namespace Ashirvad.Repo.Services.Area
                             Remark = u.remarks,
                             FilePath = "https://mastermind.org.in" + b.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                            standardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
+                            BranchClass= new BranchClassEntity()
+                            {
+                                Class_dtl_id= u.class_dtl_id.HasValue? u.class_dtl_id.Value:0,
+                                Class= new ClassEntity()
+                                {
+                                    ClassID= u.CLASS_DTL_MASTER.class_id,
+                                    ClassName= u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id }
                         }).ToList();
 
@@ -137,13 +155,13 @@ namespace Ashirvad.Repo.Services.Area
                           select new FeesEntity() {
                               FeesID = u.fee_struct_mst_id
                           }).Distinct().Count();
-            var data = (from u in this.context.FEE_STRUCTURE_MASTER.Include("STD_MASTER")
+            var data = (from u in this.context.FEE_STRUCTURE_MASTER.Include("CLASS_DTL_MASTER")
                         join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
                         orderby u.fee_struct_mst_id descending
                         where u.row_sta_cd == 1 && u.branch_id == branchID
                         && (model.search.value == null
                         || model.search.value == ""
-                        || u.STD_MASTER.standard.ToLower().Contains(model.search.value)
+                        || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.ToLower().Contains(model.search.value)
                         || u.remarks.ToLower().Contains(model.search.value))
                         orderby u.fee_struct_mst_id descending
                         select new FeesEntity()
@@ -159,7 +177,24 @@ namespace Ashirvad.Repo.Services.Area
                             Count = count,
                             FilePath = "https://mastermind.org.in" + b.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                            standardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
+                            BranchClass = new BranchClassEntity()
+                            {
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id }
                         })
                         .Skip(model.start)
@@ -173,7 +208,7 @@ namespace Ashirvad.Repo.Services.Area
             var data = (from u in this.context.FEE_STRUCTURE_MASTER
                         join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
                         orderby u.fee_struct_mst_id descending
-                        where u.row_sta_cd == 1 && u.branch_id == BranchID && (u.std_id == StdID || StdID == 0)
+                        where u.row_sta_cd == 1 && u.branch_id == BranchID && (u.class_dtl_id == StdID || StdID == 0)
                         select new FeesEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -186,7 +221,24 @@ namespace Ashirvad.Repo.Services.Area
                             Remark = u.remarks,
                             FilePath = "https://mastermind.org.in" + b.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                            standardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
+                            BranchClass = new BranchClassEntity()
+                            {
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id }
                         }).ToList();
 
@@ -216,7 +268,24 @@ namespace Ashirvad.Repo.Services.Area
                             FeesDetailID = b.fee_struct_dtl_id,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id },
-                            standardInfo = new StandardEntity() { StandardID = u.std_id },
+                            BranchClass = new BranchClassEntity()
+                            {
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
                             FilePath = b.file_path,
                             FileName = b.file_name,
                             Fees_Content = b.fee_content

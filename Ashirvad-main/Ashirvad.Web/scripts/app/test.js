@@ -25,11 +25,12 @@ $(document).ready(function () {
             type: 'POST'
         },
         "columns": [
-            { "data": "Standard.Standard" },
+            { "data": "BranchCourse.course.CourseName" },
+            { "data": "BranchClass.Class.ClassName" },
             { "data": "BatchTimeText" },
             { "data": "TestDate" },
             { "data": "TestStartTime" },
-            { "data": "Subject.Subject" },
+            { "data": "BranchSubject.Subject.SubjectName" },
             { "data": "Marks" },
             { "data": "test.FileName" },
             { "data": "TestID" },
@@ -38,7 +39,7 @@ $(document).ready(function () {
         ],
         "columnDefs": [
             {
-                targets: 2,
+                targets: 3,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data = ConvertMiliDateFrom(data)
@@ -49,7 +50,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 3,
+                targets: 4,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data = data + "  -  " + full.TestEndTime
@@ -60,7 +61,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 6,
+                targets: 7,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         if (full.test.FileName != null && full.test.FileName != "") {
@@ -77,7 +78,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 7,
+                targets: 8,
                 render: function (data, type, full, meta) {
                     if (check[0].Create) {
                         if (type === 'display') {
@@ -94,7 +95,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 8,
+                targets: 9,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
@@ -106,7 +107,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 9,
+                targets: 10,
                 render: function (data, type, full, meta) {
                     if (check[0].Delete) {
                         if (type === 'display') {
@@ -124,8 +125,8 @@ $(document).ready(function () {
             }
         ],
         createdRow: function (tr) {
-            $(tr.children[6]).addClass('textalign');
-            $(tr.children[8]).addClass('textalign');
+            $(tr.children[7]).addClass('textalign');
+            $(tr.children[9]).addClass('textalign');
         },
     });
 
@@ -207,6 +208,7 @@ function LoadCourse() {
                 if (data.length == 1) {
                     $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
                     $('#CourseName option[value="' + data[i].course_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchCourse_course_dtl_id').val(data[i].course_dtl_id);
                 } else {
                     $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
                 }
@@ -235,6 +237,7 @@ function LoadClass(CourseID) {
                 if (data.length == 1) {
                     $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
                     $('#StandardName option[value="' + data[i].Class_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchClass_Class_dtl_id').val(data[i].Class_dtl_id);
                 } else {
                     $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
                 }
@@ -264,6 +267,7 @@ function LoadSubject(ClassID, CourseID) {
                 if (data.length == 1) {
                     $("#SubjectName").append("<option value='" + data[i].Subject_dtl_id + "'>" + data[i].Subject.SubjectName + "</option>");
                     $('#SubjectName option[value="' + data[i].Subject_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchSubject_Subject_dtl_id').val(data[i].Subject_dtl_id);
                 } else {
                     $("#SubjectName").append("<option value='" + data[i].Subject_dtl_id + "'>" + data[i].Subject.SubjectName + "</option>");
                 }

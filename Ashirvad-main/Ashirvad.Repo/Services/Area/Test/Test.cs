@@ -14,12 +14,12 @@ namespace Ashirvad.Repo.Services.Area.Test
     public class Test : ModelAccess, ITestAPI
     {
 
-        public async Task<long> CheckTest(long BranchID, long StdID, long SubID, int BatchID, DateTime TestDate, long Testid)
+        public async Task<long> CheckTest(long BranchID, long StdID, long SubID, int BatchID, DateTime TestDate, long Testid,long CourseID)
         {
             long result;
             var date = DateTime.ParseExact(TestDate.ToString("yyyy-MM-dd"), "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            bool isExists = this.context.TEST_MASTER.Where(s => (Testid == 0 || s.test_id != Testid) && s.branch_id == BranchID && s.std_id == StdID &&
-            s.sub_id == SubID && s.batch_time_id == BatchID && s.test_dt == date && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.TEST_MASTER.Where(s => (Testid == 0 || s.test_id != Testid) && s.branch_id == BranchID && s.class_dtl_id == StdID &&
+            s.subject_dtl_id == SubID && s.batch_time_id == BatchID && s.test_dt == date && s.course_dtl_id==CourseID && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -27,8 +27,8 @@ namespace Ashirvad.Repo.Services.Area.Test
         public async Task<long> TestMaintenance(TestEntity testInfo)
         {
             Model.TEST_MASTER testMaster = new Model.TEST_MASTER();
-            if (CheckTest(testInfo.Branch.BranchID, testInfo.Standard.StandardID, testInfo.Subject.SubjectID, testInfo.BatchTimeID,
-                testInfo.TestDate, testInfo.TestID).Result != -1)
+            if (CheckTest(testInfo.Branch.BranchID, testInfo.BranchClass.Class_dtl_id, testInfo.BranchSubject.Subject_dtl_id, testInfo.BatchTimeID,
+                testInfo.TestDate, testInfo.TestID, testInfo.BranchCourse.course_dtl_id).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from t in this.context.TEST_MASTER
@@ -48,8 +48,9 @@ namespace Ashirvad.Repo.Services.Area.Test
                 testMaster.row_sta_cd = testInfo.RowStatus.RowStatusId;
                 testMaster.trans_id = this.AddTransactionData(testInfo.Transaction);
                 testMaster.branch_id = testInfo.Branch.BranchID;
-                testMaster.std_id = testInfo.Standard.StandardID;
-                testMaster.sub_id = testInfo.Subject.SubjectID;
+                testMaster.class_dtl_id = testInfo.BranchClass.Class_dtl_id;
+                testMaster.course_dtl_id = testInfo.BranchCourse.course_dtl_id;
+                testMaster.subject_dtl_id = testInfo.BranchSubject.Subject_dtl_id;
                 testMaster.remarks = testInfo.Remarks;
                 testMaster.total_marks = testInfo.Marks;
                 testMaster.batch_time_id = testInfo.BatchTimeID;
@@ -76,8 +77,8 @@ namespace Ashirvad.Repo.Services.Area.Test
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
-                        .Include("SUBJECT_MASTER")
+                        .Include("CLASS_DTL_MASTER")
+                        .Include("SUBJECT_DTL_MASTER")
                         join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
                         orderby u.test_id descending
                         from branch in tempBranch.DefaultIfEmpty()
@@ -94,16 +95,34 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            Subject = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                course_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
                             },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
+                            },
+                           
                             BatchTimeID = u.batch_time_id,
                             BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
                             TestID = u.test_id,
@@ -144,18 +163,18 @@ namespace Ashirvad.Repo.Services.Area.Test
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
-                        .Include("SUBJECT_MASTER")
+                        .Include("CLASS_DTL_MASTER")
+                        .Include("SUBJECT_DTL_MASTER")
                         join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
                         from branch in tempBranch.DefaultIfEmpty()
                         where u.branch_id == branchID && u.row_sta_cd == 1
                         && (model.search.value == null
                         || model.search.value == ""
-                        || u.STD_MASTER.standard.ToLower().Contains(model.search.value)
+                        || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.ToLower().Contains(model.search.value)
                         || u.test_dt.ToString().ToLower().Contains(model.search.value)
                         || u.test_st_time.ToLower().Contains(model.search.value)
                         || u.test_end_time.ToLower().Contains(model.search.value)
-                        || u.SUBJECT_MASTER.subject.ToLower().Contains(model.search.value)
+                        || u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name.ToLower().Contains(model.search.value)
                         || u.total_marks.ToString().ToLower().Contains(model.search.value))
                         orderby u.test_id descending
                         select new TestEntity()
@@ -170,15 +189,32 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            Subject = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                course_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTimeID = u.batch_time_id,
                             BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
@@ -212,8 +248,8 @@ namespace Ashirvad.Repo.Services.Area.Test
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
-                        .Include("SUBJECT_MASTER")
+                        .Include("CLASS_DTL_MASTER")
+                        .Include("SUBJECT_DTL_MASTER")
                         orderby u.test_id descending
                         where u.branch_id == branchID && u.row_sta_cd == 1
                         select new TestEntity()
@@ -228,15 +264,32 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            Subject = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                course_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTimeID = u.batch_time_id,
                             BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
@@ -257,8 +310,8 @@ namespace Ashirvad.Repo.Services.Area.Test
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
-                        .Include("SUBJECT_MASTER")
+                        .Include("CLASS_DTL_MASTER")
+                        .Include("SUBJECT_DTL_MASTER")
                         join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
                         orderby u.test_id descending
                         from branch in tempBranch.DefaultIfEmpty()
@@ -275,15 +328,32 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            Subject = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                course_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTimeID = u.batch_time_id,
                             BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
@@ -313,10 +383,10 @@ namespace Ashirvad.Repo.Services.Area.Test
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
-                        .Include("SUBJECT_MASTER")
+                        .Include("CLASS_DTL_MASTER")
+                        .Include("SUBJECT_DTL_MASTER")
                         orderby u.test_id descending
-                        where u.branch_id == branchID && u.STD_MASTER.std_id == stdID
+                        where u.branch_id == branchID && u.CLASS_DTL_MASTER.class_dtl_id == stdID
                         && (batchTime == 0 || u.batch_time_id == batchTime)
                         select new TestEntity()
                         {
@@ -330,15 +400,32 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            Subject = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                course_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTimeID = u.batch_time_id,
                             BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
@@ -360,7 +447,7 @@ namespace Ashirvad.Repo.Services.Area.Test
         {
             var data = (from u in this.context.TEST_MASTER
                         orderby u.test_id descending
-                        where u.branch_id == branchID && u.STD_MASTER.std_id == stdID
+                        where u.branch_id == branchID && u.CLASS_DTL_MASTER.class_dtl_id == stdID
                         && (batchTime == 0 || u.batch_time_id == batchTime)
                         select new TestEntity()
                         {
@@ -377,13 +464,13 @@ namespace Ashirvad.Repo.Services.Area.Test
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
-                        .Include("SUBJECT_MASTER")
+                        .Include("CLASS_DTL_MASTER")
+                        .Include("SUBJECT_DTL_MASTER")
                         where u.test_dt >= fromDT && u.test_dt <= toDT
                         && (string.IsNullOrEmpty(searchParam)
                         || u.remarks.Contains(searchParam)
-                        || u.STD_MASTER.standard.Contains(searchParam)
-                        || u.SUBJECT_MASTER.subject.Contains(searchParam)
+                        || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.Contains(searchParam)
+                        || u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name.Contains(searchParam)
                         || u.test_end_time.Contains(searchParam)
                         || u.test_name.Contains(searchParam)
                         || u.test_st_time.Contains(searchParam))
@@ -399,15 +486,32 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            Subject = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                course_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTimeID = u.batch_time_id,
                             BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
@@ -429,8 +533,8 @@ namespace Ashirvad.Repo.Services.Area.Test
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
-                        .Include("SUBJECT_MASTER")
+                        .Include("CLASS_DTL_MASTER")
+                        .Include("SUBJECT_DTL_MASTER")
                         join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
                         from branch in tempBranch.DefaultIfEmpty()
                         where u.test_id == testID
@@ -446,15 +550,32 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            Subject = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             test = new TestPaperEntity()
                             {
@@ -595,7 +716,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("TEST_MASTER")
                         orderby u.test_paper_id descending
                         where u.TEST_MASTER.branch_id == branchID
-                        && u.TEST_MASTER.std_id == stdID
+                        && u.TEST_MASTER.class_dtl_id == stdID
                         && u.TEST_MASTER.test_dt == dt
                         && (0 == batchTime || u.TEST_MASTER.batch_time_id == batchTime)
                         select new TestPaperEntity()
@@ -607,9 +728,32 @@ namespace Ashirvad.Repo.Services.Area.Test
                             },
                             testinfo = new TestEntity()
                             {
-                                Subject = new SubjectEntity()
+                                BranchClass = new BranchClassEntity()
                                 {
-                                    Subject = u.TEST_MASTER.SUBJECT_MASTER.subject
+                                    Class_dtl_id = u.TEST_MASTER.class_dtl_id.HasValue ? u.TEST_MASTER.class_dtl_id.Value : 0,
+                                    Class = new ClassEntity()
+                                    {
+                                        ClassID = u.TEST_MASTER.CLASS_DTL_MASTER.class_id,
+                                        ClassName = u.TEST_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                    }
+                                },
+                                BranchCourse = new BranchCourseEntity()
+                                {
+                                    course_dtl_id = u.TEST_MASTER.class_dtl_id.HasValue ? u.TEST_MASTER.class_dtl_id.Value : 0,
+                                    course = new CourseEntity()
+                                    {
+                                        CourseID = u.TEST_MASTER.COURSE_DTL_MASTER.course_id,
+                                        CourseName = u.TEST_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                    }
+                                },
+                                BranchSubject = new BranchSubjectEntity()
+                                {
+                                    Subject_dtl_id = u.TEST_MASTER.subject_dtl_id.HasValue ? u.TEST_MASTER.subject_dtl_id.Value : 0,
+                                    Subject = new SuperAdminSubjectEntity()
+                                    {
+                                        SubjectID = u.TEST_MASTER.SUBJECT_DTL_MASTER.subject_id,
+                                        SubjectName = u.TEST_MASTER.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                    }
                                 },
                                 BatchTimeID = u.TEST_MASTER.batch_time_id,
                                 Marks = u.TEST_MASTER.total_marks,
@@ -709,16 +853,34 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                Standard = u.TEST_MASTER.STD_MASTER.standard,
-                                StandardID = u.TEST_MASTER.std_id
+                                Class_dtl_id = u.TEST_MASTER.class_dtl_id.HasValue ? u.TEST_MASTER.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.TEST_MASTER.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.TEST_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            Subject = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                Subject = u.STUDENT_MASTER.first_name,
-                                SubjectID = u.TEST_MASTER.sub_id
+                                course_dtl_id = u.TEST_MASTER.class_dtl_id.HasValue ? u.TEST_MASTER.class_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.TEST_MASTER.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.TEST_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
                             },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.TEST_MASTER.subject_dtl_id.HasValue ? u.TEST_MASTER.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.TEST_MASTER.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.TEST_MASTER.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
+                            },
+                            
                             Marks = u.TEST_MASTER.total_marks,
                             TestStartTime = u.TEST_MASTER.test_st_time,
                             TestEndTime = u.TEST_MASTER.test_end_time,
@@ -867,7 +1029,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("TEST_MASTER")
                         .Include("STUDENT_MASTER")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         where u.test_id == testID
                         select new StudentAnswerSheetEntity()
                         {
@@ -892,8 +1054,8 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 TestName = u.TEST_MASTER.test_name,
                                 Standard = new StandardEntity()
                                 {
-                                    Standard = u.TEST_MASTER.STD_MASTER.standard,
-                                    StandardID = u.TEST_MASTER.STD_MASTER.std_id,
+                                    Standard = u.TEST_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                    StandardID = u.TEST_MASTER.CLASS_DTL_MASTER.class_dtl_id,
 
                                 },
                             },
@@ -1118,9 +1280,9 @@ namespace Ashirvad.Repo.Services.Area.Test
             var data = (from u in this.context.TEST_PAPER_REL
                         .Include("TEST_MASTER")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         orderby u.test_paper_id descending
-                        where u.TEST_MASTER.branch_id == branchID && u.TEST_MASTER.std_id == stdID
+                        where u.TEST_MASTER.branch_id == branchID && u.TEST_MASTER.class_dtl_id == stdID
                         && (batchTime == 0 || u.TEST_MASTER.batch_time_id == batchTime) && !u.doc_link.Equals(" ") && u.row_sta_cd == 1
                         select new TestPaperEntity()
                         {
@@ -1152,7 +1314,7 @@ namespace Ashirvad.Repo.Services.Area.Test
         public async Task<TestEntity> GetTestDetails(long TestID, long SubjectID)
         {
             var data = (from u in this.context.TEST_MASTER
-                        where u.test_id == TestID && u.sub_id == SubjectID
+                        where u.test_id == TestID && u.subject_dtl_id == SubjectID
                         select new TestEntity()
                         {
                             TestID = u.test_id,
@@ -1166,9 +1328,32 @@ namespace Ashirvad.Repo.Services.Area.Test
                             {
                                 BranchID = u.branch_id
                             },
-                            Subject = new SubjectEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                SubjectID = u.sub_id
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTimeID = u.batch_time_id,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
@@ -1192,7 +1377,7 @@ namespace Ashirvad.Repo.Services.Area.Test
 
             var data = (from u in this.context.STUDENT_ANS_SHEET
                         .Include("TEST_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         orderby u.ans_sheet_id descending
                         where u.test_id == TestID
                         select new StudentAnswerSheetEntity()

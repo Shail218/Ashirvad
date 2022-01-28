@@ -40,8 +40,8 @@ namespace Ashirvad.Repo.Services.Area.Paper
             paperMaster.row_sta_cd = paperInfo.RowStatus.RowStatusId;
             paperMaster.trans_id = this.AddTransactionData(paperInfo.Transaction);
             paperMaster.branch_id = paperInfo.Branch.BranchID;
-            paperMaster.std_id = paperInfo.Standard.StandardID;
-            paperMaster.sub_id = paperInfo.Subject.SubjectID;
+            paperMaster.class_dtl_id = paperInfo.Standard.StandardID;
+            paperMaster.subject_dtl_id = paperInfo.Subject.SubjectID;
             paperMaster.remarks = paperInfo.Remarks;
             paperMaster.batch_type = paperInfo.BatchTypeID;
             this.context.PRACTICE_PAPER.Add(paperMaster);
@@ -69,7 +69,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
             var data = (from u in this.context.PRACTICE_PAPER
                         .Include("PRACTICE_PAPER_REL")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_MASTER") orderby u.paper_id descending
                         where (0 == branchID || u.branch_id == branchID && u.row_sta_cd == 1)
                         select new PaperEntity()
@@ -84,15 +84,32 @@ namespace Ashirvad.Repo.Services.Area.Paper
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            Subject = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTypeID = u.batch_type,
                             BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : "Evening",
@@ -114,15 +131,14 @@ namespace Ashirvad.Repo.Services.Area.Paper
         public async Task<List<SubjectEntity>> GetPracticePaperSubject(long branchID, long stdID)
         {
             var data = (from u in this.context.PRACTICE_PAPER
-                        .Include("PRACTICE_PAPER_REL")
-                        .Include("SUBJECT_MASTER")
+                        .Include("PRACTICE_PAPER_REL")                        
                         orderby u.paper_id descending
                         where u.branch_id == branchID
-                        && u.std_id == stdID
+                        && u.class_dtl_id == stdID
                         select new SubjectEntity()
                         {
-                            SubjectID = u.SUBJECT_MASTER.subject_id,
-                            Subject = u.SUBJECT_MASTER.subject
+                            SubjectID = u.subject_dtl_id.HasValue? u.subject_dtl_id.Value:0,
+                            Subject = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
                         }).ToList();
 
             return data;
@@ -133,12 +149,12 @@ namespace Ashirvad.Repo.Services.Area.Paper
             var data = (from u in this.context.PRACTICE_PAPER
                         .Include("PRACTICE_PAPER_REL")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_MASTER")
                         orderby u.paper_id descending
                         where u.branch_id == branchID
-                        && (0 == stdID || u.std_id == stdID)
-                        && (0 == subID || u.sub_id == subID)
+                        && (0 == stdID || u.class_dtl_id == stdID)
+                        && (0 == subID || u.subject_dtl_id == subID)
                         && (0 == batchTypeID || u.batch_type == batchTypeID)
                         select new PaperEntity()
                         {
@@ -152,15 +168,32 @@ namespace Ashirvad.Repo.Services.Area.Paper
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            Subject = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTypeID = u.batch_type,
                             BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : "Evening",
@@ -184,7 +217,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
             var data = (from u in this.context.PRACTICE_PAPER
                         .Include("PRACTICE_PAPER_REL")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_MASTER")
                         orderby u.paper_id descending
                         where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
@@ -200,15 +233,32 @@ namespace Ashirvad.Repo.Services.Area.Paper
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            Subject = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTypeID = u.batch_type,
                             BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : "Evening",
@@ -235,13 +285,13 @@ namespace Ashirvad.Repo.Services.Area.Paper
             var data = (from u in this.context.PRACTICE_PAPER
                         .Include("PRACTICE_PAPER_REL")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_MASTER")
                         where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         && (model.search.value == null
                         || model.search.value == ""
-                        || u.STD_MASTER.standard.ToLower().Contains(model.search.value)
-                        || u.SUBJECT_MASTER.subject.ToLower().Contains(model.search.value))
+                        || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.ToLower().Contains(model.search.value)
+                        || u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name.ToLower().Contains(model.search.value))
                         orderby u.paper_id descending
                         select new PaperEntity()
                         {
@@ -255,15 +305,32 @@ namespace Ashirvad.Repo.Services.Area.Paper
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            Subject = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTypeID = u.batch_type,
                             Count = count,
@@ -290,7 +357,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
             var data = (from u in this.context.PRACTICE_PAPER
                         .Include("PRACTICE_PAPER_REL")
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_MASTER")
                         where u.paper_id == paperID
                         select new PaperEntity()
@@ -305,15 +372,33 @@ namespace Ashirvad.Repo.Services.Area.Paper
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            Subject = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTypeID = u.batch_type,
                             BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : "Evening",

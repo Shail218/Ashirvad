@@ -214,11 +214,11 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                     {
                         item.branchstandardlist = (from u in this.context.TEST_MASTER
                                                    join t in this.context.MARKS_MASTER on u.test_id equals t.test_id
-                                                   where (t.STUDENT_MASTER.student_id == studentid && u.row_sta_cd == 1 && u.std_id == item.branchid)
+                                                   where (t.STUDENT_MASTER.student_id == studentid && u.row_sta_cd == 1 && u.class_dtl_id == item.branchid)
                                                    select new BranchStandardEntity()
                                                    {
-                                                       name = u.SUBJECT_MASTER.subject,
-                                                       branchid = u.sub_id,
+                                                       name = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                                       branchid = u.subject_dtl_id.HasValue? u.subject_dtl_id.Value:0,
                                                        totalmarks = u.total_marks,
                                                        achievemarks = t.achive_marks
                                                    }).Distinct().ToList();
