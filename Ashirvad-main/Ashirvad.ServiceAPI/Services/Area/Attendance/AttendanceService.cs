@@ -113,11 +113,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
 
             return null;
         }
-        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, int batchID, DateTime attendanceDate)
+        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID,long courseid, int batchID, DateTime attendanceDate)
         {
             try
             {
-                return await this._attendanceContext.VerifyAttendanceRegister(branchID, stdID, batchID, attendanceDate);
+                return await this._attendanceContext.VerifyAttendanceRegister(branchID, stdID,courseid, batchID, attendanceDate);
             }
             catch (Exception ex)
             {
@@ -140,12 +140,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
 
             return false;
         }
-        public async Task<OperationResult<List<AttendanceEntity>>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, int batchTimeID, long studentid)
+        public async Task<OperationResult<List<AttendanceEntity>>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid)
         {
             try
             {
                 OperationResult<List<AttendanceEntity>> attendance = new OperationResult<List<AttendanceEntity>>();
-                attendance.Data = await _attendanceContext.GetAllAttendanceByFilter(fromDate, toDate, branchID, stdID, batchTimeID, studentid);
+                attendance.Data = await _attendanceContext.GetAllAttendanceByFilter(fromDate, toDate, branchID, stdID,courseid, batchTimeID, studentid);
                 attendance.Completed = true;
                 return attendance;
             }
@@ -156,12 +156,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
 
             return null;
         }
-        public async Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID, int batchTimeID, long studentid)
+        public async Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid)
         {
             try
             {
 
-                return  await _attendanceContext.GetAllAttendanceByCustom(model,fromDate, toDate, branchID, stdID, batchTimeID, studentid);
+                return  await _attendanceContext.GetAllAttendanceByCustom(model,fromDate, toDate, branchID, stdID,courseid, batchTimeID, studentid);
                 
             }
             catch (Exception ex)

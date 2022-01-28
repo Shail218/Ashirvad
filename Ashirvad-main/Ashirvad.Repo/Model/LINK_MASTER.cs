@@ -22,8 +22,6 @@ public partial class LINK_MASTER
 
     public long branch_id { get; set; }
 
-    public long std_id { get; set; }
-
     public string vid_desc { get; set; }
 
     public string vid_url { get; set; }
@@ -36,11 +34,17 @@ public partial class LINK_MASTER
 
     public int type { get; set; }
 
+    public Nullable<long> class_dtl_id { get; set; }
+
+    public Nullable<long> course_dtl_id { get; set; }
+
 
 
     public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
 
-    public virtual STD_MASTER STD_MASTER { get; set; }
+    public virtual CLASS_DTL_MASTER CLASS_DTL_MASTER { get; set; }
+
+    public virtual COURSE_DTL_MASTER COURSE_DTL_MASTER { get; set; }
 
 }
 

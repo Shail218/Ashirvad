@@ -34,8 +34,6 @@ public partial class BRANCH_MASTER
 
         this.CATEGORY_MASTER = new HashSet<CATEGORY_MASTER>();
 
-        this.FEE_STRUCTURE_MASTER = new HashSet<FEE_STRUCTURE_MASTER>();
-
         this.GALLERY_MASTER = new HashSet<GALLERY_MASTER>();
 
         this.HOMEWORK_MASTER_DTL = new HashSet<HOMEWORK_MASTER_DTL>();
@@ -54,19 +52,13 @@ public partial class BRANCH_MASTER
 
         this.STUDENT_PAYMENT_MASTER = new HashSet<STUDENT_PAYMENT_MASTER>();
 
-        this.TEST_MASTER = new HashSet<TEST_MASTER>();
-
         this.TEST_MASTER_DTL = new HashSet<TEST_MASTER_DTL>();
 
         this.TODO_MASTER = new HashSet<TODO_MASTER>();
 
         this.UPI_MASTER = new HashSet<UPI_MASTER>();
 
-        this.LINK_MASTER = new HashSet<LINK_MASTER>();
-
         this.CLASS_DTL_MASTER = new HashSet<CLASS_DTL_MASTER>();
-
-        this.MARKS_MASTER = new HashSet<MARKS_MASTER>();
 
         this.SUBJECT_DTL_MASTER = new HashSet<SUBJECT_DTL_MASTER>();
 
@@ -91,6 +83,14 @@ public partial class BRANCH_MASTER
         this.STUDENT_MASTER = new HashSet<STUDENT_MASTER>();
 
         this.ATTENDANCE_HDR = new HashSet<ATTENDANCE_HDR>();
+
+        this.MARKS_MASTER = new HashSet<MARKS_MASTER>();
+
+        this.LINK_MASTER = new HashSet<LINK_MASTER>();
+
+        this.FEE_STRUCTURE_MASTER = new HashSet<FEE_STRUCTURE_MASTER>();
+
+        this.TEST_MASTER = new HashSet<TEST_MASTER>();
 
     }
 
@@ -147,10 +147,6 @@ public partial class BRANCH_MASTER
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<FEE_STRUCTURE_MASTER> FEE_STRUCTURE_MASTER { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
     public virtual ICollection<GALLERY_MASTER> GALLERY_MASTER { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -187,10 +183,6 @@ public partial class BRANCH_MASTER
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<TEST_MASTER> TEST_MASTER { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
     public virtual ICollection<TEST_MASTER_DTL> TEST_MASTER_DTL { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -203,15 +195,7 @@ public partial class BRANCH_MASTER
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<LINK_MASTER> LINK_MASTER { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
     public virtual ICollection<CLASS_DTL_MASTER> CLASS_DTL_MASTER { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<MARKS_MASTER> MARKS_MASTER { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
@@ -260,6 +244,22 @@ public partial class BRANCH_MASTER
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<ATTENDANCE_HDR> ATTENDANCE_HDR { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<MARKS_MASTER> MARKS_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<LINK_MASTER> LINK_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<FEE_STRUCTURE_MASTER> FEE_STRUCTURE_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<TEST_MASTER> TEST_MASTER { get; set; }
 
 }
 

@@ -72,6 +72,7 @@ function LoadCourse() {
                 if (data.length == 1) {
                     $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
                     $('#CourseName option[value="' + data[i].course_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchCourse_course_dtl_id').val(data[i].course_dtl_id);
                 } else {
                     $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
                 }
@@ -100,6 +101,7 @@ function LoadClass(CourseID) {
                 if (data.length == 1) {
                     $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
                     $('#StandardName option[value="' + data[i].Class_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchClass_Class_dtl_id').val(data[i].Class_dtl_id);
                 } else {
                     $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
                 }
@@ -117,8 +119,9 @@ function LoadClass(CourseID) {
 
 function LoadStudent(batchtime) {
     ShowLoader();
-    var std_id = $("#Standard_StandardID").val();
-    var postCall = $.post(commonData.AttendanceReport + "StudentData", { "std": std_id, "BatchTime": batchtime });
+    var std_id = $("#BranchClass_Class_dtl_id").val();
+    var course_id = $("#BranchCourse_course_dtl_id").val();
+    var postCall = $.post(commonData.AttendanceReport + "StudentData", { "std": std_id, "courseid": course_id, "BatchTime": batchtime });
     postCall.done(function (data) {
         $('#StudentName').empty();
         $('#StudentName').select2();
@@ -140,7 +143,8 @@ function SaveReport() {
         var fromdate = ConvertData(date1);
         var date2 = $("#To_Date").val();
         var todate = ConvertData(date2);
-        var standard = $("#Standard_StandardID").val();
+        var standard = $("#BranchClass_Class_dtl_id").val();
+        var Course = $("#BranchCourse_course_dtl_id").val();
         var batchtime = $("#BatchTypeID").val();
         var student_id = $("#studentEntity_Name").val();
 
@@ -169,13 +173,14 @@ function SaveReport() {
                     d.StandardId = standard;
                     d.BatchTime = batchtime;
                     d.studentid = student_id;
-
+                    d.courseid = Course;
                 }
             },
             "columns": [
                 { "data": "AttendanceDate" },
                 { "data": "Branch.BranchName" },
-                { "data": "Standard.Standard" },
+                { "data": "BranchCourse.course.CourseName" },
+                { "data": "BranchClass.Class.ClassName" },
                 { "data": "BatchTypeText" },
                 { "data": "AttendanceDetail" },
                 { "data": "AttendanceDetail" }
@@ -195,7 +200,7 @@ function SaveReport() {
                     searchable: false
                 },
                 {
-                    targets: 4,
+                    targets: 5,
                     render: function (data, type, full, meta) {
                         if (type === 'display') {
                             data = full.AttendanceDetail[0].IsAbsent == true ? "Absent" : "Present"
@@ -206,7 +211,7 @@ function SaveReport() {
                     searchable: false
                 },
                 {
-                    targets: 5,
+                    targets: 6,
                     render: function (data, type, full, meta) {
 
                         if (type === 'display') {

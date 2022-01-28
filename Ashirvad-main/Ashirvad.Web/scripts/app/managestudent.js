@@ -33,7 +33,8 @@ $(document).ready(function () {
             { "data": "FilePath" },
             { "data": "Name" },
             { "data": "AdmissionDate" },
-            { "data": "StandardInfo.Standard" },
+            { "data": "BranchCourse.course.CourseName" },
+            { "data": "BranchClass.Class.ClassName" },
             { "data": "BatchInfo.BatchText" },
             { "data": "ContactNo" },
             { "data": "StudentID"}
@@ -67,12 +68,12 @@ $(document).ready(function () {
                 searchable: true
             },
             {
-                targets: 5,
+                targets: 6,
                 orderable: true,
                 searchable: true
             },
             {
-                targets: 6,
+                targets: 7,
                 render: function (data, type, full, meta) {
                    
                     if (type === 'display') {
@@ -85,7 +86,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 7,
+                targets: 8,
                 render: function (data, type, full, meta) {
                     
                     if (type === 'display') {
@@ -122,8 +123,6 @@ function LoadBranch() {
     });
 }
 
-
-
 function ChangeStatusStudent(Status) {
     ShowLoader();
     table.destroy();
@@ -155,7 +154,8 @@ function ChangeStatusStudent(Status) {
             { "data": "FilePath" },
             { "data": "Name" },
             { "data": "AdmissionDate" },
-            { "data": "StandardInfo.Standard" },
+            { "data": "BranchCourse.course.CourseName" },
+            { "data": "BranchClass.Class.ClassName" },
             { "data": "BatchInfo.BatchText" },
             { "data": "ContactNo" },
             { "data": "StudentID"}
@@ -190,12 +190,12 @@ function ChangeStatusStudent(Status) {
                 searchable: true
             },
             {
-                targets: 5,
+                targets: 6,
                 orderable: true,
                 searchable: true
             },
             {
-                targets: 6,
+                targets: 7,
                 render: function (data, type, full, meta) {
                    
                     if (type === 'display') {
@@ -209,7 +209,7 @@ function ChangeStatusStudent(Status) {
                 searchable: false
             },
             {
-                targets: 7,
+                targets: 8,
                 render: function (data, type, full, meta) {
                     
                     if (type === 'display') {

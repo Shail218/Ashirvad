@@ -32,25 +32,25 @@ namespace Ashirvad.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveReport(DateTime FromDate, DateTime ToDate, long StandardId, int BatchTime,long studentid)
+        public async Task<ActionResult> SaveReport(DateTime FromDate, DateTime ToDate, long StandardId,long courseid, int BatchTime,long studentid)
         {
-            var data = await this._attendanceService.GetAllAttendanceByFilter(FromDate, ToDate,SessionContext.Instance.LoginUser.BranchInfo.BranchID,StandardId,BatchTime,studentid);
+            var data = await this._attendanceService.GetAllAttendanceByFilter(FromDate, ToDate,SessionContext.Instance.LoginUser.BranchInfo.BranchID,StandardId,courseid,BatchTime,studentid);
             return View("~/Views/AttendanceReport/Manage.cshtml", data.Data);
         }
 
-        public async Task<JsonResult> StudentData(int BatchTime, long std)
+        public async Task<JsonResult> StudentData(long std,long courseid, int BatchTime)
         {
-            var studentData = await _studentService.GetAllStudentsName(SessionContext.Instance.LoginUser.BranchInfo.BranchID,BatchTime,std);
+            var studentData = await _studentService.GetAllStudentsName(SessionContext.Instance.LoginUser.BranchInfo.BranchID,std,courseid, BatchTime);
             return Json(studentData);
         }
 
         [HttpPost]
-        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model, DateTime FromDate, DateTime ToDate, long StandardId=0, int BatchTime=0, long studentid=0)
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model, DateTime FromDate, DateTime ToDate, long StandardId=0,long courseid=0, int BatchTime=0, long studentid=0)
         {
             // action inside a standard controller
             try
             {
-                var branchData = await _attendanceService.GetAllAttendanceByCustom(model, FromDate, ToDate, SessionContext.Instance.LoginUser.BranchInfo.BranchID, StandardId, BatchTime, studentid);
+                var branchData = await _attendanceService.GetAllAttendanceByCustom(model, FromDate, ToDate, SessionContext.Instance.LoginUser.BranchInfo.BranchID, StandardId,courseid, BatchTime, studentid);
                 long total = 0;
                 if (branchData.Count > 0)
                 {

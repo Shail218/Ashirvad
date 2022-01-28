@@ -26,6 +26,10 @@ public partial class SUBJECT_DTL_MASTER
 
         this.FACULTY_MASTER = new HashSet<FACULTY_MASTER>();
 
+        this.MARKS_MASTER = new HashSet<MARKS_MASTER>();
+
+        this.TEST_MASTER = new HashSet<TEST_MASTER>();
+
     }
 
 
@@ -64,6 +68,14 @@ public partial class SUBJECT_DTL_MASTER
     public virtual ICollection<FACULTY_MASTER> FACULTY_MASTER { get; set; }
 
     public virtual SUBJECT_BRANCH_MASTER SUBJECT_BRANCH_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<MARKS_MASTER> MARKS_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<TEST_MASTER> TEST_MASTER { get; set; }
 
 }
 

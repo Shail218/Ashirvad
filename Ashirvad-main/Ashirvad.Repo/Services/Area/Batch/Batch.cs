@@ -12,10 +12,10 @@ namespace Ashirvad.Repo.Services.Area.Batch
 {
     public class Batch : ModelAccess, IBatchAPI
     {
-        public async Task<long> CheckBatch(int batchtime, long std, long Id)
+        public async Task<long> CheckBatch(int batchtime, long std, long courseid, long Id)
         {
             long result;
-            bool isExists = this.context.BATCH_MASTER.Where(s => (Id == 0 || s.batch_id != Id) && s.batch_time == batchtime && s.class_dtl_id == std && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.BATCH_MASTER.Where(s => (Id == 0 || s.batch_id != Id) && s.batch_time == batchtime && s.class_dtl_id == std && s.course_dtl_id == courseid && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -23,7 +23,7 @@ namespace Ashirvad.Repo.Services.Area.Batch
         public async Task<long> BatchMaintenance(BatchEntity batchInfo)
         {
             Model.BATCH_MASTER batchMaster = new Model.BATCH_MASTER();
-            if (CheckBatch((int)batchInfo.BatchType, batchInfo.StandardInfo.StandardID, batchInfo.BatchID).Result != -1)
+            if (CheckBatch((int)batchInfo.BatchType, batchInfo.BranchClass.Class_dtl_id, batchInfo.BranchCourse.course_dtl_id,batchInfo.BatchID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from batch in this.context.BATCH_MASTER
@@ -131,6 +131,14 @@ namespace Ashirvad.Repo.Services.Area.Batch
                                     ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
                                 }
                             },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
                             BranchInfo = new BranchEntity()
                             {
                                 BranchID = u.branch_id,
@@ -207,6 +215,14 @@ namespace Ashirvad.Repo.Services.Area.Batch
                                 Class = new ClassEntity()
                                 {
                                     ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue == true ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
                                 }
                             },
                             BranchInfo = new BranchEntity()

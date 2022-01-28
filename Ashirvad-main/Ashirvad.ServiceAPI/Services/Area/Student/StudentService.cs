@@ -140,11 +140,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             return null;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, int batchtime, long stdid)
+        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid,long courseid, int batchtime)
         {
             try
             {
-                return await this._studentContext.GetAllStudentsName(branchID,batchtime,stdid);
+                return await this._studentContext.GetAllStudentsName(branchID,stdid,courseid, batchtime);
             }
             catch (Exception ex)
             {

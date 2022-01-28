@@ -44,13 +44,13 @@ public partial class TEST_MASTER_DTL
 
 
 
-    public virtual TEST_MASTER TEST_MASTER { get; set; }
-
     public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
 
     public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
 
     public virtual STUDENT_MASTER STUDENT_MASTER { get; set; }
+
+    public virtual TEST_MASTER TEST_MASTER { get; set; }
 
 }
 

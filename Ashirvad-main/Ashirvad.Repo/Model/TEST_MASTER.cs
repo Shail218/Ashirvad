@@ -22,13 +22,13 @@ public partial class TEST_MASTER
     public TEST_MASTER()
     {
 
-        this.TEST_PAPER_REL = new HashSet<TEST_PAPER_REL>();
+        this.MARKS_MASTER = new HashSet<MARKS_MASTER>();
 
         this.STUDENT_ANS_SHEET = new HashSet<STUDENT_ANS_SHEET>();
 
         this.TEST_MASTER_DTL = new HashSet<TEST_MASTER_DTL>();
 
-        this.MARKS_MASTER = new HashSet<MARKS_MASTER>();
+        this.TEST_PAPER_REL = new HashSet<TEST_PAPER_REL>();
 
     }
 
@@ -39,11 +39,7 @@ public partial class TEST_MASTER
 
     public string test_name { get; set; }
 
-    public long std_id { get; set; }
-
     public int batch_time_id { get; set; }
-
-    public long sub_id { get; set; }
 
     public double total_marks { get; set; }
 
@@ -61,29 +57,37 @@ public partial class TEST_MASTER
 
     public string file_name { get; set; }
 
+    public Nullable<long> class_dtl_id { get; set; }
+
+    public Nullable<long> course_dtl_id { get; set; }
+
+    public Nullable<long> subject_dtl_id { get; set; }
 
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<TEST_PAPER_REL> TEST_PAPER_REL { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<STUDENT_ANS_SHEET> STUDENT_ANS_SHEET { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<TEST_MASTER_DTL> TEST_MASTER_DTL { get; set; }
 
     public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+
+    public virtual CLASS_DTL_MASTER CLASS_DTL_MASTER { get; set; }
+
+    public virtual COURSE_DTL_MASTER COURSE_DTL_MASTER { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<MARKS_MASTER> MARKS_MASTER { get; set; }
 
-    public virtual STD_MASTER STD_MASTER { get; set; }
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
+    public virtual ICollection<STUDENT_ANS_SHEET> STUDENT_ANS_SHEET { get; set; }
+
+    public virtual SUBJECT_DTL_MASTER SUBJECT_DTL_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<TEST_MASTER_DTL> TEST_MASTER_DTL { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<TEST_PAPER_REL> TEST_PAPER_REL { get; set; }
 
 }
 

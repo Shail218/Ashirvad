@@ -53,19 +53,13 @@ public partial class AshirvadDBEntities1 : DbContext
 
     public virtual DbSet<USER_ROLE> USER_ROLE { get; set; }
 
-    public virtual DbSet<LINK_MASTER> LINK_MASTER { get; set; }
-
     public virtual DbSet<PRACTICE_PAPER> PRACTICE_PAPER { get; set; }
 
     public virtual DbSet<ATTENDANCE_DTL> ATTENDANCE_DTL { get; set; }
 
-    public virtual DbSet<TEST_MASTER> TEST_MASTER { get; set; }
-
     public virtual DbSet<REMINDER_MASTER> REMINDER_MASTER { get; set; }
 
     public virtual DbSet<ANNOUNCE_MASTER> ANNOUNCE_MASTER { get; set; }
-
-    public virtual DbSet<FEE_STRUCTURE_MASTER> FEE_STRUCTURE_MASTER { get; set; }
 
     public virtual DbSet<STUDENT_PAYMENT_MASTER> STUDENT_PAYMENT_MASTER { get; set; }
 
@@ -74,8 +68,6 @@ public partial class AshirvadDBEntities1 : DbContext
     public virtual DbSet<UPI_MASTER> UPI_MASTER { get; set; }
 
     public virtual DbSet<BRANCH_AGREEMENT> BRANCH_AGREEMENT { get; set; }
-
-    public virtual DbSet<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
 
     public virtual DbSet<CATEGORY_MASTER> CATEGORY_MASTER { get; set; }
 
@@ -115,8 +107,6 @@ public partial class AshirvadDBEntities1 : DbContext
 
     public virtual DbSet<CLASS_DTL_MASTER> CLASS_DTL_MASTER { get; set; }
 
-    public virtual DbSet<MARKS_MASTER> MARKS_MASTER { get; set; }
-
     public virtual DbSet<SUBJECT_DTL_MASTER> SUBJECT_DTL_MASTER { get; set; }
 
     public virtual DbSet<STD_MASTER> STD_MASTER { get; set; }
@@ -154,6 +144,16 @@ public partial class AshirvadDBEntities1 : DbContext
     public virtual DbSet<STUDENT_MASTER> STUDENT_MASTER { get; set; }
 
     public virtual DbSet<ATTENDANCE_HDR> ATTENDANCE_HDR { get; set; }
+
+    public virtual DbSet<LINK_MASTER> LINK_MASTER { get; set; }
+
+    public virtual DbSet<MARKS_MASTER> MARKS_MASTER { get; set; }
+
+    public virtual DbSet<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
+
+    public virtual DbSet<FEE_STRUCTURE_MASTER> FEE_STRUCTURE_MASTER { get; set; }
+
+    public virtual DbSet<TEST_MASTER> TEST_MASTER { get; set; }
 
 
     public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)

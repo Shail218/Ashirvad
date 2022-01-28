@@ -28,7 +28,6 @@ namespace Ashirvad.Web.Controllers
             return View();
         }
 
-
         public async Task<ActionResult> BatchMaintenance(long branchID)
         {
             long batchID = branchID;

@@ -123,9 +123,9 @@ namespace Ashirvad.Web.Controllers
             return View(await _testService.GetAnswerSheetdata(testID));
         }
 
-        public async Task<JsonResult> GetTestDatesByBatch(long BranchID, long stdID, int BatchType)
+        public async Task<JsonResult> GetTestDatesByBatch(long BranchID, long stdID, long courseid, int BatchType)
         {
-            var testpaperByBranch = await _testService.TestDateDDL(BranchID, stdID, BatchType);
+            var testpaperByBranch = await _testService.TestDateDDL(BranchID, stdID, courseid,BatchType);
             return Json(testpaperByBranch.Data);
         }
 

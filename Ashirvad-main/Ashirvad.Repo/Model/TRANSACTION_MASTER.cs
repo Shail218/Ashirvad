@@ -28,13 +28,9 @@ public partial class TRANSACTION_MASTER
 
         this.USER_DEF = new HashSet<USER_DEF>();
 
-        this.FEE_STRUCTURE_MASTER = new HashSet<FEE_STRUCTURE_MASTER>();
-
         this.STUDENT_PAYMENT_REL = new HashSet<STUDENT_PAYMENT_REL>();
 
         this.UPI_MASTER = new HashSet<UPI_MASTER>();
-
-        this.FEE_STRUCTURE_DTL = new HashSet<FEE_STRUCTURE_DTL>();
 
         this.CATEGORY_MASTER = new HashSet<CATEGORY_MASTER>();
 
@@ -86,6 +82,10 @@ public partial class TRANSACTION_MASTER
 
         this.ATTENDANCE_HDR = new HashSet<ATTENDANCE_HDR>();
 
+        this.FEE_STRUCTURE_DTL = new HashSet<FEE_STRUCTURE_DTL>();
+
+        this.FEE_STRUCTURE_MASTER = new HashSet<FEE_STRUCTURE_MASTER>();
+
     }
 
 
@@ -119,19 +119,11 @@ public partial class TRANSACTION_MASTER
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<FEE_STRUCTURE_MASTER> FEE_STRUCTURE_MASTER { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
     public virtual ICollection<STUDENT_PAYMENT_REL> STUDENT_PAYMENT_REL { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<UPI_MASTER> UPI_MASTER { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
@@ -232,6 +224,14 @@ public partial class TRANSACTION_MASTER
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<ATTENDANCE_HDR> ATTENDANCE_HDR { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<FEE_STRUCTURE_MASTER> FEE_STRUCTURE_MASTER { get; set; }
 
 }
 

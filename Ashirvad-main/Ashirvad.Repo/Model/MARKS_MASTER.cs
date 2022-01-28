@@ -30,8 +30,6 @@ public partial class MARKS_MASTER
 
     public int batch_time_id { get; set; }
 
-    public long subject_id { get; set; }
-
     public string file_path { get; set; }
 
     public string file_name { get; set; }
@@ -42,15 +40,25 @@ public partial class MARKS_MASTER
 
     public long trans_id { get; set; }
 
+    public Nullable<long> class_dtl_id { get; set; }
+
+    public Nullable<long> course_dtl_id { get; set; }
+
+    public Nullable<long> subject_dtl_id { get; set; }
+
 
 
     public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
 
-    public virtual TEST_MASTER TEST_MASTER { get; set; }
+    public virtual CLASS_DTL_MASTER CLASS_DTL_MASTER { get; set; }
 
-    public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
+    public virtual COURSE_DTL_MASTER COURSE_DTL_MASTER { get; set; }
 
     public virtual STUDENT_MASTER STUDENT_MASTER { get; set; }
+
+    public virtual SUBJECT_DTL_MASTER SUBJECT_DTL_MASTER { get; set; }
+
+    public virtual TEST_MASTER TEST_MASTER { get; set; }
 
 }
 

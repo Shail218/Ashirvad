@@ -295,10 +295,11 @@
           </Key>
           <Property Name="fee_struct_mst_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="branch_id" Type="bigint" Nullable="false" />
-          <Property Name="std_id" Type="bigint" Nullable="false" />
           <Property Name="remarks" Type="nvarchar(max)" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="class_dtl_id" Type="bigint" />
+          <Property Name="course_dtl_id" Type="bigint" />
         </EntityType>
         <EntityType Name="GALLERY_MASTER">
           <Key>
@@ -382,13 +383,14 @@
           </Key>
           <Property Name="unique_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="branch_id" Type="bigint" Nullable="false" />
-          <Property Name="std_id" Type="bigint" Nullable="false" />
           <Property Name="vid_desc" Type="nvarchar(max)" />
           <Property Name="vid_url" Type="nvarchar" MaxLength="50" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="title" Type="nvarchar" MaxLength="50" />
           <Property Name="type" Type="int" Nullable="false" />
+          <Property Name="class_dtl_id" Type="bigint" />
+          <Property Name="course_dtl_id" Type="bigint" />
         </EntityType>
         <EntityType Name="MARKS_MASTER">
           <Key>
@@ -400,12 +402,14 @@
           <Property Name="branch_id" Type="bigint" Nullable="false" />
           <Property Name="student_id" Type="bigint" Nullable="false" />
           <Property Name="batch_time_id" Type="int" Nullable="false" />
-          <Property Name="subject_id" Type="bigint" Nullable="false" />
           <Property Name="file_path" Type="nvarchar(max)" />
           <Property Name="file_name" Type="nvarchar" MaxLength="250" />
           <Property Name="achive_marks" Type="varchar" MaxLength="50" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="class_dtl_id" Type="bigint" />
+          <Property Name="course_dtl_id" Type="bigint" />
+          <Property Name="subject_dtl_id" Type="bigint" />
         </EntityType>
         <EntityType Name="NEW_LIBRARY_MASTER">
           <Key>
@@ -656,9 +660,7 @@
           <Property Name="test_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="branch_id" Type="bigint" Nullable="false" />
           <Property Name="test_name" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="std_id" Type="bigint" Nullable="false" />
           <Property Name="batch_time_id" Type="int" Nullable="false" />
-          <Property Name="sub_id" Type="bigint" Nullable="false" />
           <Property Name="total_marks" Type="float" Nullable="false" />
           <Property Name="test_dt" Type="datetime" Nullable="false" />
           <Property Name="test_st_time" Type="nvarchar" MaxLength="50" />
@@ -667,6 +669,9 @@
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="file_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="class_dtl_id" Type="bigint" />
+          <Property Name="course_dtl_id" Type="bigint" />
+          <Property Name="subject_dtl_id" Type="bigint" />
         </EntityType>
         <EntityType Name="TEST_MASTER_DTL">
           <Key>
@@ -1398,15 +1403,27 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_FEE_STRUCTURE_MASTER_STD_MASTER">
-          <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
+        <Association Name="FK_FEE_STRUCTURE_MASTER_CLASS_DTL_MASTER">
+          <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
           <End Role="FEE_STRUCTURE_MASTER" Type="Self.FEE_STRUCTURE_MASTER" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="STD_MASTER">
-              <PropertyRef Name="std_id" />
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
             </Principal>
             <Dependent Role="FEE_STRUCTURE_MASTER">
-              <PropertyRef Name="std_id" />
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_MASTER_COURSE_DTL_MASTER">
+          <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Role="FEE_STRUCTURE_MASTER" Type="Self.FEE_STRUCTURE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="course_dtl_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1556,6 +1573,30 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LINK_MASTER_CLASS_DTL_MASTER">
+          <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
+          <End Role="LINK_MASTER" Type="Self.LINK_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Principal>
+            <Dependent Role="LINK_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LINK_MASTER_COURSE_DTL_MASTER">
+          <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Role="LINK_MASTER" Type="Self.LINK_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="LINK_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MARKS_MASTER_BRANCH_MASTER">
           <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
           <End Role="MARKS_MASTER" Type="Self.MARKS_MASTER" Multiplicity="*" />
@@ -1565,6 +1606,30 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Principal>
             <Dependent Role="MARKS_MASTER">
               <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARKS_MASTER_CLASS_DTL_MASTER">
+          <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
+          <End Role="MARKS_MASTER" Type="Self.MARKS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Principal>
+            <Dependent Role="MARKS_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARKS_MASTER_COURSE_DTL_MASTER">
+          <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Role="MARKS_MASTER" Type="Self.MARKS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="MARKS_MASTER">
+              <PropertyRef Name="course_dtl_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1580,15 +1645,15 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MARKS_MASTER_SUBJECT_MASTER">
-          <End Role="SUBJECT_MASTER" Type="Self.SUBJECT_MASTER" Multiplicity="1" />
+        <Association Name="FK_MARKS_MASTER_SUBJECT_DTL_MASTER">
+          <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="0..1" />
           <End Role="MARKS_MASTER" Type="Self.MARKS_MASTER" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SUBJECT_MASTER">
-              <PropertyRef Name="subject_id" />
+            <Principal Role="SUBJECT_DTL_MASTER">
+              <PropertyRef Name="subject_dtl_id" />
             </Principal>
             <Dependent Role="MARKS_MASTER">
-              <PropertyRef Name="subject_id" />
+              <PropertyRef Name="subject_dtl_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2104,6 +2169,30 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TEST_MASTER_CLASS_DTL_MASTER">
+          <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
+          <End Role="TEST_MASTER" Type="Self.TEST_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TEST_MASTER_COURSE_DTL_MASTER">
+          <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Role="TEST_MASTER" Type="Self.TEST_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Test_MASTER_DTL_BRANCH_MASTER">
           <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
           <End Role="TEST_MASTER_DTL" Type="Self.TEST_MASTER_DTL" Multiplicity="*" />
@@ -2152,27 +2241,15 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TEST_MASTER_STD_MASTER">
-          <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
+        <Association Name="FK_TEST_MASTER_SUBJECT_DTL_MASTER">
+          <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="0..1" />
           <End Role="TEST_MASTER" Type="Self.TEST_MASTER" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="STD_MASTER">
-              <PropertyRef Name="std_id" />
+            <Principal Role="SUBJECT_DTL_MASTER">
+              <PropertyRef Name="subject_dtl_id" />
             </Principal>
             <Dependent Role="TEST_MASTER">
-              <PropertyRef Name="std_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TEST_MASTER_SUBJECT_MASTER">
-          <End Role="SUBJECT_MASTER" Type="Self.SUBJECT_MASTER" Multiplicity="1" />
-          <End Role="TEST_MASTER" Type="Self.TEST_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SUBJECT_MASTER">
-              <PropertyRef Name="subject_id" />
-            </Principal>
-            <Dependent Role="TEST_MASTER">
-              <PropertyRef Name="sub_id" />
+              <PropertyRef Name="subject_dtl_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2269,18 +2346,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Principal>
             <Dependent Role="LINK_MASTER">
               <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VIDEO_MASTER_STD_MASTER">
-          <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
-          <End Role="LINK_MASTER" Type="Self.LINK_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STD_MASTER">
-              <PropertyRef Name="std_id" />
-            </Principal>
-            <Dependent Role="LINK_MASTER">
-              <PropertyRef Name="std_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2562,8 +2627,12 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
           </AssociationSet>
-          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_STD_MASTER" Association="Self.FK_FEE_STRUCTURE_MASTER_STD_MASTER">
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_CLASS_DTL_MASTER" Association="Self.FK_FEE_STRUCTURE_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_COURSE_DTL_MASTER" Association="Self.FK_FEE_STRUCTURE_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
             <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" Association="Self.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER">
@@ -2614,16 +2683,32 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
             <End Role="LIBRARY_STD_MASTER" EntitySet="LIBRARY_STD_MASTER" />
           </AssociationSet>
+          <AssociationSet Name="FK_LINK_MASTER_CLASS_DTL_MASTER" Association="Self.FK_LINK_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LINK_MASTER_COURSE_DTL_MASTER" Association="Self.FK_LINK_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+            <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
+          </AssociationSet>
           <AssociationSet Name="FK_MARKS_MASTER_BRANCH_MASTER" Association="Self.FK_MARKS_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARKS_MASTER_CLASS_DTL_MASTER" Association="Self.FK_MARKS_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARKS_MASTER_COURSE_DTL_MASTER" Association="Self.FK_MARKS_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
             <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_MARKS_MASTER_STUDENT_MASTER" Association="Self.FK_MARKS_MASTER_STUDENT_MASTER">
             <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
             <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
           </AssociationSet>
-          <AssociationSet Name="FK_MARKS_MASTER_SUBJECT_MASTER" Association="Self.FK_MARKS_MASTER_SUBJECT_MASTER">
-            <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
+          <AssociationSet Name="FK_MARKS_MASTER_SUBJECT_DTL_MASTER" Association="Self.FK_MARKS_MASTER_SUBJECT_DTL_MASTER">
+            <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
             <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_MARKS_MASTER_TEST_MASTER" Association="Self.FK_MARKS_MASTER_TEST_MASTER">
@@ -2794,6 +2879,14 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
           </AssociationSet>
+          <AssociationSet Name="FK_TEST_MASTER_CLASS_DTL_MASTER" Association="Self.FK_TEST_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TEST_MASTER_COURSE_DTL_MASTER" Association="Self.FK_TEST_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+          </AssociationSet>
           <AssociationSet Name="FK_Test_MASTER_DTL_BRANCH_MASTER" Association="Self.FK_Test_MASTER_DTL_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
@@ -2810,12 +2903,8 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
           </AssociationSet>
-          <AssociationSet Name="FK_TEST_MASTER_STD_MASTER" Association="Self.FK_TEST_MASTER_STD_MASTER">
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
-            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TEST_MASTER_SUBJECT_MASTER" Association="Self.FK_TEST_MASTER_SUBJECT_MASTER">
-            <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
+          <AssociationSet Name="FK_TEST_MASTER_SUBJECT_DTL_MASTER" Association="Self.FK_TEST_MASTER_SUBJECT_DTL_MASTER">
+            <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
             <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_TEST_PAPER_REL_TEST_MASTER" Association="Self.FK_TEST_PAPER_REL_TEST_MASTER">
@@ -2850,10 +2939,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
           </AssociationSet>
-          <AssociationSet Name="FK_VIDEO_MASTER_STD_MASTER" Association="Self.FK_VIDEO_MASTER_STD_MASTER">
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
-            <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -2885,10 +2970,8 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="USER_DEF" EntitySet="USER_DEF" />
             <End Role="USER_ROLE" EntitySet="USER_ROLE" />
           </AssociationSet>
-          <EntitySet Name="LINK_MASTER" EntityType="AshirvadModel.LINK_MASTER" />
           <EntitySet Name="PRACTICE_PAPER" EntityType="AshirvadModel.PRACTICE_PAPER" />
           <EntitySet Name="ATTENDANCE_DTL" EntityType="AshirvadModel.ATTENDANCE_DTL" />
-          <EntitySet Name="TEST_MASTER" EntityType="AshirvadModel.TEST_MASTER" />
           <EntitySet Name="REMINDER_MASTER" EntityType="AshirvadModel.REMINDER_MASTER" />
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
@@ -2922,14 +3005,9 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="usp_get_usage" ReturnType="Collection(AshirvadModel.usp_get_usage_Result)" />
           <EntitySet Name="ANNOUNCE_MASTER" EntityType="AshirvadModel.ANNOUNCE_MASTER" />
-          <EntitySet Name="FEE_STRUCTURE_MASTER" EntityType="AshirvadModel.FEE_STRUCTURE_MASTER" />
           <EntitySet Name="STUDENT_PAYMENT_MASTER" EntityType="AshirvadModel.STUDENT_PAYMENT_MASTER" />
           <EntitySet Name="STUDENT_PAYMENT_REL" EntityType="AshirvadModel.STUDENT_PAYMENT_REL" />
           <EntitySet Name="UPI_MASTER" EntityType="AshirvadModel.UPI_MASTER" />
-          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER">
-            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
-            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER" Association="AshirvadModel.FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER">
             <End Role="STUDENT_PAYMENT_MASTER" EntitySet="STUDENT_PAYMENT_MASTER" />
             <End Role="STUDENT_PAYMENT_REL" EntitySet="STUDENT_PAYMENT_REL" />
@@ -2943,15 +3021,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="UPI_MASTER" EntitySet="UPI_MASTER" />
           </AssociationSet>
           <EntitySet Name="BRANCH_AGREEMENT" EntityType="AshirvadModel.BRANCH_AGREEMENT" />
-          <EntitySet Name="FEE_STRUCTURE_DTL" EntityType="AshirvadModel.FEE_STRUCTURE_DTL" />
-          <AssociationSet Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
-            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
-            <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
-            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
-            <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
-          </AssociationSet>
           <EntitySet Name="CATEGORY_MASTER" EntityType="AshirvadModel.CATEGORY_MASTER" />
           <AssociationSet Name="FK_CATEGORY_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_CATEGORY_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
@@ -2963,25 +3032,13 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="ABOUTUS_DETAIL_REL" EntitySet="ABOUTUS_DETAIL_REL" />
           </AssociationSet>
           <EntitySet Name="TEST_PAPER_REL" EntityType="AshirvadModel.TEST_PAPER_REL" />
-          <AssociationSet Name="FK_TEST_PAPER_REL_TEST_MASTER" Association="AshirvadModel.FK_TEST_PAPER_REL_TEST_MASTER">
-            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
-            <End Role="TEST_PAPER_REL" EntitySet="TEST_PAPER_REL" />
-          </AssociationSet>
           <EntitySet Name="STUDENT_ANS_SHEET" EntityType="AshirvadModel.STUDENT_ANS_SHEET" />
-          <AssociationSet Name="FK_STUDENT_ANS_SHEET_TEST_MASTER" Association="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER">
-            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
-            <End Role="STUDENT_ANS_SHEET" EntitySet="STUDENT_ANS_SHEET" />
-          </AssociationSet>
           <EntitySet Name="PAGE_MASTER" EntityType="AshirvadModel.PAGE_MASTER" />
           <AssociationSet Name="FK_PAGE_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_PAGE_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
           </AssociationSet>
           <EntitySet Name="TEST_MASTER_DTL" EntityType="AshirvadModel.TEST_MASTER_DTL" />
-          <AssociationSet Name="FK_Test_MASTER_DTL_Test_MASTER" Association="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER">
-            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
-            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
-          </AssociationSet>
           <AssociationSet Name="FK_Test_MASTER_DTL_TRANSACTION_MASTER" Association="AshirvadModel.FK_Test_MASTER_DTL_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
@@ -3065,10 +3122,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
           </AssociationSet>
-          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_GALLERY_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_GALLERY_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="GALLERY_MASTER" EntitySet="GALLERY_MASTER" />
@@ -3105,10 +3158,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="STUDENT_PAYMENT_MASTER" EntitySet="STUDENT_PAYMENT_MASTER" />
           </AssociationSet>
-          <AssociationSet Name="FK_TEST_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_TEST_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_Test_MASTER_DTL_BRANCH_MASTER" Association="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
@@ -3120,10 +3169,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <AssociationSet Name="FK_UPI_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="UPI_MASTER" EntitySet="UPI_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VIDEO_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_VIDEO_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_BRANCH_STAFF_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_STAFF_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
@@ -3147,12 +3192,7 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
           </AssociationSet>
-          <EntitySet Name="MARKS_MASTER" EntityType="AshirvadModel.MARKS_MASTER" />
           <EntitySet Name="SUBJECT_DTL_MASTER" EntityType="AshirvadModel.SUBJECT_DTL_MASTER" />
-          <AssociationSet Name="FK_MARKS_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_SUBJECT_DTL_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_SUBJECT_DTL_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
@@ -3160,10 +3200,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <AssociationSet Name="FK_SUBJECT_DTL_MASTER_CLASS_DTL_MASTER" Association="AshirvadModel.FK_SUBJECT_DTL_MASTER_CLASS_DTL_MASTER">
             <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
             <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MARKS_MASTER_TEST_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_TEST_MASTER">
-            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
-            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_SUBJECT_DTL_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_SUBJECT_DTL_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
@@ -3178,14 +3214,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
           </AssociationSet>
-          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_STD_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER">
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
-            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VIDEO_MASTER_STD_MASTER" Association="AshirvadModel.FK_VIDEO_MASTER_STD_MASTER">
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
-            <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_PRACTICE_PAPER_STD_MASTER" Association="AshirvadModel.FK_PRACTICE_PAPER_STD_MASTER">
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
             <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
@@ -3193,10 +3221,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <AssociationSet Name="FK_STD_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_STD_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TEST_MASTER_STD_MASTER" Association="AshirvadModel.FK_TEST_MASTER_STD_MASTER">
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
-            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
           </AssociationSet>
           <EntitySet Name="COURSE_DTL_MASTER" EntityType="AshirvadModel.COURSE_DTL_MASTER" />
           <AssociationSet Name="FK_COURSE_DTL_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_COURSE_DTL_MASTER_BRANCH_MASTER">
@@ -3224,10 +3248,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
           </AssociationSet>
-          <AssociationSet Name="FK_MARKS_MASTER_SUBJECT_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_SUBJECT_MASTER">
-            <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
-            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_PRACTICE_PAPER_SUBJECT_MASTER" Association="AshirvadModel.FK_PRACTICE_PAPER_SUBJECT_MASTER">
             <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
             <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
@@ -3239,10 +3259,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <AssociationSet Name="FK_SUBJECT_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_SUBJECT_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TEST_MASTER_SUBJECT_MASTER" Association="AshirvadModel.FK_TEST_MASTER_SUBJECT_MASTER">
-            <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
-            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
           </AssociationSet>
           <EntitySet Name="FACULTY_MASTER" EntityType="AshirvadModel.FACULTY_MASTER" />
           <AssociationSet Name="FK_FACULTY_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_FACULTY_MASTER_BRANCH_MASTER">
@@ -3424,10 +3440,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
             <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
           </AssociationSet>
-          <AssociationSet Name="FK_MARKS_MASTER_STUDENT_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER">
-            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
-            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_STUDENT_MASTER_SCHOOL_MASTER" Association="AshirvadModel.FK_STUDENT_MASTER_SCHOOL_MASTER">
             <End Role="SCHOOL_MASTER" EntitySet="SCHOOL_MASTER" />
             <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
@@ -3468,6 +3480,99 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <AssociationSet Name="FK_ATTENDANCE_HDR_TRANSACTION_MASTER" Association="AshirvadModel.FK_ATTENDANCE_HDR_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
+          </AssociationSet>
+          <EntitySet Name="LINK_MASTER" EntityType="AshirvadModel.LINK_MASTER" />
+          <EntitySet Name="MARKS_MASTER" EntityType="AshirvadModel.MARKS_MASTER" />
+          <AssociationSet Name="FK_MARKS_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VIDEO_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_VIDEO_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LINK_MASTER_CLASS_DTL_MASTER" Association="AshirvadModel.FK_LINK_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARKS_MASTER_CLASS_DTL_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LINK_MASTER_COURSE_DTL_MASTER" Association="AshirvadModel.FK_LINK_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+            <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARKS_MASTER_COURSE_DTL_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARKS_MASTER_STUDENT_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER">
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARKS_MASTER_SUBJECT_DTL_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_SUBJECT_DTL_MASTER">
+            <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
+            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+          </AssociationSet>
+          <EntitySet Name="FEE_STRUCTURE_DTL" EntityType="AshirvadModel.FEE_STRUCTURE_DTL" />
+          <EntitySet Name="FEE_STRUCTURE_MASTER" EntityType="AshirvadModel.FEE_STRUCTURE_MASTER" />
+          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_CLASS_DTL_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_COURSE_DTL_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+            <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+          </AssociationSet>
+          <EntitySet Name="TEST_MASTER" EntityType="AshirvadModel.TEST_MASTER" />
+          <AssociationSet Name="FK_TEST_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_TEST_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TEST_MASTER_CLASS_DTL_MASTER" Association="AshirvadModel.FK_TEST_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TEST_MASTER_COURSE_DTL_MASTER" Association="AshirvadModel.FK_TEST_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARKS_MASTER_TEST_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_TEST_MASTER">
+            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_ANS_SHEET_TEST_MASTER" Association="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER">
+            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+            <End Role="STUDENT_ANS_SHEET" EntitySet="STUDENT_ANS_SHEET" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TEST_MASTER_SUBJECT_DTL_MASTER" Association="AshirvadModel.FK_TEST_MASTER_SUBJECT_DTL_MASTER">
+            <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
+            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_MASTER_DTL_Test_MASTER" Association="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER">
+            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TEST_PAPER_REL_TEST_MASTER" Association="AshirvadModel.FK_TEST_PAPER_REL_TEST_MASTER">
+            <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+            <End Role="TEST_PAPER_REL" EntitySet="TEST_PAPER_REL" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_TYPE_REL">
@@ -3539,10 +3644,8 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="BRANCH_LICENSE" Relationship="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_LICENSE" />
           <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_SCHOOL_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="SCHOOL_MASTER" />
           <NavigationProperty Name="USER_DEF" Relationship="AshirvadModel.FK_USER_DEF_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="USER_DEF" />
-          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
           <NavigationProperty Name="STUDENT_PAYMENT_REL" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STUDENT_PAYMENT_REL" />
           <NavigationProperty Name="UPI_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="UPI_MASTER" />
-          <NavigationProperty Name="FEE_STRUCTURE_DTL" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FEE_STRUCTURE_DTL" />
           <NavigationProperty Name="CATEGORY_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="CATEGORY_MASTER" />
           <NavigationProperty Name="ABOUTUS_DETAIL_REL" Relationship="AshirvadModel.FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="ABOUTUS_DETAIL_REL" />
           <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="PAGE_MASTER" />
@@ -3568,6 +3671,8 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BATCH_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="ATTENDANCE_HDR" />
+          <NavigationProperty Name="FEE_STRUCTURE_DTL" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FEE_STRUCTURE_DTL" />
+          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
         </EntityType>
         <EntityType Name="TYPE_DESC">
           <Key>
@@ -3658,22 +3763,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="LINK_MASTER">
-          <Key>
-            <PropertyRef Name="unique_id" />
-          </Key>
-          <Property Name="unique_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="branch_id" Type="Int64" Nullable="false" />
-          <Property Name="std_id" Type="Int64" Nullable="false" />
-          <Property Name="vid_desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="vid_url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="type" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_VIDEO_MASTER_BRANCH_MASTER" FromRole="LINK_MASTER" ToRole="BRANCH_MASTER" />
-          <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_VIDEO_MASTER_STD_MASTER" FromRole="LINK_MASTER" ToRole="STD_MASTER" />
-        </EntityType>
         <EntityType Name="PRACTICE_PAPER">
           <Key>
             <PropertyRef Name="paper_id" />
@@ -3702,32 +3791,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="present_fg" Type="Int32" Nullable="false" />
           <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_DTL_ATTENDANCE_HDR" FromRole="ATTENDANCE_DTL" ToRole="ATTENDANCE_HDR" />
-        </EntityType>
-        <EntityType Name="TEST_MASTER">
-          <Key>
-            <PropertyRef Name="test_id" />
-          </Key>
-          <Property Name="test_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="branch_id" Type="Int64" Nullable="false" />
-          <Property Name="test_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="std_id" Type="Int64" Nullable="false" />
-          <Property Name="batch_time_id" Type="Int32" Nullable="false" />
-          <Property Name="sub_id" Type="Int64" Nullable="false" />
-          <Property Name="total_marks" Type="Double" Nullable="false" />
-          <Property Name="test_dt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="test_st_time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="test_end_time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <Property Name="file_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TEST_PAPER_REL" Relationship="AshirvadModel.FK_TEST_PAPER_REL_TEST_MASTER" FromRole="TEST_MASTER" ToRole="TEST_PAPER_REL" />
-          <NavigationProperty Name="STUDENT_ANS_SHEET" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER" FromRole="TEST_MASTER" ToRole="STUDENT_ANS_SHEET" />
-          <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER" FromRole="TEST_MASTER" ToRole="TEST_MASTER_DTL" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_BRANCH_MASTER" FromRole="TEST_MASTER" ToRole="BRANCH_MASTER" />
-          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_TEST_MASTER" FromRole="TEST_MASTER" ToRole="MARKS_MASTER" />
-          <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_STD_MASTER" FromRole="TEST_MASTER" ToRole="STD_MASTER" />
-          <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_SUBJECT_MASTER" FromRole="TEST_MASTER" ToRole="SUBJECT_MASTER" />
         </EntityType>
         <EntityType Name="REMINDER_MASTER">
           <Key>
@@ -3769,21 +3832,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="FEE_STRUCTURE_MASTER">
-          <Key>
-            <PropertyRef Name="fee_struct_mst_id" />
-          </Key>
-          <Property Name="fee_struct_mst_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="branch_id" Type="Int64" Nullable="false" />
-          <Property Name="std_id" Type="Int64" Nullable="false" />
-          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="TRANSACTION_MASTER" />
-          <NavigationProperty Name="FEE_STRUCTURE_DTL" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="FEE_STRUCTURE_DTL" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="BRANCH_MASTER" />
-          <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="STD_MASTER" />
-        </EntityType>
         <EntityType Name="STUDENT_PAYMENT_MASTER">
           <Key>
             <PropertyRef Name="payment_id" />
@@ -3824,18 +3872,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_TRANSACTION_MASTER" FromRole="UPI_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER" FromRole="UPI_MASTER" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <Association Name="FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER">
-          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TRANSACTION_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Principal>
-            <Dependent Role="FEE_STRUCTURE_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER">
           <End Type="AshirvadModel.STUDENT_PAYMENT_MASTER" Role="STUDENT_PAYMENT_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.STUDENT_PAYMENT_REL" Role="STUDENT_PAYMENT_REL" Multiplicity="*" />
@@ -3885,44 +3921,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="amount" Type="Double" Nullable="false" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER" FromRole="BRANCH_AGREEMENT" ToRole="BRANCH_MASTER" />
         </EntityType>
-        <EntityType Name="FEE_STRUCTURE_DTL">
-          <Key>
-            <PropertyRef Name="fee_struct_dtl_id" />
-          </Key>
-          <Property Name="fee_struct_dtl_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fee_struct_mst_id" Type="Int64" Nullable="false" />
-          <Property Name="fee_content" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" FromRole="FEE_STRUCTURE_DTL" ToRole="FEE_STRUCTURE_MASTER" />
-          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" FromRole="FEE_STRUCTURE_DTL" ToRole="TRANSACTION_MASTER" />
-        </EntityType>
-        <Association Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
-          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.FEE_STRUCTURE_DTL" Role="FEE_STRUCTURE_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FEE_STRUCTURE_MASTER">
-              <PropertyRef Name="fee_struct_mst_id" />
-            </Principal>
-            <Dependent Role="FEE_STRUCTURE_DTL">
-              <PropertyRef Name="fee_struct_mst_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
-          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.FEE_STRUCTURE_DTL" Role="FEE_STRUCTURE_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TRANSACTION_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Principal>
-            <Dependent Role="FEE_STRUCTURE_DTL">
-              <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="CATEGORY_MASTER">
           <Key>
             <PropertyRef Name="category_id" />
@@ -3991,18 +3989,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="file_path" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_PAPER_REL_TEST_MASTER" FromRole="TEST_PAPER_REL" ToRole="TEST_MASTER" />
         </EntityType>
-        <Association Name="FK_TEST_PAPER_REL_TEST_MASTER">
-          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.TEST_PAPER_REL" Role="TEST_PAPER_REL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TEST_MASTER">
-              <PropertyRef Name="test_id" />
-            </Principal>
-            <Dependent Role="TEST_PAPER_REL">
-              <PropertyRef Name="test_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="STUDENT_ANS_SHEET">
           <Key>
             <PropertyRef Name="ans_sheet_id" />
@@ -4019,22 +4005,10 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="submit_dt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ans_sheet_filepath" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER" FromRole="STUDENT_ANS_SHEET" ToRole="TEST_MASTER" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_BRANCH_MASTER" FromRole="STUDENT_ANS_SHEET" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER" FromRole="STUDENT_ANS_SHEET" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER" FromRole="STUDENT_ANS_SHEET" ToRole="TEST_MASTER" />
         </EntityType>
-        <Association Name="FK_STUDENT_ANS_SHEET_TEST_MASTER">
-          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.STUDENT_ANS_SHEET" Role="STUDENT_ANS_SHEET" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TEST_MASTER">
-              <PropertyRef Name="test_id" />
-            </Principal>
-            <Dependent Role="STUDENT_ANS_SHEET">
-              <PropertyRef Name="test_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="PAGE_MASTER">
           <Key>
             <PropertyRef Name="page_id" />
@@ -4076,23 +4050,11 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="submit_dt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER" FromRole="TEST_MASTER_DTL" ToRole="TEST_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_TRANSACTION_MASTER" FromRole="TEST_MASTER_DTL" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER" FromRole="TEST_MASTER_DTL" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" FromRole="TEST_MASTER_DTL" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER" FromRole="TEST_MASTER_DTL" ToRole="TEST_MASTER" />
         </EntityType>
-        <Association Name="FK_Test_MASTER_DTL_Test_MASTER">
-          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.TEST_MASTER_DTL" Role="TEST_MASTER_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TEST_MASTER">
-              <PropertyRef Name="test_id" />
-            </Principal>
-            <Dependent Role="TEST_MASTER_DTL">
-              <PropertyRef Name="Test_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Test_MASTER_DTL_TRANSACTION_MASTER">
           <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.TEST_MASTER_DTL" Role="TEST_MASTER_DTL" Multiplicity="*" />
@@ -4376,7 +4338,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
           <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_BRANCH_STAFF_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_STAFF" />
           <NavigationProperty Name="CATEGORY_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="CATEGORY_MASTER" />
-          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
           <NavigationProperty Name="GALLERY_MASTER" Relationship="AshirvadModel.FK_GALLERY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="GALLERY_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
           <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PACKAGE_MASTER" />
@@ -4386,13 +4347,10 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_SCHOOL_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="SCHOOL_MASTER" />
           <NavigationProperty Name="STUDENT_ANS_SHEET" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_ANS_SHEET" />
           <NavigationProperty Name="STUDENT_PAYMENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_PAYMENT_MASTER" />
-          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TEST_MASTER" />
           <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TEST_MASTER_DTL" />
           <NavigationProperty Name="TODO_MASTER" Relationship="AshirvadModel.FK_TODO_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TODO_MASTER" />
           <NavigationProperty Name="UPI_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="UPI_MASTER" />
-          <NavigationProperty Name="LINK_MASTER" Relationship="AshirvadModel.FK_VIDEO_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="LINK_MASTER" />
           <NavigationProperty Name="CLASS_DTL_MASTER" Relationship="AshirvadModel.FK_CLASS_DTL_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="CLASS_DTL_MASTER" />
-          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="MARKS_MASTER" />
           <NavigationProperty Name="SUBJECT_DTL_MASTER" Relationship="AshirvadModel.FK_SUBJECT_DTL_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="SUBJECT_DTL_MASTER" />
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="COURSE_DTL_MASTER" Relationship="AshirvadModel.FK_COURSE_DTL_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="COURSE_DTL_MASTER" />
@@ -4405,6 +4363,10 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BATCH_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="ATTENDANCE_HDR" />
+          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="MARKS_MASTER" />
+          <NavigationProperty Name="LINK_MASTER" Relationship="AshirvadModel.FK_VIDEO_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="LINK_MASTER" />
+          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
+          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="TEST_MASTER" />
         </EntityType>
         <EntityType Name="BRANCH_STAFF">
           <Key>
@@ -4529,18 +4491,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="FEE_STRUCTURE_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_GALLERY_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.GALLERY_MASTER" Role="GALLERY_MASTER" Multiplicity="*" />
@@ -4649,18 +4599,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TEST_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="TEST_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Test_MASTER_DTL_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.TEST_MASTER_DTL" Role="TEST_MASTER_DTL" Multiplicity="*" />
@@ -4693,18 +4631,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
               <PropertyRef Name="branch_id" />
             </Principal>
             <Dependent Role="UPI_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VIDEO_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.LINK_MASTER" Role="LINK_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="LINK_MASTER">
               <PropertyRef Name="branch_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -4783,6 +4709,10 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="BATCH_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="ATTENDANCE_HDR" />
+          <NavigationProperty Name="LINK_MASTER" Relationship="AshirvadModel.FK_LINK_MASTER_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="LINK_MASTER" />
+          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="MARKS_MASTER" />
+          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
+          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="TEST_MASTER" />
         </EntityType>
         <Association Name="FK_CLASS_DTL_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -4810,27 +4740,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="MARKS_MASTER">
-          <Key>
-            <PropertyRef Name="marks_id" />
-          </Key>
-          <Property Name="marks_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="marks_dt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="test_id" Type="Int64" Nullable="false" />
-          <Property Name="branch_id" Type="Int64" Nullable="false" />
-          <Property Name="student_id" Type="Int64" Nullable="false" />
-          <Property Name="batch_time_id" Type="Int32" Nullable="false" />
-          <Property Name="subject_id" Type="Int64" Nullable="false" />
-          <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="file_name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="achive_marks" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" FromRole="MARKS_MASTER" ToRole="BRANCH_MASTER" />
-          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_TEST_MASTER" FromRole="MARKS_MASTER" ToRole="TEST_MASTER" />
-          <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_SUBJECT_MASTER" FromRole="MARKS_MASTER" ToRole="SUBJECT_MASTER" />
-          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER" FromRole="MARKS_MASTER" ToRole="STUDENT_MASTER" />
-        </EntityType>
         <EntityType Name="SUBJECT_DTL_MASTER">
           <Key>
             <PropertyRef Name="subject_dtl_id" />
@@ -4850,19 +4759,9 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_SUBJECT_DTL_MASTER" FromRole="SUBJECT_DTL_MASTER" ToRole="SUBJECT_MASTER" />
           <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_SUBJECT_DTL_MASTER" FromRole="SUBJECT_DTL_MASTER" ToRole="FACULTY_MASTER" />
           <NavigationProperty Name="SUBJECT_BRANCH_MASTER" Relationship="AshirvadModel.FK_SUBJECT_DTL_MASTER_SUBJECT_BRANCH_MASTER" FromRole="SUBJECT_DTL_MASTER" ToRole="SUBJECT_BRANCH_MASTER" />
+          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_SUBJECT_DTL_MASTER" FromRole="SUBJECT_DTL_MASTER" ToRole="MARKS_MASTER" />
+          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_SUBJECT_DTL_MASTER" FromRole="SUBJECT_DTL_MASTER" ToRole="TEST_MASTER" />
         </EntityType>
-        <Association Name="FK_MARKS_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="MARKS_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SUBJECT_DTL_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.SUBJECT_DTL_MASTER" Role="SUBJECT_DTL_MASTER" Multiplicity="*" />
@@ -4884,18 +4783,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Principal>
             <Dependent Role="SUBJECT_DTL_MASTER">
               <PropertyRef Name="class_dtl_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MARKS_MASTER_TEST_MASTER">
-          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TEST_MASTER">
-              <PropertyRef Name="test_id" />
-            </Principal>
-            <Dependent Role="MARKS_MASTER">
-              <PropertyRef Name="test_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4925,11 +4812,8 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_BRANCH_MASTER" FromRole="STD_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="CLASS_DTL_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_CLASS_DTL_MASTER" FromRole="STD_MASTER" ToRole="CLASS_DTL_MASTER" />
-          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
-          <NavigationProperty Name="LINK_MASTER" Relationship="AshirvadModel.FK_VIDEO_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="LINK_MASTER" />
           <NavigationProperty Name="PRACTICE_PAPER" Relationship="AshirvadModel.FK_PRACTICE_PAPER_STD_MASTER" FromRole="STD_MASTER" ToRole="PRACTICE_PAPER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_TRANSACTION_MASTER" FromRole="STD_MASTER" ToRole="TRANSACTION_MASTER" />
-          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="TEST_MASTER" />
           <NavigationProperty Name="LIBRARY_STD_MASTER" Relationship="AshirvadModel.FK_LIBRARY_STD_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="LIBRARY_STD_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="HOMEWORK_MASTER" />
         </EntityType>
@@ -4957,30 +4841,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_FEE_STRUCTURE_MASTER_STD_MASTER">
-          <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STD_MASTER">
-              <PropertyRef Name="std_id" />
-            </Principal>
-            <Dependent Role="FEE_STRUCTURE_MASTER">
-              <PropertyRef Name="std_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VIDEO_MASTER_STD_MASTER">
-          <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.LINK_MASTER" Role="LINK_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STD_MASTER">
-              <PropertyRef Name="std_id" />
-            </Principal>
-            <Dependent Role="LINK_MASTER">
-              <PropertyRef Name="std_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PRACTICE_PAPER_STD_MASTER">
           <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.PRACTICE_PAPER" Role="PRACTICE_PAPER" Multiplicity="*" />
@@ -5005,18 +4865,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TEST_MASTER_STD_MASTER">
-          <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STD_MASTER">
-              <PropertyRef Name="std_id" />
-            </Principal>
-            <Dependent Role="TEST_MASTER">
-              <PropertyRef Name="std_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="COURSE_DTL_MASTER">
           <Key>
             <PropertyRef Name="course_dtl_id" />
@@ -5036,6 +4884,10 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="BATCH_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="ATTENDANCE_HDR" />
+          <NavigationProperty Name="LINK_MASTER" Relationship="AshirvadModel.FK_LINK_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="LINK_MASTER" />
+          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="MARKS_MASTER" />
+          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
+          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="TEST_MASTER" />
         </EntityType>
         <Association Name="FK_COURSE_DTL_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -5110,11 +4962,9 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_BRANCH_MASTER" FromRole="SUBJECT_MASTER" ToRole="BRANCH_MASTER" />
-          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="MARKS_MASTER" />
           <NavigationProperty Name="PRACTICE_PAPER" Relationship="AshirvadModel.FK_PRACTICE_PAPER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="PRACTICE_PAPER" />
           <NavigationProperty Name="SUBJECT_DTL_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_SUBJECT_DTL_MASTER" FromRole="SUBJECT_MASTER" ToRole="SUBJECT_DTL_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_TRANSACTION_MASTER" FromRole="SUBJECT_MASTER" ToRole="TRANSACTION_MASTER" />
-          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="TEST_MASTER" />
           <NavigationProperty Name="LIBRARY_STD_MASTER" Relationship="AshirvadModel.FK_LIBRARY_STD_MASTER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="LIBRARY_STD_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_SUBJECT_MASTER" FromRole="SUBJECT_MASTER" ToRole="HOMEWORK_MASTER" />
         </EntityType>
@@ -5127,18 +4977,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Principal>
             <Dependent Role="SUBJECT_MASTER">
               <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MARKS_MASTER_SUBJECT_MASTER">
-          <End Type="AshirvadModel.SUBJECT_MASTER" Role="SUBJECT_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SUBJECT_MASTER">
-              <PropertyRef Name="subject_id" />
-            </Principal>
-            <Dependent Role="MARKS_MASTER">
-              <PropertyRef Name="subject_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5175,18 +5013,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Principal>
             <Dependent Role="SUBJECT_MASTER">
               <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TEST_MASTER_SUBJECT_MASTER">
-          <End Type="AshirvadModel.SUBJECT_MASTER" Role="SUBJECT_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SUBJECT_MASTER">
-              <PropertyRef Name="subject_id" />
-            </Principal>
-            <Dependent Role="TEST_MASTER">
-              <PropertyRef Name="sub_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5853,12 +5679,12 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="CLASS_DTL_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_CLASS_DTL_MASTER" FromRole="STUDENT_MASTER" ToRole="CLASS_DTL_MASTER" />
           <NavigationProperty Name="COURSE_DTL_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_COURSE_DTL_MASTER" FromRole="STUDENT_MASTER" ToRole="COURSE_DTL_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
-          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="MARKS_MASTER" />
           <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_SCHOOL_MASTER" FromRole="STUDENT_MASTER" ToRole="SCHOOL_MASTER" />
           <NavigationProperty Name="STUDENT_ANS_SHEET" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="STUDENT_ANS_SHEET" />
           <NavigationProperty Name="STUDENT_MAINT" Relationship="AshirvadModel.FK_STUDENT_MAINT_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="STUDENT_MAINT" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="STUDENT_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="TEST_MASTER_DTL" />
+          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="MARKS_MASTER" />
         </EntityType>
         <Association Name="FK_BATCH_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -5953,18 +5779,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Principal>
             <Dependent Role="HOMEWORK_MASTER_DTL">
               <PropertyRef Name="stud_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MARKS_MASTER_STUDENT_MASTER">
-          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STUDENT_MASTER">
-              <PropertyRef Name="student_id" />
-            </Principal>
-            <Dependent Role="MARKS_MASTER">
-              <PropertyRef Name="student_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6106,6 +5920,372 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LINK_MASTER">
+          <Key>
+            <PropertyRef Name="unique_id" />
+          </Key>
+          <Property Name="unique_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="vid_desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="vid_url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="class_dtl_id" Type="Int64" />
+          <Property Name="course_dtl_id" Type="Int64" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_VIDEO_MASTER_BRANCH_MASTER" FromRole="LINK_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="CLASS_DTL_MASTER" Relationship="AshirvadModel.FK_LINK_MASTER_CLASS_DTL_MASTER" FromRole="LINK_MASTER" ToRole="CLASS_DTL_MASTER" />
+          <NavigationProperty Name="COURSE_DTL_MASTER" Relationship="AshirvadModel.FK_LINK_MASTER_COURSE_DTL_MASTER" FromRole="LINK_MASTER" ToRole="COURSE_DTL_MASTER" />
+        </EntityType>
+        <EntityType Name="MARKS_MASTER">
+          <Key>
+            <PropertyRef Name="marks_id" />
+          </Key>
+          <Property Name="marks_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="marks_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="test_id" Type="Int64" Nullable="false" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="student_id" Type="Int64" Nullable="false" />
+          <Property Name="batch_time_id" Type="Int32" Nullable="false" />
+          <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="file_name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="achive_marks" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="class_dtl_id" Type="Int64" />
+          <Property Name="course_dtl_id" Type="Int64" />
+          <Property Name="subject_dtl_id" Type="Int64" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_BRANCH_MASTER" FromRole="MARKS_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="CLASS_DTL_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_CLASS_DTL_MASTER" FromRole="MARKS_MASTER" ToRole="CLASS_DTL_MASTER" />
+          <NavigationProperty Name="COURSE_DTL_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_COURSE_DTL_MASTER" FromRole="MARKS_MASTER" ToRole="COURSE_DTL_MASTER" />
+          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER" FromRole="MARKS_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="SUBJECT_DTL_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_SUBJECT_DTL_MASTER" FromRole="MARKS_MASTER" ToRole="SUBJECT_DTL_MASTER" />
+          <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_TEST_MASTER" FromRole="MARKS_MASTER" ToRole="TEST_MASTER" />
+        </EntityType>
+        <Association Name="FK_MARKS_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="MARKS_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VIDEO_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.LINK_MASTER" Role="LINK_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="LINK_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LINK_MASTER_CLASS_DTL_MASTER">
+          <End Type="AshirvadModel.CLASS_DTL_MASTER" Role="CLASS_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.LINK_MASTER" Role="LINK_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Principal>
+            <Dependent Role="LINK_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARKS_MASTER_CLASS_DTL_MASTER">
+          <End Type="AshirvadModel.CLASS_DTL_MASTER" Role="CLASS_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Principal>
+            <Dependent Role="MARKS_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LINK_MASTER_COURSE_DTL_MASTER">
+          <End Type="AshirvadModel.COURSE_DTL_MASTER" Role="COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.LINK_MASTER" Role="LINK_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="LINK_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARKS_MASTER_COURSE_DTL_MASTER">
+          <End Type="AshirvadModel.COURSE_DTL_MASTER" Role="COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="MARKS_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARKS_MASTER_STUDENT_MASTER">
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT_MASTER">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="MARKS_MASTER">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARKS_MASTER_SUBJECT_DTL_MASTER">
+          <End Type="AshirvadModel.SUBJECT_DTL_MASTER" Role="SUBJECT_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBJECT_DTL_MASTER">
+              <PropertyRef Name="subject_dtl_id" />
+            </Principal>
+            <Dependent Role="MARKS_MASTER">
+              <PropertyRef Name="subject_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FEE_STRUCTURE_DTL">
+          <Key>
+            <PropertyRef Name="fee_struct_dtl_id" />
+          </Key>
+          <Property Name="fee_struct_dtl_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fee_struct_mst_id" Type="Int64" Nullable="false" />
+          <Property Name="fee_content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" FromRole="FEE_STRUCTURE_DTL" ToRole="FEE_STRUCTURE_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" FromRole="FEE_STRUCTURE_DTL" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <EntityType Name="FEE_STRUCTURE_MASTER">
+          <Key>
+            <PropertyRef Name="fee_struct_mst_id" />
+          </Key>
+          <Property Name="fee_struct_mst_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="class_dtl_id" Type="Int64" />
+          <Property Name="course_dtl_id" Type="Int64" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="CLASS_DTL_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_CLASS_DTL_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="CLASS_DTL_MASTER" />
+          <NavigationProperty Name="COURSE_DTL_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_COURSE_DTL_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="COURSE_DTL_MASTER" />
+          <NavigationProperty Name="FEE_STRUCTURE_DTL" Relationship="AshirvadModel.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="FEE_STRUCTURE_DTL" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" FromRole="FEE_STRUCTURE_MASTER" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <Association Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_MASTER_CLASS_DTL_MASTER">
+          <End Type="AshirvadModel.CLASS_DTL_MASTER" Role="CLASS_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_MASTER_COURSE_DTL_MASTER">
+          <End Type="AshirvadModel.COURSE_DTL_MASTER" Role="COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
+          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_DTL" Role="FEE_STRUCTURE_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="fee_struct_mst_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_DTL">
+              <PropertyRef Name="fee_struct_mst_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_DTL" Role="FEE_STRUCTURE_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_DTL">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.FEE_STRUCTURE_MASTER" Role="FEE_STRUCTURE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="FEE_STRUCTURE_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TEST_MASTER">
+          <Key>
+            <PropertyRef Name="test_id" />
+          </Key>
+          <Property Name="test_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="test_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="batch_time_id" Type="Int32" Nullable="false" />
+          <Property Name="total_marks" Type="Double" Nullable="false" />
+          <Property Name="test_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="test_st_time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="test_end_time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="file_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="class_dtl_id" Type="Int64" />
+          <Property Name="course_dtl_id" Type="Int64" />
+          <Property Name="subject_dtl_id" Type="Int64" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_BRANCH_MASTER" FromRole="TEST_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="CLASS_DTL_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_CLASS_DTL_MASTER" FromRole="TEST_MASTER" ToRole="CLASS_DTL_MASTER" />
+          <NavigationProperty Name="COURSE_DTL_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_COURSE_DTL_MASTER" FromRole="TEST_MASTER" ToRole="COURSE_DTL_MASTER" />
+          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_TEST_MASTER" FromRole="TEST_MASTER" ToRole="MARKS_MASTER" />
+          <NavigationProperty Name="STUDENT_ANS_SHEET" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_TEST_MASTER" FromRole="TEST_MASTER" ToRole="STUDENT_ANS_SHEET" />
+          <NavigationProperty Name="SUBJECT_DTL_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_SUBJECT_DTL_MASTER" FromRole="TEST_MASTER" ToRole="SUBJECT_DTL_MASTER" />
+          <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_Test_MASTER" FromRole="TEST_MASTER" ToRole="TEST_MASTER_DTL" />
+          <NavigationProperty Name="TEST_PAPER_REL" Relationship="AshirvadModel.FK_TEST_PAPER_REL_TEST_MASTER" FromRole="TEST_MASTER" ToRole="TEST_PAPER_REL" />
+        </EntityType>
+        <Association Name="FK_TEST_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TEST_MASTER_CLASS_DTL_MASTER">
+          <End Type="AshirvadModel.CLASS_DTL_MASTER" Role="CLASS_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TEST_MASTER_COURSE_DTL_MASTER">
+          <End Type="AshirvadModel.COURSE_DTL_MASTER" Role="COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARKS_MASTER_TEST_MASTER">
+          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEST_MASTER">
+              <PropertyRef Name="test_id" />
+            </Principal>
+            <Dependent Role="MARKS_MASTER">
+              <PropertyRef Name="test_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_ANS_SHEET_TEST_MASTER">
+          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.STUDENT_ANS_SHEET" Role="STUDENT_ANS_SHEET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEST_MASTER">
+              <PropertyRef Name="test_id" />
+            </Principal>
+            <Dependent Role="STUDENT_ANS_SHEET">
+              <PropertyRef Name="test_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TEST_MASTER_SUBJECT_DTL_MASTER">
+          <End Type="AshirvadModel.SUBJECT_DTL_MASTER" Role="SUBJECT_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBJECT_DTL_MASTER">
+              <PropertyRef Name="subject_dtl_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER">
+              <PropertyRef Name="subject_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Test_MASTER_DTL_Test_MASTER">
+          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.TEST_MASTER_DTL" Role="TEST_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEST_MASTER">
+              <PropertyRef Name="test_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER_DTL">
+              <PropertyRef Name="Test_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TEST_PAPER_REL_TEST_MASTER">
+          <End Type="AshirvadModel.TEST_MASTER" Role="TEST_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.TEST_PAPER_REL" Role="TEST_PAPER_REL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEST_MASTER">
+              <PropertyRef Name="test_id" />
+            </Principal>
+            <Dependent Role="TEST_PAPER_REL">
+              <PropertyRef Name="test_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6216,21 +6396,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LINK_MASTER">
-            <EntityTypeMapping TypeName="AshirvadModel.LINK_MASTER">
-              <MappingFragment StoreEntitySet="LINK_MASTER">
-                <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="vid_url" ColumnName="vid_url" />
-                <ScalarProperty Name="vid_desc" ColumnName="vid_desc" />
-                <ScalarProperty Name="std_id" ColumnName="std_id" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
-                <ScalarProperty Name="unique_id" ColumnName="unique_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PRACTICE_PAPER">
             <EntityTypeMapping TypeName="AshirvadModel.PRACTICE_PAPER">
               <MappingFragment StoreEntitySet="PRACTICE_PAPER">
@@ -6257,26 +6422,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TEST_MASTER">
-            <EntityTypeMapping TypeName="AshirvadModel.TEST_MASTER">
-              <MappingFragment StoreEntitySet="TEST_MASTER">
-                <ScalarProperty Name="file_name" ColumnName="file_name" />
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="remarks" ColumnName="remarks" />
-                <ScalarProperty Name="test_end_time" ColumnName="test_end_time" />
-                <ScalarProperty Name="test_st_time" ColumnName="test_st_time" />
-                <ScalarProperty Name="test_dt" ColumnName="test_dt" />
-                <ScalarProperty Name="total_marks" ColumnName="total_marks" />
-                <ScalarProperty Name="sub_id" ColumnName="sub_id" />
-                <ScalarProperty Name="batch_time_id" ColumnName="batch_time_id" />
-                <ScalarProperty Name="std_id" ColumnName="std_id" />
-                <ScalarProperty Name="test_name" ColumnName="test_name" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
-                <ScalarProperty Name="test_id" ColumnName="test_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="REMINDER_MASTER">
             <EntityTypeMapping TypeName="AshirvadModel.REMINDER_MASTER">
               <MappingFragment StoreEntitySet="REMINDER_MASTER">
@@ -6299,18 +6444,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
                 <ScalarProperty Name="announce_text" ColumnName="announce_text" />
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="announce_id" ColumnName="announce_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FEE_STRUCTURE_MASTER">
-            <EntityTypeMapping TypeName="AshirvadModel.FEE_STRUCTURE_MASTER">
-              <MappingFragment StoreEntitySet="FEE_STRUCTURE_MASTER">
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="remarks" ColumnName="remarks" />
-                <ScalarProperty Name="std_id" ColumnName="std_id" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
-                <ScalarProperty Name="fee_struct_mst_id" ColumnName="fee_struct_mst_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6361,19 +6494,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
                 <ScalarProperty Name="from_dt" ColumnName="from_dt" />
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="agreement_id" ColumnName="agreement_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FEE_STRUCTURE_DTL">
-            <EntityTypeMapping TypeName="AshirvadModel.FEE_STRUCTURE_DTL">
-              <MappingFragment StoreEntitySet="FEE_STRUCTURE_DTL">
-                <ScalarProperty Name="file_path" ColumnName="file_path" />
-                <ScalarProperty Name="file_name" ColumnName="file_name" />
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="fee_content" ColumnName="fee_content" />
-                <ScalarProperty Name="fee_struct_mst_id" ColumnName="fee_struct_mst_id" />
-                <ScalarProperty Name="fee_struct_dtl_id" ColumnName="fee_struct_dtl_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6645,24 +6765,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
                 <ScalarProperty Name="class_id" ColumnName="class_id" />
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="class_dtl_id" ColumnName="class_dtl_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MARKS_MASTER">
-            <EntityTypeMapping TypeName="AshirvadModel.MARKS_MASTER">
-              <MappingFragment StoreEntitySet="MARKS_MASTER">
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="achive_marks" ColumnName="achive_marks" />
-                <ScalarProperty Name="file_name" ColumnName="file_name" />
-                <ScalarProperty Name="file_path" ColumnName="file_path" />
-                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
-                <ScalarProperty Name="batch_time_id" ColumnName="batch_time_id" />
-                <ScalarProperty Name="student_id" ColumnName="student_id" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
-                <ScalarProperty Name="test_id" ColumnName="test_id" />
-                <ScalarProperty Name="marks_dt" ColumnName="marks_dt" />
-                <ScalarProperty Name="marks_id" ColumnName="marks_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6986,6 +7088,89 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
                 <ScalarProperty Name="batch_time_type" ColumnName="batch_time_type" />
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="attendance_hdr_id" ColumnName="attendance_hdr_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LINK_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.LINK_MASTER">
+              <MappingFragment StoreEntitySet="LINK_MASTER">
+                <ScalarProperty Name="course_dtl_id" ColumnName="course_dtl_id" />
+                <ScalarProperty Name="class_dtl_id" ColumnName="class_dtl_id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="vid_url" ColumnName="vid_url" />
+                <ScalarProperty Name="vid_desc" ColumnName="vid_desc" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="unique_id" ColumnName="unique_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MARKS_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.MARKS_MASTER">
+              <MappingFragment StoreEntitySet="MARKS_MASTER">
+                <ScalarProperty Name="subject_dtl_id" ColumnName="subject_dtl_id" />
+                <ScalarProperty Name="course_dtl_id" ColumnName="course_dtl_id" />
+                <ScalarProperty Name="class_dtl_id" ColumnName="class_dtl_id" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="achive_marks" ColumnName="achive_marks" />
+                <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="batch_time_id" ColumnName="batch_time_id" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="test_id" ColumnName="test_id" />
+                <ScalarProperty Name="marks_dt" ColumnName="marks_dt" />
+                <ScalarProperty Name="marks_id" ColumnName="marks_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FEE_STRUCTURE_DTL">
+            <EntityTypeMapping TypeName="AshirvadModel.FEE_STRUCTURE_DTL">
+              <MappingFragment StoreEntitySet="FEE_STRUCTURE_DTL">
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="fee_content" ColumnName="fee_content" />
+                <ScalarProperty Name="fee_struct_mst_id" ColumnName="fee_struct_mst_id" />
+                <ScalarProperty Name="fee_struct_dtl_id" ColumnName="fee_struct_dtl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FEE_STRUCTURE_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.FEE_STRUCTURE_MASTER">
+              <MappingFragment StoreEntitySet="FEE_STRUCTURE_MASTER">
+                <ScalarProperty Name="course_dtl_id" ColumnName="course_dtl_id" />
+                <ScalarProperty Name="class_dtl_id" ColumnName="class_dtl_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="fee_struct_mst_id" ColumnName="fee_struct_mst_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TEST_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.TEST_MASTER">
+              <MappingFragment StoreEntitySet="TEST_MASTER">
+                <ScalarProperty Name="subject_dtl_id" ColumnName="subject_dtl_id" />
+                <ScalarProperty Name="course_dtl_id" ColumnName="course_dtl_id" />
+                <ScalarProperty Name="class_dtl_id" ColumnName="class_dtl_id" />
+                <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="test_end_time" ColumnName="test_end_time" />
+                <ScalarProperty Name="test_st_time" ColumnName="test_st_time" />
+                <ScalarProperty Name="test_dt" ColumnName="test_dt" />
+                <ScalarProperty Name="total_marks" ColumnName="total_marks" />
+                <ScalarProperty Name="batch_time_id" ColumnName="batch_time_id" />
+                <ScalarProperty Name="test_name" ColumnName="test_name" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="test_id" ColumnName="test_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

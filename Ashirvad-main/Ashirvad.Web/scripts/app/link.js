@@ -28,14 +28,15 @@ $(document).ready(function () {
         "columns": [
             { "data": "Title" },
             { "data": "LinkDesc" },
-            { "data": "StandardName" },
+            { "data": "BranchCourse.course.CourseName" },
+            { "data": "BranchClass.Class.ClassName" },
             { "data": "LinkURL" },
             { "data": "UniqueID" },
             { "data": "UniqueID" }
         ],
         "columnDefs": [
             {
-                targets: 4,
+                targets: 5,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         if (check[0].Create) {
@@ -53,7 +54,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 5,
+                targets: 6,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         if (check[0].Delete) {
@@ -119,6 +120,7 @@ function LoadCourse() {
                 if (data.length == 1) {
                     $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
                     $('#CourseName option[value="' + data[i].course_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchCourse_course_dtl_id').val(data[i].course_dtl_id);
                 } else {
                     $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
                 }
@@ -147,6 +149,7 @@ function LoadClass(CourseID) {
                 if (data.length == 1) {
                     $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
                     $('#StandardName option[value="' + data[i].Class_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchClass_Class_dtl_id').val(data[i].Class_dtl_id);
                 } else {
                     $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
                 }

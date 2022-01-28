@@ -22,13 +22,7 @@ public partial class STD_MASTER
     public STD_MASTER()
     {
 
-        this.FEE_STRUCTURE_MASTER = new HashSet<FEE_STRUCTURE_MASTER>();
-
-        this.LINK_MASTER = new HashSet<LINK_MASTER>();
-
         this.PRACTICE_PAPER = new HashSet<PRACTICE_PAPER>();
-
-        this.TEST_MASTER = new HashSet<TEST_MASTER>();
 
         this.LIBRARY_STD_MASTER = new HashSet<LIBRARY_STD_MASTER>();
 
@@ -57,21 +51,9 @@ public partial class STD_MASTER
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<FEE_STRUCTURE_MASTER> FEE_STRUCTURE_MASTER { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<LINK_MASTER> LINK_MASTER { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
     public virtual ICollection<PRACTICE_PAPER> PRACTICE_PAPER { get; set; }
 
     public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<TEST_MASTER> TEST_MASTER { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 

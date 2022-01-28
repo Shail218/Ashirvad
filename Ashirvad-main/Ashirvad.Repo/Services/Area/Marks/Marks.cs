@@ -49,7 +49,8 @@ namespace Ashirvad.Repo.Services.Area
             MarksMaster.file_name = MarksInfo.MarksContentFileName;
             MarksMaster.file_path = MarksInfo.MarksFilepath;
             MarksMaster.marks_dt = MarksInfo.MarksDate;
-            MarksMaster.subject_id = MarksInfo.SubjectInfo.SubjectID;
+            MarksMaster.class_dtl_id = MarksInfo.BranchClass.Class_dtl_id;
+            MarksMaster.subject_dtl_id = MarksInfo.BranchSubject.Subject_dtl_id;
             MarksMaster.batch_time_id = (int)MarksInfo.BatchType;
             MarksMaster.trans_id = this.AddTransactionData(MarksInfo.Transaction);
             this.context.MARKS_MASTER.Add(MarksMaster);
@@ -91,7 +92,7 @@ namespace Ashirvad.Repo.Services.Area
                         .Include("TEST_MASTER")
                         .Include("SUBJECT_MASTER")
                         orderby u.marks_id descending
-                        where u.branch_id == Branch && u.subject_id == MarksID && (u.test_id == Std || Std == 0) && (u.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1
+                        where u.branch_id == Branch && u.subject_dtl_id == MarksID && (u.test_id == Std || Std == 0) && (u.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1
                         select new MarksEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -115,10 +116,21 @@ namespace Ashirvad.Repo.Services.Area
                                 StudentID = u.student_id,
                                 Name = u.STUDENT_MASTER.first_name + " " + u.STUDENT_MASTER.last_name
                             },
-                            SubjectInfo = new SubjectEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
                             }
                         }).ToList();
 
@@ -138,7 +150,7 @@ namespace Ashirvad.Repo.Services.Area
                         .Include("TEST_MASTER")
                         .Include("SUBJECT_MASTER")
                           orderby u.marks_id descending
-                          where u.branch_id == Branch && u.subject_id == MarksID &&
+                          where u.branch_id == Branch && u.subject_dtl_id == MarksID &&
                           (u.test_id == Std || Std == 0) && (u.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1
                           select new MarksEntity()
                           {
@@ -149,12 +161,12 @@ namespace Ashirvad.Repo.Services.Area
                         .Include("TEST_MASTER")
                         .Include("SUBJECT_MASTER")
                         orderby u.marks_id descending
-                        where u.branch_id == Branch && u.subject_id == MarksID && (u.test_id == Std || Std == 0) && (u.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1
+                        where u.branch_id == Branch && u.subject_dtl_id == MarksID && (u.test_id == Std || Std == 0) && (u.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.STUDENT_MASTER.first_name.ToLower().Contains(model.search.value.ToLower())
                         || u.STUDENT_MASTER.last_name.ToLower().Contains(model.search.value.ToLower())
-                        || u.SUBJECT_MASTER.subject.ToLower().Contains(model.search.value.ToLower())
+                        || u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name.ToLower().Contains(model.search.value.ToLower())
                         || u.achive_marks.ToLower().Contains(model.search.value.ToLower()))
                         select new MarksEntity()
                         {
@@ -181,10 +193,21 @@ namespace Ashirvad.Repo.Services.Area
                                 StudentID = u.student_id,
                                 Name = u.STUDENT_MASTER.first_name + " " + u.STUDENT_MASTER.last_name
                             },
-                            SubjectInfo = new SubjectEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                SubjectID = u.SUBJECT_MASTER.subject_id,
-                                Subject = u.SUBJECT_MASTER.subject
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
                             }
                         })
                         .Skip(model.start)
@@ -278,9 +301,21 @@ namespace Ashirvad.Repo.Services.Area
                                 TestDate = u.TEST_MASTER.test_dt,
                                 Marks = u.TEST_MASTER.total_marks
                             },
-                            SubjectInfo = new SubjectEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                Subject = u.SUBJECT_MASTER.subject
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
                             }
                         }).ToList();
 
