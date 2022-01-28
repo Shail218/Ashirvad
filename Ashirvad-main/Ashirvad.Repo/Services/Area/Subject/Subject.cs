@@ -176,8 +176,7 @@ namespace Ashirvad.Repo.Services.Area.Subject
         public async Task<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate)
         {
             DateTime dateTime = Convert.ToDateTime(TestDate);
-            var data = (from u in this.context.TEST_MASTER
-                        join sm in this.context.SUBJECT_MASTER on u.sub_id equals sm.subject_id
+            var data = (from u in this.context.TEST_MASTER                     
                         orderby u.test_id descending
                         where (u.test_dt == dateTime && u.row_sta_cd == 1)
                         select new SubjectEntity()
@@ -188,8 +187,8 @@ namespace Ashirvad.Repo.Services.Area.Subject
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = u.row_sta_cd
                             },
-                            Subject = u.SUBJECT_MASTER.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
-                            SubjectID = sm.subject_id,
+                            Subject = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                            SubjectID = u.subject_dtl_id.HasValue? u.subject_dtl_id.Value:0,
                             BranchInfo = new BranchEntity()
                             {
                                 BranchID = u.branch_id,

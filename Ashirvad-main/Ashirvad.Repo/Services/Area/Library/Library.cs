@@ -221,14 +221,14 @@ namespace Ashirvad.Repo.Services.Area.Library
                                 where u.library_id == library
                                 select new StandardEntity()
                                 {
-                                    Standard = u.STD_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                    Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
                                 }).Distinct().ToList();
 
                 var Subject = (from u in this.context.LIBRARY_STD_MASTER
                                where u.library_id == library
                                select new SubjectEntity()
                                {
-                                   Subject = u.SUBJECT_MASTER.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
+                                   Subject = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
                                }).Distinct().ToList();
 
                 data.Subjectlist.AddRange(Subject);
@@ -279,7 +279,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                                 standard = new StandardEntity()
                                                 {
                                                     //StandardID = u.std_id.HasValue ? u.std_id.Value : 0,
-                                                    Standard = u.STD_MASTER.standard
+                                                    Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
                                                 }
                                             }).Distinct().ToList();
                 }
@@ -330,7 +330,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                                 standard = new StandardEntity()
                                                 {
                                                     //StandardID = u.std_id.HasValue ? u.std_id.Value : 0,
-                                                    Standard = u.STD_MASTER.standard
+                                                    Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
                                                 }
                                             }).Distinct().ToList();
                 }
@@ -373,10 +373,10 @@ namespace Ashirvad.Repo.Services.Area.Library
                                     select new LibraryStandardEntity()
                                     {
                                         library_id = b.library_id,
-                                        std_id = b.STD_MASTER.std_id,
-                                        sub_id = b.SUBJECT_MASTER.subject_id,
-                                        standard = b.STD_MASTER.standard,
-                                        subject = b.SUBJECT_MASTER.subject
+                                        std_id = b.class_dtl_id.HasValue? b.class_dtl_id.Value:0,
+                                        sub_id = b.subject_dtl_id.HasValue? b.subject_dtl_id.Value:0,
+                                        standard = b.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                        subject = b.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
                                     }).Distinct().ToList(),
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value }
                         }).ToList();
@@ -450,8 +450,8 @@ namespace Ashirvad.Repo.Services.Area.Library
                             library = new LIBRARY_STD_MASTER()
                             {
                                 library_id = libraryInfo.LibraryID,
-                                std_id = item.StandardID,
-                                subject_id = item1.SubjectID
+                                class_dtl_id = item.StandardID,
+                                subject_dtl_id = item1.SubjectID
                             };
                             libraryList.Add(library);
                         }
@@ -536,7 +536,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                    Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value },
                                    subject = new SubjectEntity()
                                    {
-                                       Subject = li != null ? li.SUBJECT_MASTER.subject : ""
+                                       Subject = li != null ? li.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name : ""
                                    },
                                    approval = new ApprovalEntity()
                                    {
@@ -656,7 +656,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                && u.branch_id == BranchId
                                && u.library_status == 2
                                //&& ls.std_id == standardID
-                               && ls.STD_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name == standard
+                               && ls.CLASS_DTL_MASTER.CLASS_MASTER.class_name == standard
                                select new LibraryEntity()
                                {
                                    LibraryID = u.library_id,
@@ -689,7 +689,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                            where li.row_sta_cd == 1
                            && li.createby_branch == BranchId
                            && li.type == 2
-                           && ls.STD_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name == standard
+                           && ls.CLASS_DTL_MASTER.CLASS_MASTER.class_name == standard
                            select new LibraryEntity()
                            {
                                LibraryID = li.library_id,
@@ -815,7 +815,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                                     standard = new StandardEntity()
                                                     {
                                                         //StandardID = u.std_id.HasValue ? u.std_id.Value : 0,
-                                                        Standard = u.STD_MASTER.standard
+                                                        Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
                                                     }
                                                 }).Distinct().ToList();
                     }

@@ -17,8 +17,8 @@ namespace Ashirvad.Repo.Services.Area.Homework
         {
             long result;
             bool isExists = this.context.HOMEWORK_MASTER.Where(s => (homeworkInfo.HomeworkID == 0 || s.homework_id != homeworkInfo.HomeworkID) &&
-            s.homework_dt == homeworkInfo.HomeworkDate && s.branch_id == homeworkInfo.BranchInfo.BranchID && s.std_id == homeworkInfo.StandardInfo.StandardID
-            && s.sub_id == homeworkInfo.SubjectInfo.SubjectID && s.batch_time_id == homeworkInfo.BatchTimeID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            s.homework_dt == homeworkInfo.HomeworkDate && s.branch_id == homeworkInfo.BranchInfo.BranchID && s.class_dtl_id == homeworkInfo.StandardInfo.StandardID
+            && s.subject_dtl_id == homeworkInfo.SubjectInfo.SubjectID && s.batch_time_id == homeworkInfo.BatchTimeID && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -50,8 +50,8 @@ namespace Ashirvad.Repo.Services.Area.Homework
                 homework.file_path = homeworkInfo.FilePath;
                 homework.remarks = homeworkInfo.Remarks;
                 homework.homework_dt = homeworkInfo.HomeworkDate;
-                homework.sub_id = homeworkInfo.SubjectInfo.SubjectID;
-                homework.std_id = homeworkInfo.StandardInfo.StandardID;
+                homework.subject_dtl_id = homeworkInfo.SubjectInfo.SubjectID;
+                homework.class_dtl_id = homeworkInfo.StandardInfo.StandardID;
                 this.context.HOMEWORK_MASTER.Add(homework);
                 if (isUpdate)
                 {
@@ -74,7 +74,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         orderby u.homework_id descending
                         //join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id
                         where u.branch_id == branchID
-                        && (u.std_id == stdID)
+                        && (u.class_dtl_id == stdID)
                         && (u.batch_time_id == batchTime) && u.row_sta_cd == 1 /*&& hd.stud_id == studentId*/
                         select new HomeworkEntity()
                         {
@@ -88,15 +88,32 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             HomeworkContentFileName = u.homework_file,
                             HomeworkDate = u.homework_dt,
                             Remarks = u.remarks,
-                            StandardInfo = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                Standard = u.STD_MASTER.standard,
-                                StandardID = u.STD_MASTER.std_id
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            SubjectInfo = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                Subject = u.SUBJECT_MASTER.subject,
-                                SubjectID = u.SUBJECT_MASTER.subject_id
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTimeID = u.batch_time_id,
                             BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
@@ -153,7 +170,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id
                         orderby u.homework_id descending
                         where u.branch_id == branchID
-                        && (u.std_id == stdID)
+                        && (u.class_dtl_id == stdID)
                         && (u.batch_time_id == batchTime) && u.row_sta_cd == 1
                         select new HomeworkEntity()
                         {
@@ -167,15 +184,32 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             HomeworkContentFileName = u.homework_file,
                             HomeworkDate = u.homework_dt,
                             Remarks = u.remarks,
-                            StandardInfo = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                Standard = u.STD_MASTER.standard,
-                                StandardID = u.STD_MASTER.std_id
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            SubjectInfo = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                Subject = u.SUBJECT_MASTER.subject,
-                                SubjectID = u.SUBJECT_MASTER.subject_id
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTimeID = u.batch_time_id,
                             BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
@@ -208,8 +242,8 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         where u.homework_dt >= fromDT && u.homework_dt <= toDT
                         && (string.IsNullOrEmpty(searchParam)
                         || u.remarks.Contains(searchParam)
-                        || u.STD_MASTER.standard.Contains(searchParam)
-                        || u.SUBJECT_MASTER.subject.Contains(searchParam)
+                        || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.Contains(searchParam)
+                        || u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name.Contains(searchParam)
                         || (u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening").Contains(searchParam))
                         select new HomeworkEntity()
                         {
@@ -223,15 +257,32 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             HomeworkContentFileName = u.homework_file,
                             HomeworkDate = u.homework_dt,
                             Remarks = u.remarks,
-                            StandardInfo = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                Standard = u.STD_MASTER.standard,
-                                StandardID = u.STD_MASTER.std_id
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            SubjectInfo = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                Subject = u.SUBJECT_MASTER.subject,
-                                SubjectID = u.SUBJECT_MASTER.subject_id
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTimeID = u.batch_time_id,
                             BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
@@ -261,7 +312,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         .Include("SUBJECT_MASTER")
                         orderby u.homework_id descending
                         where u.branch_id == branchID
-                        && (0 == stdID || u.std_id == stdID) && u.row_sta_cd == 1
+                        && (0 == stdID || u.class_dtl_id == stdID) && u.row_sta_cd == 1
                         select new HomeworkEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -274,15 +325,32 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             HomeworkDate = u.homework_dt,
                             Remarks = u.remarks,
                             FilePath = "https://mastermind.org.in" + u.file_path,
-                            StandardInfo = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                Standard = u.STD_MASTER.standard,
-                                StandardID = u.STD_MASTER.std_id
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            SubjectInfo = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                Subject = u.SUBJECT_MASTER.subject,
-                                SubjectID = u.SUBJECT_MASTER.subject_id
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTimeID = u.batch_time_id,
                             BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
@@ -310,8 +378,8 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.homework_dt.ToString().ToLower().Contains(model.search.value)
-                        || u.STD_MASTER.standard.ToLower().Contains(model.search.value)
-                        || u.SUBJECT_MASTER.subject.ToLower().Contains(model.search.value))
+                        || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.ToLower().Contains(model.search.value)
+                        || u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name.ToLower().Contains(model.search.value))
                         orderby u.homework_id descending
                         select new HomeworkEntity()
                         {
@@ -325,15 +393,32 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             HomeworkDate = u.homework_dt,
                             Remarks = u.remarks,
                             FilePath = "https://mastermind.org.in" + u.file_path,
-                            StandardInfo = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                Standard = u.STD_MASTER.standard,
-                                StandardID = u.STD_MASTER.std_id
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            SubjectInfo = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                Subject = u.SUBJECT_MASTER.subject,
-                                SubjectID = u.SUBJECT_MASTER.subject_id
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             Count = count,
                             BatchTimeID = u.batch_time_id,
@@ -370,15 +455,32 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             HomeworkContentFileName = u.homework_file,
                             HomeworkDate = u.homework_dt,
                             Remarks = u.remarks,
-                            StandardInfo = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                Standard = u.STD_MASTER.standard,
-                                StandardID = u.STD_MASTER.std_id
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            SubjectInfo = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                Subject = u.SUBJECT_MASTER.subject,
-                                SubjectID = u.SUBJECT_MASTER.subject_id
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             BatchTimeID = u.batch_time_id,
                             BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
@@ -409,15 +511,32 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             Status = u.status,
                             Remarks = u.remarks,
                             StudentFilePath = u.student_filepath,
-                            StandardInfo = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                Standard = u.HOMEWORK_MASTER.STD_MASTER.standard,
-                                StandardID = u.HOMEWORK_MASTER.std_id
+                                Class_dtl_id = u.HOMEWORK_MASTER.class_dtl_id.HasValue ? u.HOMEWORK_MASTER.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassID = u.HOMEWORK_MASTER.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.HOMEWORK_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                }
                             },
-                            SubjectInfo = new SubjectEntity()
+                            BranchCourse = new BranchCourseEntity()
                             {
-                                Subject = u.STUDENT_MASTER.first_name,
-                                SubjectID = u.HOMEWORK_MASTER.sub_id
+                                course_dtl_id = u.HOMEWORK_MASTER.course_dtl_id.HasValue ? u.HOMEWORK_MASTER.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseID = u.HOMEWORK_MASTER.COURSE_DTL_MASTER.course_id,
+                                    CourseName = u.HOMEWORK_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_name,
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.HOMEWORK_MASTER.subject_dtl_id.HasValue ? u.HOMEWORK_MASTER.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.HOMEWORK_MASTER.SUBJECT_DTL_MASTER.subject_id,
+                                    SubjectName = u.HOMEWORK_MASTER.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                }
                             },
                             StudentInfo = new StudentEntity()
                             {

@@ -169,11 +169,11 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                 {
                     item.branchstandardlist = (from u in this.context.HOMEWORK_MASTER
                                                join h in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals h.homework_id
-                                               where (h.STUDENT_MASTER.student_id == studentid && u.row_sta_cd == 1 && u.std_id == item.branchid)
+                                               where (h.STUDENT_MASTER.student_id == studentid && u.row_sta_cd == 1 && u.subject_dtl_id == item.branchid)
                                                select new BranchStandardEntity()
                                                {
-                                                   name = u.SUBJECT_MASTER.subject,
-                                                   branchid = u.sub_id
+                                                   name = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                                   branchid = u.subject_dtl_id.HasValue? u.subject_dtl_id.Value:0
                                                }).Distinct().ToList();
                     if (item.branchstandardlist.Count > 0)
                     {
@@ -351,10 +351,10 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                 foreach (var item in data)
                 {
                     var a = (from z in this.context.HOMEWORK_MASTER_DTL
-                             where z.homework_id == item.HomeworkDetailID && z.HOMEWORK_MASTER.sub_id == subjectid && (model.search.value == null
+                             where z.homework_id == item.HomeworkDetailID && z.HOMEWORK_MASTER.subject_dtl_id == subjectid && (model.search.value == null
                                 || model.search.value == ""
                                 || z.remarks.ToLower().Contains(model.search.value)
-                                || z.HOMEWORK_MASTER.SUBJECT_MASTER.subject.ToLower().Contains(model.search.value)
+                                || z.HOMEWORK_MASTER.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name.ToLower().Contains(model.search.value)
                                 || z.HOMEWORK_MASTER.homework_dt.ToString().ToLower().Contains(model.search.value))
                              select z).FirstOrDefault();
                     if (a != null)
@@ -364,7 +364,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                         item.HomeworkEntity = new HomeworkEntity()
                         {
                             HomeworkDate = a.HOMEWORK_MASTER.homework_dt,
-                            SubjectName = a.HOMEWORK_MASTER.SUBJECT_MASTER.subject
+                            SubjectName = a.HOMEWORK_MASTER.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
                         };
                     }
                     else

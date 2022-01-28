@@ -756,15 +756,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                                         SubjectName = u.TEST_MASTER.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
                                     }
                                 },
-                                BranchSubject = new BranchSubjectEntity()
-                                {
-                                    Subject_dtl_id = u.TEST_MASTER.subject_dtl_id.HasValue ? u.TEST_MASTER.subject_dtl_id.Value : 0,
-                                    Subject = new SuperAdminSubjectEntity()
-                                    {
-                                        SubjectID = u.TEST_MASTER.SUBJECT_DTL_MASTER.subject_id,
-                                        SubjectName = u.TEST_MASTER.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
-                                    }
-                                },
+                                
                                 BatchTimeID = u.TEST_MASTER.batch_time_id,
                                 Marks = u.TEST_MASTER.total_marks,
                                 TestStartTime = u.TEST_MASTER.test_st_time,
@@ -1370,7 +1362,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         }).FirstOrDefault();
             if (data != null)
             {
-                data.marksentered = CheckMarks(data.TestID, data.Branch.BranchID, data.Subject.SubjectID, data.BatchTimeID);
+                data.marksentered = CheckMarks(data.TestID, data.Branch.BranchID, data.BranchSubject.Subject_dtl_id, data.BatchTimeID);
             }
             return data;
         }
