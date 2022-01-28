@@ -27,7 +27,8 @@ $(document).ready(function () {
         },
         "columns": [
             { "data": "AttendanceDate" },
-            { "data": "Standard.Standard" },
+            { "data": "BranchCourse.course.CourseName" },
+            { "data": "BranchClass.Class.ClassName" },
             { "data": "BatchTypeText" },
             { "data": "AttendanceID" },
             { "data": "AttendanceID" }
@@ -45,7 +46,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 3,
+                targets: 4,
                 render: function (data, type, full, meta) {
                     var check = GetUserRights('AttendanceRegister');
                     if (type === 'display') {
@@ -63,7 +64,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 4,
+                targets: 5,
                 render: function (data, type, full, meta) {
                   
                     var check = GetUserRights('AttendanceRegister');

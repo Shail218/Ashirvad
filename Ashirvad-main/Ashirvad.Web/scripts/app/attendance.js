@@ -68,6 +68,7 @@ function LoadCourse() {
                 if (data.length == 1) {
                     $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
                     $('#CourseName option[value="' + data[i].course_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchCourse_course_dtl_id').val(data[i].course_dtl_id);
                 } else {
                     $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
                 }
@@ -96,6 +97,7 @@ function LoadClass(CourseID) {
                 if (data.length == 1) {
                     $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
                     $('#StandardName option[value="' + data[i].Class_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchClass_Class_dtl_id').val(data[i].Class_dtl_id);
                 } else {
                     $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
                 }
@@ -136,7 +138,8 @@ function GetStudentDetail() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        var STD = $('#Standard_StandardID').val();
+        var Course = $('#BranchCourse_course_dtl_id').val();
+        var STD = $('#BranchClass_Class_dtl_id').val();
         var BatchTime = $('#BatchTypeID').val();
         table.destroy();
         table = $('#attendancetable').DataTable({
@@ -153,7 +156,7 @@ function GetStudentDetail() {
                 processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
             },
             "ajax": {
-                url: "" + GetSiteURL() + "/AttendanceEntry/CustomServerSideSearchAction?STD='" + STD + "'&BatchTime='" + BatchTime + "'",
+                url: "" + GetSiteURL() + "/AttendanceEntry/CustomServerSideSearchAction?STD=" + STD + "&courseid=" + Course + "&BatchTime=" + BatchTime + "",
                 type: 'POST',
                 "data": function (d) {
                     HideLoader();

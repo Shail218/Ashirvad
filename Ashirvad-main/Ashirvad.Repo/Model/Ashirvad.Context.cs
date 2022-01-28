@@ -36,7 +36,6 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<TYPE_DESC> TYPE_DESC { get; set; }
         public virtual DbSet<USER_DEF> USER_DEF { get; set; }
         public virtual DbSet<USER_ROLE> USER_ROLE { get; set; }
-        public virtual DbSet<LINK_MASTER> LINK_MASTER { get; set; }
         public virtual DbSet<ATTENDANCE_DTL> ATTENDANCE_DTL { get; set; }
         public virtual DbSet<REMINDER_MASTER> REMINDER_MASTER { get; set; }
         public virtual DbSet<ANNOUNCE_MASTER> ANNOUNCE_MASTER { get; set; }
@@ -61,18 +60,13 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<BRANCH_STAFF> BRANCH_STAFF { get; set; }
         public virtual DbSet<COURSE_MASTER> COURSE_MASTER { get; set; }
         public virtual DbSet<CLASS_DTL_MASTER> CLASS_DTL_MASTER { get; set; }
-        public virtual DbSet<MARKS_MASTER> MARKS_MASTER { get; set; }
         public virtual DbSet<SUBJECT_DTL_MASTER> SUBJECT_DTL_MASTER { get; set; }
-        public virtual DbSet<STD_MASTER> STD_MASTER { get; set; }
         public virtual DbSet<COURSE_DTL_MASTER> COURSE_DTL_MASTER { get; set; }
-        public virtual DbSet<SUBJECT_MASTER> SUBJECT_MASTER { get; set; }
         public virtual DbSet<FACULTY_MASTER> FACULTY_MASTER { get; set; }
         public virtual DbSet<NEW_LIBRARY_MASTER> NEW_LIBRARY_MASTER { get; set; }
         public virtual DbSet<APPROVAL_MASTER> APPROVAL_MASTER { get; set; }
-        public virtual DbSet<LIBRARY_STD_MASTER> LIBRARY_STD_MASTER { get; set; }
         public virtual DbSet<LIBRARY_MASTER> LIBRARY_MASTER { get; set; }
         public virtual DbSet<ABOUTUS_MASTER> ABOUTUS_MASTER { get; set; }
-        public virtual DbSet<HOMEWORK_MASTER> HOMEWORK_MASTER { get; set; }
         public virtual DbSet<Faculty> Faculties { get; set; }
         public virtual DbSet<NOTIFICATION_MASTER> NOTIFICATION_MASTER { get; set; }
         public virtual DbSet<CIRCULAR_MASTER> CIRCULAR_MASTER { get; set; }
@@ -83,10 +77,16 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<ATTENDANCE_HDR> ATTENDANCE_HDR { get; set; }
         public virtual DbSet<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
         public virtual DbSet<FEE_STRUCTURE_MASTER> FEE_STRUCTURE_MASTER { get; set; }
+        public virtual DbSet<PRACTICE_PAPER> PRACTICE_PAPER { get; set; }
+        public virtual DbSet<LINK_MASTER> LINK_MASTER { get; set; }
+        public virtual DbSet<MARKS_MASTER> MARKS_MASTER { get; set; }
+        public virtual DbSet<TEST_MASTER> TEST_MASTER { get; set; }
         public virtual DbSet<TEST_MASTER_DTL> TEST_MASTER_DTL { get; set; }
         public virtual DbSet<TEST_PAPER_REL> TEST_PAPER_REL { get; set; }
-        public virtual DbSet<TEST_MASTER> TEST_MASTER { get; set; }
-        public virtual DbSet<PRACTICE_PAPER> PRACTICE_PAPER { get; set; }
+        public virtual DbSet<HOMEWORK_MASTER> HOMEWORK_MASTER { get; set; }
+        public virtual DbSet<LIBRARY_STD_MASTER> LIBRARY_STD_MASTER { get; set; }
+        public virtual DbSet<STD_MASTER> STD_MASTER { get; set; }
+        public virtual DbSet<SUBJECT_MASTER> SUBJECT_MASTER { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

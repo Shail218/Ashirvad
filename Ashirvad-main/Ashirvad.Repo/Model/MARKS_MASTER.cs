@@ -20,7 +20,6 @@ namespace Ashirvad.Repo.Model
         public long branch_id { get; set; }
         public long student_id { get; set; }
         public int batch_time_id { get; set; }
-        public long subject_id { get; set; }
         public string file_path { get; set; }
         public string file_name { get; set; }
         public string achive_marks { get; set; }
@@ -31,11 +30,10 @@ namespace Ashirvad.Repo.Model
         public Nullable<long> subject_dtl_id { get; set; }
     
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
-        public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
-        public virtual STUDENT_MASTER STUDENT_MASTER { get; set; }
-        public virtual TEST_MASTER TEST_MASTER { get; set; }
         public virtual CLASS_DTL_MASTER CLASS_DTL_MASTER { get; set; }
         public virtual COURSE_DTL_MASTER COURSE_DTL_MASTER { get; set; }
+        public virtual STUDENT_MASTER STUDENT_MASTER { get; set; }
         public virtual SUBJECT_DTL_MASTER SUBJECT_DTL_MASTER { get; set; }
+        public virtual TEST_MASTER TEST_MASTER { get; set; }
     }
 }

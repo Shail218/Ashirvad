@@ -48,6 +48,7 @@ function LoadCourse() {
                 if (data.length == 1) {
                     $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
                     $('#CourseName option[value="' + data[i].course_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchCourse_course_dtl_id').val(data[i].course_dtl_id);
                 } else {
                     $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
                 }
@@ -76,6 +77,7 @@ function LoadClass(CourseID) {
                 if (data.length == 1) {
                     $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
                     $('#StandardName option[value="' + data[i].Class_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchClass_Class_dtl_id').val(data[i].Class_dtl_id);
                 } else {
                     $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
                 }
@@ -84,7 +86,6 @@ function LoadClass(CourseID) {
 
         if ($("#BranchClass_Class_dtl_id").val() != "") {
             $('#StandardName option[value="' + $("#BranchClass_Class_dtl_id").val() + '"]').attr("selected", "selected");
-            LoadSubject($("#BranchClass_Class_dtl_id").val(), CourseID);
         }
 
         HideLoader();
@@ -93,30 +94,23 @@ function LoadClass(CourseID) {
     });
 }
 
-function LoadSubject(ClassID, CourseID) {
-    ShowLoader();
-    var postCall = $.post(commonData.BranchSubject + "GetSubjectDDL", { "ClassID": ClassID, "CourseID": CourseID });
+function LoadSubject(branchID) {
+    var postCall = $.post(commonData.Subject + "SubjectDataByTestDate", { "TestDate": branchID });
     postCall.done(function (data) {
+
         $('#SubjectName').empty();
         $('#SubjectName').select2();
-        $("#SubjectName").append("<option value=" + 0 + ">---Select Subject---</option>");
-        if (data != null) {
-            for (i = 0; i < data.length; i++) {
-                if (data.length == 1) {
-                    $("#SubjectName").append("<option value='" + data[i].Subject_dtl_id + "'>" + data[i].Subject.SubjectName + "</option>");
-                    $('#SubjectName option[value="' + data[i].Subject_dtl_id + '"]').attr("selected", "selected");
-                } else {
-                    $("#SubjectName").append("<option value='" + data[i].Subject_dtl_id + "'>" + data[i].Subject.SubjectName + "</option>");
-                }
-            }
+        $("#SubjectName").append("<option value=" + 0 + ">---Select Subject Name---</option>");
+        for (i = 0; i < data.length; i++) {
+            $("#SubjectName").append("<option value=" + data[i].SubjectID + "_" + data[i].testID + ">" + data[i].Subject + "</option>");
         }
+
         if ($("#BranchSubject_Subject_dtl_id").val() != "") {
             $('#SubjectName option[value="' + $("#BranchSubject_Subject_dtl_id").val() + '"]').attr("selected", "selected");
         }
-        HideLoader();
-    }).fail(function () {
-        HideLoader();
 
+    }).fail(function () {
+        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
@@ -190,10 +184,11 @@ function SaveMarks() {
 
 function LoadTestDates(BatchType) {
     var BranchID = $("#Branch_Name").val();
-    var STD = $('#StandardInfo_StandardID').val();
+    var STD = $('#BranchClass_Class_dtl_id').val();
+    var Courseid = $('#BranchCourse_course_dtl_id').val();
     var BatchType = BatchType;
-    if (BranchID > 0 && BatchType > 0 && STD>0) {
-        var postCall = $.post(commonData.TestPaper + "GetTestDatesByBatch", { "BranchID": BranchID, "BatchType": BatchType, "stdID": STD });
+    if (BranchID > 0 && BatchType > 0 && STD > 0) {
+        var postCall = $.post(commonData.TestPaper + "GetTestDatesByBatch", { "BranchID": BranchID, "BatchType": BatchType, "stdID": STD, "courseid": Courseid });
         postCall.done(function (data) {
             $('#testddl').empty();
             $('#testddl').select2();
@@ -295,19 +290,13 @@ $("#StandardName").change(function () {
 
 $("#SubjectName").change(function () {
     var Data = $("#SubjectName option:selected").val();
-    $('#BranchSubject_Subject_dtl_id').val(Data);
+    var SPData = Data.split('_');
+    var sub = SPData[0];
+    var test = SPData[1];    
+    $('#testEntityInfo_TestID').val(parseInt(test));
+    $('#BranchSubject_Subject_dtl_id').val(sub);
+    LoadTestDetails(test, sub);
 });
-
-//$("#SubjectName").change(function () {
-//    var Data = $("#SubjectName option:selected").val();
-//    var SPData = Data.split('_');
-//    var sub = SPData[0];
-//    var test = SPData[1];    
-//    $('#testEntityInfo_TestID').val(parseInt(test));
-//    $('#SubjectInfo_SubjectID').val(sub);
-//    LoadTestDetails(test, sub);
-    
-//});
 
 $("#Batchtime").change(function () {
     var Data = $("#Batchtime option:selected").val();

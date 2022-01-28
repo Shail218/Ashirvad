@@ -38,7 +38,6 @@ namespace Ashirvad.Repo.Services.Area.Student
                 studentMaint = data.studentMaster.STUDENT_MAINT.FirstOrDefault();
                 studentInfo.Transaction.TransactionId = data.studentMaster.trans_id;
             }
-
             studentMaster.gr_no = studentInfo.GrNo;
             studentMaster.first_name = studentInfo.FirstName;
             studentMaster.middle_name = studentInfo.MiddleName;
@@ -114,6 +113,14 @@ namespace Ashirvad.Repo.Services.Area.Student
                             SchoolTime = u.school_time,
                             FilePath = "https://mastermind.org.in" + u.file_path,
                             FileName = u.file_name,
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue == true ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
                             BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
                             BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
@@ -266,11 +273,11 @@ namespace Ashirvad.Repo.Services.Area.Student
             return data;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, int batchtime, long stdid)
+        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid,long courseid, int batchtime)
         {
             var data = (from u in this.context.STUDENT_MASTER                       
                         orderby u.student_id descending
-                        where u.branch_id == branchID && u.row_sta_cd == 1 && u.batch_time == batchtime && u.class_dtl_id == stdid
+                        where u.branch_id == branchID && u.row_sta_cd == 1 && u.batch_time == batchtime && u.class_dtl_id == stdid && u.course_dtl_id == courseid
                         select new StudentEntity()
                         {
                             StudentID = u.student_id,
@@ -385,6 +392,14 @@ namespace Ashirvad.Repo.Services.Area.Student
                             StudentPassword2 = user.password,
                             UserID = user.user_id,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue == true ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
                             BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
                             BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
@@ -470,6 +485,14 @@ namespace Ashirvad.Repo.Services.Area.Student
                             FileName = u.file_name,
                             FilePath = "https://mastermind.org.in" + u.file_path,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue == true ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
                             BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
                             BatchInfo = new BatchEntity()

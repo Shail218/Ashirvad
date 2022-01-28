@@ -125,7 +125,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return data;
         }
 
-        public async Task<List<StudentEntity>> GetAllCustomAttendance(DataTableAjaxPostModel model, long Std, long Branch, long Batch)
+        public async Task<List<StudentEntity>> GetAllCustomAttendance(DataTableAjaxPostModel model, long Std,long courseid, long Branch, long Batch)
         {
             var Result = new List<StudentEntity>();
             bool Isasc = true;
@@ -139,7 +139,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         .Include("BRANCH_MASTER")
                           join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
                           orderby u.student_id descending
-                          where u.branch_id == Branch && u.CLASS_DTL_MASTER.class_dtl_id == Std && u.batch_time == Batch && u.row_sta_cd == 1
+                          where u.branch_id == Branch && u.class_dtl_id == Std && u.batch_time == Batch && u.row_sta_cd == 1 && u.course_dtl_id == courseid
                           select new StudentEntity()
                           {
                               StudentID = u.student_id
@@ -150,7 +150,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         .Include("BRANCH_MASTER")
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
                         orderby u.student_id descending
-                        where u.branch_id == Branch && u.CLASS_DTL_MASTER.class_dtl_id == Std && u.batch_time == Batch && u.row_sta_cd == 1
+                        where u.branch_id == Branch && u.class_dtl_id == Std && u.batch_time == Batch && u.row_sta_cd == 1 && u.course_dtl_id == courseid
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.first_name.ToLower().Contains(model.search.value.ToLower())
@@ -301,6 +301,14 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
                                 Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
                             },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
                             Count = count,
                             AttendanceDate = u.attendance_dt,
                             AttendanceID = u.attendance_hdr_id,
@@ -314,7 +322,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return data;
         }
 
-        public async Task<List<AttendanceEntity>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, int batchTimeID, long studentid)
+        public async Task<List<AttendanceEntity>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid)
         {
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
@@ -322,6 +330,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         join student in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals student.attd_hdr_id orderby u.attendance_hdr_id descending
                         where (0 == branchID || u.branch_id == branchID)
                         && (0 == stdID || u.class_dtl_id == stdID)
+                        && (0 == courseid || u.course_dtl_id == courseid)
                         && (0 == batchTimeID || u.batch_time_type == batchTimeID)
                         && (u.attendance_dt >= fromDate && u.attendance_dt <= toDate)
                         && student.student_id == studentid
@@ -341,6 +350,14 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             {
                                 Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
                                 Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
                             },
                             AttendanceDate = u.attendance_dt,
                             AttendanceID = u.attendance_hdr_id,
@@ -403,6 +420,14 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             {
                                 Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
                                 Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
+                            },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
                             },
                             AttendanceDate = u.attendance_dt,                           
                             AttendanceID = u.attendance_hdr_id,
@@ -510,7 +535,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return false;
         }
 
-        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, int batchID,DateTime attendanceDate)
+        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, long courseid, int batchID,DateTime attendanceDate)
         {
             ResponseModel model = new ResponseModel();
             try
@@ -519,6 +544,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             where atd.batch_time_type == batchID 
                             && atd.branch_id == branchID 
                             && atd.class_dtl_id == stdID 
+                            && atd.course_dtl_id == courseid
                             && atd.attendance_dt == attendanceDate
                             && atd.row_sta_cd == 1
                             select atd).ToList();
@@ -542,7 +568,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return model;
         }
 
-        public async Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID, int batchTimeID, long studentid)
+        public async Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid)
         {
             long count = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
@@ -551,6 +577,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                           orderby u.attendance_hdr_id descending
                           where (0 == branchID || u.branch_id == branchID)
                           && (0 == stdID || u.class_dtl_id == stdID)
+                          && (0 == courseid || u.course_dtl_id == courseid)
                           && (0 == batchTimeID || u.batch_time_type == batchTimeID)
                           && (u.attendance_dt >= fromDate && u.attendance_dt <= toDate)
                           && student.student_id == studentid
@@ -576,6 +603,14 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                               {
                                   Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
                                   Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
+                              },
+                              BranchCourse = new BranchCourseEntity()
+                              {
+                                  course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                  course = new CourseEntity()
+                                  {
+                                      CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                  }
                               },
                               AttendanceDate = u.attendance_dt,
                               AttendanceID = u.attendance_hdr_id,
@@ -610,7 +645,15 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
                                 Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
                             },
-                            Count= count,
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
+                            Count = count,
                             AttendanceDate = u.attendance_dt,
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,

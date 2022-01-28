@@ -103,12 +103,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<OperationResult<List<TestEntity>>> TestDateDDL(long branchID, long stdID, int batchTime)
+        public async Task<OperationResult<List<TestEntity>>> TestDateDDL(long branchID, long stdID, long courseid, int batchTime)
         {
             try
             {
                 OperationResult<List<TestEntity>> paper = new OperationResult<List<TestEntity>>();
-                paper.Data = await _testContext.TestDateDDL(branchID, stdID, batchTime);
+                paper.Data = await _testContext.TestDateDDL(branchID, stdID, courseid,batchTime);
                 paper.Completed = true;
                 return paper;
             }

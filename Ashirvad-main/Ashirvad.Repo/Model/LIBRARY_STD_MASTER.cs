@@ -16,14 +16,10 @@ namespace Ashirvad.Repo.Model
     {
         public long library_std_id { get; set; }
         public long library_id { get; set; }
-        public Nullable<long> std_id { get; set; }
-        public Nullable<long> subject_id { get; set; }
         public Nullable<long> class_dtl_id { get; set; }
         public Nullable<long> course_dtl_id { get; set; }
         public Nullable<long> subject_dtl_id { get; set; }
     
-        public virtual STD_MASTER STD_MASTER { get; set; }
-        public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
         public virtual CLASS_DTL_MASTER CLASS_DTL_MASTER { get; set; }
         public virtual COURSE_DTL_MASTER COURSE_DTL_MASTER { get; set; }
         public virtual SUBJECT_DTL_MASTER SUBJECT_DTL_MASTER { get; set; }

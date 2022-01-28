@@ -30,7 +30,7 @@ namespace Ashirvad.Repo.Model
     
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
-        public virtual HOMEWORK_MASTER HOMEWORK_MASTER { get; set; }
         public virtual STUDENT_MASTER STUDENT_MASTER { get; set; }
+        public virtual HOMEWORK_MASTER HOMEWORK_MASTER { get; set; }
     }
 }

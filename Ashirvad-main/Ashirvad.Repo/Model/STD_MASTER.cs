@@ -14,14 +14,6 @@ namespace Ashirvad.Repo.Model
     
     public partial class STD_MASTER
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public STD_MASTER()
-        {
-            this.LINK_MASTER = new HashSet<LINK_MASTER>();
-            this.LIBRARY_STD_MASTER = new HashSet<LIBRARY_STD_MASTER>();
-            this.HOMEWORK_MASTER = new HashSet<HOMEWORK_MASTER>();
-        }
-    
         public long std_id { get; set; }
         public long branch_id { get; set; }
         public string standard { get; set; }
@@ -31,12 +23,6 @@ namespace Ashirvad.Repo.Model
     
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         public virtual CLASS_DTL_MASTER CLASS_DTL_MASTER { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LINK_MASTER> LINK_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LIBRARY_STD_MASTER> LIBRARY_STD_MASTER { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HOMEWORK_MASTER> HOMEWORK_MASTER { get; set; }
     }
 }

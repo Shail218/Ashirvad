@@ -17,13 +17,13 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SUBJECT_DTL_MASTER()
         {
-            this.SUBJECT_MASTER = new HashSet<SUBJECT_MASTER>();
             this.FACULTY_MASTER = new HashSet<FACULTY_MASTER>();
+            this.PRACTICE_PAPER = new HashSet<PRACTICE_PAPER>();
+            this.MARKS_MASTER = new HashSet<MARKS_MASTER>();
             this.TEST_MASTER = new HashSet<TEST_MASTER>();
             this.HOMEWORK_MASTER = new HashSet<HOMEWORK_MASTER>();
             this.LIBRARY_STD_MASTER = new HashSet<LIBRARY_STD_MASTER>();
-            this.MARKS_MASTER = new HashSet<MARKS_MASTER>();
-            this.PRACTICE_PAPER = new HashSet<PRACTICE_PAPER>();
+            this.SUBJECT_MASTER = new HashSet<SUBJECT_MASTER>();
         }
     
         public long subject_dtl_id { get; set; }
@@ -40,10 +40,12 @@ namespace Ashirvad.Repo.Model
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         public virtual COURSE_DTL_MASTER COURSE_DTL_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SUBJECT_MASTER> SUBJECT_MASTER { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FACULTY_MASTER> FACULTY_MASTER { get; set; }
         public virtual SUBJECT_BRANCH_MASTER SUBJECT_BRANCH_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PRACTICE_PAPER> PRACTICE_PAPER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MARKS_MASTER> MARKS_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TEST_MASTER> TEST_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -51,8 +53,6 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LIBRARY_STD_MASTER> LIBRARY_STD_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MARKS_MASTER> MARKS_MASTER { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PRACTICE_PAPER> PRACTICE_PAPER { get; set; }
+        public virtual ICollection<SUBJECT_MASTER> SUBJECT_MASTER { get; set; }
     }
 }

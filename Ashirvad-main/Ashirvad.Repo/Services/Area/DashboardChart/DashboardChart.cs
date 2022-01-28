@@ -271,11 +271,11 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
 
         public async Task<List<MarksEntity>> GetTestDetailsByStudent(DataTableAjaxPostModel model, long studentid, long subjectid)
         {
-            int count = this.context.MARKS_MASTER.Where(s => s.row_sta_cd == 1 && s.student_id == studentid && s.subject_id == subjectid).Distinct().Count();
+            int count = this.context.MARKS_MASTER.Where(s => s.row_sta_cd == 1 && s.student_id == studentid && s.subject_dtl_id == subjectid).Distinct().Count();
             try
             {
                 var data = (from u in this.context.MARKS_MASTER.Include("TEST_MASTER")
-                            where u.row_sta_cd == 1 && u.student_id == studentid && u.subject_id == subjectid
+                            where u.row_sta_cd == 1 && u.student_id == studentid && u.subject_dtl_id == subjectid
                             select new MarksEntity()
                             {
                                 testEntityInfo = new TestEntity()
@@ -283,10 +283,13 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                                     TestDate = u.TEST_MASTER.test_dt,
                                     Marks = u.TEST_MASTER.total_marks
                                 },
-                                SubjectInfo = new SubjectEntity()
+                                BranchSubject = new BranchSubjectEntity()
                                 {
-                                    Subject = u.SUBJECT_MASTER.subject,
-                                    SubjectID = u.subject_id
+                                    Subject_dtl_id = u.subject_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                    Subject = new SuperAdminSubjectEntity()
+                                    {
+                                        SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
+                                    }
                                 },
                                 Count = count,
                                 MarksID = u.marks_id,

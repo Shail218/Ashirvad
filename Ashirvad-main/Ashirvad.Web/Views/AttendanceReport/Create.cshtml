@@ -1,76 +1,80 @@
 ﻿@model Ashirvad.Data.AttendanceEntity
 <form id="fAttendanceReportDetail">
     <div class="form-group" id="dInformation">
-        <div class="col-md-3">
-            @Html.Label("Select Course", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <select name="CourseName" id="CourseName" class="form-control requiredDDL select2" alt="Course">
-                <option value="0">--Select Course--</option>
-            </select>
-            @Html.HiddenFor(x => x.BranchCourse.course_dtl_id)
-        </div>
-        <div class="col-md-3">
-            @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
-                <option value="0">--Select Standard--</option>
-            </select>
-            @Html.HiddenFor(x => x.BranchClass.Class_dtl_id)
-        </div>
-        <div class="col-md-3">
-            @Html.Label("Batch Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <select name="BatchTime" id="BatchTime" class="form-control requiredDDL select2" alt="Batch Time">
-                <option value="0">--Select Batch Time--</option>
-                <option value="1">Morning</option>
-                <option value="2">AfterNoon</option>
-                <option value="3">Evening</option>
-            </select>
-            @Html.HiddenFor(x => x.BatchTypeText)
-            @Html.HiddenFor(x => x.BatchTypeID)
-            @Html.HiddenFor(x => x.Branch.BranchID)
-        </div>
-        <div class="col-md-3">
-            @Html.Label("Select Student", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <select name="StudentName" id="StudentName" class="form-control requiredDDL select2" alt="Student Name">
-                <option value="0">--Select Student--</option>
-            </select>
-            @Html.HiddenFor(x => x.studentEntity.Name)
-        </div>
-        <div class="col-md-3">
-            @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <div id="datepickerfromdate" class="input-group date" data-date-format="dd/mm/yyyy">
-                @if (Model == null)
-                {
-                    @Html.TextBoxFor(x => x.From_Date, null, new { @class = "form-control required", @alt = "From Date", autocomplete = "off", @readonly = "readonly" })
-                }
-                else
-                {
-                    @Html.TextBoxFor(x => x.From_Date, null, new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "From Date" })
-                }
-                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+        <div class="col-md-12">
+            <div class="col-md-3">
+                @Html.Label("Select Course", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="CourseName" id="CourseName" class="form-control requiredDDL select2" alt="Course">
+                    <option value="0">--Select Course--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchCourse.course_dtl_id)
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
+                    <option value="0">--Select Standard--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchClass.Class_dtl_id)
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Batch Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BatchTime" id="BatchTime" class="form-control requiredDDL select2" alt="Batch Time">
+                    <option value="0">--Select Batch Time--</option>
+                    <option value="1">Morning</option>
+                    <option value="2">AfterNoon</option>
+                    <option value="3">Evening</option>
+                </select>
+                @Html.HiddenFor(x => x.BatchTypeText)
+                @Html.HiddenFor(x => x.BatchTypeID)
+                @Html.HiddenFor(x => x.Branch.BranchID)
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Select Student", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="StudentName" id="StudentName" class="form-control requiredDDL select2" alt="Student Name">
+                    <option value="0">--Select Student--</option>
+                </select>
+                @Html.HiddenFor(x => x.studentEntity.Name)
             </div>
         </div>
-        <div class="col-md-3">
-            @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <div id="datepickertodate" class="input-group date" data-date-format="dd/mm/yyyy">
-                @if (Model == null)
-                {
-                    @Html.TextBoxFor(x => x.To_Date, null, new { @class = "form-control required", @alt = "To Date", autocomplete = "off", @readonly = "readonly" })
-                }
-                else
-                {
-                    @Html.TextBoxFor(x => x.To_Date, null, new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "To Date" })
-                }
-                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+        <div class="col-md-12">
+            <div class="col-md-3">
+                @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <div id="datepickerfromdate" class="input-group date" data-date-format="dd/mm/yyyy">
+                    @if (Model == null)
+                    {
+                        @Html.TextBoxFor(x => x.From_Date, null, new { @class = "form-control required", @alt = "From Date", autocomplete = "off", @readonly = "readonly" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(x => x.From_Date, null, new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "From Date" })
+                    }
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-6" style="text-align: right;margin-top:5px;">
-                <br />
-                <a onclick="SaveReport();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
-                    <span class="ladda-label">
-                        Submit
-                    </span>
-                    <span class="ladda-spinner"></span>
-                </a>
+            <div class="col-md-3">
+                @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <div id="datepickertodate" class="input-group date" data-date-format="dd/mm/yyyy">
+                    @if (Model == null)
+                    {
+                        @Html.TextBoxFor(x => x.To_Date, null, new { @class = "form-control required", @alt = "To Date", autocomplete = "off", @readonly = "readonly" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(x => x.To_Date, null, new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "To Date" })
+                    }
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6" style="text-align: right;margin-top:5px;">
+                    <br />
+                    <a onclick="SaveReport();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                        <span class="ladda-label">
+                            Submit
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

@@ -23,8 +23,6 @@ namespace Ashirvad.Repo.Model
         public long homework_id { get; set; }
         public System.DateTime homework_dt { get; set; }
         public long branch_id { get; set; }
-        public long std_id { get; set; }
-        public long sub_id { get; set; }
         public int batch_time_id { get; set; }
         public string remarks { get; set; }
         public string file_path { get; set; }
@@ -36,12 +34,10 @@ namespace Ashirvad.Repo.Model
         public Nullable<long> subject_dtl_id { get; set; }
     
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HOMEWORK_MASTER_DTL> HOMEWORK_MASTER_DTL { get; set; }
-        public virtual STD_MASTER STD_MASTER { get; set; }
-        public virtual SUBJECT_MASTER SUBJECT_MASTER { get; set; }
         public virtual CLASS_DTL_MASTER CLASS_DTL_MASTER { get; set; }
         public virtual COURSE_DTL_MASTER COURSE_DTL_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HOMEWORK_MASTER_DTL> HOMEWORK_MASTER_DTL { get; set; }
         public virtual SUBJECT_DTL_MASTER SUBJECT_DTL_MASTER { get; set; }
     }
 }
