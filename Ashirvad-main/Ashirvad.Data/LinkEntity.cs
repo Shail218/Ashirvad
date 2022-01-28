@@ -19,5 +19,7 @@ namespace Ashirvad.Data
         public string Title { get; set; }
         public int LinkType { get; set; }
         public long Count { get; set; }
+        public BranchCourseEntity BranchCourse { get; set; }
+        public BranchClassEntity BranchClass { get; set; }
     }
 }

@@ -71,7 +71,7 @@ namespace Ashirvad.Repo.Services.Area.Payment
                         .Include("STUDENT_PAYMENT_REL")
                         .Include("BRANCH_MASTER")
                         join stu in this.context.STUDENT_MASTER on u.student_id equals stu.student_id
-                        join std in this.context.STD_MASTER on stu.std_id equals std.std_id
+                        join std in this.context.STD_MASTER on stu.class_dtl_id equals std.std_id
                         where (0 == u.branch_id || u.branch_id == branchID)
                         && u.row_sta_cd == 1
                         select new PaymentEntity()
@@ -127,7 +127,7 @@ namespace Ashirvad.Repo.Services.Area.Payment
                         .Include("STUDENT_PAYMENT_REL")
                         .Include("BRANCH_MASTER")
                         join stu in this.context.STUDENT_MASTER on u.student_id equals stu.student_id
-                        join std in this.context.STD_MASTER on stu.std_id equals std.std_id
+                        join std in this.context.STD_MASTER on stu.class_dtl_id equals std.std_id
                         where (0 == u.branch_id || u.branch_id == branchID)
                         && u.row_sta_cd == 1
                         select new PaymentEntity()
@@ -173,7 +173,7 @@ namespace Ashirvad.Repo.Services.Area.Payment
                         .Include("STUDENT_PAYMENT_REL")
                         .Include("BRANCH_MASTER")
                         join stu in this.context.STUDENT_MASTER on u.student_id equals stu.student_id
-                        join std in this.context.STD_MASTER on stu.std_id equals std.std_id
+                        join std in this.context.STD_MASTER on stu.class_dtl_id equals std.std_id
                         where u.payment_id == paymentID
                         && u.row_sta_cd == 1
                         select new PaymentEntity()

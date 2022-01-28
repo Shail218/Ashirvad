@@ -28,6 +28,9 @@ namespace Ashirvad.Data
         public TestDetailEntity testdtl { get; set; }
         public bool marksentered { get; set; }
         public long Count { get; set; }
+        public BranchCourseEntity BranchCourse { get; set; }
+        public BranchClassEntity BranchClass { get; set; }
+        public BranchSubjectEntity BranchSubject { get; set; }
     }
 
     public class TestPaperEntity

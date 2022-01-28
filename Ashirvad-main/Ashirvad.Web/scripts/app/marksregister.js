@@ -13,8 +13,8 @@ $(document).ready(function () {
         "bLengthChange": false
     });
 
-    var BrandID = $("#Branch_Name").val();
-    LoadStandard(BrandID);
+    LoadCourse();
+
 });
 
 function LoadBranch(onLoaded) {
@@ -36,19 +36,26 @@ function LoadBranch(onLoaded) {
     });
 }
 
-function LoadStandard(branchID) {
-
-    var postCall = $.post(commonData.Standard + "StandardData", { "branchID": branchID });
+function LoadCourse() {
+    var postCall = $.post(commonData.BranchCourse + "GetCourseDDL");
     postCall.done(function (data) {
-
-        $('#StandardName').empty();
-        $('#StandardName').select2();
-        $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#StandardName").append("<option value=" + data[i].StandardID + ">" + data[i].Standard + "</option>");
+        $('#CourseName').empty();
+        $('#CourseName').select2();
+        $("#CourseName").append("<option value=" + 0 + ">---Select Course---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                if (data.length == 1) {
+                    $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
+                    $('#CourseName option[value="' + data[i].course_dtl_id + '"]').attr("selected", "selected");
+                } else {
+                    $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
+                }
+            }
         }
-        if ($("#StandardInfo_StandardID").val() != "") {
-            $('#StandardName option[value="' + $("#StandardInfo_StandardID").val() + '"]').attr("selected", "selected");
+
+        if ($("#BranchCourse_course_dtl_id").val() != "") {
+            $('#CourseName option[value="' + $("#BranchCourse_course_dtl_id").val() + '"]').attr("selected", "selected");
+            LoadClass($("#BranchCourse_course_dtl_id").val());
         }
         HideLoader();
     }).fail(function () {
@@ -56,23 +63,59 @@ function LoadStandard(branchID) {
     });
 }
 
-function LoadSubject(branchID) {
-    var postCall = $.post(commonData.Subject + "SubjectDataByTestDate", { "TestDate": branchID });
+function LoadClass(CourseID) {
+    ShowLoader();
+    var postCall = $.post(commonData.BranchClass + "GetClassDDL", { "CourseID": CourseID });
     postCall.done(function (data) {
+        $('#StandardName').empty();
+        $('#StandardName').select2();
+        $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                if (data.length == 1) {
+                    $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
+                    $('#StandardName option[value="' + data[i].Class_dtl_id + '"]').attr("selected", "selected");
+                } else {
+                    $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
+                }
+            }
+        }
 
+        if ($("#BranchClass_Class_dtl_id").val() != "") {
+            $('#StandardName option[value="' + $("#BranchClass_Class_dtl_id").val() + '"]').attr("selected", "selected");
+            LoadSubject($("#BranchClass_Class_dtl_id").val(), CourseID);
+        }
+
+        HideLoader();
+    }).fail(function () {
+        HideLoader();
+    });
+}
+
+function LoadSubject(ClassID, CourseID) {
+    ShowLoader();
+    var postCall = $.post(commonData.BranchSubject + "GetSubjectDDL", { "ClassID": ClassID, "CourseID": CourseID });
+    postCall.done(function (data) {
         $('#SubjectName').empty();
         $('#SubjectName').select2();
-        $("#SubjectName").append("<option value=" + 0 + ">---Select Subject Name---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#SubjectName").append("<option value=" + data[i].SubjectID + "_" + data[i].testID + ">" + data[i].Subject + "</option>");
+        $("#SubjectName").append("<option value=" + 0 + ">---Select Subject---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                if (data.length == 1) {
+                    $("#SubjectName").append("<option value='" + data[i].Subject_dtl_id + "'>" + data[i].Subject.SubjectName + "</option>");
+                    $('#SubjectName option[value="' + data[i].Subject_dtl_id + '"]').attr("selected", "selected");
+                } else {
+                    $("#SubjectName").append("<option value='" + data[i].Subject_dtl_id + "'>" + data[i].Subject.SubjectName + "</option>");
+                }
+            }
         }
-
-        if ($("#SubjectInfo_SubjectID").val() != "") {
-            $('#SubjectName option[value="' + $("#SubjectInfo_SubjectID").val() + '"]').attr("selected", "selected");
+        if ($("#BranchSubject_Subject_dtl_id").val() != "") {
+            $('#SubjectName option[value="' + $("#BranchSubject_Subject_dtl_id").val() + '"]').attr("selected", "selected");
         }
-
+        HideLoader();
     }).fail(function () {
-        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        HideLoader();
+
     });
 }
 
@@ -194,28 +237,54 @@ function UpdateMarks(MarksID, StudentID) {
     }
 }
 
-$("#BranchName").change(function () {
+function clearsubject() {
+    $('#SubjectName').empty();
+    $('#SubjectName').select2();
+    $("#SubjectName").append("<option value=" + 0 + ">---Select Subject---</option>");
+}
 
+function clearclass() {
+    $('#StandardName').empty();
+    $('#StandardName').select2();
+    $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
+}
+
+$("#BranchName").change(function () {
     var Data = $("#BranchName option:selected").val();
     $('#BranchInfo_BranchID').val(Data);
     LoadSubject(Data);
     LoadStandard(Data);
 });
 
+$("#CourseName").change(function () {
+    var Data = $("#CourseName option:selected").val();
+    $('#BranchCourse_course_dtl_id').val(Data);
+    clearclass();
+    clearsubject();
+    LoadClass(Data);
+});
+
 $("#StandardName").change(function () {
     var Data = $("#StandardName option:selected").val();
-    $('#StandardInfo_StandardID').val(Data);
+    $('#BranchClass_Class_dtl_id').val(Data);
+    clearsubject();
+    LoadSubject(Data, $("#CourseName option:selected").val());
 });
 
 $("#SubjectName").change(function () {
     var Data = $("#SubjectName option:selected").val();
-    var SPData = Data.split('_');
-    var sub = SPData[0];
-    var test = SPData[1];
-    $('#SubjectInfo_SubjectID').val(sub);
-    $('#testEntityInfo_TestID').val(test);
-    LoadStudentDetails();
+    $('#BranchSubject_Subject_dtl_id').val(Data);
 });
+
+//$("#SubjectName").change(function () {
+//    var Data = $("#SubjectName option:selected").val();
+//    var SPData = Data.split('_');
+//    var sub = SPData[0];
+//    var test = SPData[1];
+//    $('#SubjectInfo_SubjectID').val(sub);
+//    $('#testEntityInfo_TestID').val(test);
+//    LoadStudentDetails();
+//});
 
 $("#Batchtime").change(function () {
     var Data = $("#Batchtime option:selected").val();

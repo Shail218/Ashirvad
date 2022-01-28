@@ -28,7 +28,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
         public async Task<List<StudentEntity>> GetAllStudentsNameByStandard(long StdID)
         {
             var data = (from u in this.context.STUDENT_MASTER
-                        where u.std_id == StdID
+                        where u.class_dtl_id == StdID
                         select new StudentEntity()
                         {
                             StudentID = u.student_id,
@@ -63,7 +63,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
                             Address = u.address,
                             ContactNo = u.contact_no,
                             FilePath = u.file_path,
-                            StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
+                            BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
                             BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
                         }).FirstOrDefault();
@@ -76,7 +76,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
                         where branchID == 0 || u.branch_id == branchID
-                        && (0 == batchID || u.batch_time == batchID) && u.std_id == stdID && u.row_sta_cd == 1
+                        && (0 == batchID || u.batch_time == batchID) && u.class_dtl_id == stdID && u.row_sta_cd == 1
                         select new StudentEntity()
                         {
                             StudentID = u.student_id,
@@ -84,7 +84,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
                             Address = u.address,
                             ContactNo = u.contact_no,
                             FilePath = u.file_path,
-                            StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
+                            BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
                             BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
                         }).ToList();

@@ -23,10 +23,10 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
             _subject = subject;
         }
 
-        public async Task<long> CheckSubject(string name, long Id)
+        public async Task<long> CheckSubject(string name,long courseid,long classid,long Id)
         {
             long result;
-            bool isExists = this.context.SUBJECT_BRANCH_MASTER.Where(s => (Id == 0 || s.subject_id != Id) && s.subject_name == name && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.SUBJECT_BRANCH_MASTER.Where(s => (Id == 0 || s.subject_id != Id) && s.course_id == courseid && s.class_id == classid && s.subject_name == name && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -34,7 +34,7 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
         public async Task<long> SubjectMaintenance(SuperAdminSubjectEntity subjectEntity)
         {
             Model.SUBJECT_BRANCH_MASTER subjectMaster = new Model.SUBJECT_BRANCH_MASTER();
-            if (CheckSubject(subjectEntity.SubjectName, subjectEntity.SubjectID).Result != -1)
+            if (CheckSubject(subjectEntity.SubjectName, subjectEntity.courseEntity.CourseID,subjectEntity.classEntity.ClassID ,subjectEntity.SubjectID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from subject in this.context.SUBJECT_BRANCH_MASTER

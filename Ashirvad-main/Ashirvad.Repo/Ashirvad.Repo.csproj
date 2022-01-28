@@ -282,9 +282,6 @@
     <Compile Include="Model\SUBJECT_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\sysdiagram.cs">
-      <DependentUpon>Ashirvad.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\TEST_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>

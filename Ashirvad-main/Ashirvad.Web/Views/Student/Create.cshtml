@@ -58,9 +58,9 @@
                     }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
-            </div>
+            </div>            
         </div>
-        <div class="row" style="margin-top:5px;">
+        <div class="row" style="margin-bottom:5px;">
             <div class="col-md-3">
                 @Html.Label("Admission Date", htmlAttributes: new { @class = "control-label" })
                 <div id="datepickeradmission" class="input-group date" data-date-format="dd/mm/yyyy">
@@ -83,11 +83,18 @@
                 </div>
             </div>
             <div class="col-md-3">
+                @Html.Label("Select Course", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="CourseName" id="CourseName" class="form-control requiredDDL" alt="Course">
+                    <option value="0">--Select Course--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchCourse.course_dtl_id)
+            </div>
+            <div class="col-md-3">
                 @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <select name="StandardName" id="StandardName" class="form-control requiredDDL" alt="Standard">
                     <option value="0">--Select Standard--</option>
                 </select>
-                @Html.HiddenFor(x => x.StandardInfo.StandardID)
+                @Html.HiddenFor(x => x.BranchClass.Class_dtl_id)
             </div>
             <div class="col-md-3">
                 @Html.Label("Select School Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -95,7 +102,9 @@
                     <option value="0">--Select School Name--</option>
                 </select>
                 @Html.HiddenFor(x => x.SchoolInfo.SchoolID)
-            </div>
+            </div>           
+        </div>
+        <div class="row">
             <div class="col-md-3">
                 @Html.Label("Time of School", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <select name="SchoolTimeDDL" id="SchoolTimeDDL" class="form-control requiredDDL" alt="School Time">
@@ -105,9 +114,6 @@
                 </select>
                 @Html.HiddenFor(x => x.SchoolTime)
             </div>
-        </div>
-        <br />
-        <div class="row">
             <div class="col-md-3">
                 @Html.Label("Batch Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <select name="BatchTime" id="BatchTime" class="form-control requiredDDL" alt="Batch Time">
@@ -125,7 +131,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <input type="radio" name="rdbResultofLastYear" @*onchange="lastyear(this)"*@ id="rowStaPass" value="1" checked/>
+                                <input type="radio" name="rdbResultofLastYear" @*onchange="lastyear(this)"*@ id="rowStaPass" value="1" checked />
                                 <lable for="rowStaPass">Pass</lable>
                             </td>
                             <td>
@@ -140,16 +146,16 @@
             <div class="col-md-3">
                 @Html.Label("Percentage / Grade", htmlAttributes: new { @class = "control-label" })
                 @Html.TextBoxFor(x => x.Grade, new { @class = "form-control", @alt = "Percentage / Grade", autocomplete = "off" })
-            </div>
+            </div>            
+        </div>
+        <div class="row" style="margin-top: 5px;">
             <div class="col-md-3">
                 @Html.Label("Class Name of Last Year", htmlAttributes: new { @class = "control-label" })
                 @Html.TextBoxFor(x => x.LastYearClassName, new { @class = "form-control", @alt = "Class Name of Last Year", autocomplete = "off" })
             </div>
-        </div>
-        <div class="row" style="margin-top: 5px;">
             <div class="col-md-3">
                 @Html.Label("Contact No / Admission Form No", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.ContactNo, new { @class = "form-control required mobile", @alt = "ContactNo", autocomplete = "off", type="number",@onchange= "CheckMobileno(this);" })
+                @Html.TextBoxFor(x => x.ContactNo, new { @class = "form-control required mobile", @alt = "ContactNo", autocomplete = "off", type = "number", @onchange = "CheckMobileno(this);" })
             </div>
             <div class="col-md-3">
                 @Html.Label("Father's Occupation", htmlAttributes: new { @class = "control-label" })
@@ -158,14 +164,16 @@
             <div class="col-md-3">
                 @Html.Label("Mother's Occupation", htmlAttributes: new { @class = "control-label" })
                 @Html.TextBoxFor(x => x.StudentMaint.MotherOccupation, new { @class = "form-control", @alt = "Mother's Occupation", autocomplete = "off" })
-            </div>
+            </div>            
+        </div>
+        <div class="row">  
             <div class="col-md-3">
                 @Html.Label("Status", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
                 <table id="rdbResult" class="radioboxlist form-control">
                     <tbody>
                         <tr>
                             <td>
-                                <input type="radio" name="Status" id="rowStaActive" value="1" checked/>
+                                <input type="radio" name="Status" id="rowStaActive" value="1" checked />
                                 <lable for="rowStaActive">Active</lable>
                             </td>
                             <td>
@@ -177,8 +185,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="row">          
             <div class="col-md-6">
                 @Html.Label("Address", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 @Html.TextBoxFor(x => x.Address, new { @class = "form-control required", @alt = "Address", autocomplete = "off" })

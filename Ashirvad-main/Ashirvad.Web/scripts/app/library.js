@@ -202,10 +202,7 @@ $(document).ready(function () {
         $("#SubjectName").addClass("editForm");
         $("#StandardName").addClass("editForm");
         $("#Type").val(1);
-    }
-
-
-   
+    }  
 
 });
 

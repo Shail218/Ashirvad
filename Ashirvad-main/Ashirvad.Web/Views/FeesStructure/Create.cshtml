@@ -20,18 +20,25 @@
         }
         else
         {
-            <div class="col-md-12" style="margin-bottom: 9px">
+            <div class="col-md-6" style="margin-bottom: 9px">
+                @Html.Label("Select Course", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="CourseName" id="CourseName" class="form-control requiredDDL select2" alt="Course">
+                    <option value="0">--Select Course--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchCourse.course_dtl_id)
+            </div>
+            <div class="col-md-6" style="margin-bottom: 9px">
                 @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
                     <option value="0">--Select Standard--</option>
                 </select>
-                @Html.HiddenFor(x => x.standardInfo.StandardID)
+                @Html.HiddenFor(x => x.BranchClass.Class_dtl_id)
                 @Html.HiddenFor(x => x.BranchInfo.BranchID)
             </div>
         }
         <div class="col-md-12" style="margin-bottom: 12px">
             @Html.Label("Uploaded Structure Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            <input class="file-upload fileRequired" alt="Image" id="fuFeeImage" name="ImageFile" type="file" accept="image/*"/>
+            <input class="file-upload fileRequired" alt="Image" id="fuFeeImage" name="ImageFile" type="file" accept="image/*" />
             @Html.HiddenFor(x => x.FileName)
             @Html.HiddenFor(x => x.FilePath)
             @Html.HiddenFor(x => x.FeesDetailID)

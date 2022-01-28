@@ -41,14 +41,23 @@
             </div>
             <div class="form-group">
                 <div class="col-md-6">
+                    @Html.Label("Select Course", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                    <select name="CourseName" id="CourseName" class="form-control requiredDDL select2" alt="Course">
+                        <option value="0">--Select Course--</option>
+                    </select>
+                    @Html.HiddenFor(x => x.BranchCourse.course_dtl_id)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
                     @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                     <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
                         <option value="0">--Select Standard--</option>
                     </select>
-                    @Html.HiddenFor(x => x.StandardID)
+                    @Html.HiddenFor(x => x.BranchClass.Class_dtl_id)
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 @Html.Label("Title", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 @Html.TextBoxFor(x => x.Title, new { @class = "form-control required", @alt = "Title", autocomplete = "off" })
             </div>
@@ -57,20 +66,20 @@
                 @Html.TextBoxFor(x => x.LinkURL, new { @class = "form-control required", @alt = "Video URL", autocomplete = "off" })
             </div>
         }
-            <div class="col-md-12 YoutubeVideosCreate" style="text-align: right;">
-                <a href="#" onclick="return SaveYoutube();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
-                    <span class="ladda-label">
-                        Save
-                    </span>
-                    <span class="ladda-spinner"></span>
-                </a>
-                <a href="@Url.Action("YoutubeMaintenance","Youtube", new { @linkID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
-                    <span class="ladda-label">
-                        Cancel
-                    </span>
-                    <span class="ladda-spinner"></span>
-                </a>
+        <div class="col-md-12 YoutubeVideosCreate" style="text-align: right;">
+            <a href="#" onclick="return SaveYoutube();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                <span class="ladda-label">
+                    Save
+                </span>
+                <span class="ladda-spinner"></span>
+            </a>
+            <a href="@Url.Action("YoutubeMaintenance","Youtube", new { @linkID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                <span class="ladda-label">
+                    Cancel
+                </span>
+                <span class="ladda-spinner"></span>
+            </a>
 
-            </div>
+        </div>
     </div>
 </form>

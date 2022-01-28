@@ -71,11 +71,12 @@
           </Key>
           <Property Name="attendance_hdr_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="branch_id" Type="bigint" Nullable="false" />
-          <Property Name="std_id" Type="bigint" Nullable="false" />
           <Property Name="batch_time_type" Type="int" Nullable="false" />
           <Property Name="attendance_dt" Type="datetime" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="course_dtl_id" Type="bigint" />
+          <Property Name="class_dtl_id" Type="bigint" />
         </EntityType>
         <EntityType Name="BANNER_MASTER">
           <Key>
@@ -103,13 +104,14 @@
           </Key>
           <Property Name="batch_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="branch_id" Type="bigint" Nullable="false" />
-          <Property Name="std_id" Type="bigint" Nullable="false" />
           <Property Name="batch_time" Type="int" Nullable="false" />
           <Property Name="mon_fri_batch_time" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="sat_batch_time" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="sun_batch_time" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="class_dtl_id" Type="bigint" />
+          <Property Name="course_dtl_id" Type="bigint" />
         </EntityType>
         <EntityType Name="BRANCH_AGREEMENT">
           <Key>
@@ -570,7 +572,6 @@
           <Property Name="dob" Type="datetime" />
           <Property Name="address" Type="nvarchar(max)" Nullable="false" />
           <Property Name="branch_id" Type="bigint" Nullable="false" />
-          <Property Name="std_id" Type="bigint" Nullable="false" />
           <Property Name="school_id" Type="bigint" />
           <Property Name="school_time" Type="int" />
           <Property Name="batch_time" Type="int" Nullable="false" />
@@ -583,6 +584,8 @@
           <Property Name="file_path" Type="varchar(max)" />
           <Property Name="file_name" Type="nvarchar(max)" />
           <Property Name="admission_date" Type="datetime" />
+          <Property Name="course_dtl_id" Type="bigint" />
+          <Property Name="class_dtl_id" Type="bigint" />
         </EntityType>
         <EntityType Name="STUDENT_PAYMENT_MASTER">
           <Key>
@@ -645,16 +648,6 @@
           <Property Name="subject_dtl_id" Type="bigint" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TEST_MASTER">
           <Key>
@@ -783,7 +776,7 @@
           <Property Name="has_priv" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Faculty">
           <Key>
             <PropertyRef Name="name" />
@@ -897,15 +890,39 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ATTENDANCE_HDR_STD_MASTER">
-          <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
+        <Association Name="FK_ATTENDANCE_HDR_CLASS_DTL_MASTER">
+          <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
           <End Role="ATTENDANCE_HDR" Type="Self.ATTENDANCE_HDR" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="STD_MASTER">
-              <PropertyRef Name="std_id" />
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
             </Principal>
             <Dependent Role="ATTENDANCE_HDR">
-              <PropertyRef Name="std_id" />
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ATTENDANCE_HDR_COURSE_DTL_MASTER">
+          <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Role="ATTENDANCE_HDR" Type="Self.ATTENDANCE_HDR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="ATTENDANCE_HDR">
+              <PropertyRef Name="course_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ATTENDANCE_HDR_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="ATTENDANCE_HDR" Type="Self.ATTENDANCE_HDR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="ATTENDANCE_HDR">
+              <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -933,15 +950,27 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BATCH_MASTER_STD_MASTER">
-          <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
+        <Association Name="FK_BATCH_MASTER_CLASS_DTL_MASTER">
+          <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
           <End Role="BATCH_MASTER" Type="Self.BATCH_MASTER" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="STD_MASTER">
-              <PropertyRef Name="std_id" />
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
             </Principal>
             <Dependent Role="BATCH_MASTER">
-              <PropertyRef Name="std_id" />
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BATCH_MASTER_COURSE_DTL_MASTER">
+          <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Role="BATCH_MASTER" Type="Self.BATCH_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="BATCH_MASTER">
+              <PropertyRef Name="course_dtl_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1831,6 +1860,30 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_STUDENT_MASTER_CLASS_DTL_MASTER">
+          <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
+          <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Principal>
+            <Dependent Role="STUDENT_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_MASTER_COURSE_DTL_MASTER">
+          <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="STUDENT_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_STUDENT_MASTER_SCHOOL_MASTER">
           <End Role="SCHOOL_MASTER" Type="Self.SCHOOL_MASTER" Multiplicity="0..1" />
           <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="*" />
@@ -1840,18 +1893,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             </Principal>
             <Dependent Role="STUDENT_MASTER">
               <PropertyRef Name="school_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_STUDENT_MASTER_STD_MASTER">
-          <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
-          <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STD_MASTER">
-              <PropertyRef Name="std_id" />
-            </Principal>
-            <Dependent Role="STUDENT_MASTER">
-              <PropertyRef Name="std_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2243,7 +2284,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="getfacultydetailbybranch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="classID" Type="bigint" Mode="In" />
           <Parameter Name="courseID" Type="bigint" Mode="In" />
@@ -2254,36 +2294,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <Parameter Name="courseID" Type="bigint" Mode="In" />
           <Parameter Name="subjectID" Type="bigint" Mode="In" />
         </Function>
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="AshirvadModelStoreContainer">
           <EntitySet Name="ABOUTUS_DETAIL_REL" EntityType="Self.ABOUTUS_DETAIL_REL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ABOUTUS_MASTER" EntityType="Self.ABOUTUS_MASTER" Schema="dbo" store:Type="Tables" />
@@ -2335,7 +2345,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <EntitySet Name="SUBJECT_BRANCH_MASTER" EntityType="Self.SUBJECT_BRANCH_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SUBJECT_DTL_MASTER" EntityType="Self.SUBJECT_DTL_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SUBJECT_MASTER" EntityType="Self.SUBJECT_MASTER" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TEST_MASTER" EntityType="Self.TEST_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TEST_MASTER_DTL" EntityType="Self.TEST_MASTER_DTL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TEST_PAPER_REL" EntityType="Self.TEST_PAPER_REL" Schema="dbo" store:Type="Tables" />
@@ -2389,8 +2398,16 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
           </AssociationSet>
-          <AssociationSet Name="FK_ATTENDANCE_HDR_STD_MASTER" Association="Self.FK_ATTENDANCE_HDR_STD_MASTER">
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+          <AssociationSet Name="FK_ATTENDANCE_HDR_CLASS_DTL_MASTER" Association="Self.FK_ATTENDANCE_HDR_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ATTENDANCE_HDR_COURSE_DTL_MASTER" Association="Self.FK_ATTENDANCE_HDR_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+            <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ATTENDANCE_HDR_TRANSACTION_MASTER" Association="Self.FK_ATTENDANCE_HDR_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
           </AssociationSet>
           <AssociationSet Name="FK_BANNER_TYPE_REL_BANNER_MASTER" Association="Self.FK_BANNER_TYPE_REL_BANNER_MASTER">
@@ -2401,8 +2418,12 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
           </AssociationSet>
-          <AssociationSet Name="FK_BATCH_MASTER_STD_MASTER" Association="Self.FK_BATCH_MASTER_STD_MASTER">
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+          <AssociationSet Name="FK_BATCH_MASTER_CLASS_DTL_MASTER" Association="Self.FK_BATCH_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BATCH_MASTER_COURSE_DTL_MASTER" Association="Self.FK_BATCH_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
             <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_BATCH_MASTER_TRANSACTION_MASTER" Association="Self.FK_BATCH_MASTER_TRANSACTION_MASTER">
@@ -2693,12 +2714,16 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
           </AssociationSet>
-          <AssociationSet Name="FK_STUDENT_MASTER_SCHOOL_MASTER" Association="Self.FK_STUDENT_MASTER_SCHOOL_MASTER">
-            <End Role="SCHOOL_MASTER" EntitySet="SCHOOL_MASTER" />
+          <AssociationSet Name="FK_STUDENT_MASTER_CLASS_DTL_MASTER" Association="Self.FK_STUDENT_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
             <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
           </AssociationSet>
-          <AssociationSet Name="FK_STUDENT_MASTER_STD_MASTER" Association="Self.FK_STUDENT_MASTER_STD_MASTER">
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+          <AssociationSet Name="FK_STUDENT_MASTER_COURSE_DTL_MASTER" Association="Self.FK_STUDENT_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_MASTER_SCHOOL_MASTER" Association="Self.FK_STUDENT_MASTER_SCHOOL_MASTER">
+            <End Role="SCHOOL_MASTER" EntitySet="SCHOOL_MASTER" />
             <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_STUDENT_MASTER_TRANSACTION_MASTER" Association="Self.FK_STUDENT_MASTER_TRANSACTION_MASTER">
@@ -2836,7 +2861,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
       <Schema Namespace="AshirvadModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="AshirvadDBEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="BANNER_TYPE_REL" EntityType="AshirvadModel.BANNER_TYPE_REL" />
-          <EntitySet Name="BATCH_MASTER" EntityType="AshirvadModel.BATCH_MASTER" />
           <EntitySet Name="BRANCH_LICENSE" EntityType="AshirvadModel.BRANCH_LICENSE" />
           <EntitySet Name="NOTIFICATION_TYPE_REL" EntityType="AshirvadModel.NOTIFICATION_TYPE_REL" />
           <EntitySet Name="SCHOOL_MASTER" EntityType="AshirvadModel.SCHOOL_MASTER" />
@@ -2845,10 +2869,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <EntitySet Name="TYPE_DESC" EntityType="AshirvadModel.TYPE_DESC" />
           <EntitySet Name="USER_DEF" EntityType="AshirvadModel.USER_DEF" />
           <EntitySet Name="USER_ROLE" EntityType="AshirvadModel.USER_ROLE" />
-          <AssociationSet Name="FK_BATCH_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER">
-            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
-            <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_BRANCH_LICENSE_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BRANCH_LICENSE" EntitySet="BRANCH_LICENSE" />
@@ -2867,13 +2887,7 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           </AssociationSet>
           <EntitySet Name="LINK_MASTER" EntityType="AshirvadModel.LINK_MASTER" />
           <EntitySet Name="PRACTICE_PAPER" EntityType="AshirvadModel.PRACTICE_PAPER" />
-          <EntitySet Name="sysdiagrams" EntityType="AshirvadModel.sysdiagram" />
           <EntitySet Name="ATTENDANCE_DTL" EntityType="AshirvadModel.ATTENDANCE_DTL" />
-          <EntitySet Name="ATTENDANCE_HDR" EntityType="AshirvadModel.ATTENDANCE_HDR" />
-          <AssociationSet Name="FK_ATTENDANCE_DTL_ATTENDANCE_HDR" Association="AshirvadModel.FK_ATTENDANCE_DTL_ATTENDANCE_HDR">
-            <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
-            <End Role="ATTENDANCE_DTL" EntitySet="ATTENDANCE_DTL" />
-          </AssociationSet>
           <EntitySet Name="TEST_MASTER" EntityType="AshirvadModel.TEST_MASTER" />
           <EntitySet Name="REMINDER_MASTER" EntityType="AshirvadModel.REMINDER_MASTER" />
           <FunctionImport Name="sp_alterdiagram">
@@ -3023,14 +3037,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="ABOUTUS_DETAIL_REL" EntitySet="ABOUTUS_DETAIL_REL" />
           </AssociationSet>
-          <AssociationSet Name="FK_ATTENDANCE_HDR_BRANCH_MASTER" Association="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BATCH_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_BRANCH_AGREEMENT_BRANCH_MASTER" Association="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="BRANCH_AGREEMENT" EntitySet="BRANCH_AGREEMENT" />
@@ -3164,14 +3170,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
           </AssociationSet>
           <EntitySet Name="STD_MASTER" EntityType="AshirvadModel.STD_MASTER" />
-          <AssociationSet Name="FK_ATTENDANCE_HDR_STD_MASTER" Association="AshirvadModel.FK_ATTENDANCE_HDR_STD_MASTER">
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
-            <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BATCH_MASTER_STD_MASTER" Association="AshirvadModel.FK_BATCH_MASTER_STD_MASTER">
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
-            <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_STD_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_STD_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="STD_MASTER" EntitySet="STD_MASTER" />
@@ -3321,43 +3319,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
             <End Role="LIBRARY_MASTER" EntitySet="LIBRARY_MASTER" />
           </AssociationSet>
-          <EntitySet Name="STUDENT_MASTER" EntityType="AshirvadModel.STUDENT_MASTER" />
-          <AssociationSet Name="FK_STUDENT_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER">
-            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
-            <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MARKS_MASTER_STUDENT_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER">
-            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
-            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_STUDENT_MASTER_SCHOOL_MASTER" Association="AshirvadModel.FK_STUDENT_MASTER_SCHOOL_MASTER">
-            <End Role="SCHOOL_MASTER" EntitySet="SCHOOL_MASTER" />
-            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_STUDENT_MASTER_STD_MASTER" Association="AshirvadModel.FK_STUDENT_MASTER_STD_MASTER">
-            <End Role="STD_MASTER" EntitySet="STD_MASTER" />
-            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_STUDENT_ANS_SHEET_STUDENT_MASTER" Association="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER">
-            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
-            <End Role="STUDENT_ANS_SHEET" EntitySet="STUDENT_ANS_SHEET" />
-          </AssociationSet>
-          <AssociationSet Name="FK_STUDENT_MAINT_STUDENT_MASTER" Association="AshirvadModel.FK_STUDENT_MAINT_STUDENT_MASTER">
-            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
-            <End Role="STUDENT_MAINT" EntitySet="STUDENT_MAINT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_STUDENT_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER">
-            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
-            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Test_MASTER_DTL_STUDENT_MASTER" Association="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER">
-            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
-            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
-          </AssociationSet>
           <EntitySet Name="ABOUTUS_MASTER" EntityType="AshirvadModel.ABOUTUS_MASTER" />
           <AssociationSet Name="FK_ABOUTUS_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
@@ -3429,6 +3390,85 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             <End Role="SUBJECT_BRANCH_MASTER" EntitySet="SUBJECT_BRANCH_MASTER" />
             <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
           </AssociationSet>
+          <EntitySet Name="BATCH_MASTER" EntityType="AshirvadModel.BATCH_MASTER" />
+          <EntitySet Name="STUDENT_MASTER" EntityType="AshirvadModel.STUDENT_MASTER" />
+          <AssociationSet Name="FK_BATCH_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BATCH_MASTER_CLASS_DTL_MASTER" Association="AshirvadModel.FK_BATCH_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BATCH_MASTER_COURSE_DTL_MASTER" Association="AshirvadModel.FK_BATCH_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+            <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BATCH_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_MASTER_CLASS_DTL_MASTER" Association="AshirvadModel.FK_STUDENT_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_MASTER_COURSE_DTL_MASTER" Association="AshirvadModel.FK_STUDENT_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER">
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+            <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARKS_MASTER_STUDENT_MASTER" Association="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER">
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+            <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_MASTER_SCHOOL_MASTER" Association="AshirvadModel.FK_STUDENT_MASTER_SCHOOL_MASTER">
+            <End Role="SCHOOL_MASTER" EntitySet="SCHOOL_MASTER" />
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_ANS_SHEET_STUDENT_MASTER" Association="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER">
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+            <End Role="STUDENT_ANS_SHEET" EntitySet="STUDENT_ANS_SHEET" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_MAINT_STUDENT_MASTER" Association="AshirvadModel.FK_STUDENT_MAINT_STUDENT_MASTER">
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+            <End Role="STUDENT_MAINT" EntitySet="STUDENT_MAINT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STUDENT_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_MASTER_DTL_STUDENT_MASTER" Association="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER">
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+            <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+          </AssociationSet>
+          <EntitySet Name="ATTENDANCE_HDR" EntityType="AshirvadModel.ATTENDANCE_HDR" />
+          <AssociationSet Name="FK_ATTENDANCE_DTL_ATTENDANCE_HDR" Association="AshirvadModel.FK_ATTENDANCE_DTL_ATTENDANCE_HDR">
+            <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
+            <End Role="ATTENDANCE_DTL" EntitySet="ATTENDANCE_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ATTENDANCE_HDR_BRANCH_MASTER" Association="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ATTENDANCE_HDR_CLASS_DTL_MASTER" Association="AshirvadModel.FK_ATTENDANCE_HDR_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ATTENDANCE_HDR_COURSE_DTL_MASTER" Association="AshirvadModel.FK_ATTENDANCE_HDR_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+            <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ATTENDANCE_HDR_TRANSACTION_MASTER" Association="AshirvadModel.FK_ATTENDANCE_HDR_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_TYPE_REL">
           <Key>
@@ -3438,23 +3478,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <Property Name="sub_type_id" Type="Int32" Nullable="false" />
           <Property Name="banner_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="BANNER_MASTER" Relationship="AshirvadModel.FK_BANNER_TYPE_REL_BANNER_MASTER" FromRole="BANNER_TYPE_REL" ToRole="BANNER_MASTER" />
-        </EntityType>
-        <EntityType Name="BATCH_MASTER">
-          <Key>
-            <PropertyRef Name="batch_id" />
-          </Key>
-          <Property Name="batch_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="branch_id" Type="Int64" Nullable="false" />
-          <Property Name="std_id" Type="Int64" Nullable="false" />
-          <Property Name="batch_time" Type="Int32" Nullable="false" />
-          <Property Name="mon_fri_batch_time" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="sat_batch_time" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="sun_batch_time" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER" FromRole="BATCH_MASTER" ToRole="TRANSACTION_MASTER" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" FromRole="BATCH_MASTER" ToRole="BRANCH_MASTER" />
-          <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_STD_MASTER" FromRole="BATCH_MASTER" ToRole="STD_MASTER" />
         </EntityType>
         <EntityType Name="BRANCH_LICENSE">
           <Key>
@@ -3513,7 +3536,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <Property Name="last_mod_dt" Type="DateTime" Precision="3" />
           <Property Name="last_mod_by" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="last_mod_id" Type="Int64" />
-          <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BATCH_MASTER" />
           <NavigationProperty Name="BRANCH_LICENSE" Relationship="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_LICENSE" />
           <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_SCHOOL_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="SCHOOL_MASTER" />
           <NavigationProperty Name="USER_DEF" Relationship="AshirvadModel.FK_USER_DEF_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="USER_DEF" />
@@ -3540,10 +3562,12 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="FACULTY_MASTER" />
           <NavigationProperty Name="NEW_LIBRARY_MASTER" Relationship="AshirvadModel.FK_NEW_LIBRARY_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="NEW_LIBRARY_MASTER" />
           <NavigationProperty Name="APPROVAL_MASTER" Relationship="AshirvadModel.FK_APPROVAL_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="APPROVAL_MASTER" />
-          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="CIRCULAR_MASTER" Relationship="AshirvadModel.FK_CIRCULAR_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="CIRCULAR_MASTER" />
           <NavigationProperty Name="CLASS_MASTER" Relationship="AshirvadModel.FK_CLASS_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="CLASS_MASTER" />
           <NavigationProperty Name="SUBJECT_BRANCH_MASTER" Relationship="AshirvadModel.FK_SUBJECT_BRANCH_MASTER_TRANSACTION_MASTER1" FromRole="TRANSACTION_MASTER" ToRole="SUBJECT_BRANCH_MASTER" />
+          <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BATCH_MASTER" />
+          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="ATTENDANCE_HDR" />
         </EntityType>
         <EntityType Name="TYPE_DESC">
           <Key>
@@ -3586,18 +3610,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <Property Name="has_priv" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="USER_DEF" Relationship="AshirvadModel.FK_USER_ROLE_USER_DEF" FromRole="USER_ROLE" ToRole="USER_DEF" />
         </EntityType>
-        <Association Name="FK_BATCH_MASTER_TRANSACTION_MASTER">
-          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.BATCH_MASTER" Role="BATCH_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TRANSACTION_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Principal>
-            <Dependent Role="BATCH_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_BRANCH_LICENSE_TRANSACTION_MASTER">
           <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.BRANCH_LICENSE" Role="BRANCH_LICENSE" Multiplicity="*" />
@@ -3679,16 +3691,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_PRACTICE_PAPER_STD_MASTER" FromRole="PRACTICE_PAPER" ToRole="STD_MASTER" />
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_PRACTICE_PAPER_SUBJECT_MASTER" FromRole="PRACTICE_PAPER" ToRole="SUBJECT_MASTER" />
         </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="ATTENDANCE_DTL">
           <Key>
             <PropertyRef Name="attd_dtl_id" />
@@ -3701,33 +3703,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_DTL_ATTENDANCE_HDR" FromRole="ATTENDANCE_DTL" ToRole="ATTENDANCE_HDR" />
         </EntityType>
-        <EntityType Name="ATTENDANCE_HDR">
-          <Key>
-            <PropertyRef Name="attendance_hdr_id" />
-          </Key>
-          <Property Name="attendance_hdr_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="branch_id" Type="Int64" Nullable="false" />
-          <Property Name="std_id" Type="Int64" Nullable="false" />
-          <Property Name="batch_time_type" Type="Int32" Nullable="false" />
-          <Property Name="attendance_dt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ATTENDANCE_DTL" Relationship="AshirvadModel.FK_ATTENDANCE_DTL_ATTENDANCE_HDR" FromRole="ATTENDANCE_HDR" ToRole="ATTENDANCE_DTL" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER" FromRole="ATTENDANCE_HDR" ToRole="BRANCH_MASTER" />
-          <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_STD_MASTER" FromRole="ATTENDANCE_HDR" ToRole="STD_MASTER" />
-        </EntityType>
-        <Association Name="FK_ATTENDANCE_DTL_ATTENDANCE_HDR">
-          <End Type="AshirvadModel.ATTENDANCE_HDR" Role="ATTENDANCE_HDR" Multiplicity="1" />
-          <End Type="AshirvadModel.ATTENDANCE_DTL" Role="ATTENDANCE_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ATTENDANCE_HDR">
-              <PropertyRef Name="attendance_hdr_id" />
-            </Principal>
-            <Dependent Role="ATTENDANCE_DTL">
-              <PropertyRef Name="attd_hdr_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="TEST_MASTER">
           <Key>
             <PropertyRef Name="test_id" />
@@ -4364,8 +4339,8 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <Property Name="submit_dt" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="BRANCH_MASTER" />
-          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="HOMEWORK_MASTER" />
+          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" FromRole="HOMEWORK_MASTER_DTL" ToRole="STUDENT_MASTER" />
         </EntityType>
         <Association Name="FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER">
           <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
@@ -4394,8 +4369,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <Property Name="branch_type" Type="Int32" Nullable="false" />
           <Property Name="board_type" Type="Int32" />
           <NavigationProperty Name="ABOUTUS_DETAIL_REL" Relationship="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" FromRole="BRANCH_MASTER" ToRole="ABOUTUS_DETAIL_REL" />
-          <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="ATTENDANCE_HDR" />
-          <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BATCH_MASTER" />
           <NavigationProperty Name="BRANCH_AGREEMENT" Relationship="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_AGREEMENT" />
           <NavigationProperty Name="BRANCH_LICENSE" Relationship="AshirvadModel.FK_BRANCH_LICENSE_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_LICENSE" />
           <NavigationProperty Name="BRANCH_MAINT" Relationship="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_MAINT" />
@@ -4427,9 +4400,11 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="FACULTY_MASTER" />
           <NavigationProperty Name="NEW_LIBRARY_MASTER" Relationship="AshirvadModel.FK_NEW_LIBRARY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="NEW_LIBRARY_MASTER" />
           <NavigationProperty Name="APPROVAL_MASTER" Relationship="AshirvadModel.FK_APPROVAL_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="APPROVAL_MASTER" />
-          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="ABOUTUS_MASTER" Relationship="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="ABOUTUS_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="HOMEWORK_MASTER" />
+          <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BATCH_MASTER" />
+          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="ATTENDANCE_HDR" />
         </EntityType>
         <EntityType Name="BRANCH_STAFF">
           <Key>
@@ -4462,30 +4437,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
               <PropertyRef Name="branch_id" />
             </Principal>
             <Dependent Role="ABOUTUS_DETAIL_REL">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ATTENDANCE_HDR_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.ATTENDANCE_HDR" Role="ATTENDANCE_HDR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="ATTENDANCE_HDR">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BATCH_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.BATCH_MASTER" Role="BATCH_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="BATCH_MASTER">
               <PropertyRef Name="branch_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -4829,6 +4780,9 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <NavigationProperty Name="COURSE_DTL_MASTER" Relationship="AshirvadModel.FK_CLASS_DTL_MASTER_COURSE_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="COURSE_DTL_MASTER" />
           <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="FACULTY_MASTER" />
           <NavigationProperty Name="CLASS_MASTER" Relationship="AshirvadModel.FK_CLASS_DTL_MASTER_CLASS_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="CLASS_MASTER" />
+          <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="BATCH_MASTER" />
+          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="ATTENDANCE_HDR" />
         </EntityType>
         <Association Name="FK_CLASS_DTL_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -4969,8 +4923,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <Property Name="class_dtl_id" Type="Int64" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_STD_MASTER" FromRole="STD_MASTER" ToRole="ATTENDANCE_HDR" />
-          <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="BATCH_MASTER" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_BRANCH_MASTER" FromRole="STD_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="CLASS_DTL_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_CLASS_DTL_MASTER" FromRole="STD_MASTER" ToRole="CLASS_DTL_MASTER" />
           <NavigationProperty Name="FEE_STRUCTURE_MASTER" Relationship="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="FEE_STRUCTURE_MASTER" />
@@ -4979,33 +4931,8 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_TRANSACTION_MASTER" FromRole="STD_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="TEST_MASTER" Relationship="AshirvadModel.FK_TEST_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="TEST_MASTER" />
           <NavigationProperty Name="LIBRARY_STD_MASTER" Relationship="AshirvadModel.FK_LIBRARY_STD_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="LIBRARY_STD_MASTER" />
-          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_STD_MASTER" FromRole="STD_MASTER" ToRole="HOMEWORK_MASTER" />
         </EntityType>
-        <Association Name="FK_ATTENDANCE_HDR_STD_MASTER">
-          <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.ATTENDANCE_HDR" Role="ATTENDANCE_HDR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STD_MASTER">
-              <PropertyRef Name="std_id" />
-            </Principal>
-            <Dependent Role="ATTENDANCE_HDR">
-              <PropertyRef Name="std_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BATCH_MASTER_STD_MASTER">
-          <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.BATCH_MASTER" Role="BATCH_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STD_MASTER">
-              <PropertyRef Name="std_id" />
-            </Principal>
-            <Dependent Role="BATCH_MASTER">
-              <PropertyRef Name="std_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_STD_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="*" />
@@ -5106,6 +5033,9 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_COURSE_DTL_MASTER_TRANSACTION_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="SUBJECT_DTL_MASTER" Relationship="AshirvadModel.FK_SUBJECT_DTL_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="SUBJECT_DTL_MASTER" />
           <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="FACULTY_MASTER" />
+          <NavigationProperty Name="BATCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="BATCH_MASTER" />
+          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="ATTENDANCE_HDR" />
         </EntityType>
         <Association Name="FK_COURSE_DTL_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -5558,149 +5488,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="STUDENT_MASTER">
-          <Key>
-            <PropertyRef Name="student_id" />
-          </Key>
-          <Property Name="student_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="gr_no" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="first_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="middle_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="last_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="dob" Type="DateTime" Precision="3" />
-          <Property Name="address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="branch_id" Type="Int64" Nullable="false" />
-          <Property Name="std_id" Type="Int64" Nullable="false" />
-          <Property Name="school_id" Type="Int64" />
-          <Property Name="school_time" Type="Int32" />
-          <Property Name="batch_time" Type="Int32" Nullable="false" />
-          <Property Name="last_yr_result" Type="Int32" />
-          <Property Name="grade" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="last_yr_class_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="contact_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="admission_date" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" FromRole="STUDENT_MASTER" ToRole="BRANCH_MASTER" />
-          <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
-          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="MARKS_MASTER" />
-          <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_SCHOOL_MASTER" FromRole="STUDENT_MASTER" ToRole="SCHOOL_MASTER" />
-          <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_STD_MASTER" FromRole="STUDENT_MASTER" ToRole="STD_MASTER" />
-          <NavigationProperty Name="STUDENT_ANS_SHEET" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="STUDENT_ANS_SHEET" />
-          <NavigationProperty Name="STUDENT_MAINT" Relationship="AshirvadModel.FK_STUDENT_MAINT_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="STUDENT_MAINT" />
-          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="STUDENT_MASTER" ToRole="TRANSACTION_MASTER" />
-          <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="TEST_MASTER_DTL" />
-        </EntityType>
-        <Association Name="FK_STUDENT_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="STUDENT_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER">
-          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.HOMEWORK_MASTER_DTL" Role="HOMEWORK_MASTER_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STUDENT_MASTER">
-              <PropertyRef Name="student_id" />
-            </Principal>
-            <Dependent Role="HOMEWORK_MASTER_DTL">
-              <PropertyRef Name="stud_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MARKS_MASTER_STUDENT_MASTER">
-          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STUDENT_MASTER">
-              <PropertyRef Name="student_id" />
-            </Principal>
-            <Dependent Role="MARKS_MASTER">
-              <PropertyRef Name="student_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_STUDENT_MASTER_SCHOOL_MASTER">
-          <End Type="AshirvadModel.SCHOOL_MASTER" Role="SCHOOL_MASTER" Multiplicity="0..1" />
-          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SCHOOL_MASTER">
-              <PropertyRef Name="school_id" />
-            </Principal>
-            <Dependent Role="STUDENT_MASTER">
-              <PropertyRef Name="school_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_STUDENT_MASTER_STD_MASTER">
-          <End Type="AshirvadModel.STD_MASTER" Role="STD_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STD_MASTER">
-              <PropertyRef Name="std_id" />
-            </Principal>
-            <Dependent Role="STUDENT_MASTER">
-              <PropertyRef Name="std_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_STUDENT_ANS_SHEET_STUDENT_MASTER">
-          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.STUDENT_ANS_SHEET" Role="STUDENT_ANS_SHEET" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STUDENT_MASTER">
-              <PropertyRef Name="student_id" />
-            </Principal>
-            <Dependent Role="STUDENT_ANS_SHEET">
-              <PropertyRef Name="stud_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_STUDENT_MAINT_STUDENT_MASTER">
-          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.STUDENT_MAINT" Role="STUDENT_MAINT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STUDENT_MASTER">
-              <PropertyRef Name="student_id" />
-            </Principal>
-            <Dependent Role="STUDENT_MAINT">
-              <PropertyRef Name="student_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_STUDENT_MASTER_TRANSACTION_MASTER">
-          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TRANSACTION_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Principal>
-            <Dependent Role="STUDENT_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Test_MASTER_DTL_STUDENT_MASTER">
-          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.TEST_MASTER_DTL" Role="TEST_MASTER_DTL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STUDENT_MASTER">
-              <PropertyRef Name="student_id" />
-            </Principal>
-            <Dependent Role="TEST_MASTER_DTL">
-              <PropertyRef Name="stud_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ABOUTUS_MASTER">
           <Key>
             <PropertyRef Name="aboutus_id" />
@@ -6017,6 +5804,308 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BATCH_MASTER">
+          <Key>
+            <PropertyRef Name="batch_id" />
+          </Key>
+          <Property Name="batch_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="batch_time" Type="Int32" Nullable="false" />
+          <Property Name="mon_fri_batch_time" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sat_batch_time" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sun_batch_time" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="class_dtl_id" Type="Int64" />
+          <Property Name="course_dtl_id" Type="Int64" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" FromRole="BATCH_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="CLASS_DTL_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_CLASS_DTL_MASTER" FromRole="BATCH_MASTER" ToRole="CLASS_DTL_MASTER" />
+          <NavigationProperty Name="COURSE_DTL_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_COURSE_DTL_MASTER" FromRole="BATCH_MASTER" ToRole="COURSE_DTL_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER" FromRole="BATCH_MASTER" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <EntityType Name="STUDENT_MASTER">
+          <Key>
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="student_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="gr_no" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="first_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="middle_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="last_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dob" Type="DateTime" Precision="3" />
+          <Property Name="address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="school_id" Type="Int64" />
+          <Property Name="school_time" Type="Int32" />
+          <Property Name="batch_time" Type="Int32" Nullable="false" />
+          <Property Name="last_yr_result" Type="Int32" />
+          <Property Name="grade" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="last_yr_class_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="contact_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="file_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="admission_date" Type="DateTime" Precision="3" />
+          <Property Name="course_dtl_id" Type="Int64" />
+          <Property Name="class_dtl_id" Type="Int64" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" FromRole="STUDENT_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="CLASS_DTL_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_CLASS_DTL_MASTER" FromRole="STUDENT_MASTER" ToRole="CLASS_DTL_MASTER" />
+          <NavigationProperty Name="COURSE_DTL_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_COURSE_DTL_MASTER" FromRole="STUDENT_MASTER" ToRole="COURSE_DTL_MASTER" />
+          <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
+          <NavigationProperty Name="MARKS_MASTER" Relationship="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="MARKS_MASTER" />
+          <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_SCHOOL_MASTER" FromRole="STUDENT_MASTER" ToRole="SCHOOL_MASTER" />
+          <NavigationProperty Name="STUDENT_ANS_SHEET" Relationship="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="STUDENT_ANS_SHEET" />
+          <NavigationProperty Name="STUDENT_MAINT" Relationship="AshirvadModel.FK_STUDENT_MAINT_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="STUDENT_MAINT" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="STUDENT_MASTER" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="TEST_MASTER_DTL" />
+        </EntityType>
+        <Association Name="FK_BATCH_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.BATCH_MASTER" Role="BATCH_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="BATCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BATCH_MASTER_CLASS_DTL_MASTER">
+          <End Type="AshirvadModel.CLASS_DTL_MASTER" Role="CLASS_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.BATCH_MASTER" Role="BATCH_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Principal>
+            <Dependent Role="BATCH_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BATCH_MASTER_COURSE_DTL_MASTER">
+          <End Type="AshirvadModel.COURSE_DTL_MASTER" Role="COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.BATCH_MASTER" Role="BATCH_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="BATCH_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BATCH_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.BATCH_MASTER" Role="BATCH_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="BATCH_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="STUDENT_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_MASTER_CLASS_DTL_MASTER">
+          <End Type="AshirvadModel.CLASS_DTL_MASTER" Role="CLASS_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Principal>
+            <Dependent Role="STUDENT_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_MASTER_COURSE_DTL_MASTER">
+          <End Type="AshirvadModel.COURSE_DTL_MASTER" Role="COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="STUDENT_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER">
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.HOMEWORK_MASTER_DTL" Role="HOMEWORK_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT_MASTER">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="HOMEWORK_MASTER_DTL">
+              <PropertyRef Name="stud_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARKS_MASTER_STUDENT_MASTER">
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.MARKS_MASTER" Role="MARKS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT_MASTER">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="MARKS_MASTER">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_MASTER_SCHOOL_MASTER">
+          <End Type="AshirvadModel.SCHOOL_MASTER" Role="SCHOOL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SCHOOL_MASTER">
+              <PropertyRef Name="school_id" />
+            </Principal>
+            <Dependent Role="STUDENT_MASTER">
+              <PropertyRef Name="school_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_ANS_SHEET_STUDENT_MASTER">
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.STUDENT_ANS_SHEET" Role="STUDENT_ANS_SHEET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT_MASTER">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="STUDENT_ANS_SHEET">
+              <PropertyRef Name="stud_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_MAINT_STUDENT_MASTER">
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.STUDENT_MAINT" Role="STUDENT_MAINT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT_MASTER">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="STUDENT_MAINT">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STUDENT_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="STUDENT_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Test_MASTER_DTL_STUDENT_MASTER">
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.TEST_MASTER_DTL" Role="TEST_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT_MASTER">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="TEST_MASTER_DTL">
+              <PropertyRef Name="stud_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ATTENDANCE_HDR">
+          <Key>
+            <PropertyRef Name="attendance_hdr_id" />
+          </Key>
+          <Property Name="attendance_hdr_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="batch_time_type" Type="Int32" Nullable="false" />
+          <Property Name="attendance_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="course_dtl_id" Type="Int64" />
+          <Property Name="class_dtl_id" Type="Int64" />
+          <NavigationProperty Name="ATTENDANCE_DTL" Relationship="AshirvadModel.FK_ATTENDANCE_DTL_ATTENDANCE_HDR" FromRole="ATTENDANCE_HDR" ToRole="ATTENDANCE_DTL" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER" FromRole="ATTENDANCE_HDR" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="CLASS_DTL_MASTER" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_CLASS_DTL_MASTER" FromRole="ATTENDANCE_HDR" ToRole="CLASS_DTL_MASTER" />
+          <NavigationProperty Name="COURSE_DTL_MASTER" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_COURSE_DTL_MASTER" FromRole="ATTENDANCE_HDR" ToRole="COURSE_DTL_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_TRANSACTION_MASTER" FromRole="ATTENDANCE_HDR" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <Association Name="FK_ATTENDANCE_DTL_ATTENDANCE_HDR">
+          <End Type="AshirvadModel.ATTENDANCE_HDR" Role="ATTENDANCE_HDR" Multiplicity="1" />
+          <End Type="AshirvadModel.ATTENDANCE_DTL" Role="ATTENDANCE_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ATTENDANCE_HDR">
+              <PropertyRef Name="attendance_hdr_id" />
+            </Principal>
+            <Dependent Role="ATTENDANCE_DTL">
+              <PropertyRef Name="attd_hdr_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ATTENDANCE_HDR_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.ATTENDANCE_HDR" Role="ATTENDANCE_HDR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="ATTENDANCE_HDR">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ATTENDANCE_HDR_CLASS_DTL_MASTER">
+          <End Type="AshirvadModel.CLASS_DTL_MASTER" Role="CLASS_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.ATTENDANCE_HDR" Role="ATTENDANCE_HDR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Principal>
+            <Dependent Role="ATTENDANCE_HDR">
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ATTENDANCE_HDR_COURSE_DTL_MASTER">
+          <End Type="AshirvadModel.COURSE_DTL_MASTER" Role="COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.ATTENDANCE_HDR" Role="ATTENDANCE_HDR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="ATTENDANCE_HDR">
+              <PropertyRef Name="course_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ATTENDANCE_HDR_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.ATTENDANCE_HDR" Role="ATTENDANCE_HDR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="ATTENDANCE_HDR">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6029,21 +6118,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
                 <ScalarProperty Name="banner_id" ColumnName="banner_id" />
                 <ScalarProperty Name="sub_type_id" ColumnName="sub_type_id" />
                 <ScalarProperty Name="unique_id" ColumnName="unique_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BATCH_MASTER">
-            <EntityTypeMapping TypeName="AshirvadModel.BATCH_MASTER">
-              <MappingFragment StoreEntitySet="BATCH_MASTER">
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="sun_batch_time" ColumnName="sun_batch_time" />
-                <ScalarProperty Name="sat_batch_time" ColumnName="sat_batch_time" />
-                <ScalarProperty Name="mon_fri_batch_time" ColumnName="mon_fri_batch_time" />
-                <ScalarProperty Name="batch_time" ColumnName="batch_time" />
-                <ScalarProperty Name="std_id" ColumnName="std_id" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
-                <ScalarProperty Name="batch_id" ColumnName="batch_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6171,17 +6245,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="AshirvadModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ATTENDANCE_DTL">
             <EntityTypeMapping TypeName="AshirvadModel.ATTENDANCE_DTL">
               <MappingFragment StoreEntitySet="ATTENDANCE_DTL">
@@ -6191,19 +6254,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
                 <ScalarProperty Name="student_id" ColumnName="student_id" />
                 <ScalarProperty Name="attd_hdr_id" ColumnName="attd_hdr_id" />
                 <ScalarProperty Name="attd_dtl_id" ColumnName="attd_dtl_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ATTENDANCE_HDR">
-            <EntityTypeMapping TypeName="AshirvadModel.ATTENDANCE_HDR">
-              <MappingFragment StoreEntitySet="ATTENDANCE_HDR">
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="attendance_dt" ColumnName="attendance_dt" />
-                <ScalarProperty Name="batch_time_type" ColumnName="batch_time_type" />
-                <ScalarProperty Name="std_id" ColumnName="std_id" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
-                <ScalarProperty Name="attendance_hdr_id" ColumnName="attendance_hdr_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6241,30 +6291,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="AshirvadModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="AshirvadModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="AshirvadModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="AshirvadModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="AshirvadModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="AshirvadModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="AshirvadModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="AshirvadModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="AshirvadModel.Store.sp_upgraddiagrams" />
           <EntitySetMapping Name="ANNOUNCE_MASTER">
             <EntityTypeMapping TypeName="AshirvadModel.ANNOUNCE_MASTER">
               <MappingFragment StoreEntitySet="ANNOUNCE_MASTER">
@@ -6803,33 +6829,6 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="STUDENT_MASTER">
-            <EntityTypeMapping TypeName="AshirvadModel.STUDENT_MASTER">
-              <MappingFragment StoreEntitySet="STUDENT_MASTER">
-                <ScalarProperty Name="admission_date" ColumnName="admission_date" />
-                <ScalarProperty Name="file_name" ColumnName="file_name" />
-                <ScalarProperty Name="file_path" ColumnName="file_path" />
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="contact_no" ColumnName="contact_no" />
-                <ScalarProperty Name="last_yr_class_name" ColumnName="last_yr_class_name" />
-                <ScalarProperty Name="grade" ColumnName="grade" />
-                <ScalarProperty Name="last_yr_result" ColumnName="last_yr_result" />
-                <ScalarProperty Name="batch_time" ColumnName="batch_time" />
-                <ScalarProperty Name="school_time" ColumnName="school_time" />
-                <ScalarProperty Name="school_id" ColumnName="school_id" />
-                <ScalarProperty Name="std_id" ColumnName="std_id" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="dob" ColumnName="dob" />
-                <ScalarProperty Name="last_name" ColumnName="last_name" />
-                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
-                <ScalarProperty Name="first_name" ColumnName="first_name" />
-                <ScalarProperty Name="gr_no" ColumnName="gr_no" />
-                <ScalarProperty Name="student_id" ColumnName="student_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ABOUTUS_MASTER">
             <EntityTypeMapping TypeName="AshirvadModel.ABOUTUS_MASTER">
               <MappingFragment StoreEntitySet="ABOUTUS_MASTER">
@@ -6929,6 +6928,64 @@ warning 6002: The table/view 'DB_A4B43D_AshivadProductDB.dbo.Faculty' does not h
                 <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
                 <ScalarProperty Name="subject_name" ColumnName="subject_name" />
                 <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BATCH_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.BATCH_MASTER">
+              <MappingFragment StoreEntitySet="BATCH_MASTER">
+                <ScalarProperty Name="course_dtl_id" ColumnName="course_dtl_id" />
+                <ScalarProperty Name="class_dtl_id" ColumnName="class_dtl_id" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="sun_batch_time" ColumnName="sun_batch_time" />
+                <ScalarProperty Name="sat_batch_time" ColumnName="sat_batch_time" />
+                <ScalarProperty Name="mon_fri_batch_time" ColumnName="mon_fri_batch_time" />
+                <ScalarProperty Name="batch_time" ColumnName="batch_time" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="batch_id" ColumnName="batch_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="STUDENT_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.STUDENT_MASTER">
+              <MappingFragment StoreEntitySet="STUDENT_MASTER">
+                <ScalarProperty Name="class_dtl_id" ColumnName="class_dtl_id" />
+                <ScalarProperty Name="course_dtl_id" ColumnName="course_dtl_id" />
+                <ScalarProperty Name="admission_date" ColumnName="admission_date" />
+                <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="contact_no" ColumnName="contact_no" />
+                <ScalarProperty Name="last_yr_class_name" ColumnName="last_yr_class_name" />
+                <ScalarProperty Name="grade" ColumnName="grade" />
+                <ScalarProperty Name="last_yr_result" ColumnName="last_yr_result" />
+                <ScalarProperty Name="batch_time" ColumnName="batch_time" />
+                <ScalarProperty Name="school_time" ColumnName="school_time" />
+                <ScalarProperty Name="school_id" ColumnName="school_id" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="gr_no" ColumnName="gr_no" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ATTENDANCE_HDR">
+            <EntityTypeMapping TypeName="AshirvadModel.ATTENDANCE_HDR">
+              <MappingFragment StoreEntitySet="ATTENDANCE_HDR">
+                <ScalarProperty Name="class_dtl_id" ColumnName="class_dtl_id" />
+                <ScalarProperty Name="course_dtl_id" ColumnName="course_dtl_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="attendance_dt" ColumnName="attendance_dt" />
+                <ScalarProperty Name="batch_time_type" ColumnName="batch_time_type" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="attendance_hdr_id" ColumnName="attendance_hdr_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

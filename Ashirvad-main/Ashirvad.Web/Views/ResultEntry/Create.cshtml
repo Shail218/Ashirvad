@@ -23,13 +23,26 @@
                     @Html.HiddenFor(x => x.BranchInfo.BranchID)
                 </div>
             }
-
+            <div class="col-md-3">
+                @Html.Label("Select Course", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="CourseName" id="CourseName" class="form-control requiredDDL select2" alt="Course">
+                    <option value="0">--Select Course--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchCourse.course_dtl_id)
+            </div>
             <div class="col-md-3">
                 @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
                     <option value="0">--Select Standard--</option>
                 </select>
-                @Html.HiddenFor(x => x.StandardInfo.StandardID)
+                @Html.HiddenFor(x => x.BranchClass.Class_dtl_id)
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Subject Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="SubjectName" id="SubjectName" class="form-control requiredDDL select2" alt="Subject">
+                    <option value="0">--Select Subject--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchSubject.Subject_dtl_id)
             </div>
             <div class="col-md-3">
                 @Html.Label("Select Batch Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -41,7 +54,10 @@
                 </select>
                 @Html.HiddenFor(x => x.BatchTime)
                 @Html.HiddenFor(x => x.BatchType)
-            </div>
+            </div>            
+        </div>
+
+        <div class="row">
             <div class="col-md-3">
                 @Html.Label("Test Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <select name="Test" id="testddl" class="form-control" alt="Test Date">
@@ -49,21 +65,9 @@
                 </select>
                 @Html.HiddenFor(x => x.testEntityInfo.TestID)
             </div>
-
-            <div class="col-md-3">
-                @Html.Label("Subject Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <select name="SubjectName" id="SubjectName" class="form-control requiredDDL select2" alt="Subject">
-                    <option value="0">--Select Subject--</option>
-                </select>
-                @Html.HiddenFor(x => x.SubjectInfo.SubjectID)
-
-            </div>
-        </div>
-
-        <div class="row">
             <div class="col-md-3">
                 @Html.Label("Total Marks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.TotalMarks, null, new { @class = "form-control required", autocomplete = "off",@readonly="readonly" })
+                @Html.TextBoxFor(x => x.TotalMarks, null, new { @class = "form-control required", autocomplete = "off", @readonly = "readonly" })
             </div>
             <div class="col-md-3">
                 @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })
@@ -78,17 +82,17 @@
             </div>
             <div class="col-md-3" style="text-align: right;margin-top:27px;">
                 @*<a onclick="return GetStudentDetail();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
-                    <span class="ladda-label">
-                        Filter
-                    </span>
-                    <span class="ladda-spinner"></span>
-                </a>*@
+                <span class="ladda-label">
+                    Filter
+                </span>
+                <span class="ladda-spinner"></span>
+            </a>*@
                 @*<a href="@Url.Action("MarksMaintenance","ResultEntry", new { @MarksID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
-                    <span class="ladda-label">
-                        Cancel
-                    </span>
-                    <span class="ladda-spinner"></span>
-                </a>*@
+                <span class="ladda-label">
+                    Cancel
+                </span>
+                <span class="ladda-spinner"></span>
+            </a>*@
             </div>
         </div>
 

@@ -15,7 +15,7 @@ namespace Ashirvad.Repo.Services.Area.Batch
         public async Task<long> CheckBatch(int batchtime, long std, long Id)
         {
             long result;
-            bool isExists = this.context.BATCH_MASTER.Where(s => (Id == 0 || s.batch_id != Id) && s.batch_time == batchtime && s.std_id == std && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.BATCH_MASTER.Where(s => (Id == 0 || s.batch_id != Id) && s.batch_time == batchtime && s.class_dtl_id == std && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -40,7 +40,8 @@ namespace Ashirvad.Repo.Services.Area.Batch
                     batchInfo.Transaction.TransactionId = data.trans_id;
                 }
                 batchMaster.batch_time = (int)batchInfo.BatchType;
-                batchMaster.std_id = batchInfo.StandardInfo.StandardID;
+                batchMaster.course_dtl_id = batchInfo.BranchCourse.course_dtl_id;
+                batchMaster.class_dtl_id = batchInfo.BranchClass.Class_dtl_id;
                 batchMaster.mon_fri_batch_time = batchInfo.MonFriBatchTime;
                 batchMaster.sat_batch_time = batchInfo.SatBatchTime;
                 batchMaster.sun_batch_time = batchInfo.SunBatchTime;
@@ -64,7 +65,7 @@ namespace Ashirvad.Repo.Services.Area.Batch
         public async Task<List<BatchEntity>> GetAllBatches(long branchID,long STDID=0)
         {
             var data = (from u in this.context.BATCH_MASTER orderby u.batch_id descending
-                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1 && (STDID == 0 || u.std_id == STDID)
+                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1 && (STDID == 0 || u.class_dtl_id == STDID)
                         select new BatchEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -77,10 +78,13 @@ namespace Ashirvad.Repo.Services.Area.Batch
                             SatBatchTime = u.sat_batch_time,
                             SunBatchTime = u.sun_batch_time,
                             BatchID = u.batch_id,
-                            StandardInfo = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
                             },
                             BranchInfo = new BranchEntity()
                             {
@@ -119,10 +123,13 @@ namespace Ashirvad.Repo.Services.Area.Batch
                             SatBatchTime = u.sat_batch_time,
                             SunBatchTime = u.sun_batch_time,
                             BatchID = u.batch_id,
-                            StandardInfo = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
                             },
                             BranchInfo = new BranchEntity()
                             {
@@ -157,10 +164,13 @@ namespace Ashirvad.Repo.Services.Area.Batch
                             SatBatchTime = u.sat_batch_time,
                             SunBatchTime = u.sun_batch_time,
                             BatchID = u.batch_id,
-                            StandardInfo = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
                             },
                             BranchInfo = new BranchEntity()
                             {
@@ -191,10 +201,13 @@ namespace Ashirvad.Repo.Services.Area.Batch
                             SatBatchTime = u.sat_batch_time,
                             SunBatchTime = u.sun_batch_time,
                             BatchID = u.batch_id,
-                            StandardInfo = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
                             },
                             BranchInfo = new BranchEntity()
                             {

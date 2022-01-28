@@ -21,5 +21,7 @@ namespace Ashirvad.Data
         public string FilePath { get; set; }
         public string Remark { get; set; }
         public long Count { get; set; }
+        public BranchCourseEntity BranchCourse { get; set; }
+        public BranchClassEntity BranchClass { get; set; }
     }
 }

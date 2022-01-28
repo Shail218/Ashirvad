@@ -50,7 +50,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                         where (u.branch_id == chart.branchid && u.row_sta_cd == 1)
                         select new BranchStandardEntity()
                         {
-                            name = u.STD_MASTER.standard,
+                            name = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
                             branchid = u.branch_id
                         }).Distinct().ToArray();
             foreach (var item in data)
@@ -58,7 +58,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                 ArrayList data1 = new ArrayList();
                 int count = (from u in this.context.STUDENT_MASTER
                        .Include("STD_MASTER")
-                             where (u.branch_id == chart.branchid && u.row_sta_cd == 1 && u.STD_MASTER.standard == item.name)
+                             where (u.branch_id == chart.branchid && u.row_sta_cd == 1 && u.CLASS_DTL_MASTER.CLASS_MASTER.class_name == item.name)
                              select new BranchStandardEntity()
                              {
                                  branchid = u.branch_id
@@ -81,7 +81,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                         where (u.branch_id == branchid && u.row_sta_cd == 1)
                         select new BranchStandardEntity()
                         {
-                            name = u.STD_MASTER.standard,
+                            name = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
                             branchid = u.branch_id,
                             id = u.BRANCH_MASTER.branch_name
                         }).Distinct().ToArray();
@@ -90,7 +90,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                 ArrayList data1 = new ArrayList();
                 int count = (from u in this.context.STUDENT_MASTER
                        .Include("STD_MASTER")
-                             where (u.branch_id == branchid && u.row_sta_cd == 1 && u.STD_MASTER.standard == item.name)
+                             where (u.branch_id == branchid && u.row_sta_cd == 1 && u.CLASS_DTL_MASTER.CLASS_MASTER.class_name == item.name)
                              select new BranchStandardEntity()
                              {
                                  branchid = u.branch_id

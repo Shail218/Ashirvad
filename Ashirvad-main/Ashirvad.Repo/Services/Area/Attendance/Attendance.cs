@@ -34,8 +34,8 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                     attendanceMaster = data;
                     attendanceInfo.Transaction.TransactionId = data.trans_id;
                 }
-
-                attendanceMaster.std_id = attendanceInfo.Standard.StandardID;
+                attendanceMaster.course_dtl_id = attendanceInfo.BranchCourse.course_dtl_id;
+                attendanceMaster.class_dtl_id = attendanceInfo.BranchClass.Class_dtl_id;
                 attendanceMaster.batch_time_type = attendanceInfo.BatchTypeID;
                 attendanceMaster.attendance_dt = attendanceInfo.AttendanceDate;
                 attendanceMaster.branch_id = attendanceInfo.Branch.BranchID;
@@ -79,11 +79,11 @@ namespace Ashirvad.Repo.Services.Area.Attendance
         public async Task<List<StudentEntity>> GetAllStudentByBranchStdBatch(long branchID, long stdID, int batchID)
         {
             var data = (from u in this.context.STUDENT_MASTER
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id orderby u.student_id descending
-                        where u.branch_id == branchID && u.STD_MASTER.std_id == stdID && u.batch_time == batchID && u.row_sta_cd == 1
+                        where u.branch_id == branchID && u.CLASS_DTL_MASTER.class_dtl_id == stdID && u.batch_time == batchID && u.row_sta_cd == 1
                         select new StudentEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -107,7 +107,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             FilePath = u.file_path,
                             FileName = u.file_name,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
-                            StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
+                            BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0 , Class = new ClassEntity() { ClassName =  u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
                             BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
                             StudentMaint = new StudentMaint()
@@ -134,23 +134,23 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                 Isasc = model.order[0].dir == "desc" ? false : true;
             }
             long count = (from u in this.context.STUDENT_MASTER
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
                           join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
                           orderby u.student_id descending
-                          where u.branch_id == Branch && u.STD_MASTER.std_id == Std && u.batch_time == Batch && u.row_sta_cd == 1
+                          where u.branch_id == Branch && u.CLASS_DTL_MASTER.class_dtl_id == Std && u.batch_time == Batch && u.row_sta_cd == 1
                           select new StudentEntity()
                           {
                               StudentID = u.student_id
                           }).Distinct().Count();
             var data = (from u in this.context.STUDENT_MASTER
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
                         orderby u.student_id descending
-                        where u.branch_id == Branch && u.STD_MASTER.std_id == Std && u.batch_time == Batch && u.row_sta_cd == 1
+                        where u.branch_id == Branch && u.CLASS_DTL_MASTER.class_dtl_id == Std && u.batch_time == Batch && u.row_sta_cd == 1
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.first_name.ToLower().Contains(model.search.value.ToLower())
@@ -179,7 +179,14 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             FileName = u.file_name,
                             Name = u.first_name + " " + u.last_name,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
-                            StandardInfo = new StandardEntity() { StandardID = u.std_id, Standard = u.STD_MASTER.standard },
+                            BranchClass = new BranchClassEntity()
+                            {
+                                Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
+                            },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
                             BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
                             StudentMaint = new StudentMaint()
@@ -205,7 +212,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
         {
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER") orderby u.attendance_hdr_id descending
+                        .Include("CLASS_DTL_MASTER") orderby u.attendance_hdr_id descending
                         where u.branch_id == branchID && u.row_sta_cd == 1
                         select new AttendanceEntity()
                         {
@@ -219,10 +226,10 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.STD_MASTER.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity() { ClassName =  u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
                             },
                             AttendanceDate = u.attendance_dt,
                             AttendanceID = u.attendance_hdr_id,
@@ -270,11 +277,11 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             long count = this.context.ATTENDANCE_HDR.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Count();
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         where u.branch_id == branchID && u.row_sta_cd == 1
                         && (model.search.value == null
                         || model.search.value == ""
-                        || u.STD_MASTER.standard.ToLower().Contains(model.search.value)
+                        || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.ToLower().Contains(model.search.value)
                         || u.attendance_dt.ToString().ToLower().Contains(model.search.value))
                         orderby u.attendance_hdr_id descending
                         select new AttendanceEntity()
@@ -289,10 +296,10 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.STD_MASTER.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
                             },
                             Count = count,
                             AttendanceDate = u.attendance_dt,
@@ -311,10 +318,10 @@ namespace Ashirvad.Repo.Services.Area.Attendance
         {
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         join student in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals student.attd_hdr_id orderby u.attendance_hdr_id descending
                         where (0 == branchID || u.branch_id == branchID)
-                        && (0 == stdID || u.std_id == stdID)
+                        && (0 == stdID || u.class_dtl_id == stdID)
                         && (0 == batchTimeID || u.batch_time_type == batchTimeID)
                         && (u.attendance_dt >= fromDate && u.attendance_dt <= toDate)
                         && student.student_id == studentid
@@ -330,10 +337,10 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.STD_MASTER.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
                             },
                             AttendanceDate = u.attendance_dt,
                             AttendanceID = u.attendance_hdr_id,
@@ -378,7 +385,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
         {
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         where u.attendance_hdr_id == attendanceID
                         select new AttendanceEntity()
                         {
@@ -392,10 +399,10 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.STD_MASTER.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
                             },
                             AttendanceDate = u.attendance_dt,                           
                             AttendanceID = u.attendance_hdr_id,
@@ -437,7 +444,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
         {
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         .Include("ATTENDANCE_DTL")
                         join detail in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals detail.attd_hdr_id
                         join stu in this.context.STUDENT_MASTER on detail.student_id equals stu.student_id orderby u.attendance_hdr_id descending
@@ -454,10 +461,10 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.STD_MASTER.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
                             },
                             AttendanceDate = u.attendance_dt,
                             AttendanceID = u.attendance_hdr_id,
@@ -511,7 +518,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                 var data = (from atd in this.context.ATTENDANCE_HDR
                             where atd.batch_time_type == batchID 
                             && atd.branch_id == branchID 
-                            && atd.std_id == stdID 
+                            && atd.class_dtl_id == stdID 
                             && atd.attendance_dt == attendanceDate
                             && atd.row_sta_cd == 1
                             select atd).ToList();
@@ -539,17 +546,17 @@ namespace Ashirvad.Repo.Services.Area.Attendance
         {
             long count = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                           join student in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals student.attd_hdr_id
                           orderby u.attendance_hdr_id descending
                           where (0 == branchID || u.branch_id == branchID)
-                          && (0 == stdID || u.std_id == stdID)
+                          && (0 == stdID || u.class_dtl_id == stdID)
                           && (0 == batchTimeID || u.batch_time_type == batchTimeID)
                           && (u.attendance_dt >= fromDate && u.attendance_dt <= toDate)
                           && student.student_id == studentid
                           && (model.search.value == null
                         || model.search.value == ""
-                        || u.STD_MASTER.standard.ToLower().Contains(model.search.value)
+                        || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.ToLower().Contains(model.search.value)
                         || u.BRANCH_MASTER.branch_name.ToLower().Contains(model.search.value)
                         || u.attendance_dt.ToString().ToLower().Contains(model.search.value)
                          )
@@ -565,10 +572,10 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                   BranchID = u.BRANCH_MASTER.branch_id,
                                   BranchName = u.BRANCH_MASTER.branch_name
                               },
-                              Standard = new StandardEntity()
+                              BranchClass = new BranchClassEntity()
                               {
-                                  StandardID = u.STD_MASTER.std_id,
-                                  Standard = u.STD_MASTER.standard
+                                  Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
+                                  Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
                               },
                               AttendanceDate = u.attendance_dt,
                               AttendanceID = u.attendance_hdr_id,
@@ -578,11 +585,11 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                           }).Distinct().Count();
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
-                        .Include("STD_MASTER")
+                        .Include("CLASS_DTL_MASTER")
                         join student in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals student.attd_hdr_id
                         orderby u.attendance_hdr_id descending
                         where (0 == branchID || u.branch_id == branchID)
-                        && (0 == stdID || u.std_id == stdID)
+                        && (0 == stdID || u.class_dtl_id == stdID)
                         && (0 == batchTimeID || u.batch_time_type == batchTimeID)
                         && (u.attendance_dt >= fromDate && u.attendance_dt <= toDate)
                         && student.student_id == studentid
@@ -598,10 +605,10 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 BranchID = u.BRANCH_MASTER.branch_id,
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
-                            Standard = new StandardEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                StandardID = u.STD_MASTER.std_id,
-                                Standard = u.STD_MASTER.standard
+                                Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
                             },
                             Count= count,
                             AttendanceDate = u.attendance_dt,

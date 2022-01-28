@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="8ba798802a0b4e888f4bb7e1b31d697f" Name="Diagram1">
         <EntityTypeShape EntityType="AshirvadModel.BANNER_TYPE_REL" Width="1.5" PointX="5" PointY="4.125" />
-        <EntityTypeShape EntityType="AshirvadModel.BATCH_MASTER" Width="1.5" PointX="5.25" PointY="18.125" />
         <EntityTypeShape EntityType="AshirvadModel.BRANCH_LICENSE" Width="1.5" PointX="8.25" PointY="18.625" />
         <EntityTypeShape EntityType="AshirvadModel.NOTIFICATION_TYPE_REL" Width="1.5" PointX="3" PointY="1.125" />
         <EntityTypeShape EntityType="AshirvadModel.SCHOOL_MASTER" Width="1.5" PointX="8.25" PointY="14.5" />
@@ -15,17 +14,13 @@
         <EntityTypeShape EntityType="AshirvadModel.TYPE_DESC" Width="1.5" PointX="5.75" PointY="0.75" />
         <EntityTypeShape EntityType="AshirvadModel.USER_DEF" Width="1.5" PointX="10.5" PointY="13.625" />
         <EntityTypeShape EntityType="AshirvadModel.USER_ROLE" Width="1.5" PointX="12.75" PointY="14.25" />
-        <AssociationConnector Association="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_LICENSE_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_SCHOOL_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_USER_DEF_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_USER_ROLE_USER_DEF" />
         <EntityTypeShape EntityType="AshirvadModel.LINK_MASTER" Width="1.5" PointX="7.5" PointY="25.875" />
         <EntityTypeShape EntityType="AshirvadModel.PRACTICE_PAPER" Width="1.5" PointX="13.5" PointY="23.875" />
-        <EntityTypeShape EntityType="AshirvadModel.sysdiagram" Width="1.5" PointX="0.75" PointY="7.75" />
         <EntityTypeShape EntityType="AshirvadModel.ATTENDANCE_DTL" Width="1.5" PointX="12.75" PointY="28.5" />
-        <EntityTypeShape EntityType="AshirvadModel.ATTENDANCE_HDR" Width="1.5" PointX="10.5" PointY="26.125" />
-        <AssociationConnector Association="AshirvadModel.FK_ATTENDANCE_DTL_ATTENDANCE_HDR" />
         <EntityTypeShape EntityType="AshirvadModel.TEST_MASTER" Width="1.5" PointX="15.5" PointY="18.625" />
         <EntityTypeShape EntityType="AshirvadModel.REMINDER_MASTER" Width="1.5" PointX="5.25" PointY="29.625" />
         <EntityTypeShape EntityType="AshirvadModel.ANNOUNCE_MASTER" Width="1.5" PointX="7.375" PointY="3.75" />
@@ -75,8 +70,6 @@
         <EntityTypeShape EntityType="AshirvadModel.BRANCH_MASTER" Width="1.5" PointX="3" PointY="12.875" />
         <EntityTypeShape EntityType="AshirvadModel.BRANCH_STAFF" Width="1.5" PointX="5.25" PointY="12.375" />
         <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_AGREEMENT_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_LICENSE_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_MAINT_BRANCH_MASTER" />
@@ -114,8 +107,6 @@
         <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_TEST_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_SUBJECT_DTL_MASTER_TRANSACTION_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.STD_MASTER" Width="1.5" PointX="27.75" PointY="19.125" />
-        <AssociationConnector Association="AshirvadModel.FK_ATTENDANCE_HDR_STD_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_BATCH_MASTER_STD_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_STD_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_STD_MASTER_CLASS_DTL_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_FEE_STRUCTURE_MASTER_STD_MASTER" />
@@ -156,16 +147,6 @@
         <EntityTypeShape EntityType="AshirvadModel.LIBRARY_MASTER" Width="1.5" PointX="15.5" PointY="5.625" />
         <AssociationConnector Association="AshirvadModel.FK_APPROVAL_MASTER_LIBRARY_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_LIBRARY_MASTER_CATEGORY_MASTER" />
-        <EntityTypeShape EntityType="AshirvadModel.STUDENT_MASTER" Width="1.5" PointX="33" PointY="20.875" />
-        <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_SCHOOL_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_STD_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_STUDENT_MAINT_STUDENT_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.ABOUTUS_MASTER" Width="1.5" PointX="5.25" PointY="8.25" />
         <AssociationConnector Association="AshirvadModel.FK_ABOUTUS_MASTER_BRANCH_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.HOMEWORK_MASTER" Width="1.5" PointX="30.25" PointY="10.25" />
@@ -189,6 +170,28 @@
         <AssociationConnector Association="AshirvadModel.FK_SUBJECT_BRANCH_MASTER_SUBJECT_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_SUBJECT_BRANCH_MASTER_TRANSACTION_MASTER1" />
         <AssociationConnector Association="AshirvadModel.FK_SUBJECT_DTL_MASTER_SUBJECT_BRANCH_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.BATCH_MASTER" Width="1.5" PointX="25.75" PointY="9.125" />
+        <EntityTypeShape EntityType="AshirvadModel.STUDENT_MASTER" Width="1.5" PointX="22.75" PointY="5.375" />
+        <AssociationConnector Association="AshirvadModel.FK_BATCH_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_BATCH_MASTER_CLASS_DTL_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_BATCH_MASTER_COURSE_DTL_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_BATCH_MASTER_TRANSACTION_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_CLASS_DTL_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_COURSE_DTL_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_MARKS_MASTER_STUDENT_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_SCHOOL_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_STUDENT_ANS_SHEET_STUDENT_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_STUDENT_MAINT_STUDENT_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.ATTENDANCE_HDR" Width="1.5" PointX="22.75" PointY="18.375" />
+        <AssociationConnector Association="AshirvadModel.FK_ATTENDANCE_DTL_ATTENDANCE_HDR" />
+        <AssociationConnector Association="AshirvadModel.FK_ATTENDANCE_HDR_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_ATTENDANCE_HDR_CLASS_DTL_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_ATTENDANCE_HDR_COURSE_DTL_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_ATTENDANCE_HDR_TRANSACTION_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

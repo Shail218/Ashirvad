@@ -39,6 +39,8 @@ namespace Ashirvad.Data
         public string StudentPassword2 { get; set; }
         public long? UserID { get; set; } = 0;
         public HttpPostedFileBase ImageFile { get; set; }
+        public BranchCourseEntity BranchCourse { get; set; }
+        public BranchClassEntity BranchClass { get; set; }
     }
     public class StudentMaint
     {

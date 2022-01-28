@@ -23,10 +23,10 @@ namespace Ashirvad.Repo.Services.Area.Class
             _standard = standard;
         }
 
-        public async Task<long> CheckClass(string name, long Id)
+        public async Task<long> CheckClass(string name,long courseid,long Id)
         {
             long result;
-            bool isExists = this.context.CLASS_MASTER.Where(s => (Id == 0 || s.class_id != Id) && s.class_name == name && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.CLASS_MASTER.Where(s => (Id == 0 || s.class_id != Id) && s.course_id == courseid && s.class_name == name && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -34,7 +34,7 @@ namespace Ashirvad.Repo.Services.Area.Class
         public async Task<long> ClassMaintenance(ClassEntity classEntity)
         {
             Model.CLASS_MASTER classMaster = new Model.CLASS_MASTER();
-            if (CheckClass(classEntity.ClassName, classEntity.ClassID).Result != -1)
+            if (CheckClass(classEntity.ClassName, classEntity.courseEntity.CourseID ,classEntity.ClassID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from cl in this.context.CLASS_MASTER

@@ -22,13 +22,20 @@
             </div>
         }
         <div class="col-md-6">
+            @Html.Label("Course", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="CourseName" id="CourseName" class="form-control requiredDDL" alt="Course">
+                <option value="0">--Select Course--</option>
+            </select>
+            @Html.HiddenFor(x => x.BranchCourse.course_dtl_id)
+        </div>
+        <div class="col-md-6">
             @Html.Label("Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <select name="StandardName" id="StandardName" class="form-control requiredDDL" alt="Standard Name">
                 <option value="0">--Select Standard--</option>
             </select>
-            @Html.HiddenFor(x => x.StandardInfo.StandardID)
+            @Html.HiddenFor(x => x.BranchClass.Class_dtl_id)
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             @Html.Label("Batch Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <select name="BatchName" id="BatchName" class="form-control requiredDDL select2" alt="Batch Name">
                 <option value="0">--Select Batch Name--</option>
@@ -48,7 +55,7 @@
         </div>
         <div class="col-md-6">
             @Html.Label("Start Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">* </span>
-            @Html.TextBox("Start Time", null, new { @class = "form-control  readonly timeformat", @alt = "Monday-Friday Start Time", autocomplete = "off", @type = "time",@Id = "starttime" })
+            @Html.TextBox("Start Time", null, new { @class = "form-control  readonly timeformat", @alt = "Monday-Friday Start Time", autocomplete = "off", @type = "time", @Id = "starttime" })
         </div>
         <div class="col-md-6">
             @Html.Label("End Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">* </span>
@@ -59,22 +66,22 @@
         </div>
         <div class="col-md-6">
             @Html.Label("Start Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">* </span>
-            @Html.TextBox("Start Time", null, new { @class = "form-control  readonly timeformat", @alt = "Saturday Start Time", autocomplete = "off", @type = "time" , @Id = "sttimestart"})
+            @Html.TextBox("Start Time", null, new { @class = "form-control  readonly timeformat", @alt = "Saturday Start Time", autocomplete = "off", @type = "time", @Id = "sttimestart" })
         </div>
         <div class="col-md-6">
             @Html.Label("End Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">* </span>
-            @Html.TextBox("End Time", null, new { @class = "form-control  readonly timeformat", @alt = "Saturday End Time", autocomplete = "off", @type = "time" , @Id = "sttimeend"})
+            @Html.TextBox("End Time", null, new { @class = "form-control  readonly timeformat", @alt = "Saturday End Time", autocomplete = "off", @type = "time", @Id = "sttimeend" })
         </div>
         <div style="text-align: center; margin-top: 1%" class="col-md-12">
             @Html.Label("Sunday", htmlAttributes: new { @class = "control-label" })
         </div>
         <div class="col-md-6">
             @Html.Label("Start Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">* </span>
-            @Html.TextBox("Start Time", null, new { @class = "form-control  readonly timeformat", @alt = "Sunday Start Time", autocomplete = "off", @type = "time" , @Id = "snstarttime" })
+            @Html.TextBox("Start Time", null, new { @class = "form-control  readonly timeformat", @alt = "Sunday Start Time", autocomplete = "off", @type = "time", @Id = "snstarttime" })
         </div>
         <div class="col-md-6">
             @Html.Label("End Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">* </span>
-            @Html.TextBox("End Time", null, new { @class = "form-control  readonly timeformat", @alt = "Sunday End Time", autocomplete = "off", @type = "time" , @Id = "snendtime"})
+            @Html.TextBox("End Time", null, new { @class = "form-control  readonly timeformat", @alt = "Sunday End Time", autocomplete = "off", @type = "time", @Id = "snendtime" })
         </div>
         <div class="form-group BatchMasterCreate">
             <div class="col-md-12" style="text-align: right;">

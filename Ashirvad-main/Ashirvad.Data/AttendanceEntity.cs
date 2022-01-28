@@ -23,6 +23,8 @@ namespace Ashirvad.Data
         public StudentEntity studentEntity { get; set; }
         public long Count { get; set; }
         public List<AttendanceDetailEntity> AttendanceDetail { get; set; }
+        public BranchCourseEntity BranchCourse { get; set; }
+        public BranchClassEntity BranchClass { get; set; }
     }
 
     public class AttendanceDetailEntity

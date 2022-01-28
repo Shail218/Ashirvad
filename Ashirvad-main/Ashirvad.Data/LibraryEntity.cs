@@ -42,6 +42,9 @@ namespace Ashirvad.Data
         public List<LibraryStandardEntity> list { get; set; }
         public List<SubjectEntity> Subjectlist { get; set; }
         public List<StandardEntity> Standardlist { get; set; } = new List<StandardEntity>();
+        public BranchCourseEntity BranchCourse { get; set; }
+        public BranchClassEntity BranchClass { get; set; }
+        public BranchSubjectEntity BranchSubject { get; set; }
     }
 
     public class LibraryStandardEntity

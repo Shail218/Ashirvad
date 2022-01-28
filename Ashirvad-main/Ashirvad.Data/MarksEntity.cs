@@ -30,5 +30,8 @@ namespace Ashirvad.Data
         public Enums.BatchType BatchType { get; set; }
         public long Count { get; set; }
         public string Percentage { get; set; }
+        public BranchCourseEntity BranchCourse { get; set; }
+        public BranchClassEntity BranchClass { get; set; }
+        public BranchSubjectEntity BranchSubject { get; set; }
     }
 }
