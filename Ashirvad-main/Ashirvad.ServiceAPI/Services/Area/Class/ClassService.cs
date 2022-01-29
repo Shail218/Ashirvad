@@ -70,12 +70,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Class
             return null;
         }
 
-        public async Task<OperationResult<List<ClassEntity>>> GetAllClassByCourse(long courseid)
+        public async Task<OperationResult<List<ClassEntity>>> GetAllClassByCourse(long courseid, bool Isupdate = false)
         {
             try
             {
                 OperationResult<List<ClassEntity>> course = new OperationResult<List<ClassEntity>>();
-                course.Data = await _classService.GetAllClassByCourse(courseid);
+                course.Data = await _classService.GetAllClassByCourse(courseid, Isupdate);
                 course.Completed = true;
                 return course;
             }
@@ -87,6 +87,22 @@ namespace Ashirvad.ServiceAPI.Services.Area.Class
             return null;
         }
 
+        public async Task<List<BranchClassEntity>> GetAllClassByCourseddl(long courseid, bool Isupdate = false)
+        {
+            try
+            {
+                List<BranchClassEntity> course = new List<BranchClassEntity>();
+                course = await _classService.GetAllClassByCourseddl(courseid, Isupdate);                
+                return course;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+        
         public async Task<OperationResult<List<ClassEntity>>> GetAllCustomClass(DataTableAjaxPostModel model)
         {
             try

@@ -60,35 +60,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     this.context.Entry(SubjectMaster).State = System.Data.Entity.EntityState.Modified;
                 }
                 var result = this.context.SaveChanges();
-
-                if (result > 0)
-                {
-                    SubjectInfo.Subject_dtl_id = SubjectMaster.subject_dtl_id;
-                    SubjectEntity Subjectmaster = new SubjectEntity();
-
-                    Subjectmaster.BranchInfo = new BranchEntity()
-                    {
-                        BranchID = SubjectInfo.branch.BranchID,
-
-                    };
-                    SubjectInfo.isSubject = SubjectInfo.isSubject;
-                    Subjectmaster.BranchSubject = new BranchSubjectEntity();
-                    Subjectmaster.Transaction = new TransactionEntity();
-                    Subjectmaster.Transaction.TransactionId = SubjectMaster.trans_id;
-                    Subjectmaster.Subject = SubjectInfo.Subject.SubjectName;
-                    Subjectmaster.BranchSubject.Subject_dtl_id = SubjectInfo.Subject_dtl_id;
-                    Subjectmaster.RowStatus = new RowStatusEntity()
-                    {
-                        RowStatus = SubjectInfo.isSubject == true ? Enums.RowStatus.Active : Enums.RowStatus.Inactive
-                    };
-                    if (SubjectInfo.isSubject)
-                    {
-                        var Result2 = SubjectMasterMaintenance(Subjectmaster);
-                    }
-                    
-                    return result > 0 ? SubjectInfo.Subject_dtl_id : 0;
-                }
-                return this.context.SaveChanges() > 0 ? 1 : 0;
+               
+                return result > 0 ? 1 : 0;
             }
             return -1;
         }
@@ -292,7 +265,11 @@ namespace Ashirvad.Repo.Services.Area.Branch
             var data = (from u in this.context.SUBJECT_DTL_MASTER
                        .Include("Subject_MASTER")
                         orderby u.subject_dtl_id descending
-                        where u.row_sta_cd == 1 && u.class_dtl_id == SubjectID && u.branch_id == BranchID && u.course_dtl_id == CourseID
+                        where u.row_sta_cd == 1 
+                        && u.class_dtl_id == SubjectID 
+                        && u.branch_id == BranchID 
+                        && u.course_dtl_id == CourseID
+                       
                         select new BranchSubjectEntity()
                         {
                             RowStatus = new RowStatusEntity()

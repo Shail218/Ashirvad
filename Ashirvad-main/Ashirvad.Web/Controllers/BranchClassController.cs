@@ -162,10 +162,11 @@ namespace Ashirvad.Web.Controllers
             });
 
         }
-        public ActionResult GetAllClassByCourse(long courseid)
+        public ActionResult GetAllClassByCourse(long courseid,long classdetailID=0)
         {
-            var data = _ClassService.GetAllClassByCourse(courseid);
-            return View("~/Views/BranchClass/ClassDetailDataTable.cshtml", data.Result.Data);
+            bool IsUpdate = classdetailID>0;            
+            var data = _ClassService.GetAllClassByCourseddl(courseid, IsUpdate);
+            return View("~/Views/BranchClass/UpdateClassDataTable.cshtml", data.Result);
         }
     }
 }

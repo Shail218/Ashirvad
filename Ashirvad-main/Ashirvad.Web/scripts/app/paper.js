@@ -32,8 +32,9 @@ $(document).ready(function () {
             }.bind(this)
         },
         "columns": [
-            { "data": "Standard.Standard" },
-            { "data": "Subject.Subject" },
+            { "data": "BranchCourse.course.CourseName" },
+            { "data": "BranchClass.Class.ClassName" },
+            { "data": "BranchSubject.Subject.SubjectName" },
             { "data": "BatchTypeText" },
             { "data": "PaperData.FilePath" },
             { "data": "PaperID" },
@@ -41,7 +42,7 @@ $(document).ready(function () {
         ],
         "columnDefs": [
             {
-                targets: 3,
+                targets: 4,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data = '<a href= "' + full.PaperData.FilePath.replace("https://mastermind.org.in", "") + '" id="paperdownload" download="' + full.PaperData.PaperPath + '"> <img src="../ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
@@ -52,7 +53,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 4,
+                targets: 5,
                 render: function (data, type, full, meta) {
                     if (check[0].Create) {
                         if (type === 'display') {
@@ -69,7 +70,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 5,
+                targets: 6,
                 render: function (data, type, full, meta) {
                     if (check[0].Delete) {
                         if (type === 'display') {

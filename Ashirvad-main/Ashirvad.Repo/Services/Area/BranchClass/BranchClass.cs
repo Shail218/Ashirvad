@@ -58,35 +58,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     this.context.Entry(ClassMaster).State = System.Data.Entity.EntityState.Modified;
                 }
                 var result = this.context.SaveChanges();
-                if (result > 0)
-                {
-                    
-                    StandardEntity standardInfo = new StandardEntity();
-
-                    standardInfo.BranchInfo = new BranchEntity()
-                    {
-                        BranchID = ClassInfo.branch.BranchID,
-
-                    };
-                    ClassInfo.isClass = ClassInfo.isClass;
-                    standardInfo.Branchclass = new BranchClassEntity();
-                    standardInfo.Transaction = new TransactionEntity();
-                    standardInfo.Transaction.TransactionId = ClassMaster.trans_id;
-                    standardInfo.Standard = ClassInfo.Class.ClassName;
-                    ClassInfo.Class_dtl_id = ClassMaster.class_dtl_id;
-                    standardInfo.Branchclass.Class_dtl_id = ClassInfo.Class_dtl_id;
-                    standardInfo.RowStatus = new RowStatusEntity()
-                    {
-                        RowStatus = ClassInfo.isClass == true ? Enums.RowStatus.Active : Enums.RowStatus.Inactive
-                    };
-                    if (ClassInfo.isClass)
-                    {
-                        var Result2 = StandardMaintenance(standardInfo);
-                    }
-
-                    return result > 0 ? ClassInfo.Class_dtl_id : 0;
-                }
-                return this.context.SaveChanges() > 0 ? 1 : 0;
+               
+                return result > 0 ? 1 : 0;
             }
             return -1;
         }
@@ -107,6 +80,15 @@ namespace Ashirvad.Repo.Services.Area.Branch
                               {
                                   BranchID = u.BRANCH_MASTER.branch_id,
                                   BranchName = u.BRANCH_MASTER.branch_name
+                              },                            
+
+                              BranchCourse = new BranchCourseEntity()
+                              {
+                                  course_dtl_id = u.course_dtl_id,
+                                  course = new CourseEntity()
+                                  {
+                                      CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                  }
                               },
                           }).Distinct().Count();
             var data = (from u in this.context.CLASS_DTL_MASTER
@@ -180,7 +162,10 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
             var data = (from u in this.context.CLASS_DTL_MASTER
                         .Include("CLASS_MASTER")
-                        where u.course_dtl_id == ClassID && u.row_sta_cd == 1 && u.is_class == true
+                        where u.course_dtl_id == ClassID 
+                        && u.row_sta_cd == 1 
+                        && u.is_class == true
+                        && u.CLASS_MASTER.row_sta_cd==1
                         select new BranchClassEntity()
                         {
                             Class = new ClassEntity()
@@ -252,7 +237,10 @@ namespace Ashirvad.Repo.Services.Area.Branch
             var data = (from u in this.context.CLASS_DTL_MASTER
                        .Include("CLASS_MASTER")
                         orderby u.class_dtl_id descending
-                        where u.row_sta_cd == 1 && u.course_dtl_id == ClassID && u.branch_id == BranchID
+                        where u.row_sta_cd == 1 
+                        && u.course_dtl_id == ClassID 
+                        && u.CLASS_MASTER.row_sta_cd == 1 
+                        && u.branch_id == BranchID
                         select new BranchClassEntity()
                         {
                             RowStatus = new RowStatusEntity()
