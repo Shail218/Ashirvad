@@ -260,12 +260,12 @@ function checkstatus(status) {
         if ($(this)[0].checked == false) {
             Create = false;
         }
-        if ($(this)[0].checked == true) {
-            var IsEdit = $("#IsEdit").val();
-            if (IsEdit == "True" && status == "old") {
-                $(this).prop("disabled", true);
-            }           
-        }
+        //if ($(this)[0].checked == true) {
+        //    var IsEdit = $("#IsEdit").val();
+        //    if (IsEdit == "True" && status == "old") {
+        //        $(this).prop("disabled", true);
+        //    }           
+        //}
     });
 
     if (Create) {
@@ -279,14 +279,15 @@ function checkstatus(status) {
 $("#CourseName").change(function () {
     var Data = $("#CourseName option:selected").val();
     $('#BranchCourse_course_dtl_id').val(Data);
-
+    var ClassdetailID = $('#Class_dtl_id').val();
     var Data = $("#CourseName option:selected").val();
     if (Data > 0) {
         ShowLoader();
-        var postCall = $.post(commonData.BranchClass + "GetAllClassByCourse", { "courseid": Data });
+        var postCall = $.post(commonData.BranchClass + "GetAllClassByCourse", { "courseid": Data, "classdetailID": ClassdetailID });
         postCall.done(function (data) {
             HideLoader();
             $("#classdetaildiv").html(data);
+            checkstatus('old');
 
         }).fail(function () {
             HideLoader();

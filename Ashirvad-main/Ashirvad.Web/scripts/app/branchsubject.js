@@ -268,13 +268,13 @@ function checkstatus(status) {
         if ($(this)[0].checked == false) {
             Create = false;
         }
-        if ($(this)[0].checked == true) {
-            var IsEdit = $("#IsEdit").val();
-            if (IsEdit == "True" && status == "old") {
-                $(this).prop("disabled", true);
-            }
+        //if ($(this)[0].checked == true) {
+        //    var IsEdit = $("#IsEdit").val();
+        //    if (IsEdit == "True" && status == "old") {
+        //        $(this).prop("disabled", true);
+        //    }
 
-        }
+        //}
     });
     if (Create) {
         $("#allselect").prop('checked', true);

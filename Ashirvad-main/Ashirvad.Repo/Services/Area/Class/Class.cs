@@ -23,7 +23,7 @@ namespace Ashirvad.Repo.Services.Area.Class
             _standard = standard;
         }
 
-        public async Task<long> CheckClass(string name,long courseid,long Id)
+        public async Task<long> CheckClass(string name, long courseid, long Id)
         {
             long result;
             bool isExists = this.context.CLASS_MASTER.Where(s => (Id == 0 || s.class_id != Id) && s.course_id == courseid && s.class_name == name && s.row_sta_cd == 1).FirstOrDefault() != null;
@@ -34,7 +34,7 @@ namespace Ashirvad.Repo.Services.Area.Class
         public async Task<long> ClassMaintenance(ClassEntity classEntity)
         {
             Model.CLASS_MASTER classMaster = new Model.CLASS_MASTER();
-            if (CheckClass(classEntity.ClassName, classEntity.courseEntity.CourseID ,classEntity.ClassID).Result != -1)
+            if (CheckClass(classEntity.ClassName, classEntity.courseEntity.CourseID, classEntity.ClassID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from cl in this.context.CLASS_MASTER
@@ -67,8 +67,9 @@ namespace Ashirvad.Repo.Services.Area.Class
                 {
                     classEntity.ClassID = classMaster.class_id;
                     classEntity.Transaction.TransactionId = classEntity.Transaction.TransactionId;
+
                     ClassMasterMaintenance(classEntity);
-                    UpdateStandard(classEntity);
+                    // UpdateStandard(classEntity);
                 }
                 return Result > 0 ? classEntity.ClassID : 0;
             }
@@ -82,7 +83,7 @@ namespace Ashirvad.Repo.Services.Area.Class
         {
             var data = (from u in this.context.CLASS_MASTER
                         .Include("COURSE_MASTER")
-                        where u.class_id == classID
+                        where u.class_id == classID && u.row_sta_cd == 1
                         select new ClassEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -93,12 +94,12 @@ namespace Ashirvad.Repo.Services.Area.Class
                             },
                             ClassID = u.class_id,
                             ClassName = u.class_name,
-                            courseEntity=new CourseEntity()
+                            courseEntity = new CourseEntity()
                             {
                                 CourseID = u.COURSE_MASTER.course_id,
-                                CourseName=u.COURSE_MASTER.course_name
+                                CourseName = u.COURSE_MASTER.course_name
                             },
-                            
+
                             OldStandard = u.class_name,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
@@ -128,29 +129,58 @@ namespace Ashirvad.Repo.Services.Area.Class
             return data;
         }
 
-        public async Task<List<ClassEntity>> GetAllClassByCourse(long courseid)
+        public async Task<List<ClassEntity>> GetAllClassByCourse(long courseid, bool Isupdate = false)
         {
-            long CourseID = 0;
-            var coursedata = this.context.COURSE_DTL_MASTER.Where(s => s.course_dtl_id == courseid && s.row_sta_cd == 1).FirstOrDefault();
-            CourseID = coursedata == null ? CourseID : coursedata.course_id;
-            var data = (from u in this.context.CLASS_MASTER
-                        orderby u.class_name descending
-                        where u.row_sta_cd == 1 && u.course_id == CourseID
-                        select new ClassEntity()
-                        {
-                            RowStatus = new RowStatusEntity()
+            if (Isupdate)
+            {
+
+                var data = (from u in this.context.CLASS_DTL_MASTER
+                            orderby u.CLASS_MASTER.class_name descending
+                            where u.row_sta_cd == 1 && u.course_dtl_id == courseid
+                            select new ClassEntity()
                             {
-                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = (int)u.row_sta_cd,
-                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
-                            },
-                            ClassID = u.class_id,
-                            ClassName = u.class_name,
-                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                                RowStatus = new RowStatusEntity()
+                                {
+                                    RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                    RowStatusId = (int)u.row_sta_cd,
+                                    RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                                },
+                                ClassID = u.class_id,
+                                ClassName = u.CLASS_MASTER.class_name,
+                                Transaction = new TransactionEntity() { TransactionId = u.trans_id },
 
-                        }).OrderByDescending(a => a.ClassID).ToList();
+                            }).OrderByDescending(a => a.ClassID).ToList();
 
-            return data;
+                return data;
+
+
+            }
+            else
+            {
+                long CourseID = 0;
+                var coursedata = this.context.COURSE_DTL_MASTER.Where(s => s.course_dtl_id == courseid && s.row_sta_cd == 1).FirstOrDefault();
+                CourseID = coursedata == null ? CourseID : coursedata.course_id;
+                var data = (from u in this.context.CLASS_MASTER
+                            orderby u.class_name descending
+                            where u.row_sta_cd == 1 && u.course_id == CourseID
+                            select new ClassEntity()
+                            {
+                                RowStatus = new RowStatusEntity()
+                                {
+                                    RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                    RowStatusId = (int)u.row_sta_cd,
+                                    RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                                },
+                                ClassID = u.class_id,
+                                ClassName = u.class_name,
+                                Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+
+                            }).OrderByDescending(a => a.ClassID).ToList();
+
+                return data;
+
+            }
+
         }
 
         public async Task<List<ClassEntity>> GetAllClassDDL(long BranchID, long ClassID = 0)
@@ -168,11 +198,42 @@ namespace Ashirvad.Repo.Services.Area.Class
 
         public async Task<List<ClassEntity>> GetAllCustomClass(DataTableAjaxPostModel model)
         {
-            var Count = context.CLASS_MASTER.Where(a => a.row_sta_cd == 1).Count();
+            var Count = (from u in this.context.CLASS_MASTER
+                        .Include("COURSE_MASTER")
+                         orderby u.class_name descending
+                         where u.row_sta_cd == 1
+                         && (
+                         model.search.value == null || model.search.value == ""
+                         || u.COURSE_MASTER.course_name.ToLower().Contains(model.search.value)
+                         || u.class_name.ToLower().Contains(model.search.value)
+                         )
+                         select new ClassEntity()
+                         {
+                             RowStatus = new RowStatusEntity()
+                             {
+                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                 RowStatusId = (int)u.row_sta_cd,
+                                 RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                             },
+                             courseEntity = new CourseEntity()
+                             {
+                                 CourseName = u.COURSE_MASTER.course_name
+                             },
+                             ClassID = u.class_id,
+                             ClassName = u.class_name,
+                             course_id = u.course_id,
+                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                             
+                         }).Count();
             var data = (from u in this.context.CLASS_MASTER
                         .Include("COURSE_MASTER")
                         orderby u.class_name descending
                         where u.row_sta_cd == 1
+                        && (
+                         model.search.value == null || model.search.value == ""
+                         || u.COURSE_MASTER.course_name.ToLower().Contains(model.search.value)
+                         || u.class_name.ToLower().Contains(model.search.value)
+                        )
                         select new ClassEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -243,24 +304,7 @@ namespace Ashirvad.Repo.Services.Area.Class
             try
             {
                 long result = 0;
-                var data = (from Class in this.context.CLASS_DTL_MASTER
-                            select new BranchClassEntity
-                            {
-                                branch = new BranchEntity()
-                                {
-                                    BranchID = Class.branch_id
-                                },
-                                Class = new ClassEntity()
-                                {
-                                    ClassID = Class.class_id
-                                },
-                                BranchCourse = new BranchCourseEntity()
-                                {
-                                    course_dtl_id = Class.course_dtl_id
-
-                                }
-                            }).Distinct().ToList();
-
+                var List = GetClassdetails(ClassEntity.courseEntity.CourseID).Result;
                 BranchClassEntity branchClass = new BranchClassEntity();
                 branchClass.Class = new ClassEntity()
                 {
@@ -275,65 +319,15 @@ namespace Ashirvad.Repo.Services.Area.Class
                 {
                     RowStatus = Enums.RowStatus.Active
                 };
-
-                foreach (var item in data)
+                foreach (var item in List)
                 {
-                    branchClass.branch = new BranchEntity()
-                    {
-                        BranchID = item.branch.BranchID,
-
-                    };
                     branchClass.BranchCourse = new BranchCourseEntity()
                     {
-                        course_dtl_id = item.BranchCourse.course_dtl_id,
-
+                        course_dtl_id = item.BranchCourse.course_dtl_id
                     };
-                    branchClass.Class_dtl_id = 0;
+                    branchClass.branch = item.branch;
                     result = _BranchClass.ClassMaintenance(branchClass).Result;
                 }
-                if ((int)ClassEntity.UserType == 5)
-                {
-                    StandardEntity standard = new StandardEntity();
-                    standard.BranchInfo = new BranchEntity()
-                    {
-                        BranchID = ClassEntity.branchEntity.BranchID,
-
-                    };
-                    standard.Branchclass = new BranchClassEntity()
-                    {
-                        Class_dtl_id = 0,
-
-                    };
-                    standard.Standard = ClassEntity.ClassName;
-                    standard.Transaction = new TransactionEntity()
-                    {
-                        TransactionId = 1
-                    };
-                    standard.RowStatus = new RowStatusEntity()
-                    {
-                        RowStatus = Enums.RowStatus.Active
-                    };
-                    if (ClassEntity.ClassID > 0)
-                    {
-                        Model.STD_MASTER sTD_ = new Model.STD_MASTER();
-                        var std = (from cl in this.context.STD_MASTER
-                                   where cl.standard == ClassEntity.OldStandard
-                                   && cl.row_sta_cd == 1
-                                   && cl.branch_id == ClassEntity.branchEntity.BranchID
-                                   select new
-                                   {
-                                       sTD_ = cl
-                                   }).FirstOrDefault();
-
-                        if (std != null)
-                        {
-                            standard.StandardID = std.sTD_.std_id;
-                        }
-                    }
-
-                    result = _standard.StandardMaintenance(standard).Result;
-                }
-
                 return result;
             }
             catch (Exception ex)
@@ -413,6 +407,89 @@ namespace Ashirvad.Repo.Services.Area.Class
                         }).ToList();
 
             return data;
+        }
+
+        public async Task<List<BranchClassEntity>> GetClassdetails(long CourseID)
+        {
+            var data = (from u in this.context.CLASS_DTL_MASTER
+                        where u.row_sta_cd == 1 && u.COURSE_DTL_MASTER.course_id == CourseID
+                        select new BranchClassEntity()
+                        {
+
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id
+                            },
+                            branch = new BranchEntity()
+                            {
+                                BranchID = u.branch_id
+                            }
+
+                        }).Distinct().ToList();
+
+            return data;
+        }
+
+
+        public async Task<List<BranchClassEntity>> GetAllClassByCourseddl(long courseid, bool Isupdate = false)
+        {
+            var data = (from u in this.context.CLASS_DTL_MASTER
+                        orderby u.CLASS_MASTER.class_name descending
+                        where u.row_sta_cd == 1 && u.course_dtl_id == courseid && u.CLASS_MASTER.row_sta_cd == 1
+                        select new BranchClassEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd,
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                            },
+                            Class = new ClassEntity()
+                            {
+                                ClassID = u.class_id,
+                                ClassName = u.CLASS_MASTER.class_name,
+                            },
+                            isClass = u.is_class.HasValue ? u.is_class.Value : false,
+                            Class_dtl_id = u.class_dtl_id,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+
+                        }).OrderByDescending(a => a.Class.ClassID).ToList();
+
+
+            if (data?.Count == 0)
+            {
+                long CourseID = 0;
+                var coursedata = this.context.COURSE_DTL_MASTER.Where(s => s.course_dtl_id == courseid && s.row_sta_cd == 1).FirstOrDefault();
+                CourseID = coursedata == null ? CourseID : coursedata.course_id;
+                var data1 = (from u in this.context.CLASS_MASTER
+                             orderby u.class_name descending
+                             where u.row_sta_cd == 1 && u.course_id == CourseID
+                             select new BranchClassEntity()
+                             {
+                                 RowStatus = new RowStatusEntity()
+                                 {
+                                     RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                     RowStatusId = (int)u.row_sta_cd,
+                                     RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                                 },
+                                 Class = new ClassEntity()
+                                 {
+                                     ClassID = u.class_id,
+                                     ClassName = u.class_name,
+                                 },
+                                 Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+
+                             }).OrderByDescending(a => a.Class.ClassID).ToList();
+
+                return data1;
+            }
+            else
+            {
+                return data;
+            }
+
+
+
         }
 
     }

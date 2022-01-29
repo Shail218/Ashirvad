@@ -117,5 +117,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.SuperAdminSubject
 
             return false;
         }
+
+        public async Task<List<BranchSubjectEntity>> GetAllSubjectByCourseClassddl(long courseid, long classid, bool Isupdate = false)
+        {
+            try
+            {
+                List< BranchSubjectEntity> course = new List<BranchSubjectEntity>();
+                course = await _subjectService.GetAllSubjectByCourseClassddl(courseid, classid);                
+                return course;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
     }
 }

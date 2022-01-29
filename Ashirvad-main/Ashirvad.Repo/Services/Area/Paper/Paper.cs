@@ -40,8 +40,9 @@ namespace Ashirvad.Repo.Services.Area.Paper
             paperMaster.row_sta_cd = paperInfo.RowStatus.RowStatusId;
             paperMaster.trans_id = this.AddTransactionData(paperInfo.Transaction);
             paperMaster.branch_id = paperInfo.Branch.BranchID;
-            paperMaster.class_dtl_id = paperInfo.Standard.StandardID;
-            paperMaster.subject_dtl_id = paperInfo.Subject.SubjectID;
+            paperMaster.class_dtl_id = paperInfo.BranchClass.Class_dtl_id;
+            paperMaster.course_dtl_id = paperInfo.BranchCourse.course_dtl_id;
+            paperMaster.subject_dtl_id = paperInfo.BranchSubject.Subject_dtl_id;
             paperMaster.remarks = paperInfo.Remarks;
             paperMaster.batch_type = paperInfo.BatchTypeID;
             this.context.PRACTICE_PAPER.Add(paperMaster);

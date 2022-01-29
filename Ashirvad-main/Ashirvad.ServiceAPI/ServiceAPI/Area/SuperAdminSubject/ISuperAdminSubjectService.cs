@@ -17,5 +17,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.SuperAdminSubject
         bool RemoveSubject(long subjectID, string lastupdatedby);
         Task<OperationResult<List<SuperAdminSubjectEntity>>> GetAllCustomSubject(DataTableAjaxPostModel model);
         Task<OperationResult<List<SuperAdminSubjectEntity>>> GetAllSubjectByCourseClass(long courseid, long classid);
+
+        Task<List<BranchSubjectEntity>> GetAllSubjectByCourseClassddl(long courseid, long classid,bool Isupdate=false);
     }
 }

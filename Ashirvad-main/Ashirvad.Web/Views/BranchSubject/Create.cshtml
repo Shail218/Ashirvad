@@ -25,77 +25,74 @@
 
         </div>
         <div class="col-md-12">
-            @if (Model.Subject_dtl_id > 0)
-            {
-                <div id="updateclassdetaildiv" style="max-height: 300px; overflow-y: scroll !important">
-                    @{
-                        Html.RenderPartial("UpdateSubjectDataTable", new ViewDataDictionary(Model.BranchSubjectData));
-                    }
-                </div>
-            }
-            else
-            {
-                <div id="classdetaildiv" style="max-height: 300px; overflow-y: scroll !important">
-                    @{
-                        Html.RenderPartial("SubjectDetailDataTable", new ViewDataDictionary(Model.SubjectData));
-                    }
-                </div>
-            }
-
-        </div>
-        @*<div class="col-md-12">
-            <table style="width: 100%;" id="choiceList" class="table table-striped dataTable no-footer">
-                <thead>
-                    <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
-                        <th style="width:13%">
-                            <input type="checkbox" class="allselected" onchange="OnSelectStatus(this,'isSubject');" Id="allselect" /> All
-                        </th>
-                        <th>Subject Name</th>
-                    </tr>
-                </thead>
-                @if (Model.BranchSubjectData.Count > 0)
+            <div id="classdetaildiv" style="max-height: 300px; overflow-y: scroll !important">
+                @if (Model.Subject_dtl_id > 0)
                 {
-                    <tbody>
-                        @foreach (var item in Model.BranchSubjectData)
-                        {
+                  
+                        Html.RenderPartial("UpdateSubjectDataTable", new ViewDataDictionary(Model.BranchSubjectData));
 
-                            <tr>
-                                <td class="js-export-checkbox">
-                                    @Html.CheckBoxFor(m => item.isSubject, new { @class = "isSubject", @onchange = "checkstatus('new')" })
-                                    <input type="hidden" value="@item.Subject_dtl_id" class="Subjectdtlid" />
-                                </td>
-                                <td>
-                                    @item.Subject.SubjectName
-                                    <input type="hidden" value="@item.Subject.SubjectID" class="SubjectID" />
-                                    <input type="hidden" value="@item.Subject.SubjectName" class="SubjectName" />
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
                 }
                 else
                 {
-                    <tbody>
-                        @foreach (var item in Model.SubjectData)
-                        {
 
-                            <tr>
-                                <td subject="js-export-checkbox">
-                                    @Html.CheckBox("isSubject", new { @class = "isSubject", @Id = "isSubject", @onchange = "checkstatus()" })
-                                    <input type="hidden" value="0" subject="subjectdtlid" />
-                                </td>
-                                <td>
-                                    @Html.HiddenFor(x => item.SubjectID, new { @class = "SubjectID" })
-                                    @Html.HiddenFor(x => item.SubjectName, new { @class = "SubjectName" })
-                                    @item.SubjectName
+                        Html.RenderPartial("UpdateSubjectDataTable", new ViewDataDictionary(Model.BranchSubjectData));
 
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
                 }
-            </table>
-        </div>*@
+            </div>
+        </div>
+        @*<div class="col-md-12">
+                <table style="width: 100%;" id="choiceList" class="table table-striped dataTable no-footer">
+                    <thead>
+                        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+                            <th style="width:13%">
+                                <input type="checkbox" class="allselected" onchange="OnSelectStatus(this,'isSubject');" Id="allselect" /> All
+                            </th>
+                            <th>Subject Name</th>
+                        </tr>
+                    </thead>
+                    @if (Model.BranchSubjectData.Count > 0)
+                    {
+                        <tbody>
+                            @foreach (var item in Model.BranchSubjectData)
+                            {
+
+                                <tr>
+                                    <td class="js-export-checkbox">
+                                        @Html.CheckBoxFor(m => item.isSubject, new { @class = "isSubject", @onchange = "checkstatus('new')" })
+                                        <input type="hidden" value="@item.Subject_dtl_id" class="Subjectdtlid" />
+                                    </td>
+                                    <td>
+                                        @item.Subject.SubjectName
+                                        <input type="hidden" value="@item.Subject.SubjectID" class="SubjectID" />
+                                        <input type="hidden" value="@item.Subject.SubjectName" class="SubjectName" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                    else
+                    {
+                        <tbody>
+                            @foreach (var item in Model.SubjectData)
+                            {
+
+                                <tr>
+                                    <td subject="js-export-checkbox">
+                                        @Html.CheckBox("isSubject", new { @class = "isSubject", @Id = "isSubject", @onchange = "checkstatus()" })
+                                        <input type="hidden" value="0" subject="subjectdtlid" />
+                                    </td>
+                                    <td>
+                                        @Html.HiddenFor(x => item.SubjectID, new { @class = "SubjectID" })
+                                        @Html.HiddenFor(x => item.SubjectName, new { @class = "SubjectName" })
+                                        @item.SubjectName
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                </table>
+            </div>*@
         <div class="form-group">
             <div class="col-md-12" style="text-align: right;">
                 <br />

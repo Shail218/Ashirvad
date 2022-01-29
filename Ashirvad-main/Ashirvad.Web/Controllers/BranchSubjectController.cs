@@ -186,10 +186,10 @@ namespace Ashirvad.Web.Controllers
 
         }
 
-        public ActionResult GetAllSubjectByCourse(long courseid,long classid)
+        public ActionResult GetAllSubjectByCourse(long courseid,long classid,long subjecdetailID=0)
         {
-            var data = _subjectService.GetAllSubjectByCourseClass(courseid,classid);
-            return View("~/Views/BranchSubject/SubjectDetailDataTable.cshtml", data.Result.Data);
+            var data = _subjectService.GetAllSubjectByCourseClassddl(courseid,classid);
+            return View("~/Views/BranchSubject/UpdateSubjectDataTable.cshtml", data.Result);
         }
     }
 }

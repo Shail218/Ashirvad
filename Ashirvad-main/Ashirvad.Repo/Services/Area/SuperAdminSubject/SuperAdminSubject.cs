@@ -69,7 +69,7 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                     subjectEntity.SubjectID = subjectMaster.subject_id;
                     subjectEntity.Transaction.TransactionId = subjectEntity.Transaction.TransactionId;
                     SubjectMasterMaintenance(subjectEntity);
-                    UpdateSubject(subjectEntity);
+                    //UpdateSubject(subjectEntity);
                 }
                 return this.context.SaveChanges() > 0 ? subjectEntity.SubjectID : 0;
             }
@@ -205,27 +205,8 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
             try
             {
                 long result = 0;
-                var data = (from Subject in this.context.SUBJECT_DTL_MASTER
-                            select new BranchSubjectEntity
-                            {
-                                branch = new BranchEntity()
-                                {
-                                    BranchID = Subject.branch_id
-                                },
-                                Subject = new SuperAdminSubjectEntity()
-                                {
-                                    SubjectID = Subject.subject_id
-                                },
-                                BranchCourse = new BranchCourseEntity()
-                                {
-                                    course_dtl_id = Subject.course_dtl_id
 
-                                },
-                                BranchClass = new BranchClassEntity()
-                                {
-                                    Class_dtl_id = Subject.class_dtl_id
-                                }
-                            }).Distinct().ToList();
+                var List = GetSubjectdetails(subjectentity.courseEntity.CourseID, subjectentity.classEntity.ClassID).Result;
 
                 BranchSubjectEntity branchSubject = new BranchSubjectEntity();
                 branchSubject.Subject = new SuperAdminSubjectEntity()
@@ -241,13 +222,9 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                 {
                     RowStatus = Enums.RowStatus.Active
                 };
-                foreach (var item in data)
+                foreach (var item in List)
                 {
-                    branchSubject.branch = new BranchEntity()
-                    {
-                        BranchID = item.branch.BranchID,
-
-                    };
+                    branchSubject.branch = item.branch;
                     branchSubject.BranchCourse = new BranchCourseEntity()
                     {
                         course_dtl_id = item.BranchCourse.course_dtl_id,
@@ -257,50 +234,50 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                     {
                         Class_dtl_id = item.BranchClass.Class_dtl_id
                     };
-                    branchSubject.Subject_dtl_id = 0;
+                    
                     result = _BranchSubject.SubjectMaintenance(branchSubject).Result;
                 }
-                if ((int)subjectentity.UserType == 5)
-                {
-                    SubjectEntity subject = new SubjectEntity();
-                    subject.BranchInfo = new BranchEntity()
-                    {
-                        BranchID = subjectentity.branchEntity.BranchID,
+                //if ((int)subjectentity.UserType == 5)
+                //{
+                //    SubjectEntity subject = new SubjectEntity();
+                //    subject.BranchInfo = new BranchEntity()
+                //    {
+                //        BranchID = subjectentity.branchEntity.BranchID,
 
-                    };
-                    subject.BranchSubject = new BranchSubjectEntity()
-                    {
-                        Subject_dtl_id = 0,
-                    };
-                    subject.Subject = subjectentity.SubjectName;
-                    subject.Transaction = new TransactionEntity()
-                    {
-                        TransactionId = 1
-                    };
-                    subject.RowStatus = new RowStatusEntity()
-                    {
-                        RowStatus = Enums.RowStatus.Active
-                    };
-                    if (subjectentity.SubjectID > 0)
-                    {
-                        Model.SUBJECT_MASTER sub_ = new Model.SUBJECT_MASTER();
-                        var std = (from sub in this.context.SUBJECT_MASTER
-                                   where sub.subject == subjectentity.oldsubject
-                                   && sub.row_sta_cd == 1
-                                   && sub.branch_id == subjectentity.branchEntity.BranchID
-                                   select new
-                                   {
-                                       sub_ = sub
-                                   }).FirstOrDefault();
+                //    };
+                //    subject.BranchSubject = new BranchSubjectEntity()
+                //    {
+                //        Subject_dtl_id = 0,
+                //    };
+                //    subject.Subject = subjectentity.SubjectName;
+                //    subject.Transaction = new TransactionEntity()
+                //    {
+                //        TransactionId = 1
+                //    };
+                //    subject.RowStatus = new RowStatusEntity()
+                //    {
+                //        RowStatus = Enums.RowStatus.Active
+                //    };
+                //    if (subjectentity.SubjectID > 0)
+                //    {
+                //        Model.SUBJECT_MASTER sub_ = new Model.SUBJECT_MASTER();
+                //        var std = (from sub in this.context.SUBJECT_MASTER
+                //                   where sub.subject == subjectentity.oldsubject
+                //                   && sub.row_sta_cd == 1
+                //                   && sub.branch_id == subjectentity.branchEntity.BranchID
+                //                   select new
+                //                   {
+                //                       sub_ = sub
+                //                   }).FirstOrDefault();
 
-                        if (std != null)
-                        {
-                            subject.SubjectID = std.sub_.subject_id;
-                        }
-                    }
+                //        if (std != null)
+                //        {
+                //            subject.SubjectID = std.sub_.subject_id;
+                //        }
+                //    }
 
-                    result = _subject.SubjectMaintenance(subject).Result;
-                }
+                //    result = _subject.SubjectMaintenance(subject).Result;
+                //}
                 return result;
             }
             catch (Exception ex)
@@ -395,6 +372,94 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                 throw;
             }
 
+        }
+
+
+
+        public async Task<List<BranchSubjectEntity>> GetAllSubjectByCourseClassddl(long courseid, long classid, bool Isupdate = false)
+        {
+            var data = (from u in this.context.SUBJECT_DTL_MASTER
+                        orderby u.subject_dtl_id descending
+                        where u.row_sta_cd == 1
+                        && u.class_dtl_id == classid
+                        && u.course_dtl_id == courseid
+                        
+                        select new BranchSubjectEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            Subject = new SuperAdminSubjectEntity()
+                            {
+                                SubjectID = u.SUBJECT_BRANCH_MASTER.subject_id,
+                                SubjectName = u.SUBJECT_BRANCH_MASTER.subject_name
+                            },
+                            Subject_dtl_id = u.subject_dtl_id,
+                            isSubject = u.is_subject == true ? true : false,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                        }).OrderByDescending(a => a.Subject.SubjectID).ToList();
+
+            if (data?.Count == 0)
+            {
+                long CourseID = 0, ClassID = 0;
+                var coursedata = this.context.COURSE_DTL_MASTER.Where(s => s.course_dtl_id == courseid && s.row_sta_cd == 1).FirstOrDefault();
+                CourseID = coursedata == null ? CourseID : coursedata.course_id;
+                var classdata = this.context.CLASS_DTL_MASTER.Where(s => s.class_dtl_id == classid && s.row_sta_cd == 1).FirstOrDefault();
+                ClassID = classdata == null ? ClassID : classdata.class_id;
+                var data1 = (from u in this.context.SUBJECT_BRANCH_MASTER
+                            orderby u.subject_id descending
+                            where u.row_sta_cd == 1 && u.course_id == CourseID && u.class_id == ClassID
+                            select new BranchSubjectEntity()
+                            {
+                                RowStatus = new RowStatusEntity()
+                                {
+                                    RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                    RowStatusId = (int)u.row_sta_cd,
+                                    RowStatusText = u.row_sta_cd == 1 ? "Active" : "Inactive"
+                                },
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.subject_id,
+                                    SubjectName = u.subject_name
+                                },
+                               
+                                Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+
+                            }).OrderByDescending(a => a.Subject.SubjectID).ToList();
+                return data1;
+            }
+
+            return data;
+        }
+
+
+        public async Task<List<BranchSubjectEntity>> GetSubjectdetails(long CourseID, long ClassID)
+        {
+            var data = (from u in this.context.SUBJECT_DTL_MASTER
+                        where u.row_sta_cd == 1 
+                        && u.CLASS_DTL_MASTER.class_id == ClassID
+                        && u.CLASS_DTL_MASTER.COURSE_DTL_MASTER.course_id == CourseID
+                        select new BranchSubjectEntity()
+                        {
+
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id
+                            },
+                            BranchClass = new BranchClassEntity()
+                            {
+                                Class_dtl_id = u.class_dtl_id
+                            },
+                            branch = new BranchEntity()
+                            {
+                                BranchID = u.branch_id
+                            }
+
+                        }).Distinct().ToList();
+
+            return data;
         }
     }
 }
