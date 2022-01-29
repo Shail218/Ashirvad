@@ -145,6 +145,29 @@ namespace Ashirvad.Web.Controllers
 
         }
 
+        public async Task<JsonResult> GetLibrarySubjectDDL(long courseid, string std)
+        {
+
+            try
+            {
+                var result = await _branchSubjectService.GetSubjectDDL(courseid, SessionContext.Instance.LoginUser.BranchInfo.BranchID, std);
+                if (result.Count > 0)
+                {
+                    return Json(result);
+                }
+                else
+                {
+                    return Json(null);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(null);
+            }
+
+        }
+
         public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
         {
             var branchData = await _branchSubjectService.GetAllSubjects(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);

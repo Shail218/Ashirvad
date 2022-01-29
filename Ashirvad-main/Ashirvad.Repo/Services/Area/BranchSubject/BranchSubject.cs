@@ -335,6 +335,39 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return data;
         }
 
+        public async Task<List<BranchSubjectEntity>> GetSubjectDDL(long courseid,long branchid,string std)
+        {
+            List<BranchSubjectEntity> list = new List<BranchSubjectEntity>();
+            string[] STD = std.Split(',');
+            foreach(string item in STD)
+            {
+                
+                list.AddRange(from u in this.context.SUBJECT_DTL_MASTER
+                              orderby u.subject_dtl_id descending
+                              where u.row_sta_cd == 1
+                              && u.class_dtl_id.ToString().ToLower().Contains(item)
+                              && u.course_dtl_id == courseid
+                              && u.branch_id == branchid
+                              select new BranchSubjectEntity()
+                              {
+                                  RowStatus = new RowStatusEntity()
+                                  {
+                                      RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                      RowStatusId = (int)u.row_sta_cd
+                                  },
+                                  Subject = new SuperAdminSubjectEntity()
+                                  {
+                                      SubjectID = u.SUBJECT_BRANCH_MASTER.subject_id,
+                                      SubjectName = u.SUBJECT_BRANCH_MASTER.subject_name
+                                  },
+                                  Subject_dtl_id = u.subject_dtl_id,
+                                  isSubject = u.is_subject == true ? true : false,
+                                  Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                              });
+            }
+            return list;
+        }
+
         public async Task<BranchSubjectEntity> GetSubjectbyID(long SubjectID)
         {
             var data = (from u in this.context.SUBJECT_DTL_MASTER
