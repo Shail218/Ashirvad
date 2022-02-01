@@ -117,10 +117,10 @@ namespace Ashirvad.Web.Controllers
 
         [Route("RemoveBranchCourse")]
         [HttpPost]
-        public OperationResult<bool> RemoveBranchCourse(long BranchCourseID, string lastupdatedby)
+        public OperationResult<ResponseModel> RemoveBranchCourse(long BranchCourseID, string lastupdatedby)
         {
             var data = _branchcourseService.RemoveBranchCourse(BranchCourseID, lastupdatedby);
-            OperationResult<bool> result = new OperationResult<bool>();
+            OperationResult<ResponseModel> result = new OperationResult<ResponseModel>();
             result.Completed = true;
             result.Data = data;
             return result;

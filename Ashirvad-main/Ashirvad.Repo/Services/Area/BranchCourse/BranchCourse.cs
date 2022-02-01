@@ -167,8 +167,11 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return data;
         }
 
-        public bool RemoveCourse(long CourseID, string lastupdatedby)
+        public ResponseModel RemoveCourse(long CourseID, string lastupdatedby)
         {
+            Check_Delete check = new Check_Delete();
+            ResponseModel model = new ResponseModel();
+            string message = "";
             var data = (from u in this.context.COURSE_DTL_MASTER
                         where u.branch_id == CourseID
                         select u).ToList();
@@ -176,15 +179,27 @@ namespace Ashirvad.Repo.Services.Area.Branch
             {
                 foreach(var item in data)
                 {
-                    item.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
-                    this.context.SaveChanges();
+                    var data_course = check.check_remove_course(CourseID, item.course_dtl_id).Result;
+                    if(data_course.Status)
+                    {
+                        item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                        this.context.SaveChanges();
+
+                    }
+                    else
+                    {
+                        message = message + data_course.Message;
+                    }
+                  
                 }
+                model.Status = message == "" ? true : false;
+                model.Message = message == "" ? "Course Deleted Successfully!!" : message;
                
-                return true;
+                return model;
             }
 
-            return false;
+            return model;
         }
 
 

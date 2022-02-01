@@ -1,11 +1,15 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
+using Ashirvad.Repo.Services.Area.User;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.User;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -82,6 +86,57 @@ namespace Ashirvad.Web.Controllers
             return Json(response);
         }
 
+        [HttpPost]
+        public async Task<JsonResult> CheckUserName(UserEntity user)
+        {
+            User model = new User();
+            ResponseModel entity = new ResponseModel();
+            smsmodel sms = new smsmodel();
+            var data = model.Check_UserName(user.Username).Result;
+            if(data != null)
+            {                
+                string contactNo = data.Username;
+                //string message = "UserName- " + contactNo + "Password- " + data.Password;
+                string message = "testing msg oasissoftwares";
+                string requestUrl = string.Format("http://sms.oasissoftwares.online/sms-panel/api/http/index.php?username=oasisdemos&apikey=6E545-4F2C6&apirequest=Text&sender=SMSIDU&mobile=" + contactNo + "&message= " + message + "&route=TRANS&TemplateID=1507161735303447121&format=JSON");
+                HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
+                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                var dataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataStream);
+                string responseFromServer = reader.ReadToEnd();
+                reader.Close();
+                dataStream.Close();
+                const string accessToken = "status\":\"";
+                int clientIndex = responseFromServer.IndexOf(accessToken, StringComparison.Ordinal);
+                
+                int accessTokenIndex = clientIndex + accessToken.Length;
+                string access_token = responseFromServer.Substring(accessTokenIndex, (responseFromServer.Length - accessTokenIndex -2));
+                int clientIndex1 = access_token.IndexOf("\",\"", StringComparison.Ordinal);
+                try
+                {
+                    string access_token2 = access_token.Substring(0,clientIndex1);
+                    if (access_token2 == "success")
+                    {
+                        entity.Status = true;
+                        entity.Message = "SMS Send to Your Register Mobile Number.";
+                    }
+                }
+                catch(Exception ex)
+                {
+                    entity.Status = false;
+                    entity.Message = ex.Message;
+                }
+               
+                
+            }
+            else
+            {
+                entity.Status = false;
+                entity.Message = "Please Enter Register Mobile Number!!";
+            }
+            return Json(entity);
+        }
+
         public async Task<string> GetBranchRights(long PackageRightID)
         {
             var BranchRightData = await _BranchRightService.GetBranchRightsByBranchID(PackageRightID);
@@ -96,5 +151,12 @@ namespace Ashirvad.Web.Controllers
             return SessionContext.Instance.userRightsList;
 
         }
+
+    }
+
+    public class smsmodel
+    {
+        public string status { get; set; }
+        public string message { get; set; }
     }
 }

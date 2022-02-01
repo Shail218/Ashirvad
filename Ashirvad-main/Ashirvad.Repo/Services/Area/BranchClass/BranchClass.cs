@@ -298,8 +298,11 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return data;
         }
 
-        public bool RemoveClass(long ClassID, long BranchID, string lastupdatedby)
+        public ResponseModel RemoveClass(long ClassID, long BranchID, string lastupdatedby)
         {
+            Check_Delete check = new Check_Delete();
+            ResponseModel model = new ResponseModel();
+            string message = "";
             var data = (from u in this.context.CLASS_DTL_MASTER
                         where u.branch_id == BranchID && u.course_dtl_id == ClassID && u.row_sta_cd == (int)Enums.RowStatus.Active
                         select u).ToList();
@@ -307,17 +310,26 @@ namespace Ashirvad.Repo.Services.Area.Branch
             {
                 foreach (var item in data)
                 {
-                    item.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
-                    this.context.SaveChanges();
-                    string ClassName = item.CLASS_MASTER.class_name;
-                    bool Status = RemoveStandard(ClassName, BranchID, lastupdatedby);
+                    var data_class = check.check_remove_class(BranchID, item.class_dtl_id).Result;
+                    if(data_class.Status)
+                    {
+                        item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                        this.context.SaveChanges();
+                    }
+                    else
+                    {
+                        message = message + "<br />" + data_class.Message;
+                    }
                 }
 
-                return true;
+                model.Status = message == "" ? true : false;
+                model.Message = message == "" ? "Class Deleted Successfully!!" : message;
+
+                return model;
             }
 
-            return false;
+            return model;
         }
 
         public async Task<bool> CheckStd(long class_dtl_id, string ClasName, long BranchID)

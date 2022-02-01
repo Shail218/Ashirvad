@@ -32,11 +32,11 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             return null;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudentsNameByStandard(long StdID)
+        public async Task<List<StudentEntity>> GetAllStudentsNameByStandard(long StdID, long courseid)
         {
             try
             {
-                return await this._studentContext.GetAllStudentsNameByStandard(StdID);
+                return await this._studentContext.GetAllStudentsNameByStandard(StdID,courseid);
             }
             catch (Exception ex)
             {

@@ -6,7 +6,7 @@ $(document).ready(function () {
         ShowLoader();
         LoadBranch();
     } else {
-        LoadStandard(0);
+        LoadCourse();
         showchartAstdcontainer();
     }
     document.getElementById("BatchDiv").style.display = 'none';
@@ -28,24 +28,27 @@ function LoadBranch() {
     });
 }
 
-function LoadStandard(branchID) {
-    ShowLoader();
-    var postCall = $.post(commonData.BatchWiseChart + "GetAllStandard", { "branchID": branchID });
+function LoadCourse() {
+    var postCall = $.post(commonData.BranchCourse + "GetCourseDDL");
     postCall.done(function (data) {
-        $('#StandardName').empty();
-        $('#StandardName').select2();
-        $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#StandardName").append("<option value='" + data[i].StandardID + "'>" + data[i].Standard + "</option>");
+        $('#CourseName').empty();
+        $('#CourseName').select2();
+        $("#CourseName").append("<option value=" + 0 + ">---Select Course---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                if (data.length == 1) {
+                    $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
+                    $('#CourseName option[value="' + data[i].course_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchCourse_course_dtl_id').val(data[i].course_dtl_id);
+                } else {
+                    $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
+                }
+            }
         }
-        var url = new URL(window.location.href);
-        var search_params = url.searchParams;
-        var StandardID = search_params.get('StandardID');
-        if (StandardID != 0) {
-            $('#StandardName option[value="' + StandardID + '"]').attr("selected", "selected");
-            LoadStudentByStandard(StandardID);
-            document.getElementById("BatchDiv").style.display = 'block';
-            document.getElementById("ChartDiv").style.display = 'block';
+
+        if ($("#BranchCourse_course_dtl_id").val() != "") {
+            $('#CourseName option[value="' + $("#BranchCourse_course_dtl_id").val() + '"]').attr("selected", "selected");
+            LoadClass($("#BranchCourse_course_dtl_id").val());
         }
         HideLoader();
     }).fail(function () {
@@ -53,9 +56,65 @@ function LoadStandard(branchID) {
     });
 }
 
+function LoadClass(CourseID) {
+    ShowLoader();
+    var postCall = $.post(commonData.BranchClass + "GetClassDDL", { "CourseID": CourseID });
+    postCall.done(function (data) {
+        $('#StandardName').empty();
+        $('#StandardName').select2();
+        $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                if (data.length == 1) {
+                    $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
+                    $('#StandardName option[value="' + data[i].Class_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchClass_Class_dtl_id').val(data[i].Class_dtl_id);
+                } else {
+                    $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
+                }
+            }
+        }
+        if ($("#BranchClass_Class_dtl_id").val() != "") {
+            $('#CourseName option[value="' + $("#BranchClass_Class_dtl_id").val() + '"]').attr("selected", "selected");
+            LoadStudentByStandard($("#BranchClass_Class_dtl_id").val());
+            document.getElementById("BatchDiv").style.display = 'block';
+            document.getElementById("ChartDiv").style.display = 'block';
+        }
+        HideLoader();
+    }).fail(function () {
+        HideLoader();
+    });
+}
+
+//function LoadStandard(branchID) {
+//    ShowLoader();
+//    var postCall = $.post(commonData.BatchWiseChart + "GetAllStandard", { "branchID": branchID });
+//    postCall.done(function (data) {
+//        $('#StandardName').empty();
+//        $('#StandardName').select2();
+//        $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
+//        for (i = 0; i < data.length; i++) {
+//            $("#StandardName").append("<option value='" + data[i].StandardID + "'>" + data[i].Standard + "</option>");
+//        }
+//        var url = new URL(window.location.href);
+//        var search_params = url.searchParams;
+//        var StandardID = search_params.get('StandardID');
+//        if (StandardID != 0) {
+//            $('#StandardName option[value="' + StandardID + '"]').attr("selected", "selected");
+//            LoadStudentByStandard(StandardID);
+//            document.getElementById("BatchDiv").style.display = 'block';
+//            document.getElementById("ChartDiv").style.display = 'block';
+//        }
+//        HideLoader();
+//    }).fail(function () {
+//        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+//    });
+//}
+
 function LoadStudentByStandard(stdid) {
     ShowLoader();
-    var postCall = $.post(commonData.StandardWiseChart + "StudentDataByStandard", { "StdID": stdid });
+    var courseid = $("#CourseName option:selected").val()
+    var postCall = $.post(commonData.StandardWiseChart + "StudentDataByStandard", { "StdID": stdid, "courseid": courseid });
     postCall.done(function (data) {
         $('#StudentName').empty();
         $('#StudentName').select2();
@@ -87,6 +146,12 @@ $("#BranchName").change(function () {
     var Data = $("#BranchName option:selected").val();
     LoadStudent(Data);
     LoadStandard(Data);
+});
+
+$("#CourseName").change(function () {
+    var Data = $("#CourseName option:selected").val();
+    $('#BranchCourse_course_dtl_id').val(Data);
+    LoadClass(Data);
 });
 
 $("#StandardName").change(function () {

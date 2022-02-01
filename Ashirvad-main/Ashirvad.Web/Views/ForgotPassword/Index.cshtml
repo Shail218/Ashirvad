@@ -202,7 +202,7 @@
     <link rel="stylesheet" href="~/ThemeData/dist/css/skins/_all-skins.min.css" />
     <script src="~/scripts/jquery-3.3.1.min.js"></script>
     @*<script src="~/Admin/js/DataTable/datatables.js"></script>*@
-   
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <input type="hidden" id="hdnFldVDName" value="@Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["VDName"])" />
@@ -230,21 +230,16 @@
                                     <div class="form-container" id="dInformation">
                                         <!-- Mensaje de login -->
                                         <div class="form-messages">
-                                            <h2>Login</h2>
+                                            <h2>Forgot Password</h2>
                                         </div>
 
                                         <!-- Formulario -->
                                         <span class="block input-icon input-icon-right">
                                             @Html.TextBoxFor(x => x.Username, new { @name = "MobileNo", @class = "user-email required", @placeholder = "Enter your mobile no", @alt = "UserName" })
                                             @*<input ID="txtmob" name="MobileNo" class="user-email" MaxLength="10" placeholder="Enter your mobile no" />*@
-                                        </span>
-                                        <span class="block input-icon input-icon-right">
-                                            @Html.PasswordFor(x => x.Password, new { @name = "Password", @class = "user-password required", @placeholder = "Enter your password", @alt = "Password" })
-                                            @*<input ID="txtpwd" name="Password" type="password" class="user-password" MaxLength="10" placeholder="Enter your password" />*@
-                                        </span>
-                                        <a href="@Url.Action("Index","ForgotPassword")" class="forgot-pass">Forgot your password?</a>
-                                        <a href="#" onclick="login();" class="login-button">
-                                            Login Now
+                                        </span>                                                                            
+                                        <a href="#" onclick="checkusername();" class="login-button">
+                                            Reset Password
                                         </a>
                                         <div class="login-options">
                                         </div>

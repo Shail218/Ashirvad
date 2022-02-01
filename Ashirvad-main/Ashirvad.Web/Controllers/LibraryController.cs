@@ -56,16 +56,6 @@ namespace Ashirvad.Web.Controllers
             {
                 BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }
-            //if (SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin)
-            //{
-            //    var branchData = await _libraryService.GetAllLibrary(Type, 0);
-            //    branch.LibraryData = branchData;
-            //}
-            //else
-            //{
-            //    var branchData = await _libraryService.GetAllLibrarybybranch(Type, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-            //    branch.LibraryData = branchData;
-            //}
             branch.LibraryData = new List<LibraryEntity>();
             if (Type == (int)Enums.GalleryType.Image)
             {
@@ -137,7 +127,7 @@ namespace Ashirvad.Web.Controllers
                         var stdlist = await _standardService.GetAllStandardsID(stdname[i], 0);
                         library.Standardlist.AddRange(stdlist);
                     }
-                    library.Subjectlist = await _subjectService.GetAllSubjectsID(library.subject.Subject, 0);
+                    library.Subjectlist = await _subjectService.GetAllSubjectsID(library.BranchSubject.Subject.SubjectName, 0);
                 }
                 else
                 {
@@ -146,11 +136,9 @@ namespace Ashirvad.Web.Controllers
                         var stdlist = await _standardService.GetAllStandardsID(stdname[i], SessionContext.Instance.LoginUser.BranchInfo.BranchID);
                         library.Standardlist.AddRange(stdlist);
                     }
-                    library.Subjectlist = await _subjectService.GetAllSubjectsID(library.subject.Subject, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                    library.Subjectlist = await _subjectService.GetAllSubjectsID(library.BranchSubject.Subject.SubjectName, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
                 }
             }
-
-
             data = await _libraryService.LibraryMaintenance(library);
             if (data != null)
             {

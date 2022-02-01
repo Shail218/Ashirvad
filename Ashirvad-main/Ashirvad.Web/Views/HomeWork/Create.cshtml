@@ -122,17 +122,16 @@
                 @Html.HiddenFor(x => x.BatchTimeID)
                 @Html.HiddenFor(x => x.BatchTimeText)
             </div>
-
-            <div class="col-md-12" style="margin-top:10px;">
-                @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })
-                @Html.TextBoxFor(x => x.Remarks, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
-            </div>
-            <div class="col-md-12" style="margin-top: 5px">
+            <div class="col-md-6" style="margin-top: 12px">
                 @Html.Label("Upload HomeWork", htmlAttributes: new { @class = "control-label" })
                 <input class="file-upload" alt="Homework" id="fuHomeworkDoc" name="ThumbnailFile" type="file" />
                 @Html.HiddenFor(x => x.HomeworkContentText)
                 @Html.HiddenFor(x => x.FilePath)
                 @Html.HiddenFor(x => x.HomeworkContentFileName)
+            </div>
+            <div class="col-md-12" style="margin-top:10px;">
+                @Html.Label("Remarks", htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(x => x.Remarks, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
             </div>
         }
     </div>

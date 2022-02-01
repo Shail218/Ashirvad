@@ -41,8 +41,8 @@ $(document).ready(function () {
             { "data": "branch.BranchName" },
             { "data": "BranchCourse.course.CourseName" },
             { "data": "Class.ClassName" },
-            { "data": "BranchClass.Class_dtl_id" }
-            //{ "data": "BranchCourse.course_dtl_id" }
+            { "data": "BranchClass.Class_dtl_id" },
+            { "data": "BranchCourse.course_dtl_id" }
         ],
         "columnDefs": [
             {
@@ -69,19 +69,19 @@ $(document).ready(function () {
                 },
                 orderable: false,
                 searchable: false
+            },
+            {
+                targets: 5,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemoveSubject(' + data + ',' + full.BranchClass.Class_dtl_id + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
             }
-            //{
-            //    targets: 5,
-            //    render: function (data, type, full, meta) {
-            //        if (type === 'display') {
-            //            data =
-            //                '<a onclick = "RemoveSubject(' + data + ',' + full.BranchClass.Class_dtl_id + ')"><img src = "../ThemeData/images/delete.png" /></a >'
-            //        }
-            //        return data;
-            //    },
-            //    orderable: false,
-            //    searchable: false
-            //}
         ]
     });
 
@@ -282,6 +282,20 @@ function checkstatus(status) {
     else {
         $("#allselect").prop('checked', false);
     }
+    var id = $(status).parents('tr').find("#subject_detailid").val();
+    var postCall = $.post(commonData.BranchSubject + "Check_SubjectDetail", { "subjectdetailid": id });
+    postCall.done(function (data) {
+        if (data.Status == true) {
+
+        }
+        else {
+            ShowMessage(data.Message, 'Error');
+            $(status).prop('checked', true);
+        }
+    }).fail(function () {
+        HideLoader();
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
 }
 
 $("#CourseName").change(function () {

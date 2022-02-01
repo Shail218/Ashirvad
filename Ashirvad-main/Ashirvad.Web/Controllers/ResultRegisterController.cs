@@ -58,7 +58,7 @@ namespace Ashirvad.Web.Controllers
             return Json(response);
         }
 
-        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model, long Std, long Batch, long MarksID)
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model, long Std, long courseid, long Batch, long MarksID)
         {
             List<string> columns = new List<string>();
             columns.Add("AchieveMarks");
@@ -69,7 +69,7 @@ namespace Ashirvad.Web.Controllers
                     item.name = columns[item.column];
                 }
             }
-            var branchData = await _MarksService.GetAllCustomMarks(model, Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, Batch, MarksID);
+            var branchData = await _MarksService.GetAllCustomMarks(model, Std,courseid, SessionContext.Instance.LoginUser.BranchInfo.BranchID, Batch, MarksID);
             long total = 0;
             if (branchData.Count > 0)
             {

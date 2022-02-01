@@ -3,7 +3,10 @@
 
 $(document).ready(function () {
     ShowLoader();
-    //$("#RowStatusData_RowStatusId").val(1);
+
+    if ($("#AgreementID").val() == 0) {
+        $("#RowStatusData_RowStatusId").val(1);
+    }
 
     var table = $('#agreementtable').DataTable({
         "bPaginate": true,
@@ -99,9 +102,11 @@ $(document).ready(function () {
         var rowStatus = $("#RowStatusData_RowStatusId").val();
         if (rowStatus == "1") {
             $("#rowStaActive").attr('checked', 'checked');
+            $("#RowStatusData_RowStatusId").val(1);
         }
         else {
             $("#rowStaInactive").attr('checked', 'checked');
+            $("#RowStatusData_RowStatusId").val(2);
         }
     }
 });

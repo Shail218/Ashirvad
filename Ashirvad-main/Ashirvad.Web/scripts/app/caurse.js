@@ -64,7 +64,7 @@ $(document).ready(function () {
                 targets: 3,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data = '<a onclick = "removecourse(' + data + ')"><img src = "../themedata/images/delete.png" /></a >'
+                        data = '<a onclick = "RemoveCourse(' + data + ')"><img src = "../themedata/images/delete.png" /></a >'
                     }
                     return data;
                 },

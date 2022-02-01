@@ -97,13 +97,13 @@ function checkstatus(status) {
         {
             Create = false;
         }
-        if ($(this)[0].checked == true) {
-            var IsEdit = $("#IsEdit").val();
-            if (IsEdit == "True" && status == "old") {
-                $(this).prop("disabled", true);
-            }
+        //if ($(this)[0].checked == true) {
+        //    var IsEdit = $("#IsEdit").val();
+        //    if (IsEdit == "True" && status == "old") {
+        //        $(this).prop("disabled", true);
+        //    }
 
-        }
+        //}
     });
     if (Create) {
         $("#allselect").prop('checked', true);
@@ -111,6 +111,20 @@ function checkstatus(status) {
     else {
         $("#allselect").prop('checked', false);
     }
+    var id = $(status).parents('tr').find("#course_detailid").val();
+    var postCall = $.post(commonData.BranchCourse + "Check_CourseDetail", { "coursedetailid": id });
+    postCall.done(function (data) {       
+        if (data.Status == true) {
+                    
+        }
+        else {
+            ShowMessage(data.Message, 'Error');
+            $(status).prop('checked', true);
+        }
+    }).fail(function () {
+        HideLoader();
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
 }
 
 function RemoveCourse(CourseID) {

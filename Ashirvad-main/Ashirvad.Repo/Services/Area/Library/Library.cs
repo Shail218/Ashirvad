@@ -221,15 +221,33 @@ namespace Ashirvad.Repo.Services.Area.Library
                                 where u.library_id == library
                                 select new StandardEntity()
                                 {
-                                    Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                    Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                    StandardID = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0
                                 }).Distinct().ToList();
 
                 var Subject = (from u in this.context.LIBRARY_STD_MASTER
                                where u.library_id == library
                                select new SubjectEntity()
                                {
-                                   Subject = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
+                                   Subject = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                   SubjectID = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0
                                }).Distinct().ToList();
+                data.BranchCourse = (from u in this.context.LIBRARY_STD_MASTER
+                                     where u.library_id == library
+                                     select new BranchCourseEntity()
+                                     {
+                                         course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0
+                                     }).FirstOrDefault();
+                data.BranchSubject = (from u in this.context.LIBRARY_STD_MASTER
+                                     where u.library_id == library
+                                     select new BranchSubjectEntity()
+                                     {
+                                         Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                         Subject = new SuperAdminSubjectEntity()
+                                         {
+                                             SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
+                                         }
+                                     }).FirstOrDefault();
 
                 data.Subjectlist.AddRange(Subject);
                 data.Standardlist.AddRange(Standard);
@@ -450,6 +468,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                             library = new LIBRARY_STD_MASTER()
                             {
                                 library_id = libraryInfo.LibraryID,
+                                course_dtl_id = libraryInfo.BranchCourse.course_dtl_id,
                                 class_dtl_id = item.StandardID,
                                 subject_dtl_id = item1.SubjectID
                             };
@@ -760,8 +779,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                   {
                                       CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
                                       Category = u.CATEGORY_MASTER.category_name
-                                  },
-                                  
+                                  },                                  
                                   RowStatus = new RowStatusEntity()
                                   {
                                       RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
@@ -818,6 +836,23 @@ namespace Ashirvad.Repo.Services.Area.Library
                                                         Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
                                                     }
                                                 }).Distinct().ToList();
+                        item.subject = (from u in this.context.LIBRARY_STD_MASTER
+                                        where item.RowStatus.RowStatusId == 1 && item.LibraryID == u.library_id
+                                        select new SubjectEntity()
+                                        {
+                                            Subject = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
+
+                                        }).FirstOrDefault();
+                        item.BranchCourse = (from u in this.context.LIBRARY_STD_MASTER
+                                        where item.RowStatus.RowStatusId == 1 && item.LibraryID == u.library_id
+                                        select new BranchCourseEntity()
+                                        {
+                                            course = new CourseEntity()
+                                            {
+                                                CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                            }
+
+                                        }).FirstOrDefault();
                     }
                 }
             }

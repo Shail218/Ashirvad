@@ -42,8 +42,8 @@ $(document).ready(function () {
             },
             { "data": "branch.BranchName" },
             { "data": "BranchCourse.course.CourseName" },
+            { "data": "BranchCourse.course_dtl_id" },
             { "data": "BranchCourse.course_dtl_id" }
-            //{ "data": "BranchCourse.course_dtl_id" }
         ],
         "columnDefs": [
             {
@@ -70,19 +70,19 @@ $(document).ready(function () {
                 },
                 orderable: false,
                 searchable: false
+            },
+            {
+                targets: 4,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data =
+                            '<a onclick = "RemoveClass(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
             }
-            //{
-            //    targets: 4,
-            //    render: function (data, type, full, meta) {
-            //        if (type === 'display') {
-            //            data =
-            //                '<a onclick = "RemoveClass(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
-            //        }
-            //        return data;
-            //    },
-            //    orderable: false,
-            //    searchable: false
-            //}
         ]
     });
 
@@ -274,6 +274,20 @@ function checkstatus(status) {
     else {
         $("#allselect").prop('checked', false);
     }
+    var id = $(status).parents('tr').find("#class_detailid").val();
+    var postCall = $.post(commonData.BranchClass + "Check_ClassDetail", { "classdetailid": id });
+    postCall.done(function (data) {
+        if (data.Status == true) {
+
+        }
+        else {
+            ShowMessage(data.Message, 'Error');
+            $(status).prop('checked', true);
+        }
+    }).fail(function () {
+        HideLoader();
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
 }
 
 $("#CourseName").change(function () {

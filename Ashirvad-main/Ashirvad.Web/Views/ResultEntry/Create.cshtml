@@ -64,6 +64,7 @@
                     <option value="0">--Select Subject--</option>
                 </select>
                 @Html.HiddenFor(x => x.BranchSubject.Subject_dtl_id)
+                @Html.HiddenFor(x => x.BranchSubject.Subject.SubjectName)
             </div>
             <div class="col-md-3">
                 @Html.Label("Total Marks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>

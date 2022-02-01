@@ -112,7 +112,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public bool RemoveBranchClass(long BranchClassID,long BranchID, string lastupdatedby)
+        public ResponseModel RemoveBranchClass(long BranchClassID,long BranchID, string lastupdatedby)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return null;
         }
 
         

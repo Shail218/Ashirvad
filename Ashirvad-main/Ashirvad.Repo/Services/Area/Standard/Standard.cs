@@ -100,14 +100,13 @@ namespace Ashirvad.Repo.Services.Area.Standard
 
         public async Task<List<StandardEntity>> GetAllStandardsID(string standardname,long branchid)
         {
-            var data = (from u in this.context.STD_MASTER
-                        .Include("CLASS_DTL_MASTER")
-                        orderby u.std_id descending
-                        where u.row_sta_cd == 1 && u.CLASS_DTL_MASTER.CLASS_MASTER.class_name == standardname && (u.branch_id == branchid || branchid == 0)
+            var data = (from u in this.context.CLASS_DTL_MASTER
+                        orderby u.class_dtl_id descending
+                        where u.row_sta_cd == 1 && u.CLASS_MASTER.class_name == standardname && (u.branch_id == branchid || branchid == 0)
                         select new StandardEntity()
                         {
-                            Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
-                            StandardID = u.std_id
+                            Standard = u.CLASS_MASTER.class_name,
+                            StandardID = u.class_dtl_id
                         }).ToList();
 
             return data;

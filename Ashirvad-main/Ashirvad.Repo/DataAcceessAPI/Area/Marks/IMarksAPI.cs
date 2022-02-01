@@ -17,6 +17,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
         Task<List<MarksEntity>> GetAllAchieveMarks(long Std, long Branch, long Batch, long MarksID);
         Task<long> UpdateMarksDetails(MarksEntity marksEntity);
         Task<List<MarksEntity>> GetAllStudentMarks(long BranchID, long StudentID);
-        Task<List<MarksEntity>> GetAllCustomMarks(DataTableAjaxPostModel model, long Std, long Branch, long Batch, long MarksID);
+        Task<List<MarksEntity>> GetAllCustomMarks(DataTableAjaxPostModel model, long Std, long courseid, long Branch, long Batch, long MarksID);
     }
 }

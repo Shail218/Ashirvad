@@ -16,7 +16,10 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
         Task<List<BranchSubjectEntity>> GetBranchSubjectByBranchSubjectID(long BranchSubjectID, long BranchID, long ClassID);
         Task<List<BranchSubjectEntity>> GetMobileBranchSubjectByBranchSubjectID(long BranchSubjectID, long BranchID, long ClassID);
         Task<BranchSubjectEntity> GetPackaegBranchSubjectByID(long BranchSubjectID);
-        bool RemoveBranchSubject(long CourseID, long ClassID, long BranchID, string lastupdatedby);
+        ResponseModel RemoveBranchSubject(long CourseID, long ClassID, long BranchID, string lastupdatedby);
         Task<List<BranchSubjectEntity>> GetAllSubjects(DataTableAjaxPostModel model, long BranchID);
+        Task<List<BranchSubjectEntity>> GetSubjectDDL(long courseid, long branchid,string std);
+
+        Task<List<BranchSubjectEntity>> GetSubjectByclasscourseid(long SubjectID, long BranchID, long CourseID);
     }
 }

@@ -85,7 +85,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public bool RemoveBranchCourse(long BranchCourseID, string lastupdatedby)
+        public ResponseModel RemoveBranchCourse(long BranchCourseID, string lastupdatedby)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return null;
         }
 
         public async Task<List<BranchCourseEntity>> GetAllSelectedCourses(long BranchID)

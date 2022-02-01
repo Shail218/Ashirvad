@@ -35,6 +35,8 @@ $(document).ready(function () {
             },
             { "data": "BranchID" },
             { "data": "CategoryInfo.Category" },
+            { "data": "BranchCourse.course.CourseName" },
+            { "data": "subject.Subject" },
             { "data": "ThumbnailFilePath" },
             { "data": "DocFilePath" },
             { "data": "Description" },
@@ -71,7 +73,7 @@ $(document).ready(function () {
             },
 
             {
-                targets: 3,
+                targets: 5,
                 render: function (data, type, full, meta) {
 
                     if (type === 'display') {
@@ -83,7 +85,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 4,
+                targets: 6,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         var link = data.replace("https://mastermind.org.in", "");
@@ -96,7 +98,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 6,
+                targets: 8,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         if (check[0].Create) {
@@ -114,7 +116,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 7,
+                targets: 9,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         if (check[0].Delete) {
@@ -163,28 +165,15 @@ $(document).ready(function () {
         $('#CategoryName option[value="' + $("#CategoryInfo_CategoryID").val() + '"]').attr("selected", "selected");
     }
 
-    LoadStandard(function () {
-        if ($("#StandardID").val() != "") {
-            $('#StandardName option[value="' + $("#StandardID").val() + '"]').attr("selected", "selected");
-        }
-    });
-
-    if ($("#StandardID").val() != "") {
-        $('#StandardName option[value="' + $("#StandardID").val() + '"]').attr("selected", "selected");
-    }
-
-    LoadSubject(function () {
-        if ($("#SubjectID").val() != "") {
-            $('#SubjectName option[value="' + $("#SubjectID").val() + '"]').attr("selected", "selected");
-        }
-    });
-
+    LoadCourse();
 
     if ($("#Type").val() != "") {
         if ($("#Type").val() == "1") {
             $("#rowGeneral").attr('checked', 'checked');
             $("#standard").hide();
             $("#subject").hide();
+            $("#course").hide();
+            $("#CourseName").addClass("editForm");
             $("#SubjectName").addClass("editForm");
             $("#StandardName").addClass("editForm");
             $("#Type").val(1);
@@ -192,13 +181,17 @@ $(document).ready(function () {
             $("#rowstandard").attr('checked', 'checked');
             $("#standard").show();
             $("#subject").show();
-            $('#StandardName option[value="' + $("#StandardID").val() + '"]').attr("selected", "selected");
+            $("#course").show();
+            $('#CourseName option[value="' + $("#BranchCourse_course_dtl_id").val() + '"]').attr("selected", "selected");
+            $('#StandardName option[value="' + $("#BranchClass_Class_dtl_id").val() + '"]').attr("selected", "selected");
             $('#SubjectName option[value="' + $("#SubjectID").val() + '"]').attr("selected", "selected");
             $("#Type").val(2);
         }
     } else {
         $("#standard").hide();
         $("#subject").hide();
+        $("#course").hide();
+        $("#CourseName").addClass("editForm");
         $("#SubjectName").addClass("editForm");
         $("#StandardName").addClass("editForm");
         $("#Type").val(1);
@@ -206,42 +199,78 @@ $(document).ready(function () {
 
 });
 
-function LoadSubject(onLoaded) {
-    var postCall = $.post(commonData.Subject + "SubjectDataByBranchLibrary");
+function LoadCourse() {
+    var postCall = $.post(commonData.BranchCourse + "GetCourseDDL");
     postCall.done(function (data) {
-        $('#SubjectName').empty();
-        $('#SubjectName').select2();
-        $("#SubjectName").append("<option value=" + 0 + ">---Select Subject Name---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#SubjectName").append("<option value=" + data[i].SubjectID + ">" + data[i].Subject + "</option>");
-        }
-        if ($("#subject_Subject").val() != "") {
-            var text1 = $("#subject_Subject").val();
-            $("#SubjectName option").filter(function () {
-                return this.text == text1;
-            }).attr('selected', true);
+        $('#CourseName').empty();
+        $('#CourseName').select2();
+        $("#CourseName").append("<option value=" + 0 + ">---Select Course---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
+            }
         }
 
+        if ($("#BranchCourse_course_dtl_id").val() != "") {
+            $('#CourseName option[value="' + $("#BranchCourse_course_dtl_id").val() + '"]').attr("selected", "selected");           
+            LoadClass($("#BranchCourse_course_dtl_id").val());
+        }
+        HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
-function LoadStandard(onLoaded) {
-    var postCall = $.post(commonData.Standard + "StandardData", { "branchID": 0 });
+function LoadClass(CourseID) {
+    ShowLoader();
+    var postCall = $.post(commonData.BranchClass + "GetClassDDL", { "CourseID": CourseID });
     postCall.done(function (data) {
         $('#StandardName').empty();
         $('#StandardName').select2();
         $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#StandardName").append("<option value=" + data[i].StandardID + ">" + data[i].Standard + "</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
+            }
         }
         if ($("#LibraryID").val() > 0) {
             SetData();
         }
 
+        if ($("#BranchClass_Class_dtl_id").val() != "") {
+            $('#StandardName option[value="' + $("#BranchClass_Class_dtl_id").val() + '"]').attr("selected", "selected");
+        }
+
+        HideLoader();
     }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        HideLoader();
+    });
+}
+
+function LoadSubject(ClassID, CourseID) {
+    ShowLoader();
+    var postCall = $.post(commonData.BranchSubject + "GetLibrarySubjectDDL", { "std": ClassID, "courseid": CourseID });
+    postCall.done(function (data) {
+        $('#SubjectName').empty();
+        $('#SubjectName').select2();
+        $("#SubjectName").append("<option value=" + 0 + ">---Select Subject---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                $("#SubjectName").append("<option value='" + data[i].Subject_dtl_id + "'>" + data[i].Subject.SubjectName + "</option>");
+            }
+        }
+        
+        if ($("#BranchSubject_Subject_dtl_id").val() != "") {
+            /*$('#SubjectName option[value="' + $("#BranchSubject_Subject_dtl_id").val() + '"]').attr("selected", "selected");*/
+            var text1 = $("#BranchSubject_Subject_SubjectName").val();
+            $("#SubjectName option").filter(function () {
+                return this.text == text1;
+            }).attr('selected', true);
+        }
+        HideLoader();
+    }).fail(function () {
+        HideLoader();
+
     });
 }
 
@@ -381,6 +410,28 @@ function RemoveLibraryVideo(LibraryID) {
     }
 }
 
+function clearsubject() {
+    $('#SubjectName').empty();
+    $('#SubjectName').select2();
+    $("#SubjectName").append("<option value=" + 0 + ">---Select Subject---</option>");
+}
+
+function clearclass() {
+    $('#StandardName').empty();
+    $('#StandardName').select2();
+    $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
+}
+
+$("#CourseName").change(function () {
+    var Data = $("#CourseName option:selected").val();
+    $('#BranchCourse_course_dtl_id').val(Data);
+    clearclass();
+    clearsubject();
+    $("#standard").show();
+    $("#subject").show();
+    LoadClass(Data);
+});
+
 $("#BranchName").change(function () {
     var Data = $("#BranchName option:selected").val();
     $('#BranchID').val(Data);
@@ -388,7 +439,7 @@ $("#BranchName").change(function () {
 
 $("#StandardName").change(function () {
     var Data = $("#StandardName option:selected").val();
-    $('#StandardID').val("");
+    $('#BranchClass_Class_dtl_id').val(Data);
     var std = [];
     var stdName = [];
     var std1 = $('#StandardName')[0].selectedOptions;
@@ -400,13 +451,14 @@ $("#StandardName").change(function () {
     });
     $('#StandardArray').val(std)
     $('#StandardNameArray').val(stdName)
+    LoadSubject($('#StandardArray').val(), $('#BranchCourse_course_dtl_id').val());
 });
 
 $("#SubjectName").change(function () {
     var Data = $("#SubjectName option:selected").val();
     var DataName = $("#SubjectName option:selected").text();
-    $('#SubjectID').val(Data);
-    $('#subject_Subject').val(DataName);
+    $('#BranchSubject_Subject_dtl_id').val(Data);
+    $('#BranchSubject_Subject_SubjectName').val(DataName);
 });
 
 $("#CategoryName").change(function () {
@@ -426,29 +478,35 @@ $('input[type=radio][name=Type1]').change(function () {
     if (this.value == 'General') {
         $("#standard").hide();
         $("#subject").hide();
+        $("#course").hide();
+        $("#CourseName").addClass("editForm");
         $("#SubjectName").addClass("editForm");
         $("#StandardName").addClass("editForm");
         $("#Type").val(1);
     }
-    else {
-        $("#standard").show();
-        $("#subject").show();
+    else {        
+        $("#course").show();
         $("#Type").val(2);
     }
 });
 
 function SetData() {
     var std = [];
+    var id = [];
     var StandardList = $.parseJSON($("#JsonList").val());
    
     for (var item of StandardList) {
         var Standard = item.Standard;
+        var stdid = item.StandardID;
         $("#StandardName option").filter(function () {
             return this.text == Standard;
         }).attr('selected', true);
         std.push(Standard);
+        id.push(stdid);
     };
     var Array = $("#StandardNameArray").val(std);
+    $('#StandardArray').val(id)
+    LoadSubject($('#StandardArray').val(), $('#BranchCourse_course_dtl_id').val());
 }
 
 function CustomValidation(divName) {
@@ -493,12 +551,9 @@ function format(d) {
                             <div style="max-height: 200px; overflow-y: scroll !important"><table style="width: 100%;" id="subcategorytbl2" class="table table-bordered dataTable no-footer">
                                 <thead>
                                     <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
-
                                         <th>
                                             Standard
-                                        </th>
-                                        
-
+                                        </th>                                       
                                     </tr>
                                 </thead>
 

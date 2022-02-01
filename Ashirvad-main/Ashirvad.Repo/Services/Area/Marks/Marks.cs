@@ -49,6 +49,7 @@ namespace Ashirvad.Repo.Services.Area
             MarksMaster.file_name = MarksInfo.MarksContentFileName;
             MarksMaster.file_path = MarksInfo.MarksFilepath;
             MarksMaster.marks_dt = MarksInfo.MarksDate;
+            MarksMaster.course_dtl_id = MarksInfo.BranchCourse.course_dtl_id;
             MarksMaster.class_dtl_id = MarksInfo.BranchClass.Class_dtl_id;
             MarksMaster.subject_dtl_id = MarksInfo.BranchSubject.Subject_dtl_id;
             MarksMaster.batch_time_id = (int)MarksInfo.BatchType;
@@ -137,7 +138,7 @@ namespace Ashirvad.Repo.Services.Area
             return data;
         }
 
-        public async Task<List<MarksEntity>> GetAllCustomMarks(DataTableAjaxPostModel model, long Std, long Branch, long Batch, long MarksID)
+        public async Task<List<MarksEntity>> GetAllCustomMarks(DataTableAjaxPostModel model, long Std,long courseid, long Branch, long Batch, long MarksID)
         {
             var Result = new List<MarksEntity>();
             bool Isasc = true;
@@ -151,7 +152,7 @@ namespace Ashirvad.Repo.Services.Area
                         .Include("SUBJECT_MASTER")
                           orderby u.marks_id descending
                           where u.branch_id == Branch && u.subject_dtl_id == MarksID &&
-                          (u.test_id == Std || Std == 0) && (u.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1
+                          (u.test_id == Std || Std == 0) && (u.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1 && u.course_dtl_id == courseid
                           select new MarksEntity()
                           {
                               MarksID = u.marks_id
@@ -161,7 +162,7 @@ namespace Ashirvad.Repo.Services.Area
                         .Include("TEST_MASTER")
                         .Include("SUBJECT_MASTER")
                         orderby u.marks_id descending
-                        where u.branch_id == Branch && u.subject_dtl_id == MarksID && (u.test_id == Std || Std == 0) && (u.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1
+                        where u.branch_id == Branch && u.subject_dtl_id == MarksID && (u.test_id == Std || Std == 0) && (u.batch_time_id == Batch || Batch == 0) && u.row_sta_cd == 1 && u.course_dtl_id == courseid
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.STUDENT_MASTER.first_name.ToLower().Contains(model.search.value.ToLower())
@@ -207,6 +208,14 @@ namespace Ashirvad.Repo.Services.Area
                                 course = new CourseEntity()
                                 {
                                     CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
                                 }
                             }
                         })

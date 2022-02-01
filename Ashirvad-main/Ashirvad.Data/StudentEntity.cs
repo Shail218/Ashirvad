@@ -41,6 +41,7 @@ namespace Ashirvad.Data
         public HttpPostedFileBase ImageFile { get; set; }
         public BranchCourseEntity BranchCourse { get; set; }
         public BranchClassEntity BranchClass { get; set; }
+        public string Final_Year { get; set; }
     }
     public class StudentMaint
     {

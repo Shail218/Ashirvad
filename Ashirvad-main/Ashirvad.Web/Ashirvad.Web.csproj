@@ -200,6 +200,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="CourseImage\1MQHHJLP2BBSYSOWACCQ.png" />
+    <Content Include="FacultyImage\1MQHHJLP2BBSYSOWACCQ.png" />
     <Content Include="FeesImage\empty_cart.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="GalleryImage\L0QG6TB71KDIZUCO3PKT.png" />
@@ -1160,6 +1162,7 @@
     <Compile Include="Controllers\CircularController.cs" />
     <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\FacultyController.cs" />
+    <Compile Include="Controllers\ForgotPasswordController.cs" />
     <Compile Include="Controllers\HomeworkByStudentController.cs" />
     <Compile Include="Controllers\HomeWorkController.cs" />
     <Compile Include="Controllers\LibraryController.cs" />
@@ -1452,6 +1455,7 @@
     <Content Include="Views\BranchClass\UpdateClassDataTable.cshtml" />
     <Content Include="Views\BranchSubject\SubjectDetailDataTable.cshtml" />
     <Content Include="Views\BranchSubject\UpdateSubjectDataTable.cshtml" />
+    <Content Include="Views\ForgotPassword\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1461,8 +1465,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="CourseImage\" />
-    <Folder Include="FacultyImage\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
     <Folder Include="ZipFiles\HomeworkDetails\" />

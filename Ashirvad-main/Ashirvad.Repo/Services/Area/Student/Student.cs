@@ -58,6 +58,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             studentMaster.admission_date = studentInfo.AdmissionDate;
             studentMaster.file_name = studentInfo.FileName;
             studentMaster.file_path = studentInfo.FilePath;
+            studentMaster.final_year = studentInfo.Final_Year;
             studentMaster.row_sta_cd = studentInfo.RowStatus.RowStatusId;
             studentMaster.trans_id = this.AddTransactionData(studentInfo.Transaction);
             this.context.STUDENT_MASTER.Add(studentMaster);
@@ -113,6 +114,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             SchoolTime = u.school_time,
                             FilePath = "https://mastermind.org.in" + u.file_path,
                             FileName = u.file_name,
+                            Final_Year = u.final_year,
                             BranchCourse = new BranchCourseEntity()
                             {
                                 course_dtl_id = u.course_dtl_id.HasValue == true ? u.course_dtl_id.Value : 0,
@@ -160,7 +162,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             return data;
         }
 
-        public async Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std, long Branch, long Batch)
+        public async Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std,long courseid, long Branch, long Batch)
         {
             var Result = new List<StudentEntity>();
             bool Isasc = true;
@@ -173,7 +175,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
                         orderby u.student_id descending
-                          where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active
+                          where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active && u.course_dtl_id == courseid
                           select new StudentEntity()
                           {
                               StudentID = u.student_id
@@ -182,7 +184,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER") orderby u.student_id descending
-                        where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active
+                        where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active && u.course_dtl_id == courseid
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.first_name.ToLower().Contains(model.search.value.ToLower())
@@ -391,6 +393,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             StudentPassword = user.password,
                             StudentPassword2 = user.password,
                             UserID = user.user_id,
+                            Final_Year = u.final_year,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             BranchCourse = new BranchCourseEntity()
                             {
@@ -484,6 +487,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             SchoolTime = u.school_time,
                             FileName = u.file_name,
                             FilePath = "https://mastermind.org.in" + u.file_path,
+                            Final_Year = u.final_year,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             BranchCourse = new BranchCourseEntity()
                             {

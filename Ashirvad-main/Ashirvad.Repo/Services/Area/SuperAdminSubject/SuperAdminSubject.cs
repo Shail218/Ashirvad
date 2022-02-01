@@ -68,7 +68,14 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                 {
                     subjectEntity.SubjectID = subjectMaster.subject_id;
                     subjectEntity.Transaction.TransactionId = subjectEntity.Transaction.TransactionId;
-                    SubjectMasterMaintenance(subjectEntity);
+                    if((int)subjectEntity.UserType == 5)
+                    {
+                        SuperAdminSubjectMasterMaintenance(subjectEntity);
+                    }
+                    else
+                    {
+                        SubjectMasterMaintenance(subjectEntity);
+                    }                   
                     //UpdateSubject(subjectEntity);
                 }
                 return this.context.SaveChanges() > 0 ? subjectEntity.SubjectID : 0;
@@ -217,7 +224,7 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                 branchSubject.UserType = subjectentity.UserType;
                 branchSubject.Transaction = new TransactionEntity();
                 branchSubject.Transaction = subjectentity.Transaction;
-                branchSubject.isClass = false;
+                branchSubject.isSubject = false;
                 branchSubject.RowStatus = new RowStatusEntity()
                 {
                     RowStatus = Enums.RowStatus.Active
@@ -278,6 +285,71 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
 
                 //    result = _subject.SubjectMaintenance(subject).Result;
                 //}
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
+        public async Task<long> SuperAdminSubjectMasterMaintenance(SuperAdminSubjectEntity subjectentity)
+        {
+            try
+            {
+                long result = 0;
+
+                var List = (from u in context.CLASS_DTL_MASTER
+                            where u.branch_id == subjectentity.branchEntity.BranchID 
+                            && u.row_sta_cd == 1
+                            && u.class_id == subjectentity.classEntity.ClassID
+                            && u.COURSE_DTL_MASTER.course_id == subjectentity.courseEntity.CourseID
+                            select new BranchSubjectEntity
+                            {
+                                BranchCourse = new BranchCourseEntity()
+                                {
+                                    course_dtl_id = u.COURSE_DTL_MASTER.course_dtl_id
+                                },
+                                BranchClass = new BranchClassEntity()
+                                {
+                                    Class_dtl_id = u.class_dtl_id
+                                },
+                                branch = new BranchEntity()
+                                {
+                                    BranchID = u.branch_id
+                                }
+                            }).ToList();
+
+                BranchSubjectEntity branchSubject = new BranchSubjectEntity();
+                branchSubject.Subject = new SuperAdminSubjectEntity()
+                {
+                    SubjectID = subjectentity.SubjectID,
+                    SubjectName = subjectentity.SubjectName
+                };
+                branchSubject.UserType = subjectentity.UserType;
+                branchSubject.Transaction = new TransactionEntity();
+                branchSubject.Transaction = subjectentity.Transaction;
+                branchSubject.isSubject = true;
+                branchSubject.RowStatus = new RowStatusEntity()
+                {
+                    RowStatus = Enums.RowStatus.Active
+                };
+                foreach (var item in List)
+                {
+                    branchSubject.branch = item.branch;
+                    branchSubject.BranchCourse = new BranchCourseEntity()
+                    {
+                        course_dtl_id = item.BranchCourse.course_dtl_id,
+
+                    };
+                    branchSubject.BranchClass = new BranchClassEntity()
+                    {
+                        Class_dtl_id = item.BranchClass.Class_dtl_id
+                    };
+
+                    result = _BranchSubject.SubjectMaintenance(branchSubject).Result;
+                }               
                 return result;
             }
             catch (Exception ex)

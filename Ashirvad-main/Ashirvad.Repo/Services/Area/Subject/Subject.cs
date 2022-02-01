@@ -121,14 +121,13 @@ namespace Ashirvad.Repo.Services.Area.Subject
 
         public async Task<List<SubjectEntity>> GetAllSubjectsID(string subjectName, long branchid)
         {
-            var data = (from u in this.context.SUBJECT_MASTER
-                        .Include("SUBJECT_DTL_MASTER")
-                        orderby u.subject_id descending
-                        where u.row_sta_cd == 1 && u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name == subjectName && (u.branch_id == branchid || branchid == 0)
+            var data = (from u in this.context.SUBJECT_DTL_MASTER
+                        orderby u.subject_dtl_id descending
+                        where u.row_sta_cd == 1 && u.SUBJECT_BRANCH_MASTER.subject_name == subjectName && (u.branch_id == branchid || branchid == 0)
                         select new SubjectEntity()
                         {
-                            Subject = u.subject,
-                            SubjectID = u.subject_id
+                            Subject = u.SUBJECT_BRANCH_MASTER.subject_name,
+                            SubjectID = u.subject_dtl_id
                         }).ToList();
 
             return data;

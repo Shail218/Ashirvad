@@ -19,6 +19,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Student
         Task<List<StudentEntity>> GetAllStudent(string studName, string contactNo);
         Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model, long branchID, int status);
         Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid,long courseid, int batchtime);
-        Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std, long Branch, long Batch);
+        Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std, long courseid, long Branch, long Batch);
     }
 }

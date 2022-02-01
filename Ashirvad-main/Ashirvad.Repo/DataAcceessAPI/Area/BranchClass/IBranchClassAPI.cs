@@ -16,7 +16,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
         Task<List<BranchClassEntity>> GetAllClassDDL(long BranchID,long ClassID= 0);
         Task<List<BranchClassEntity>> GetMobileAllClass(long BranchID, long ClassID = 0);
         Task<List<BranchClassEntity>> GetClassByClassID(long ClassID,long BranchID);
-        bool RemoveClass(long ClassID, long BranchID, string lastupdatedby);
+        ResponseModel RemoveClass(long ClassID, long BranchID, string lastupdatedby);
         Task<BranchClassEntity> GetClassbyID(long ClassID);
 
     }

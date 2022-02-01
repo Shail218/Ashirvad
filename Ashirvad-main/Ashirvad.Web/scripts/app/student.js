@@ -184,6 +184,7 @@ function SaveStudent() {
         $("#DOB").val(ConvertData(date1));
         var date2 = $("#AdmissionDate").val();
         $("#AdmissionDate").val(ConvertData(date2));
+        $("#Final_Year").val(getCurrentFinancialYear());
         var frm = $('#fStudentDetail');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');
@@ -199,6 +200,17 @@ function SaveStudent() {
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }
+}
+
+function getCurrentFinancialYear() {
+    var fiscalyear = "";
+    var today = new Date();
+    if ((today.getMonth() + 1) <= 3) {
+        fiscalyear = (today.getFullYear() - 1) + "-" + today.getFullYear()
+    } else {
+        fiscalyear = today.getFullYear() + "-" + (today.getFullYear() + 1)
+    }
+    return fiscalyear
 }
 
 function RemoveStudent(studentID) {

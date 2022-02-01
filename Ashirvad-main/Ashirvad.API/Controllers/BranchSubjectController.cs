@@ -115,10 +115,10 @@ namespace Ashirvad.Web.Controllers
 
         [Route("RemoveSubjectDetail")]
         [HttpPost]
-        public OperationResult<bool> RemoveSubjectDetail(long CourseID, long ClassID, long branchID, string lastupdatedby)
+        public OperationResult<ResponseModel> RemoveSubjectDetail(long CourseID, long ClassID, long branchID, string lastupdatedby)
         {
             var data = _branchSubjectService.RemoveBranchSubject(CourseID, ClassID, branchID, lastupdatedby);
-            OperationResult<bool> result = new OperationResult<bool>();
+            OperationResult<ResponseModel> result = new OperationResult<ResponseModel>();
             result.Completed = true;
             result.Data = data;
             return result;

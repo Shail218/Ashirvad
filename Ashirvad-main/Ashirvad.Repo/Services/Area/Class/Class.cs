@@ -67,8 +67,15 @@ namespace Ashirvad.Repo.Services.Area.Class
                 {
                     classEntity.ClassID = classMaster.class_id;
                     classEntity.Transaction.TransactionId = classEntity.Transaction.TransactionId;
-
-                    ClassMasterMaintenance(classEntity);
+                    if((int)classEntity.UserType == 5)
+                    {
+                        SuperadminClassMasterMaintenance(classEntity);
+                    }
+                    else
+                    {
+                        ClassMasterMaintenance(classEntity);
+                    }
+                    
                     // UpdateStandard(classEntity);
                 }
                 return Result > 0 ? classEntity.ClassID : 0;
@@ -223,7 +230,7 @@ namespace Ashirvad.Repo.Services.Area.Class
                              ClassName = u.class_name,
                              course_id = u.course_id,
                              Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                             
+
                          }).Count();
             var data = (from u in this.context.CLASS_MASTER
                         .Include("COURSE_MASTER")
@@ -328,6 +335,97 @@ namespace Ashirvad.Repo.Services.Area.Class
                     branchClass.branch = item.branch;
                     result = _BranchClass.ClassMaintenance(branchClass).Result;
                 }
+                //if ((int)ClassEntity.UserType == 5)
+                //{
+                //    StandardEntity standard = new StandardEntity();
+                //    standard.BranchInfo = new BranchEntity()
+                //    {
+                //        BranchID = ClassEntity.branchEntity.BranchID,
+
+                //    };
+                //    standard.Branchclass = new BranchClassEntity()
+                //    {
+                //        Class_dtl_id = 0,
+
+                //    };
+                //    standard.Standard = ClassEntity.ClassName;
+                //    standard.Transaction = new TransactionEntity()
+                //    {
+                //        TransactionId = 1
+                //    };
+                //    standard.RowStatus = new RowStatusEntity()
+                //    {
+                //        RowStatus = Enums.RowStatus.Active
+                //    };
+                //    if (ClassEntity.ClassID > 0)
+                //    {
+                //        Model.STD_MASTER sTD_ = new Model.STD_MASTER();
+                //        var std = (from cl in this.context.STD_MASTER
+                //                   where cl.standard == ClassEntity.OldStandard
+                //                   && cl.row_sta_cd == 1
+                //                   && cl.branch_id == ClassEntity.branchEntity.BranchID
+                //                   select new
+                //                   {
+                //                       sTD_ = cl
+                //                   }).FirstOrDefault();
+
+                //        if (std != null)
+                //        {
+                //            standard.StandardID = std.sTD_.std_id;
+                //        }
+                //    }
+
+                //    result = _standard.StandardMaintenance(standard).Result;
+                //}
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
+        public async Task<long> SuperadminClassMasterMaintenance(ClassEntity ClassEntity)
+        {
+            try
+            {
+                long result = 0;
+                var List = (from u in context.COURSE_DTL_MASTER
+                            where u.branch_id == ClassEntity.branchEntity.BranchID 
+                            && u.row_sta_cd == 1
+                            && u.course_id == ClassEntity.courseEntity.CourseID
+                            select new BranchCourseEntity
+                            {
+                                course_dtl_id = u.course_dtl_id,
+                                branch = new BranchEntity()
+                                {
+                                    BranchID = u.branch_id
+                                }
+                            }).ToList();
+                BranchClassEntity branchClass = new BranchClassEntity();
+                branchClass.Class = new ClassEntity()
+                {
+                    ClassID = ClassEntity.ClassID,
+                    ClassName = ClassEntity.ClassName
+                };
+                branchClass.UserType = ClassEntity.UserType;
+                branchClass.Transaction = new TransactionEntity();
+                branchClass.Transaction = ClassEntity.Transaction;
+                branchClass.isClass = true;
+                branchClass.RowStatus = new RowStatusEntity()
+                {
+                    RowStatus = Enums.RowStatus.Active
+                };
+                foreach (var item in List)
+                {
+                    branchClass.BranchCourse = new BranchCourseEntity()
+                    {
+                        course_dtl_id = item.course_dtl_id
+                    };
+                    branchClass.branch = item.branch;
+                    result = _BranchClass.ClassMaintenance(branchClass).Result;
+                }                
                 return result;
             }
             catch (Exception ex)

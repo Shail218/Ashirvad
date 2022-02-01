@@ -184,6 +184,7 @@ namespace Ashirvad.Repo.Services.Area.Course
             {
                 long result = 0;
                 var data = (from course in this.context.COURSE_DTL_MASTER
+                            where course.branch_id != courseEntity.branchEntity.BranchID
                             select new BranchEntity
                             {
                                 BranchID = course.branch_id
@@ -210,6 +211,16 @@ namespace Ashirvad.Repo.Services.Area.Course
 
                     };
                     branchCourse.course_dtl_id = 0;
+                    result = _BranchCourse.CourseMaintenance(branchCourse).Result;
+                }
+                if((int)courseEntity.UserType == 5)
+                {
+                    branchCourse.iscourse = true;
+                    branchCourse.branch = new BranchEntity()
+                    {
+                        BranchID = courseEntity.branchEntity.BranchID,
+
+                    };
                     result = _BranchCourse.CourseMaintenance(branchCourse).Result;
                 }
 

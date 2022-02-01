@@ -25,10 +25,10 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             return data;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudentsNameByStandard(long StdID)
+        public async Task<List<StudentEntity>> GetAllStudentsNameByStandard(long StdID,long courseid)
         {
             var data = (from u in this.context.STUDENT_MASTER
-                        where u.class_dtl_id == StdID
+                        where u.class_dtl_id == StdID && u.course_dtl_id == courseid
                         select new StudentEntity()
                         {
                             StudentID = u.student_id,

@@ -54,7 +54,24 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return null;
         }
-         public async Task<List<BranchSubjectEntity>> GetMobileBranchSubjectByBranchSubjectID(long BranchSubjectID, long BranchID,long ClassID)
+
+        public async Task<List<BranchSubjectEntity>> GetSubjectDDL(long courseid, long branchid,string std)
+        {
+            try
+            {
+                List<BranchSubjectEntity> BranchSubject = new List<BranchSubjectEntity>();
+                BranchSubject = await _BranchSubjectContext.GetSubjectDDL(courseid,branchid,std);
+                return BranchSubject;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<BranchSubjectEntity>> GetMobileBranchSubjectByBranchSubjectID(long BranchSubjectID, long BranchID,long ClassID)
         {
             try
             {
@@ -128,7 +145,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public bool RemoveBranchSubject(long CourseID, long ClassID, long BranchID, string lastupdatedby)
+        public ResponseModel RemoveBranchSubject(long CourseID, long ClassID, long BranchID, string lastupdatedby)
         {
             try
             {
@@ -139,12 +156,28 @@ namespace Ashirvad.ServiceAPI.Services.Area
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return null;
         }
 
         public Task<List<BranchSubjectEntity>> GetMobileAllSubject(long BranchID = 0)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<BranchSubjectEntity>> GetSubjectByclasscourseid(long SubjectID, long BranchID, long CourseID)
+        {
+            try
+            {
+                List<BranchSubjectEntity> BranchSubject = new List<BranchSubjectEntity>();
+                BranchSubject = await _BranchSubjectContext.GetSubjectByclasscourseid(SubjectID, BranchID, CourseID);
+                return BranchSubject;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
         }
     }
 }

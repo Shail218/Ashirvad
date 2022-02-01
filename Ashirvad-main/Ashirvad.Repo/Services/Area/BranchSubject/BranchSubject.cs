@@ -269,7 +269,59 @@ namespace Ashirvad.Repo.Services.Area.Branch
                         && u.class_dtl_id == SubjectID 
                         && u.branch_id == BranchID 
                         && u.course_dtl_id == CourseID
-                       
+                       && u.is_subject==true
+                        select new BranchSubjectEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            Subject = new SuperAdminSubjectEntity()
+                            {
+                                SubjectID = u.SUBJECT_BRANCH_MASTER.subject_id,
+                                SubjectName = u.SUBJECT_BRANCH_MASTER.subject_name
+                            },
+                            Subject_dtl_id = u.subject_dtl_id,
+                            isSubject = u.is_subject == true ? true : false,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                        }).ToList();
+            if (data.Count > 0)
+            {
+                data[0].branchSubject = (from u in this.context.SUBJECT_DTL_MASTER
+                              .Include("Subject_MASTER")
+                              .Include("BRANCH_MASTER")
+                                         where u.row_sta_cd == 1 && u.class_dtl_id == SubjectID && u.branch_id == BranchID
+                                         select new BranchSubjectEntity()
+                                         {
+                                             BranchCourse = new BranchCourseEntity()
+                                             {
+                                                 course_dtl_id = u.course_dtl_id,
+                                                 course = new CourseEntity()
+                                                 {
+                                                     CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                                 }
+                                             },
+                                             BranchClass = new BranchClassEntity()
+                                             {
+                                                 Class_dtl_id = u.class_dtl_id,
+
+                                             },
+                                         }).FirstOrDefault();
+            }
+            return data;
+        }
+
+        public async Task<List<BranchSubjectEntity>> GetSubjectByclasscourseid(long SubjectID, long BranchID, long CourseID)
+        {
+            var data = (from u in this.context.SUBJECT_DTL_MASTER
+                       .Include("Subject_MASTER")
+                        orderby u.subject_dtl_id descending
+                        where u.row_sta_cd == 1
+                        && u.class_dtl_id == SubjectID
+                        && u.branch_id == BranchID
+                        && u.course_dtl_id == CourseID
+                      
                         select new BranchSubjectEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -325,6 +377,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                               && u.class_dtl_id.ToString().ToLower().Contains(item)
                               && u.course_dtl_id == courseid
                               && u.branch_id == branchid
+                              && u.is_subject == true
                               select new BranchSubjectEntity()
                               {
                                   RowStatus = new RowStatusEntity()
@@ -364,8 +417,11 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return data;
         }
 
-        public bool RemoveSubject(long CourseID, long ClassID, long BranchID, string lastupdatedby)
+        public ResponseModel RemoveSubject(long CourseID, long ClassID, long BranchID, string lastupdatedby)
         {
+            Check_Delete check = new Check_Delete();
+            ResponseModel model = new ResponseModel();
+            string message = "";
             var data = (from u in this.context.SUBJECT_DTL_MASTER
                         where u.branch_id == BranchID &&
                         u.course_dtl_id == CourseID &&
@@ -376,16 +432,26 @@ namespace Ashirvad.Repo.Services.Area.Branch
             {
                 foreach (var item in data)
                 {
-                    item.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
-                    bool Status = RemoveSubjectMaster(item.SUBJECT_BRANCH_MASTER.subject_name, BranchID, lastupdatedby);
-                    this.context.SaveChanges();
+                    var data_subject = check.check_remove_subject(BranchID, item.subject_dtl_id).Result;
+                    if(data_subject.Status)
+                    {
+                        item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                        this.context.SaveChanges();
+                    }
+                    else
+                    {
+                        message = message + "<br />" + data_subject.Message;
+                    }
                 }
 
-                return true;
+                model.Status = message == "" ? true : false;
+                model.Message = message == "" ? "Class Deleted Successfully!!" : message;
+
+                return model;
             }
 
-            return false;
+            return model;
         }
 
         public async Task<bool> CheckSubject(long SubjectID, string Subject, long BranchID)

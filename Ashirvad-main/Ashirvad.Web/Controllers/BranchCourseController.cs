@@ -1,6 +1,7 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
+using Ashirvad.Repo.Services.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Course;
 using Newtonsoft.Json;
@@ -101,16 +102,10 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> RemoveCourseDetail(long PackageRightID)
         {
-            response.Status = false;
-            response.Message = "Failed To Delete";
+            response.Status = true;
+            response.Message = "";
             var result = _branchcourseService.RemoveBranchCourse(PackageRightID, SessionContext.Instance.LoginUser.Username);
-            if (result)
-            {
-                response.Status = true;
-                response.Message = "Successfully Deleted!!";
-            }
-
-            return Json(response);
+            return Json(result);
         }
 
         public async Task<JsonResult> GetCourseDDL()
@@ -135,6 +130,23 @@ namespace Ashirvad.Web.Controllers
                 return Json(null);
             }
 
+        }
+        [HttpPost]
+        public async Task<JsonResult> Check_CourseDetail(long coursedetailid=0)
+        {
+            Check_Delete course = new Check_Delete();
+            response.Status = true;
+            response.Message = "";
+            if(coursedetailid > 0)
+            {
+                var result = course.check_delete_course(SessionContext.Instance.LoginUser.BranchInfo.BranchID, coursedetailid).Result;
+                return Json(result);
+            }
+            else
+            {
+                return Json(response);
+            }
+            
         }
     }
 }

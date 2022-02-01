@@ -94,11 +94,11 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public async Task<List<MarksEntity>> GetAllCustomMarks(DataTableAjaxPostModel model, long Std, long Branch, long Batch, long MarksID)
+        public async Task<List<MarksEntity>> GetAllCustomMarks(DataTableAjaxPostModel model, long Std, long courseid, long Branch, long Batch, long MarksID)
         {
             try
             {
-                return await this._MarksContext.GetAllCustomMarks(model, Std, Branch, Batch, MarksID);
+                return await this._MarksContext.GetAllCustomMarks(model, Std,courseid, Branch, Batch, MarksID);
             }
             catch (Exception ex)
             {

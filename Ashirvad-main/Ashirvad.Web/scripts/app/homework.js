@@ -31,8 +31,9 @@ $(document).ready(function () {
         },
         "columns": [
             { "data": "HomeworkDate" },
-            { "data": "StandardInfo.Standard" },
-            { "data": "SubjectInfo.Subject" },
+            { "data": "BranchCourse.course.CourseName" },
+            { "data": "BranchClass.Class.ClassName" },
+            { "data": "BranchSubject.Subject.SubjectName" },
             { "data": "BatchTimeText" },
             { "data": "HomeworkContentFileName" },
             { "data": "HomeworkID" },
@@ -51,7 +52,7 @@ $(document).ready(function () {
                 orderable: false
             },
             {
-                targets: 4,
+                targets: 5,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         if (data != null && data != "")
@@ -65,7 +66,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 5,
+                targets: 6,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         if (check[0].Create) {
@@ -82,7 +83,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 6,
+                targets: 7,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         if (check[0].Delete) {
@@ -99,7 +100,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 7,
+                targets: 8,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
@@ -112,8 +113,8 @@ $(document).ready(function () {
             }
         ],
         createdRow: function (tr) {
-            $(tr.children[4]).addClass('textalign');
-            $(tr.children[7]).addClass('textalign');
+            $(tr.children[5]).addClass('textalign');
+            $(tr.children[8]).addClass('textalign');
         },
     });
 
@@ -177,6 +178,7 @@ function LoadCourse() {
                 if (data.length == 1) {
                     $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
                     $('#CourseName option[value="' + data[i].course_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchCourse_course_dtl_id').val(data[i].course_dtl_id);
                 } else {
                     $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
                 }
@@ -205,6 +207,7 @@ function LoadClass(CourseID) {
                 if (data.length == 1) {
                     $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
                     $('#StandardName option[value="' + data[i].Class_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchClass_Class_dtl_id').val(data[i].Class_dtl_id);
                 } else {
                     $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
                 }
@@ -234,6 +237,7 @@ function LoadSubject(ClassID, CourseID) {
                 if (data.length == 1) {
                     $("#SubjectName").append("<option value='" + data[i].Subject_dtl_id + "'>" + data[i].Subject.SubjectName + "</option>");
                     $('#SubjectName option[value="' + data[i].Subject_dtl_id + '"]').attr("selected", "selected");
+                    $('#BranchSubject_Subject_dtl_id').val(data[i].Subject_dtl_id);
                 } else {
                     $("#SubjectName").append("<option value='" + data[i].Subject_dtl_id + "'>" + data[i].Subject.SubjectName + "</option>");
                 }

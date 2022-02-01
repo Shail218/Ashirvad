@@ -323,6 +323,7 @@
     <Compile Include="Services\Area\BranchClass\BranchClass.cs" />
     <Compile Include="Services\Area\BranchRights\BranchRights.cs" />
     <Compile Include="Services\Area\Charts\Chart.cs" />
+    <Compile Include="Services\Area\Check_Delete\Check_Delete.cs" />
     <Compile Include="Services\Area\Circular\Circular.cs" />
     <Compile Include="Services\Area\Class\Class.cs" />
     <Compile Include="Services\Area\Course\Course.cs" />

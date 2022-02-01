@@ -1,6 +1,7 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
+using Ashirvad.Repo.Services.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Class;
 using Newtonsoft.Json;
@@ -110,16 +111,8 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> RemoveClassDetail(long PackageRightID)
         {
-            response.Status = false;
-            response.Message = "Failed To Delete";
-            var result = _branchClassService.RemoveBranchClass(PackageRightID, SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.Username);
-            if (result)
-            {
-                response.Status = true;
-                response.Message = "Successfully Deleted!!";
-            }
-
-            return Json(response);
+            var result = _branchClassService.RemoveBranchClass(PackageRightID, SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.Username);           
+            return Json(result);
         }
 
         public async Task<JsonResult> GetClassDDL(long CourseID)
@@ -167,6 +160,24 @@ namespace Ashirvad.Web.Controllers
             bool IsUpdate = classdetailID>0;            
             var data = _ClassService.GetAllClassByCourseddl(courseid, IsUpdate);
             return View("~/Views/BranchClass/UpdateClassDataTable.cshtml", data.Result);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> Check_ClassDetail(long classdetailid = 0)
+        {
+            Check_Delete cls = new Check_Delete();
+            response.Status = true;
+            response.Message = "";
+            if (classdetailid > 0)
+            {
+                var result = cls.check_delete_class(SessionContext.Instance.LoginUser.BranchInfo.BranchID, classdetailid).Result;
+                return Json(result);
+            }
+            else
+            {
+                return Json(response);
+            }
+
         }
     }
 }

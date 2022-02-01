@@ -115,6 +115,20 @@ namespace Ashirvad.Repo.Services.Area.User
             return user;
         }
 
+        public async Task<UserEntity> Check_UserName(string userName)
+        {
+            var user = (from u in this.context.USER_DEF
+                        .Include("BRANCH_STAFF")
+                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
+                        where u.username == userName && (u.user_type == (int)Enums.UserType.Staff || u.user_type == (int)Enums.UserType.Admin || u.user_type == (int)Enums.UserType.SuperAdmin) && u.row_sta_cd == (int)Enums.RowStatus.Active
+                        select new UserEntity()
+                        {
+                            Username = u.username,
+                            Password = u.password
+                        }).FirstOrDefault();
+            return user;
+        }
+
         public async Task<UserEntity> ValidateStudent(string userName, string password)
         {
             var user = (from u in this.context.USER_DEF

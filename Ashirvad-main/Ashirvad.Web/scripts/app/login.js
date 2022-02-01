@@ -26,6 +26,29 @@ function login() {
     }
 }
 
+function checkusername() {
+    var isSuccess = ValidateData('dInformation');
+    if (isSuccess) {
+        ShowLoader();
+        $.post(commonData.Login + 'CheckUserName', $('#FormItem').serialize(), function (data) {
+            HideLoader();
+            if (data.Status == true) {
+                ShowMessage(data.Message, 'Success');
+                window.location.href = commonData.VDName + 'Login/Index';
+            }
+            else {
+                ShowMessage(data.Message, 'Error');
+            }
+        }).fail(function (xhr) {
+            HideLoader();
+            alert(xhr);
+        });
+    }
+
+    else {
+    }
+}
+
 function ChangePassword() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {

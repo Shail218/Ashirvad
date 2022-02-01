@@ -1,5 +1,6 @@
 ﻿using Ashirvad.Data;
 using Ashirvad.Data.Model;
+using Ashirvad.Repo.Services.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Subject;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.SuperAdminSubject;
@@ -36,7 +37,7 @@ namespace Ashirvad.Web.Controllers
             branchSubject.BranchSubjectInfo.SubjectData = new List<SuperAdminSubjectEntity>();
             if (SubjectID > 0)
             {
-                var result = await _branchSubjectService.GetBranchSubjectByBranchSubjectID(SubjectID, SessionContext.Instance.LoginUser.BranchInfo.BranchID, CourseID);
+                var result = await _branchSubjectService.GetSubjectByclasscourseid(SubjectID, SessionContext.Instance.LoginUser.BranchInfo.BranchID, CourseID);
                 if (result.Count > 0)
                 {
                     branchSubject.BranchSubjectInfo = result[0].branchSubject;
@@ -110,16 +111,8 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> RemoveSubjectDetail(long CourseID,long ClassID)
         {
-            response.Status = false;
-            response.Message = "Failed To Delete";
             var result = _branchSubjectService.RemoveBranchSubject(CourseID, ClassID, SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.Username);
-            if (result)
-            {
-                response.Status = true;
-                response.Message = "Successfully Deleted!!";
-            }
-
-            return Json(response);
+            return Json(result);
         }
 
         public async Task<JsonResult> GetSubjectDDL(long ClassID,long CourseID)
@@ -190,6 +183,24 @@ namespace Ashirvad.Web.Controllers
         {
             var data = _subjectService.GetAllSubjectByCourseClassddl(courseid,classid);
             return View("~/Views/BranchSubject/UpdateSubjectDataTable.cshtml", data.Result);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> Check_SubjectDetail(long subjectdetailid = 0)
+        {
+            Check_Delete subject = new Check_Delete();
+            response.Status = true;
+            response.Message = "";
+            if (subjectdetailid > 0)
+            {
+                var result = subject.check_delete_subject(SessionContext.Instance.LoginUser.BranchInfo.BranchID, subjectdetailid).Result;
+                return Json(result);
+            }
+            else
+            {
+                return Json(response);
+            }
+
         }
     }
 }

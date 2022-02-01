@@ -17,8 +17,8 @@ namespace Ashirvad.Repo.Services.Area.Homework
         {
             long result;
             bool isExists = this.context.HOMEWORK_MASTER.Where(s => (homeworkInfo.HomeworkID == 0 || s.homework_id != homeworkInfo.HomeworkID) &&
-            s.homework_dt == homeworkInfo.HomeworkDate && s.branch_id == homeworkInfo.BranchInfo.BranchID && s.class_dtl_id == homeworkInfo.StandardInfo.StandardID
-            && s.subject_dtl_id == homeworkInfo.SubjectInfo.SubjectID && s.batch_time_id == homeworkInfo.BatchTimeID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            s.homework_dt == homeworkInfo.HomeworkDate && s.branch_id == homeworkInfo.BranchInfo.BranchID && s.class_dtl_id == homeworkInfo.BranchClass.Class_dtl_id
+            && s.subject_dtl_id == homeworkInfo.BranchSubject.Subject_dtl_id && s.course_dtl_id == homeworkInfo.BranchCourse.course_dtl_id && s.batch_time_id == homeworkInfo.BatchTimeID && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -50,8 +50,9 @@ namespace Ashirvad.Repo.Services.Area.Homework
                 homework.file_path = homeworkInfo.FilePath;
                 homework.remarks = homeworkInfo.Remarks;
                 homework.homework_dt = homeworkInfo.HomeworkDate;
-                homework.subject_dtl_id = homeworkInfo.SubjectInfo.SubjectID;
-                homework.class_dtl_id = homeworkInfo.StandardInfo.StandardID;
+                homework.course_dtl_id = homeworkInfo.BranchCourse.course_dtl_id;
+                homework.class_dtl_id = homeworkInfo.BranchClass.Class_dtl_id;
+                homework.subject_dtl_id = homeworkInfo.BranchSubject.Subject_dtl_id;
                 this.context.HOMEWORK_MASTER.Add(homework);
                 if (isUpdate)
                 {

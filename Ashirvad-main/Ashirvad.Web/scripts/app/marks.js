@@ -124,9 +124,10 @@ function LoadTestDetails(TestID, Subject) {
             ShowMessage("Marks Already inserted for this Test !", "Error");
             $("#StudentDetail").html('');
         } else {
-            var Std = $('#StandardInfo_StandardID').val();
+            var Std = $('#BranchClass_Class_dtl_id').val();
             var Batch = $('#BatchType').val();
-            LoadStudentDetails(Std, Batch);
+            var courseid = $("#BranchCourse_course_dtl_id").val();
+            LoadStudentDetails(Std,courseid,Batch);
         }
     }).fail(function () {
         //ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -210,7 +211,7 @@ function LoadTestDates(BatchType) {
     }
 }
 
-function LoadStudentDetails(Std, Batch)
+function LoadStudentDetails(Std, courseid,Batch)
 {
     ShowLoader();
     table.destroy();
@@ -228,12 +229,13 @@ function LoadStudentDetails(Std, Batch)
             processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
         },
         "ajax": {
-            url: "" + GetSiteURL() + "/ResultEntry/CustomServerSideSearchAction?Std='" + Std + "'&BatchTime='" + Batch + "'",
+            url: "" + GetSiteURL() + "/ResultEntry/CustomServerSideSearchAction?Std=" + Std + "&courseid=" + courseid + "&BatchTime=" + Batch + "",
             type: 'POST',
             "data": function (d) {
                 HideLoader();
                 d.Std = Std;
                 d.BatchTime = Batch;
+                d.courseid = courseid;
             }
         },
         "columns": [
@@ -277,15 +279,12 @@ $("#CourseName").change(function () {
     var Data = $("#CourseName option:selected").val();
     $('#BranchCourse_course_dtl_id').val(Data);
     clearclass();
-    clearsubject();
     LoadClass(Data);
 });
 
 $("#StandardName").change(function () {
     var Data = $("#StandardName option:selected").val();
     $('#BranchClass_Class_dtl_id').val(Data);
-    clearsubject();
-    LoadSubject(Data, $("#CourseName option:selected").val());
 });
 
 $("#SubjectName").change(function () {

@@ -102,10 +102,10 @@ namespace Ashirvad.Web.Controllers
             return View("~/Views/ResultEntry/Manage.cshtml", result);
         }
 
-        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model, long Std, long BatchTime)
+        public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model, long Std, long courseid, long BatchTime)
         {
             List<string> columns = new List<string>();
-            var branchData = await _studentService.GetAllCustomStudentMarks(model, Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime);
+            var branchData = await _studentService.GetAllCustomStudentMarks(model, Std, courseid,SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime);
             long total = 0;
             if (branchData.Count > 0)
             {

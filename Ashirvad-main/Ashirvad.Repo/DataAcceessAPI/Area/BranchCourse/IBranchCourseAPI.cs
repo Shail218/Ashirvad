@@ -12,7 +12,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
         Task<long> CourseMaintenance(BranchCourseEntity CourseInfo);
         Task<List<BranchCourseEntity>> GetAllCourse(long BranchID);
         Task<List<BranchCourseEntity>> GetCourseByCourseID(long CourseID);
-        bool RemoveCourse(long CourseID, string lastupdatedby);
+        ResponseModel RemoveCourse(long CourseID, string lastupdatedby);
         Task<BranchCourseEntity> GetCoursebyID(long CourseID);
         Task<List<BranchCourseEntity>> GetAllSelectedCourses(long BranchID);
 
