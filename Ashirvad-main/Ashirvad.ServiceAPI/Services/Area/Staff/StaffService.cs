@@ -35,7 +35,10 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
                 bool isUpdate = staffInfo.StaffID > 0;
                 long staffID = await _staffContext.StaffMaintenance(staffInfo);
                 staff.StaffID = staffID;
-                var user = await _userContext.UserMaintenance(await this.GetUserData(staffInfo, staffID));
+                if(staffID > 0)
+                {
+                    var user = await _userContext.UserMaintenance(await this.GetUserData(staffInfo, staffID));
+                }                
                 //if (staffID > 0)
                 //{
                 //    staff.StaffID = staffID;

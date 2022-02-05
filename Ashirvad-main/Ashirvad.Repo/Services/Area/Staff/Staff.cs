@@ -13,10 +13,10 @@ namespace Ashirvad.Repo.Services.Area.Staff
     public class Staff : ModelAccess, IStaffAPI
     {
 
-        public async Task<long> CheckUser(string emailid, string mobileno, long branch, long userID)
+        public async Task<long> CheckUser(string mobileno,long userID)
         {
             long result;
-            bool isExists = this.context.BRANCH_STAFF.Where(s => (userID == 0 || s.staff_id != userID) && (s.email_id == emailid || s.mobile_no == mobileno) && s.branch_id == branch && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.BRANCH_STAFF.Where(s => (userID == 0 || s.staff_id != userID) && s.mobile_no == mobileno && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -24,7 +24,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
         public async Task<long> StaffMaintenance(StaffEntity staffInfo)
         {
             Model.BRANCH_STAFF branchStaff = new Model.BRANCH_STAFF();
-            if (CheckUser(staffInfo.EmailID, staffInfo.MobileNo, staffInfo.BranchInfo.BranchID, staffInfo.StaffID).Result != -1)
+            if (CheckUser(staffInfo.MobileNo,staffInfo.StaffID).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from staff in this.context.BRANCH_STAFF
@@ -70,7 +70,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
         public async Task<long> UpdateProfile(StaffEntity staffInfo)
         {
             Model.BRANCH_STAFF branchStaff = new Model.BRANCH_STAFF();
-            if (CheckUser(staffInfo.EmailID, staffInfo.MobileNo, staffInfo.BranchInfo.BranchID, staffInfo.StaffID).Result != -1)
+            if (CheckUser(staffInfo.MobileNo,staffInfo.StaffID).Result != -1)
             {
                 var data = (from staff in this.context.BRANCH_STAFF
                             where staff.staff_id == staffInfo.StaffID
@@ -223,6 +223,13 @@ namespace Ashirvad.Repo.Services.Area.Staff
                         select u).FirstOrDefault();
             if (data != null)
             {
+                var data1 = (from u in context.USER_DEF where u.staff_id == StaffID select u).FirstOrDefault();
+                if(data1 != null)
+                {
+                    data1.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data1.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data1.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                }
                 data.row_sta_cd = (int)Enums.RowStatus.Inactive;
                 data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
                 this.context.SaveChanges();

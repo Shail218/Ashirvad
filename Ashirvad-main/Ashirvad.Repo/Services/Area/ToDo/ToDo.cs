@@ -89,8 +89,8 @@ namespace Ashirvad.Repo.Services.Area.ToDo
         {
             TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
             DateTime indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
-            var ToDayDate = indianTime.ToString("yyyy-MM-dd");
-            DateTime dt = DateTime.ParseExact(ToDayDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var ToDayDate = indianTime.ToString("yyyy/MM/dd");
+            DateTime dt = DateTime.ParseExact(ToDayDate, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var data = (from u in this.context.TODO_MASTER
                         .Include("BRANCH_MASTER")
                         join ud in this.context.BRANCH_STAFF on u.user_id equals ud.staff_id

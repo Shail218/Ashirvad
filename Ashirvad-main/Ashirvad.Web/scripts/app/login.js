@@ -34,7 +34,7 @@ function checkusername() {
             HideLoader();
             if (data.Status == true) {
                 ShowMessage(data.Message, 'Success');
-                window.location.href = commonData.VDName + 'Login/Index';
+                setTimeout(function () { window.location.href = commonData.VDName + 'Login/Index'; }, 5000);
             }
             else {
                 ShowMessage(data.Message, 'Error');

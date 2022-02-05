@@ -36,12 +36,12 @@ namespace Ashirvad.Web.Controllers
         public async Task<ActionResult> ValidateUser(UserEntity user)
         {
             bool success = false;
-            var userInfo = await _userService.ValidateUser(user.Username, user.Password);            
+            var userInfo = await _userService.ValidateUser(user.Username, user.Password);
             if (userInfo != null)
             {
                 success = true;
                 var Get = await GetBranchRights(userInfo.BranchInfo.BranchID);
-                if (userInfo.UserType== Enums.UserType.SuperAdmin)
+                if (userInfo.UserType == Enums.UserType.SuperAdmin)
                 {
                     List<BranchWiseRightEntity> branchWises = new List<BranchWiseRightEntity>();
                     //SessionContext.Instance.userRightsList= JsonConvert.SerializeObject(branchWises);
@@ -61,9 +61,9 @@ namespace Ashirvad.Web.Controllers
                 }
                 else
                 {
-                   
+
                     var isAggrement = this._userService.CheckAgreement(userInfo.BranchInfo.BranchID);
-                    if(isAggrement.Result)
+                    if (isAggrement.Result)
                     {
                         response.Message = "Login Successfully!!";
                         response.Status = true;
@@ -76,7 +76,7 @@ namespace Ashirvad.Web.Controllers
                         response.Status = false;
                         SessionContext.Instance.LoginUser = null;
                     }
-                }                                                           
+                }
             }
             else
             {
@@ -92,49 +92,55 @@ namespace Ashirvad.Web.Controllers
             User model = new User();
             ResponseModel entity = new ResponseModel();
             smsmodel sms = new smsmodel();
-            var data = model.Check_UserName(user.Username).Result;
-            if(data != null)
-            {                
-                string contactNo = data.Username;
-                //string message = "UserName- " + contactNo + "Password- " + data.Password;
-                string message = "testing msg oasissoftwares";
-                string requestUrl = string.Format("http://sms.oasissoftwares.online/sms-panel/api/http/index.php?username=oasisdemos&apikey=6E545-4F2C6&apirequest=Text&sender=SMSIDU&mobile=" + contactNo + "&message= " + message + "&route=TRANS&TemplateID=1507161735303447121&format=JSON");
-                HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-                var dataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataStream);
-                string responseFromServer = reader.ReadToEnd();
-                reader.Close();
-                dataStream.Close();
-                const string accessToken = "status\":\"";
-                int clientIndex = responseFromServer.IndexOf(accessToken, StringComparison.Ordinal);
-                
-                int accessTokenIndex = clientIndex + accessToken.Length;
-                string access_token = responseFromServer.Substring(accessTokenIndex, (responseFromServer.Length - accessTokenIndex -2));
-                int clientIndex1 = access_token.IndexOf("\",\"", StringComparison.Ordinal);
-                try
+            try
+            {
+                var data = model.Check_UserName(user.Username).Result;
+                if (data != null)
                 {
-                    string access_token2 = access_token.Substring(0,clientIndex1);
+                    string contactNo = data.Username;
+                    string message = "Dear%20" + "User" + "%20your%20Password%20is:%20" + data.Password + "%20Thank%20you" + "%20MSMIND";
+                    //string message = "testing msg oasissoftwares";
+                    string requestUrl = string.Format("http://sms.oasissoftwares.online/sms-panel/api/http/index.php?username=MSMlND&apikey=7F7A1-06464&apirequest=Text&sender=MSMlND&mobile=" + contactNo + "&message=" + message + "&route=TRANS&TemplateID=1507164378545227889&format=JSON");
+                    HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
+                    HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                    var dataStream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(dataStream);
+                    string responseFromServer = reader.ReadToEnd();
+                    reader.Close();
+                    dataStream.Close();
+                    const string accessToken = "status\":\"";
+                    int clientIndex = responseFromServer.IndexOf(accessToken, StringComparison.Ordinal);
+
+                    int accessTokenIndex = clientIndex + accessToken.Length;
+                    string access_token = responseFromServer.Substring(accessTokenIndex, (responseFromServer.Length - accessTokenIndex - 2));
+                    int clientIndex1 = access_token.IndexOf("\",\"", StringComparison.Ordinal);
+                    string access_token2 = access_token.Substring(0, clientIndex1);
                     if (access_token2 == "success")
                     {
                         entity.Status = true;
                         entity.Message = "SMS Send to Your Register Mobile Number.";
                     }
+                    else
+                    {
+                        entity.Status = false;
+                        entity.Message = "Please try again!!!";
+                    }
                 }
-                catch(Exception ex)
+                else
                 {
                     entity.Status = false;
-                    entity.Message = ex.Message;
+                    entity.Message = "Please Enter Register Mobile Number!!";
                 }
-               
-                
+
             }
-            else
+            catch (Exception ex)
             {
                 entity.Status = false;
-                entity.Message = "Please Enter Register Mobile Number!!";
+                entity.Message = ex.Message;
             }
+
             return Json(entity);
+
         }
 
         public async Task<string> GetBranchRights(long PackageRightID)
