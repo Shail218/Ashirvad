@@ -146,9 +146,9 @@ namespace Ashirvad.API.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
+                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                             // for local server
-                            //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -192,6 +192,24 @@ namespace Ashirvad.API.Controllers
                     result.Message = "Banner Created Successfully";
                 }
             }
+            return result;
+        }
+
+        [Route("Test")]
+        [HttpGet]
+        public OperationResult<string> Test()
+        {
+            OperationResult<string> result = new OperationResult<string>();
+            try
+            {
+                var data = AppDomain.CurrentDomain.BaseDirectory;
+                result.Data = data;
+            }
+            catch(Exception ex)
+            {
+                result.Data = ex.Message;
+            }    
+            
             return result;
         }
     }

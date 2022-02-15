@@ -550,7 +550,6 @@ namespace Ashirvad.Repo.Services.Area.Class
                             isClass = u.is_class.HasValue ? u.is_class.Value : false,
                             Class_dtl_id = u.class_dtl_id,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-
                         }).OrderByDescending(a => a.Class.ClassID).ToList();
 
 

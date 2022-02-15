@@ -54,9 +54,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetLiveVideoLinksByBranchAndSTD")]
         [HttpGet]
-        public OperationResult<List<LinkEntity>> GetLiveVideoLinks(long branchID, long stdID)
+        public OperationResult<List<LinkEntity>> GetLiveVideoLinks(long branchID, long courseid, long stdID)
         {
-            var data = this._linkService.GetAllLink(1, branchID, stdID);
+            var data = this._linkService.GetAllLinkBySTD(1, branchID,courseid, stdID);
             OperationResult<List<LinkEntity>> result = new OperationResult<List<LinkEntity>>();
             result = data.Result;
             return result;
@@ -108,9 +108,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetYouTubeVideoLinksByBranchSTD")]
         [HttpGet]
-        public OperationResult<List<LinkEntity>> GetYouTubeVideoLinks(long branchID, long stdID)
+        public OperationResult<List<LinkEntity>> GetYouTubeVideoLinks(long branchID,long courseid, long stdID)
         {
-            var data = this._linkService.GetAllLink(2, branchID, stdID);
+            var data = this._linkService.GetAllLinkBySTD(2, branchID,courseid, stdID);
             OperationResult<List<LinkEntity>> result = new OperationResult<List<LinkEntity>>();
             result = data.Result;
             return result;

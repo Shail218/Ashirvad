@@ -52,6 +52,23 @@ namespace Ashirvad.ServiceAPI.Services.Link
             return null;
         }
 
+        public async Task<OperationResult<List<LinkEntity>>> GetAllLinkBySTD(int type, long branchID,long courseid, long stdID = 0)
+        {
+            try
+            {
+                OperationResult<List<LinkEntity>> link = new OperationResult<List<LinkEntity>>();
+                link.Data = await _linkContext.GetAllLinkBySTD(type, branchID,courseid, stdID);
+                link.Completed = true;
+                return link;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<List<LinkEntity>> GetAllCustomVideoLink(DataTableAjaxPostModel model, long branchID,int type)
         {
             try

@@ -67,7 +67,14 @@ namespace Ashirvad.Web.Controllers
             if (branchID == 0)
                 branchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             var standardData = await _dashboardService.GetHomeworkByStudent(branchID, StudentID);
-            return View("~/Views/ProgressReportChart/Homework.cshtml", standardData);
+            if(standardData.Count > 0)
+            {
+                return View("~/Views/ProgressReportChart/Homework.cshtml", standardData);
+            }
+            else
+            {
+                return View("~/Views/ProgressReportChart/Empty.cshtml");
+            }
         }
 
         [HttpPost]

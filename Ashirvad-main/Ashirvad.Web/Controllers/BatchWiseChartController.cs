@@ -25,8 +25,7 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> GetAllStandard(long branchID)
         {
-            if (branchID == 0)
-                branchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
+            branchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             var standardData = await _chartService.GetAllClassDDL(branchID);
             return Json(standardData);
         }

@@ -275,7 +275,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                             },
                             BranchCourse = new BranchCourseEntity()
                             {
-                                course_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
                                 course = new CourseEntity()
                                 {
                                     CourseID = u.COURSE_DTL_MASTER.course_id,
@@ -378,7 +378,7 @@ namespace Ashirvad.Repo.Services.Area.Test
 
             return data;
         }
-        public async Task<List<TestEntity>> GetAllTestByBranchAndStandard(long branchID, long stdID, int batchTime)
+        public async Task<List<TestEntity>> GetAllTestByBranchAndStandard(long branchID, long courseID,long stdID, int batchTime)
         {
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
@@ -386,7 +386,8 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_DTL_MASTER")
                         orderby u.test_id descending
-                        where u.branch_id == branchID && u.CLASS_DTL_MASTER.class_dtl_id == stdID
+                        where u.branch_id == branchID && u.CLASS_DTL_MASTER.class_dtl_id == stdID 
+                        && u.course_dtl_id == courseID
                         && (batchTime == 0 || u.batch_time_id == batchTime)
                         select new TestEntity()
                         {
@@ -711,7 +712,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID, long stdID, DateTime dt, int batchTime)
+        public async Task<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime)
         {
             var data = (from u in this.context.TEST_PAPER_REL
                         .Include("TEST_MASTER")
@@ -719,6 +720,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         where u.TEST_MASTER.branch_id == branchID
                         && u.TEST_MASTER.class_dtl_id == stdID
                         && u.TEST_MASTER.test_dt == dt
+                        && u.TEST_MASTER.course_dtl_id == courseid
                         && (0 == batchTime || u.TEST_MASTER.batch_time_id == batchTime)
                         select new TestPaperEntity()
                         {
@@ -1277,7 +1279,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             return 1;
         }
 
-        public async Task<List<TestPaperEntity>> GetAllTestDocLinks(long branchID, long stdID, int batchTime)
+        public async Task<List<TestPaperEntity>> GetAllTestDocLinks(long branchID,long courseid, long stdID, int batchTime)
         {
             var data = (from u in this.context.TEST_PAPER_REL
                         .Include("TEST_MASTER")
@@ -1285,6 +1287,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("CLASS_DTL_MASTER")
                         orderby u.test_paper_id descending
                         where u.TEST_MASTER.branch_id == branchID && u.TEST_MASTER.class_dtl_id == stdID
+                        && u.TEST_MASTER.course_dtl_id == courseid
                         && (batchTime == 0 || u.TEST_MASTER.batch_time_id == batchTime) && !u.doc_link.Equals(" ") && u.row_sta_cd == 1
                         select new TestPaperEntity()
                         {

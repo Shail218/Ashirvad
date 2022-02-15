@@ -156,39 +156,47 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
             DataPoints point = new DataPoints();
             List<DataPoints> list = new List<DataPoints>();
             point.Days = 0;
-            var data = (from u in this.context.SUBJECT_MASTER
-                        where (u.branch_id == branchid && u.row_sta_cd == 1)
-                        select new ChartBranchEntity()
-                        {
-                            name = u.subject,
-                            branchid = u.subject_id
-                        }).ToList();
-            if (data?.Count > 0)
+            try
             {
-                foreach (var item in data)
+                var data = (from u in this.context.SUBJECT_DTL_MASTER
+                            where (u.branch_id == branchid && u.row_sta_cd == 1)
+                            select new ChartBranchEntity()
+                            {
+                                name = u.SUBJECT_BRANCH_MASTER.subject_name,
+                                branchid = u.subject_dtl_id
+                            }).ToList();
+                if (data?.Count > 0)
                 {
-                    item.branchstandardlist = (from u in this.context.HOMEWORK_MASTER
-                                               join h in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals h.homework_id
-                                               where (h.STUDENT_MASTER.student_id == studentid && u.row_sta_cd == 1 && u.subject_dtl_id == item.branchid)
-                                               select new BranchStandardEntity()
-                                               {
-                                                   name = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
-                                                   branchid = u.subject_dtl_id.HasValue? u.subject_dtl_id.Value:0
-                                               }).Distinct().ToList();
-                    if (item.branchstandardlist.Count > 0)
+                    foreach (var item in data)
                     {
-                        foreach (var item1 in item.branchstandardlist)
+                        item.branchstandardlist = (from u in this.context.HOMEWORK_MASTER
+                                                   join h in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals h.homework_id into ps
+                                                   from h in ps.DefaultIfEmpty()
+                                                   where (h.STUDENT_MASTER.student_id == studentid && u.row_sta_cd == 1 && u.subject_dtl_id == item.branchid)
+                                                   select new BranchStandardEntity()
+                                                   {
+                                                       name = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                                       branchid = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0
+                                                   }).Distinct().ToList();
+                        if (item.branchstandardlist.Count > 0)
                         {
-                            point = new DataPoints();
-                            point.label = item1.name;
-                            point.id = item1.branchid;
-                            point.y = item.branchstandardlist.Count;
-                            point.Days += Convert.ToInt32(point.y);
-                            list.Add(point);
+                            foreach (var item1 in item.branchstandardlist)
+                            {
+                                point = new DataPoints();
+                                point.label = item1.name;
+                                point.id = item1.branchid;
+                                point.y = item.branchstandardlist.Count;
+                                point.Days += Convert.ToInt32(point.y);
+                                list.Add(point);
+                            }
                         }
                     }
-                }
 
+                }
+            }
+           catch(Exception ex)
+            {
+                
             }
             return list;
         }
@@ -199,12 +207,12 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
             List<TestDataPoints> list = new List<TestDataPoints>();
             decimal totalMarks = 0;
             decimal totalAchieveMarks = 0;
-            var data = (from u in this.context.SUBJECT_MASTER
+            var data = (from u in this.context.SUBJECT_DTL_MASTER
                         where (u.branch_id == branchid && u.row_sta_cd == 1)
                         select new ChartBranchEntity()
                         {
-                            name = u.subject,
-                            branchid = u.subject_id
+                            name = u.SUBJECT_BRANCH_MASTER.subject_name,
+                            branchid = u.subject_dtl_id
                         }).ToList();
             if (data?.Count > 0)
             {
@@ -214,7 +222,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                     {
                         item.branchstandardlist = (from u in this.context.TEST_MASTER
                                                    join t in this.context.MARKS_MASTER on u.test_id equals t.test_id
-                                                   where (t.STUDENT_MASTER.student_id == studentid && u.row_sta_cd == 1 && u.class_dtl_id == item.branchid)
+                                                   where (t.STUDENT_MASTER.student_id == studentid && u.row_sta_cd == 1 && u.subject_dtl_id == item.branchid)
                                                    select new BranchStandardEntity()
                                                    {
                                                        name = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,

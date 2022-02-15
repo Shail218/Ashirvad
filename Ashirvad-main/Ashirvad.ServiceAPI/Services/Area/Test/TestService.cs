@@ -86,12 +86,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAndStandard(long branchID, long stdID, int batchTime)
+        public async Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAndStandard(long branchID, long courseID,long stdID, int batchTime)
         {
             try
             {
                 OperationResult<List<TestEntity>> paper = new OperationResult<List<TestEntity>>();
-                paper.Data = await _testContext.GetAllTestByBranchAndStandard(branchID, stdID, batchTime);
+                paper.Data = await _testContext.GetAllTestByBranchAndStandard(branchID, courseID,stdID, batchTime);
                 paper.Completed = true;
                 return paper;
             }
@@ -188,11 +188,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<OperationResult<List<TestPaperEntity>>> GetAllTestPapaerByBranchStdDate(long branchID, long stdID, DateTime dt, int batchTime)
+        public async Task<OperationResult<List<TestPaperEntity>>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime)
         {
             try
             {
-                var data = await _testContext.GetAllTestPapaerByBranchStdDate(branchID, stdID, dt, batchTime);
+                var data = await _testContext.GetAllTestPapaerByBranchStdDate(branchID,courseid, stdID, dt, batchTime);
                 OperationResult<List<TestPaperEntity>> res = new OperationResult<List<TestPaperEntity>>();
                 res.Data = data;
                 res.Completed = true;
@@ -206,11 +206,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<OperationResult<List<TestPaperEntity>>> GetAllTestDocLinks(long branchID, long stdID, int batchTime)
+        public async Task<OperationResult<List<TestPaperEntity>>> GetAllTestDocLinks(long branchID,long courseid, long stdID, int batchTime)
         {
             try
             {
-                var data = await _testContext.GetAllTestDocLinks(branchID, stdID, batchTime);
+                var data = await _testContext.GetAllTestDocLinks(branchID,courseid, stdID, batchTime);
                 OperationResult<List<TestPaperEntity>> res = new OperationResult<List<TestPaperEntity>>();
                 res.Data = data;
                 res.Completed = true;

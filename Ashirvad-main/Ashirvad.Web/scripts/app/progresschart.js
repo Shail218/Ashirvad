@@ -10,8 +10,8 @@ $(document).ready(function () {
     }
     document.getElementById("PersonalDiv").style.display = 'none';
     document.getElementById("ReportDiv").style.display = 'none';
-    document.getElementById("TestDiv").style.display = 'none';
-    document.getElementById("HomeworkDiv").style.display = 'none';
+    //document.getElementById("TestDiv").style.display = 'none';
+    //document.getElementById("HomeworkDiv").style.display = 'none';
 });
 
 function LoadBranch() {

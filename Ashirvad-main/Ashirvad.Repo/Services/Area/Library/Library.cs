@@ -380,7 +380,6 @@ namespace Ashirvad.Repo.Services.Area.Library
                                 CategoryID = u.category_id.HasValue ? u.category_id.Value : 0,
                                 Category = u.CATEGORY_MASTER.category_name
                             },
-
                             RowStatus = new RowStatusEntity()
                             {
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
@@ -391,22 +390,29 @@ namespace Ashirvad.Repo.Services.Area.Library
                                     select new LibraryStandardEntity()
                                     {
                                         library_id = b.library_id,
+                                        BranchCourse = new BranchCourseEntity()
+                                        {
+                                            course_dtl_id = b.course_dtl_id.HasValue ? b.course_dtl_id.Value : 0,
+                                            course = new CourseEntity()
+                                            {
+                                                CourseID = b.COURSE_DTL_MASTER.COURSE_MASTER.course_id,
+                                                CourseName = b.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                            }
+                                        },
                                         std_id = b.class_dtl_id.HasValue? b.class_dtl_id.Value:0,
-                                        sub_id = b.subject_dtl_id.HasValue? b.subject_dtl_id.Value:0,
                                         standard = b.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
                                         subject = b.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
                                     }).Distinct().ToList(),
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id.Value }
                         }).ToList();
-            //var standard = (from u in this.context.LIBRARY_STD_MASTER
-            //                        .Include("STD_MASTER")
-            //                where u.library_id == item.LibraryID
-            //                select new LibraryStandardEntity()
-            //                {
-            //                    std_id = (long)u.STD_MASTER.std_id,
-            //                    standard = u.STD_MASTER.standard
-            //                }).ToList();
-            //item.list.AddRange(standard);
+            //if (data?.Count > 0)
+            //{
+            //    foreach (var item in data)
+            //    {
+            //        int idx = data.IndexOf(item);
+            //        data[idx].subject = this.context.LIBRARY_STD_MASTER.Where(z => z.library_id == item.LibraryID && z.course_dtl_id == item.list[idx].BranchCourse.course_dtl_id && z.LIBRARY_MASTER.row_sta_cd == 1).Select(y => new SubjectEntity() { SubjectID = y.subject_dtl_id.HasValue ? y.subject_dtl_id.Value : 0, Subject = y.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name }).FirstOrDefault();                   
+            //    }
+            //}         
             return data;
         }
 
@@ -667,15 +673,15 @@ namespace Ashirvad.Repo.Services.Area.Library
         public async Task<List<LibraryEntity>> GetLibraryApprovalByBranchStd(long standardID, long BranchId, string standard)
         {
             List<LibraryEntity> libraryEntities = new List<LibraryEntity>();
-            libraryEntities = (from u in this.context.APPROVAL_MASTER
-                               join li in this.context.LIBRARY_MASTER on u.library_id equals li.library_id
+            libraryEntities = (from li in this.context.LIBRARY_MASTER
+                               join u in this.context.APPROVAL_MASTER on li.library_id equals u.library_id
                                join ls in this.context.LIBRARY_STD_MASTER on li.library_id equals ls.library_id
                                orderby u.approval_id descending
                                where u.row_sta_cd == 1
                                && u.branch_id == BranchId
                                && u.library_status == 2
-                               //&& ls.std_id == standardID
                                && ls.CLASS_DTL_MASTER.CLASS_MASTER.class_name == standard
+                               && ls.class_dtl_id == standardID
                                select new LibraryEntity()
                                {
                                    LibraryID = u.library_id,
@@ -705,35 +711,40 @@ namespace Ashirvad.Repo.Services.Area.Library
 
             var library = (from li in this.context.LIBRARY_MASTER
                            join ls in this.context.LIBRARY_STD_MASTER on li.library_id equals ls.library_id
+
                            where li.row_sta_cd == 1
                            && li.createby_branch == BranchId
                            && li.type == 2
-                           && ls.CLASS_DTL_MASTER.CLASS_MASTER.class_name == standard
+                            && ls.CLASS_DTL_MASTER.CLASS_MASTER.class_name == standard
+                               && ls.class_dtl_id == standardID
+                           group li by new
+                           {
+                               li.library_id,
+                               li.library_title,
+                               li.thumbnail_img,
+                               li.thumbnail_path,
+                               li.library_type,
+                               li.doc_desc,
+                                li.library_image,
+                               li.library_path,
+                               li.video_link,
+                               li.type
+                           } into gcs
                            select new LibraryEntity()
                            {
-                               LibraryID = li.library_id,
-                               BranchID = li.branch_id,
-                               VideoLink = li.video_link,
-                               LibraryTitle = li.library_title,
-                               ThumbnailFileName = li.thumbnail_img,
-                               ThumbnailFilePath = li.thumbnail_path == null || li.thumbnail_path == "" ? "" : "https://mastermind.org.in" + li.thumbnail_path,
-                               Type = li.type.Value,
-                               Library_Type = (int)li.library_type,
-                               Description = li.doc_desc,
-                               DocFileName = li.library_image,
-                               CreatebyBranch = li.createby_branch.Value,
-                               DocFilePath = li.library_path == null || li.library_path == "" ? "" : "https://mastermind.org.in" + li.library_path,
-                               CategoryInfo = new CategoryEntity()
-                               {
-                                   CategoryID = li.category_id.HasValue ? li.category_id.Value : 0,
-                                   Category = li.CATEGORY_MASTER.category_name
-                               },
-                               RowStatus = new RowStatusEntity()
-                               {
-                                   RowStatus = li.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                   RowStatusId = (int)li.row_sta_cd
-                               },
-                               Transaction = new TransactionEntity() { TransactionId = (long)li.trans_id },
+                               LibraryID = gcs.Key.library_id,
+                              
+                               VideoLink = gcs.Key.video_link,
+                               LibraryTitle = gcs.Key.library_title,
+                               ThumbnailFileName = gcs.Key.thumbnail_img,
+                               ThumbnailFilePath = gcs.Key.thumbnail_path == null || gcs.Key.thumbnail_path == "" ? "" : "https://mastermind.org.in" + gcs.Key.thumbnail_path,
+                               Type = gcs.Key.type.Value,
+                               Library_Type = (int)gcs.Key.library_type,
+                               Description = gcs.Key.doc_desc,
+                               DocFileName = gcs.Key.library_image,
+                               
+                               DocFilePath = gcs.Key.library_path == null || gcs.Key.library_path == "" ? "" : "https://mastermind.org.in" + gcs.Key.library_path,
+                               
                            }).ToList();
 
             libraryEntities.AddRange(library);

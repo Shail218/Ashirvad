@@ -16,13 +16,13 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Test
         Task<List<TestEntity>> GetAllTestByBranchType(long branchID,long BatchType);
         Task<TestEntity> GetTestByTestID(long testID);
         bool RemoveTest(long testID, string lastupdatedby, bool removePaper);
-        Task<List<TestEntity>> GetAllTestByBranchAndStandard(long branchID, long stdID, int batchTime);
+        Task<List<TestEntity>> GetAllTestByBranchAndStandard(long branchID, long courseID, long stdID, int batchTime);
         Task<long> TestPaperMaintenance(TestPaperEntity paperInfo);
         Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID);
         Task<List<TestPaperEntity>> GetAllTestPapaerWithoutContentByTest(long testID);
         Task<TestPaperEntity> GetTestPaperByPaperID(long paperID);
         Task<List<TestEntity>> GetTestPaperChecking(long paperID);
-        Task<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID, long stdID, DateTime dt, int batchTime);
+        Task<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime);
         bool RemoveTestPaper(long paperID, string lastupdatedby);
 
         Task<long> AnswerSheetMaintenance(StudentAnswerSheetEntity studAnswerSheet);
@@ -34,7 +34,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Test
         Task<List<TestEntity>> GetAllTest(DateTime testDate, string searchParam);
 
         Task<long> TestMaintenance(TestDetailEntity TestDetail);
-        Task<List<TestPaperEntity>> GetAllTestDocLinks(long branchID, long stdID, int batchTime);
+        Task<List<TestPaperEntity>> GetAllTestDocLinks(long branchID,long courseid, long stdID, int batchTime);
 
         Task<TestEntity> GetTestDetails(long TestID,long SubjectID);
         bool RemoveTestAnswerSheetdetail(long TestID, long studid);

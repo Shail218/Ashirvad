@@ -38,11 +38,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
             return hw;
         }
 
-        public async Task<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID, long stdID, int batchTime, long studentId=0)
+        public async Task<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID,long courseid, long stdID, int batchTime, long studentId=0)
         {
             try
             {
-                var data = await _homeworkContext.GetAllHomeworkByBranchStudent(branchID, stdID, batchTime, studentId);
+                var data = await _homeworkContext.GetAllHomeworkByBranchStudent(branchID,courseid, stdID, batchTime, studentId);
                 return data;
             }
             catch (Exception ex)

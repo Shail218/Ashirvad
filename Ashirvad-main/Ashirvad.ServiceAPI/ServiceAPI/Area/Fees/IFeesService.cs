@@ -15,7 +15,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
     
         Task<List<FeesEntity>> GetAllFeesWithoutImage();
         Task<FeesEntity> GetFeesByFeesID(long FeesID);
-        Task<List<FeesEntity>> GetFeesByBranchID(long BranchID,long STDID);
+        Task<List<FeesEntity>> GetFeesByBranchID(long BranchID,long courseid, long STDID);
         bool RemoveFees(long FeesID, string lastupdatedby);
         Task<List<FeesEntity>> GetAllCustomFees(DataTableAjaxPostModel model, long branchID);
     }

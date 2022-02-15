@@ -277,7 +277,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
             Model.HOMEWORK_MASTER_DTL homework = new Model.HOMEWORK_MASTER_DTL();
             bool isUpdate = true;
             var data = (from t in this.context.HOMEWORK_MASTER_DTL
-                        where t.homework_id == homeworkDetail.HomeworkEntity.HomeworkID && t.stud_id == homeworkDetail.StudentInfo.StudentID
+                        where t.homework_id == homeworkDetail.HomeworkEntity.HomeworkID && t.stud_id == homeworkDetail.HomeworkEntity.StudentInfo.StudentID
                         select t).ToList();
            
            

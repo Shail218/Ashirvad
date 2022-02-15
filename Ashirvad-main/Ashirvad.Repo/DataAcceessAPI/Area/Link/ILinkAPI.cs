@@ -15,5 +15,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Link
         Task<LinkEntity> GetLinkByUniqueID(long uniqueID);
         bool RemoveLink(long uniqueID, string lastupdatedby);
         Task<List<LinkEntity>> GetAllCustomLiveVideo(DataTableAjaxPostModel model, long branchID, int type);
+        Task<List<LinkEntity>> GetAllLinkBySTD(int type, long branchID, long courseid, long stdID);
     }
 }

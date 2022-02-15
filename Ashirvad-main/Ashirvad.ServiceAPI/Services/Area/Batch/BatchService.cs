@@ -48,6 +48,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Batch
             return null;
         }
 
+        public async Task<List<BatchEntity>> GetAllBatchesBySTD(long branchID, long courseid,long STDID = 0)
+        {
+            try
+            {
+                return await this._batchContext.GetAllBatchesBySTD(branchID, courseid,STDID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
         public async Task<List<BatchEntity>> GetAllCustomBatch(DataTableAjaxPostModel model, long branchID)
         {
             try

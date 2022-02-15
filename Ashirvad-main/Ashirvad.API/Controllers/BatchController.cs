@@ -56,9 +56,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllBatchesByStd")]
         [HttpGet]
-        public OperationResult<List<BatchEntity>> GetAllBatchesByStd(long branchID,long StdID)
+        public OperationResult<List<BatchEntity>> GetAllBatchesByStd(long branchID,long courseid,long StdID)
         {
-            var data = this._batchService.GetAllBatches(branchID,StdID);
+            var data = this._batchService.GetAllBatchesBySTD(branchID,courseid,StdID);
             OperationResult<List<BatchEntity>> result = new OperationResult<List<BatchEntity>>();
             result.Completed = true;
             result.Data = data.Result;

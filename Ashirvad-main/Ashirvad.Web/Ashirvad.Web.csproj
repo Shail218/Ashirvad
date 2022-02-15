@@ -1456,6 +1456,7 @@
     <Content Include="Views\BranchSubject\SubjectDetailDataTable.cshtml" />
     <Content Include="Views\BranchSubject\UpdateSubjectDataTable.cshtml" />
     <Content Include="Views\ForgotPassword\Index.cshtml" />
+    <Content Include="Views\ProgressReportChart\Empty.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

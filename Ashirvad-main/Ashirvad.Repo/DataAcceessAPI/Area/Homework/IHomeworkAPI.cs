@@ -12,7 +12,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Homework
     {
         Task<long> HomeworkMaintenance(HomeworkEntity homeworkInfo);
         Task<List<HomeworkEntity>> GetAllHomeworkByBranch(long branchID, long stdID, int batchTime);
-        Task<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID, long stdID, int batchTime, long studentId = 0);
+        Task<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID,long courseid, long stdID, int batchTime, long studentId = 0);
         Task<List<HomeworkEntity>> GetAllHomeworkWithoutContentByBranch(long branchID, long stdID);
         Task<HomeworkEntity> GetHomeworkByHomeworkID(long homeworkID);
         Task<List<HomeworkEntity>> GetStudentHomeworkChecking(long homeworkID);

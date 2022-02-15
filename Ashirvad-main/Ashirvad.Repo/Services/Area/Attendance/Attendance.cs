@@ -231,6 +231,14 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
                                 Class = new ClassEntity() { ClassName =  u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
                             },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
                             AttendanceDate = u.attendance_dt,
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,

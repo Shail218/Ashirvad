@@ -129,18 +129,20 @@ namespace Ashirvad.Repo.Services.Area.Paper
         }
 
 
-        public async Task<List<SubjectEntity>> GetPracticePaperSubject(long branchID, long stdID)
+        public async Task<List<SubjectEntity>> GetPracticePaperSubject(long branchID, long courseid,long stdID,int batch_time)
         {
             var data = (from u in this.context.PRACTICE_PAPER
                         .Include("PRACTICE_PAPER_REL")                        
                         orderby u.paper_id descending
                         where u.branch_id == branchID
                         && u.class_dtl_id == stdID
+                        && u.course_dtl_id == courseid 
+                        && u.batch_type == batch_time
                         select new SubjectEntity()
                         {
                             SubjectID = u.subject_dtl_id.HasValue? u.subject_dtl_id.Value:0,
                             Subject = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
-                        }).ToList();
+                        }).Distinct().ToList();
 
             return data;
         }

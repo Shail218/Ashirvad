@@ -82,10 +82,7 @@ namespace Ashirvad.Web.Controllers
                     testEntity.test.FileName = _FileName;
                     testEntity.test.FilePath = _Filepath;
                 }
-                if (testEntity.test.FilePath != null && testEntity.test.FilePath != "")
-                {
-                    var data2 = await _testService.TestPaperMaintenance(testEntity.test);
-                }
+                var data2 = await _testService.TestPaperMaintenance(testEntity.test);
                 return Json(true);
             }
 

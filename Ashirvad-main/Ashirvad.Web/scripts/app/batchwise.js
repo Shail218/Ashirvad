@@ -36,13 +36,7 @@ function LoadCourse() {
         $("#CourseName").append("<option value=" + 0 + ">---Select Course---</option>");
         if (data != null) {
             for (i = 0; i < data.length; i++) {
-                if (data.length == 1) {
-                    $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
-                    $('#CourseName option[value="' + data[i].course_dtl_id + '"]').attr("selected", "selected");
-                    $('#BranchCourse_course_dtl_id').val(data[i].course_dtl_id);
-                } else {
-                    $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
-                }
+                $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
             }
         }
 
@@ -65,13 +59,7 @@ function LoadClass(CourseID) {
         $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
         if (data != null) {
             for (i = 0; i < data.length; i++) {
-                if (data.length == 1) {
-                    $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
-                    $('#StandardName option[value="' + data[i].Class_dtl_id + '"]').attr("selected", "selected");
-                    $('#BranchClass_Class_dtl_id').val(data[i].Class_dtl_id);
-                } else {
-                    $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
-                }
+                $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
             }
         }
         if ($("#BranchClass_Class_dtl_id").val() != "") {

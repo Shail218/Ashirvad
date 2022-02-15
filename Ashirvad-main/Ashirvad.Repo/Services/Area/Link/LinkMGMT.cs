@@ -52,7 +52,6 @@ namespace Ashirvad.Repo.Services.Area.Link
         {
             var data = (from u in this.context.LINK_MASTER
                         .Include("BRANCH_MASTER")
-                        join std in this.context.STD_MASTER on u.class_dtl_id equals std.std_id
                         where u.type == type
                         &&  u.branch_id == branchID
                         && (0 == stdID || u.class_dtl_id == stdID) && u.row_sta_cd == 1
@@ -85,7 +84,48 @@ namespace Ashirvad.Repo.Services.Area.Link
                                     ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
                                 }
                             },
-                            StandardName = std.standard,
+                            Title = u.title
+                        }).ToList();
+
+            return data;
+        }
+
+        public async Task<List<LinkEntity>> GetAllLinkBySTD(int type, long branchID,long courseid, long stdID)
+        {
+            var data = (from u in this.context.LINK_MASTER
+                        .Include("BRANCH_MASTER") orderby u.unique_id descending
+                        where u.type == type
+                        && u.branch_id == branchID
+                        && (0 == stdID || u.class_dtl_id == stdID) && u.row_sta_cd == 1 && u.course_dtl_id == courseid
+                        select new LinkEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            UniqueID = u.unique_id,
+                            Branch = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            LinkDesc = u.vid_desc,
+                            LinkURL = u.vid_url,
+                            LinkType = u.type,
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
+                            BranchClass = new BranchClassEntity()
+                            {
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
+                            },
                             Title = u.title
                         }).ToList();
 

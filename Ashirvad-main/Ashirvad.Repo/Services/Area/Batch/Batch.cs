@@ -62,10 +62,49 @@ namespace Ashirvad.Repo.Services.Area.Batch
                 
         }
 
-        public async Task<List<BatchEntity>> GetAllBatches(long branchID,long STDID=0)
+        public async Task<List<BatchEntity>> GetAllBatches(long branchID, long STDID=0)
         {
             var data = (from u in this.context.BATCH_MASTER orderby u.batch_id descending
-                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1 && (STDID == 0 || u.class_dtl_id == STDID)
+                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
+                        && (STDID == 0 || u.class_dtl_id == STDID)
+                        select new BatchEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            BatchTime = u.batch_time,
+                            MonFriBatchTime = u.mon_fri_batch_time,
+                            SatBatchTime = u.sat_batch_time,
+                            SunBatchTime = u.sun_batch_time,
+                            BatchID = u.batch_id,
+                            BranchClass = new BranchClassEntity()
+                            {
+                                Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity
+                                {
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                }
+                            },
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                            BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening
+                        }).ToList();
+
+            return data;
+        }
+
+        public async Task<List<BatchEntity>> GetAllBatchesBySTD(long branchID, long courseid, long STDID = 0)
+        {
+            var data = (from u in this.context.BATCH_MASTER
+                        orderby u.batch_id descending
+                        where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1 && u.course_dtl_id == courseid
+                        && (STDID == 0 || u.class_dtl_id == STDID)
                         select new BatchEntity()
                         {
                             RowStatus = new RowStatusEntity()

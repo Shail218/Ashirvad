@@ -69,9 +69,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetPracticePaperSubject")]
         [HttpGet]
-        public OperationResult<List<SubjectEntity>> GetPracticePaperSubject(long branchID, long stdID)
+        public OperationResult<List<SubjectEntity>> GetPracticePaperSubject(long branchID, long courseid,long stdID,int batch_time)
         {
-            var data = this._paperService.GetPracticePaperSubject(branchID, stdID);
+            var data = this._paperService.GetPracticePaperSubject(branchID,courseid, stdID,batch_time);
             return data.Result;
         }
 
@@ -112,9 +112,9 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-        [Route("PaperMaintenance/{PaperID}/{UniqID}/{BranchID}/{StandardID}/{SubjectID}/{Batch_TimeID}/{Remark}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("PaperMaintenance/{PaperID}/{UniqID}/{BranchID}/{CourseID}/{StandardID}/{SubjectID}/{Batch_TimeID}/{Remark}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
         [HttpPost]
-        public OperationResult<PaperEntity> PaperMaintenance(long PaperID, long UniqID, long BranchID, long StandardID,long SubjectID,int Batch_TimeID,
+        public OperationResult<PaperEntity> PaperMaintenance(long PaperID, long UniqID, long BranchID, long CourseID, long StandardID,long SubjectID,int Batch_TimeID,
             string Remark, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
         {
             OperationResult<PaperEntity> result = new OperationResult<PaperEntity>();
@@ -123,14 +123,16 @@ namespace Ashirvad.API.Controllers
             PaperEntity paperEntity = new PaperEntity();
             PaperEntity data = new PaperEntity();
             paperEntity.Branch = new BranchEntity();
-            paperEntity.Standard = new StandardEntity();
-            paperEntity.Subject = new SubjectEntity();
+            paperEntity.BranchCourse = new BranchCourseEntity();
+            paperEntity.BranchClass = new BranchClassEntity();
+            paperEntity.BranchSubject = new BranchSubjectEntity();
             paperEntity.PaperData = new PaperData();
             paperEntity.PaperID = PaperID;
             paperEntity.PaperData.UniqueID = UniqID;
             paperEntity.Branch.BranchID = BranchID;
-            paperEntity.Standard.StandardID = StandardID;
-            paperEntity.Subject.SubjectID = SubjectID;
+            paperEntity.BranchCourse.course_dtl_id = CourseID;
+            paperEntity.BranchClass.Class_dtl_id = StandardID;
+            paperEntity.BranchSubject.Subject_dtl_id = SubjectID;
             paperEntity.BatchTypeID = Batch_TimeID;
             paperEntity.Remarks = Remark == "none" ? null : Decode(Remark);
             paperEntity.PaperData.PaperPath = FileName;
@@ -159,9 +161,9 @@ namespace Ashirvad.API.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
+                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                             // for local server
-                            //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);

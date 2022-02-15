@@ -134,14 +134,19 @@ namespace Ashirvad.Web.Controllers
         {
             string[] array = new string[2];
             string FileName = "";
+            string stdname = "";
             try
             {
 
                 var homeworks = _homeworkService.GetHomeworkdetailsFiles(homeworkid).Result;
                 //string randomfilename = Common.Common.RandomString(20);
                 string studentname = Student.Replace(" ", "");
-                string classname = Class.Replace(" ", "");
-                string randomfilename = "HomeWork_"+ Homework.ToString("ddMMyyyy") + "_Student_"+ studentname +"_Class_"+ classname;
+                stdname = Class.Replace(" ", "");
+                if (stdname.Contains("."))
+                {
+                    stdname = stdname.Replace(".", "");
+                }            
+                string randomfilename = "HomeWork_"+ Homework.ToString("ddMMyyyy") + "_Student_"+ studentname +"_Class_"+ stdname;
                 FileName = "/ZipFiles/HomeworkDetails/" + randomfilename + ".zip";
                 if (homeworks.Count > 0)
                 {

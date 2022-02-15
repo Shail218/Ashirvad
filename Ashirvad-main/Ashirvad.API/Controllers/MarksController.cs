@@ -31,9 +31,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetTestDatesByBatch")]
         [HttpPost]
-        public OperationResult<List<TestEntity>> GetTestDatesByBatch(long BranchID, long stdID, int BatchType)
+        public OperationResult<List<TestEntity>> GetTestDatesByBatch(long BranchID, long courseID,long stdID, int BatchType)
         {
-            var data = this._testService.GetAllTestByBranchAndStandard(BranchID, stdID, BatchType).Result;
+            var data = this._testService.GetAllTestByBranchAndStandard(BranchID, courseID,stdID, BatchType).Result;
             OperationResult<List<TestEntity>> result = new OperationResult<List<TestEntity>>();
             result.Completed = true;
             result.Data = data.Data;
@@ -117,9 +117,9 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-        [Route("MarksMaintenance/{MarksID}/{Marks_Date}/{TestID}/{BranchID}/{StudentID}/{Achieve_Marks}/{BatchtimeID}/{SubjectID}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("MarksMaintenance/{MarksID}/{Marks_Date}/{TestID}/{BranchID}/{StudentID}/{Achieve_Marks}/{BatchtimeID}/{CourseID}/{StandardID}/{SubjectID}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
         [HttpPost]
-        public OperationResult<MarksEntity> MarksMaintenance(long MarksID, DateTime Marks_Date, long TestID, long BranchID, string StudentID, string Achieve_Marks, int BatchtimeID, long SubjectID, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        public OperationResult<MarksEntity> MarksMaintenance(long MarksID, DateTime Marks_Date, long TestID, long BranchID, string StudentID, string Achieve_Marks, int BatchtimeID, long CourseID, long StandardID, long SubjectID, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
         {
             OperationResult<MarksEntity> result = new OperationResult<MarksEntity>();
             var httpRequest = HttpContext.Current.Request;
@@ -131,7 +131,9 @@ namespace Ashirvad.API.Controllers
                 MarksEntity marksEntity = new MarksEntity();
                 marksEntity.BranchInfo = new BranchEntity();
                 marksEntity.testEntityInfo = new TestEntity();
-                marksEntity.SubjectInfo = new SubjectEntity();
+                marksEntity.BranchCourse = new BranchCourseEntity();
+                marksEntity.BranchClass = new BranchClassEntity();
+                marksEntity.BranchSubject = new BranchSubjectEntity();
                 marksEntity.student = new StudentEntity();
                 marksEntity.student.StudentID = Convert.ToInt64(studet[i]);
                 marksEntity.AchieveMarks = marks[i];
@@ -139,7 +141,9 @@ namespace Ashirvad.API.Controllers
                 marksEntity.MarksDate = Marks_Date;
                 marksEntity.testEntityInfo.TestID = TestID;
                 marksEntity.BranchInfo.BranchID = BranchID;
-                marksEntity.SubjectInfo.SubjectID = SubjectID;
+                marksEntity.BranchCourse.course_dtl_id = CourseID;
+                marksEntity.BranchClass.Class_dtl_id = StandardID;
+                marksEntity.BranchSubject.Subject_dtl_id = SubjectID;
                 marksEntity.BatchType = (Enums.BatchType)BatchtimeID;
                 marksEntity.MarksContentFileName = FileName;
                 marksEntity.MarksFilepath = "/MarksImage/" + FileName + "." + Extension;             
@@ -167,9 +171,9 @@ namespace Ashirvad.API.Controllers
                                 string extension;
                                 string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                                 // for live server
-                                string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
+                                //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                                 // for local server
-                                //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                                string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                                 var postedFile = httpRequest.Files[file];
                                 string randomfilename = Common.Common.RandomString(20);
                                 extension = Path.GetExtension(postedFile.FileName);

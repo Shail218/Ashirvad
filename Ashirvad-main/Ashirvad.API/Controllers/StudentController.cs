@@ -141,16 +141,17 @@ namespace Ashirvad.API.Controllers
             "/{Father_Occupation}/{Mother_Occupation}/{Parent_Contact_No}/{CreateId}/{CreateBy}/{TransactionId}" +
             "/{std_pwd}/{parent_pwd}/{FileName}/{Extension}/{HasFile}")]
         [HttpPost]
-        public OperationResult<StudentEntity> StudentMaintenance(long StudentID, long ParentID, string Gr_No, string Name, DateTime Birth_Date, string Address, long BranchID, long StandardID,
+        public OperationResult<StudentEntity> StudentMaintenance(long StudentID, long ParentID, string Gr_No, string Name, DateTime Birth_Date, string Address, long BranchID, string StandardID,
             long SchoolID, int School_TimeID, int Batch_TimeID, string Last_Year_Result, string Grade, string Class_Name,
             string Student_Contact_No, DateTime Admission_Date, string Parent_Name, string Father_Occupation,
-            string Mother_Occupation, string Parent_Contact_No,long CreateId, string CreateBy, long TransactionId,string std_pwd,
-            string parent_pwd, string FileName, string Extension,bool HasFile)
+            string Mother_Occupation, string Parent_Contact_No, long CreateId, string CreateBy, long TransactionId, string std_pwd,
+            string parent_pwd, string FileName, string Extension, bool HasFile)
         {
             OperationResult<StudentEntity> result = new OperationResult<StudentEntity>();
             var httpRequest = HttpContext.Current.Request;
-            string[] name = Name.Split(',');            
+            string[] name = Name.Split(',');
             string[] result_status = Last_Year_Result.Split(',');
+            string[] course_standard = StandardID.Split(',');
             StudentEntity studentEntity = new StudentEntity();
             StudentEntity data = new StudentEntity();
             studentEntity.BranchInfo = new BranchEntity();
@@ -158,6 +159,8 @@ namespace Ashirvad.API.Controllers
             studentEntity.SchoolInfo = new SchoolEntity();
             studentEntity.StudentMaint = new StudentMaint();
             studentEntity.BatchInfo = new BatchEntity();
+            studentEntity.BranchClass = new BranchClassEntity();
+            studentEntity.BranchCourse = new BranchCourseEntity();
             studentEntity.StudentID = StudentID;
             studentEntity.StudentMaint.ParentID = ParentID;
             studentEntity.GrNo = Gr_No;
@@ -174,7 +177,8 @@ namespace Ashirvad.API.Controllers
             }
             studentEntity.Address = Decode(Address);
             studentEntity.BranchInfo.BranchID = BranchID;
-            studentEntity.StandardInfo.StandardID = StandardID;
+            studentEntity.BranchCourse.course_dtl_id = Convert.ToInt64(course_standard[0]);
+            studentEntity.BranchClass.Class_dtl_id = Convert.ToInt64(course_standard[1]);
             studentEntity.SchoolInfo.SchoolID = SchoolID == -1 ? 0 : SchoolID;
             studentEntity.SchoolTime = School_TimeID == -1 ? 0 : School_TimeID;
             studentEntity.BatchInfo.BatchType = (Enums.BatchType)Batch_TimeID;
@@ -182,6 +186,8 @@ namespace Ashirvad.API.Controllers
             studentEntity.Grade = Grade == "none" ? "" : Grade;
             studentEntity.LastYearClassName = Class_Name == "none" ? null : Decode(Class_Name);
             studentEntity.ContactNo = Student_Contact_No == "none" ? null : Student_Contact_No;
+            DateTime dateTime = DateTime.Now;
+            studentEntity.Final_Year = dateTime.Month >= 4 ? dateTime.Year.ToString() + "_" + dateTime.Year + 1.ToString("yyyy") : (dateTime.Year - 1).ToString() + "-" + dateTime.Year.ToString();
             if (Admission_Date.Equals("01-01-0001"))
             {
                 studentEntity.AdmissionDate = null;
@@ -190,9 +196,9 @@ namespace Ashirvad.API.Controllers
             {
                 studentEntity.AdmissionDate = Admission_Date;
             }
-            studentEntity.StudentMaint.ParentName = Parent_Name;
-            studentEntity.StudentMaint.FatherOccupation = Father_Occupation == "none" ? null : Father_Occupation;
-            studentEntity.StudentMaint.MotherOccupation = Mother_Occupation == "none" ? null : Mother_Occupation;
+            studentEntity.StudentMaint.ParentName = Decode(Parent_Name);
+            studentEntity.StudentMaint.FatherOccupation = Father_Occupation == "none" ? null : Decode(Father_Occupation);
+            studentEntity.StudentMaint.MotherOccupation = Mother_Occupation == "none" ? null : Decode(Mother_Occupation);
             studentEntity.StudentMaint.ContactNo = Parent_Contact_No;
             studentEntity.StudentPassword = std_pwd;
             studentEntity.StudentMaint.ParentPassword = parent_pwd;
@@ -235,9 +241,9 @@ namespace Ashirvad.API.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
+                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                             // for local server
-                            //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);

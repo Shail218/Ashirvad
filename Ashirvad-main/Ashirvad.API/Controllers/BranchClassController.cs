@@ -1,5 +1,6 @@
 ﻿using Ashirvad.Data;
 using Ashirvad.Data.Model;
+using Ashirvad.Repo.Services.Area;
 using Ashirvad.Repo.Services.Area.Branch;
 using Ashirvad.Repo.Services.Area.Class;
 using Ashirvad.Repo.Services.Area.Standard;
@@ -51,11 +52,15 @@ namespace Ashirvad.Web.Controllers
                     Class = item.Class,
                     BranchCourse = item.BranchCourse
                 });
+                if ((long)data.Result.Data < 0)
+                {
+                    break;
+                }
             }
             OperationResult<BranchClassEntity> result = new OperationResult<BranchClassEntity>();
             result.Completed = false;
             result.Data = null;
-            if ((long)data.Result.Data > 0)
+            if ((long)data.Result.Data >= 0)
             {
                 result.Completed = true;
                 result.Data = data.Result;
@@ -127,6 +132,48 @@ namespace Ashirvad.Web.Controllers
             OperationResult<List<BranchClassEntity>> result = new OperationResult<List<BranchClassEntity>>();
             result.Completed = true;
             result.Data = data.Result;
+            return result;
+        }
+
+        [Route("GetAllClassByCourse")]
+        [HttpGet]
+        public OperationResult<List<BranchClassEntity>> GetAllClassByCourse(long CourseID)
+        {
+            var data = this._ClassService.GetAllClassByCourseddl(CourseID,false);
+            OperationResult<List<BranchClassEntity>> result = new OperationResult<List<BranchClassEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
+
+        [Route("CheckClassDetail")]
+        [HttpGet]
+        public OperationResult<ResponseModel> CheckClassDetail(long ClassID,long BranchID)
+        {
+            Check_Delete cls = new Check_Delete();
+            var data = cls.check_delete_class(BranchID, ClassID);
+            if(data.Result.Status == false)
+            {
+                data.Result.Message = data.Result.Message.Replace("<br />", "\n");
+            }
+            OperationResult<ResponseModel> result = new OperationResult<ResponseModel>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
+
+        [Route("RemoveBranchClass")]
+        [HttpGet]
+        public OperationResult<ResponseModel> RemoveBranchClass(long ClassID, long BranchID, string lastupdatedby)
+        {
+            var data = _branchClassService.RemoveBranchClass(ClassID, BranchID, lastupdatedby);
+            if (data.Status == false)
+            {
+                data.Message = data.Message.Replace("<br />", "\n");
+            }
+            OperationResult<ResponseModel> result = new OperationResult<ResponseModel>();
+            result.Completed = true;
+            result.Data = data;
             return result;
         }
 

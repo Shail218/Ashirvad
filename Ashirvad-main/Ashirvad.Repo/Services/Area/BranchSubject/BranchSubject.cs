@@ -611,7 +611,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
                                                },
                                                Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                                           }).ToList();
+                                           }).OrderByDescending(a => a.Subject.SubjectID).ToList();
                 }
 
             }

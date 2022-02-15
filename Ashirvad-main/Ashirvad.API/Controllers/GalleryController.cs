@@ -154,9 +154,9 @@ namespace Ashirvad.API.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
+                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                             // for local server
-                            //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);

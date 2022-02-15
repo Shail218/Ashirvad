@@ -132,6 +132,15 @@ namespace Ashirvad.Repo.Services.Area
                                 {
                                     CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
                                 }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectID = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_id,
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name
+                                }
                             }
                         }).ToList();
 
@@ -324,6 +333,15 @@ namespace Ashirvad.Repo.Services.Area
                                 course = new CourseEntity()
                                 {
                                     CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
+                            BranchSubject = new BranchSubjectEntity()
+                            {
+                                Subject_dtl_id = u.subject_dtl_id.HasValue ? u.subject_dtl_id.Value : 0,
+                                Subject = new SuperAdminSubjectEntity()
+                                {
+                                    SubjectName = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_name,
+                                    SubjectID = u.SUBJECT_DTL_MASTER.SUBJECT_BRANCH_MASTER.subject_id
                                 }
                             }
                         }).ToList();

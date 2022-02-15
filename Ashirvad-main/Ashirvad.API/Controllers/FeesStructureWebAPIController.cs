@@ -35,9 +35,9 @@ namespace Ashirvad.API.Controllers
         }
         // GET: Fees
 
-        [Route("FeesMaintenance/{FeesID}/{FeesDetailsID}/{StandardID}/{BranchID}/{Remark}/{SubmitDate}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("FeesMaintenance/{FeesID}/{FeesDetailsID}/{CourseID}/{StandardID}/{BranchID}/{Remark}/{SubmitDate}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
         [HttpPost]
-        public OperationResult<FeesEntity> FeesMaintenance(long FeesID, long FeesDetailsID, long StandardID, long BranchID,
+        public OperationResult<FeesEntity> FeesMaintenance(long FeesID, long FeesDetailsID, long CourseID, long StandardID, long BranchID,
             string Remark, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
         {
             OperationResult<FeesEntity> result = new OperationResult<FeesEntity>();
@@ -46,8 +46,11 @@ namespace Ashirvad.API.Controllers
             FeesEntity data = new FeesEntity();
             feesEntity.BranchInfo = new BranchEntity();
             feesEntity.standardInfo = new StandardEntity();
+            feesEntity.BranchCourse = new BranchCourseEntity();
+            feesEntity.BranchClass = new BranchClassEntity();
             feesEntity.BranchInfo.BranchID = BranchID;
-            feesEntity.standardInfo.StandardID = StandardID;
+            feesEntity.BranchClass.Class_dtl_id = StandardID;
+            feesEntity.BranchCourse.course_dtl_id = CourseID;
             feesEntity.FeesID = FeesID;
             feesEntity.FeesDetailID = FeesDetailsID;
             feesEntity.Remark = Remark == "none" ? null : Decode(Remark);
@@ -78,9 +81,9 @@ namespace Ashirvad.API.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
+                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                             // for local server
-                            //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -171,9 +174,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetFeesByBranchID")]
         [HttpGet]
-        public OperationResult<List<FeesEntity>> GetFeesByBranchID(long BranchID, long StdID = 0)
+        public OperationResult<List<FeesEntity>> GetFeesByBranchID(long BranchID,long courseid = 0, long StdID = 0)
         {
-            var data = this._FeesService.GetFeesByBranchID(BranchID, StdID);
+            var data = this._FeesService.GetFeesByBranchID(BranchID, courseid, StdID);
             OperationResult<List<FeesEntity>> result = new OperationResult<List<FeesEntity>>();
             result.Data = data.Result;
             result.Completed = true;

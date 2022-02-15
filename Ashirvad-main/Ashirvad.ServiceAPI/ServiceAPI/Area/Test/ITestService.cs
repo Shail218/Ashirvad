@@ -29,14 +29,14 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Test
         bool RemoveAnswerSheet(long ansID, string lastupdatedby);
         bool RemoveTestAndPaper(long testID, string lastUpdatedBy);
 
-        Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAndStandard(long branchID, long stdID, int batchTime);
-        Task<OperationResult<List<TestPaperEntity>>> GetAllTestPapaerByBranchStdDate(long branchID, long stdID, DateTime dt, int batchTime);
+        Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAndStandard(long branchID, long courseID, long stdID, int batchTime);
+        Task<OperationResult<List<TestPaperEntity>>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime);
 
         Task<OperationResult<List<TestEntity>>> GetAllTest(DateTime testDate, string searchParam);
         Task<List<StudentAnswerSheetEntity>> BulkStudentAnswerSheetMaintenance(List<StudentAnswerSheetEntity> ansSheetInfo);
 
         Task<TestDetailEntity> TestdetailMaintenance(TestDetailEntity testInfo);
-        Task<OperationResult<List<TestPaperEntity>>> GetAllTestDocLinks(long branchID, long stdID, int batchTime);
+        Task<OperationResult<List<TestPaperEntity>>> GetAllTestDocLinks(long branchID,long courseid, long stdID, int batchTime);
         Task<List<TestEntity>> GetAllCustomTest(DataTableAjaxPostModel model, long branchID);
 
         #region New

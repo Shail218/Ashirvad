@@ -66,7 +66,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
             return this.context.SaveChanges() > 0 ? homework.homework_id : 0;
         }
 
-        public async Task<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID, long stdID, int batchTime, long studentId)
+        public async Task<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID, long courseid,long stdID, int batchTime, long studentId)
         {
             var data = (from u in this.context.HOMEWORK_MASTER
                         .Include("BRANCH_MASTER")
@@ -76,6 +76,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         //join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id
                         where u.branch_id == branchID
                         && (u.class_dtl_id == stdID)
+                        && u.course_dtl_id == courseid
                         && (u.batch_time_id == batchTime) && u.row_sta_cd == 1 /*&& hd.stud_id == studentId*/
                         select new HomeworkEntity()
                         {
@@ -500,7 +501,6 @@ namespace Ashirvad.Repo.Services.Area.Homework
 
             var data = (from u in this.context.HOMEWORK_MASTER_DTL
                         .Include("HOMEWORK_MASTER")
-                        .Include("STD_MASTER")
                         .Include("STUDENT_MASTER")
                         orderby u.homework_master_dtl_id descending
                         where u.homework_id == homeworkID

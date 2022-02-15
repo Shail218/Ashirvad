@@ -203,12 +203,13 @@ namespace Ashirvad.Repo.Services.Area
             return data;
         }
 
-        public async Task<List<FeesEntity>> GetAllFeesByBranchID(long BranchID, long StdID)
+        public async Task<List<FeesEntity>> GetAllFeesByBranchID(long BranchID,long courseid, long StdID)
         {
             var data = (from u in this.context.FEE_STRUCTURE_MASTER
                         join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
                         orderby u.fee_struct_mst_id descending
                         where u.row_sta_cd == 1 && u.branch_id == BranchID && (u.class_dtl_id == StdID || StdID == 0)
+                        && (u.course_dtl_id == courseid || courseid == 0)
                         select new FeesEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -232,7 +233,7 @@ namespace Ashirvad.Repo.Services.Area
                             },
                             BranchCourse = new BranchCourseEntity()
                             {
-                                course_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
                                 course = new CourseEntity()
                                 {
                                     CourseID = u.COURSE_DTL_MASTER.course_id,

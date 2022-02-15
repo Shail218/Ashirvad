@@ -72,9 +72,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllTestByBranchAndSTD")]
         [HttpGet]
-        public OperationResult<List<TestEntity>> GetAllTestByBranchAndSTD(long branchID, long stdID, int batchTime)
+        public OperationResult<List<TestEntity>> GetAllTestByBranchAndSTD(long branchID, long courseID, long stdID, int batchTime)
         {
-            var data = this._testService.GetAllTestByBranchAndStandard(branchID, stdID, batchTime);
+            var data = this._testService.GetAllTestByBranchAndStandard(branchID, courseID,stdID, batchTime);
             return data.Result;
         }
 
@@ -148,9 +148,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllTestPapaerByBranchStdDate")]
         [HttpGet]
-        public OperationResult<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID, long stdID, DateTime dt, int batchTime)
+        public OperationResult<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime)
         {
-            var data = this._testService.GetAllTestPapaerByBranchStdDate(branchID, stdID, dt, batchTime);
+            var data = this._testService.GetAllTestPapaerByBranchStdDate(branchID,courseid, stdID, dt, batchTime);
             return data.Result;
         }
 
@@ -370,9 +370,9 @@ namespace Ashirvad.API.Controllers
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                             // for live server
-                            string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
+                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                             // for local server
-                            //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -461,9 +461,9 @@ namespace Ashirvad.API.Controllers
                         string extension;
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
+                        //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
-                        //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                         var postedFile = httpRequest.Files[file];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(postedFile.FileName);
@@ -516,9 +516,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllDocLinks")]
         [HttpGet]
-        public OperationResult<List<TestPaperEntity>> GetAllDocLinks(long branchID, long stdID, int batchTime)
+        public OperationResult<List<TestPaperEntity>> GetAllDocLinks(long branchID,long courseid, long stdID, int batchTime)
         {
-            var data = this._testService.GetAllTestDocLinks(branchID, stdID,batchTime);
+            var data = this._testService.GetAllTestDocLinks(branchID,courseid, stdID,batchTime);
             return data.Result;
            
         }
@@ -602,7 +602,7 @@ namespace Ashirvad.API.Controllers
 
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
+                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                         // for local server
                         //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                         //Save the Zip File to MemoryStream.

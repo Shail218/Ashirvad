@@ -39,12 +39,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Paper
             return paper;
         }
 
-        public async Task<OperationResult<List<SubjectEntity>>> GetPracticePaperSubject(long branchID, long stdID)
+        public async Task<OperationResult<List<SubjectEntity>>> GetPracticePaperSubject(long branchID,long courseid, long stdID,int batch_time)
         {
             try
             {
                 OperationResult<List<SubjectEntity>> paper = new OperationResult<List<SubjectEntity>>();
-                paper.Data = await _paperContext.GetPracticePaperSubject(branchID, stdID);
+                paper.Data = await _paperContext.GetPracticePaperSubject(branchID, courseid,stdID,batch_time);
                 paper.Completed = true;
                 return paper;
             }

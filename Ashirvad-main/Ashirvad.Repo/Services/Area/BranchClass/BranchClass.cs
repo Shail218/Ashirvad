@@ -227,7 +227,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
                                                          },
                                                          Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                                                     }).ToList();
+                                                     }).OrderByDescending(a => a.Class.ClassID).ToList();
             }
             return data;
         }

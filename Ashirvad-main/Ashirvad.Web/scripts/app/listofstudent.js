@@ -10,6 +10,7 @@ $(document).ready(function () {
         LoadStandard(0);
         LoadBatch();
     }
+    LoadCourse();
     document.getElementById("StudentDiv").style.display = 'none';
 });
 
@@ -25,6 +26,47 @@ function LoadBranch() {
         HideLoader();
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+function LoadCourse() {
+    var postCall = $.post(commonData.BranchCourse + "GetCourseDDL");
+    postCall.done(function (data) {
+        $('#CourseName').empty();
+        $('#CourseName').select2();
+        $("#CourseName").append("<option value=" + 0 + ">---Select Course---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
+            }
+        }
+
+        if ($("#hdnCourseID").val() != "") {
+            $('#CourseName option[value="' + $("#hdnCourseID").val() + '"]').attr("selected", "selected");
+            LoadClass($("#hdnCourseID").val());
+        }
+        HideLoader();
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
+
+function LoadClass(CourseID) {
+    ShowLoader();
+    var postCall = $.post(commonData.BranchClass + "GetClassDDL", { "CourseID": CourseID });
+    postCall.done(function (data) {
+        $('#StandardName').empty();
+        $('#StandardName').select2();
+        $("#StandardName").append("<option value=" + 0 + ">---Select Standard---</option>");
+        if (data != null) {
+            for (i = 0; i < data.length; i++) {
+                $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
+            }
+        }
+
+        HideLoader();
+    }).fail(function () {
+        HideLoader();
     });
 }
 
@@ -135,5 +177,16 @@ $("#BatchTime").change(function () {
 function GoToList() {
     window.location.href = "ProgressReportChart?StudentID=" + $("#StandardName option:selected").val();
 }
+
+$("#CourseName").change(function () {
+    var Data = $("#CourseName option:selected").val();
+    $('#hdnCourseID').val(Data);
+    LoadClass(Data);
+});
+
+$("#StandardName").change(function () {
+    var Data = $("#StandardName option:selected").val();
+    $('#hdnStandardID').val(Data);
+});
 
 

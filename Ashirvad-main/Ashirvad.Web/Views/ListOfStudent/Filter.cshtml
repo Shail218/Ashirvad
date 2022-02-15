@@ -12,6 +12,13 @@
         }
         <input type="hidden" id="hdnBranchID" value="0" />
         <div class="col-md-4">
+            @Html.Label("Select Course", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="CourseName" id="CourseName" class="form-control requiredDDL select2" alt="CourseName">
+                <option value="0">--Select Course--</option>
+            </select>
+            <input type="hidden" id="hdnCourseID" />
+        </div>
+        <div class="col-md-4">
             @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
                 <option value="0">--Select Standard--</option>

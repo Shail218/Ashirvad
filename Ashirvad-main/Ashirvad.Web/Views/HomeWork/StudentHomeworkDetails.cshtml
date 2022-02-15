@@ -58,7 +58,7 @@
                                     </td>
 
                                     <td>
-                                        @item.StandardInfo.Standard
+                                        @item.BranchClass.Class.ClassName
                                     </td>
 
                                     <td>
@@ -71,7 +71,7 @@
                                         @item.Remarks
                                     </td>
                                     <td style="text-align:center;">
-                                        <a onclick="DownloadHomeworkdetail('@item.HomeworkID', '@item.StudentInfo.StudentID','@item.HomeworkDate','@item.StudentInfo.Name','@item.StandardInfo.Standard')">
+                                        <a onclick="DownloadHomeworkdetail('@item.HomeworkID', '@item.StudentInfo.StudentID', '@item.HomeworkDate', '@item.StudentInfo.Name', '@item.BranchClass.Class.ClassName')">
                                             <img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" style="height:35px;width:35px" />
                                         </a>
                                     </td>
@@ -81,7 +81,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        @Html.RadioButtonFor(x => item.Status, 0, new { Id = "Pending_" + item.HomeworkID + item.StudentInfo.StudentID + "" })
+                                                        @Html.RadioButtonFor(x => item.Status, 2, new { Id = "Pending_" + item.HomeworkID + item.StudentInfo.StudentID + "" })
                                                         <lable for="statusPending">Pending</lable>
                                                     </td>
                                                     <td>

@@ -58,9 +58,7 @@ namespace Ashirvad.Web.Controllers
             var result = _studentService.RemoveStudent(studentID, SessionContext.Instance.LoginUser.Username);
             return Json(result);
         }
-
-
-        
+      
         public async Task<JsonResult> GetStudentByStd(long Std,long BatchTime)
         {
             var result = _studentService.GetStudentByStd(Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime).Result;

@@ -24,9 +24,9 @@ namespace Ashirvad.API.Controllers
             _libraryService = libraryService;
         }
 
-        [Route("LibraryMaintenance/{LibraryID}/{LibraryDetailID}/{LibraryTitle}/{CategoryID}/{StandardID}/{BranchID}/{CreatebyBranch}/{Type}/{Library_Type}/{Description}/{SubjectID}/{CreateId}/{CreateBy}/{TransactionId}/{VideoLink}/{ThumbnailFileName}/{ThumbnailFileExtension}/{DocFileName}/{DocFileExtension}/{HasThumbnailFile}/{HasDocFile}")]
+        [Route("LibraryMaintenance/{LibraryID}/{LibraryDetailID}/{LibraryTitle}/{CategoryID}/{CourseID}/{StandardID}/{BranchID}/{CreatebyBranch}/{Type}/{Library_Type}/{Description}/{SubjectID}/{CreateId}/{CreateBy}/{TransactionId}/{VideoLink}/{ThumbnailFileName}/{ThumbnailFileExtension}/{DocFileName}/{DocFileExtension}/{HasThumbnailFile}/{HasDocFile}")]
         [HttpPost]
-        public OperationResult<LibraryEntity> LibraryMaintenance(long LibraryID, long LibraryDetailID, string LibraryTitle, long CategoryID, string StandardID, long BranchID, long CreatebyBranch, int Type, int Library_Type, string Description, long SubjectID, int CreateId, string CreateBy, long TransactionId, string VideoLink, string ThumbnailFileName, string ThumbnailFileExtension, string DocFileName, string DocFileExtension, bool HasThumbnailFile, bool HasDocFile)
+        public OperationResult<LibraryEntity> LibraryMaintenance(long LibraryID, long LibraryDetailID, string LibraryTitle, long CategoryID, long CourseID, string StandardID, long BranchID, long CreatebyBranch, int Type, int Library_Type, string Description, long SubjectID, int CreateId, string CreateBy, long TransactionId, string VideoLink, string ThumbnailFileName, string ThumbnailFileExtension, string DocFileName, string DocFileExtension, bool HasThumbnailFile, bool HasDocFile)
         {
             OperationResult<LibraryEntity> result = new OperationResult<LibraryEntity>();
             var httpRequest = HttpContext.Current.Request;
@@ -39,6 +39,10 @@ namespace Ashirvad.API.Controllers
             };
             libraryEntity.LibraryID = LibraryID;
             libraryEntity.BranchID = BranchID;
+            libraryEntity.BranchCourse = new BranchCourseEntity()
+            {
+                course_dtl_id = CourseID
+            };
             libraryEntity.LibraryTitle = Decode(LibraryTitle);
             libraryEntity.Type = Type;
             libraryEntity.Library_Type = Library_Type;
@@ -99,9 +103,9 @@ namespace Ashirvad.API.Controllers
                         string extension;
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
+                        //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
-                        //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                         var thumbnailFile = httpRequest.Files[0];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(thumbnailFile.FileName);
@@ -143,9 +147,9 @@ namespace Ashirvad.API.Controllers
                         string extension;
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
+                        //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
-                        //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                         var thumbnailFile = httpRequest.Files[0];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(thumbnailFile.FileName);
@@ -169,7 +173,7 @@ namespace Ashirvad.API.Controllers
                     try
                     {                       
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                        string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
+                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                         var docFile = httpRequest.Files[0];
                         string docrandomfilename = Common.Common.RandomString(20);
                         string docExtension = Path.GetExtension(docFile.FileName);

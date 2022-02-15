@@ -68,12 +68,12 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return null;
         }
-        public async Task<List<FeesEntity>> GetFeesByBranchID(long BranchID,long STDID)
+        public async Task<List<FeesEntity>> GetFeesByBranchID(long BranchID,long courseid, long STDID)
         {
             try
             {
                 List<FeesEntity> Fees = new List<FeesEntity>();
-                Fees = await _FeesContext.GetAllFeesByBranchID(BranchID, STDID);
+                Fees = await _FeesContext.GetAllFeesByBranchID(BranchID,courseid, STDID);
                 return Fees;
             }
             catch (Exception ex)

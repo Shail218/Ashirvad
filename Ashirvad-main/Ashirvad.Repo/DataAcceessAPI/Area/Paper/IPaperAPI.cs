@@ -16,7 +16,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Paper
         Task<PaperEntity> GetPaperByPaperID(long paperID);
         bool RemovePaper(long paperID, string lastupdatedby);
         Task<List<PaperEntity>> GetPracticePapersByStandardSubjectAndBranch(long branchID, long stdID, long subID, int batchTypeID);
-        Task<List<SubjectEntity>> GetPracticePaperSubject(long branchID, long stdID);
+        Task<List<SubjectEntity>> GetPracticePaperSubject(long branchID,long courseid, long stdID,int batch_time);
         Task<List<PaperEntity>> GetAllCustomPaper(DataTableAjaxPostModel model, long branchID);
     }
 }
