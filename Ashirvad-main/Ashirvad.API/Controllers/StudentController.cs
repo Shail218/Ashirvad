@@ -180,7 +180,13 @@ namespace Ashirvad.API.Controllers
             studentEntity.FirstName = name[0];
             studentEntity.MiddleName = name[1];
             studentEntity.LastName = name[2];
-            //studentEntity.DOB = Birth_Date == "01-01-0001" ? null : Convert(Birth_Date;
+            studentEntity.birth_date = Birth_Date == "01-01-0001" ? null : Birth_Date;
+            studentEntity.DOB = null;
+            if (!string.IsNullOrEmpty(studentEntity.birth_date))
+            {
+                DateTime birthdate = Convert.ToDateTime(studentEntity.birth_date);
+                studentEntity.DOB = birthdate;
+            }
             studentEntity.Address = Decode(Address);
             studentEntity.BranchInfo.BranchID = BranchID;
             studentEntity.BranchCourse.course_dtl_id = Convert.ToInt64(course_standard[0]);
@@ -194,7 +200,13 @@ namespace Ashirvad.API.Controllers
             studentEntity.ContactNo = Student_Contact_No == "none" ? null : Student_Contact_No;
             DateTime dateTime = DateTime.Now;
             studentEntity.Final_Year = dateTime.Month >= 4 ? dateTime.Year.ToString() + "_" + dateTime.Year + 1.ToString("yyyy") : (dateTime.Year - 1).ToString() + "-" + dateTime.Year.ToString();
-            //studentEntity.AdmissionDate = Admission_Date;
+            studentEntity.admission_date = Admission_Date == "01-01-0001" ? null : Admission_Date;
+            studentEntity.AdmissionDate = null;
+            if (!string.IsNullOrEmpty(studentEntity.admission_date))
+            {
+                DateTime admissiondate = Convert.ToDateTime(studentEntity.admission_date);
+                studentEntity.AdmissionDate = admissiondate;
+            }
             studentEntity.StudentMaint.ParentName = Decode(Parent_Name);
             studentEntity.StudentMaint.FatherOccupation = Father_Occupation == "none" ? null : Decode(Father_Occupation);
             studentEntity.StudentMaint.MotherOccupation = Mother_Occupation == "none" ? null : Decode(Mother_Occupation);

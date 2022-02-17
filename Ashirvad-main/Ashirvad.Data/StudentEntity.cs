@@ -42,6 +42,8 @@ namespace Ashirvad.Data
         public BranchCourseEntity BranchCourse { get; set; }
         public BranchClassEntity BranchClass { get; set; }
         public string Final_Year { get; set; }
+        public string birth_date { get; set; }
+        public string admission_date { get; set; }
     }
     public class StudentMaint
     {
