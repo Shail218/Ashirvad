@@ -1,6 +1,7 @@
 ﻿using Ashirvad.API.Filter;
 using Ashirvad.Common;
 using Ashirvad.Data;
+using Ashirvad.Repo.Services.Area.Student;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Student;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,18 @@ namespace Ashirvad.API.Controllers
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
             result.Completed = true;
             result.Data = data;
+            return result;
+        }
+
+        [Route("GetAllStudentWithoutContentByRange")]
+        [HttpGet]
+        public async Task<OperationResult<List<StudentEntity>>> GetAllStudentWithoutContentByRange(long branchID,int page,int limit)
+        {
+            Student s = new Student();
+            var data = s.GetAllStudentWithoutContentByRange(branchID,page,limit);
+            OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
             return result;
         }
 
@@ -141,9 +154,9 @@ namespace Ashirvad.API.Controllers
             "/{Father_Occupation}/{Mother_Occupation}/{Parent_Contact_No}/{CreateId}/{CreateBy}/{TransactionId}" +
             "/{std_pwd}/{parent_pwd}/{FileName}/{Extension}/{HasFile}")]
         [HttpPost]
-        public OperationResult<StudentEntity> StudentMaintenance(long StudentID, long ParentID, string Gr_No, string Name, DateTime Birth_Date, string Address, long BranchID, string StandardID,
+        public OperationResult<StudentEntity> StudentMaintenance(long StudentID, long ParentID, string Gr_No, string Name, string Birth_Date, string Address, long BranchID, string StandardID,
             long SchoolID, int School_TimeID, int Batch_TimeID, string Last_Year_Result, string Grade, string Class_Name,
-            string Student_Contact_No, DateTime Admission_Date, string Parent_Name, string Father_Occupation,
+            string Student_Contact_No, string Admission_Date, string Parent_Name, string Father_Occupation,
             string Mother_Occupation, string Parent_Contact_No, long CreateId, string CreateBy, long TransactionId, string std_pwd,
             string parent_pwd, string FileName, string Extension, bool HasFile)
         {
@@ -167,14 +180,7 @@ namespace Ashirvad.API.Controllers
             studentEntity.FirstName = name[0];
             studentEntity.MiddleName = name[1];
             studentEntity.LastName = name[2];
-            if (Birth_Date.Equals("01-01-0001"))
-            {
-                studentEntity.DOB = null;
-            }
-            else
-            {
-                studentEntity.DOB = Birth_Date;
-            }
+            //studentEntity.DOB = Birth_Date == "01-01-0001" ? null : Convert(Birth_Date;
             studentEntity.Address = Decode(Address);
             studentEntity.BranchInfo.BranchID = BranchID;
             studentEntity.BranchCourse.course_dtl_id = Convert.ToInt64(course_standard[0]);
@@ -188,14 +194,7 @@ namespace Ashirvad.API.Controllers
             studentEntity.ContactNo = Student_Contact_No == "none" ? null : Student_Contact_No;
             DateTime dateTime = DateTime.Now;
             studentEntity.Final_Year = dateTime.Month >= 4 ? dateTime.Year.ToString() + "_" + dateTime.Year + 1.ToString("yyyy") : (dateTime.Year - 1).ToString() + "-" + dateTime.Year.ToString();
-            if (Admission_Date.Equals("01-01-0001"))
-            {
-                studentEntity.AdmissionDate = null;
-            }
-            else
-            {
-                studentEntity.AdmissionDate = Admission_Date;
-            }
+            //studentEntity.AdmissionDate = Admission_Date;
             studentEntity.StudentMaint.ParentName = Decode(Parent_Name);
             studentEntity.StudentMaint.FatherOccupation = Father_Occupation == "none" ? null : Decode(Father_Occupation);
             studentEntity.StudentMaint.MotherOccupation = Mother_Occupation == "none" ? null : Decode(Mother_Occupation);

@@ -218,9 +218,17 @@ namespace Ashirvad.API.Controllers
             }
             else
             {
-                string[] filename = FileName.Split(',');
-                homeworkEntity.HomeworkContentFileName = filename[0];
-                homeworkEntity.FilePath = "/HomeworkDocument/" + filename[1] + "." + Extension;
+                if(FileName != null && FileName != "0")
+                {
+                    string[] filename = FileName.Split(',');
+                    homeworkEntity.HomeworkContentFileName = filename[0];
+                    homeworkEntity.FilePath = "/HomeworkDocument/" + filename[1] + "." + Extension;
+                }
+                else
+                {
+                    homeworkEntity.HomeworkContentFileName = null;
+                    homeworkEntity.FilePath = null;
+                }
             }
             data = this._homeworkService.HomeworkMaintenance(homeworkEntity).Result;
             result.Completed = false;
