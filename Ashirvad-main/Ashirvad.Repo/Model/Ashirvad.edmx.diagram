@@ -35,16 +35,12 @@
         <EntityTypeShape EntityType="AshirvadModel.STUDENT_ANS_SHEET" Width="1.5" PointX="24.75" PointY="23.125" />
         <EntityTypeShape EntityType="AshirvadModel.PAGE_MASTER" Width="1.5" PointX="13.625" PointY="31.75" />
         <AssociationConnector Association="AshirvadModel.FK_PAGE_MASTER_TRANSACTION_MASTER" />
-        <EntityTypeShape EntityType="AshirvadModel.PACKAGE_MASTER" Width="1.5" PointX="13.25" PointY="10.75" />
         <EntityTypeShape EntityType="AshirvadModel.PACKAGE_RIGHTS_MASTER" Width="1.5" PointX="18.875" PointY="24" />
-        <AssociationConnector Association="AshirvadModel.FK_PACKAGE_MASTER_TRANSACTION_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.GALLERY_MASTER" Width="1.5" PointX="5.25" PointY="45.25" />
         <EntityTypeShape EntityType="AshirvadModel.PRACTICE_PAPER_REL" Width="1.5" PointX="15.75" PointY="24.5" />
         <EntityTypeShape EntityType="AshirvadModel.BRANCH_RIGHTS_MASTER" Width="1.5" PointX="15.5" PointY="11.25" />
-        <AssociationConnector Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" />
         <EntityTypeShape EntityType="AshirvadModel.TODO_MASTER" Width="1.5" PointX="5.25" PointY="53" />
         <EntityTypeShape EntityType="AshirvadModel.BANNER_MASTER" Width="1.5" PointX="2.75" PointY="31.75" />
@@ -64,7 +60,6 @@
         <AssociationConnector Association="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_GALLERY_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" />
-        <AssociationConnector Association="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_REMINDER_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_SCHOOL_MASTER_BRANCH_MASTER" />
@@ -201,6 +196,10 @@
         <AssociationConnector Association="AshirvadModel.FK_STUDENT_MAINT_STUDENT_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.PACKAGE_MASTER" Width="1.5" PointX="5.25" PointY="18.5" />
+        <AssociationConnector Association="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -7,7 +7,10 @@
             @Html.TextBoxFor(x => x.Package, new { @class = "form-control required", @alt = "Package Name", autocomplete = "off" })
             @Html.HiddenFor(x => x.PackageID)
         </div>
-        
+        <div class="col-md-12">
+            @Html.Label("No of Student", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBoxFor(x => x.Studentno, new { @class = "form-control required mobile", @alt = "No of Student", autocomplete = "off" })
+        </div>
         <div class="form-group">
             <div class="col-md-12" style="text-align: right;">
                 <br />

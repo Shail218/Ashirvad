@@ -458,6 +458,7 @@
           <Property Name="branch_id" Type="bigint" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="student_no" Type="bigint" />
         </EntityType>
         <EntityType Name="PACKAGE_RIGHTS_MASTER">
           <Key>
@@ -788,7 +789,7 @@
           <Property Name="has_priv" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'AshirvadProduct.dbo.Faculty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Faculty">
           <Key>
             <PropertyRef Name="name" />
@@ -1743,6 +1744,18 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Principal>
             <Dependent Role="NOTIFICATION_TYPE_REL">
               <PropertyRef Name="notif_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PACKAGE_MASTER_BRANCH_MASTER">
+          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+          <End Role="PACKAGE_MASTER" Type="Self.PACKAGE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_MASTER">
+              <PropertyRef Name="branch_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2780,6 +2793,10 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="NOTIFICATION_MASTER" EntitySet="NOTIFICATION_MASTER" />
             <End Role="NOTIFICATION_TYPE_REL" EntitySet="NOTIFICATION_TYPE_REL" />
           </AssociationSet>
+          <AssociationSet Name="FK_PACKAGE_MASTER_BRANCH_MASTER" Association="Self.FK_PACKAGE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+          </AssociationSet>
           <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" Association="Self.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
             <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
             <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
@@ -3089,16 +3106,7 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
           </AssociationSet>
-          <EntitySet Name="PACKAGE_MASTER" EntityType="AshirvadModel.PACKAGE_MASTER" />
           <EntitySet Name="PACKAGE_RIGHTS_MASTER" EntityType="AshirvadModel.PACKAGE_RIGHTS_MASTER" />
-          <AssociationSet Name="FK_PACKAGE_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_PACKAGE_MASTER_TRANSACTION_MASTER">
-            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
-            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
-            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
-            <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER">
             <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
             <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
@@ -3110,10 +3118,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <EntitySet Name="GALLERY_MASTER" EntityType="AshirvadModel.GALLERY_MASTER" />
           <EntitySet Name="PRACTICE_PAPER_REL" EntityType="AshirvadModel.PRACTICE_PAPER_REL" />
           <EntitySet Name="BRANCH_RIGHTS_MASTER" EntityType="AshirvadModel.BRANCH_RIGHTS_MASTER" />
-          <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER">
-            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
-            <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
-          </AssociationSet>
           <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
@@ -3171,10 +3175,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" Association="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PACKAGE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER">
-            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_PAGE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
@@ -3643,6 +3643,19 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
             <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
           </AssociationSet>
+          <EntitySet Name="PACKAGE_MASTER" EntityType="AshirvadModel.PACKAGE_MASTER" />
+          <AssociationSet Name="FK_PACKAGE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER">
+            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+            <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
+            <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+            <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_TYPE_REL">
           <Key>
@@ -3718,7 +3731,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="CATEGORY_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="CATEGORY_MASTER" />
           <NavigationProperty Name="ABOUTUS_DETAIL_REL" Relationship="AshirvadModel.FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="ABOUTUS_DETAIL_REL" />
           <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="PAGE_MASTER" />
-          <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="PACKAGE_MASTER" />
           <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
           <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
@@ -4070,20 +4082,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="PACKAGE_MASTER">
-          <Key>
-            <PropertyRef Name="package_id" />
-          </Key>
-          <Property Name="package_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="package" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="branch_id" Type="Int64" Nullable="false" />
-          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
-          <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_TRANSACTION_MASTER" FromRole="PACKAGE_MASTER" ToRole="TRANSACTION_MASTER" />
-          <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
-          <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
-          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="PACKAGE_MASTER" ToRole="BRANCH_MASTER" />
-        </EntityType>
         <EntityType Name="PACKAGE_RIGHTS_MASTER">
           <Key>
             <PropertyRef Name="packagerights_id" />
@@ -4096,36 +4094,10 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="deletestatus" Type="Boolean" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="PACKAGE_MASTER" />
           <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="PAGE_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_RIGHTS_MASTER" ToRole="PACKAGE_MASTER" />
         </EntityType>
-        <Association Name="FK_PACKAGE_MASTER_TRANSACTION_MASTER">
-          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TRANSACTION_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Principal>
-            <Dependent Role="PACKAGE_MASTER">
-              <PropertyRef Name="trans_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
-          <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="AshirvadModel.PACKAGE_RIGHTS_MASTER" Role="PACKAGE_RIGHTS_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PACKAGE_MASTER">
-              <PropertyRef Name="package_id" />
-            </Principal>
-            <Dependent Role="PACKAGE_RIGHTS_MASTER">
-              <PropertyRef Name="package_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER">
           <End Type="AshirvadModel.PAGE_MASTER" Role="PAGE_MASTER" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -4187,24 +4159,10 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="branch_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" />
           <Property Name="trans_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="BRANCH_RIGHTS_MASTER" ToRole="PACKAGE_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="BRANCH_RIGHTS_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER" FromRole="BRANCH_RIGHTS_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="BRANCH_RIGHTS_MASTER" ToRole="PACKAGE_MASTER" />
         </EntityType>
-        <Association Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER">
-          <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="AshirvadModel.BRANCH_RIGHTS_MASTER" Role="BRANCH_RIGHTS_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PACKAGE_MASTER">
-              <PropertyRef Name="package_id" />
-            </Principal>
-            <Dependent Role="BRANCH_RIGHTS_MASTER">
-              <PropertyRef Name="package_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER">
           <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
           <End Type="AshirvadModel.BRANCH_RIGHTS_MASTER" Role="BRANCH_RIGHTS_MASTER" Multiplicity="*" />
@@ -4331,7 +4289,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="CATEGORY_MASTER" Relationship="AshirvadModel.FK_CATEGORY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="CATEGORY_MASTER" />
           <NavigationProperty Name="GALLERY_MASTER" Relationship="AshirvadModel.FK_GALLERY_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="GALLERY_MASTER" />
           <NavigationProperty Name="HOMEWORK_MASTER_DTL" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="HOMEWORK_MASTER_DTL" />
-          <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PACKAGE_MASTER" />
           <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PAGE_MASTER" />
           <NavigationProperty Name="REMINDER_MASTER" Relationship="AshirvadModel.FK_REMINDER_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="REMINDER_MASTER" />
           <NavigationProperty Name="SCHOOL_MASTER" Relationship="AshirvadModel.FK_SCHOOL_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="SCHOOL_MASTER" />
@@ -4358,6 +4315,7 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="SUBJECT_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PACKAGE_MASTER" />
         </EntityType>
         <EntityType Name="BRANCH_STAFF">
           <Key>
@@ -4502,18 +4460,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
               <PropertyRef Name="branch_id" />
             </Principal>
             <Dependent Role="HOMEWORK_MASTER_DTL">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PACKAGE_MASTER_BRANCH_MASTER">
-          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
-          <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BRANCH_MASTER">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="PACKAGE_MASTER">
               <PropertyRef Name="branch_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -6416,6 +6362,60 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PACKAGE_MASTER">
+          <Key>
+            <PropertyRef Name="package_id" />
+          </Key>
+          <Property Name="package_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="package" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="student_no" Type="Int64" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="PACKAGE_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
+          <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" FromRole="PACKAGE_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
+        </EntityType>
+        <Association Name="FK_PACKAGE_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER">
+          <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.BRANCH_RIGHTS_MASTER" Role="BRANCH_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACKAGE_MASTER">
+              <PropertyRef Name="package_id" />
+            </Principal>
+            <Dependent Role="BRANCH_RIGHTS_MASTER">
+              <PropertyRef Name="package_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
+          <End Type="AshirvadModel.PACKAGE_MASTER" Role="PACKAGE_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.PACKAGE_RIGHTS_MASTER" Role="PACKAGE_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACKAGE_MASTER">
+              <PropertyRef Name="package_id" />
+            </Principal>
+            <Dependent Role="PACKAGE_RIGHTS_MASTER">
+              <PropertyRef Name="package_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6663,17 +6663,6 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="page" ColumnName="page" />
                 <ScalarProperty Name="page_id" ColumnName="page_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PACKAGE_MASTER">
-            <EntityTypeMapping TypeName="AshirvadModel.PACKAGE_MASTER">
-              <MappingFragment StoreEntitySet="PACKAGE_MASTER">
-                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
-                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
-                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
-                <ScalarProperty Name="package" ColumnName="package" />
-                <ScalarProperty Name="package_id" ColumnName="package_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7308,6 +7297,18 @@ warning 6002: The table/view 'db_a7e88c_ashirvaduat.dbo.Faculty' does not have a
                 <ScalarProperty Name="first_name" ColumnName="first_name" />
                 <ScalarProperty Name="gr_no" ColumnName="gr_no" />
                 <ScalarProperty Name="student_id" ColumnName="student_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PACKAGE_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.PACKAGE_MASTER">
+              <MappingFragment StoreEntitySet="PACKAGE_MASTER">
+                <ScalarProperty Name="student_no" ColumnName="student_no" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="package" ColumnName="package" />
+                <ScalarProperty Name="package_id" ColumnName="package_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

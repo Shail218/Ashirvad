@@ -12,6 +12,36 @@ namespace Ashirvad.Repo.Services.Area.Student
 {
     public class Student : ModelAccess, IStudentAPI
     {
+        public async Task<ResponseModel> CheckPackage(long BranchId)
+        {
+            ResponseModel response = new ResponseModel();
+            long result;
+            var data = (from student in this.context.BRANCH_RIGHTS_MASTER
+                        where student.branch_id == BranchId
+                        select new PackageEntity
+                        {
+                           Studentno= student.PACKAGE_MASTER.student_no
+                        }).FirstOrDefault();
+
+            long count = (from u in this.context.STUDENT_MASTER                       
+                          orderby u.student_id descending
+                          where u.branch_id == BranchId && u.row_sta_cd == (long)Enums.RowStatus.Active
+                          select new StudentEntity()
+                          {
+                              StudentID = u.student_id
+                          }).Count();
+
+            if (data.Studentno <= count)
+            {
+                response.Status = false;
+                response.Message = "You have reached maximum student creation limit, please contact admin for extenstion";
+            }
+            else
+            {
+                response.Status = true;
+            }
+            return response;
+        }
         public async Task<long> StudentMaintenance(StudentEntity studentInfo)
         {
             Model.STUDENT_MASTER studentMaster = new Model.STUDENT_MASTER();
@@ -81,7 +111,6 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return this.context.SaveChanges() > 0 ? studentMaster.student_id : 0;
         }
-
         public async Task<List<StudentEntity>> GetAllStudent(long branchID, int status)
         {
             var data = (from u in this.context.STUDENT_MASTER
@@ -602,5 +631,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return data;
         }
+
+
     }
 }

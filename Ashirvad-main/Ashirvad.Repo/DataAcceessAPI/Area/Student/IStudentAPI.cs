@@ -10,6 +10,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Student
 {
     public interface IStudentAPI
     {
+        Task<ResponseModel> CheckPackage(long BranchId);
         Task<long> StudentMaintenance(StudentEntity studentInfo);
         Task<List<StudentEntity>> GetAllStudent(long branchID, int status);
         Task<List<StudentEntity>> GetAllStudentByStd(long Std, long Branch,long BatchTime);

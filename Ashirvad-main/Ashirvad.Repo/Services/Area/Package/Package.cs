@@ -41,6 +41,7 @@ namespace Ashirvad.Repo.Services.Area.Package
                 }
 
                 packageMaster.package = packageInfo.Package;
+                packageMaster.student_no = packageInfo.Studentno;
                 packageMaster.branch_id = packageInfo.BranchInfo.BranchID;
                 packageMaster.row_sta_cd = packageInfo.RowStatus.RowStatusId;
                 packageMaster.trans_id = this.AddTransactionData(packageInfo.Transaction);
@@ -71,6 +72,7 @@ namespace Ashirvad.Repo.Services.Area.Package
                                 RowStatusId = u.row_sta_cd
                             },
                             Package = u.package,
+                            Studentno=u.student_no,
                             PackageID = u.package_id,
                             BranchInfo = new BranchEntity()
                             {
@@ -97,6 +99,7 @@ namespace Ashirvad.Repo.Services.Area.Package
                                 RowStatusId = u.row_sta_cd
                             },
                             Package = u.package,
+                            Studentno=u.student_no,
                             PackageID = u.package_id,
                             BranchInfo = new BranchEntity()
                             {
@@ -123,6 +126,7 @@ namespace Ashirvad.Repo.Services.Area.Package
                                 RowStatusId = u.row_sta_cd
                             },
                             Package = u.package,
+                            Studentno=u.student_no,
                             PackageID = u.package_id,
                             BranchInfo = new BranchEntity()
                             {
@@ -163,6 +167,7 @@ namespace Ashirvad.Repo.Services.Area.Package
                                 RowStatusId = u.row_sta_cd
                             },
                             Package = u.package,
+                            Studentno=u.student_no,
                             PackageID = u.package_id,
                             BranchInfo = new BranchEntity()
                             {

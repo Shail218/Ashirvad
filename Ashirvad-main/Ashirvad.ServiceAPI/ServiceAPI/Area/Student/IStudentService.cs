@@ -10,6 +10,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Student
 {
     public interface IStudentService
     {
+        Task<ResponseModel> CheckPackage(long BranchId);
         Task<StudentEntity> StudentMaintenance(StudentEntity studentInfo);
         Task<List<StudentEntity>> GetAllStudent(long branchID, int status = 0);
         Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, int status = 0);

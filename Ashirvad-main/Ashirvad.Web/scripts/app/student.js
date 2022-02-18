@@ -3,6 +3,7 @@
 
 $(document).ready(function () {
     ShowLoader();
+    LoadCount();
     $("#datepickeradmission").datepicker({
         autoclose: true,
         todayHighlight: true,
@@ -69,8 +70,23 @@ $(document).ready(function () {
     }
 
     LoadCourse();
-
 });
+
+function LoadCount() {
+    debugger;
+    var postCall = $.post(commonData.Student + "getcount");
+    postCall.done(function (response) {
+        HideLoader();
+        if (!response.Status)
+        {
+            ShowMessage(response.Message, "Error");
+            $("#savebtn").html("");
+        }
+        
+    }).fail(function () {
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}
 
 function LoadBranch(onLoaded) {
     var postCall = $.post(commonData.Branch + "BranchData");

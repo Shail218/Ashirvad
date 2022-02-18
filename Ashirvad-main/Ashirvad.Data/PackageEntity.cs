@@ -11,6 +11,7 @@ namespace Ashirvad.Data
         public long PackageID { get; set; }
         public int Count { get; set; }
         public string Package { get; set; }
+        public long? Studentno { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public BranchEntity BranchInfo { get; set; }

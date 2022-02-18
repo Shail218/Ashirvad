@@ -63,3 +63,52 @@ $("#UserName").change(function () {
     $('#UserID').val(Data);
 });
 
+
+function GetData() {
+    var CreateArray = [];
+    var DeleteArray = [];
+    var ViewArray = [];
+    var PageArray = [];
+    var PackageIDArray = [];
+    var MainArray = [];
+
+    $('#choiceList .createStatus').each(function () {
+        var Create = $(this)[0].checked;
+        CreateArray.push(Create);
+    });
+
+    $('#choiceList .deletestatus').each(function () {
+        var Delete = $(this)[0].checked;
+        DeleteArray.push(Delete);
+    });
+    $('#choiceList .viewstatus').each(function () {
+        var View = $(this)[0].checked;
+        ViewArray.push(View);
+    });
+
+    $('#choiceList .pagename').each(function () {
+        var Page = $(this).val();
+        PageArray.push(Page);
+    });
+
+    $('#choiceList .PackageRightsIdlist').each(function () {
+        var Package = $(this).val();
+        PackageIDArray.push(Package);
+    });
+    for (var i = 0; i < PageArray.length; i++) {
+        var Page = PageArray[i];
+        var Create = CreateArray[i];
+        var Delete = DeleteArray[i];
+        var View = ViewArray[i];
+        var Package = PackageIDArray[i];
+        MainArray.push({
+            "PageInfo": { "PageID": Page },
+            "Createstatus": Create,
+            "Deletestatus": Delete,
+            "Viewstatus": View,
+            "PackageRightsId": Package
+
+        })
+    }
+    return MainArray;
+}

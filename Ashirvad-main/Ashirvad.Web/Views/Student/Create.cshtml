@@ -243,12 +243,15 @@
                     @Html.HiddenFor(x => x.StudentMaint.StudentID)
                 </div>
                 <div class="col-md-3 ManageStudentMasterCreate" style="text-align: right;margin-top:27px;">
-                    <a onclick="return SaveStudent();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
-                        <span class="ladda-label">
-                            Save
-                        </span>
-                        <span class="ladda-spinner"></span>
-                    </a>
+                    <div id="savebtn">
+                        <a onclick="return SaveStudent();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                            <span class="ladda-label">
+                                Save
+                            </span>
+                            <span class="ladda-spinner"></span>
+                        </a>
+                    </div>
+                   
                     <a href="@Url.Action("StudentMaintenance","Student", new { @studentID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
                         <span class="ladda-label">
                             Cancel

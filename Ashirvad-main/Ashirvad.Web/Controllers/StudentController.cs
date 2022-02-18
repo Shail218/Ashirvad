@@ -34,10 +34,16 @@ namespace Ashirvad.Web.Controllers
                 var result = await _studentService.GetStudentByID(studentID);
                 branch.StudentInfo = result;
             }
-
+            
             return View("Index", branch);
         }
 
+        [HttpPost]
+        public async Task<JsonResult> getcount()
+        {
+            var getstudentno = await _studentService.CheckPackage(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            return Json(getstudentno);
+        }
 
         [HttpPost]
         public async Task<JsonResult> SaveStudent(StudentEntity branch)

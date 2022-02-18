@@ -29,12 +29,13 @@ $(document).ready(function () {
         },
         "columns": [
             { "data": "Package" },
+            { "data": "Studentno" },
             { "data": "PackageID" },
             { "data": "PackageID" }
         ],
         "columnDefs": [
             {
-                targets: 1,
+                targets: 2,
                 render: function (data, type, full, meta) {
 
                     if (type === 'display') {
@@ -48,12 +49,12 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 2,
+                targets: 3,
                 render: function (data, type, full, meta) {
 
                     if (type === 'display') {
                         data =
-                            '<a href="#" onclick="RemovePackage(' + data + ');"><img src= "../ThemeData/images/delete.png"/></a>'
+                            '<a href="#" style="text-align:center !important;" onclick="RemovePackage(' + data + ');"><img src= "../ThemeData/images/delete.png"/></a>'
                     }
                     return data;
                 },

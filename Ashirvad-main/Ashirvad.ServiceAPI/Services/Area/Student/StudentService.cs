@@ -60,6 +60,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
 
             return student;
         }
+        public async Task<ResponseModel> CheckPackage(long BranchId)
+        {
+            ResponseModel response = new ResponseModel();
+            try
+            {
+                response = await _studentContext.CheckPackage(BranchId);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return response;
+        }
 
         private async Task<UserEntity> GetUserData(StudentEntity studentInfo, long studentID, Enums.UserType userType)
         {
@@ -98,7 +112,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
 
             return null;
         }
-        public async Task<List<StudentEntity>> GetStudentByStd(long Std, long Branch,long BatchTime)
+        public async Task<List<StudentEntity>> GetStudentByStd(long Std, long Branch, long BatchTime)
         {
             try
             {
@@ -116,7 +130,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
         {
             try
             {
-                return await this._studentContext.GetAllCustomStudentMarks(model, Std,courseid, Branch, BatchTime);
+                return await this._studentContext.GetAllCustomStudentMarks(model, Std, courseid, Branch, BatchTime);
             }
             catch (Exception ex)
             {
@@ -140,11 +154,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             return null;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid,long courseid, int batchtime)
+        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid, long courseid, int batchtime)
         {
             try
             {
-                return await this._studentContext.GetAllStudentsName(branchID,stdid,courseid, batchtime);
+                return await this._studentContext.GetAllStudentsName(branchID, stdid, courseid, batchtime);
             }
             catch (Exception ex)
             {
@@ -200,7 +214,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
         {
             try
             {
-                return await this._studentContext.GetAllCustomStudent(model,branchID,status);
+                return await this._studentContext.GetAllCustomStudent(model, branchID, status);
             }
             catch (Exception ex)
             {
