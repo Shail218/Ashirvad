@@ -87,6 +87,14 @@ namespace Ashirvad.Repo.Services.Area.Batch
                                     ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
                                 }
                             },
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
                             BranchInfo = new BranchEntity()
                             {
                                 BranchID = u.branch_id,

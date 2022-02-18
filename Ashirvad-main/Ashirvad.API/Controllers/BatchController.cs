@@ -25,6 +25,7 @@ namespace Ashirvad.API.Controllers
         [HttpPost]
         public OperationResult<BatchEntity> BatchMaintenance(BatchEntity batchInfo)
         {
+            batchInfo.BatchType = (Enums.BatchType)batchInfo.BatchTime;
             var data = this._batchService.BatchMaintenance(batchInfo);
             OperationResult<BatchEntity> result = new OperationResult<BatchEntity>();
             result.Completed = true;
