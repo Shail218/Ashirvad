@@ -129,10 +129,11 @@ namespace Ashirvad.ServiceAPI.Services.Area
         public async Task<HomeworkDetailEntity> Homeworkdetailupdate(HomeworkDetailEntity homeworkDetail)
         {
             HomeworkDetailEntity homeworkDetailEntity = new HomeworkDetailEntity();
+            homeworkDetailEntity.HomeworkEntity = new HomeworkEntity();
             try
             {
                 var data = await _testContext.HomeworkDetailUpdate(homeworkDetail);
-                homeworkDetailEntity.HomeworkDetailID = data;
+                homeworkDetailEntity.HomeworkEntity.HomeworkID = data;
                 return homeworkDetailEntity;
             }
             catch (Exception ex)

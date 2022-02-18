@@ -104,19 +104,21 @@ namespace Ashirvad.Web.Controllers
             
             return View(result1.Result);
         }
+
+        [HttpPost]
         public async Task<JsonResult> Updatehomeworkdetails(long HomeworkID,long StudentID,string Remark,int Status)
         {
             // var result = _homeworkdetailService.GetAllHomeworkdetailByHomeWork(StudhID);
             HomeworkDetailEntity homeworkDetail = new HomeworkDetailEntity();
             homeworkDetail.HomeworkEntity = new HomeworkEntity();
-            homeworkDetail.StudentInfo = new StudentEntity();
+            homeworkDetail.HomeworkEntity.StudentInfo = new StudentEntity();
             homeworkDetail.HomeworkEntity.HomeworkID = HomeworkID;
-            homeworkDetail.StudentInfo.StudentID = StudentID;
+            homeworkDetail.HomeworkEntity.StudentInfo.StudentID = StudentID;
             homeworkDetail.Remarks = Remark;
             homeworkDetail.Status = Status;
             homeworkDetail.Transaction = GetTransactionData(Common.Enums.TransactionType.Insert);
             var result1 = _homeworkdetailService.Homeworkdetailupdate(homeworkDetail).Result;
-            if (result1.HomeworkDetailID > 0)
+            if (result1.HomeworkEntity.HomeworkID > 0)
             {
                 response.Status = true;
                 response.Message = "Updated Successfully!!";
