@@ -132,5 +132,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Banner
 
             return null;
         }
+
+        public async Task<List<BannerEntity>> GetAllBannerforexcel(long branchID = 0)
+        {
+            try
+            {
+                return await this._bannerContext.GetAllBannerforexcel(branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
     }
 }

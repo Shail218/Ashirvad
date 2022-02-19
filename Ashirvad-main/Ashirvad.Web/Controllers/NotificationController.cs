@@ -38,7 +38,7 @@ namespace Ashirvad.Web.Controllers
             else
             {
                 branch.NotificationInfo = new NotificationEntity();
-            }           
+            }
             //var data = await _notificationService.GetAllNotification(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : 
             //    SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : 
             //    (int)SessionContext.Instance.LoginUser.UserType);
@@ -49,7 +49,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveNotification(NotificationEntity notification)
         {
-            if(SessionContext.Instance.LoginUser.UserType == Enums.UserType.Admin)
+            if (SessionContext.Instance.LoginUser.UserType == Enums.UserType.Admin)
             {
                 notification.Branch.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }
@@ -125,6 +125,11 @@ namespace Ashirvad.Web.Controllers
             });
 
         }
-
+        [HttpPost]
+        public async Task<ActionResult> GetExportData(string Search)
+        {
+            var branchData = await _notificationService.GetAllNotificationforexcel(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            return View("~/Views/Notification/_Export_Notification.cshtml", branchData.Data);
+        }
     }
 }

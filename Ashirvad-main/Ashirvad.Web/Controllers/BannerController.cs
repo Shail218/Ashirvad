@@ -144,7 +144,7 @@ namespace Ashirvad.Web.Controllers
         public async Task<ActionResult> GetExportData(string Search)
         {
 
-            var branchData = await _bannerService.GetAllBanner(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            var branchData = await _bannerService.GetAllBannerforexcel(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
 
             return View("~/Views/Banner/_Export_Banner.cshtml", branchData);
 

@@ -68,5 +68,13 @@ namespace Ashirvad.Web.Controllers
             var result = _announcementService.RemoveAnnouncement(annoID, SessionContext.Instance.LoginUser.Username);
             return Json(result);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> GetExportData(string Search)
+        {
+            var branchData = await _announcementService.GetAllAnnouncement(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            return View("~/Views/Anouncement/_Export_Anouncement.cshtml", branchData.Data);
+
+        }
     }
 }

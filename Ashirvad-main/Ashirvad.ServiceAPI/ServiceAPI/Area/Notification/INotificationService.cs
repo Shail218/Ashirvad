@@ -16,5 +16,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Notification
         Task<List<NotificationEntity>> GetAllCustomNotification(DataTableAjaxPostModel model, long branchID, int typeID);
         bool RemoveNotification(long notifID, string lastupdatedby);
         Task<OperationResult<List<NotificationEntity>>> GetAllNotification(long branchID, int typeID);
+        Task<OperationResult<List<NotificationEntity>>> GetAllNotificationforexcel(long branchID = 0);
     }
 }
