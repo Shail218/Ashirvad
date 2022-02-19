@@ -20,9 +20,9 @@
         <section class="col-md-7">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="col-md-6">Announcement Details</h3>
-               
-                    @{ Html.RenderPartial("Manage", new ViewDataDictionary(Model.AnnouncementData)); }
+                    <h3 class="col-md-6" id="exceltitle">Announcement Details</h3>
+                        <button type="button" onclick="Exportdata('Anouncement')" class="btn btn-success"><i class="fa fa-file-excel-o" style="color:white"></i>  Export</button>
+                      @{ Html.RenderPartial("Manage", new ViewDataDictionary(Model.AnnouncementData)); }
                 </div>
             </div>
         </section>

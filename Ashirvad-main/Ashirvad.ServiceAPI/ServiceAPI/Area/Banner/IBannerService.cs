@@ -17,5 +17,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Banner
         bool RemoveBanner(long bannerID, string lastupdatedby);
         Task<OperationResult<List<BannerEntity>>> GetAllBanner(long branchID, int bannerTypeID);
         Task<List<BannerEntity>> GetAllCustomBanner(DataTableAjaxPostModel model, long branchID, int bannerTypeID);
+        Task<List<BannerEntity>> GetAllBannerforexcel(long branchID = 0);
     }
 }

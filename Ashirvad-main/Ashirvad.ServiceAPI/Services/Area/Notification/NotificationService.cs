@@ -107,5 +107,23 @@ namespace Ashirvad.ServiceAPI.Services.Area.Notification
 
             return false;
         }
+        public async Task<OperationResult<List<NotificationEntity>>> GetAllNotificationforexcel(long branchID = 0)
+        {
+            try
+            {
+                OperationResult<List<NotificationEntity>> banner = new OperationResult<List<NotificationEntity>>();
+                banner.Data = await _notificationContext.GetAllNotificationforexcel(branchID);
+                banner.Completed = true;
+                return banner;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+
     }
 }

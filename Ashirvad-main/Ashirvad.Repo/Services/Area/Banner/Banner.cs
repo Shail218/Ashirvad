@@ -289,5 +289,45 @@ namespace Ashirvad.Repo.Services.Area.Banner
 
             return false;
         }
+
+        public async Task<List<BannerEntity>> GetAllBannerforexcel(long branchID)
+        {
+            var data = (from u in this.context.BANNER_MASTER.Include("BANNER_TYPE_REL")
+                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempB
+                        from branch in tempB.DefaultIfEmpty()
+                        orderby u.banner_id descending
+                        where (0 == branchID || u.branch_id == null || (u.branch_id.HasValue && u.branch_id.Value == branchID) && u.row_sta_cd == 1)
+                        select new BannerEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            BannerID = u.banner_id,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
+                            FileName = u.file_name,
+                            BranchInfo = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+
+            if (data?.Count > 0)
+            {
+                foreach (var item in data)
+                {
+                    string Type = "";
+                    var result = this.context.BANNER_TYPE_REL.Where(z => z.banner_id == item.BannerID).Select(y => new BannerTypeEntity() { ID = y.unique_id, TypeID = y.sub_type_id, TypeText = y.sub_type_id == 1 ? "Admin" : y.sub_type_id == 2 ? "Teacher" : "Student" }).ToList();
+                    //data[idx].BannerImageText = data[idx].BannerImage.Length > 0 ? Convert.ToBase64String(data[idx].BannerImage) : "";
+                    foreach (var item1 in result)
+                    {
+                        Type = Type + "-" + item1.TypeText;
+                    }
+                    item.BannerTypeText = Type.Substring(1);
+                }
+            }
+
+            return data;
+        }
+
     }
 }

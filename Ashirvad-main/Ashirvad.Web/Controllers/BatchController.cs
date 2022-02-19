@@ -109,5 +109,12 @@ namespace Ashirvad.Web.Controllers
             });
 
         }
+
+        [HttpPost]
+        public async Task<ActionResult> GetExportData(string Search)
+        {
+            var branchData = await _batchService.GetAllBatches(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            return View("~/Views/Batch/_Export_Batch.cshtml", branchData);
+        }
     }
 }
