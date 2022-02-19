@@ -88,3 +88,35 @@ function GetExtention(image){
     // alternatively, you can do this
     img.src = "data:image/" + extension + ";base64," + encoded;
 }
+
+
+var tableToExcel = (function () {
+    var uri = 'data:application/vnd.ms-excel;base64,'
+        , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>'
+        , base64 = function (s) { debugger; return window.btoa(unescape(encodeURIComponent(s))) }
+        , format = function (s, c) { debugger; return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+    return function (table, name) {
+        debugger;
+
+        var FileName = $("#" + name).text();
+        var ctx = { worksheet: FileName || 'Worksheet', table: table }
+        var a = document.createElement("a");
+        a.href = uri + base64(format(template, ctx));
+        a.download = "" + FileName + ".xls";
+        document.body.appendChild(a);
+        a.click();
+        //window.location.href = uri + base64(format(template, ctx));
+    }
+})()
+
+function Exportdata(Controller) {
+    ShowLoader();
+    var postCall = $.post($("#hdnFldVDName").val() + Controller+"/" + "GetExportData");
+    postCall.done(function (data) {
+        HideLoader();
+        tableToExcel(data, 'exceltitle');
+    }).fail(function () {
+        HideLoader();
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
+}

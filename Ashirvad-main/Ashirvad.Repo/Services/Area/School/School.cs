@@ -184,5 +184,23 @@ namespace Ashirvad.Repo.Services.Area.School
 
             return data;
         }
+
+
+
+        public async Task<List<SchoolEntity>> GetAllExportSchools(long branchID)
+        {
+            var data = (from u in this.context.SCHOOL_MASTER
+                        orderby u.school_id descending
+                        where (branchID == 0 || u.branch_id == branchID) 
+                        && u.row_sta_cd == 1
+                        select new SchoolEntity()
+                        {                           
+                            SchoolName = u.school_name,
+                           
+                            
+                        }).ToList();
+
+            return data;
+        }
     }
 }
