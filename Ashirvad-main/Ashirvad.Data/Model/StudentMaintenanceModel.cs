@@ -8,7 +8,7 @@ namespace Ashirvad.Data.Model
 {
     public class StudentMaintenanceModel
     {
-        public StudentEntity StudentInfo { get; set; }
-        public List<StudentEntity> StudentData { get; set; }
+        public StudentEntity StudentInfo { get; set; } = new StudentEntity();
+        public List<StudentEntity> StudentData { get; set; } = new List<StudentEntity>();
     }
 }

@@ -314,6 +314,7 @@
     <Content Include="scripts\app\standard.js" />
     <Content Include="scripts\app\standardwise.js" />
     <Content Include="scripts\app\student.js" />
+    <Content Include="scripts\app\StudentTransfer.js" />
     <Content Include="scripts\app\subject.js" />
     <Content Include="scripts\app\superadminsubject.js" />
     <Content Include="scripts\app\test.js" />
@@ -1471,6 +1472,7 @@
     <Content Include="Views\ProgressReportChart\Empty.cshtml" />
     <Content Include="Views\Student\StudentTransfer.cshtml" />
     <Content Include="Views\Student\FilterStudent.cshtml" />
+    <Content Include="Views\Student\ManageStudent.cshtml" />
     <Content Include="Views\School\_Export_School.cshtml" />
     <Content Include="Views\Banner\_Export_Banner.cshtml" />
     <None Include="Web.Debug.config">

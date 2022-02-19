@@ -223,5 +223,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
 
             return null;
         }
+
+        public async Task<List<StudentEntity>> GetFilterStudent(long course, long classname, string finalyear, long branchID)
+        {
+            try
+            {
+                return await this._studentContext.GetFilterStudent(course,classname,finalyear,branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
     }
 }
