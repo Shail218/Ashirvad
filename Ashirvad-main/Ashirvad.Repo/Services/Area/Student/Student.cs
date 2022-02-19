@@ -632,6 +632,64 @@ namespace Ashirvad.Repo.Services.Area.Student
             return data;
         }
 
+        public async Task<List<StudentEntity>> GetFilterStudent(long course, long classname, string finalyear, long branchID)
+        {
+            var data = (from u in this.context.STUDENT_MASTER
+                        .Include("STD_MASTER")
+                        .Include("SCHOOL_MASTER")
+                        .Include("BRANCH_MASTER")
+                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
+                        orderby u.student_id descending
+                        where branchID == 0 || u.branch_id == branchID
+                        select new StudentEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd,
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Deactive"
+                            },
+                            StudentID = u.student_id,
+                            Address = u.address,
+                            DOB = u.dob,
+                            FirstName = u.first_name,
+                            LastName = u.last_name,
+                            MiddleName = u.middle_name,
+                            ContactNo = u.contact_no,
+                            LastYearResult = u.last_yr_result,
+                            LastYearClassName = u.last_yr_class_name,
+                            Grade = u.grade,
+                            AdmissionDate = u.admission_date,
+                            GrNo = u.gr_no,
+                            SchoolTime = u.school_time,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
+                            FileName = u.file_name,
+                            Final_Year = u.final_year,
+                            BranchCourse = new BranchCourseEntity()
+                            {
+                                course_dtl_id = u.course_dtl_id.HasValue == true ? u.course_dtl_id.Value : 0,
+                                course = new CourseEntity()
+                                {
+                                    CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                }
+                            },
+                            BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
+                            SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            StudentMaint = new StudentMaint()
+                            {
+                                ParentName = maint.parent_name,
+                                ParentID = maint.parent_id,
+                                ContactNo = maint.contact_no,
+                                FatherOccupation = maint.father_occupation,
+                                MotherOccupation = maint.mother_occupation,
+                                StudentID = maint.student_id
+                            },
+                            BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+            return data;
+        }
 
     }
 }

@@ -34,7 +34,7 @@ namespace Ashirvad.Web.Controllers
                 var result = await _studentService.GetStudentByID(studentID);
                 branch.StudentInfo = result;
             }
-            
+
             return View("Index", branch);
         }
 
@@ -91,8 +91,17 @@ namespace Ashirvad.Web.Controllers
         }
 
         public ActionResult StudentTransfer()
+
         {
-            return View();
+            StudentMaintenanceModel studentEntity = new StudentMaintenanceModel();
+            return View(studentEntity);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetFilterStudent(long course, long classname, string finalyear)
+        {
+            var result = await _studentService.GetFilterStudent(course, classname, finalyear, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            return View("~/Views/Student/ManageStudent.cshtml", result);
         }
 
     }
