@@ -12,6 +12,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.School
     {
         Task<SchoolEntity> SchoolMaintenance(SchoolEntity schoolInfo);
         Task<List<SchoolEntity>> GetAllSchools(long branchID);
+        Task<List<SchoolEntity>> GetAllExportSchools(long branchID);
         Task<List<SchoolEntity>> GetAllSchools();
         Task<SchoolEntity> GetSchoolsByID(long schoolInfo);
         bool RemoveSchool(long SchoolID, string lastupdatedby);

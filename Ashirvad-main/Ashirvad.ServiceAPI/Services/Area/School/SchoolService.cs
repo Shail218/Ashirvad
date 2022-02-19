@@ -48,6 +48,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.School
             return null;
         }
 
+        public async Task<List<SchoolEntity>> GetAllExportSchools(long branchID)
+        {
+            try
+            {
+                return await this._schoolContext.GetAllExportSchools(branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+        
         public async Task<List<SchoolEntity>> GetAllCustomSchools(DataTableAjaxPostModel model, long branchID)
         {
             try
