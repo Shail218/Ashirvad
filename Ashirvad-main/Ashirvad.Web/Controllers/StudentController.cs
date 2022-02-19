@@ -90,5 +90,10 @@ namespace Ashirvad.Web.Controllers
             return Json(result);
         }
 
+        public ActionResult StudentTransfer()
+        {
+            return View();
+        }
+
     }
 }
