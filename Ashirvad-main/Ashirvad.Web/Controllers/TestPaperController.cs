@@ -55,6 +55,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveTest(TestEntity testEntity)
         {
+            //int st = testEntity.RowStatus.RowStatusId;
             testEntity.TestStartTime = DateTime.Parse(testEntity.TestStartTime).ToString("hh:mm tt");
             testEntity.TestEndTime = DateTime.Parse(testEntity.TestEndTime).ToString("hh:mm tt");
             testEntity.Transaction = GetTransactionData(testEntity.TestID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
@@ -66,10 +67,20 @@ namespace Ashirvad.Web.Controllers
             if (data != null && data.TestID != -1)
             {
                 testEntity.test.TestID = data.TestID;
-                testEntity.test.RowStatus = new RowStatusEntity()
+                if(testEntity.test.RowStatus.RowStatusId == 1)
                 {
-                    RowStatusId = (int)Enums.RowStatus.Active
-                };
+                    testEntity.test.RowStatus = new RowStatusEntity()
+                    {
+                        RowStatusId = (int)Enums.RowStatus.Active
+                    };
+                }
+                else
+                {
+                    testEntity.test.RowStatus = new RowStatusEntity()
+                    {
+                        RowStatusId = (int)Enums.RowStatus.Inactive
+                    };
+                }
                 testEntity.test.Transaction = GetTransactionData(testEntity.test.TestPaperID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
                 if (testEntity.FileInfo != null)
                 {

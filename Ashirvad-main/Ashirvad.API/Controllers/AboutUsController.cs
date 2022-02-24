@@ -52,6 +52,23 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("GetAllAboutUsWithoutContent")]
+        [HttpGet]
+        public async Task<OperationResult<List<AboutUsEntity>>> GetAllAboutUsWithoutContent(long BranchID)
+        {
+            var data = this._aboutUsService.GetAllAboutUsWithoutContent(BranchID).Result.Data;
+            OperationResult<List<AboutUsEntity>> result = new OperationResult<List<AboutUsEntity>>();
+            result.Completed = false;
+            result.Data = null;
+            if (data.Count > 0)
+            {
+                result.Completed = true;
+                result.Data = data;
+            }
+
+            return result;
+        }
+
 
     }
 }

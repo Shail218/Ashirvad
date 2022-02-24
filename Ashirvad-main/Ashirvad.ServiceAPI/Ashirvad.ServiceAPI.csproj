@@ -85,6 +85,7 @@
     <Compile Include="ServiceAPI\Area\Package\IPackageService.cs" />
     <Compile Include="ServiceAPI\Area\Page\IPageService.cs" />
     <Compile Include="ServiceAPI\Area\Paper\IPaperService.cs" />
+    <Compile Include="ServiceAPI\Area\PaymentRegister\IPaymentRegisterService.cs" />
     <Compile Include="ServiceAPI\Area\Payment\IStudentPaymentService.cs" />
     <Compile Include="ServiceAPI\Area\Reminder\IReminderService.cs" />
     <Compile Include="ServiceAPI\Area\Category\ICategoryService.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Services\Area\Package\PackageService.cs" />
     <Compile Include="Services\Area\Page\PageService.cs" />
     <Compile Include="Services\Area\Paper\PaperService.cs" />
+    <Compile Include="Services\Area\PaymentRegister\PaymentRegisterService.cs" />
     <Compile Include="Services\Area\Payment\StudentPaymentService.cs" />
     <Compile Include="Services\Area\Reminder\ReminderService.cs" />
     <Compile Include="Services\Area\Category\CategoryService.cs" />

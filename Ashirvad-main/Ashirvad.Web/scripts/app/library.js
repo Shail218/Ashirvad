@@ -330,46 +330,6 @@ function SaveLibrary() {
     }
 }
 
-function SaveLibraryVideo() {
-    var isSuccess = ValidateData('dInformation');
-    if (isSuccess) {
-        ShowLoader();
-        var postCall = $.post(commonData.Library + 'SaveLibrary', $('#fLibraryDetail').serialize());
-        postCall.done(function (data) {
-            HideLoader();
-            if (data) {
-                ShowMessage("Library Video added Successfully.", "Success");
-                window.location.href = "LibraryMaintenance?libraryID=0&Type=1";
-            } else {
-                ShowMessage(data.Message, "Error");
-            }
-        }).fail(function () {
-            HideLoader();
-            ShowMessage("An unexpected error occcurred while processing request!", "Error");
-        });
-    }
-}
-
-function RemoveLibrary(libraryID) {
-    if (confirm('Are you sure want to delete this Library Details?')) {
-        ShowLoader();
-        var postCall = $.post(commonData.Library + "RemoveLibrary", { "libraryID": libraryID });
-        postCall.done(function (data) {
-            HideLoader();
-            if (data) {               
-                ShowMessage("Library Removed Successfully.", "Success");
-                window.location.href = "LibraryMaintenance?libraryID=0&Type=2";
-            }
-            else {               
-                ShowMessage("Library Is Already In Use.", "Error");               
-            }
-        }).fail(function () {
-            HideLoader();
-            ShowMessage("An unexpected error occcurred while processing request!", "Error");
-        });
-    }
-}
-
 function RemoveLibraryImage(LibraryID) {
     if (confirm('Are you sure want to delete this Library Book?')) {
         ShowLoader();
@@ -379,26 +339,6 @@ function RemoveLibraryImage(LibraryID) {
             if (data) {
                 ShowMessage("Library Book Removed Successfully.", "Success");
                 window.location.href = "LibraryMaintenance?libraryID=0&Type=2";
-            }
-            else {
-                ShowMessage("Library Is Already In Use.", "Error");
-            }
-        }).fail(function () {
-            HideLoader();
-            ShowMessage("An unexpected error occcurred while processing request!", "Error");
-        });
-    }
-}
-
-function RemoveLibraryVideo(LibraryID) {
-    if (confirm('Are you sure want to delete this Video?')) {
-        ShowLoader();
-        var postCall = $.post(commonData.Library + "RemoveLibrary", { "libraryID": LibraryID });
-        postCall.done(function (data) {
-            HideLoader();
-            if (data) {
-                ShowMessage("Library video Removed Successfully.", "Success");
-                window.location.href = "LibraryMaintenance?libraryID=0&Type=1";
             }
             else {
                 ShowMessage("Library Is Already In Use.", "Error");

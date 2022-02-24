@@ -179,11 +179,11 @@ namespace Ashirvad.Repo.Services.Area.Test
                         orderby u.test_id descending
                         select new TestEntity()
                         {
-                            RowStatus = new RowStatusEntity()
-                            {
-                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = (int)u.row_sta_cd
-                            },
+                            //RowStatus = new RowStatusEntity()
+                            //{
+                            //    RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                            //    RowStatusId = (int)u.row_sta_cd
+                            //},
                             Branch = new BranchEntity()
                             {
                                 BranchID = u.BRANCH_MASTER.branch_id,
@@ -233,7 +233,11 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 PaperType = branch == null ? "" : branch.paper_type.ToString(),
                                 DocLink = branch == null ? "" : branch.doc_link.ToString(),
                                 FilePath = branch == null ? "" : "https://mastermind.org.in" + branch.file_path,
-                                FileName = branch == null ? "" : branch.file_name
+                                FileName = branch == null ? "" : branch.file_name,
+                                RowStatus = new RowStatusEntity()
+                                {
+                                    RowStatusId = branch == null ? 0 : branch.row_sta_cd
+                                }
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         })

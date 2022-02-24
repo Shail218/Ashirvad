@@ -171,9 +171,9 @@ $(document).ready(function () {
         }
         $('#Type option[value="' + $("#test_PaperTypeID").val() + '"]').attr("selected", "selected");
     }
-    if ($("#RowStatus_RowStatusId").val() != "") {
-        var Data = $("#RowStatus_RowStatusId").val();
-        $('#Status option[value="' + $("#RowStatus_RowStatusId").val() + '"]').attr("selected", "selected");
+    if ($("#test_RowStatus_RowStatusId").val() != "") {
+        var Data = $("#test_RowStatus_RowStatusId").val();
+        $('#Status option[value="' + $("#test_RowStatus_RowStatusId").val() + '"]').attr("selected", "selected");
     }
 
 });
@@ -439,7 +439,7 @@ $("#Type").change(function () {
 
 $("#Status").change(function () {
     var Data = $("#Status option:selected").val();
-    $('#RowStatus_RowStatusId').val(Data);
+    $('#test_RowStatus_RowStatusId').val(Data);
 
 });
 

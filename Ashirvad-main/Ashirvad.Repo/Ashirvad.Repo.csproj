@@ -88,6 +88,7 @@
     <Compile Include="DataAcceessAPI\Area\Package\IPackageAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Page\IPageAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Paper\IPaperAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\PaymentRegister\IPaymentRegisterAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Payment\IStudentPaymentAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Reminder\IReminderAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Category\ICategoryAPI.cs" />
@@ -237,6 +238,9 @@
     <Compile Include="Model\PAGE_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\PAYMENT_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\PRACTICE_PAPER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -344,6 +348,7 @@
     <Compile Include="Services\Area\Package\Package.cs" />
     <Compile Include="Services\Area\Page\Pages.cs" />
     <Compile Include="Services\Area\Paper\Paper.cs" />
+    <Compile Include="Services\Area\PaymentRegister\PaymentRegister.cs" />
     <Compile Include="Services\Area\Payment\StudentPayment.cs" />
     <Compile Include="Services\Area\Reminder\Reminder.cs" />
     <Compile Include="Services\Area\Category\Category.cs" />

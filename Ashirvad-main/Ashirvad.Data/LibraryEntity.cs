@@ -40,7 +40,6 @@ namespace Ashirvad.Data
         public long Library_Std_id { get; set; }
         public ApprovalEntity approval { get; set; }
         public List<LibraryStandardEntity> list { get; set; } = new List<LibraryStandardEntity>();
-        public List<LibraryStandardEntity> subjectlist { get; set; } = new List<LibraryStandardEntity>();
         public List<SubjectEntity> Subjectlist { get; set; }
         public List<StandardEntity> Standardlist { get; set; } = new List<StandardEntity>();
         public BranchCourseEntity BranchCourse { get; set; }

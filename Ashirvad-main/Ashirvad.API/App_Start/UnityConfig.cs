@@ -106,6 +106,10 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Circular;
 using Ashirvad.Repo.Services.Area.Circular;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Circular;
 using Ashirvad.ServiceAPI.Services.Area.Circular;
+using Ashirvad.Repo.DataAcceessAPI.Area.PaymentRegister;
+using Ashirvad.Repo.Services.Area.PaymentRegister;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.PaymentRegister;
+using Ashirvad.ServiceAPI.Services.Area.PaymentRegister;
 
 namespace Ashirvad.API
 {
@@ -226,6 +230,9 @@ namespace Ashirvad.API
 
             container.RegisterType<ICircularAPI, Circular>();
             container.RegisterType<ICircularService, CircularService>();
+
+            container.RegisterType<IPaymentRegisterAPI, PaymentRegister>();
+            container.RegisterType<IPaymentRegisterService, PaymentRegisterService>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

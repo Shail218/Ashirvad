@@ -58,7 +58,7 @@
                     }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
-            </div>            
+            </div>
         </div>
         <div class="row" style="margin-bottom:5px;">
             <div class="col-md-3">
@@ -102,7 +102,7 @@
                     <option value="0">--Select School Name--</option>
                 </select>
                 @Html.HiddenFor(x => x.SchoolInfo.SchoolID)
-            </div>           
+            </div>
         </div>
         <div class="row">
             <div class="col-md-3">
@@ -146,7 +146,7 @@
             <div class="col-md-3">
                 @Html.Label("Percentage / Grade", htmlAttributes: new { @class = "control-label" })
                 @Html.TextBoxFor(x => x.Grade, new { @class = "form-control", @alt = "Percentage / Grade", autocomplete = "off" })
-            </div>            
+            </div>
         </div>
         <div class="row" style="margin-top: 5px;">
             <div class="col-md-3">
@@ -164,9 +164,9 @@
             <div class="col-md-3">
                 @Html.Label("Mother's Occupation", htmlAttributes: new { @class = "control-label" })
                 @Html.TextBoxFor(x => x.StudentMaint.MotherOccupation, new { @class = "form-control", @alt = "Mother's Occupation", autocomplete = "off" })
-            </div>            
+            </div>
         </div>
-        <div class="row">  
+        <div class="row">
             <div class="col-md-3">
                 @Html.Label("Status", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
                 <table id="rdbResult" class="radioboxlist form-control">
@@ -226,7 +226,7 @@
                 </div>
                 <div class="col-md-3">
                     @Html.Label("Parent's Contact No (Login ID)", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
-                    @Html.TextBoxFor(x => x.StudentMaint.ContactNo, new { @class = "form-control required mobile", @alt = "Parent's Contact No (Login ID)", autocomplete = "off",type = "number", @onchange = "CheckMobileno(this);" })
+                    @Html.TextBoxFor(x => x.StudentMaint.ContactNo, new { @class = "form-control required mobile", @alt = "Parent's Contact No (Login ID)", autocomplete = "off", type = "number", @onchange = "CheckMobileno(this);" })
                 </div>
                 <div class="col-md-3">
                     @Html.Label("Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
@@ -243,21 +243,24 @@
                     @Html.HiddenFor(x => x.StudentMaint.StudentID)
                 </div>
                 <div class="col-md-3 ManageStudentMasterCreate" style="text-align: right;margin-top:27px;">
-                    <div id="savebtn">
-                        <a onclick="return SaveStudent();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <div>
+                        <div id="savebtn" style="margin-right: 25%; margin-bottom: -11%;">
+                            <a onclick="return SaveStudent();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                                <span class="ladda-label">
+                                    Save
+                                </span>
+                                <span class="ladda-spinner"></span>
+                            </a>
+                        </div>
+                        <a href="@Url.Action("StudentMaintenance","Student", new { @studentID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
                             <span class="ladda-label">
-                                Save
+                                Cancel
                             </span>
                             <span class="ladda-spinner"></span>
                         </a>
                     </div>
-                   
-                    <a href="@Url.Action("StudentMaintenance","Student", new { @studentID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
-                        <span class="ladda-label">
-                            Cancel
-                        </span>
-                        <span class="ladda-spinner"></span>
-                    </a>
+
+                    
                 </div>
             </div>
         </fieldset>

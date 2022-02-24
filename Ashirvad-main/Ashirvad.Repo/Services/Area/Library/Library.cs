@@ -681,7 +681,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                && u.branch_id == BranchId
                                && u.library_status == 2
                                && ls.CLASS_DTL_MASTER.CLASS_MASTER.class_name == standard
-                               && ls.class_dtl_id == standardID
+                               //&& ls.class_dtl_id == standardID
                                select new LibraryEntity()
                                {
                                    LibraryID = u.library_id,
@@ -707,7 +707,7 @@ namespace Ashirvad.Repo.Services.Area.Library
                                        RowStatusId = (int)u.row_sta_cd
                                    },
                                    Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                               }).ToList();
+                               }).Distinct().ToList();
 
             var library = (from li in this.context.LIBRARY_MASTER
                            join ls in this.context.LIBRARY_STD_MASTER on li.library_id equals ls.library_id

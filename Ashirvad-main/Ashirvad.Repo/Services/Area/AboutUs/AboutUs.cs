@@ -90,7 +90,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         {
             var data = (from u in this.context.ABOUTUS_MASTER
                         .Include("BRANCH_MASTER") orderby u.aboutus_id descending
-                        where (0 == branchID || u.branch_id == branchID)
+                        where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new AboutUsEntity()
                         {
                             RowStatus = new RowStatusEntity()

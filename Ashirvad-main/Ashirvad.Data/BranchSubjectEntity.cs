@@ -10,7 +10,7 @@ namespace Ashirvad.Data
     public class BranchSubjectEntity : ResponseModel
     {
         public long Class_dtl_id { get; set; }
-        public long Subject_dtl_id { get; set; }
+        public long Subject_dtl_id { get; set; } = 0;
         public string JsonData { get; set; }
         public BranchEntity branch { get; set; }
         public ClassEntity Class { get; set; }

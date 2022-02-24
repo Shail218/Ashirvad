@@ -196,7 +196,11 @@
         <AssociationConnector Association="AshirvadModel.FK_STUDENT_MAINT_STUDENT_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" />
-        <EntityTypeShape EntityType="AshirvadModel.PACKAGE_MASTER" Width="1.5" PointX="5.25" PointY="18.5" />
+        <EntityTypeShape EntityType="AshirvadModel.PAYMENT_MASTER" Width="1.5" PointX="38" PointY="16.5" />
+        <AssociationConnector Association="AshirvadModel.FK_PAYMENT_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_PAYMENT_MASTER_STUDENT_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_PAYMENT_MASTER_TRANSACTION_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.PACKAGE_MASTER" Width="1.5" PointX="5.25" PointY="17.625" />
         <AssociationConnector Association="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" />

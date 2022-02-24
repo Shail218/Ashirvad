@@ -1,8 +1,10 @@
 ﻿using Ashirvad.API.Filter;
 using Ashirvad.Common;
 using Ashirvad.Data;
+using Ashirvad.Repo.Services.Area.UPI;
 using Ashirvad.Repo.Services.Area.User;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.UPI;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.User;
 using Newtonsoft.Json;
 using System;
@@ -283,6 +285,47 @@ namespace Ashirvad.API.Controllers
             OperationResult<ResponseModel> result = new OperationResult<ResponseModel>();
             result.Completed = true;
             result.Data = entity;
+            return result;
+        }
+
+        [Route("GetAllUPIs")]
+        [HttpGet]
+        public OperationResult<List<UPIEntity>> GetAllUPIs(long branchid)
+        {
+            UPI upi = new UPI();
+            var data = upi.GetAllUPIs(branchid);
+            OperationResult<List<UPIEntity>> result = new OperationResult<List<UPIEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
+
+        [Route("UPIMaintenance")]
+        [HttpPost]
+        public OperationResult<long> UPIMaintenance(UPIEntity uPIEntity)
+        {
+            UPI upi = new UPI();
+            var data = upi.UPIMaintenance(uPIEntity).Result;
+            OperationResult<long> result = new OperationResult<long>();
+            result.Completed = false;
+            result.Data = 0;
+            if(data > 0)
+            {
+                result.Completed = true;
+                result.Data = data;
+            }
+            return result;
+        }
+
+        [Route("RemoveUPI")]
+        [HttpPost]
+        public OperationResult<bool> RemoveUPI(long UPIID, string lastupdatedby)
+        {
+            UPI upi = new UPI();
+            var data = upi.RemoveUPI(UPIID, lastupdatedby);
+            OperationResult<bool> result = new OperationResult<bool>();
+            result.Completed = true;
+            result.Data = data;
             return result;
         }
     }

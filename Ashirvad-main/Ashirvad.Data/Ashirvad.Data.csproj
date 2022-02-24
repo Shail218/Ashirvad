@@ -115,6 +115,7 @@
     <Compile Include="PageEntity.cs" />
     <Compile Include="PaperEntity.cs" />
     <Compile Include="PaymentEntity.cs" />
+    <Compile Include="PaymentRegisterEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReminderEntity.cs" />
     <Compile Include="ResponseModel.cs" />
