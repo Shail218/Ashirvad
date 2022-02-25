@@ -314,9 +314,9 @@ namespace Ashirvad.API.Controllers
         //    return result;
         //}
 
-        [Route("TestPaperMaintenance/{TestID}/{TestPaperID}/{Paper_Type}/{Doc_Link}/{Paper_Remark}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("TestPaperMaintenance/{TestID}/{TestPaperID}/{Paper_Type}/{Doc_Link}/{Paper_Remark}/{statusID}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
         [HttpPost]
-        public OperationResult<TestPaperEntity> TestPaperMaintenance(long TestID, long TestPaperID, int Paper_Type ,string Doc_Link,string Paper_Remark, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        public OperationResult<TestPaperEntity> TestPaperMaintenance(long TestID, long TestPaperID, int Paper_Type ,string Doc_Link,string Paper_Remark, int statusID, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
         {
             OperationResult<TestPaperEntity> result = new OperationResult<TestPaperEntity>();
             var httpRequest = HttpContext.Current.Request;
@@ -348,7 +348,7 @@ namespace Ashirvad.API.Controllers
             }
             testPaperEntity.RowStatus = new RowStatusEntity()
             {
-                RowStatusId = (int)Enums.RowStatus.Active
+                RowStatusId = statusID
             };
             testPaperEntity.Transaction = new TransactionEntity()
             {

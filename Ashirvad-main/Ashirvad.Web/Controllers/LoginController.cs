@@ -44,20 +44,24 @@ namespace Ashirvad.Web.Controllers
                 if (userInfo.UserType == Enums.UserType.SuperAdmin)
                 {
                     List<BranchWiseRightEntity> branchWises = new List<BranchWiseRightEntity>();
-                    //SessionContext.Instance.userRightsList= JsonConvert.SerializeObject(branchWises);
-                    if (SessionContext.Instance.userRightsList != null)
-                    {
-                        response.Message = "Login Successfully!!";
-                        response.Status = true;
-                        response.URL = "Home/Dashboard";
-                        SessionContext.Instance.LoginUser = userInfo;
-                    }
-                    else
-                    {
-                        SessionContext.Instance.LoginUser = null;
-                        response.Message = "You have no permission of any module!!";
-                        response.Status = false;
-                    }
+                    SessionContext.Instance.userRightsList= JsonConvert.SerializeObject(branchWises);
+                    response.Message = "Login Successfully!!";
+                    response.Status = true;
+                    response.URL = "Home/Dashboard";
+                    SessionContext.Instance.LoginUser = userInfo;
+                    //if (SessionContext.Instance.userRightsList != null)
+                    //{
+                    //    response.Message = "Login Successfully!!";
+                    //    response.Status = true;
+                    //    response.URL = "Home/Dashboard";
+                    //    SessionContext.Instance.LoginUser = userInfo;
+                    //}
+                    //else
+                    //{
+                    //    SessionContext.Instance.LoginUser = null;
+                    //    response.Message = "You have no permission of any module!!";
+                    //    response.Status = false;
+                    //}
                 }
                 else
                 {

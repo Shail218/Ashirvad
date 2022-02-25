@@ -148,6 +148,17 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("CheckPackage")]
+        [HttpGet]
+        public async Task<OperationResult<ResponseModel>> CheckPackage(long branchID)
+        {
+            var data = await this._studentService.CheckPackage(branchID);
+            OperationResult<ResponseModel> result = new OperationResult<ResponseModel>();
+            result.Completed = true;
+            result.Data = data;
+            return result;
+        }
+
         [Route("StudentMaintenance/{StudentID}/{ParentID}/{Gr_No}/{Name}" +
             "/{Birth_Date}/{Address}/{BranchID}/{StandardID}/{SchoolID}/{School_TimeID}/{Batch_TimeID}" +
             "/{Last_Year_Result}/{Grade}/{Class_Name}/{Student_Contact_No}/{Admission_Date}/{Parent_Name}" +

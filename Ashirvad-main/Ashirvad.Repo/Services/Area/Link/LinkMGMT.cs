@@ -52,6 +52,7 @@ namespace Ashirvad.Repo.Services.Area.Link
         {
             var data = (from u in this.context.LINK_MASTER
                         .Include("BRANCH_MASTER")
+                        orderby u.unique_id descending 
                         where u.type == type
                         &&  u.branch_id == branchID
                         && (0 == stdID || u.class_dtl_id == stdID) && u.row_sta_cd == 1
