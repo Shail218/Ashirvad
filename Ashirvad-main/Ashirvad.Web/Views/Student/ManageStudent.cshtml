@@ -5,12 +5,28 @@
 }
 
 <div style="margin-top:10px;">
+
+    <div class="col-md-4">
+        @Html.Label("Course Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        <select name="CourseName" id="Courseddl" class="form-control requiredDDL" alt="Course Name">
+            <option value="0">--Select Course Name--</option>
+        </select>
+      
+    </div>
+    <div class="col-md-4">
+        @Html.Label("Class Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        <select name="StandardName" id="Standardddl" class="form-control requiredDDL" alt="Class Name">
+            <option value="0">--Select Class Name--</option>
+        </select>
+       
+      
+    </div>
     <div class="col-md-4">
         @Html.Label("Year", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
         <select name="Year" id="Year" class="form-control requiredDDL" alt="Year Name">
             <option value="0">--Select Year--</option>
         </select>
-        <input type="text" hidden name="Final_Year" id="Final_Year" />
+
     </div>
 </div>
 <div class="col-md-12" style="overflow-y:scroll;height:400px !important;" id="studentdiv">
@@ -58,6 +74,7 @@
                     <tr>
                         <td>
                             <input type="checkbox" onchange="checkstatus(this)" id="Createstatus" class="createStatus" />
+                            @Html.HiddenFor(x=>item.StudentID)
                         </td>
                         <td>
                             @if (item.FilePath == null)
@@ -94,7 +111,7 @@
 </div>
 <div class="col-md-12" style="text-align: right;">
     <br />
-    <a onclick="return SaveSubject();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+    <a onclick="return TransferStudent();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
         <span class="ladda-label">
             Save
         </span>

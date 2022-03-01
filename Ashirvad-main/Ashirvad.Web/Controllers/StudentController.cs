@@ -2,6 +2,7 @@
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Student;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -104,5 +105,13 @@ namespace Ashirvad.Web.Controllers
             return View("~/Views/Student/ManageStudent.cshtml", result);
         }
 
+        [HttpPost]
+        public JsonResult TransferStudent(string Studentdata)
+        {
+            //var result = _studentService.RemoveStudent(studentID, SessionContext.Instance.LoginUser.Username);
+            var result= JsonConvert.DeserializeObject<List<StudentEntity>>(Studentdata);
+
+            return Json(null);
+        }
     }
 }

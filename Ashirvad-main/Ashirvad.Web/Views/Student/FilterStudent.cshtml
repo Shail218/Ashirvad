@@ -25,9 +25,15 @@
         </select>
         @Html.HiddenFor(x => x.Final_Year)
     </div>
+
+
+    <input hidden name="Next_Course" id="Next_Course" />
+    <input hidden name="Next_Class" id="Next_Class" />
+    <input type="text" hidden name="Next_Year" id="Next_Year" />
     <div class="col-md-1" style="padding-top: 25px !important;">
         <a onclick="return Filterstudent();" class="ladda-button mb-2 mr-2 btn btn-primary" style="width:100% !important;height:100% !important; font-size:110% !important;" data-style="expand-left">
-            <span class="ladda-label"><i class="fa fa-search"></i>
+            <span class="ladda-label">
+                <i class="fa fa-search"></i>
                 Filter
             </span>
             <span class="ladda-spinner"></span>
