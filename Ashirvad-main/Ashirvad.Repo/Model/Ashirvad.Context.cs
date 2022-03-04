@@ -88,6 +88,7 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<STUDENT_MASTER> STUDENT_MASTER { get; set; }
         public virtual DbSet<PAYMENT_MASTER> PAYMENT_MASTER { get; set; }
         public virtual DbSet<PACKAGE_MASTER> PACKAGE_MASTER { get; set; }
+        public virtual DbSet<NOTIFICATION_STD_MASTER> NOTIFICATION_STD_MASTER { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

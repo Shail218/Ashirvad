@@ -18,6 +18,7 @@ namespace Ashirvad.Repo.Model
         public NOTIFICATION_MASTER()
         {
             this.NOTIFICATION_TYPE_REL = new HashSet<NOTIFICATION_TYPE_REL>();
+            this.NOTIFICATION_STD_MASTER = new HashSet<NOTIFICATION_STD_MASTER>();
         }
     
         public long notif_id { get; set; }
@@ -29,5 +30,7 @@ namespace Ashirvad.Repo.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NOTIFICATION_TYPE_REL> NOTIFICATION_TYPE_REL { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NOTIFICATION_STD_MASTER> NOTIFICATION_STD_MASTER { get; set; }
     }
 }

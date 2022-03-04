@@ -19,8 +19,22 @@ namespace Ashirvad.Data
         public string JSONData { get; set; }
         public string NotificationTypeText { get; set; }
         public long Count { get; set; }
+        public BranchCourseEntity BranchCourse { get; set; }
+        public string StandardArray { get; set; }
+        public string StandardNameArray { get; set; }
+        public List<NotificationStandardEntity> list { get; set; } = new List<NotificationStandardEntity>();
+        public List<StandardEntity> Standardlist { get; set; } = new List<StandardEntity>();
     }
-
+    public class NotificationStandardEntity
+    {
+        public long notification_std_id { get; set; }
+        public long std_id { get; set; }
+        public long sub_id { get; set; }
+        public string standard { get; set; }
+        public string subject { get; set; }
+        public long notif_id { get; set; }
+        public BranchCourseEntity BranchCourse { get; set; }
+    }
     public class NotificationTypeEntity
     {
         public long ID { get; set; }

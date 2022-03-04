@@ -441,6 +441,15 @@
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="NOTIFICATION_STD_MASTER">
+          <Key>
+            <PropertyRef Name="notification_std_id" />
+          </Key>
+          <Property Name="notification_std_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="notif_id" Type="bigint" Nullable="false" />
+          <Property Name="class_dtl_id" Type="bigint" />
+          <Property Name="course_dtl_id" Type="bigint" />
+        </EntityType>
         <EntityType Name="NOTIFICATION_TYPE_REL">
           <Key>
             <PropertyRef Name="unique_id" />
@@ -1753,6 +1762,42 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_NOTIFICATION_STD_MASTER_CLASS_DTL_MASTER">
+          <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
+          <End Role="NOTIFICATION_STD_MASTER" Type="Self.NOTIFICATION_STD_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Principal>
+            <Dependent Role="NOTIFICATION_STD_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOTIFICATION_STD_MASTER_COURSE_DTL_MASTER">
+          <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Role="NOTIFICATION_STD_MASTER" Type="Self.NOTIFICATION_STD_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="NOTIFICATION_STD_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOTIFICATION_STD_MASTER_NOTIFICATION_MASTER">
+          <End Role="NOTIFICATION_MASTER" Type="Self.NOTIFICATION_MASTER" Multiplicity="1" />
+          <End Role="NOTIFICATION_STD_MASTER" Type="Self.NOTIFICATION_STD_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NOTIFICATION_MASTER">
+              <PropertyRef Name="notif_id" />
+            </Principal>
+            <Dependent Role="NOTIFICATION_STD_MASTER">
+              <PropertyRef Name="notif_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER">
           <End Role="NOTIFICATION_MASTER" Type="Self.NOTIFICATION_MASTER" Multiplicity="1" />
           <End Role="NOTIFICATION_TYPE_REL" Type="Self.NOTIFICATION_TYPE_REL" Multiplicity="*" />
@@ -2501,6 +2546,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <EntitySet Name="MARKS_MASTER" EntityType="Self.MARKS_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NEW_LIBRARY_MASTER" EntityType="Self.NEW_LIBRARY_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NOTIFICATION_MASTER" EntityType="Self.NOTIFICATION_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NOTIFICATION_STD_MASTER" EntityType="Self.NOTIFICATION_STD_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NOTIFICATION_TYPE_REL" EntityType="Self.NOTIFICATION_TYPE_REL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PACKAGE_MASTER" EntityType="Self.PACKAGE_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PACKAGE_RIGHTS_MASTER" EntityType="Self.PACKAGE_RIGHTS_MASTER" Schema="dbo" store:Type="Tables" />
@@ -2843,6 +2889,18 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <AssociationSet Name="FK_NEW_LIBRARY_MASTER_TRANSACTION_MASTER" Association="Self.FK_NEW_LIBRARY_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="NEW_LIBRARY_MASTER" EntitySet="NEW_LIBRARY_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOTIFICATION_STD_MASTER_CLASS_DTL_MASTER" Association="Self.FK_NOTIFICATION_STD_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="NOTIFICATION_STD_MASTER" EntitySet="NOTIFICATION_STD_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOTIFICATION_STD_MASTER_COURSE_DTL_MASTER" Association="Self.FK_NOTIFICATION_STD_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+            <End Role="NOTIFICATION_STD_MASTER" EntitySet="NOTIFICATION_STD_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOTIFICATION_STD_MASTER_NOTIFICATION_MASTER" Association="Self.FK_NOTIFICATION_STD_MASTER_NOTIFICATION_MASTER">
+            <End Role="NOTIFICATION_MASTER" EntitySet="NOTIFICATION_MASTER" />
+            <End Role="NOTIFICATION_STD_MASTER" EntitySet="NOTIFICATION_STD_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER" Association="Self.FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER">
             <End Role="NOTIFICATION_MASTER" EntitySet="NOTIFICATION_MASTER" />
@@ -3735,6 +3793,19 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
             <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
             <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+          </AssociationSet>
+          <EntitySet Name="NOTIFICATION_STD_MASTER" EntityType="AshirvadModel.NOTIFICATION_STD_MASTER" />
+          <AssociationSet Name="FK_NOTIFICATION_STD_MASTER_CLASS_DTL_MASTER" Association="AshirvadModel.FK_NOTIFICATION_STD_MASTER_CLASS_DTL_MASTER">
+            <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+            <End Role="NOTIFICATION_STD_MASTER" EntitySet="NOTIFICATION_STD_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOTIFICATION_STD_MASTER_COURSE_DTL_MASTER" Association="AshirvadModel.FK_NOTIFICATION_STD_MASTER_COURSE_DTL_MASTER">
+            <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+            <End Role="NOTIFICATION_STD_MASTER" EntitySet="NOTIFICATION_STD_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOTIFICATION_STD_MASTER_NOTIFICATION_MASTER" Association="AshirvadModel.FK_NOTIFICATION_STD_MASTER_NOTIFICATION_MASTER">
+            <End Role="NOTIFICATION_MASTER" EntitySet="NOTIFICATION_MASTER" />
+            <End Role="NOTIFICATION_STD_MASTER" EntitySet="NOTIFICATION_STD_MASTER" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_TYPE_REL">
@@ -4712,6 +4783,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="STD_MASTER" Relationship="AshirvadModel.FK_STD_MASTER_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="STD_MASTER" />
           <NavigationProperty Name="LIBRARY_STD_MASTER" Relationship="AshirvadModel.FK_LIBRARY_STD_MASTER_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="LIBRARY_STD_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="NOTIFICATION_STD_MASTER" Relationship="AshirvadModel.FK_NOTIFICATION_STD_MASTER_CLASS_DTL_MASTER" FromRole="CLASS_DTL_MASTER" ToRole="NOTIFICATION_STD_MASTER" />
         </EntityType>
         <Association Name="FK_CLASS_DTL_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -4828,6 +4900,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="HOMEWORK_MASTER" Relationship="AshirvadModel.FK_HOMEWORK_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="HOMEWORK_MASTER" />
           <NavigationProperty Name="LIBRARY_STD_MASTER" Relationship="AshirvadModel.FK_LIBRARY_STD_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="LIBRARY_STD_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="NOTIFICATION_STD_MASTER" Relationship="AshirvadModel.FK_NOTIFICATION_STD_MASTER_COURSE_DTL_MASTER" FromRole="COURSE_DTL_MASTER" ToRole="NOTIFICATION_STD_MASTER" />
         </EntityType>
         <Association Name="FK_COURSE_DTL_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -5210,6 +5283,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
           <NavigationProperty Name="NOTIFICATION_TYPE_REL" Relationship="AshirvadModel.FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER" FromRole="NOTIFICATION_MASTER" ToRole="NOTIFICATION_TYPE_REL" />
+          <NavigationProperty Name="NOTIFICATION_STD_MASTER" Relationship="AshirvadModel.FK_NOTIFICATION_STD_MASTER_NOTIFICATION_MASTER" FromRole="NOTIFICATION_MASTER" ToRole="NOTIFICATION_STD_MASTER" />
         </EntityType>
         <Association Name="FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER">
           <End Type="AshirvadModel.NOTIFICATION_MASTER" Role="NOTIFICATION_MASTER" Multiplicity="1" />
@@ -6556,6 +6630,54 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="NOTIFICATION_STD_MASTER">
+          <Key>
+            <PropertyRef Name="notification_std_id" />
+          </Key>
+          <Property Name="notification_std_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="notif_id" Type="Int64" Nullable="false" />
+          <Property Name="class_dtl_id" Type="Int64" />
+          <Property Name="course_dtl_id" Type="Int64" />
+          <NavigationProperty Name="CLASS_DTL_MASTER" Relationship="AshirvadModel.FK_NOTIFICATION_STD_MASTER_CLASS_DTL_MASTER" FromRole="NOTIFICATION_STD_MASTER" ToRole="CLASS_DTL_MASTER" />
+          <NavigationProperty Name="COURSE_DTL_MASTER" Relationship="AshirvadModel.FK_NOTIFICATION_STD_MASTER_COURSE_DTL_MASTER" FromRole="NOTIFICATION_STD_MASTER" ToRole="COURSE_DTL_MASTER" />
+          <NavigationProperty Name="NOTIFICATION_MASTER" Relationship="AshirvadModel.FK_NOTIFICATION_STD_MASTER_NOTIFICATION_MASTER" FromRole="NOTIFICATION_STD_MASTER" ToRole="NOTIFICATION_MASTER" />
+        </EntityType>
+        <Association Name="FK_NOTIFICATION_STD_MASTER_CLASS_DTL_MASTER">
+          <End Type="AshirvadModel.CLASS_DTL_MASTER" Role="CLASS_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.NOTIFICATION_STD_MASTER" Role="NOTIFICATION_STD_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLASS_DTL_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Principal>
+            <Dependent Role="NOTIFICATION_STD_MASTER">
+              <PropertyRef Name="class_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOTIFICATION_STD_MASTER_COURSE_DTL_MASTER">
+          <End Type="AshirvadModel.COURSE_DTL_MASTER" Role="COURSE_DTL_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.NOTIFICATION_STD_MASTER" Role="NOTIFICATION_STD_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COURSE_DTL_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Principal>
+            <Dependent Role="NOTIFICATION_STD_MASTER">
+              <PropertyRef Name="course_dtl_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOTIFICATION_STD_MASTER_NOTIFICATION_MASTER">
+          <End Type="AshirvadModel.NOTIFICATION_MASTER" Role="NOTIFICATION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.NOTIFICATION_STD_MASTER" Role="NOTIFICATION_STD_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NOTIFICATION_MASTER">
+              <PropertyRef Name="notif_id" />
+            </Principal>
+            <Dependent Role="NOTIFICATION_STD_MASTER">
+              <PropertyRef Name="notif_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7468,6 +7590,16 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="package" ColumnName="package" />
                 <ScalarProperty Name="package_id" ColumnName="package_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NOTIFICATION_STD_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.NOTIFICATION_STD_MASTER">
+              <MappingFragment StoreEntitySet="NOTIFICATION_STD_MASTER">
+                <ScalarProperty Name="course_dtl_id" ColumnName="course_dtl_id" />
+                <ScalarProperty Name="class_dtl_id" ColumnName="class_dtl_id" />
+                <ScalarProperty Name="notif_id" ColumnName="notif_id" />
+                <ScalarProperty Name="notification_std_id" ColumnName="notification_std_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

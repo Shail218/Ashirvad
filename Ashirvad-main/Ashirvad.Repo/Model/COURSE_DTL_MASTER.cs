@@ -30,6 +30,7 @@ namespace Ashirvad.Repo.Model
             this.HOMEWORK_MASTER = new HashSet<HOMEWORK_MASTER>();
             this.LIBRARY_STD_MASTER = new HashSet<LIBRARY_STD_MASTER>();
             this.STUDENT_MASTER = new HashSet<STUDENT_MASTER>();
+            this.NOTIFICATION_STD_MASTER = new HashSet<NOTIFICATION_STD_MASTER>();
         }
     
         public long course_dtl_id { get; set; }
@@ -68,5 +69,7 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<LIBRARY_STD_MASTER> LIBRARY_STD_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<STUDENT_MASTER> STUDENT_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NOTIFICATION_STD_MASTER> NOTIFICATION_STD_MASTER { get; set; }
     }
 }

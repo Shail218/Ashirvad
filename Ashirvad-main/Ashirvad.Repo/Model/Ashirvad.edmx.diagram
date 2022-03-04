@@ -204,6 +204,10 @@
         <AssociationConnector Association="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.NOTIFICATION_STD_MASTER" Width="1.5" PointX="22.75" PointY="10.125" />
+        <AssociationConnector Association="AshirvadModel.FK_NOTIFICATION_STD_MASTER_CLASS_DTL_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_NOTIFICATION_STD_MASTER_COURSE_DTL_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_NOTIFICATION_STD_MASTER_NOTIFICATION_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
