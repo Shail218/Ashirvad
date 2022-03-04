@@ -100,6 +100,12 @@ namespace Ashirvad.Web.Controllers
             });
 
         }
+        [HttpPost]
+        public async Task<ActionResult> GetExportData(string Search)
+        {
+            var branchData = await _facultyService.GetAllFaculty(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            return View("~/Views/Faculty/_Export_Faculty.cshtml", branchData);
 
+        }
     }
 }

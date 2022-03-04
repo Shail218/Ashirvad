@@ -107,5 +107,13 @@ namespace Ashirvad.Web.Controllers
             });
 
         }
+
+        [HttpPost]
+        public async Task<ActionResult> GetExportData(string Search)
+        {
+            var branchData = await _studentService.GetAllStudent(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            return View("~/Views/ManageStudent/_Export_Student.cshtml", branchData);
+
+        }
     }
 }

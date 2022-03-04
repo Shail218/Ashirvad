@@ -17,6 +17,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
         Task<List<BranchClassEntity>> GetBranchClassByBranchClassID(long BranchClassID, long BranchID);
         Task<BranchClassEntity> GetPackaegBranchClassByID(long BranchClassID);
         ResponseModel RemoveBranchClass(long BranchClassID,long BranchID, string lastupdatedby);
-        
+        Task<List<BranchClassEntity>> GetAllSelectedClasses(long BranchID = 0, long CourseID = 0);
     }
 }

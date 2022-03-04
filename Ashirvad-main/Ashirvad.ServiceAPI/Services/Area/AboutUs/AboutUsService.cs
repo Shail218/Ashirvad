@@ -195,7 +195,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
 
             return null;
         }
+        public async Task<List<AboutUsDetailEntity>> GetAllAboutUsDetailforExport(long aboutusID = 0, long branchID = 0)
+        {
+            try
+            {
+                return await this._aboutusContext.GetAllAboutUsDetailsforExport(aboutusID, branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
 
+            return null;
+        }
         public bool RemoveAboutUsDetail(long aboutUsID, string lastupdatedby)
         {
             try

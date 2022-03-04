@@ -163,6 +163,21 @@ namespace Ashirvad.ServiceAPI.Services.Area
         {
             throw new NotImplementedException();
         }
+        public async Task<List<BranchSubjectEntity>> GetAllSelectedSubjects(long BranchID, long CourseID=0, long ClassID=0)
+        {
+            try
+            {
+                List<BranchSubjectEntity> BranchSubject = new List<BranchSubjectEntity>();
+                BranchSubject = await _BranchSubjectContext.GetAllSelectedSubjects(BranchID, CourseID, ClassID); ;
+                return BranchSubject;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
 
         public async Task<List<BranchSubjectEntity>> GetSubjectByclasscourseid(long SubjectID, long BranchID, long CourseID)
         {
@@ -180,4 +195,5 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
     }
+
 }

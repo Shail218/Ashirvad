@@ -125,7 +125,20 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return null;
         }
+        public async Task<List<BranchClassEntity>> GetAllSelectedClasses(long BranchID = 0, long CourseID = 0)
+        {
+            try
+            {
+                return await this._BranchClassContext.GetAllSelectedClasses(BranchID, CourseID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
 
-        
+            return null;
+        }
+
+
     }
 }

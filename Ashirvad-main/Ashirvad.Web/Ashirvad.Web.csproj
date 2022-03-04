@@ -1478,6 +1478,13 @@
     <Content Include="Views\Anouncement\_Export_Anouncement.cshtml" />
     <Content Include="Views\Notification\_Export_Notification.cshtml" />
     <Content Include="Views\Batch\_Export_Batch.cshtml" />
+    <Content Include="Views\User\_Export_User.cshtml" />
+    <Content Include="Views\ManageStudent\_Export_Student.cshtml" />
+    <Content Include="Views\AboutUs\_Export_AboutUs.cshtml" />
+    <Content Include="Views\Faculty\_Export_Faculty.cshtml" />
+    <Content Include="Views\BranchCourse\_Export_BranchCourse.cshtml" />
+    <Content Include="Views\BranchClass\_Export_BranchClass.cshtml" />
+    <Content Include="Views\BranchSubject\_Export_BranchSubject.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

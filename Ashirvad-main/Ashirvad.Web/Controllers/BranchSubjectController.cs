@@ -202,5 +202,13 @@ namespace Ashirvad.Web.Controllers
             }
 
         }
+
+        [HttpPost]
+        public async Task<ActionResult> GetExportData(string Search)
+        {
+            var branchData = await _branchSubjectService.GetAllSelectedSubjects(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            return View("~/Views/BranchSubject/_Export_BranchSubject.cshtml", branchData);
+
+        }
     }
 }

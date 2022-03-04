@@ -66,9 +66,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
             }
             return -1;
         }
-
-
-
         public async Task<List<BranchCourseEntity>> GetAllCourse(long BranchID)
         {
            
@@ -122,8 +119,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return data;
 
         }
-
-
         public async Task<List<BranchCourseEntity>> GetCourseByCourseID(long CourseID)
         {
             var data = (from u in this.context.COURSE_DTL_MASTER
@@ -166,7 +161,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
                         }).FirstOrDefault();
             return data;
         }
-
         public ResponseModel RemoveCourse(long CourseID, string lastupdatedby)
         {
             Check_Delete check = new Check_Delete();
@@ -201,8 +195,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
             return model;
         }
-
-
         public async Task<List<BranchCourseEntity>> GetAllSelectedCourses(long BranchID)
         {
             var data = (from u in this.context.COURSE_DTL_MASTER
@@ -222,7 +214,39 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
         }
 
+        public async Task<List<BranchCourseEntity>> GetAllCourseforExport(long BranchID)
+        {
 
+            var data = (from u in this.context.COURSE_DTL_MASTER
+                        .Include("COURSE_MASTER")
+                        .Include("BRANCH_MASTER")
+                        orderby u.course_dtl_id descending
+                        where (BranchID == 0 || u.branch_id == BranchID) && u.row_sta_cd == 1 && u.is_course == true
+                        select new BranchCourseEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            course = new CourseEntity()
+                            {
+                                CourseID = u.COURSE_MASTER.course_id,
+                                CourseName = u.COURSE_MASTER.course_name
+                            },
+                            branch = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
+                            iscourse = u.is_course == true ? true : false,
+                            course_dtl_id = u.course_dtl_id,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                        }).ToList();
+           
+            return data;
+
+        }
 
     }
 }

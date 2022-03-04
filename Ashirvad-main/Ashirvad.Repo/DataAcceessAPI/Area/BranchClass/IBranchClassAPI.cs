@@ -18,6 +18,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
         Task<List<BranchClassEntity>> GetClassByClassID(long ClassID,long BranchID);
         ResponseModel RemoveClass(long ClassID, long BranchID, string lastupdatedby);
         Task<BranchClassEntity> GetClassbyID(long ClassID);
-
+        Task<List<BranchClassEntity>> GetAllSelectedClasses(long BranchID, long CourseID);
     }
 }

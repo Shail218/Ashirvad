@@ -19,5 +19,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.AboutUs
         Task<List<AboutUsDetailEntity>> GetAllAboutUsDetailWithoutContent(long aboutusID, long branchID);
         Task<AboutUsDetailEntity> GetAboutUsDetailByUniqueID(long uniqueID);
         bool RemoveAboutUsDetail(long uniqueID, string lastupdatedby);
+        Task<List<AboutUsDetailEntity>> GetAllAboutUsDetailsforExport(long aboutusID, long branchID);
     }
 }
