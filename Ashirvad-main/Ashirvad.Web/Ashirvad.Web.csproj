@@ -212,8 +212,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="CourseImage\1MQHHJLP2BBSYSOWACCQ.png" />
-    <Content Include="FacultyImage\1MQHHJLP2BBSYSOWACCQ.png" />
+    <Content Include="CourseImage\empty_cart.png" />
+    <Content Include="FacultyImage\empty_cart.png" />
     <Content Include="FeesImage\empty_cart.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="GalleryImage\L0QG6TB71KDIZUCO3PKT.png" />

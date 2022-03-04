@@ -124,6 +124,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Notification
             return null;
         }
 
-
+        public async Task<OperationResult<List<NotificationEntity>>> GetMobileNotification(long branchID, int typeID)
+        {
+            OperationResult<List<NotificationEntity>> notif = new OperationResult<List<NotificationEntity>>();
+            notif.Data = await _notificationContext.GetMobileNotification(branchID, typeID);
+            notif.Completed = true;
+            return notif;
+        }
     }
 }

@@ -226,6 +226,9 @@
     <Compile Include="Model\NOTIFICATION_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\NOTIFICATION_STD_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\NOTIFICATION_TYPE_REL.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>

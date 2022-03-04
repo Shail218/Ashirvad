@@ -22,6 +22,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.User
         Task<bool> ChangePassword(long userID, string password, string oldPassword);
         Task<UserEntity> GetUserByID(long userID);
         List<UserEntity> GetAllUsers(string userName, string contactNo);
-
+        Task<bool> UpdatefcmToken(UserEntity userentity, string fcm_token);
     }
 }

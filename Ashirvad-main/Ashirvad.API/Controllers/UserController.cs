@@ -32,7 +32,7 @@ namespace Ashirvad.API.Controllers
 
         [Route("ValidateUser")]
         [HttpGet]
-        public OperationResult<UserEntity> ValidateUser(string userName, string password)
+        public OperationResult<UserEntity> ValidateUser(string userName, string password,string fcmtoken)
         {
             var data = this._userService.ValidateUser(userName, password);            
             OperationResult<UserEntity> result = new OperationResult<UserEntity>();
@@ -45,6 +45,7 @@ namespace Ashirvad.API.Controllers
             }
             else
             {
+                var da = this._userService.UpdatefcmToken(data.Result, fcmtoken);
                 var isAggrement = this._userService.CheckAgreement(data.Result.BranchInfo.BranchID);
                 if (isAggrement.Result)
                 {
@@ -198,7 +199,7 @@ namespace Ashirvad.API.Controllers
 
         [Route("ValidateStudent")]
         [HttpGet]
-        public OperationResult<UserEntity> ValidateStudent(string userName, string password)
+        public OperationResult<UserEntity> ValidateStudent(string userName, string password,string fcmtoken)
         {
             var data = this._userService.ValidateStudent(userName, password);
             OperationResult<UserEntity> result = new OperationResult<UserEntity>();
@@ -211,6 +212,7 @@ namespace Ashirvad.API.Controllers
             }
             else
             {
+                var da = this._userService.UpdatefcmToken(data.Result, fcmtoken);
                 var isAggrement = this._userService.CheckAgreement(data.Result.BranchInfo.BranchID);
                 if (isAggrement.Result)
                 {
@@ -222,7 +224,7 @@ namespace Ashirvad.API.Controllers
                 {
                     result.Completed = false;
                     result.Data = data.Result;
-                    result.Message = "Your agreement was expired!!!";
+                    result.Message = "Your agreement has expired!!!";
                 }
             }
             return result;
@@ -326,6 +328,19 @@ namespace Ashirvad.API.Controllers
             OperationResult<bool> result = new OperationResult<bool>();
             result.Completed = true;
             result.Data = data;
+            return result;
+        }
+
+        [Route("UpdateFcMToken")]
+        [HttpPost]
+        public OperationResult<bool> UpdateFcMToken(long userID,string fcmtoken)
+        {
+            UserEntity user = new UserEntity();
+            user.UserID = userID;
+            var da = this._userService.UpdatefcmToken(user, fcmtoken);
+            OperationResult<bool> result = new OperationResult<bool>();
+            result.Completed = true;
+            result.Data = da.Result;
             return result;
         }
     }

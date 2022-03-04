@@ -213,5 +213,18 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
 
             return false;
         }
+        public async Task<bool> UpdatefcmToken(UserEntity userentity, string fcm_token)
+        {
+            try
+            {
+                return await this._userContext.UpdatefcmToken(userentity, fcm_token);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return false;
+        }
     }
 }

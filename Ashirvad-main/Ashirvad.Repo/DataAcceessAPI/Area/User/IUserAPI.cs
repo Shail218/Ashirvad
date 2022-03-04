@@ -24,5 +24,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.User
         List<UserEntity> GetAllUsers(string userName, string contactNo);
 
         List<UserEntity> GetAllUsersddl(long branchID);
+        Task<bool> UpdatefcmToken(UserEntity userentity, string fcm_token);
     }
 }
