@@ -24,6 +24,7 @@ namespace Ashirvad.Data
         public string StandardNameArray { get; set; }
         public List<NotificationStandardEntity> list { get; set; } = new List<NotificationStandardEntity>();
         public List<StandardEntity> Standardlist { get; set; } = new List<StandardEntity>();
+        public string stdID { get; set; }
     }
     public class NotificationStandardEntity
     {

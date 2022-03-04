@@ -37,6 +37,17 @@ namespace Ashirvad.API.Controllers
         [HttpPost]
         public OperationResult<NotificationEntity> NotificationMaintenance(NotificationEntity notifInfo)
         {
+            if (notifInfo.stdID != "")
+            {
+                string[] stdname = notifInfo.stdID.Split(',');
+                for (int i = 0; i < stdname.Length; i++)
+                {
+                    notifInfo.Standardlist.Add(new StandardEntity()
+                    {
+                        StandardID = long.Parse(stdname[i])
+                    });
+                }
+            }
             var data = this._notificationService.NotificationMaintenance(notifInfo);
             OperationResult<NotificationEntity> result = new OperationResult<NotificationEntity>();
             result.Completed = true;
