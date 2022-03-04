@@ -330,5 +330,18 @@ namespace Ashirvad.API.Controllers
             result.Data = data;
             return result;
         }
+
+        [Route("UpdateFcMToken")]
+        [HttpPost]
+        public OperationResult<bool> UpdateFcMToken(long userID,string fcmtoken)
+        {
+            UserEntity user = new UserEntity();
+            user.UserID = userID;
+            var da = this._userService.UpdatefcmToken(user, fcmtoken);
+            OperationResult<bool> result = new OperationResult<bool>();
+            result.Completed = true;
+            result.Data = da.Result;
+            return result;
+        }
     }
 }

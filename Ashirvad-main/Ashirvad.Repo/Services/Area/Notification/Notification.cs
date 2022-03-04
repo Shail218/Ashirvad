@@ -290,46 +290,51 @@ namespace Ashirvad.Repo.Services.Area.Notification
 
             try
             {
-                var admin = this.context.USER_DEF.Where(x => x.branch_id == notification.Branch.BranchID && x.row_sta_cd == 1 && x.user_type == (int)Enums.UserType.Admin).Select(x => new { x.fcm_token }).ToList();
-                var teacher = this.context.USER_DEF.Where(x => x.branch_id == notification.Branch.BranchID && x.row_sta_cd == 1 && x.user_type == (int)Enums.UserType.Staff).Select(x => new { x.fcm_token }).ToList();
-                var student = this.context.USER_DEF.Where(x => x.branch_id == notification.Branch.BranchID && x.row_sta_cd == 1 && (x.user_type == (int)Enums.UserType.Student || x.user_type == (int)Enums.UserType.Parent)).Select(x => new { x.fcm_token }).ToList();
                 List<string> da = new List<string>();
                 foreach(var z in notification.NotificationType)
                 {
                     da.Add(z.TypeID.ToString());
                 }
-                if (admin?.Count > 0 && da.Contains("1"))
+                if (da.Contains("1"))
                 {
-                    foreach (var i in admin)
+                    var admin = this.context.USER_DEF.Where(x => x.fcm_token != null && x.branch_id == notification.Branch.BranchID && x.row_sta_cd == 1 && x.user_type == (int)Enums.UserType.Admin).Select(x => new { x.fcm_token }).ToList();
+
+                    if (admin?.Count > 0)
                     {
-                        UserEntity entity = new UserEntity
+                        foreach (var i in admin)
                         {
-                            fcm_token = i.fcm_token
-                        };
-                        sendNotification(i.fcm_token);
+                           
+                            sendNotification(i.fcm_token,notification.NotificationMessage,notification.Notification_Date.ToString("dd/MM/yyyy"));
+                        }
                     }
+                    
                 }
-                if (teacher?.Count > 0 && da.Contains("2"))
+                if ( da.Contains("2"))
                 {
-                    foreach (var i in teacher)
+                    var teacher = this.context.USER_DEF.Where(x => x.fcm_token != null && x.branch_id == notification.Branch.BranchID && x.row_sta_cd == 1 && x.user_type == (int)Enums.UserType.Staff).Select(x => new { x.fcm_token }).ToList();
+
+                    if (teacher?.Count > 0)
                     {
-                        UserEntity entity = new UserEntity
+                        foreach (var i in teacher)
                         {
-                            fcm_token = i.fcm_token
-                        };
-                        sendNotification(i.fcm_token);
+                            
+                            sendNotification(i.fcm_token, notification.NotificationMessage, notification.Notification_Date.ToString("dd/MM/yyyy"));
+                        }
                     }
+                   
                 }
-                if (student?.Count > 0 && da.Contains("3"))
+                if ( da.Contains("3"))
                 {
-                    foreach (var i in student)
-                    {
-                        UserEntity entity = new UserEntity
+                    var student = this.context.USER_DEF.Where(x => x.fcm_token != null && x.branch_id == notification.Branch.BranchID && x.row_sta_cd == 1 && (x.user_type == (int)Enums.UserType.Student || x.user_type == (int)Enums.UserType.Parent)).Select(x => new { x.fcm_token }).ToList();
+
+                    if (student?.Count > 0 ) {
+                        foreach (var i in student)
                         {
-                            fcm_token = i.fcm_token
-                        };
-                        sendNotification(i.fcm_token);
+                          
+                            sendNotification(i.fcm_token, notification.NotificationMessage, notification.Notification_Date.ToString("dd/MM/yyyy"));
+                        }
                     }
+                    
                 }
 
                 
@@ -342,7 +347,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
             }
         }
 
-        public void sendNotification(string RegId)
+        public void sendNotification(string RegId,string msg,string datetext)
         {
             string ApplicationID, SENDER_ID, message, value;
             try
@@ -353,7 +358,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
                     SENDER_ID = "903914049924";
 
                     value = "Notification";  //title
-                    message = ""; //message
+                    message = "Date- "+datetext+"\n"+ msg; //message
 
                     string images = "";
                     WebRequest tRequest;
@@ -370,13 +375,13 @@ namespace Ashirvad.Repo.Services.Area.Notification
                     Stream dataStream = tRequest.GetRequestStream();
                     dataStream.Write(byteArray, 0, byteArray.Length);
                     dataStream.Close();
-                    WebResponse tResponse = tRequest.GetResponse();
-                    dataStream = tResponse.GetResponseStream();
-                    StreamReader tReader = new StreamReader(dataStream);
-                    String sResponseFromServer = tReader.ReadToEnd(); //Get response from GCM server
-                    tReader.Close();
-                    dataStream.Close();
-                    tResponse.Close();
+                    //WebResponse tResponse = tRequest.GetResponse();
+                    //dataStream = tResponse.GetResponseStream();
+                    //StreamReader tReader = new StreamReader(dataStream);
+                    //String sResponseFromServer = tReader.ReadToEnd(); //Get response from GCM server
+                    //tReader.Close();
+                    //dataStream.Close();
+                    //tResponse.Close();
                 }
             }
             catch(Exception ex)
