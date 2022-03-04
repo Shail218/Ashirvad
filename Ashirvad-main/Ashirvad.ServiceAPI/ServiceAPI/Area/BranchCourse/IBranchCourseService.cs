@@ -17,6 +17,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
         ResponseModel RemoveBranchCourse(long BranchCourseID, string lastupdatedby);
         Task<List<BranchCourseEntity>> GetAllSelectedCourses(long BranchID);
 
-
+        Task<List<BranchCourseEntity>> GetAllBranchCourseforExport(long BranchID = 0);
     }
 }

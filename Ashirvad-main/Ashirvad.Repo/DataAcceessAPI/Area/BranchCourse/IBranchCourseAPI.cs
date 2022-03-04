@@ -15,6 +15,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
         ResponseModel RemoveCourse(long CourseID, string lastupdatedby);
         Task<BranchCourseEntity> GetCoursebyID(long CourseID);
         Task<List<BranchCourseEntity>> GetAllSelectedCourses(long BranchID);
-
+        Task<List<BranchCourseEntity>> GetAllCourseforExport(long BranchID);
     }
 }

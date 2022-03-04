@@ -84,6 +84,19 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return null;
         }
+        public async Task<List<BranchCourseEntity>> GetAllBranchCourseforExport(long BranchID = 0)
+        {
+            try
+            {
+                return await this._BranchCourseContext.GetAllCourseforExport(BranchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
 
         public ResponseModel RemoveBranchCourse(long BranchCourseID, string lastupdatedby)
         {

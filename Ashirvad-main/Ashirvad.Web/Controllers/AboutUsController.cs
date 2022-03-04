@@ -177,5 +177,13 @@ namespace Ashirvad.Web.Controllers
             var result = _aboutUsService.RemoveAboutUsDetail(detailID, SessionContext.Instance.LoginUser.Username);
             return Json(result);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> GetExportData(string Search)
+        {
+            var branchData = await _aboutUsService.GetAllAboutUsDetailforExport(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            return View("~/Views/AboutUs/_Export_AboutUs.cshtml", branchData);
+
+        }
     }
 }

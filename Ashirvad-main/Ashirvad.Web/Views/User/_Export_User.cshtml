@@ -1,0 +1,64 @@
+﻿@model List<Ashirvad.Data.StaffEntity>
+
+@{
+    Layout = null;
+}
+
+<table class="table" style="border: 1px groove black; border-collapse: collapse;">
+    <tr>
+        <th style="border: 1px groove black; border-collapse: collapse;">
+            Full Name
+        </th>
+        <th style="border: 1px groove black; border-collapse: collapse;">
+            Education Qualification
+        </th>
+        <th style="border: 1px groove black; border-collapse: collapse;">Date of Birth</th>
+        <th style="border: 1px groove black; border-collapse: collapse;">Gender</th>
+        <th style="border: 1px groove black; border-collapse: collapse;">Address</th>
+        <th style="border: 1px groove black; border-collapse: collapse;">Mobile No(Login ID)</th>
+        <th style="border: 1px groove black; border-collapse: collapse;">Password</th>
+        <th style="border: 1px groove black; border-collapse: collapse;">Email ID</th>
+        <th style="border: 1px groove black; border-collapse: collapse;">Date of Appointment</th>
+        <th style="border: 1px groove black; border-collapse: collapse;">Date of Joining</th>
+        <th style="border: 1px groove black; border-collapse: collapse;">Date of Leaving</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td style="border: 1px groove black; border-collapse: collapse;">
+                @item.Name
+            </td>
+            <td style="border: 1px groove black; border-collapse: collapse;">
+                @item.Education
+            </td>
+            <td style="border: 1px groove black; border-collapse: collapse;">
+                @item.DOB
+            </td>
+            <td style="border: 1px groove black; border-collapse: collapse;">
+                @item.Gender
+            </td>
+            <td style="border: 1px groove black; border-collapse: collapse;">
+                @item.Address
+            <td style="border: 1px groove black; border-collapse: collapse;">
+                @item.MobileNo
+            </td>
+            <td style="border: 1px groove black; border-collapse: collapse;">
+                @item.User_Password
+            </td>
+            <td style="border: 1px groove black; border-collapse: collapse;">
+                @item.EmailID
+            </td>
+            <td style="border: 1px groove black; border-collapse: collapse;">
+                @item.ApptDT
+            </td>
+            <td style="border: 1px groove black; border-collapse: collapse;">
+                @item.JoinDT
+            </td>
+            <td style="border: 1px groove black; border-collapse: collapse;">
+                @item.LeavingDT
+            </td>
+        </tr>
+    }
+
+</table>

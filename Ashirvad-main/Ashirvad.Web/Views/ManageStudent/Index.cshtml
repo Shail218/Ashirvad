@@ -16,6 +16,8 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body" id="studentData">
+                    <h3 hidden id="exceltitle">Student</h3>
+                    <button type="button" onclick="Exportdata('ManageStudent')" class="btn btn-success"><i class="fa fa-file-excel-o" style="color:white"></i>  Export</button>
                     @{
                         Html.RenderPartial("Manage", new ViewDataDictionary(Model.StudentData));
                     }

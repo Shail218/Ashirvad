@@ -21,7 +21,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         public async Task<long> AboutUsMaintenance(AboutUsEntity aboutUsInfo)
         {
             Model.ABOUTUS_MASTER aboutUsMaster = new Model.ABOUTUS_MASTER();
-            if (/*CheckBranch((int)aboutUsInfo.BranchInfo.BranchID).Result*/ 1!= -1)
+            if (/*CheckBranch((int)aboutUsInfo.BranchInfo.BranchID).Result*/ 1 != -1)
             {
                 bool isUpdate = true;
                 var data = (from aboutus in this.context.ABOUTUS_MASTER
@@ -65,7 +65,8 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         public async Task<List<AboutUsDetailEntity>> GetAllAboutUs(long branchID)
         {
             var data = (from u in this.context.ABOUTUS_DETAIL_REL
-                        .Include("BRANCH_MASTER") orderby u.brand_id descending                      
+                        .Include("BRANCH_MASTER")
+                        orderby u.brand_id descending
                         where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new AboutUsDetailEntity()
                         {
@@ -74,14 +75,14 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            
+
                             //HeaderImage = u.header_img,
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
                             HeaderImageText = u.header_img,
                             FilePath = "https://mastermind.org.in" + u.header_img_path,
                             BrandName = u.brand_name,
-                            DetailID=u.brand_id                            
+                            DetailID = u.brand_id
                         }).ToList();
             return data;
         }
@@ -89,7 +90,8 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         public async Task<List<AboutUsEntity>> GetAllAboutUsWithoutContent(long branchID)
         {
             var data = (from u in this.context.ABOUTUS_MASTER
-                        .Include("BRANCH_MASTER") orderby u.aboutus_id descending
+                        .Include("BRANCH_MASTER")
+                        orderby u.aboutus_id descending
                         where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new AboutUsEntity()
                         {
@@ -112,11 +114,11 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
             return data;
         }
 
-        public async Task<AboutUsEntity> GetAboutUsByUniqueID(long uniqueID,long BranchID=0)
+        public async Task<AboutUsEntity> GetAboutUsByUniqueID(long uniqueID, long BranchID = 0)
         {
             var data = (from u in this.context.ABOUTUS_MASTER
                         .Include("BRANCH_MASTER")
-                        where  u.branch_id== BranchID
+                        where u.branch_id == BranchID
                         select new AboutUsEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -133,10 +135,10 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                             HeaderImageName = u.header_img_name,
                             WebsiteURL = u.website,
                             WhatsAppNo = u.whatsapp_no,
-                            AboutUsDesc=u.aboutus_desc,
-                            FilePath= "https://mastermind.org.in" + u.header_img_path
+                            AboutUsDesc = u.aboutus_desc,
+                            FilePath = "https://mastermind.org.in" + u.header_img_path
                         }).FirstOrDefault();
-            
+
 
             return data;
         }
@@ -151,8 +153,8 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                 if (removeAboutUsDetail)
                 {
                     var tAboutUs = (from au in this.context.ABOUTUS_DETAIL_REL
-                                  where au.branch_id == uniqueID
-                                  select au).ToList();
+                                    where au.branch_id == uniqueID
+                                    select au).ToList();
                     if (tAboutUs?.Count > 0)
                     {
                         foreach (var item in tAboutUs)
@@ -193,7 +195,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                 aboutUsDetailInfo.TransactionInfo.TransactionId = data.trans_id;
             }
 
-           
+
             aboutUsDetailMaster.branch_id = aboutUsDetailInfo.BranchInfo.BranchID;
             aboutUsDetailMaster.header_img = aboutUsDetailInfo.HeaderImageText;
             aboutUsDetailMaster.header_img_path = aboutUsDetailInfo.FilePath;
@@ -213,7 +215,8 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         public async Task<List<AboutUsDetailEntity>> GetAllAboutUsDetails(long aboutusID, long branchID)
         {
             var data = (from u in this.context.ABOUTUS_DETAIL_REL
-                        .Include("ABOUTUS_MASTER") orderby u.brand_id descending
+                        .Include("ABOUTUS_MASTER")
+                        orderby u.brand_id descending
                         join branch in this.context.BRANCH_MASTER on u.branch_id equals branch.branch_id
                         where (0 == branchID || u.branch_id == branchID)
 
@@ -226,7 +229,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                             },
                             AboutUsInfo = new AboutUsEntity()
                             {
-                               
+
                                 BranchInfo = new BranchEntity() { BranchID = branch.branch_id, BranchName = branch.branch_name },
                                 TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
                                 //ContactNo = u.ABOUTUS_MASTER.contact_no,
@@ -237,7 +240,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                             TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
                             BrandName = u.brand_name,
                             DetailID = u.brand_id,
-                          
+
                         }).ToList();
 
             if (data?.Count > 0)
@@ -254,7 +257,7 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
 
         public async Task<List<AboutUsDetailEntity>> GetAllAboutUsDetailWithoutContent(long aboutusID, long branchID)
         {
-           List<AboutUsDetailEntity> data = new List<AboutUsDetailEntity>();
+            List<AboutUsDetailEntity> data = new List<AboutUsDetailEntity>();
             //var data = (from u in this.context.ABOUTUS_DETAIL_REL
             //            .Include("ABOUTUS_MASTER")
             //            join branch in this.context.BRANCH_MASTER on u.ABOUTUS_MASTER.branch_id equals branch.branch_id
@@ -289,22 +292,22 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
         {
             AboutUsDetailEntity data = new AboutUsDetailEntity();
             var detaildata = (from u in this.context.ABOUTUS_DETAIL_REL
-                        where u.brand_id == uniqueID
-                        select new AboutUsDetailEntity()
-                        {
-                            RowStatus = new RowStatusEntity()
-                            {
-                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = (int)u.row_sta_cd
-                            },
-                           
-                            TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
-                            BrandName = u.brand_name,
-                            DetailID = u.brand_id,
-                            FilePath=u.header_img_path,
-                            HeaderImageText=u.header_img
-                            
-                        }).FirstOrDefault();
+                              where u.brand_id == uniqueID
+                              select new AboutUsDetailEntity()
+                              {
+                                  RowStatus = new RowStatusEntity()
+                                  {
+                                      RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                      RowStatusId = (int)u.row_sta_cd
+                                  },
+
+                                  TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
+                                  BrandName = u.brand_name,
+                                  DetailID = u.brand_id,
+                                  FilePath = u.header_img_path,
+                                  HeaderImageText = u.header_img
+
+                              }).FirstOrDefault();
             return detaildata;
         }
 
@@ -323,6 +326,38 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
 
             return false;
         }
+
+        public async Task<List<AboutUsDetailEntity>> GetAllAboutUsDetailsforExport(long aboutusID, long branchID)
+        {
+            var data = (from u in this.context.ABOUTUS_DETAIL_REL
+                        .Include("ABOUTUS_MASTER")
+                        orderby u.brand_id descending
+                        join branch in this.context.BRANCH_MASTER on u.branch_id equals branch.branch_id
+                        where (0 == branchID || u.branch_id == branchID)
+
+                        select new AboutUsDetailEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            AboutUsInfo = new AboutUsEntity()
+                            {
+
+                                BranchInfo = new BranchEntity() { BranchID = branch.branch_id, BranchName = branch.branch_name },
+                                TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
+                             
+                            },
+                            TransactionInfo = new TransactionEntity() { TransactionId = u.trans_id },
+                            BrandName = u.brand_name,
+                            DetailID = u.brand_id,
+
+                        }).ToList();
+
+            return data;
+        }
+
         #endregion
     }
 }

@@ -710,5 +710,6 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return data;
 
         }
+
     }
 }

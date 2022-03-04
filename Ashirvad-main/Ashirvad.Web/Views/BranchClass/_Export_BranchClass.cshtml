@@ -1,0 +1,29 @@
+﻿@model List<Ashirvad.Data.BranchClassEntity>
+
+@{
+    Layout = null;
+}
+
+<table class="table" style="border: 1px groove black; border-collapse: collapse;">
+    <tr>
+        <th style="border: 1px groove black; border-collapse: collapse;">
+            Course Name
+        </th>
+        <th style="border: 1px groove black; border-collapse: collapse;">
+            Class Name
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td style="border: 1px groove black; border-collapse: collapse;">
+        @item.BranchCourse.course.CourseName
+    </td>
+    <td style="border: 1px groove black; border-collapse: collapse;">
+        @item.Class.ClassName
+    </td>
+</tr>
+    }
+
+</table>
