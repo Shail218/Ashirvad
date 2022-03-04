@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8ba798802a0b4e888f4bb7e1b31d697f" Name="Diagram1">
+      <Diagram DiagramId="8ba798802a0b4e888f4bb7e1b31d697f" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="AshirvadModel.BANNER_TYPE_REL" Width="1.5" PointX="5" PointY="4.125" />
         <EntityTypeShape EntityType="AshirvadModel.BRANCH_LICENSE" Width="1.5" PointX="8.25" PointY="18.625" />
         <EntityTypeShape EntityType="AshirvadModel.NOTIFICATION_TYPE_REL" Width="1.5" PointX="3" PointY="1.125" />

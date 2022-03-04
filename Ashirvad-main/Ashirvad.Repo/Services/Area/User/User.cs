@@ -569,5 +569,16 @@ namespace Ashirvad.Repo.Services.Area.User
                 return false;
             }
         }
+
+        public async Task<bool> UpdatefcmToken(UserEntity userentity, string fcm_token)
+        {
+            var user = this.context.USER_DEF.Where(x => x.user_id == userentity.UserID).FirstOrDefault();
+            if (user != null)
+            {
+                user.fcm_token = fcm_token;
+               return this.context.SaveChanges()>0;
+            }
+            return false;
+        }
     }
 }

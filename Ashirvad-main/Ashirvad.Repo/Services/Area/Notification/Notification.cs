@@ -4,7 +4,9 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Notification;
 using Ashirvad.Repo.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static Ashirvad.Common.Common;
@@ -45,6 +47,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
             {
                 var notifID = notificationMaster.notif_id;
                 var result = await this.AddNotificationType(notificationInfo.NotificationType, notifID);
+                NotifyList(notificationInfo);
                 return notifID;
             }
             return 0;
@@ -280,5 +283,110 @@ namespace Ashirvad.Repo.Services.Area.Notification
 
             return data;
         }
+
+        public void NotifyList(NotificationEntity notification)
+        {
+            List<UserEntity> userEntities = new List<UserEntity>();
+
+            try
+            {
+                var admin = this.context.USER_DEF.Where(x => x.branch_id == notification.Branch.BranchID && x.row_sta_cd == 1 && x.user_type == (int)Enums.UserType.Admin).Select(x => new { x.fcm_token }).ToList();
+                var teacher = this.context.USER_DEF.Where(x => x.branch_id == notification.Branch.BranchID && x.row_sta_cd == 1 && x.user_type == (int)Enums.UserType.Staff).Select(x => new { x.fcm_token }).ToList();
+                var student = this.context.USER_DEF.Where(x => x.branch_id == notification.Branch.BranchID && x.row_sta_cd == 1 && (x.user_type == (int)Enums.UserType.Student || x.user_type == (int)Enums.UserType.Parent)).Select(x => new { x.fcm_token }).ToList();
+                List<string> da = new List<string>();
+                foreach(var z in notification.NotificationType)
+                {
+                    da.Add(z.TypeID.ToString());
+                }
+                if (admin?.Count > 0 && da.Contains("1"))
+                {
+                    foreach (var i in admin)
+                    {
+                        UserEntity entity = new UserEntity
+                        {
+                            fcm_token = i.fcm_token
+                        };
+                        sendNotification(i.fcm_token);
+                    }
+                }
+                if (teacher?.Count > 0 && da.Contains("2"))
+                {
+                    foreach (var i in teacher)
+                    {
+                        UserEntity entity = new UserEntity
+                        {
+                            fcm_token = i.fcm_token
+                        };
+                        sendNotification(i.fcm_token);
+                    }
+                }
+                if (student?.Count > 0 && da.Contains("3"))
+                {
+                    foreach (var i in student)
+                    {
+                        UserEntity entity = new UserEntity
+                        {
+                            fcm_token = i.fcm_token
+                        };
+                        sendNotification(i.fcm_token);
+                    }
+                }
+
+                
+
+            }
+            catch (Exception ex)
+            {
+                //Getconnection.SiteErrorInsert(ex);
+
+            }
+        }
+
+        public void sendNotification(string RegId)
+        {
+            string ApplicationID, SENDER_ID, message, value;
+            try
+            {
+                if (RegId != string.Empty)
+                {
+                    ApplicationID = "AAAA0nV50YQ:APA91bGsTpKOAt8i9QtOpZrz536HcL1GaGns4HrQ3PBfQ5rB9KJ89um4oxG71ji2laym-SRJwzFBdpPn_3MF6g8D1LPjV4IvJ23oQ240x6lPTe-yXLFWB14Kj7ChIlysjHKpUuYHtxCm";
+                    SENDER_ID = "903914049924";
+
+                    value = "Notification";  //title
+                    message = ""; //message
+
+                    string images = "";
+                    WebRequest tRequest;
+                    tRequest = WebRequest.Create("https://fcm.googleapis.com/fcm/send");
+                    tRequest.Method = "post";
+                    tRequest.ContentType = "application/x-www-form-urlencoded;charset=UTF-8";
+                    tRequest.Headers.Add(string.Format("Authorization: key={0}", ApplicationID));
+                    tRequest.Headers.Add(string.Format("Sender: id={0}", SENDER_ID));
+                    //Data post to the Server
+                    string postData = "collapse_key=score_update&time_to_live=108&delay_while_idle=1&data.title=" + value + "&data.message=" + message + "&data.img_url=" + images + "&data.page=" + "notification" + "&data.time=" + System.DateTime.Now.ToString() + "&to=" + RegId + "";
+                    Console.WriteLine(postData);
+                    Byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+                    tRequest.ContentLength = byteArray.Length;
+                    Stream dataStream = tRequest.GetRequestStream();
+                    dataStream.Write(byteArray, 0, byteArray.Length);
+                    dataStream.Close();
+                    WebResponse tResponse = tRequest.GetResponse();
+                    dataStream = tResponse.GetResponseStream();
+                    StreamReader tReader = new StreamReader(dataStream);
+                    String sResponseFromServer = tReader.ReadToEnd(); //Get response from GCM server
+                    tReader.Close();
+                    dataStream.Close();
+                    tResponse.Close();
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+        
+        }
+
+
+
     }
 }

@@ -190,7 +190,6 @@ namespace Ashirvad.Repo.Services.Area.Student
             
             return data;
         }
-
         public async Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std,long courseid, long Branch, long Batch)
         {
             var Result = new List<StudentEntity>();
@@ -234,7 +233,6 @@ namespace Ashirvad.Repo.Services.Area.Student
                         .ToList();
             return data;
         }
-
         public async Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, int status)
         {
             var data = (from u in this.context.STUDENT_MASTER
@@ -311,7 +309,6 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return data;
         }
-
         public async Task<List<StudentEntity>> GetAllStudentWithoutContentByRange(long branchID, int page,int limit)
         {
             var data = (from u in this.context.STUDENT_MASTER
@@ -366,7 +363,6 @@ namespace Ashirvad.Repo.Services.Area.Student
                         }).Skip(page).Take(limit).ToList();
             return data;
         }
-
         public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid,long courseid, int batchtime)
         {
             var data = (from u in this.context.STUDENT_MASTER                       
@@ -379,7 +375,6 @@ namespace Ashirvad.Repo.Services.Area.Student
                         }).ToList();
             return data;
         }
-
         public async Task<List<StudentEntity>> GetAllStudent(string studName, string contactNo)
         {
             var data = (from u in this.context.STUDENT_MASTER
@@ -433,7 +428,6 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return data;
         }
-
         public bool RemoveStudent(long StudentID, string lastupdatedby)
         {
             var data = (from u in this.context.STUDENT_MASTER
@@ -449,7 +443,6 @@ namespace Ashirvad.Repo.Services.Area.Student
 
             return false;
         }
-
         public async Task<StudentEntity> GetStudentByID(long studenID)
         {
             var data = (from u in this.context.STUDENT_MASTER
@@ -530,7 +523,6 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return data;
         }
-
         public async Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model,long branchID, int status)
         {
             var Result = new List<StudentEntity>();
@@ -631,7 +623,6 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return data;
         }
-
         public async Task<List<StudentEntity>> GetFilterStudent(long course, long classname, string finalyear, long branchID)
         {
             var data = (from u in this.context.STUDENT_MASTER

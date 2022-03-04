@@ -793,6 +793,7 @@
           <Property Name="user_type" Type="int" Nullable="false" />
           <Property Name="student_id" Type="bigint" />
           <Property Name="parent_id" Type="bigint" />
+          <Property Name="fcm_token" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="USER_ROLE">
           <Key>
@@ -806,7 +807,7 @@
           <Property Name="has_priv" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'AshirvadProduct.dbo.Faculty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Faculty">
           <Key>
             <PropertyRef Name="name" />
@@ -3863,6 +3864,7 @@ warning 6002: The table/view 'AshirvadProduct.dbo.Faculty' does not have a prima
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_USER_DEF_TRANSACTION_MASTER" FromRole="USER_DEF" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="USER_ROLE" Relationship="AshirvadModel.FK_USER_ROLE_USER_DEF" FromRole="USER_DEF" ToRole="USER_ROLE" />
           <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_USER_DEF_BRANCH_STAFF" FromRole="USER_DEF" ToRole="BRANCH_STAFF" />
+          <Property Name="fcm_token" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="USER_ROLE">
           <Key>
@@ -6639,6 +6641,7 @@ warning 6002: The table/view 'AshirvadProduct.dbo.Faculty' does not have a prima
           <EntitySetMapping Name="USER_DEF">
             <EntityTypeMapping TypeName="AshirvadModel.USER_DEF">
               <MappingFragment StoreEntitySet="USER_DEF">
+                <ScalarProperty Name="fcm_token" ColumnName="fcm_token" />
                 <ScalarProperty Name="parent_id" ColumnName="parent_id" />
                 <ScalarProperty Name="student_id" ColumnName="student_id" />
                 <ScalarProperty Name="user_type" ColumnName="user_type" />
