@@ -86,11 +86,11 @@ namespace Ashirvad.API.Controllers
         }
         [Route("GetMobileNotification")]
         [HttpGet]
-        public OperationResult<List<NotificationEntity>> GetMobileNotification(long branchID, int typeID)
+        public OperationResult<List<NotificationEntity>> GetMobileNotification(long branchID)
         {
-            var data = this._notificationService.GetMobileNotification(branchID, typeID);
+            var data = this._notificationService.GetMobileNotification(branchID).Result;
             OperationResult<List<NotificationEntity>> result = new OperationResult<List<NotificationEntity>>();
-            result = data.Result;
+            result = data;
             return result;
         }
 

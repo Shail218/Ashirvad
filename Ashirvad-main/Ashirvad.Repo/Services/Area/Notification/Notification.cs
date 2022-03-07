@@ -46,6 +46,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
             if (this.context.SaveChanges() > 0 || notificationMaster.notif_id > 0)
             {
                 var notifID = notificationMaster.notif_id;
+                notificationInfo.NotificationID = notificationMaster.notif_id;
                 var result = await this.AddNotificationType(notificationInfo.NotificationType, notifID);
                 NotificationStandardMaintenance(notificationInfo);
                 NotifyList(notificationInfo);
@@ -143,14 +144,14 @@ namespace Ashirvad.Repo.Services.Area.Notification
 
             return data;
         }
-        public async Task<List<NotificationEntity>> GetMobileNotification(long branchID, int typeID)
+        public async Task<List<NotificationEntity>> GetMobileNotification(long branchID)
         {
             var data = (from u in this.context.NOTIFICATION_MASTER
                         join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
                         from branch in tempBranch.DefaultIfEmpty()
-                        where (branchID == 0 || u.branch_id == 0 || u.branch_id.Value == branchID)
-                        && (0 == typeID || t.sub_type_id == typeID) && u.row_sta_cd == 1
+                        orderby u.notif_id descending
+                        where (branchID == 0 || u.branch_id == 0 || u.branch_id.Value == branchID) && u.row_sta_cd == 1
                         select new NotificationEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -180,7 +181,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
                                         standard = b.CLASS_DTL_MASTER.CLASS_MASTER.class_name
                                     }).Distinct().ToList(),
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).Distinct().OrderByDescending(a => a.NotificationID).ToList();
+                        }).ToList();
 
             if (data?.Count > 0)
             {

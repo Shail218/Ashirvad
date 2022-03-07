@@ -17,6 +17,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Notification
         bool RemoveNotification(long notifID, string lastupdatedby);
         Task<OperationResult<List<NotificationEntity>>> GetAllNotification(long branchID, int typeID);
         Task<OperationResult<List<NotificationEntity>>> GetAllNotificationforexcel(long branchID = 0);
-        Task<OperationResult<List<NotificationEntity>>> GetMobileNotification(long branchID, int typeID);
+        Task<OperationResult<List<NotificationEntity>>> GetMobileNotification(long branchID);
     }
 }
