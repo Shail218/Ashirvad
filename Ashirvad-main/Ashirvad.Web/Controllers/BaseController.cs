@@ -401,7 +401,7 @@ namespace Ashirvad.Web.Controllers
                     CreatedBy = SessionContext.Instance.LoginUser.Username,
                     CreatedDate = DateTime.Now,
                     CreatedId = SessionContext.Instance.LoginUser.UserID,
-                    FinancialID= SessionContext.Instance.LoginUser.FinancialYear
+                    FinancialYear = SessionContext.Instance.LoginUser.FinancialYear
                 };
             }
             else
@@ -410,8 +410,8 @@ namespace Ashirvad.Web.Controllers
                 {
                     LastUpdateBy = SessionContext.Instance.LoginUser.Username,
                     LastUpdateDate = DateTime.Now,
-                    LastUpdateId = SessionContext.Instance.LoginUser.UserID
-                    FinancialID = SessionContext.Instance.LoginUser.FinancialYear
+                    LastUpdateId = SessionContext.Instance.LoginUser.UserID,
+                    FinancialYear = SessionContext.Instance.LoginUser.FinancialYear
                 };
             }
         }

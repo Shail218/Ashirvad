@@ -27,6 +27,7 @@ namespace Ashirvad.Data
         public List<RolesEntity>  Roles { get; set; }
         public string JSONData { get; set; }
         public string fcm_token { get; set; }
+        public string FinancialYear { get; set; }
         public List<BranchWiseRightEntity> Permission { get; set; }
     }
 

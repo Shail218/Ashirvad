@@ -58,6 +58,7 @@ namespace Ashirvad.Repo.Model
         public Nullable<System.DateTime> last_mod_dt { get; set; }
         public string last_mod_by { get; set; }
         public Nullable<long> last_mod_id { get; set; }
+        public string financial_year { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BRANCH_LICENSE> BRANCH_LICENSE { get; set; }

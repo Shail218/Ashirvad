@@ -766,6 +766,7 @@
           <Property Name="last_mod_dt" Type="datetime" />
           <Property Name="last_mod_by" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="last_mod_id" Type="bigint" />
+          <Property Name="financial_year" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="TYPE_DESC">
           <Key>
@@ -3906,6 +3907,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="SUBJECT_MASTER" Relationship="AshirvadModel.FK_SUBJECT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="SUBJECT_MASTER" />
           <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="STUDENT_MASTER" />
           <NavigationProperty Name="PAYMENT_MASTER" Relationship="AshirvadModel.FK_PAYMENT_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="PAYMENT_MASTER" />
+          <Property Name="financial_year" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TYPE_DESC">
           <Key>
@@ -6739,6 +6741,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <EntitySetMapping Name="TRANSACTION_MASTER">
             <EntityTypeMapping TypeName="AshirvadModel.TRANSACTION_MASTER">
               <MappingFragment StoreEntitySet="TRANSACTION_MASTER">
+                <ScalarProperty Name="financial_year" ColumnName="financial_year" />
                 <ScalarProperty Name="last_mod_id" ColumnName="last_mod_id" />
                 <ScalarProperty Name="last_mod_by" ColumnName="last_mod_by" />
                 <ScalarProperty Name="last_mod_dt" ColumnName="last_mod_dt" />
