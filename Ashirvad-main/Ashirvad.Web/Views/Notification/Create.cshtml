@@ -43,20 +43,20 @@
                 @Html.Label("Notification Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <div id="notification" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null || Model.Notification_Date.ToString("dd/MM/yyyy") == "01/01/0001" || Model.Notification_Date.ToString("dd-MM-yyyy") == "01-01-0001")
-                {
-                    @Html.TextBoxFor(x => x.Notification_Date, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "Notification Date", autocomplete = "off", @readonly = "readonly" })
-                }
-                else
-                {
-                    if (Model.Notification_Date == null || Model.Notification_Date.ToString("dd/MM/yyyy") == "01/01/0001" || Model.Notification_Date.ToString("dd-MM-yyyy") == "01-01-0001")
                     {
-                        @Html.TextBoxFor(x => x.Notification_Date, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Notification Date" })
+                        @Html.TextBoxFor(x => x.Notification_Date, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "Notification Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {
-                       @Html.TextBoxFor(x => x.Notification_Date, Model.Notification_Date.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Notification Date" }) 
+                        if (Model.Notification_Date == null || Model.Notification_Date.ToString("dd/MM/yyyy") == "01/01/0001" || Model.Notification_Date.ToString("dd-MM-yyyy") == "01-01-0001")
+                        {
+                            @Html.TextBoxFor(x => x.Notification_Date, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Notification Date" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(x => x.Notification_Date, Model.Notification_Date.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Notification Date" })
+                        }
                     }
-                }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
 
@@ -68,20 +68,20 @@
                 @Html.Label("Notification Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <div id="notification" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null || Model.Notification_Date.ToString("dd/MM/yyyy") == "01/01/0001" || Model.Notification_Date.ToString("dd-MM-yyyy") == "01-01-0001")
-                {
-                    @Html.TextBoxFor(x => x.Notification_Date, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "Notification Date", autocomplete = "off", @readonly = "readonly" })
-                }
-                else
-                {
-                    if (Model.Notification_Date == null || Model.Notification_Date.ToString("dd/MM/yyyy") == "01/01/0001" || Model.Notification_Date.ToString("dd-MM-yyyy") == "01-01-0001")
                     {
-                        @Html.TextBoxFor(x => x.Notification_Date, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Notification Date" })
+                        @Html.TextBoxFor(x => x.Notification_Date, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "Notification Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {
-                       @Html.TextBoxFor(x => x.Notification_Date, Model.Notification_Date.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Notification Date" }) 
+                        if (Model.Notification_Date == null || Model.Notification_Date.ToString("dd/MM/yyyy") == "01/01/0001" || Model.Notification_Date.ToString("dd-MM-yyyy") == "01-01-0001")
+                        {
+                            @Html.TextBoxFor(x => x.Notification_Date, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Notification Date" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(x => x.Notification_Date, Model.Notification_Date.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Notification Date" })
+                        }
                     }
-                }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
             </div>
@@ -94,22 +94,22 @@
                         <td>
                             @if (Model.NotificationType != null && Model.NotificationType.Where(x => x.TypeID == 1 && x.ID > 0).FirstOrDefault() != null)
                             {
-                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaAdmin" value="Admin" checked />
+                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaAdmin" value="Admin" checked  onchange="checkboxclick();"/>
                             }
                             else
                             {
-                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaAdmin" value="Admin" />
+                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaAdmin" value="Admin" onchange="checkboxclick();"/>
                             }
                             <lable for="rowStaAdmin">Admin</lable>
                         </td>
                         <td>
                             @if (Model.NotificationType != null && Model.NotificationType.Where(x => x.TypeID == 2 && x.ID > 0).FirstOrDefault() != null)
                             {
-                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" checked />
+                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" checked onchange="checkboxclick();" />
                             }
                             else
                             {
-                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" />
+                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaTeacher" value="Teacher" style="margin-left:10px" onchange="checkboxclick();" />
                             }
 
                             <lable for="rowStaTeacher">Teacher</lable>
@@ -117,15 +117,16 @@
                         <td>
                             @if (Model.NotificationType != null && Model.NotificationType.Where(x => x.TypeID == 3 && x.ID > 0).FirstOrDefault() != null)
                             {
-                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" checked />
+                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" checked onchange="checkboxclick();" />
                             }
                             else
                             {
-                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" />
+                                <input type="checkbox" name="Subtype" alt="SubType" id="rowStaStudent" value="Student" style="margin-left:10px" onchange="checkboxclick();" />
                             }
                             @Html.HiddenFor(x => x.NotificationID)
                             @Html.HiddenFor(x => x.NotificationType)
                             @Html.HiddenFor(x => x.JSONData)
+                            @Html.HiddenFor(x => x.JsonList)
                             @Html.HiddenFor(x => x.Branch.BranchID)
                             @Html.HiddenFor(x => x.BranchType)
                             <lable for="rowStaStudent">Student</lable>
@@ -134,6 +135,27 @@
                 </tbody>
             </table>
         </div>
+        <div class="col-md-12">
+            <div class="col-md-6" style="margin-top:10px;" id="course">
+                @Html.Label("Select Course", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="CourseName" id="CourseName" class="form-control select2" alt="Course">
+                    <option value="0">--Select Course--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchCourse.course_dtl_id)
+
+            </div>
+            <div class="col-md-6" style="margin-top:10px;" id="standard">
+                @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="StandardName" multiple="multiple" data-placeholder="--Standard--" id="StandardName" class="form-control select2" alt="Standard">
+                    <option value="0">--Select Standard--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchClass.Class_dtl_id)
+                @Html.HiddenFor(x => x.StandardArray)
+                @Html.HiddenFor(x => x.StandardNameArray, new { @class = "form-control requiredStd", @alt = "Standard", autocomplete = "off" })
+
+            </div>
+        </div>
+        
         <div class="col-md-12">
             @Html.Label("Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             @Html.TextAreaFor(x => x.NotificationMessage, new { @class = "form-control required", @alt = "Description", autocomplete = "off" })

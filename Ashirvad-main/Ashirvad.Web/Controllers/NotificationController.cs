@@ -2,6 +2,7 @@
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Notification;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Standard;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,12 @@ namespace Ashirvad.Web.Controllers
     public class NotificationController : BaseController
     {
         private readonly INotificationService _notificationService;
-        public NotificationController(INotificationService notificationService)
+
+        private readonly IStandardService _standardService;
+        public NotificationController(INotificationService notificationService, IStandardService standardService)
         {
             _notificationService = notificationService;
+            _standardService = standardService;
         }
 
         // GET: Notification
@@ -33,6 +37,7 @@ namespace Ashirvad.Web.Controllers
             if (notificationID > 0)
             {
                 var result = await _notificationService.GetNotificationByNotificationID(notificationID);
+                result.Data.JsonList = JsonConvert.SerializeObject(result.Data.Standardlist);
                 branch.NotificationInfo = result.Data;
             }
             else
@@ -84,6 +89,27 @@ namespace Ashirvad.Web.Controllers
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
+            if (notification.JSONData.Contains("Student") || notification.JSONData.Contains("Teacher"))
+            {
+                string[] stdname = notification.StandardNameArray.Split(',');
+                if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+                {
+                    for (int i = 0; i < stdname.Length; i++)
+                    {
+                        var stdlist = await _standardService.GetAllStandardsID(stdname[i], 0);
+                        notification.Standardlist.AddRange(stdlist);
+                    }
+
+                }
+                else
+                {
+                    for (int i = 0; i < stdname.Length; i++)
+                    {
+                        var stdlist = await _standardService.GetAllStandardsID(stdname[i], SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                        notification.Standardlist.AddRange(stdlist);
+                    }
+                }
+            }
             var data = await _notificationService.NotificationMaintenance(notification);
             if (data != null)
             {
@@ -125,6 +151,7 @@ namespace Ashirvad.Web.Controllers
             });
 
         }
+
         [HttpPost]
         public async Task<ActionResult> GetExportData(string Search)
         {

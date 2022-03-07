@@ -40,6 +40,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.Notification
 
             return null;
         }
+        public async Task<List<NotificationEntity>> GetAllCustomNotification2(DataTableAjaxPostModel model, long branchID, int typeID)
+        {
+            try
+            {
+                return await this._notificationContext.GetAllCustomNotification2(model, branchID, typeID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
 
         public async Task<NotificationEntity> NotificationMaintenance(NotificationEntity notifInfo)
         {
