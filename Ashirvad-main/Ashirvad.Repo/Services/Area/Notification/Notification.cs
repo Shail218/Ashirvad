@@ -147,9 +147,9 @@ namespace Ashirvad.Repo.Services.Area.Notification
         public async Task<List<NotificationEntity>> GetMobileNotification(long branchID)
         {
             var data = (from u in this.context.NOTIFICATION_MASTER
-                        join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
-                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
-                        from branch in tempBranch.DefaultIfEmpty()
+                        //join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
+                        //join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
+                        //from branch in tempBranch.DefaultIfEmpty()
                         orderby u.notif_id descending
                         where (branchID == 0 || u.branch_id == 0 || u.branch_id.Value == branchID) && u.row_sta_cd == 1
                         select new NotificationEntity()
@@ -162,12 +162,12 @@ namespace Ashirvad.Repo.Services.Area.Notification
                             NotificationMessage = u.notif_message,
                             NotificationID = u.notif_id,
                             Notification_Date = u.notification_date,
-                            Branch = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
+                            Branch = new BranchEntity() { BranchID = u.branch_id.HasValue ? u.branch_id.Value : 0 },
                             list = (from b in this.context.NOTIFICATION_STD_MASTER
-                                    where  b.notif_id == u.notif_id
+                                    where b.notif_id == u.notif_id
                                     select new NotificationStandardEntity()
                                     {
-                                        notif_id = b.notif_id,
+                                        //notif_id = b.notif_id,
                                         BranchCourse = new BranchCourseEntity()
                                         {
                                             course_dtl_id = b.course_dtl_id.HasValue ? b.course_dtl_id.Value : 0,

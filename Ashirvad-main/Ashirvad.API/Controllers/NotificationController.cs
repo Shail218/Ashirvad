@@ -88,9 +88,9 @@ namespace Ashirvad.API.Controllers
         [HttpGet]
         public OperationResult<List<NotificationEntity>> GetMobileNotification(long branchID)
         {
-            var data = this._notificationService.GetMobileNotification(branchID).Result;
+            var data = this._notificationService.GetMobileNotification(branchID);
             OperationResult<List<NotificationEntity>> result = new OperationResult<List<NotificationEntity>>();
-            result = data;
+            result = data.Result;
             return result;
         }
 
