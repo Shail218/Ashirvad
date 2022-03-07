@@ -238,5 +238,40 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             return null;
         }
 
+
+        public async Task<StudentEntity> StudentTransferMaintenance(StudentEntity studentInfo)
+        {
+            StudentEntity student = new StudentEntity();
+            try
+            {
+                long studentID = await _studentContext.StudentMaintenance(studentInfo);
+                //if (studentID > 0)
+                //{
+                //    student.StudentID = studentID;
+                //    var info = await _studentContext.GetStudentByID(studentID);
+                //    if (info != null)
+                //    {
+                //        studentInfo.StudentID = info.StudentID;
+                //        studentInfo.UserID = info.UserID;
+                //        studentInfo.StudentPassword2 = info.StudentPassword2;
+                //        studentInfo.StudentMaint.UserID = info.StudentMaint.UserID;
+                //        studentInfo.StudentMaint.ParentID = 0;
+                //        var user = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, studentID, Enums.UserType.Student));
+                //        studentInfo.StudentMaint.ParentID = info.StudentMaint.ParentID;
+                //        studentInfo.StudentPassword2 = info.StudentPassword2;
+                //        //studentInfo.StudentPassword2 = info.StudentMaint.ParentPassword2;
+                //        long parentId = info.StudentMaint.ParentID;
+                //        var user2 = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, parentId, Enums.UserType.Parent));
+                //    }
+                //}
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return student;
+        }
+
     }
 }

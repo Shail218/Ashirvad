@@ -78,23 +78,26 @@ namespace Ashirvad.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> GetTestByStudent(long branchID, long StudentID)
+        public async Task<JsonResult> GetTestByStudent(long branchID=0, long StudentID=0)
         {
             if (branchID == 0)
                 branchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             CommonChartModel model = new CommonChartModel();
-            var result = await _dashboardService.GetTestdetailsByStudent(branchID, StudentID);
-            model.testdataPoints = result;
+            var result = await _dashboardService.GetTestdetailsByStudent(branchID, StudentID);            
+            model.testdataPoints = (List<TestDataPoints>)result.Data;
             return Json(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> GetTestByStudent2(long branchID, long StudentID)
+        public async Task<ActionResult> GetTestByStudent2(long branchID=0, long StudentID=0)
         {
+            List<TestDataPoints> testdataPoints  = new List<TestDataPoints>();
             if (branchID == 0)
                 branchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             var standardData = await _dashboardService.GetTestdetailsByStudent(branchID, StudentID);
-            return View("~/Views/ProgressReportChart/Test.cshtml", standardData);
+            testdataPoints = (List<TestDataPoints>)standardData.Data;
+            ViewBag.OverallTest = standardData.Overall;
+            return View("~/Views/ProgressReportChart/Test.cshtml", testdataPoints);
         }
     }
 }

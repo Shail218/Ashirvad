@@ -14,6 +14,7 @@ namespace Ashirvad.Data
         public string Permission { get; set; }
         public string URL { get; set; }
         public object Data { get; set; }
+        public string Overall { get; set; }
       
   
     }

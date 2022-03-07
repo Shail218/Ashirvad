@@ -14,6 +14,7 @@ namespace Ashirvad.Data
         public long CreatedId { get; set; }
         public DateTime? LastUpdateDate { get; set; }
         public string LastUpdateBy { get; set; }
+        public string FinancialYear { get; set; }
         public long LastUpdateId { get; set; }
     }
 }

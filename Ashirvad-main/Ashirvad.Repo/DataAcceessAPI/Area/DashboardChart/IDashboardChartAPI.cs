@@ -16,7 +16,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.DashboardChart
         Task<List<DataPoints>> GetStudentAttendanceDetails(long studentid);
         Task<List<ChartBranchEntity>> GetTotalCountList(long studentid);
         Task<List<DataPoints>> GetHomeworkByStudent(long branchid, long studentid);
-        Task<List<TestDataPoints>> GetTestdetailsByStudent(long branchid, long studentid);
+        Task<ResponseModel> GetTestdetailsByStudent(long branchid, long studentid);
         Task<List<MarksEntity>> GetTestDetailsByStudent(DataTableAjaxPostModel model,long studentid, long subjectid);
         Task<List<HomeworkDetailEntity>> GetHomeworkDetailsByStudent(DataTableAjaxPostModel model,long studentid, long subjectid);
     }

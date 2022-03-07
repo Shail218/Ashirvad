@@ -201,8 +201,9 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
             return list;
         }
 
-        public async Task<List<TestDataPoints>> GetTestdetailsByStudent(long branchid, long studentid)
+        public async Task<ResponseModel> GetTestdetailsByStudent(long branchid, long studentid)
         {
+            ResponseModel responseModel = new ResponseModel();
             TestDataPoints point = new TestDataPoints();
             List<TestDataPoints> list = new List<TestDataPoints>();
             decimal totalMarks = 0;
@@ -216,10 +217,13 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                         }).ToList();
             if (data?.Count > 0)
             {
+                int Subcount = 0;
+                double OverAll = 0;
                 foreach (var item in data)
                 {
                     try
                     {
+                        
                         item.branchstandardlist = (from u in this.context.TEST_MASTER
                                                    join t in this.context.MARKS_MASTER on u.test_id equals t.test_id
                                                    where (t.STUDENT_MASTER.student_id == studentid && u.row_sta_cd == 1 && u.subject_dtl_id == item.branchid)
@@ -232,28 +236,48 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                                                    }).Distinct().ToList();
                         if (item.branchstandardlist.Count > 0)
                         {
+                            int count = 0;                            
+                            double Total = 0;
+                            double Achieve = 0;
+                            double Percentage = 0;
+                            double TotalPercentage = 0;
+                            
                             foreach (var item1 in item.branchstandardlist)
                             {
+
                                 point = new TestDataPoints();
+                                Total = item1.totalmarks;
+                                Achieve =  IsNumeric(item1.achievemarks);
                                 point.label = item1.name;
                                 point.id = item1.branchid;
-                                point.TotalMarks = item1.totalmarks;
-                                point.AchieveMarks = IsNumeric(item1.achievemarks);
-                                point.y = Math.Round((point.AchieveMarks / point.TotalMarks) * 100, 2);
-                                totalMarks += decimal.Parse(point.TotalMarks.ToString());
-                                totalAchieveMarks += decimal.Parse(point.AchieveMarks.ToString());
-                                point.Days = Math.Round((totalAchieveMarks / totalMarks) * 100, 2).ToString();
-                                list.Add(point);
+                                point.TotalMarks = Total;
+                                point.AchieveMarks = Achieve;
+                                Percentage = Math.Round((point.AchieveMarks / point.TotalMarks) * 100, 2);
+                                TotalPercentage += Percentage;
+                                count++;
+                                if(count== item.branchstandardlist.Count)
+                                {
+                                    Subcount++;
+                                    TotalPercentage = Math.Round(TotalPercentage / item.branchstandardlist.Count,2);
+                                    point.y = TotalPercentage;
+                                    OverAll += Math.Round(TotalPercentage,2);
+                                    point.Days = TotalPercentage.ToString();
+                                    list.Add(point);
+                                }
+                                
                             }
                         }
+                        
                     }
                     catch (Exception ex)
                     {
 
                     }
                 }
+                responseModel.Overall = Math.Round(OverAll / Subcount, 2).ToString();
             }
-            return list;
+            responseModel.Data = list;
+            return responseModel;
         }
 
         public double IsNumeric(string strNumber)
