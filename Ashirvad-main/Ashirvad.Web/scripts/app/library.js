@@ -49,7 +49,7 @@ $(document).ready(function () {
                 render: function (data, type, full, meta) {
 
                     if (type === 'display') {
-                        var ch = format(data.libraryEntities)
+                        var ch = format(data.list)
                         data = '<img src="../ThemeData/images/plus.png" height="30" />' + ch;
                     }
                     return data;
@@ -167,35 +167,35 @@ $(document).ready(function () {
 
     LoadCourse();
 
-    if ($("#Type").val() != "") {
-        if ($("#Type").val() == "1") {
-            $("#rowGeneral").attr('checked', 'checked');
-            $("#standard").hide();
-            $("#subject").hide();
-            $("#course").hide();
-            $("#CourseName").addClass("editForm");
-            $("#SubjectName").addClass("editForm");
-            $("#StandardName").addClass("editForm");
-            $("#Type").val(1);
-        } else {
-            $("#rowstandard").attr('checked', 'checked');
-            $("#standard").show();
-            $("#subject").show();
-            $("#course").show();
-            $('#CourseName option[value="' + $("#BranchCourse_course_dtl_id").val() + '"]').attr("selected", "selected");
-            $('#StandardName option[value="' + $("#BranchClass_Class_dtl_id").val() + '"]').attr("selected", "selected");
-            $('#SubjectName option[value="' + $("#SubjectID").val() + '"]').attr("selected", "selected");
-            $("#Type").val(2);
-        }
-    } else {
-        $("#standard").hide();
-        $("#subject").hide();
-        $("#course").hide();
-        $("#CourseName").addClass("editForm");
-        $("#SubjectName").addClass("editForm");
-        $("#StandardName").addClass("editForm");
-        $("#Type").val(1);
-    }  
+    //if ($("#Type").val() != "") {
+    //    if ($("#Type").val() == "1") {
+    //        $("#rowGeneral").attr('checked', 'checked');
+    //        $("#standard").hide();
+    //        $("#subject").hide();
+    //        $("#course").hide();
+    //        $("#CourseName").addClass("editForm");
+    //        $("#SubjectName").addClass("editForm");
+    //        $("#StandardName").addClass("editForm");
+    //        $("#Type").val(1);
+    //    } else {
+    //        $("#rowstandard").attr('checked', 'checked');
+    //        $("#standard").show();
+    //        $("#subject").show();
+    //        $("#course").show();
+    //        $('#CourseName option[value="' + $("#BranchCourse_course_dtl_id").val() + '"]').attr("selected", "selected");
+    //        $('#StandardName option[value="' + $("#BranchClass_Class_dtl_id").val() + '"]').attr("selected", "selected");
+    //        $('#SubjectName option[value="' + $("#SubjectID").val() + '"]').attr("selected", "selected");
+    //        $("#Type").val(2);
+    //    }
+    //} else {
+    //    $("#standard").hide();
+    //    $("#subject").hide();
+    //    $("#course").hide();
+    //    $("#CourseName").addClass("editForm");
+    //    $("#SubjectName").addClass("editForm");
+    //    $("#StandardName").addClass("editForm");
+    //    $("#Type").val(1);
+    //}  
 
 });
 

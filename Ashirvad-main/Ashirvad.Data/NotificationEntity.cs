@@ -17,9 +17,11 @@ namespace Ashirvad.Data
         public DateTime Notification_Date { get; set; }
         public int BranchType { get; set; }
         public string JSONData { get; set; }
+        public string JsonList { get; set; }
         public string NotificationTypeText { get; set; }
         public long Count { get; set; }
         public BranchCourseEntity BranchCourse { get; set; }
+        public BranchClassEntity BranchClass { get; set; }
         public string StandardArray { get; set; }
         public string StandardNameArray { get; set; }
         public List<NotificationStandardEntity> list { get; set; } = new List<NotificationStandardEntity>();

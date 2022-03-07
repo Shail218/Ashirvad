@@ -46,6 +46,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
             if (this.context.SaveChanges() > 0 || notificationMaster.notif_id > 0)
             {
                 var notifID = notificationMaster.notif_id;
+                notificationInfo.NotificationID = notificationMaster.notif_id;
                 var result = await this.AddNotificationType(notificationInfo.NotificationType, notifID);
                 NotificationStandardMaintenance(notificationInfo);
                 NotifyList(notificationInfo);
@@ -143,14 +144,14 @@ namespace Ashirvad.Repo.Services.Area.Notification
 
             return data;
         }
-        public async Task<List<NotificationEntity>> GetMobileNotification(long branchID, int typeID)
+        public async Task<List<NotificationEntity>> GetMobileNotification(long branchID)
         {
             var data = (from u in this.context.NOTIFICATION_MASTER
-                        join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
-                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
-                        from branch in tempBranch.DefaultIfEmpty()
-                        where (branchID == 0 || u.branch_id == 0 || u.branch_id.Value == branchID)
-                        && (0 == typeID || t.sub_type_id == typeID) && u.row_sta_cd == 1
+                        //join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
+                        //join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
+                        //from branch in tempBranch.DefaultIfEmpty()
+                        orderby u.notif_id descending
+                        where (branchID == 0 || u.branch_id == 0 || u.branch_id.Value == branchID) && u.row_sta_cd == 1
                         select new NotificationEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -161,12 +162,12 @@ namespace Ashirvad.Repo.Services.Area.Notification
                             NotificationMessage = u.notif_message,
                             NotificationID = u.notif_id,
                             Notification_Date = u.notification_date,
-                            Branch = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
+                            Branch = new BranchEntity() { BranchID = u.branch_id.HasValue ? u.branch_id.Value : 0 },
                             list = (from b in this.context.NOTIFICATION_STD_MASTER
-                                    where  b.notif_id == u.notif_id
+                                    where b.notif_id == u.notif_id
                                     select new NotificationStandardEntity()
                                     {
-                                        notif_id = b.notif_id,
+                                        //notif_id = b.notif_id,
                                         BranchCourse = new BranchCourseEntity()
                                         {
                                             course_dtl_id = b.course_dtl_id.HasValue ? b.course_dtl_id.Value : 0,
@@ -180,7 +181,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
                                         standard = b.CLASS_DTL_MASTER.CLASS_MASTER.class_name
                                     }).Distinct().ToList(),
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).Distinct().OrderByDescending(a => a.NotificationID).ToList();
+                        }).ToList();
 
             if (data?.Count > 0)
             {
@@ -211,14 +212,30 @@ namespace Ashirvad.Repo.Services.Area.Notification
                             NotificationID = u.notif_id,
                             Notification_Date = u.notification_date,
                             Branch = u.branch_id != null ? new BranchEntity() { BranchID = u.branch_id.Value, BranchName = branch != null ? branch.branch_name : "" } : null,
-                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                          
                         }).FirstOrDefault();
 
             if (data != null)
             {
                 data.NotificationType = this.context.NOTIFICATION_TYPE_REL.Where(z => z.notif_id == data.NotificationID).Select(y => new NotificationTypeEntity() { ID = y.unique_id, TypeID = y.sub_type_id, TypeText = y.sub_type_id == 1 ? "Admin" : y.sub_type_id == 2 ? "Teacher" : "Student" }).ToList();
+                data.BranchCourse = (from u in this.context.NOTIFICATION_STD_MASTER
+                                     where u.notif_id == data.NotificationID
+                                     select new BranchCourseEntity()
+                                     {
+                                         course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0
+                                     }).FirstOrDefault();
+                data.Standardlist = new List<StandardEntity>();
+                var Standard = (from u in this.context.NOTIFICATION_STD_MASTER
+                                where u.notif_id == data.NotificationID
+                                select new StandardEntity()
+                                {
+                                    Standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                    StandardID = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0
+                                }).Distinct().ToList();
+                data.Standardlist.AddRange(Standard);
             }
-
+            
             return data;
         }
 
@@ -239,6 +256,83 @@ namespace Ashirvad.Repo.Services.Area.Notification
         }
 
         public async Task<List<NotificationEntity>> GetAllCustomNotification(DataTableAjaxPostModel model, long branchID, int typeID)
+        {
+            var Result = new List<NotificationEntity>();
+            bool Isasc = model.order[0].dir == "desc" ? false : true;
+            long count = (from u in this.context.NOTIFICATION_MASTER
+                          //join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
+                          where (branchID == 0 || u.branch_id == 0 || u.branch_id == branchID)
+                          /*&& (typeID == 0 || t.sub_type_id == typeID)*/ && u.row_sta_cd == 1
+                          select new
+                          {
+                              NotificationID = u.notif_id
+                          }).Distinct().Count();
+            var data = (from u in this.context.NOTIFICATION_MASTER
+                            //join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
+                            //  join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
+                            // from branch in tempBranch.DefaultIfEmpty()
+                        orderby u.notif_id descending
+                        where (branchID == 0 || u.branch_id == 0 || u.branch_id.Value == branchID)
+                       /* && (0 == typeID || t.sub_type_id == typeID)*/ && u.row_sta_cd == 1 && (model.search.value == null
+                        || model.search.value == ""
+                        || u.notif_message.ToLower().Contains(model.search.value)
+                        || u.notification_date.ToString().ToLower().Contains(model.search.value))
+                        select new NotificationEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            NotificationMessage = u.notif_message,
+                            Count = count,
+                            NotificationID = u.notif_id,
+                            Notification_Date = u.notification_date,
+                            Branch = new BranchEntity() { BranchID = u.branch_id.HasValue?u.branch_id.Value:0 },
+                            //Branch = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        })
+                        .Distinct()
+                        .OrderByDescending(a => a.NotificationID)
+                        .Skip(model.start)
+                        .Take(model.length)
+                        .ToList();
+
+            if (data?.Count > 0)
+            {
+                foreach (var item in data)
+                {
+                    string Type = "";
+                    var result = this.context.NOTIFICATION_TYPE_REL.Where(z => z.notif_id == item.NotificationID)
+                    .Select(y => new NotificationTypeEntity() { ID = y.unique_id, TypeID = y.sub_type_id, TypeText = y.sub_type_id == 1 ? "Admin" : y.sub_type_id == 2 ? "Teacher" : "Student" }).ToList();
+                    foreach (var item1 in result)
+                    {
+                        Type = Type + "-" + item1.TypeText;
+                    }
+                    item.NotificationTypeText = Type.Substring(1);
+                    item.list = (from u in this.context.NOTIFICATION_STD_MASTER
+                                            where item.RowStatus.RowStatusId == 1 && item.NotificationID == u.notif_id
+                                            select new NotificationStandardEntity()
+                                            {
+                                                //LibraryID = item.LibraryID,
+                                                standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                            }).Distinct().ToList();
+                    item.BranchCourse = (from u in this.context.NOTIFICATION_STD_MASTER
+                                         where item.RowStatus.RowStatusId == 1 && item.NotificationID == u.notif_id
+                                         select new BranchCourseEntity()
+                                         {
+                                             course = new CourseEntity()
+                                             {
+                                                 CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                             }
+
+                                         }).FirstOrDefault();
+                }
+            }
+            return data;
+        }
+        
+        public async Task<List<NotificationEntity>> GetAllCustomNotification2(DataTableAjaxPostModel model, long branchID, int typeID)
         {
             var Result = new List<NotificationEntity>();
             bool Isasc = model.order[0].dir == "desc" ? false : true;
@@ -394,7 +488,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
                             foreach (var c in student)
                             {
                                 var st = this.context.STUDENT_MASTER.Where(x => x.student_id == c.student_id
-                                && x.class_dtl_id == notification.BranchCourse.course_dtl_id && x.class_dtl_id == z.StandardID).FirstOrDefault();
+                                && x.course_dtl_id == notification.BranchCourse.course_dtl_id && x.class_dtl_id == z.StandardID).FirstOrDefault();
                                 if (st != null)
                                 {
                                     sendNotification(c.fcm_token, notification.NotificationMessage, notification.Notification_Date.ToString("dd/MM/yyyy"));
