@@ -243,9 +243,9 @@
                                             @*<input ID="txtpwd" name="Password" type="password" class="user-password" MaxLength="10" placeholder="Enter your password" />*@
                                         </span>
                                         <span class="block input-icon input-icon-right">
-                                            @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                                            <select name="BranchName" id="BranchName" class="form-control" alt="Branch">
-                                                <option value="0">--Select Branch--</option>
+                                            @Html.Label("Select Financial Year", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                                            <select name="financeyr" id="financeyr" class="form-control requiredDLL" alt="Finanical Year">
+                                                <option value="0">--Select Financial Year--</option>
                                             </select>
                                             @Html.HiddenFor(x => x.FinancialYear)
                                             @*<input ID="txtpwd" name="Password" type="password" class="user-password" MaxLength="10" placeholder="Enter your password" />*@

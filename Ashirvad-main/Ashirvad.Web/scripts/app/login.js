@@ -1,6 +1,11 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
+
+$(document).ready(function () {
+
+    LoadFinancialYear();
+});
 function login() {
     var hasError = false;
     var isSuccess = ValidateData('dInformation');
@@ -65,4 +70,45 @@ function ChangePassword() {
                 ShowMessage("An unexpected error occcurred while processing request!", "Error");
             });
     }
+}
+
+function LoadFinancialYear() {
+        $('#financeyr').empty();
+        $('#financeyr').select2();
+        $("#financeyr").append("<option value=" + 0 + ">---Select Course---</option>");
+   
+    var today = new Date();
+    
+    for (i = 2020; i <= today.getFullYear(); i++) {
+        //if (data.length == 1) {
+        //    $("#financeyr").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
+        //    $('#financeyr option[value="' + data[i].course_dtl_id + '"]').attr("selected", "selected");
+
+        //} else {
+        //    $("#financeyr").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
+        //}
+        var fiscalyear = "";
+        if (i == today.getFullYear()) {
+            if ((today.getMonth() + 1) <= 3) {
+                fiscalyear = (today.getFullYear() - 1) + "-" + today.getFullYear()
+                $("#financeyr").append("<option value='" + fiscalyear + "'>" + fiscalyear + "</option>").attr("selected", "selected");
+            } else {
+                fiscalyear = today.getFullYear() + "-" + (today.getFullYear() + 1)
+                $("#financeyr").append("<option value='" + fiscalyear + "'>" + fiscalyear + "</option>").attr("selected", "selected");
+            }
+        } else {
+            fiscalyear = today.getFullYear() + "-" + (today.getFullYear() + 1)
+            $("#financeyr").append("<option value='" + fiscalyear + "'>" + fiscalyear + "</option>");
+        }
+    }
+}
+function getCurrentFinancialYear() {
+    var fiscalyear = "";
+    var today = new Date();
+    if ((today.getMonth() + 1) <= 3) {
+        fiscalyear = (today.getFullYear() - 1) + "-" + today.getFullYear()
+    } else {
+        fiscalyear = today.getFullYear() + "-" + (today.getFullYear() + 1)
+    }
+    return fiscalyear
 }
