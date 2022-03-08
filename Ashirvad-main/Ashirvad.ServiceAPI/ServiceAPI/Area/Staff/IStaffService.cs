@@ -12,10 +12,10 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Staff
     {
         Task<StaffEntity> StaffMaintenance(StaffEntity staffInfo);
         Task<StaffEntity> UpdateProfile(StaffEntity staffInfo);
-        Task<List<StaffEntity>> GetAllStaff(long branchID);
+        Task<List<StaffEntity>> GetAllStaff(long branchID, string financialyear);
         bool RemoveStaff(long StaffID, string lastupdatedby);
-        Task<List<StaffEntity>> GetAllStaff();
+        Task<List<StaffEntity>> GetAllStaff(string financialyear);
         Task<StaffEntity> GetStaffByID(long subjectID);
-        Task<List<StaffEntity>> GetAllCustomStaff(DataTableAjaxPostModel model, long branchID);
+        Task<List<StaffEntity>> GetAllCustomStaff(DataTableAjaxPostModel model, long branchID, string financialyear);
     }
 }

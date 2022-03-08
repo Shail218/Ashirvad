@@ -96,11 +96,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
             return user;
         }
 
-        public async Task<List<StaffEntity>> GetAllStaff(long branchID)
+        public async Task<List<StaffEntity>> GetAllStaff(long branchID, string financialyear)
         {
             try
             {
-                return await this._staffContext.GetAllStaff(branchID);
+                return await this._staffContext.GetAllStaff(branchID,financialyear);
             }
             catch (Exception ex)
             {
@@ -124,11 +124,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
             return false;
         }
 
-        public async Task<List<StaffEntity>> GetAllCustomStaff(DataTableAjaxPostModel model, long branchID)
+        public async Task<List<StaffEntity>> GetAllCustomStaff(DataTableAjaxPostModel model, long branchID, string financialyear)
         {
             try
             {
-                return await this._staffContext.GetAllCustomStaff(model,branchID);
+                return await this._staffContext.GetAllCustomStaff(model,branchID,financialyear);
             }
             catch (Exception ex)
             {
@@ -138,11 +138,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
             return null;
         }
 
-        public async Task<List<StaffEntity>> GetAllStaff()
+        public async Task<List<StaffEntity>> GetAllStaff(string financialyear)
         {
             try
             {
-                return await this._staffContext.GetAllStaff();
+                return await this._staffContext.GetAllStaff(financialyear);
             }
             catch (Exception ex)
             {
