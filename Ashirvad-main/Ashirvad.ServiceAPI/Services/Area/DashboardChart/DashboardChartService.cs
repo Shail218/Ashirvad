@@ -19,12 +19,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.DashboardChart
             this._chartcontext = chartcontext;
         }
 
-        public async Task<OperationResult<List<ChartBranchEntity>>> AllBranchWithCount()
+        public async Task<OperationResult<List<ChartBranchEntity>>> AllBranchWithCount(string financialyear)
         {
             try
             {
                 OperationResult<List<ChartBranchEntity>> branch = new OperationResult<List<ChartBranchEntity>>();
-                branch.Data = await _chartcontext.AllBranchWithCount();
+                branch.Data = await _chartcontext.AllBranchWithCount(financialyear);
                 branch.Completed = true;
                 return branch;
             }

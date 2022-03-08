@@ -50,9 +50,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllStudent")]
         [HttpPost]
-        public async Task<OperationResult<List<StudentEntity>>> GetAllStudent(long branchID)
+        public async Task<OperationResult<List<StudentEntity>>> GetAllStudent(long branchID,string financialyear)
         {
-            var data = await this._studentService.GetAllStudent(branchID);
+            var data = await this._studentService.GetAllStudent(branchID, financialyear);
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
             result.Completed = true;
             result.Data = data;
@@ -61,9 +61,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllStudentWithoutContent")]
         [HttpPost]
-        public async Task<OperationResult<List<StudentEntity>>> GetAllStudentWithoutContent(long branchID)
+        public async Task<OperationResult<List<StudentEntity>>> GetAllStudentWithoutContent(long branchID, string financialyear)
         {
-            var data = await this._studentService.GetAllStudentWithoutContent(branchID);
+            var data = await this._studentService.GetAllStudentWithoutContent(branchID, financialyear);
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
             result.Completed = true;
             result.Data = data;
@@ -72,10 +72,10 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllStudentWithoutContentByRange")]
         [HttpGet]
-        public async Task<OperationResult<List<StudentEntity>>> GetAllStudentWithoutContentByRange(long branchID,int page,int limit)
+        public async Task<OperationResult<List<StudentEntity>>> GetAllStudentWithoutContentByRange(long branchID,int page,int limit, string financialyear)
         {
             Student s = new Student();
-            var data = s.GetAllStudentWithoutContentByRange(branchID,page,limit);
+            var data = s.GetAllStudentWithoutContentByRange(branchID,page,limit, financialyear);
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
             result.Completed = true;
             result.Data = data.Result;
@@ -84,9 +84,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllActiveStudent")]
         [HttpPost]
-        public async Task<OperationResult<List<StudentEntity>>> GetAllActiveStudent(long branchID)
+        public async Task<OperationResult<List<StudentEntity>>> GetAllActiveStudent(long branchID, string financialyear)
         {
-            var data = await this._studentService.GetAllStudent(branchID, (int)Enums.RowStatus.Active);
+            var data = await this._studentService.GetAllStudent(branchID, financialyear, (int)Enums.RowStatus.Active);
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
             result.Completed = true;
             result.Data = data;
@@ -95,9 +95,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllActiveStudentWithoutContent")]
         [HttpPost]
-        public async Task<OperationResult<List<StudentEntity>>> GetAllActiveStudentWithoutContent(long branchID)
+        public async Task<OperationResult<List<StudentEntity>>> GetAllActiveStudentWithoutContent(long branchID, string financialyear)
         {
-            var data = await this._studentService.GetAllStudentWithoutContent(branchID, (int)Enums.RowStatus.Active);
+            var data = await this._studentService.GetAllStudentWithoutContent(branchID, financialyear, (int)Enums.RowStatus.Active);
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
             result.Completed = true;
             result.Data = data;
@@ -106,9 +106,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllInActiveStudent")]
         [HttpPost]
-        public async Task<OperationResult<List<StudentEntity>>> GetAllInActiveStudent(long branchID)
+        public async Task<OperationResult<List<StudentEntity>>> GetAllInActiveStudent(long branchID, string financialyear)
         {
-            var data = await this._studentService.GetAllStudent(branchID, (int)Enums.RowStatus.Inactive);
+            var data = await this._studentService.GetAllStudent(branchID, financialyear, (int)Enums.RowStatus.Inactive);
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
             result.Completed = true;
             result.Data = data;
@@ -117,9 +117,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllInActiveStudentWithoutContent")]
         [HttpPost]
-        public async Task<OperationResult<List<StudentEntity>>> GetAllInActiveStudentWithoutContent(long branchID)
+        public async Task<OperationResult<List<StudentEntity>>> GetAllInActiveStudentWithoutContent(long branchID, string financialyear)
         {
-            var data = await this._studentService.GetAllStudentWithoutContent(branchID, (int)Enums.RowStatus.Inactive);
+            var data = await this._studentService.GetAllStudentWithoutContent(branchID, financialyear, (int)Enums.RowStatus.Inactive);
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
             result.Completed = true;
             result.Data = data;
@@ -128,9 +128,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllStudentByNameAndContact")]
         [HttpPost]
-        public async Task<OperationResult<List<StudentEntity>>> GetAllStudent(string studName, string contactNo)
+        public async Task<OperationResult<List<StudentEntity>>> GetAllStudent(string studName, string contactNo, string financialyear)
         {
-            var data = await this._studentService.GetAllStudent(studName, contactNo);
+            var data = await this._studentService.GetAllStudent(studName, contactNo, financialyear);
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
             result.Completed = true;
             result.Data = data;
@@ -150,9 +150,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("CheckPackage")]
         [HttpGet]
-        public async Task<OperationResult<ResponseModel>> CheckPackage(long branchID)
+        public async Task<OperationResult<ResponseModel>> CheckPackage(long branchID, string financialyear)
         {
-            var data = await this._studentService.CheckPackage(branchID);
+            var data = await this._studentService.CheckPackage(branchID,financialyear);
             OperationResult<ResponseModel> result = new OperationResult<ResponseModel>();
             result.Completed = true;
             result.Data = data;

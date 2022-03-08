@@ -14,12 +14,14 @@ namespace Ashirvad.Repo.Services.Area.Test
     public class Test : ModelAccess, ITestAPI
     {
 
-        public async Task<long> CheckTest(long BranchID, long StdID, long SubID, int BatchID, DateTime TestDate, long Testid,long CourseID)
+        public async Task<long> CheckTest(long BranchID, long StdID, long SubID, int BatchID, DateTime TestDate, long Testid,long CourseID,string financialyear)
         {
             long result;
             var date = DateTime.ParseExact(TestDate.ToString("yyyy-MM-dd"), "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            bool isExists = this.context.TEST_MASTER.Where(s => (Testid == 0 || s.test_id != Testid) && s.branch_id == BranchID && s.class_dtl_id == StdID &&
-            s.subject_dtl_id == SubID && s.batch_time_id == BatchID && s.test_dt == date && s.course_dtl_id==CourseID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists =(from u in this.context.TEST_MASTER
+                            join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                            where ((Testid == 0 || u.test_id != Testid) && u.branch_id == BranchID && u.class_dtl_id == StdID &&
+             u.subject_dtl_id == SubID && u.batch_time_id == BatchID && u.test_dt == date && u.course_dtl_id == CourseID && u.row_sta_cd == 1 && t.financial_year == financialyear )select u).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -28,7 +30,7 @@ namespace Ashirvad.Repo.Services.Area.Test
         {
             Model.TEST_MASTER testMaster = new Model.TEST_MASTER();
             if (CheckTest(testInfo.Branch.BranchID, testInfo.BranchClass.Class_dtl_id, testInfo.BranchSubject.Subject_dtl_id, testInfo.BatchTimeID,
-                testInfo.TestDate, testInfo.TestID, testInfo.BranchCourse.course_dtl_id).Result != -1)
+                testInfo.TestDate, testInfo.TestID, testInfo.BranchCourse.course_dtl_id,testInfo.Transaction.FinancialYear).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from t in this.context.TEST_MASTER
@@ -72,7 +74,7 @@ namespace Ashirvad.Repo.Services.Area.Test
 
         }
 
-        public async Task<List<TestEntity>> GetAllTestByBranch(long branchID)
+        public async Task<List<TestEntity>> GetAllTestByBranch(long branchID,string financialyear)
         {
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
@@ -80,9 +82,10 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_DTL_MASTER")
                         join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.test_id descending
                         from branch in tempBranch.DefaultIfEmpty()
-                        where u.branch_id == branchID && u.row_sta_cd == 1
+                        where u.branch_id == branchID && u.row_sta_cd == 1 && t.financial_year == financialyear
                         select new TestEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -147,15 +150,16 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<List<TestEntity>> GetAllCustomTest(DataTableAjaxPostModel model, long branchID)
+        public async Task<List<TestEntity>> GetAllCustomTest(DataTableAjaxPostModel model, long branchID,string financialyear)
         {
             var Result = new List<TestEntity>();
             bool Isasc = model.order[0].dir == "desc" ? false : true;
             long count = (from u in this.context.TEST_MASTER
                           join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
+                          join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                           orderby u.test_id descending
                           from branch in tempBranch.DefaultIfEmpty()
-                          where u.branch_id == branchID && u.row_sta_cd == 1
+                          where u.branch_id == branchID && u.row_sta_cd == 1 && t.financial_year == financialyear
                           select new TestEntity()
                           {
                               TestID = u.test_id
@@ -166,8 +170,9 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_DTL_MASTER")
                         join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         from branch in tempBranch.DefaultIfEmpty()
-                        where u.branch_id == branchID && u.row_sta_cd == 1
+                        where u.branch_id == branchID && u.row_sta_cd == 1 && t.financial_year == financialyear
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.ToLower().Contains(model.search.value)
@@ -247,15 +252,16 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<List<TestEntity>> GetAllTestByBranchAPI(long branchID)
+        public async Task<List<TestEntity>> GetAllTestByBranchAPI(long branchID,string financialyear)
         {
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
                         .Include("BRANCH_MASTER")
                         .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_DTL_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.test_id descending
-                        where u.branch_id == branchID && u.row_sta_cd == 1
+                        where u.branch_id == branchID && u.row_sta_cd == 1 && t.financial_year == financialyear
                         select new TestEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -309,7 +315,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<List<TestEntity>> GetAllTestByBranchType(long branchID, long BatchType)
+        public async Task<List<TestEntity>> GetAllTestByBranchType(long branchID, long BatchType,string financialyear)
         {
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
@@ -317,9 +323,10 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_DTL_MASTER")
                         join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.test_id descending
                         from branch in tempBranch.DefaultIfEmpty()
-                        where u.branch_id == branchID && u.batch_time_id == BatchType
+                        where u.branch_id == branchID && u.batch_time_id == BatchType && t.financial_year == financialyear
                         select new TestEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -382,17 +389,19 @@ namespace Ashirvad.Repo.Services.Area.Test
 
             return data;
         }
-        public async Task<List<TestEntity>> GetAllTestByBranchAndStandard(long branchID, long courseID,long stdID, int batchTime)
+        public async Task<List<TestEntity>> GetAllTestByBranchAndStandard(long branchID, long courseID,long stdID, int batchTime,string financialyear)
         {
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
                         .Include("BRANCH_MASTER")
                         .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_DTL_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.test_id descending
                         where u.branch_id == branchID && u.CLASS_DTL_MASTER.class_dtl_id == stdID 
                         && u.course_dtl_id == courseID
                         && (batchTime == 0 || u.batch_time_id == batchTime)
+                        && t.financial_year == financialyear
                         select new TestEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -448,12 +457,13 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<List<TestEntity>> TestDateDDL(long branchID, long stdID,long courseid,int batchTime)
+        public async Task<List<TestEntity>> TestDateDDL(long branchID, long stdID,long courseid,int batchTime,string financialyear)
         {
             var data = (from u in this.context.TEST_MASTER
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.test_id descending
-                        where u.branch_id == branchID && u.CLASS_DTL_MASTER.class_dtl_id == stdID
-                        where u.branch_id == branchID && u.class_dtl_id == stdID && u.course_dtl_id == courseid
+                        where u.branch_id == branchID && u.CLASS_DTL_MASTER.class_dtl_id == stdID && t.financial_year == financialyear
+                        where u.branch_id == branchID && u.class_dtl_id == stdID && u.course_dtl_id == courseid && t.financial_year == financialyear
                         && (batchTime == 0 || u.batch_time_id == batchTime)
                         select new TestEntity()
                         {
@@ -463,7 +473,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<List<TestEntity>> GetAllTest(DateTime testDate, string searchParam)
+        public async Task<List<TestEntity>> GetAllTest(DateTime testDate, string searchParam,string financialyear)
         {
             DateTime fromDT = Convert.ToDateTime(testDate.ToShortTimeString() + " 00:00:00");
             DateTime toDT = Convert.ToDateTime(testDate.ToShortTimeString() + " 23:59:59");
@@ -472,7 +482,8 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("BRANCH_MASTER")
                         .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_DTL_MASTER")
-                        where u.test_dt >= fromDT && u.test_dt <= toDT
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                        where u.test_dt >= fromDT && u.test_dt <= toDT && t.financial_year == financialyear
                         && (string.IsNullOrEmpty(searchParam)
                         || u.remarks.Contains(searchParam)
                         || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.Contains(searchParam)
@@ -534,16 +545,17 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<TestEntity> GetTestByTestID(long testID)
+        public async Task<TestEntity> GetTestByTestID(long testID, string financialyear)
         {
             var data = (from u in this.context.TEST_MASTER
                         .Include("TEST_PAPER_REL")
                         .Include("BRANCH_MASTER")
                         .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_DTL_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         join TestPaper in this.context.TEST_PAPER_REL on u.test_id equals TestPaper.test_id into tempBranch
                         from branch in tempBranch.DefaultIfEmpty()
-                        where u.test_id == testID
+                        where u.test_id == testID && t.financial_year == financialyear
                         select new TestEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -676,12 +688,13 @@ namespace Ashirvad.Repo.Services.Area.Test
             return this.context.SaveChanges() > 0 ? testRel.test_id : 0;
         }
 
-        public async Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID)
+        public async Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID, string financialyear)
         {
             var data = (from u in this.context.TEST_PAPER_REL
                         .Include("TEST_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.test_paper_id descending
-                        where u.test_id == testID
+                        where u.test_id == testID && t.financial_year == financialyear
                         select new TestPaperEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -716,16 +729,18 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime)
+        public async Task<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime,string financialyear)
         {
             var data = (from u in this.context.TEST_PAPER_REL
                         .Include("TEST_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.test_paper_id descending
                         where u.TEST_MASTER.branch_id == branchID
                         && u.TEST_MASTER.class_dtl_id == stdID
                         && u.TEST_MASTER.test_dt == dt
                         && u.TEST_MASTER.course_dtl_id == courseid
                         && (0 == batchTime || u.TEST_MASTER.batch_time_id == batchTime)
+                        && t.financial_year == financialyear
                         select new TestPaperEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -792,12 +807,13 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<List<TestPaperEntity>> GetAllTestPapaerWithoutContentByTest(long testID)
+        public async Task<List<TestPaperEntity>> GetAllTestPapaerWithoutContentByTest(long testID,string financialyear)
         {
             var data = (from u in this.context.TEST_PAPER_REL
                         .Include("TEST_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.test_paper_id descending
-                        where u.test_id == testID
+                        where u.test_id == testID && t.financial_year == financialyear
                         select new TestPaperEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -819,11 +835,12 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<TestPaperEntity> GetTestPaperByPaperID(long paperID)
+        public async Task<TestPaperEntity> GetTestPaperByPaperID(long paperID, string financialyear)
         {
             var data = (from u in this.context.TEST_PAPER_REL
                         .Include("TEST_MASTER")
-                        where u.test_paper_id == paperID
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                        where u.test_paper_id == paperID && t.financial_year == financialyear
                         select new TestPaperEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -848,12 +865,13 @@ namespace Ashirvad.Repo.Services.Area.Test
 
             return data;
         }
-        public async Task<List<TestEntity>> GetTestPaperChecking(long paperID)
+        public async Task<List<TestEntity>> GetTestPaperChecking(long paperID, string financialyear)
         {
             var data = (from u in this.context.TEST_MASTER_DTL
                         .Include("TEST_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.Test_master_dtl_id descending
-                        where u.Test_id == paperID
+                        where u.Test_id == paperID && t.financial_year == financialyear
                         select new TestEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -946,7 +964,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             Model.STUDENT_ANS_SHEET ansSheet = new Model.STUDENT_ANS_SHEET();
             bool isUpdate = true;
             var data = (from t in this.context.STUDENT_ANS_SHEET
-                        where t.test_id == studAnswerSheet.TestInfo.TestID && t.stud_id == studAnswerSheet.StudentInfo.StudentID
+                        where t.test_id == studAnswerSheet.TestInfo.TestID && t.stud_id == studAnswerSheet.StudentInfo.StudentID 
                         select t).FirstOrDefault();
             if (data == null)
             {
@@ -980,13 +998,14 @@ namespace Ashirvad.Repo.Services.Area.Test
             return this.context.SaveChanges() > 0 ? ansSheet.test_id : 0;
         }
 
-        public async Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetByTestStudent(long testID)
+        public async Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetByTestStudent(long testID, string financialyear)
         {
             var data = (from u in this.context.STUDENT_ANS_SHEET
                         .Include("TEST_MASTER")
                         .Include("STUDENT_MASTER")
                         .Include("BRANCH_MASTER")
-                        where u.test_id == testID
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                        where u.test_id == testID && t.financial_year == financialyear
                         select new StudentAnswerSheetEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -1031,14 +1050,15 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<List<StudentAnswerSheetEntity>> GetallAnswerSheetData(long testID)
+        public async Task<List<StudentAnswerSheetEntity>> GetallAnswerSheetData(long testID, string financialyear)
         {
             var data = (from u in this.context.STUDENT_ANS_SHEET
                         .Include("TEST_MASTER")
                         .Include("STUDENT_MASTER")
                         .Include("BRANCH_MASTER")
                         .Include("CLASS_DTL_MASTER")
-                        where u.test_id == testID
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                        where u.test_id == testID && t.financial_year==financialyear
                         select new StudentAnswerSheetEntity()
                         {
 
@@ -1080,13 +1100,14 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID, long studentID)
+        public async Task<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID, long studentID, string financialyear)
         {
             var data = (from u in this.context.STUDENT_ANS_SHEET
                        .Include("TEST_MASTER")
                        .Include("STUDENT_MASTER")
                        .Include("BRANCH_MASTER")
-                        where u.test_id == testID && u.stud_id == studentID
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                        where u.test_id == testID && u.stud_id == studentID && t.financial_year ==financialyear
                         select new StudentAnswerSheetEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -1131,13 +1152,14 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetWithoutContentByTestStudent(long testID)
+        public async Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetWithoutContentByTestStudent(long testID, string financialyear)
         {
             var data = (from u in this.context.STUDENT_ANS_SHEET
                         .Include("TEST_MASTER")
                         .Include("STUDENT_MASTER")
                         .Include("BRANCH_MASTER")
-                        where u.test_id == testID
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                        where u.test_id == testID && t.financial_year == financialyear
                         select new StudentAnswerSheetEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -1173,13 +1195,14 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<StudentAnswerSheetEntity> GetTestAnswerSheetPaperByAnswerSheetID(long ansID)
+        public async Task<StudentAnswerSheetEntity> GetTestAnswerSheetPaperByAnswerSheetID(long ansID, string financialyear)
         {
             var data = (from u in this.context.STUDENT_ANS_SHEET
                         .Include("TEST_MASTER")
                         .Include("STUDENT_MASTER")
                         .Include("BRANCH_MASTER")
-                        where u.ans_sheet_id == ansID
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                        where u.ans_sheet_id == ansID && t.financial_year == financialyear
                         select new StudentAnswerSheetEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -1283,14 +1306,15 @@ namespace Ashirvad.Repo.Services.Area.Test
             return 1;
         }
 
-        public async Task<List<TestPaperEntity>> GetAllTestDocLinks(long branchID,long courseid, long stdID, int batchTime)
+        public async Task<List<TestPaperEntity>> GetAllTestDocLinks(long branchID,long courseid, long stdID, int batchTime,string financialyear)
         {
             var data = (from u in this.context.TEST_PAPER_REL
                         .Include("TEST_MASTER")
                         .Include("BRANCH_MASTER")
                         .Include("CLASS_DTL_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.test_paper_id descending
-                        where u.TEST_MASTER.branch_id == branchID && u.TEST_MASTER.class_dtl_id == stdID
+                        where u.TEST_MASTER.branch_id == branchID && u.TEST_MASTER.class_dtl_id == stdID && t.financial_year == financialyear
                         && u.TEST_MASTER.course_dtl_id == courseid
                         && (batchTime == 0 || u.TEST_MASTER.batch_time_id == batchTime) && !u.doc_link.Equals(" ") && u.row_sta_cd == 1
                         select new TestPaperEntity()
@@ -1320,10 +1344,11 @@ namespace Ashirvad.Repo.Services.Area.Test
             return false;
         }
 
-        public async Task<TestEntity> GetTestDetails(long TestID, long SubjectID)
+        public async Task<TestEntity> GetTestDetails(long TestID, long SubjectID, string financialyear)
         {
             var data = (from u in this.context.TEST_MASTER
-                        where u.test_id == TestID && u.subject_dtl_id == SubjectID
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                        where u.test_id == TestID && u.subject_dtl_id == SubjectID && t.financial_year == financialyear
                         select new TestEntity()
                         {
                             TestID = u.test_id,
@@ -1369,26 +1394,29 @@ namespace Ashirvad.Repo.Services.Area.Test
                         }).FirstOrDefault();
             if (data != null)
             {
-                data.marksentered = CheckMarks(data.TestID, data.Branch.BranchID, data.BranchSubject.Subject_dtl_id, data.BatchTimeID);
+                data.marksentered = CheckMarks(data.TestID, data.Branch.BranchID, data.BranchSubject.Subject_dtl_id, data.BatchTimeID, financialyear);
             }
             return data;
         }
 
-        public bool CheckMarks(long TestID, long BranchID, long SubjectId, int BatchId)
+        public bool CheckMarks(long TestID, long BranchID, long SubjectId, int BatchId, string financialyear)
         {
-            bool isExists = this.context.MARKS_MASTER.Where(s => s.test_id == TestID && s.branch_id == BranchID && s.subject_dtl_id == SubjectId && s.batch_time_id == BatchId && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists =(from u in this.context.MARKS_MASTER
+                            
+                            where (u.test_id == TestID && u.branch_id == BranchID && u.subject_dtl_id == SubjectId && u.batch_time_id == BatchId && u.row_sta_cd == 1) select u).FirstOrDefault() != null;
 
             return isExists;
         }
 
-        public async Task<List<StudentAnswerSheetEntity>> GetStudentAnsFile(long TestID)
+        public async Task<List<StudentAnswerSheetEntity>> GetStudentAnsFile(long TestID, string financialyear)
         {
 
             var data = (from u in this.context.STUDENT_ANS_SHEET
                         .Include("TEST_MASTER")
                         .Include("CLASS_DTL_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id 
                         orderby u.ans_sheet_id descending
-                        where u.test_id == TestID
+                        where u.test_id == TestID && t.financial_year == financialyear
                         select new StudentAnswerSheetEntity()
                         {
                             FilePath = u.ans_sheet_filepath,

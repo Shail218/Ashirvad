@@ -27,13 +27,13 @@ namespace Ashirvad.Web.Controllers
         {
             if (branchID == 0)
                 branchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
-            var studentData = await _chartService.GetAllStudentsName(branchID);
+            var studentData = await _chartService.GetAllStudentsName(branchID, SessionContext.Instance.LoginUser.FinancialYear);
             return Json(studentData);
         }
 
         public async Task<JsonResult> StudentDataByStandard(long StdID, long courseid)
         {
-            var studentData = await _chartService.GetAllStudentsNameByStandard(StdID,courseid);
+            var studentData = await _chartService.GetAllStudentsNameByStandard(StdID,courseid, SessionContext.Instance.LoginUser.FinancialYear);
             return Json(studentData);
         }
 
@@ -42,7 +42,7 @@ namespace Ashirvad.Web.Controllers
         {
             if (branchID == 0)
                 branchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
-            var standardData = await _chartService.GetAllClassDDL(branchID);
+            var standardData = await _chartService.GetAllClassDDL(branchID,SessionContext.Instance.LoginUser.FinancialYear);
             return View("~/Views/StandardWiseChart/FilteredData.cshtml", standardData);
         }
     }

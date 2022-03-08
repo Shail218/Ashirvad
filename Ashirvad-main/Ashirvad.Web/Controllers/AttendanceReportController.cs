@@ -34,13 +34,13 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SaveReport(DateTime FromDate, DateTime ToDate, long StandardId,long courseid, int BatchTime,long studentid)
         {
-            var data = await this._attendanceService.GetAllAttendanceByFilter(FromDate, ToDate,SessionContext.Instance.LoginUser.BranchInfo.BranchID,StandardId,courseid,BatchTime,studentid);
+            var data = await this._attendanceService.GetAllAttendanceByFilter(FromDate, ToDate,SessionContext.Instance.LoginUser.BranchInfo.BranchID,StandardId,courseid,BatchTime,studentid,SessionContext.Instance.LoginUser.FinancialYear);
             return View("~/Views/AttendanceReport/Manage.cshtml", data.Data);
         }
 
         public async Task<JsonResult> StudentData(long std,long courseid, int BatchTime)
         {
-            var studentData = await _studentService.GetAllStudentsName(SessionContext.Instance.LoginUser.BranchInfo.BranchID,std,courseid, BatchTime);
+            var studentData = await _studentService.GetAllStudentsName(SessionContext.Instance.LoginUser.BranchInfo.BranchID,std,courseid, BatchTime, SessionContext.Instance.LoginUser.FinancialYear);
             return Json(studentData);
         }
 
@@ -50,7 +50,7 @@ namespace Ashirvad.Web.Controllers
             // action inside a standard controller
             try
             {
-                var branchData = await _attendanceService.GetAllAttendanceByCustom(model, FromDate, ToDate, SessionContext.Instance.LoginUser.BranchInfo.BranchID, StandardId,courseid, BatchTime, studentid);
+                var branchData = await _attendanceService.GetAllAttendanceByCustom(model, FromDate, ToDate, SessionContext.Instance.LoginUser.BranchInfo.BranchID, StandardId,courseid, BatchTime, studentid, SessionContext.Instance.LoginUser.FinancialYear);
                 long total = 0;
                 if (branchData.Count > 0)
                 {

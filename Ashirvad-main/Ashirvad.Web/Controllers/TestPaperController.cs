@@ -34,10 +34,10 @@ namespace Ashirvad.Web.Controllers
             TestMaintenanceModel branch = new TestMaintenanceModel();
             if (testID > 0)
             {
-                var test = await _testService.GetTestByTestID(testID);
+                var test = await _testService.GetTestByTestID(testID,SessionContext.Instance.LoginUser.FinancialYear);
                 branch.TestInfo = test.Data;
 
-                var testpaper = await _testService.GetTestPaperByPaperID(paperID);
+                var testpaper = await _testService.GetTestPaperByPaperID(paperID, SessionContext.Instance.LoginUser.FinancialYear);
                 branch.TestInfo.test = testpaper;
             }
             else
@@ -128,18 +128,18 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<ActionResult> StudentAnswerSheetMaintenance(long testID)
         {
-            return View(await _testService.GetAnswerSheetdata(testID));
+            return View(await _testService.GetAnswerSheetdata(testID, SessionContext.Instance.LoginUser.FinancialYear));
         }
 
         public async Task<JsonResult> GetTestDatesByBatch(long BranchID, long stdID, long courseid, int BatchType)
         {
-            var testpaperByBranch = await _testService.TestDateDDL(BranchID, stdID, courseid,BatchType);
+            var testpaperByBranch = await _testService.TestDateDDL(BranchID, stdID, courseid,BatchType, SessionContext.Instance.LoginUser.FinancialYear);
             return Json(testpaperByBranch.Data);
         }
 
         public async Task<JsonResult> GetTestDetails(long TestID, long SubjectID)
         {
-            var test = await _testService.GetTestDetails(TestID, SubjectID);
+            var test = await _testService.GetTestDetails(TestID, SubjectID, SessionContext.Instance.LoginUser.FinancialYear);
             return Json(test);
         }
 
@@ -151,7 +151,7 @@ namespace Ashirvad.Web.Controllers
             try
             {
 
-                var homeworks = _testService.GetAnswerFiles(testid).Result;
+                var homeworks = _testService.GetAnswerFiles(testid, SessionContext.Instance.LoginUser.FinancialYear).Result;
                 //string randomfilename = Common.Common.RandomString(20);
                 string randomfilename = "Test_" + Test.ToString("ddMMyyyy") + "_Student_" + Student + "_Class_" + Class;
                 FileName = "/ZipFiles/TestPaperDetails/" + randomfilename + ".zip";
@@ -222,7 +222,7 @@ namespace Ashirvad.Web.Controllers
             {
                 item.name = columns[item.column];
             }
-            var branchData = await _testService.GetAllCustomTest(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            var branchData = await _testService.GetAllCustomTest(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.FinancialYear);
             long total = 0;
             if (branchData.Count > 0)
             {

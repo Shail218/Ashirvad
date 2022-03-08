@@ -38,9 +38,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllPaper")]
         [HttpGet]
-        public OperationResult<List<PaperEntity>> GetAllPaper()
+        public OperationResult<List<PaperEntity>> GetAllPaper(string financialyear)
         {
-            var data = this._paperService.GetAllPaper();
+            var data = this._paperService.GetAllPaper(financialyear);
             OperationResult<List<PaperEntity>> result = new OperationResult<List<PaperEntity>>();
             result.Completed = true;
             result.Data = data.Result;
@@ -49,9 +49,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllPaperByBranch")]
         [HttpGet]
-        public OperationResult<List<PaperEntity>> GetAllPaper(long branchID)
+        public OperationResult<List<PaperEntity>> GetAllPaper(long branchID,string financialyear)
         {
-            var data = this._paperService.GetAllPaper(branchID);
+            var data = this._paperService.GetAllPaper(financialyear,branchID);
             OperationResult<List<PaperEntity>> result = new OperationResult<List<PaperEntity>>();
             result.Completed = true;
             result.Data = data.Result;
@@ -60,42 +60,42 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllPaperWithoutContent")]
         [HttpGet]
-        public OperationResult<List<PaperEntity>> GetAllPaperWithoutContent(long branchID)
+        public OperationResult<List<PaperEntity>> GetAllPaperWithoutContent(long branchID, string financialyear)
         {
-            var data = this._paperService.GetAllPaperWithoutContent(branchID);
+            var data = this._paperService.GetAllPaperWithoutContent(financialyear,branchID);
             return data.Result;
         }
 
 
         [Route("GetPracticePaperSubject")]
         [HttpGet]
-        public OperationResult<List<SubjectEntity>> GetPracticePaperSubject(long branchID, long courseid,long stdID,int batch_time)
+        public OperationResult<List<SubjectEntity>> GetPracticePaperSubject(long branchID, long courseid,long stdID,int batch_time, string financialyear)
         {
-            var data = this._paperService.GetPracticePaperSubject(branchID,courseid, stdID,batch_time);
+            var data = this._paperService.GetPracticePaperSubject(branchID,courseid, stdID,batch_time,financialyear);
             return data.Result;
         }
 
         [Route("GetPracticePapersByStandardSubjectAndBranch")]
         [HttpGet]
-        public OperationResult<List<PaperEntity>> GetPracticePapersByStandardSubjectAndBranch(long branchID, long stdID, long subID, int batchTypeID)
+        public OperationResult<List<PaperEntity>> GetPracticePapersByStandardSubjectAndBranch(long branchID, long stdID, long subID, int batchTypeID, string financialyear)
         {
-            var data = this._paperService.GetPracticePapersByStandardSubjectAndBranch(branchID, stdID, subID, batchTypeID);
+            var data = this._paperService.GetPracticePapersByStandardSubjectAndBranch(branchID, stdID, subID, batchTypeID,financialyear);
             return data.Result;
         }
 
         [Route("GetPracticePapersSubjectByStandardBatchAndBranch")]
         [HttpGet]
-        public OperationResult<List<SubjectEntity>> GetPracticePapersSubjectByStandardBatchAndBranch(long branchID, long stdID, int batchTypeID)
+        public OperationResult<List<SubjectEntity>> GetPracticePapersSubjectByStandardBatchAndBranch(long branchID, long stdID, int batchTypeID, string financialyear)
         {
-            var data = this._paperService.GetPracticePapersSubjectByStandardBatchAndBranch(branchID, stdID, batchTypeID);
+            var data = this._paperService.GetPracticePapersSubjectByStandardBatchAndBranch(branchID, stdID, batchTypeID,financialyear);
             return data.Result;
         }
 
         [Route("GetPaperByPaperID")]
         [HttpGet]
-        public OperationResult<PaperEntity> GetPaperByPaperID(long paperID)
+        public OperationResult<PaperEntity> GetPaperByPaperID(long paperID, string financialyear)
         {
-            var data = this._paperService.GetPaperByPaperID(paperID);
+            var data = this._paperService.GetPaperByPaperID(paperID,financialyear);
             OperationResult<PaperEntity> result = new OperationResult<PaperEntity>();
             result = data.Result;
             return result;

@@ -29,7 +29,7 @@ namespace Ashirvad.Web.Controllers
         {
             if (branchID == 0)
                 branchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
-            var standardData = await _chartService.GetStudentContent(stdID,branchID, batchID);
+            var standardData = await _chartService.GetStudentContent(stdID,branchID, batchID,SessionContext.Instance.LoginUser.FinancialYear);
             return View("~/Views/ListOfStudent/FilteredData.cshtml", standardData);
         }
     }

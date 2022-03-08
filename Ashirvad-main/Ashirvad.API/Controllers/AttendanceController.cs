@@ -35,9 +35,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllAttendanceByBranch")]
         [HttpGet]
-        public OperationResult<List<AttendanceEntity>> GetAllAttendanceByBranch(long branchID)
+        public OperationResult<List<AttendanceEntity>> GetAllAttendanceByBranch(long branchID,string financialyear)
         {
-            var data = this._attendanceService.GetAllAttendanceByBranch(branchID);
+            var data = this._attendanceService.GetAllAttendanceByBranch(branchID,financialyear);
             OperationResult<List<AttendanceEntity>> result = new OperationResult<List<AttendanceEntity>>();
             result = data.Result;
             return result;
@@ -65,9 +65,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAttendanceByFilter")]
         [HttpGet]
-        public OperationResult<List<AttendanceEntity>> GetAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid)
+        public OperationResult<List<AttendanceEntity>> GetAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid, string financialyear)
         {
-            var data = this._attendanceService.GetAllAttendanceByFilter(fromDate, toDate, branchID, stdID,courseid, batchTimeID,studentid);
+            var data = this._attendanceService.GetAllAttendanceByFilter(fromDate, toDate, branchID, stdID,courseid, batchTimeID,studentid,financialyear);
             OperationResult<List<AttendanceEntity>> result = new OperationResult<List<AttendanceEntity>>();
             result = data.Result;
             return result;
@@ -75,13 +75,13 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllStudentForAttendance")]
         [HttpGet]
-        public async Task<OperationResult<List<StudentEntity>>> GetAllStudentForAttendanceAsync(long branchID, long stdID, long courseid, int batchID,DateTime attendanceDate)
+        public async Task<OperationResult<List<StudentEntity>>> GetAllStudentForAttendanceAsync(long branchID, long stdID, long courseid, int batchID,DateTime attendanceDate, string financialyear)
         {
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
-            var res = await this._attendanceService.VerifyAttendanceRegister(branchID, stdID,courseid, batchID, attendanceDate);
+            var res = await this._attendanceService.VerifyAttendanceRegister(branchID, stdID,courseid, batchID, attendanceDate,financialyear);
             if (res.Status)
             {
-                var data =  this._attendanceService.GetAllStudentByBranchStdBatch(branchID, stdID, batchID);
+                var data =  this._attendanceService.GetAllStudentByBranchStdBatch(branchID, stdID, batchID,financialyear);
                 result.Data = data.Result;
                 result.Completed = true;
                 result.Message = "Success";

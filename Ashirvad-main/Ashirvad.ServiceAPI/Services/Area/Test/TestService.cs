@@ -38,12 +38,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return paper;
         }
 
-        public async Task<OperationResult<List<TestEntity>>> GetAllTestByBranch(long branchID)
+        public async Task<OperationResult<List<TestEntity>>> GetAllTestByBranch(long branchID,string financialyear)
         {
             try
             {
                 OperationResult<List<TestEntity>> paper = new OperationResult<List<TestEntity>>();
-                paper.Data = await _testContext.GetAllTestByBranch(branchID);
+                paper.Data = await _testContext.GetAllTestByBranch(branchID, financialyear);
                 paper.Completed = true;
                 return paper;
             }
@@ -55,11 +55,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<List<TestEntity>> GetAllCustomTest(DataTableAjaxPostModel model, long branchID)
+        public async Task<List<TestEntity>> GetAllCustomTest(DataTableAjaxPostModel model, long branchID, string financialyear)
         {
             try
             {
-                return await this._testContext.GetAllCustomTest(model, branchID);
+                return await this._testContext.GetAllCustomTest(model, branchID, financialyear);
             }
             catch (Exception ex)
             {
@@ -69,12 +69,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAPI(long branchID)
+        public async Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAPI(long branchID, string financialyear)
         {
             try
             {
                 OperationResult<List<TestEntity>> paper = new OperationResult<List<TestEntity>>();
-                paper.Data = await _testContext.GetAllTestByBranchAPI(branchID);
+                paper.Data = await _testContext.GetAllTestByBranchAPI(branchID, financialyear);
                 paper.Completed = true;
                 return paper;
             }
@@ -86,12 +86,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAndStandard(long branchID, long courseID,long stdID, int batchTime)
+        public async Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAndStandard(long branchID, long courseID,long stdID, int batchTime, string financialyear)
         {
             try
             {
                 OperationResult<List<TestEntity>> paper = new OperationResult<List<TestEntity>>();
-                paper.Data = await _testContext.GetAllTestByBranchAndStandard(branchID, courseID,stdID, batchTime);
+                paper.Data = await _testContext.GetAllTestByBranchAndStandard(branchID, courseID,stdID, batchTime, financialyear);
                 paper.Completed = true;
                 return paper;
             }
@@ -103,12 +103,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<OperationResult<List<TestEntity>>> TestDateDDL(long branchID, long stdID, long courseid, int batchTime)
+        public async Task<OperationResult<List<TestEntity>>> TestDateDDL(long branchID, long stdID, long courseid, int batchTime, string financialyear)
         {
             try
             {
                 OperationResult<List<TestEntity>> paper = new OperationResult<List<TestEntity>>();
-                paper.Data = await _testContext.TestDateDDL(branchID, stdID, courseid,batchTime);
+                paper.Data = await _testContext.TestDateDDL(branchID, stdID, courseid,batchTime, financialyear);
                 paper.Completed = true;
                 return paper;
             }
@@ -120,12 +120,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<OperationResult<TestEntity>> GetTestByTestID(long testID)
+        public async Task<OperationResult<TestEntity>> GetTestByTestID(long testID, string financialyear)
         {
             try
             {
                 OperationResult<TestEntity> lib = new OperationResult<TestEntity>();
-                lib.Data = await _testContext.GetTestByTestID(testID);
+                lib.Data = await _testContext.GetTestByTestID(testID, financialyear);
                 lib.Completed = true;
                 return lib;
             }
@@ -173,11 +173,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
 
 
 
-        public async Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID)
+        public async Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID, string financialyear)
         {
             try
             {
-                var data = await _testContext.GetAllTestPapaerByTest(testID);
+                var data = await _testContext.GetAllTestPapaerByTest(testID, financialyear);
                 return data;
             }
             catch (Exception ex)
@@ -188,11 +188,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<OperationResult<List<TestPaperEntity>>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime)
+        public async Task<OperationResult<List<TestPaperEntity>>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime, string financialyear)
         {
             try
             {
-                var data = await _testContext.GetAllTestPapaerByBranchStdDate(branchID,courseid, stdID, dt, batchTime);
+                var data = await _testContext.GetAllTestPapaerByBranchStdDate(branchID,courseid, stdID, dt, batchTime, financialyear);
                 OperationResult<List<TestPaperEntity>> res = new OperationResult<List<TestPaperEntity>>();
                 res.Data = data;
                 res.Completed = true;
@@ -206,11 +206,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<OperationResult<List<TestPaperEntity>>> GetAllTestDocLinks(long branchID,long courseid, long stdID, int batchTime)
+        public async Task<OperationResult<List<TestPaperEntity>>> GetAllTestDocLinks(long branchID,long courseid, long stdID, int batchTime, string financialyear)
         {
             try
             {
-                var data = await _testContext.GetAllTestDocLinks(branchID,courseid, stdID, batchTime);
+                var data = await _testContext.GetAllTestDocLinks(branchID,courseid, stdID, batchTime, financialyear);
                 OperationResult<List<TestPaperEntity>> res = new OperationResult<List<TestPaperEntity>>();
                 res.Data = data;
                 res.Completed = true;
@@ -225,11 +225,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
         }
 
 
-        public async Task<OperationResult<List<TestEntity>>> GetAllTest(DateTime testDate, string searchParam)
+        public async Task<OperationResult<List<TestEntity>>> GetAllTest(DateTime testDate, string searchParam, string financialyear)
         {
             try
             {
-                var data = await _testContext.GetAllTest(testDate, searchParam);
+                var data = await _testContext.GetAllTest(testDate, searchParam, financialyear);
                 OperationResult<List<TestEntity>> res = new OperationResult<List<TestEntity>>();
                 res.Data = data;
                 res.Completed = true;
@@ -243,12 +243,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<OperationResult<List<TestPaperEntity>>> GetAllTestPapaerWithoutContentByTest(long testID)
+        public async Task<OperationResult<List<TestPaperEntity>>> GetAllTestPapaerWithoutContentByTest(long testID, string financialyear)
         {
             try
             {
                 OperationResult<List<TestPaperEntity>> paper = new OperationResult<List<TestPaperEntity>>();
-                paper.Data = await _testContext.GetAllTestPapaerWithoutContentByTest(testID);
+                paper.Data = await _testContext.GetAllTestPapaerWithoutContentByTest(testID, financialyear);
                 paper.Completed = true;
                 return paper;
             }
@@ -260,11 +260,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<TestPaperEntity> GetTestPaperByPaperID(long paperID)
+        public async Task<TestPaperEntity> GetTestPaperByPaperID(long paperID, string financialyear)
         {
             try
             {
-                var data = await _testContext.GetTestPaperByPaperID(paperID);
+                var data = await _testContext.GetTestPaperByPaperID(paperID, financialyear);
                 return data;
             }
             catch (Exception ex)
@@ -274,11 +274,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
 
             return null;
         }
-        public async Task<List<TestEntity>> GetTestPaperChecking(long paperID)
+        public async Task<List<TestEntity>> GetTestPaperChecking(long paperID, string financialyear)
         {
             try
             {
-                var data = await _testContext.GetTestPaperChecking(paperID);
+                var data = await _testContext.GetTestPaperChecking(paperID, financialyear);
                 return data;
             }
             catch (Exception ex)
@@ -389,11 +389,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
         }
 
 
-        public async Task<List<StudentAnswerSheetEntity>> GetAllAnswerSheetByTest(long testID)
+        public async Task<List<StudentAnswerSheetEntity>> GetAllAnswerSheetByTest(long testID, string financialyear)
         {
             try
             {
-                var data = await _testContext.GetAllTestAnswerSheetByTestStudent(testID);
+                var data = await _testContext.GetAllTestAnswerSheetByTestStudent(testID, financialyear);
                 return data;
             }
             catch (Exception ex)
@@ -404,11 +404,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<List<StudentAnswerSheetEntity>> GetAllAnswerSheetWithoutContentByTest(long testID)
+        public async Task<List<StudentAnswerSheetEntity>> GetAllAnswerSheetWithoutContentByTest(long testID, string financialyear)
         {
             try
             {
-                var data = await _testContext.GetAllTestAnswerSheetWithoutContentByTestStudent(testID);
+                var data = await _testContext.GetAllTestAnswerSheetWithoutContentByTestStudent(testID, financialyear);
                 return data;
             }
             catch (Exception ex)
@@ -418,11 +418,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
 
             return null;
         }
-        public async Task<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID, long studentID)
+        public async Task<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID, long studentID, string financialyear)
         {
             try
             {
-                var data = await _testContext.GetAllAnsSheetByTestStudentID(testID,studentID);
+                var data = await _testContext.GetAllAnsSheetByTestStudentID(testID,studentID, financialyear);
                 return data;
             }
             catch (Exception ex)
@@ -432,11 +432,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
 
             return null;
         }
-        public async Task<StudentAnswerSheetEntity> GetAnswerSheetByID(long ansID)
+        public async Task<StudentAnswerSheetEntity> GetAnswerSheetByID(long ansID, string financialyear)
         {
             try
             {
-                var data = await _testContext.GetTestAnswerSheetPaperByAnswerSheetID(ansID);
+                var data = await _testContext.GetTestAnswerSheetPaperByAnswerSheetID(ansID, financialyear);
                 return data;
             }
             catch (Exception ex)
@@ -481,12 +481,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return TestDetailEntity;
         }
 
-        public async Task<TestEntity> GetTestDetails(long testID,long SubjectID)
+        public async Task<TestEntity> GetTestDetails(long testID,long SubjectID, string financialyear)
         {
             try
             {
                 OperationResult<TestEntity> lib = new OperationResult<TestEntity>();
-                lib.Data = await _testContext.GetTestDetails(testID, SubjectID);
+                lib.Data = await _testContext.GetTestDetails(testID, SubjectID, financialyear);
                 lib.Completed = true;
                 return lib.Data;
             }
@@ -512,11 +512,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
 
             return false;
         }
-        public async Task<List<StudentAnswerSheetEntity>> GetAnswerSheetdata(long testID)
+        public async Task<List<StudentAnswerSheetEntity>> GetAnswerSheetdata(long testID, string financialyear)
         {
             try
             {
-                var data = await _testContext.GetallAnswerSheetData(testID);
+                var data = await _testContext.GetallAnswerSheetData(testID, financialyear);
                 return data;
             }
             catch (Exception ex)
@@ -527,11 +527,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<List<StudentAnswerSheetEntity>> GetAnswerFiles(long TestID)
+        public async Task<List<StudentAnswerSheetEntity>> GetAnswerFiles(long TestID, string financialyear)
         {
             try
             {
-                var data = await _testContext.GetStudentAnsFile(TestID);
+                var data = await _testContext.GetStudentAnsFile(TestID, financialyear);
                 return data;
             }
             catch (Exception ex)

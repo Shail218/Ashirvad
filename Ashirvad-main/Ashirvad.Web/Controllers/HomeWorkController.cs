@@ -38,7 +38,7 @@ namespace Ashirvad.Web.Controllers
             HomeworkMaintenanceModel branch = new HomeworkMaintenanceModel();
             if (homeworkID > 0)
             {
-                var homework = await _homeworkService.GetHomeworkByHomeworkID(homeworkID);
+                var homework = await _homeworkService.GetHomeworkByHomeworkID(homeworkID,SessionContext.Instance.LoginUser.FinancialYear);
                 branch.HomeworkInfo = homework;
             }
             //var homeworkData = await _homeworkService.GetAllHomeworkWithoutContentByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
@@ -99,7 +99,7 @@ namespace Ashirvad.Web.Controllers
         public ActionResult StudentHomeworkDetails(long StudhID)
         {
            // var result = _homeworkdetailService.GetAllHomeworkdetailByHomeWork(StudhID);
-            var result1 = _homeworkService.GetStudentHomeworkChecking(StudhID);
+            var result1 = _homeworkService.GetStudentHomeworkChecking(StudhID, SessionContext.Instance.LoginUser.FinancialYear);
 
             
             return View(result1.Result);
@@ -140,7 +140,7 @@ namespace Ashirvad.Web.Controllers
             try
             {
 
-                var homeworks = _homeworkService.GetHomeworkdetailsFiles(homeworkid).Result;
+                var homeworks = _homeworkService.GetHomeworkdetailsFiles(homeworkid, SessionContext.Instance.LoginUser.FinancialYear).Result;
                 //string randomfilename = Common.Common.RandomString(20);
                 string studentname = Student.Replace(" ", "");
                 stdname = Class.Replace(" ", "");
@@ -200,7 +200,7 @@ namespace Ashirvad.Web.Controllers
             {
                 item.name = columns[item.column];
             }
-            var branchData = await _homeworkService.GetAllCustomHomework(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            var branchData = await _homeworkService.GetAllCustomHomework(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.FinancialYear);
             long total = 0;
             if (branchData.Count > 0)
             {

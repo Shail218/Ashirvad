@@ -16,9 +16,11 @@ namespace Ashirvad.Repo.Services.Area.Homework
         public async Task<long> CheckHomework(HomeworkEntity homeworkInfo)
         {
             long result;
-            bool isExists = this.context.HOMEWORK_MASTER.Where(s => (homeworkInfo.HomeworkID == 0 || s.homework_id != homeworkInfo.HomeworkID) &&
-            s.homework_dt == homeworkInfo.HomeworkDate && s.branch_id == homeworkInfo.BranchInfo.BranchID && s.class_dtl_id == homeworkInfo.BranchClass.Class_dtl_id
-            && s.subject_dtl_id == homeworkInfo.BranchSubject.Subject_dtl_id && s.course_dtl_id == homeworkInfo.BranchCourse.course_dtl_id && s.batch_time_id == homeworkInfo.BatchTimeID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists =(from u in this.context.HOMEWORK_MASTER
+                            join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                            where ((homeworkInfo.HomeworkID == 0 || u.homework_id != homeworkInfo.HomeworkID) &&
+            u.homework_dt == homeworkInfo.HomeworkDate && u.branch_id == homeworkInfo.BranchInfo.BranchID && u.class_dtl_id == homeworkInfo.BranchClass.Class_dtl_id
+            && u.subject_dtl_id == homeworkInfo.BranchSubject.Subject_dtl_id && u.course_dtl_id == homeworkInfo.BranchCourse.course_dtl_id && u.batch_time_id == homeworkInfo.BatchTimeID && u.row_sta_cd == 1 && t.financial_year == homeworkInfo.Transaction.FinancialYear) select u).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -66,17 +68,19 @@ namespace Ashirvad.Repo.Services.Area.Homework
             return this.context.SaveChanges() > 0 ? homework.homework_id : 0;
         }
 
-        public async Task<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID, long courseid,long stdID, int batchTime, long studentId)
+        public async Task<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID, long courseid,long stdID, int batchTime, string financialyear, long studentId)
         {
             var data = (from u in this.context.HOMEWORK_MASTER
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.homework_id descending
                         //join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id
                         where u.branch_id == branchID
                         && (u.class_dtl_id == stdID)
                         && u.course_dtl_id == courseid
+                        && t.financial_year == financialyear
                         && (u.batch_time_id == batchTime) && u.row_sta_cd == 1 /*&& hd.stud_id == studentId*/
                         select new HomeworkEntity()
                         {
@@ -163,16 +167,18 @@ namespace Ashirvad.Repo.Services.Area.Homework
         }
 
 
-        public async Task<List<HomeworkEntity>> GetAllHomeworkByBranch(long branchID, long stdID, int batchTime)
+        public async Task<List<HomeworkEntity>> GetAllHomeworkByBranch(long branchID, long stdID, int batchTime, string financialyear)
         {
             var data = (from u in this.context.HOMEWORK_MASTER
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         join hd in this.context.HOMEWORK_MASTER_DTL on u.homework_id equals hd.homework_id
                         orderby u.homework_id descending
                         where u.branch_id == branchID
                         && (u.class_dtl_id == stdID)
+                        && t.financial_year == financialyear
                         && (u.batch_time_id == batchTime) && u.row_sta_cd == 1
                         select new HomeworkEntity()
                         {
@@ -233,7 +239,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
             return data;
         }
 
-        public async Task<List<HomeworkEntity>> GetAllHomeworks(DateTime hwDate, string searchParam)
+        public async Task<List<HomeworkEntity>> GetAllHomeworks(DateTime hwDate, string searchParam, string financialyear)
         {
             DateTime fromDT = Convert.ToDateTime(hwDate.ToShortTimeString() + " 00:00:00");
             DateTime toDT = Convert.ToDateTime(hwDate.ToShortTimeString() + " 23:59:59");
@@ -241,7 +247,8 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
-                        where u.homework_dt >= fromDT && u.homework_dt <= toDT
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                        where u.homework_dt >= fromDT && u.homework_dt <= toDT && t.financial_year == financialyear
                         && (string.IsNullOrEmpty(searchParam)
                         || u.remarks.Contains(searchParam)
                         || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.Contains(searchParam)
@@ -306,14 +313,15 @@ namespace Ashirvad.Repo.Services.Area.Homework
             return data;
         }
 
-        public async Task<List<HomeworkEntity>> GetAllHomeworkWithoutContentByBranch(long branchID, long stdID)
+        public async Task<List<HomeworkEntity>> GetAllHomeworkWithoutContentByBranch(long branchID, long stdID,string financialyear)
         {
             var data = (from u in this.context.HOMEWORK_MASTER
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.homework_id descending
-                        where u.branch_id == branchID
+                        where u.branch_id == branchID && t.financial_year == financialyear
                         && (0 == stdID || u.class_dtl_id == stdID) && u.row_sta_cd == 1
                         select new HomeworkEntity()
                         {
@@ -367,16 +375,20 @@ namespace Ashirvad.Repo.Services.Area.Homework
             return data;
         }
 
-        public async Task<List<HomeworkEntity>> GetAllCustomHomework(DataTableAjaxPostModel model, long branchID)
+        public async Task<List<HomeworkEntity>> GetAllCustomHomework(DataTableAjaxPostModel model, long branchID, string financialyear)
         {
             var Result = new List<FeesEntity>();
             bool Isasc = model.order[0].dir == "desc" ? false : true;
-            long count = this.context.HOMEWORK_MASTER.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Count();
+            long count = (from u in this.context.HOMEWORK_MASTER 
+                          join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                          where (u.row_sta_cd == 1 && u.branch_id == branchID && t.financial_year==financialyear)select u).Count();
             var data = (from u in this.context.HOMEWORK_MASTER
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         where u.branch_id == branchID && u.row_sta_cd == 1
+                         && t.financial_year == financialyear
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.homework_dt.ToString().ToLower().Contains(model.search.value)
@@ -438,13 +450,14 @@ namespace Ashirvad.Repo.Services.Area.Homework
             return data;
         }
 
-        public async Task<HomeworkEntity> GetHomeworkByHomeworkID(long homeworkID)
+        public async Task<HomeworkEntity> GetHomeworkByHomeworkID(long homeworkID,string financialyear)
         {
             var data = (from u in this.context.HOMEWORK_MASTER
                         .Include("BRANCH_MASTER")
                         .Include("STD_MASTER")
                         .Include("SUBJECT_MASTER")
-                        where u.homework_id == homeworkID
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                        where u.homework_id == homeworkID && t.financial_year == financialyear
                         select new HomeworkEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -496,14 +509,15 @@ namespace Ashirvad.Repo.Services.Area.Homework
             return data;
         }
 
-        public async Task<List<HomeworkEntity>> GetStudentHomeworkChecking(long homeworkID)
+        public async Task<List<HomeworkEntity>> GetStudentHomeworkChecking(long homeworkID, string financialyear)
         {
 
             var data = (from u in this.context.HOMEWORK_MASTER_DTL
                         .Include("HOMEWORK_MASTER")
                         .Include("STUDENT_MASTER")
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.homework_master_dtl_id descending
-                        where u.homework_id == homeworkID
+                        where u.homework_id == homeworkID && t.financial_year == financialyear
                         select new HomeworkEntity()
                         {
 
@@ -549,13 +563,14 @@ namespace Ashirvad.Repo.Services.Area.Homework
                         }).Distinct().ToList();
             return data;
         }
-        public async Task<List<HomeworkEntity>> GetStudentHomeworkFile(long homeworkID)
+        public async Task<List<HomeworkEntity>> GetStudentHomeworkFile(long homeworkID, string financialyear)
         {
 
             var data = (from u in this.context.HOMEWORK_MASTER_DTL
                         .Include("HOMEWORK_MASTER")
                         .Include("STD_MASTER")
-                        where u.homework_id == homeworkID
+                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                        where u.homework_id == homeworkID && t.financial_year == financialyear
                         select new HomeworkEntity()
                         {
                             FilePath = u.homework_filepath,

@@ -26,7 +26,7 @@ namespace Ashirvad.Web.Controllers
         public async Task<JsonResult> GetAllStandard(long branchID)
         {
             branchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
-            var standardData = await _chartService.GetAllClassDDL(branchID);
+            var standardData = await _chartService.GetAllClassDDL(branchID,SessionContext.Instance.LoginUser.FinancialYear);
             return Json(standardData);
         }
 
@@ -35,7 +35,7 @@ namespace Ashirvad.Web.Controllers
             if (branchID == 0)
                 branchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             CommonChartModel model = new CommonChartModel();
-            var result = await _chartService.AllBranchStandardWithCountByBranch(branchID);
+            var result = await _chartService.AllBranchStandardWithCountByBranch(branchID, SessionContext.Instance.LoginUser.FinancialYear);
             model.branchstandardlist = result;
             return Json(model);
             //var standardData = await _chartService.AllBranchStandardWithCountByBranch(branchID);

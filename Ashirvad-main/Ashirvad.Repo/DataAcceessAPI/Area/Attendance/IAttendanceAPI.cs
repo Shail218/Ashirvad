@@ -11,15 +11,15 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Attendance
     public interface IAttendanceAPI
     {
         Task<long> AttendanceMaintenance(AttendanceEntity attendanceInfo);
-        Task<List<StudentEntity>> GetAllStudentByBranchStdBatch(long branchID, long stdID, int batchID);
-        Task<List<AttendanceEntity>> GetAllAttendanceByBranch(long branchID);
+        Task<List<StudentEntity>> GetAllStudentByBranchStdBatch(long branchID, long stdID, int batchID, string financialyear);
+        Task<List<AttendanceEntity>> GetAllAttendanceByBranch(long branchID, string financialyear);
         Task<List<AttendanceEntity>> GetAttendanceByStudentID(long studentID);
         Task<AttendanceEntity> GetAttendanceByID(long attendanceID);
         bool RemoveAttendance(long attendanceID, string lastupdatedby);
-        Task<List<AttendanceEntity>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, long courseid, int batchTimeID, long studentid);
-        Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid);
-        Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, long courseid, int batchID, DateTime attendanceDate);
-        Task<List<AttendanceEntity>> GetAllCustomAttendanceRegister(DataTableAjaxPostModel model, long branchID);
-        Task<List<StudentEntity>> GetAllCustomAttendance(DataTableAjaxPostModel model, long Std,long courseid, long Branch, long Batch);
+        Task<List<AttendanceEntity>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, long courseid, int batchTimeID, long studentid, string financialyear);
+        Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid, string financialyear);
+        Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, long courseid, int batchID, DateTime attendanceDate, string financialyear);
+        Task<List<AttendanceEntity>> GetAllCustomAttendanceRegister(DataTableAjaxPostModel model, long branchID, string financialyear);
+        Task<List<StudentEntity>> GetAllCustomAttendance(DataTableAjaxPostModel model, long Std,long courseid, long Branch, long Batch, string financialyear);
     }
 }

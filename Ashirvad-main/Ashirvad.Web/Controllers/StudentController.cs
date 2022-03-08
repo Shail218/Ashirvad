@@ -42,7 +42,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> getcount()
         {
-            var getstudentno = await _studentService.CheckPackage(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            var getstudentno = await _studentService.CheckPackage(SessionContext.Instance.LoginUser.BranchInfo.BranchID,SessionContext.Instance.LoginUser.FinancialYear);
             return Json(getstudentno);
         }
 
@@ -101,7 +101,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> GetFilterStudent(long course, long classname, string finalyear)
         {
-            var result = await _studentService.GetFilterStudent(course, classname, finalyear, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            var result = await _studentService.GetFilterStudent(course, classname, finalyear, SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.FinancialYear);
             return View("~/Views/Student/ManageStudent.cshtml", result);
         }
 

@@ -38,11 +38,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
             return hw;
         }
 
-        public async Task<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID,long courseid, long stdID, int batchTime, long studentId=0)
+        public async Task<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID,long courseid, long stdID, int batchTime, string financialyear, long studentId=0)
         {
             try
             {
-                var data = await _homeworkContext.GetAllHomeworkByBranchStudent(branchID,courseid, stdID, batchTime, studentId);
+                var data = await _homeworkContext.GetAllHomeworkByBranchStudent(branchID,courseid, stdID, batchTime,financialyear, studentId);
                 return data;
             }
             catch (Exception ex)
@@ -53,11 +53,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
             return null;
         }
 
-        public async Task<List<HomeworkEntity>> GetAllHomeworkByBranch(long branchID, long stdID = 0, int batchTime = 0)
+        public async Task<List<HomeworkEntity>> GetAllHomeworkByBranch(long branchID, string financialyear, long stdID = 0, int batchTime = 0)
         {
             try
             {
-                var data = await _homeworkContext.GetAllHomeworkByBranch(branchID, stdID, batchTime);
+                var data = await _homeworkContext.GetAllHomeworkByBranch(branchID, stdID, batchTime,financialyear);
                 return data;
             }
             catch (Exception ex)
@@ -68,11 +68,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
             return null;
         }
 
-        public async Task<List<HomeworkEntity>> GetAllHomeworks(DateTime hwDate, string searchParam)
+        public async Task<List<HomeworkEntity>> GetAllHomeworks(DateTime hwDate, string searchParam, string financialyear)
         {
             try
             {
-                var data = await _homeworkContext.GetAllHomeworks(hwDate, searchParam);
+                var data = await _homeworkContext.GetAllHomeworks(hwDate, searchParam,financialyear);
                 return data;
             }
             catch (Exception ex)
@@ -83,11 +83,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
             return null;
         }
 
-        public async Task<List<HomeworkEntity>> GetAllHomeworkWithoutContentByBranch(long branchID, long stdID = 0)
+        public async Task<List<HomeworkEntity>> GetAllHomeworkWithoutContentByBranch(long branchID, string financialyear, long stdID = 0)
         {
             try
             {
-                var data = await _homeworkContext.GetAllHomeworkWithoutContentByBranch(branchID, stdID);
+                var data = await _homeworkContext.GetAllHomeworkWithoutContentByBranch(branchID, stdID,financialyear);
                 return data;
             }
             catch (Exception ex)
@@ -98,11 +98,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
             return null;
         }
 
-        public async Task<List<HomeworkEntity>> GetAllCustomHomework(DataTableAjaxPostModel model, long branchID)
+        public async Task<List<HomeworkEntity>> GetAllCustomHomework(DataTableAjaxPostModel model, long branchID, string financialyear)
         {
             try
             {
-                return await this._homeworkContext.GetAllCustomHomework(model, branchID);
+                return await this._homeworkContext.GetAllCustomHomework(model, branchID,financialyear);
             }
             catch (Exception ex)
             {
@@ -112,11 +112,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
             return null;
         }
 
-        public async Task<HomeworkEntity> GetHomeworkByHomeworkID(long hwID)
+        public async Task<HomeworkEntity> GetHomeworkByHomeworkID(long hwID, string financialyear)
         {
             try
             {
-                var data = await _homeworkContext.GetHomeworkByHomeworkID(hwID);
+                var data = await _homeworkContext.GetHomeworkByHomeworkID(hwID,financialyear);
                 return data;
             }
             catch (Exception ex)
@@ -126,11 +126,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
 
             return null;
         }
-        public async Task<List<HomeworkEntity>> GetStudentHomeworkChecking(long hwID)
+        public async Task<List<HomeworkEntity>> GetStudentHomeworkChecking(long hwID, string financialyear)
         {
             try
             {
-                var data = await _homeworkContext.GetStudentHomeworkChecking(hwID);
+                var data = await _homeworkContext.GetStudentHomeworkChecking(hwID,financialyear);
                 return data;
             }
             catch (Exception ex)
@@ -156,11 +156,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
             return false;
         }
 
-        public async Task<List<HomeworkEntity>>GetHomeworkdetailsFiles(long hwID)
+        public async Task<List<HomeworkEntity>>GetHomeworkdetailsFiles(long hwID, string financialyear)
         {
             try
             {
-                var data = await _homeworkContext.GetStudentHomeworkFile(hwID);
+                var data = await _homeworkContext.GetStudentHomeworkFile(hwID,financialyear);
                 return data;
             }
             catch (Exception ex)

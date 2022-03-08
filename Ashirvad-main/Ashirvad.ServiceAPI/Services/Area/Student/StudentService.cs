@@ -60,12 +60,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
 
             return student;
         }
-        public async Task<ResponseModel> CheckPackage(long BranchId)
+        public async Task<ResponseModel> CheckPackage(long BranchId, string financialyear)
         {
             ResponseModel response = new ResponseModel();
             try
             {
-                response = await _studentContext.CheckPackage(BranchId);
+                response = await _studentContext.CheckPackage(BranchId,financialyear);
             }
             catch (Exception ex)
             {
@@ -99,11 +99,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             return user;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudent(long branchID, int status = 0)
+        public async Task<List<StudentEntity>> GetAllStudent(long branchID, string financialyear,int status = 0)
         {
             try
             {
-                return await this._studentContext.GetAllStudent(branchID, status);
+                return await this._studentContext.GetAllStudent(branchID, status,financialyear);
             }
             catch (Exception ex)
             {
@@ -112,25 +112,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
 
             return null;
         }
-        public async Task<List<StudentEntity>> GetStudentByStd(long Std, long Branch, long BatchTime)
+        public async Task<List<StudentEntity>> GetStudentByStd(long Std, long Branch, long BatchTime, string financialyear)
         {
             try
             {
-                return await this._studentContext.GetAllStudentByStd(Std, Branch, BatchTime);
-            }
-            catch (Exception ex)
-            {
-                EventLogger.WriteEvent(Logger.Severity.Error, ex);
-            }
-
-            return null;
-        }
-
-        public async Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std, long courseid, long Branch, long BatchTime)
-        {
-            try
-            {
-                return await this._studentContext.GetAllCustomStudentMarks(model, Std, courseid, Branch, BatchTime);
+                return await this._studentContext.GetAllStudentByStd(Std, Branch, BatchTime,financialyear);
             }
             catch (Exception ex)
             {
@@ -140,11 +126,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             return null;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, int status = 0)
+        public async Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std, long courseid, long Branch, long BatchTime, string financialyear)
         {
             try
             {
-                return await this._studentContext.GetAllStudentWithoutContent(branchID, status);
+                return await this._studentContext.GetAllCustomStudentMarks(model, Std, courseid, Branch, BatchTime,financialyear);
             }
             catch (Exception ex)
             {
@@ -154,11 +140,25 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             return null;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid, long courseid, int batchtime)
+        public async Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, string financialyear, int status = 0)
         {
             try
             {
-                return await this._studentContext.GetAllStudentsName(branchID, stdid, courseid, batchtime);
+                return await this._studentContext.GetAllStudentWithoutContent(branchID, financialyear,status);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid, long courseid, int batchtime, string financialyear)
+        {
+            try
+            {
+                return await this._studentContext.GetAllStudentsName(branchID, stdid, courseid, batchtime,financialyear);
             }
             catch (Exception ex)
             {
@@ -196,11 +196,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             return null;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudent(string studName, string contactNo)
+        public async Task<List<StudentEntity>> GetAllStudent(string studName, string contactNo, string financialyear)
         {
             try
             {
-                return await this._studentContext.GetAllStudent(studName, contactNo);
+                return await this._studentContext.GetAllStudent(studName, contactNo,financialyear);
             }
             catch (Exception ex)
             {
@@ -210,11 +210,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             return null;
         }
 
-        public async Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model, long branchID, int status = 0)
+        public async Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model, long branchID, string financialyear, int status = 0)
         {
             try
             {
-                return await this._studentContext.GetAllCustomStudent(model, branchID, status);
+                return await this._studentContext.GetAllCustomStudent(model, branchID, status,financialyear);
             }
             catch (Exception ex)
             {
@@ -224,11 +224,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             return null;
         }
 
-        public async Task<List<StudentEntity>> GetFilterStudent(long course, long classname, string finalyear, long branchID)
+        public async Task<List<StudentEntity>> GetFilterStudent(long course, long classname, string finalyear, long branchID, string financialyear)
         {
             try
             {
-                return await this._studentContext.GetFilterStudent(course,classname,finalyear,branchID);
+                return await this._studentContext.GetFilterStudent(course,classname,finalyear,branchID,financialyear);
             }
             catch (Exception ex)
             {
