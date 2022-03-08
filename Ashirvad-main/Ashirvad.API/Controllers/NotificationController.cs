@@ -118,9 +118,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllAnnouncement")]
         [HttpPost]
-        public OperationResult<List<AnnouncementEntity>> GetAllAnnouncement(long branchID,string financialyear)
+        public OperationResult<List<AnnouncementEntity>> GetAllAnnouncement(long branchID)
         {
-            var branchData = this._announcementService.GetAllAnnouncement(branchID, financialyear);
+            var branchData = this._announcementService.GetAllAnnouncement(branchID);
             OperationResult<List<AnnouncementEntity>> result = new OperationResult<List<AnnouncementEntity>>();
             result.Completed = true;
             result = branchData.Result;
