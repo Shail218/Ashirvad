@@ -44,7 +44,7 @@ namespace Ashirvad.Repo
                 transData.last_mod_dt = DateTime.Now;
                 transData.last_mod_id = transactionData.LastUpdateId;
             }
-
+            transData.financial_year = transactionData.FinancialYear;
             this.context.TRANSACTION_MASTER.Add(transData);
             if (isUpdate)
             {

@@ -10,7 +10,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Announcement
     public interface IAnnouncementAPI
     {
         Task<long> AnnouncementMaintenance(AnnouncementEntity annInfo);
-        Task<List<AnnouncementEntity>> GetAllAnnouncement(long branchID);
+        Task<List<AnnouncementEntity>> GetAllAnnouncement(long branchID, string financialyear);
         Task<AnnouncementEntity> GetAnnouncementsByAnnouncementID(long annID);
         bool RemoveAnnouncement(long annID, string lastupdatedby);
     }

@@ -34,12 +34,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Announcement
             return ann;
         }
 
-        public async Task<OperationResult<List<AnnouncementEntity>>> GetAllAnnouncement(long branchID)
+        public async Task<OperationResult<List<AnnouncementEntity>>> GetAllAnnouncement(long branchID, string financialyear)
         {
             try
             {
                 OperationResult<List<AnnouncementEntity>> announcements = new OperationResult<List<AnnouncementEntity>>();
-                announcements.Data = await _announcementContext.GetAllAnnouncement(branchID);
+                announcements.Data = await _announcementContext.GetAllAnnouncement(branchID,financialyear);
                 announcements.Completed = true;
                 return announcements;
             }

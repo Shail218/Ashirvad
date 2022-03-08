@@ -11,10 +11,13 @@ namespace Ashirvad.Repo.Services.Area.Announcement
 {
     public class Announcement : ModelAccess, IAnnouncementAPI
     {
-        public async Task<long> CheckAnnouncement(int BranchID, int announcement_id)
+        public async Task<long> CheckAnnouncement(int BranchID, int announcement_id,string financialyear)
         {
             long result;
-            bool isExists = this.context.ANNOUNCE_MASTER.Where(s => (announcement_id == 0 || s.announce_id != announcement_id) && s.branch_id == BranchID && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = (from u in this.context.ANNOUNCE_MASTER
+                             join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                             where ((announcement_id == 0 || u.announce_id != announcement_id)
+                             && u.branch_id == BranchID && u.row_sta_cd == 1 && t.financial_year == financialyear) select u).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -22,7 +25,7 @@ namespace Ashirvad.Repo.Services.Area.Announcement
         public async Task<long> AnnouncementMaintenance(AnnouncementEntity annInfo)
         {
             Model.ANNOUNCE_MASTER annMaster = new Model.ANNOUNCE_MASTER();
-            if (CheckAnnouncement((int)annInfo.BranchData.BranchID, (int)annInfo.AnnouncementID).Result != -1)
+            if (CheckAnnouncement((int)annInfo.BranchData.BranchID, (int)annInfo.AnnouncementID,annInfo.TransactionData.FinancialYear).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from ann in this.context.ANNOUNCE_MASTER
@@ -54,14 +57,15 @@ namespace Ashirvad.Repo.Services.Area.Announcement
             return -1;
         }
 
-        public async Task<List<AnnouncementEntity>> GetAllAnnouncement(long branchID)
+        public async Task<List<AnnouncementEntity>> GetAllAnnouncement(long branchID,string financialyear)
         {
             try
             {
                 var data = (from u in this.context.ANNOUNCE_MASTER
                             join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
+                            join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id 
                             from branch in tempBranch.DefaultIfEmpty() orderby u.announce_id descending
-                            where (0 == branchID || u.branch_id == 0 || (u.branch_id.HasValue && u.branch_id.Value == branchID)) && u.row_sta_cd == 1
+                            where (0 == branchID || u.branch_id == 0 || (u.branch_id.HasValue && u.branch_id.Value == branchID)) && u.row_sta_cd == 1 && t.financial_year == financialyear
                             select new AnnouncementEntity()
                             {
                                 RowStatusData = new RowStatusEntity()

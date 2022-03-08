@@ -35,7 +35,7 @@ namespace Ashirvad.Web.Controllers
                 branch.AnnouncementInfo = result.Data;
             }
            
-            var branchData = await _announcementService.GetAllAnnouncement(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            var branchData = await _announcementService.GetAllAnnouncement(SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID,SessionContext.Instance.LoginUser.FinancialYear);
             //var branchData = await _announcementService.GetAllAnnouncement(0);
             branch.AnnouncementData = branchData.Data;
 
@@ -72,7 +72,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> GetExportData(string Search)
         {
-            var branchData = await _announcementService.GetAllAnnouncement(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            var branchData = await _announcementService.GetAllAnnouncement(SessionContext.Instance.LoginUser.BranchInfo.BranchID,SessionContext.Instance.LoginUser.FinancialYear);
             return View("~/Views/Anouncement/_Export_Anouncement.cshtml", branchData.Data);
 
         }
