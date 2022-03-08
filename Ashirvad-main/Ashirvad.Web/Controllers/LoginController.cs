@@ -39,6 +39,7 @@ namespace Ashirvad.Web.Controllers
             var userInfo = await _userService.ValidateUser(user.Username, user.Password);
             if (userInfo != null)
             {
+                userInfo.FinancialYear = user.FinancialYear;
                 success = true;
                 var Get = await GetBranchRights(userInfo.BranchInfo.BranchID);
                 if (userInfo.UserType == Enums.UserType.SuperAdmin)
@@ -48,6 +49,7 @@ namespace Ashirvad.Web.Controllers
                     response.Message = "Login Successfully!!";
                     response.Status = true;
                     response.URL = "Home/Dashboard";
+                    
                     SessionContext.Instance.LoginUser = userInfo;
                     //if (SessionContext.Instance.userRightsList != null)
                     //{
@@ -72,6 +74,7 @@ namespace Ashirvad.Web.Controllers
                         response.Message = "Login Successfully!!";
                         response.Status = true;
                         response.URL = "Home/ADashboard";
+
                         SessionContext.Instance.LoginUser = userInfo;
                     }
                     else
@@ -133,7 +136,7 @@ namespace Ashirvad.Web.Controllers
                 else
                 {
                     entity.Status = false;
-                    entity.Message = "Please Enter Register Mobile Number!!";
+                    entity.Message = "Please Enter Registered Mobile Number!!";
                 }
 
             }

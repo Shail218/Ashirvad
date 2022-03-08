@@ -124,6 +124,7 @@
 <body class="skin-blue layout-top-nav">
     <input id="rightslist" hidden value="@SessionContext.Instance.userRightsList" />
     <input id="Lbranch" hidden value="@SessionContext.Instance.LoginUser.BranchInfo.BranchName" />
+    <input id="FinanceYear" hidden value="@SessionContext.Instance.LoginUser.FinancialYear" />
     <input type="hidden" id="hdnFldVDName" value="@Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["VDName"])" />
     @if (SessionContext.Instance.LoginUser.UserType != Ashirvad.Common.Enums.UserType.SuperAdmin)
     {
@@ -529,7 +530,8 @@
                     </div>
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <h4 style="color: white;" id="lblBranchName">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</h4>
+                            <h4 style="color: white;" id="lblBranchName">@SessionContext.Instance.LoginUser.BranchInfo.BranchName - @SessionContext.Instance.LoginUser.FinancialYear</h4>
+                            @*<h4 style="color: white;" id="lblFinanceYear"></h4>*@
                         </div>
                     </div>
                 </nav>

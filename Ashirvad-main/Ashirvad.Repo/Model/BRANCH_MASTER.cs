@@ -73,7 +73,6 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BRANCH_LICENSE> BRANCH_LICENSE { get; set; }
         public virtual BRANCH_MAINT BRANCH_MAINT { get; set; }
-        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BRANCH_RIGHTS_MASTER> BRANCH_RIGHTS_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -140,5 +139,6 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<PAYMENT_MASTER> PAYMENT_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PACKAGE_MASTER> PACKAGE_MASTER { get; set; }
+        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
     }
 }

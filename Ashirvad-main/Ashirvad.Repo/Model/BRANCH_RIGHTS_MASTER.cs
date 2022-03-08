@@ -20,8 +20,8 @@ namespace Ashirvad.Repo.Model
         public Nullable<int> row_sta_cd { get; set; }
         public long trans_id { get; set; }
     
-        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         public virtual PACKAGE_MASTER PACKAGE_MASTER { get; set; }
+        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
     }
 }

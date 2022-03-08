@@ -28,9 +28,9 @@ namespace Ashirvad.Repo.Model
         public long trans_id { get; set; }
         public System.DateTime submit_dt { get; set; }
     
-        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         public virtual HOMEWORK_MASTER HOMEWORK_MASTER { get; set; }
         public virtual STUDENT_MASTER STUDENT_MASTER { get; set; }
+        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
     }
 }

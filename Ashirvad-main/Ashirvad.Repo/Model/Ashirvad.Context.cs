@@ -32,7 +32,6 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<NOTIFICATION_TYPE_REL> NOTIFICATION_TYPE_REL { get; set; }
         public virtual DbSet<SCHOOL_MASTER> SCHOOL_MASTER { get; set; }
         public virtual DbSet<STUDENT_MAINT> STUDENT_MAINT { get; set; }
-        public virtual DbSet<TRANSACTION_MASTER> TRANSACTION_MASTER { get; set; }
         public virtual DbSet<TYPE_DESC> TYPE_DESC { get; set; }
         public virtual DbSet<USER_DEF> USER_DEF { get; set; }
         public virtual DbSet<USER_ROLE> USER_ROLE { get; set; }
@@ -89,6 +88,7 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<PAYMENT_MASTER> PAYMENT_MASTER { get; set; }
         public virtual DbSet<PACKAGE_MASTER> PACKAGE_MASTER { get; set; }
         public virtual DbSet<NOTIFICATION_STD_MASTER> NOTIFICATION_STD_MASTER { get; set; }
+        public virtual DbSet<TRANSACTION_MASTER> TRANSACTION_MASTER { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

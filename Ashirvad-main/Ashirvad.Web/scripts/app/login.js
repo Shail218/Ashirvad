@@ -75,7 +75,7 @@ function ChangePassword() {
 function LoadFinancialYear() {
         $('#financeyr').empty();
         $('#financeyr').select2();
-        $("#financeyr").append("<option value=" + 0 + ">---Select Course---</option>");
+    $("#financeyr").append("<option value=" + 0 + ">---Select Financial Year---</option>");
    
     var today = new Date();
     
@@ -91,17 +91,26 @@ function LoadFinancialYear() {
         if (i == today.getFullYear()) {
             if ((today.getMonth() + 1) <= 3) {
                 fiscalyear = (today.getFullYear() - 1) + "-" + today.getFullYear()
-                $("#financeyr").append("<option value='" + fiscalyear + "'>" + fiscalyear + "</option>").attr("selected", "selected");
+                //$("#financeyr").append("<option value='" + fiscalyear + "'>" + fiscalyear + "</option>");
+                $("#FinancialYear").val(fiscalyear);
+                $('#financeyr option[value="' + $("#FinancialYear").val() + '"]').attr("selected", "selected");
             } else {
                 fiscalyear = today.getFullYear() + "-" + (today.getFullYear() + 1)
-                $("#financeyr").append("<option value='" + fiscalyear + "'>" + fiscalyear + "</option>").attr("selected", "selected");
+                $("#financeyr").append("<option value='" + fiscalyear + "'>" + fiscalyear + "</option>");
+                $("#FinancialYear").val(fiscalyear);
+                $('#financeyr option[value="' + $("#FinancialYear").val() + '"]').attr("selected", "selected");
             }
         } else {
-            fiscalyear = today.getFullYear() + "-" + (today.getFullYear() + 1)
+            fiscalyear = i + "-" + (i + 1)
             $("#financeyr").append("<option value='" + fiscalyear + "'>" + fiscalyear + "</option>");
         }
     }
 }
+
+$("#financeyr").change(function () {
+    var Data = $("#financeyr option:selected").val();
+    $('#FinancialYear').val(Data);
+});
 function getCurrentFinancialYear() {
     var fiscalyear = "";
     var today = new Date();

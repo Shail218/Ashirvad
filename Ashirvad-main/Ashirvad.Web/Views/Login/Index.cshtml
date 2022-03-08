@@ -243,8 +243,7 @@
                                             @*<input ID="txtpwd" name="Password" type="password" class="user-password" MaxLength="10" placeholder="Enter your password" />*@
                                         </span>
                                         <span class="block input-icon input-icon-right">
-                                            @Html.Label("Select Financial Year", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                                            <select name="financeyr" id="financeyr" class="form-control requiredDLL" alt="Finanical Year">
+                                            <select name="financeyr" id="financeyr" class="form-control requiredDDL" alt="Finanical Year">
                                                 <option value="0">--Select Financial Year--</option>
                                             </select>
                                             @Html.HiddenFor(x => x.FinancialYear)
@@ -291,5 +290,6 @@
             }
         </script>*@
     <script src="~/scripts/app/login.js"></script>
+    <script src="~/ThemeData/plugins/select2/select2.full.min.js"></script>
 </body>
 </html>

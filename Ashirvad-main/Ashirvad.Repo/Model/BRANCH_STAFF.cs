@@ -37,10 +37,10 @@ namespace Ashirvad.Repo.Model
         public long trans_id { get; set; }
     
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
-        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USER_DEF> USER_DEF { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FACULTY_MASTER> FACULTY_MASTER { get; set; }
+        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
     }
 }

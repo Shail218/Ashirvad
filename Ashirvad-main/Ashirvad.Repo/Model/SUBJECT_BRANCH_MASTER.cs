@@ -34,8 +34,8 @@ namespace Ashirvad.Repo.Model
         public virtual COURSE_MASTER COURSE_MASTER { get; set; }
         public virtual SUBJECT_BRANCH_MASTER SUBJECT_BRANCH_MASTER1 { get; set; }
         public virtual SUBJECT_BRANCH_MASTER SUBJECT_BRANCH_MASTER2 { get; set; }
-        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SUBJECT_DTL_MASTER> SUBJECT_DTL_MASTER { get; set; }
+        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
     }
 }

@@ -24,7 +24,6 @@ namespace Ashirvad.Repo.Model
         public long trans_id { get; set; }
     
         public virtual PAGE_MASTER PAGE_MASTER { get; set; }
-        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         public virtual PACKAGE_MASTER PACKAGE_MASTER { get; set; }
     }
 }
