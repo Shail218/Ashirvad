@@ -56,11 +56,11 @@ namespace Ashirvad.Web.Controllers
 
             if (branchID > 0)
             {
-                var result = await _staffService.GetAllStaff(branchID, SessionContext.Instance.LoginUser.FinancialYear);
+                var result = await _staffService.GetAllStaff(branchID);
                 branch.StaffData = result;
             }
 
-            var branchData = await _staffService.GetAllStaff(SessionContext.Instance.LoginUser.FinancialYear);
+            var branchData = await _staffService.GetAllStaff();
             branch.StaffData = branchData;
 
             return View("Index", branch);
@@ -104,7 +104,7 @@ namespace Ashirvad.Web.Controllers
             {
                 item.name = columns[item.column];
             }
-            var branchData = await _staffService.GetAllCustomStaff(model, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.FinancialYear);
+            var branchData = await _staffService.GetAllCustomStaff(model, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             long total = 0;
             if (branchData.Count > 0)
             {
@@ -122,7 +122,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> GetExportData(string Search)
         {
-            var branchData = await _staffService.GetAllStaff(SessionContext.Instance.LoginUser.BranchInfo.BranchID,SessionContext.Instance.LoginUser.FinancialYear);
+            var branchData = await _staffService.GetAllStaff(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             return View("~/Views/User/_Export_User.cshtml", branchData);
 
         }

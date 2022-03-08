@@ -34,9 +34,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllStaff")]
         [HttpPost]
-        public OperationResult<List<StaffEntity>> GetAllStaff(long branchID,string financialyear)
+        public OperationResult<List<StaffEntity>> GetAllStaff(long branchID)
         {
-            var data = this._staffService.GetAllStaff(branchID,financialyear);
+            var data = this._staffService.GetAllStaff(branchID);
             OperationResult<List<StaffEntity>> result = new OperationResult<List<StaffEntity>>();
             result.Completed = true;
             result.Data = data.Result;
