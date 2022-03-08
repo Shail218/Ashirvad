@@ -107,7 +107,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             standardEntity.data.Add(data1);
             ArrayList data2 = new ArrayList();
             int count1 = (from u in this.context.STUDENT_MASTER
-                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 2)
+                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 2 && u.TRANSACTION_MASTER.financial_year == financialyear)
                           select new BranchStandardEntity()
                           {
                               branchid = u.branch_id
@@ -117,7 +117,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             standardEntity.data.Add(data2);
             ArrayList data3 = new ArrayList();
             int count2 = (from u in this.context.STUDENT_MASTER
-                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 3)
+                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 3 && u.TRANSACTION_MASTER.financial_year == financialyear)
                           select new BranchStandardEntity()
                           {
                               branchid = u.branch_id
