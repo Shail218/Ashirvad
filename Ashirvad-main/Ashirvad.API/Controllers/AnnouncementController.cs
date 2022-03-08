@@ -42,9 +42,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllAnnouncement")]
         [HttpGet]
-        public OperationResult<List<AnnouncementEntity>> GetAllAnnouncement(long branchID, string financialyear)
+        public OperationResult<List<AnnouncementEntity>> GetAllAnnouncement(long branchID)
         {
-            var data = _announcementService.GetAllAnnouncement(branchID, financialyear);
+            var data = _announcementService.GetAllAnnouncement(branchID);
             OperationResult<List<AnnouncementEntity>> result = new OperationResult<List<AnnouncementEntity>>();
             result.Completed = true;
             result.Data = data.Result.Data;
