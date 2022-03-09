@@ -1,4 +1,4 @@
-﻿
+﻿@model Ashirvad.Data.Model.PaymentRegisterDataModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,139 +9,32 @@
     <div class="row">
         <section class="col-md-12">
             <div class="box box-warning">
-                <div class="box-body"  style="padding:10px">
-                    <div class="row">
-                        @*<div class="col-md-3">
-                            @Html.DropDownList("Branch", new List<SelectListItem>
-                                           {
-                                           new SelectListItem{ Text="---Select-Branch---", Value = "-1" },
-                                            new SelectListItem{ Text="Branch", Value = "1" },
-                                            }, new { @class = "form-control", id = "Branch" })
-                        </div>*@
-                        <div class="col-md-12">
-                            <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
-                                <thead>
-                                    <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
-                                        <th>
-                                            Standard
-                                        </th>
-                                        <th>
-                                            Remarks
-                                        </th>
-                                        <th>
-                                            Edit
-                                        </th>
-                                        <th>
-                                            Delete
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                @*@foreach (var item in Model.BranchLogo)
-                                    {
-                                        <tr>
-
-                                            @if (item.Photo == null || item.Photo == "")
-                                            {
-                                                <td><img src="~/ThemeData/images/Default.png" style="height:50px;width:50px" /></td>
-                                            }
-                                            else
-                                            {
-                                                <td><img src="@Url.Content(""+item.Photo+"")" style="height:50px;width:50px" /></td>
-                                            }
-
-
-
-                                            <td>
-                                                @item.FirstName
-                                            </td>
-
-                                            <td>
-                                                @item.AdmissionDate
-                                            </td>
-                                            <td>
-                                                @item.Standard
-                                            </td>
-                                            <td>
-                                                @item.BatchTime
-                                            </td>
-                                            <td>
-                                                @item.ContactNo
-                                            </td>
-
-                                        </tr>
-                                    }*@
-
-                            </table>
-
-                        </div>
-                    </div>
-
+                <div class="box-body" style="padding:5px">
+                    @{
+                        Html.RenderPartial("Filter");
+                    }
+                </div>
+            </div>
+        </section>
+        <section class="col-md-12">
+            <div class="box box-warning" id="PayDiv">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Chart</h3>
+                </div>
+                <div class="box-body" id="PaymentData">
+                    @{
+                        Html.RenderPartial("Manage", new ViewDataDictionary(Model.registerEntities));
+                    }
                 </div>
             </div>
         </section>
     </div>
 
     @section Scripts {
-        <script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
-        <script>
-            $(document).ready(function () {
+        <script src="~/scripts/app/onlinepayment.js"></script>
 
-                $('#studenttbl').DataTable({
-                    "searching": true,
-                    "orderable": true,
-                    "columnDefs": [
-                        {
-                            "targets": [0],
-                            "searchable": false,
-                            "orderable": false,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [1],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [2],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [3],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [4],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-                        {
-                            "targets": [5],
-                            "searchable": true,
-                            "orderable": true,
-                            "width": "10%"
-                        },
-
-                    ],
-                    "columns": [
-                        { "data": "" },
-                        { "data": "FirstName" },
-                        { "data": "AdmissionDate" },
-                        { "data": "Standard" },
-                        { "data": "BatchTime" },
-                        { "data": "ContactNo" },
-                    ]
-                });
-            });
-        </script>
         <script type="text/javascript">
             function ConfirmationDialog() {
                 if (confirm("Are you sure to continue?"))

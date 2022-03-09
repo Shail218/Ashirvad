@@ -20,6 +20,7 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Notification;
 using Ashirvad.Repo.DataAcceessAPI.Area.Package;
 using Ashirvad.Repo.DataAcceessAPI.Area.Page;
 using Ashirvad.Repo.DataAcceessAPI.Area.Paper;
+using Ashirvad.Repo.DataAcceessAPI.Area.PaymentRegister;
 using Ashirvad.Repo.DataAcceessAPI.Area.Reminder;
 using Ashirvad.Repo.DataAcceessAPI.Area.School;
 using Ashirvad.Repo.DataAcceessAPI.Area.Staff;
@@ -52,6 +53,7 @@ using Ashirvad.Repo.Services.Area.Notification;
 using Ashirvad.Repo.Services.Area.Package;
 using Ashirvad.Repo.Services.Area.Page;
 using Ashirvad.Repo.Services.Area.Paper;
+using Ashirvad.Repo.Services.Area.PaymentRegister;
 using Ashirvad.Repo.Services.Area.Reminder;
 using Ashirvad.Repo.Services.Area.School;
 using Ashirvad.Repo.Services.Area.Staff;
@@ -84,6 +86,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Notification;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Package;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Page;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Paper;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.PaymentRegister;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Reminder;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.School;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Staff;
@@ -114,6 +117,7 @@ using Ashirvad.ServiceAPI.Services.Area.Notification;
 using Ashirvad.ServiceAPI.Services.Area.Package;
 using Ashirvad.ServiceAPI.Services.Area.Page;
 using Ashirvad.ServiceAPI.Services.Area.Paper;
+using Ashirvad.ServiceAPI.Services.Area.PaymentRegister;
 using Ashirvad.ServiceAPI.Services.Area.Reminder;
 using Ashirvad.ServiceAPI.Services.Area.School;
 using Ashirvad.ServiceAPI.Services.Area.Staff;
@@ -272,6 +276,8 @@ namespace Ashirvad.Web
             container.RegisterType<IChartAPI, Chart>();
             container.RegisterType<IChartService, ChartService>();
 
+            container.RegisterType<IPaymentRegisterAPI, PaymentRegister>();
+            container.RegisterType<IPaymentRegisterService, PaymentRegisterService>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

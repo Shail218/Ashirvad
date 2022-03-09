@@ -50,6 +50,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.PaymentRegister
 
             return null;
         }
+        public async Task<List<PaymentRegisterEntity>> GetPaymentRegisterList(string financialyear, long BranchID, long CourseID, long ClassID, long studentID)
+        {
+            try
+            {
+                var data = await _paymentContext.GetPaymentRegisterList(financialyear, BranchID,CourseID,ClassID, studentID);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
 
+            return null;
+        }
+       
     }
 }

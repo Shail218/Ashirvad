@@ -59,7 +59,8 @@
     BatchWiseChart: $("#hdnFldVDName").val() + "BatchWiseChart/",
     ListOfStudent: $("#hdnFldVDName").val() + "ListOfStudent/",
     ProgressReportChart: $("#hdnFldVDName").val() + "ProgressReportChart/",    
-    AttendanceByStudent: $("#hdnFldVDName").val() + "AttendanceByStudent/" 
+    AttendanceByStudent: $("#hdnFldVDName").val() + "AttendanceByStudent/" ,
+    OnlinePaymentList: $("#hdnFldVDName").val() + "OnlinePaymentList/"
 };
 
 function GetExtention(image){

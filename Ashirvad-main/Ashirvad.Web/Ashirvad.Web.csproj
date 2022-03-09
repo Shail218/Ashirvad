@@ -302,6 +302,7 @@
     <Content Include="scripts\app\marks.js" />
     <Content Include="scripts\app\marksregister.js" />
     <Content Include="scripts\app\notification.js" />
+    <Content Include="scripts\app\onlinepayment.js" />
     <Content Include="scripts\app\package.js" />
     <Content Include="scripts\app\packageright.js" />
     <Content Include="scripts\app\page.js" />
@@ -1485,6 +1486,8 @@
     <Content Include="Views\BranchCourse\_Export_BranchCourse.cshtml" />
     <Content Include="Views\BranchClass\_Export_BranchClass.cshtml" />
     <Content Include="Views\BranchSubject\_Export_BranchSubject.cshtml" />
+    <Content Include="Views\OnlinePaymentList\Filter.cshtml" />
+    <Content Include="Views\OnlinePaymentList\Manage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

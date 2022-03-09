@@ -22,12 +22,6 @@ namespace Ashirvad.Repo.Services.Area.PaymentRegister
                 data = new Model.PAYMENT_MASTER();
                 isUpdate = false;
             }
-            else
-            {
-                data = new Model.PAYMENT_MASTER();
-                isUpdate = false;
-
-            }
             payment.row_sta_cd = entity.RowStatus.RowStatusId;
             payment.trans_id = this.AddTransactionData(entity.Transaction);
             payment.student_id = entity.studentEntity.StudentID;
@@ -52,6 +46,36 @@ namespace Ashirvad.Repo.Services.Area.PaymentRegister
             var data = (from u in this.context.PAYMENT_MASTER
                         orderby u.payment_id descending
                         where u.student_id == studentID && u.branch_id == branchID && u.row_sta_cd == 1
+                        select new PaymentRegisterEntity()
+                        {
+                            studentEntity = new StudentEntity()
+                            {
+                                StudentID = u.student_id,
+                                Name = u.STUDENT_MASTER.first_name + " " + u.STUDENT_MASTER.last_name
+                            },
+                            branchEntity = new BranchEntity()
+                            {
+                                BranchID = u.branch_id
+                            },
+                            file_name = u.file_name,
+                            file_path = "https://mastermind.org.in" + u.file_path,
+                            remark = u.remark,
+                            student_remark = u.extra1,
+                            payment_status = u.payment_status.HasValue ? u.payment_status.Value : 0,
+                            status_txt = u.payment_status == 1 ? "Pending" : u.payment_status == 2 ? "Approved" : "Rejected",
+                        }).Distinct().ToList();
+            return data;
+        }
+
+        public async Task<List<PaymentRegisterEntity>> GetPaymentRegisterList(string financialyear,long BranchID,long CourseID,long ClassID,long studentID)
+        {
+            var data = (from u in this.context.PAYMENT_MASTER
+                        orderby u.payment_id descending
+                        where u.student_id == studentID 
+                        &&(u.branch_id ==0|| u.branch_id==BranchID)
+                        &&(u.STUDENT_MASTER.course_dtl_id ==0|| u.STUDENT_MASTER.course_dtl_id ==CourseID)
+                        &&(u.STUDENT_MASTER.class_dtl_id == 0|| u.STUDENT_MASTER.class_dtl_id == ClassID)
+                        && u.TRANSACTION_MASTER.financial_year == financialyear && u.row_sta_cd == 1
                         select new PaymentRegisterEntity()
                         {
                             studentEntity = new StudentEntity()

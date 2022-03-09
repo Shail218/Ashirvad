@@ -11,5 +11,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.PaymentRegister
     {
         Task<PaymentRegisterEntity> PaymentRegisterMaintenance(PaymentRegisterEntity entity);
         Task<List<PaymentRegisterEntity>> GetPaymentListForStudent(long studentID, long branchID);
+        Task<List<PaymentRegisterEntity>> GetPaymentRegisterList(string financialyear, long BranchID, long CourseID = 0, long ClassID = 0, long studentID = 0);
     }
 }
