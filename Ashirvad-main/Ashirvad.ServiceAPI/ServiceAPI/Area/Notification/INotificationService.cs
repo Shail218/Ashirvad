@@ -19,5 +19,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Notification
         Task<OperationResult<List<NotificationEntity>>> GetAllNotification(long branchID, int typeID);
         Task<OperationResult<List<NotificationEntity>>> GetAllNotificationforexcel(long branchID = 0);
         Task<OperationResult<List<NotificationEntity>>> GetMobileNotification(long branchID);
+        Task<OperationResult<List<NotificationEntity>>> GetAllStudentNotification(long branchID, int typeID, long CourseID, long ClassID);
     }
 }

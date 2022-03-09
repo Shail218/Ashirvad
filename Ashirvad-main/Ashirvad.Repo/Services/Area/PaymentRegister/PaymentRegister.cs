@@ -73,6 +73,6 @@ namespace Ashirvad.Repo.Services.Area.PaymentRegister
             return data;
         }
 
-
+      
     }
 }

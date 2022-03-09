@@ -144,6 +144,41 @@ namespace Ashirvad.Repo.Services.Area.Notification
 
             return data;
         }
+        public async Task<List<NotificationEntity>> GetAllStudentNotification(long branchID, int typeID,long CourseID,long ClassID)
+        {
+            var data = (from u in this.context.NOTIFICATION_MASTER
+                        join t in this.context.NOTIFICATION_TYPE_REL on u.notif_id equals t.notif_id
+                        join z in this.context.NOTIFICATION_STD_MASTER on u.notif_id equals z.notif_id
+                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
+                        from branch in tempBranch.DefaultIfEmpty()
+                        where (branchID == 0 || u.branch_id == 0 || u.branch_id.Value == branchID)
+                        && (0 == typeID || t.sub_type_id == typeID) && u.row_sta_cd == 1
+                        && z.course_dtl_id == CourseID && z.class_dtl_id == ClassID
+                        select new NotificationEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            NotificationMessage = u.notif_message,
+                            NotificationID = u.notif_id,
+                            Notification_Date = u.notification_date,
+                            Branch = new BranchEntity() { BranchID = branch != null ? branch.branch_id : 0, BranchName = branch != null ? branch.branch_name : "All Branch" },
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).Distinct().OrderByDescending(a => a.NotificationID).ToList();
+
+            if (data?.Count > 0)
+            {
+                foreach (var item in data)
+                {
+                    int idx = data.IndexOf(item);
+                    data[idx].NotificationType = this.context.NOTIFICATION_TYPE_REL.Where(z => z.notif_id == item.NotificationID).Select(y => new NotificationTypeEntity() { ID = y.unique_id, TypeID = y.sub_type_id, TypeText = y.sub_type_id == 1 ? "Admin" : y.sub_type_id == 2 ? "Teacher" : "Student" }).ToList();
+                }
+            }
+
+            return data;
+        }
         public async Task<List<NotificationEntity>> GetMobileNotification(long branchID)
         {
             var data = (from u in this.context.NOTIFICATION_MASTER

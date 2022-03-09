@@ -26,6 +26,14 @@ namespace Ashirvad.ServiceAPI.Services.Area.Notification
             notif.Completed = true;
             return notif;
         }
+        
+        public async Task<OperationResult<List<NotificationEntity>>> GetAllStudentNotification(long branchID, int typeID, long CourseID, long ClassID)
+        {
+            OperationResult<List<NotificationEntity>> notif = new OperationResult<List<NotificationEntity>>();
+            notif.Data = await _notificationContext.GetAllStudentNotification(branchID, typeID,CourseID,ClassID);
+            notif.Completed = true;
+            return notif;
+        }
 
         public async Task<List<NotificationEntity>> GetAllCustomNotification(DataTableAjaxPostModel model, long branchID, int typeID)
         {

@@ -19,5 +19,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Notification
         Task<List<NotificationEntity>> GetAllCustomNotification2(DataTableAjaxPostModel model, long branchID, int typeID);
         Task<List<NotificationEntity>> GetAllNotificationforexcel(long branchID);
         Task<List<NotificationEntity>> GetMobileNotification(long branchID);
+        Task<List<NotificationEntity>> GetAllStudentNotification(long branchID, int typeID, long CourseID, long ClassID);
     }
 }
