@@ -432,7 +432,7 @@ namespace Ashirvad.Repo.Services.Area.Notification
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id into tempBranch
                         from branch in tempBranch.DefaultIfEmpty()
                         orderby u.notif_id descending
-                        where (0 == branchID || u.branch_id == null || (u.branch_id.HasValue && u.branch_id.Value == branchID) && u.row_sta_cd == 1)
+                        where (0 == branchID || u.branch_id == null || (u.branch_id.HasValue && u.branch_id.Value == branchID) && u.row_sta_cd == 1 )
                         select new NotificationEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -458,6 +458,23 @@ namespace Ashirvad.Repo.Services.Area.Notification
                         Type = Type + "-" + item1.TypeText;
                     }
                     item.NotificationTypeText = Type.Substring(1);
+                    item.list = (from u in this.context.NOTIFICATION_STD_MASTER
+                                 where item.RowStatus.RowStatusId == 1 && item.NotificationID == u.notif_id
+                                 select new NotificationStandardEntity()
+                                 {
+                                     //LibraryID = item.LibraryID,
+                                     standard = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                 }).Distinct().ToList();
+                    item.BranchCourse = (from u in this.context.NOTIFICATION_STD_MASTER
+                                         where item.RowStatus.RowStatusId == 1 && item.NotificationID == u.notif_id
+                                         select new BranchCourseEntity()
+                                         {
+                                             course = new CourseEntity()
+                                             {
+                                                 CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                             }
+
+                                         }).FirstOrDefault();
                 }
             }
 

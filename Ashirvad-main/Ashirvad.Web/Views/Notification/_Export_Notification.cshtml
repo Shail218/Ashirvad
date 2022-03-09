@@ -10,6 +10,12 @@
             Branch Name
         </th>
         <th style="border: 1px groove black; border-collapse: collapse;">
+            Course Name
+        </th>
+        <th style="border: 1px groove black; border-collapse: collapse;">
+            Class Name
+        </th>
+        <th style="border: 1px groove black; border-collapse: collapse;">
             Notification Date
         </th>
         <th style="border: 1px groove black; border-collapse: collapse;">
@@ -23,19 +29,53 @@
 
     @foreach (var item in Model)
     {
-<tr>
+        if (item.list?.Count > 0)
+        {
+            foreach (var i in item.list)
+            {
+                <tr>
+                    <td style="border: 1px groove black; border-collapse: collapse;">
+                        @item.Branch.BranchName
+                    </td>
+                    <td style="border: 1px groove black; border-collapse: collapse;">
+                        @item.BranchCourse.course.CourseName
+                    </td>
+                    <td style="border: 1px groove black; border-collapse: collapse;">
+                        @i.standard
+                    </td>
+                    
+                    <td style="border: 1px groove black; border-collapse: collapse;">
+                        @item.Notification_Date.ToString("dd-MM-yyyy")
+                    </td>
+                    <td style="border: 1px groove black; border-collapse: collapse;">
+                        @item.NotificationMessage
+                    </td>
+                    <td style="border: 1px groove black; border-collapse: collapse;">@item.NotificationTypeText</td>
+                </tr>
+            }
 
-    <td style="border: 1px groove black; border-collapse: collapse;">
-        @item.Branch.BranchName
-    </td>
-    <td style="border: 1px groove black; border-collapse: collapse;">
-        @item.Notification_Date.ToString("dd-MM-yyyy")
-    </td>
-    <td style="border: 1px groove black; border-collapse: collapse;">
-        @item.NotificationMessage
-    </td>
-    <td style="border: 1px groove black; border-collapse: collapse;">@item.NotificationTypeText</td>
-</tr>
+
+        }
+        else
+        {
+            <tr>
+                <td style="border: 1px groove black; border-collapse: collapse;">
+                    @item.Branch.BranchName
+                </td>
+                <td style="border: 1px groove black; border-collapse: collapse;">
+                </td>
+                <td style="border: 1px groove black; border-collapse: collapse;">
+                </td>
+                <td style="border: 1px groove black; border-collapse: collapse;">
+                    @item.Notification_Date.ToString("dd-MM-yyyy")
+                </td>
+                <td style="border: 1px groove black; border-collapse: collapse;">
+                    @item.NotificationMessage
+                </td>
+                <td style="border: 1px groove black; border-collapse: collapse;">@item.NotificationTypeText</td>
+            </tr>
+        }
+
     }
 
 </table>
