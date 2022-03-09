@@ -38,12 +38,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.UPI
             return upi;
         }
 
-        public async Task<OperationResult<List<UPIEntity>>> GetAllUPIs(long branchID)
+        public async Task<OperationResult<List<UPIEntity>>> GetAllUPIs(long branchID, string financialyear)
         {
             try
             {
                 OperationResult<List<UPIEntity>> upis = new OperationResult<List<UPIEntity>>();
-                upis.Data = await _upiContext.GetAllUPIs(branchID);
+                upis.Data = await _upiContext.GetAllUPIs(branchID,financialyear);
                 upis.Completed = true;
                 return upis;
             }
@@ -55,12 +55,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.UPI
             return null;
         }
 
-        public async Task<OperationResult<UPIEntity>> GetUPIByUPIID(long upiID)
+        public async Task<OperationResult<UPIEntity>> GetUPIByUPIID(long upiID, string financialyear)
         {
             try
             {
                 OperationResult<UPIEntity> upi = new OperationResult<UPIEntity>();
-                upi.Data = await _upiContext.GetUPIByID(upiID);
+                upi.Data = await _upiContext.GetUPIByID(upiID,financialyear);
                 upi.Completed = true;
                 return upi;
             }

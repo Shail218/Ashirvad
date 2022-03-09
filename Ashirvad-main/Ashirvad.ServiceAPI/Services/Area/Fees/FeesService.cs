@@ -53,12 +53,12 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public async Task<FeesEntity> GetFeesByFeesID(long FeesID)
+        public async Task<FeesEntity> GetFeesByFeesID(long FeesID, string financialyear)
         {
             try
             {
                 FeesEntity Fees = new FeesEntity();
-                Fees = await _FeesContext.GetFeesByFeesID(FeesID);                
+                Fees = await _FeesContext.GetFeesByFeesID(FeesID,financialyear);                
                 return Fees;
             }
             catch (Exception ex)
@@ -68,12 +68,12 @@ namespace Ashirvad.ServiceAPI.Services.Area
 
             return null;
         }
-        public async Task<List<FeesEntity>> GetFeesByBranchID(long BranchID,long courseid, long STDID)
+        public async Task<List<FeesEntity>> GetFeesByBranchID(long BranchID,long courseid, long STDID, string financialyear)
         {
             try
             {
                 List<FeesEntity> Fees = new List<FeesEntity>();
-                Fees = await _FeesContext.GetAllFeesByBranchID(BranchID,courseid, STDID);
+                Fees = await _FeesContext.GetAllFeesByBranchID(BranchID,courseid, STDID,financialyear);
                 return Fees;
             }
             catch (Exception ex)
@@ -84,11 +84,11 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
        
-        public async Task<List<FeesEntity>> GetAllFees(long BranchID)
+        public async Task<List<FeesEntity>> GetAllFees(long BranchID, string financialyear)
         {
             try
             {
-                return await this._FeesContext.GetAllFees(BranchID);
+                return await this._FeesContext.GetAllFees(BranchID,financialyear);
             }
             catch (Exception ex)
             {
@@ -98,11 +98,11 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public async Task<List<FeesEntity>> GetAllCustomFees(DataTableAjaxPostModel model, long branchID)
+        public async Task<List<FeesEntity>> GetAllCustomFees(DataTableAjaxPostModel model, long branchID, string financialyear)
         {
             try
             {
-                return await this._FeesContext.GetAllCustomFees(model, branchID);
+                return await this._FeesContext.GetAllCustomFees(model, branchID,financialyear);
             }
             catch (Exception ex)
             {

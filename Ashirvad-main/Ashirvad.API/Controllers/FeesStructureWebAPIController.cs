@@ -142,9 +142,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetFeesByID")]
         [HttpPost]
-        public OperationResult<FeesEntity> GetFeesByID(long FeesID)
+        public OperationResult<FeesEntity> GetFeesByID(long FeesID, string financialyear)
         {
-            var data = this._FeesService.GetFeesByFeesID(FeesID);
+            var data = this._FeesService.GetFeesByFeesID(FeesID,financialyear);
             OperationResult<FeesEntity> result = new OperationResult<FeesEntity>();
             result.Data = data.Result;
             result.Completed = true;
@@ -163,9 +163,9 @@ namespace Ashirvad.API.Controllers
         }
         [Route("GetAllFees")]
         [HttpPost]
-        public OperationResult<List<FeesEntity>> GetAllFees()
+        public OperationResult<List<FeesEntity>> GetAllFees(string financialyear)
         {
-            var FeesData = this._FeesService.GetAllFees(0);
+            var FeesData = this._FeesService.GetAllFees(0,financialyear);
             OperationResult<List<FeesEntity>> result = new OperationResult<List<FeesEntity>>();
             result.Data = FeesData.Result;
             result.Completed = true;
@@ -174,9 +174,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetFeesByBranchID")]
         [HttpGet]
-        public OperationResult<List<FeesEntity>> GetFeesByBranchID(long BranchID,long courseid = 0, long StdID = 0)
+        public OperationResult<List<FeesEntity>> GetFeesByBranchID(long BranchID, string financialyear, long courseid = 0, long StdID = 0)
         {
-            var data = this._FeesService.GetFeesByBranchID(BranchID, courseid, StdID);
+            var data = this._FeesService.GetFeesByBranchID(BranchID, courseid, StdID,financialyear);
             OperationResult<List<FeesEntity>> result = new OperationResult<List<FeesEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -185,9 +185,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllUPIByBranch")]
         [HttpPost]
-        public OperationResult<List<UPIEntity>> GetAllUPIByBranch(long BranchID)
+        public OperationResult<List<UPIEntity>> GetAllUPIByBranch(long BranchID, string financialyear)
         {
-            var data = this._upiservice.GetAllUPIs(BranchID);
+            var data = this._upiservice.GetAllUPIs(BranchID,financialyear);
             OperationResult<List<UPIEntity>> result = new OperationResult<List<UPIEntity>>();
             result.Data = data.Result.Data;
             result.Completed = true;

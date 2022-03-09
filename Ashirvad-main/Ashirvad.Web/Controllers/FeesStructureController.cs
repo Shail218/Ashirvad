@@ -33,7 +33,7 @@ namespace Ashirvad.Web.Controllers
             FeesMaintenanceModel Fees = new FeesMaintenanceModel();
             if (FeesID > 0)
             {
-                var result = await _FeesService.GetFeesByFeesID(FeesID);
+                var result = await _FeesService.GetFeesByFeesID(FeesID,SessionContext.Instance.LoginUser.FinancialYear);
                 Fees.FeesInfo = result;
             }
             Fees.FeesData = new List<FeesEntity>();
@@ -91,7 +91,7 @@ namespace Ashirvad.Web.Controllers
             {
                 item.name = columns[item.column];
             }
-            var branchData = await _FeesService.GetAllCustomFees(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            var branchData = await _FeesService.GetAllCustomFees(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.FinancialYear);
             long total = 0;
             if (branchData.Count > 0)
             {

@@ -12,10 +12,11 @@ namespace Ashirvad.Repo.Services.Area.UPI
     public class UPI : ModelAccess, IUPIAPI
     {
 
-        public async Task<long> CheckUpi(long upiID, long BranchID, string upicode)
+        public async Task<long> CheckUpi(long upiID, long BranchID, string upicode, string financialyear)
         {
             long result;
-            bool isExists = this.context.UPI_MASTER.Where(s => (upiID == 0 || s.unique_id != upiID) && s.branch_id == BranchID && s.upi_code == upicode && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists =(from u in  this.context.UPI_MASTER where((upiID == 0 || u.unique_id != upiID)
+                            && u.branch_id == BranchID && u.upi_code == upicode && u.row_sta_cd == 1 && u.TRANSACTION_MASTER.financial_year==financialyear)select u).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
@@ -23,7 +24,7 @@ namespace Ashirvad.Repo.Services.Area.UPI
         public async Task<long> UPIMaintenance(UPIEntity upiInfo)
         {
             Model.UPI_MASTER upiMaster = new Model.UPI_MASTER();
-            if (CheckUpi(upiInfo.UPIId,upiInfo.BranchData.BranchID, upiInfo.UPICode).Result != -1)
+            if (CheckUpi(upiInfo.UPIId,upiInfo.BranchData.BranchID, upiInfo.UPICode,upiInfo.TransactionData.FinancialYear).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from upi in this.context.UPI_MASTER
@@ -55,11 +56,11 @@ namespace Ashirvad.Repo.Services.Area.UPI
             return -1;
         }
 
-        public async Task<List<UPIEntity>> GetAllUPIs(long branchID)
+        public async Task<List<UPIEntity>> GetAllUPIs(long branchID, string financialyear)
         {
             var data = (from u in this.context.UPI_MASTER
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id orderby u.unique_id descending
-                        where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
+                        where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1 && u.TRANSACTION_MASTER.financial_year == financialyear
                         select new UPIEntity()
                         {
                             RowStatusData = new RowStatusEntity()
@@ -76,11 +77,11 @@ namespace Ashirvad.Repo.Services.Area.UPI
             return data;
         }
 
-        public async Task<UPIEntity> GetUPIByID(long upiID)
+        public async Task<UPIEntity> GetUPIByID(long upiID, string financialyear)
         {
             var data = (from u in this.context.UPI_MASTER
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
-                        where u.unique_id == upiID
+                        where u.unique_id == upiID && u.TRANSACTION_MASTER.financial_year == financialyear
                         select new UPIEntity()
                         {
                             RowStatusData = new RowStatusEntity()

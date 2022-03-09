@@ -292,10 +292,10 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllUPIs")]
         [HttpGet]
-        public OperationResult<List<UPIEntity>> GetAllUPIs(long branchid)
+        public OperationResult<List<UPIEntity>> GetAllUPIs(long branchid,string financialyear)
         {
             UPI upi = new UPI();
-            var data = upi.GetAllUPIs(branchid);
+            var data = upi.GetAllUPIs(branchid,financialyear);
             OperationResult<List<UPIEntity>> result = new OperationResult<List<UPIEntity>>();
             result.Completed = true;
             result.Data = data.Result;

@@ -72,5 +72,7 @@ namespace Ashirvad.Repo.Services.Area.PaymentRegister
                         }).Distinct().ToList();
             return data;
         }
+
+
     }
 }
