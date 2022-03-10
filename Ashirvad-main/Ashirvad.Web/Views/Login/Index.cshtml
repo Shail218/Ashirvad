@@ -2,13 +2,14 @@
 
 @{
     Layout = null;
+    ViewBag.Title = "Login";
 }
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Login Page</title>
+    <title>Ashirvad | Login</title>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
     <!-- Tell the browser to be responsive to screen width -->
@@ -202,7 +203,7 @@
     <link rel="stylesheet" href="~/ThemeData/dist/css/skins/_all-skins.min.css" />
     <script src="~/scripts/jquery-3.3.1.min.js"></script>
     @*<script src="~/Admin/js/DataTable/datatables.js"></script>*@
-   
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <input type="hidden" id="hdnFldVDName" value="@Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["VDName"])" />

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Progress Report Chart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,13 +8,16 @@
     <div class="row">
         <section class="col-md-12">
             <div class="box box-warning" style="padding:5px">
-                <div class="box-body">
-                    @{
-                        Html.RenderPartial("Filter");
-                    }
+                <div class="box-header with-border">
+                    <h3 class="box-title">Progress Report Chart</h3>
+                    </div>
+                    <div class="box-body">
+                        @{
+                            Html.RenderPartial("Filter");
+                        }
+                    </div>
                 </div>
-            </div>
-        </section>
+</section>
         <section class="col-md-12">
             <div class="box box-primary" id="PersonalDiv">
                 <div class="box-header with-border">

@@ -1,6 +1,6 @@
 ﻿@model List<Ashirvad.Data.AttendanceEntity>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Attendance Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,7 +10,8 @@
         {
             <section class="col-md-12">
                 <div class="box box-warning">
-                    <div class="box-body">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Attendance Register</h3>
                         @{
                             Html.RenderPartial("Create");
                         }
@@ -18,14 +19,30 @@
                 </div>
             </section>
         }
-        <section class="col-md-12">
-            <div class="box box-primary">
+    <section class="col-md-12">
+        <div class="box box-primary">
+            @if (SessionContext.Instance.LoginUser.UserType != Ashirvad.Common.Enums.UserType.SuperAdmin)
+            {
+                <div class="box-header with-border">
+                    <h3 class="box-title">Attendance Register</h3>
+                    <div class="box-body" id="AttendanceData" style="padding:10px">
+                        @{
+                            Html.RenderPartial("Manage", new ViewDataDictionary(Model));
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+
                 <div class="box-body" id="AttendanceData" style="padding:10px">
                     @{
                         Html.RenderPartial("Manage", new ViewDataDictionary(Model));
                     }
                 </div>
-            </div>
+
+            }
+        </div>
         </section>
     </div>
     @section Scripts {

@@ -1,6 +1,6 @@
 ﻿    @model Ashirvad.Data.Model.AttendanceMaintenanceModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Student Attendance Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +9,8 @@
     <div class="row">
         <section class="col-md-12">
             <div class="box box-warning">
-                <div class="box-body">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Student Attendance Report</h3>
                     @{
                         Html.RenderPartial("Create",new ViewDataDictionary(Model.AttendanceInfo));
                     }

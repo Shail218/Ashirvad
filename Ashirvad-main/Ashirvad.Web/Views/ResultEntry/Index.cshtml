@@ -1,6 +1,6 @@
 ﻿@model Ashirvad.Data.Model.MarksMaintenanceModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Marks Entry";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +9,9 @@
     <div class="row">
         <section class="col-md-12">
             <div class="box box-warning">
-
+                <div class="box-header with-border">
+                    <h3 class="box-title">Marks Entry</h3>
+                </div>
                 <div class="box-body" style="padding:8px">
                     @{
                         Html.RenderPartial("Create", new ViewDataDictionary(Model.MarksInfo));

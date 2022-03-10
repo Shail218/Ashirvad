@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "List of Student Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,6 +9,9 @@
     <div class="row">
         <section class="col-md-12" >
             <div class="box box-warning" style="padding:5px">
+                <div class="box-header with-border">
+                    <h3 class="box-title">List of Student Report</h3>
+                </div>
                 <div class="box-body">
                     @{
                         Html.RenderPartial("Filter");
