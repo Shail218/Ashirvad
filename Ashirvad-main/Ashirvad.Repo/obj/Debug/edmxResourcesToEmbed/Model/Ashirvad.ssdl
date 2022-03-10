@@ -5,26 +5,49 @@
       <PropertyRef Name="brand_id" />
     </Key>
     <Property Name="brand_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="aboutus_id" Type="bigint" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
     <Property Name="brand_name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="header_img" Type="varbinary(max)" Nullable="false" />
+    <Property Name="header_img" Type="nvarchar" MaxLength="250" Nullable="false" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="header_img_path" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="ABOUTUS_MASTER">
     <Key>
       <PropertyRef Name="aboutus_id" />
     </Key>
     <Property Name="aboutus_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="website" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="website" Type="nvarchar" MaxLength="255" />
     <Property Name="email_id" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="contact_no" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="whatsapp_no" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="branch_id" Type="bigint" Nullable="false" />
-    <Property Name="header_img" Type="varbinary(max)" Nullable="false" />
-    <Property Name="header_img_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="header_img_name" Type="nvarchar" MaxLength="250" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="aboutus_desc" Type="varchar(max)" />
+    <Property Name="header_img_path" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="ANNOUNCE_MASTER">
+    <Key>
+      <PropertyRef Name="announce_id" />
+    </Key>
+    <Property Name="announce_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" />
+    <Property Name="announce_text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="APPROVAL_MASTER">
+    <Key>
+      <PropertyRef Name="approval_id" />
+    </Key>
+    <Property Name="approval_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="library_id" Type="bigint" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="library_status" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ATTENDANCE_DTL">
     <Key>
@@ -43,11 +66,12 @@
     </Key>
     <Property Name="attendance_hdr_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="branch_id" Type="bigint" Nullable="false" />
-    <Property Name="std_id" Type="bigint" Nullable="false" />
     <Property Name="batch_time_type" Type="int" Nullable="false" />
     <Property Name="attendance_dt" Type="datetime" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="course_dtl_id" Type="bigint" />
+    <Property Name="class_dtl_id" Type="bigint" />
   </EntityType>
   <EntityType Name="BANNER_MASTER">
     <Key>
@@ -57,6 +81,8 @@
     <Property Name="branch_id" Type="bigint" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
     <Property Name="banner_img" Type="varbinary(max)" />
+    <Property Name="file_name" Type="nvarchar(max)" />
+    <Property Name="file_path" Type="varchar(max)" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="BANNER_TYPE_REL">
@@ -73,13 +99,26 @@
     </Key>
     <Property Name="batch_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="branch_id" Type="bigint" Nullable="false" />
-    <Property Name="std_id" Type="bigint" Nullable="false" />
     <Property Name="batch_time" Type="int" Nullable="false" />
     <Property Name="mon_fri_batch_time" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="sat_batch_time" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="sun_batch_time" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="class_dtl_id" Type="bigint" />
+    <Property Name="course_dtl_id" Type="bigint" />
+  </EntityType>
+  <EntityType Name="BRANCH_AGREEMENT">
+    <Key>
+      <PropertyRef Name="agreement_id" />
+    </Key>
+    <Property Name="agreement_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="from_dt" Type="datetime" Nullable="false" />
+    <Property Name="to_dt" Type="datetime" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="amount" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="BRANCH_LICENSE">
     <Key>
@@ -101,6 +140,8 @@
     <Property Name="website" Type="nvarchar(max)" />
     <Property Name="branch_logo_ext" Type="nvarchar" MaxLength="255" />
     <Property Name="header_logo_ext" Type="nvarchar" MaxLength="255" />
+    <Property Name="file_path" Type="varchar(max)" />
+    <Property Name="file_name" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="BRANCH_MASTER">
     <Key>
@@ -115,6 +156,17 @@
     <Property Name="email_id" Type="nvarchar" MaxLength="50" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
     <Property Name="branch_type" Type="int" Nullable="false" />
+    <Property Name="board_type" Type="int" />
+  </EntityType>
+  <EntityType Name="BRANCH_RIGHTS_MASTER">
+    <Key>
+      <PropertyRef Name="branchrights_id" />
+    </Key>
+    <Property Name="branchrights_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="package_id" Type="bigint" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="BRANCH_STAFF">
     <Key>
@@ -135,13 +187,123 @@
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
   </EntityType>
+  <EntityType Name="CATEGORY_MASTER">
+    <Key>
+      <PropertyRef Name="category_id" />
+    </Key>
+    <Property Name="category_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="category_name" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CIRCULAR_MASTER">
+    <Key>
+      <PropertyRef Name="circular_id" />
+    </Key>
+    <Property Name="circular_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="circular_title" Type="nvarchar" MaxLength="255" />
+    <Property Name="circular_description" Type="nvarchar" MaxLength="255" />
+    <Property Name="row_sta_cd" Type="int" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="file_path" Type="nvarchar" MaxLength="255" />
+    <Property Name="file_name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CLASS_DTL_MASTER">
+    <Key>
+      <PropertyRef Name="class_dtl_id" />
+    </Key>
+    <Property Name="class_dtl_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="class_id" Type="bigint" Nullable="false" />
+    <Property Name="course_dtl_id" Type="bigint" Nullable="false" />
+    <Property Name="is_class" Type="bit" />
+    <Property Name="row_sta_cd" Type="int" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CLASS_MASTER">
+    <Key>
+      <PropertyRef Name="class_id" />
+    </Key>
+    <Property Name="class_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="class_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="row_sta_cd" Type="int" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="course_id" Type="bigint" />
+    <Property Name="extra1" Type="varchar" MaxLength="50" />
+    <Property Name="extra2" Type="varchar" MaxLength="50" />
+    <Property Name="extra3" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="COURSE_DTL_MASTER">
+    <Key>
+      <PropertyRef Name="course_dtl_id" />
+    </Key>
+    <Property Name="course_dtl_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="course_id" Type="bigint" Nullable="false" />
+    <Property Name="is_course" Type="bit" />
+    <Property Name="row_sta_cd" Type="int" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="COURSE_MASTER">
+    <Key>
+      <PropertyRef Name="course_id" />
+    </Key>
+    <Property Name="course_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="course_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="row_sta_cd" Type="int" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="file_path" Type="nvarchar" MaxLength="255" />
+    <Property Name="file_name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="FACULTY_MASTER">
+    <Key>
+      <PropertyRef Name="faculty_id" />
+    </Key>
+    <Property Name="faculty_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="staff_id" Type="bigint" />
+    <Property Name="branch_id" Type="bigint" />
+    <Property Name="course_dtl_id" Type="bigint" Nullable="false" />
+    <Property Name="class_dtl_id" Type="bigint" Nullable="false" />
+    <Property Name="subject_dtl_id" Type="bigint" Nullable="false" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="description" Type="varchar(max)" />
+    <Property Name="file_name" Type="nvarchar(max)" />
+    <Property Name="file_path" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="FEE_STRUCTURE_DTL">
+    <Key>
+      <PropertyRef Name="fee_struct_dtl_id" />
+    </Key>
+    <Property Name="fee_struct_dtl_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fee_struct_mst_id" Type="bigint" Nullable="false" />
+    <Property Name="fee_content" Type="varbinary(max)" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="file_name" Type="nvarchar(max)" />
+    <Property Name="file_path" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="FEE_STRUCTURE_MASTER">
+    <Key>
+      <PropertyRef Name="fee_struct_mst_id" />
+    </Key>
+    <Property Name="fee_struct_mst_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="remarks" Type="nvarchar(max)" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="class_dtl_id" Type="bigint" />
+    <Property Name="course_dtl_id" Type="bigint" />
+  </EntityType>
   <EntityType Name="GALLERY_MASTER">
     <Key>
       <PropertyRef Name="unique_id" />
     </Key>
     <Property Name="unique_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="branch_id" Type="bigint" Nullable="false" />
-    <Property Name="file_info" Type="varbinary(max)" Nullable="false" />
+    <Property Name="file_name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="file_path" Type="varchar(max)" Nullable="false" />
     <Property Name="remarks" Type="nvarchar(max)" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
@@ -154,27 +316,33 @@
     <Property Name="homework_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="homework_dt" Type="datetime" Nullable="false" />
     <Property Name="branch_id" Type="bigint" Nullable="false" />
-    <Property Name="std_id" Type="bigint" Nullable="false" />
-    <Property Name="sub_id" Type="bigint" Nullable="false" />
     <Property Name="batch_time_id" Type="int" Nullable="false" />
     <Property Name="remarks" Type="nvarchar(max)" />
-    <Property Name="homework_content" Type="varbinary(max)" Nullable="false" />
-    <Property Name="homework_file" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="file_path" Type="varchar(max)" />
+    <Property Name="homework_file" Type="nvarchar(max)" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="class_dtl_id" Type="bigint" />
+    <Property Name="course_dtl_id" Type="bigint" />
+    <Property Name="subject_dtl_id" Type="bigint" />
   </EntityType>
-  <EntityType Name="LIBRARY_DATA">
+  <EntityType Name="HOMEWORK_MASTER_DTL">
     <Key>
-      <PropertyRef Name="unique_id" />
+      <PropertyRef Name="homework_master_dtl_id" />
     </Key>
-    <Property Name="unique_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="library_id" Type="bigint" Nullable="false" />
-    <Property Name="thumb_img_content" Type="varbinary(max)" />
-    <Property Name="thumb_img_name" Type="nvarchar" MaxLength="1000" />
-    <Property Name="thumb_img_ext" Type="nvarchar" MaxLength="1000" />
-    <Property Name="doc_content" Type="varbinary(max)" />
-    <Property Name="doc_img_name" Type="nvarchar" MaxLength="1000" />
-    <Property Name="doc_img_ext" Type="nvarchar" MaxLength="1000" />
+    <Property Name="homework_master_dtl_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="homework_id" Type="bigint" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="stud_id" Type="bigint" Nullable="false" />
+    <Property Name="homework_sheet_content" Type="varbinary(max)" />
+    <Property Name="homework_sheet_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="student_filepath" Type="varchar(max)" />
+    <Property Name="homework_filepath" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="remarks" Type="nvarchar(max)" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="submit_dt" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="LIBRARY_MASTER">
     <Key>
@@ -182,14 +350,29 @@
     </Key>
     <Property Name="library_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="branch_id" Type="bigint" />
+    <Property Name="video_link" Type="nvarchar" MaxLength="250" />
+    <Property Name="library_title" Type="nvarchar" MaxLength="50" />
     <Property Name="thumbnail_img" Type="nvarchar" MaxLength="1000" />
-    <Property Name="thumbnail_doc" Type="nvarchar" MaxLength="1000" />
+    <Property Name="thumbnail_path" Type="nvarchar" MaxLength="1000" />
     <Property Name="type" Type="int" />
-    <Property Name="std_id" Type="bigint" />
-    <Property Name="sub_id" Type="bigint" />
     <Property Name="doc_desc" Type="nvarchar(max)" />
     <Property Name="row_sta_cd" Type="int" />
     <Property Name="trans_id" Type="bigint" />
+    <Property Name="library_image" Type="varchar" MaxLength="250" />
+    <Property Name="library_path" Type="varchar" MaxLength="250" />
+    <Property Name="category_id" Type="bigint" />
+    <Property Name="library_type" Type="int" />
+    <Property Name="createby_branch" Type="bigint" />
+  </EntityType>
+  <EntityType Name="LIBRARY_STD_MASTER">
+    <Key>
+      <PropertyRef Name="library_std_id" />
+    </Key>
+    <Property Name="library_std_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="library_id" Type="bigint" Nullable="false" />
+    <Property Name="class_dtl_id" Type="bigint" />
+    <Property Name="course_dtl_id" Type="bigint" />
+    <Property Name="subject_dtl_id" Type="bigint" />
   </EntityType>
   <EntityType Name="LINK_MASTER">
     <Key>
@@ -197,13 +380,50 @@
     </Key>
     <Property Name="unique_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="branch_id" Type="bigint" Nullable="false" />
-    <Property Name="std_id" Type="bigint" Nullable="false" />
     <Property Name="vid_desc" Type="nvarchar(max)" />
     <Property Name="vid_url" Type="nvarchar" MaxLength="50" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
     <Property Name="title" Type="nvarchar" MaxLength="50" />
     <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="class_dtl_id" Type="bigint" />
+    <Property Name="course_dtl_id" Type="bigint" />
+  </EntityType>
+  <EntityType Name="MARKS_MASTER">
+    <Key>
+      <PropertyRef Name="marks_id" />
+    </Key>
+    <Property Name="marks_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="marks_dt" Type="datetime" Nullable="false" />
+    <Property Name="test_id" Type="bigint" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="student_id" Type="bigint" Nullable="false" />
+    <Property Name="batch_time_id" Type="int" Nullable="false" />
+    <Property Name="file_path" Type="nvarchar(max)" />
+    <Property Name="file_name" Type="nvarchar" MaxLength="250" />
+    <Property Name="achive_marks" Type="varchar" MaxLength="50" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="class_dtl_id" Type="bigint" />
+    <Property Name="course_dtl_id" Type="bigint" />
+    <Property Name="subject_dtl_id" Type="bigint" />
+  </EntityType>
+  <EntityType Name="NEW_LIBRARY_MASTER">
+    <Key>
+      <PropertyRef Name="new_library_id" />
+    </Key>
+    <Property Name="new_library_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="library_id" Type="bigint" />
+    <Property Name="library_title" Type="nvarchar" MaxLength="50" />
+    <Property Name="video_link" Type="nvarchar" MaxLength="250" />
+    <Property Name="type" Type="int" />
+    <Property Name="thumbnail_img" Type="nvarchar" MaxLength="250" />
+    <Property Name="thumbnail_path" Type="nvarchar" MaxLength="250" />
+    <Property Name="description" Type="nvarchar(max)" />
+    <Property Name="branch_id" Type="bigint" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="category_id" Type="bigint" />
   </EntityType>
   <EntityType Name="NOTIFICATION_MASTER">
     <Key>
@@ -212,8 +432,18 @@
     <Property Name="notif_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="branch_id" Type="bigint" />
     <Property Name="notif_message" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="notification_date" Type="datetime" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NOTIFICATION_STD_MASTER">
+    <Key>
+      <PropertyRef Name="notification_std_id" />
+    </Key>
+    <Property Name="notification_std_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="notif_id" Type="bigint" Nullable="false" />
+    <Property Name="class_dtl_id" Type="bigint" />
+    <Property Name="course_dtl_id" Type="bigint" />
   </EntityType>
   <EntityType Name="NOTIFICATION_TYPE_REL">
     <Key>
@@ -223,18 +453,70 @@
     <Property Name="sub_type_id" Type="int" Nullable="false" />
     <Property Name="notif_id" Type="bigint" Nullable="false" />
   </EntityType>
+  <EntityType Name="PACKAGE_MASTER">
+    <Key>
+      <PropertyRef Name="package_id" />
+    </Key>
+    <Property Name="package_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="package" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="student_no" Type="bigint" />
+  </EntityType>
+  <EntityType Name="PACKAGE_RIGHTS_MASTER">
+    <Key>
+      <PropertyRef Name="packagerights_id" />
+    </Key>
+    <Property Name="packagerights_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="page_id" Type="bigint" Nullable="false" />
+    <Property Name="package_id" Type="bigint" Nullable="false" />
+    <Property Name="createstatus" Type="bit" Nullable="false" />
+    <Property Name="viewstatus" Type="bit" Nullable="false" />
+    <Property Name="deletestatus" Type="bit" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PAGE_MASTER">
+    <Key>
+      <PropertyRef Name="page_id" />
+    </Key>
+    <Property Name="page_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="page" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PAYMENT_MASTER">
+    <Key>
+      <PropertyRef Name="payment_id" />
+    </Key>
+    <Property Name="payment_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="student_id" Type="bigint" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="file_path" Type="nvarchar(max)" />
+    <Property Name="file_name" Type="nvarchar" MaxLength="150" />
+    <Property Name="remark" Type="nvarchar" MaxLength="250" />
+    <Property Name="payment_status" Type="int" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="extra1" Type="nvarchar" MaxLength="250" />
+    <Property Name="extra2" Type="nvarchar" MaxLength="250" />
+    <Property Name="extra3" Type="nvarchar" MaxLength="250" />
+  </EntityType>
   <EntityType Name="PRACTICE_PAPER">
     <Key>
       <PropertyRef Name="paper_id" />
     </Key>
     <Property Name="paper_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="branch_id" Type="bigint" Nullable="false" />
-    <Property Name="std_id" Type="bigint" Nullable="false" />
-    <Property Name="sub_id" Type="bigint" Nullable="false" />
     <Property Name="batch_type" Type="int" Nullable="false" />
     <Property Name="remarks" Type="nvarchar(max)" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="class_dtl_id" Type="bigint" />
+    <Property Name="course_dtl_id" Type="bigint" />
+    <Property Name="subject_dtl_id" Type="bigint" />
   </EntityType>
   <EntityType Name="PRACTICE_PAPER_REL">
     <Key>
@@ -242,8 +524,8 @@
     </Key>
     <Property Name="unique_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="paper_id" Type="bigint" Nullable="false" />
-    <Property Name="paper_content" Type="varbinary(max)" Nullable="false" />
-    <Property Name="paper_file" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="file_path" Type="varchar(max)" Nullable="false" />
+    <Property Name="paper_file" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="REMINDER_MASTER">
     <Key>
@@ -275,6 +557,7 @@
     <Property Name="std_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="branch_id" Type="bigint" Nullable="false" />
     <Property Name="standard" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="class_dtl_id" Type="bigint" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
   </EntityType>
@@ -286,13 +569,14 @@
     <Property Name="test_id" Type="bigint" Nullable="false" />
     <Property Name="branch_id" Type="bigint" Nullable="false" />
     <Property Name="stud_id" Type="bigint" Nullable="false" />
-    <Property Name="ans_sheet_content" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ans_sheet_content" Type="varbinary(max)" />
     <Property Name="ans_sheet_name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="status" Type="int" Nullable="false" />
     <Property Name="remarks" Type="nvarchar(max)" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
     <Property Name="submit_dt" Type="datetime" Nullable="false" />
+    <Property Name="ans_sheet_filepath" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="STUDENT_MAINT">
     <Key>
@@ -317,7 +601,6 @@
     <Property Name="dob" Type="datetime" />
     <Property Name="address" Type="nvarchar(max)" Nullable="false" />
     <Property Name="branch_id" Type="bigint" Nullable="false" />
-    <Property Name="std_id" Type="bigint" Nullable="false" />
     <Property Name="school_id" Type="bigint" />
     <Property Name="school_time" Type="int" />
     <Property Name="batch_time" Type="int" Nullable="false" />
@@ -327,8 +610,66 @@
     <Property Name="contact_no" Type="nvarchar" MaxLength="50" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
-    <Property Name="stud_img" Type="varbinary(max)" />
+    <Property Name="file_path" Type="varchar(max)" />
+    <Property Name="file_name" Type="nvarchar(max)" />
     <Property Name="admission_date" Type="datetime" />
+    <Property Name="course_dtl_id" Type="bigint" />
+    <Property Name="class_dtl_id" Type="bigint" />
+    <Property Name="final_year" Type="nvarchar" MaxLength="50" />
+    <Property Name="extra1" Type="nvarchar(max)" />
+    <Property Name="extra2" Type="nvarchar(max)" />
+    <Property Name="extra3" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="STUDENT_PAYMENT_MASTER">
+    <Key>
+      <PropertyRef Name="payment_id" />
+    </Key>
+    <Property Name="payment_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="student_id" Type="bigint" Nullable="false" />
+    <Property Name="status_id" Type="int" Nullable="false" />
+    <Property Name="admin_remark" Type="nvarchar(max)" />
+    <Property Name="student_remark" Type="nvarchar(max)" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="STUDENT_PAYMENT_REL">
+    <Key>
+      <PropertyRef Name="payment_rel_id" />
+    </Key>
+    <Property Name="payment_rel_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="payment_id" Type="bigint" Nullable="false" />
+    <Property Name="payment_content" Type="varbinary(max)" Nullable="false" />
+    <Property Name="file_name" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SUBJECT_BRANCH_MASTER">
+    <Key>
+      <PropertyRef Name="subject_id" />
+    </Key>
+    <Property Name="subject_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="subject_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="row_sta_cd" Type="int" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="course_id" Type="bigint" />
+    <Property Name="class_id" Type="bigint" />
+    <Property Name="extra1" Type="varchar" MaxLength="50" />
+    <Property Name="extra2" Type="varchar" MaxLength="50" />
+    <Property Name="extra3" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="SUBJECT_DTL_MASTER">
+    <Key>
+      <PropertyRef Name="subject_dtl_id" />
+    </Key>
+    <Property Name="subject_dtl_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="subject_id" Type="bigint" Nullable="false" />
+    <Property Name="course_dtl_id" Type="bigint" Nullable="false" />
+    <Property Name="class_dtl_id" Type="bigint" Nullable="false" />
+    <Property Name="is_subject" Type="bit" />
+    <Property Name="row_sta_cd" Type="int" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="SUBJECT_MASTER">
     <Key>
@@ -337,18 +678,9 @@
     <Property Name="subject_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="subject" Type="nvarchar" MaxLength="255" Nullable="false" />
     <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="subject_dtl_id" Type="bigint" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
-  </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="principal_id" Type="int" Nullable="false" />
-    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="version" Type="int" />
-    <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
   <EntityType Name="TEST_MASTER">
     <Key>
@@ -357,9 +689,7 @@
     <Property Name="test_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="branch_id" Type="bigint" Nullable="false" />
     <Property Name="test_name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="std_id" Type="bigint" Nullable="false" />
     <Property Name="batch_time_id" Type="int" Nullable="false" />
-    <Property Name="sub_id" Type="bigint" Nullable="false" />
     <Property Name="total_marks" Type="float" Nullable="false" />
     <Property Name="test_dt" Type="datetime" Nullable="false" />
     <Property Name="test_st_time" Type="nvarchar" MaxLength="50" />
@@ -368,6 +698,26 @@
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
     <Property Name="file_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="class_dtl_id" Type="bigint" />
+    <Property Name="course_dtl_id" Type="bigint" />
+    <Property Name="subject_dtl_id" Type="bigint" />
+  </EntityType>
+  <EntityType Name="TEST_MASTER_DTL">
+    <Key>
+      <PropertyRef Name="Test_master_dtl_id" />
+    </Key>
+    <Property Name="Test_master_dtl_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Test_id" Type="bigint" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="stud_id" Type="bigint" Nullable="false" />
+    <Property Name="Test_sheet_content" Type="varbinary(max)" />
+    <Property Name="Test_sheet_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Test_filepath" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="remarks" Type="nvarchar(max)" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="submit_dt" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="TEST_PAPER_REL">
     <Key>
@@ -382,6 +732,7 @@
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
     <Property Name="file_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="file_path" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="TODO_MASTER">
     <Key>
@@ -392,10 +743,12 @@
     <Property Name="branch_id" Type="bigint" Nullable="false" />
     <Property Name="user_id" Type="bigint" Nullable="false" />
     <Property Name="todo_desc" Type="nvarchar(max)" />
-    <Property Name="todo_doc_content" Type="varbinary(max)" />
-    <Property Name="todo_doc_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="file_path" Type="varchar(max)" />
+    <Property Name="todo_doc_name" Type="nvarchar(max)" />
     <Property Name="row_sta_cd" Type="int" Nullable="false" />
     <Property Name="trans_id" Type="bigint" Nullable="false" />
+    <Property Name="reg_status" Type="bit" />
+    <Property Name="remark" Type="varchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="TRANSACTION_MASTER">
     <Key>
@@ -408,6 +761,7 @@
     <Property Name="last_mod_dt" Type="datetime" />
     <Property Name="last_mod_by" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="last_mod_id" Type="bigint" />
+    <Property Name="financial_year" Type="nvarchar" MaxLength="20" Nullable="false" />
   </EntityType>
   <EntityType Name="TYPE_DESC">
     <Key>
@@ -419,6 +773,16 @@
     <Property Name="short_desc" Type="nvarchar" MaxLength="255" />
     <Property Name="long_desc" Type="nvarchar(max)" />
     <Property Name="row_sta_cd" Type="char" MaxLength="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UPI_MASTER">
+    <Key>
+      <PropertyRef Name="unique_id" />
+    </Key>
+    <Property Name="unique_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="upi_code" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="branch_id" Type="bigint" Nullable="false" />
+    <Property Name="row_sta_cd" Type="int" Nullable="false" />
+    <Property Name="trans_id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="USER_DEF">
     <Key>
@@ -434,6 +798,7 @@
     <Property Name="user_type" Type="int" Nullable="false" />
     <Property Name="student_id" Type="bigint" />
     <Property Name="parent_id" Type="bigint" />
+    <Property Name="fcm_token" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="USER_ROLE">
     <Key>
@@ -446,15 +811,46 @@
     <Property Name="trans_id" Type="bigint" Nullable="false" />
     <Property Name="has_priv" Type="char" MaxLength="1" Nullable="false" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Faculty">
+    <Key>
+      <PropertyRef Name="name" />
+      <PropertyRef Name="class_id" />
+      <PropertyRef Name="course_id" />
+      <PropertyRef Name="subject_id" />
+      <PropertyRef Name="faculty_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="class_id" Type="bigint" Nullable="false" />
+    <Property Name="course_id" Type="bigint" Nullable="false" />
+    <Property Name="subject_id" Type="bigint" Nullable="false" />
+    <Property Name="subject_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="file_path" Type="varchar(max)" />
+    <Property Name="branch_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="faculty_id" Type="bigint" Nullable="false" />
+  </EntityType>
   <Association Name="FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER">
-    <End Role="ABOUTUS_MASTER" Type="Self.ABOUTUS_MASTER" Multiplicity="1" />
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
     <End Role="ABOUTUS_DETAIL_REL" Type="Self.ABOUTUS_DETAIL_REL" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="ABOUTUS_MASTER">
-        <PropertyRef Name="aboutus_id" />
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
       </Principal>
       <Dependent Role="ABOUTUS_DETAIL_REL">
-        <PropertyRef Name="aboutus_id" />
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="ABOUTUS_DETAIL_REL" Type="Self.ABOUTUS_DETAIL_REL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="ABOUTUS_DETAIL_REL">
+        <PropertyRef Name="trans_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -467,6 +863,42 @@
       </Principal>
       <Dependent Role="ABOUTUS_MASTER">
         <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_APPROVAL_MASTER_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="APPROVAL_MASTER" Type="Self.APPROVAL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="APPROVAL_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_APPROVAL_MASTER_LIBRARY_MASTER">
+    <End Role="LIBRARY_MASTER" Type="Self.LIBRARY_MASTER" Multiplicity="1" />
+    <End Role="APPROVAL_MASTER" Type="Self.APPROVAL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LIBRARY_MASTER">
+        <PropertyRef Name="library_id" />
+      </Principal>
+      <Dependent Role="APPROVAL_MASTER">
+        <PropertyRef Name="library_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_APPROVAL_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="APPROVAL_MASTER" Type="Self.APPROVAL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="APPROVAL_MASTER">
+        <PropertyRef Name="trans_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -494,15 +926,39 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ATTENDANCE_HDR_STD_MASTER">
-    <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
+  <Association Name="FK_ATTENDANCE_HDR_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
     <End Role="ATTENDANCE_HDR" Type="Self.ATTENDANCE_HDR" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="STD_MASTER">
-        <PropertyRef Name="std_id" />
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
       </Principal>
       <Dependent Role="ATTENDANCE_HDR">
-        <PropertyRef Name="std_id" />
+        <PropertyRef Name="class_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ATTENDANCE_HDR_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="ATTENDANCE_HDR" Type="Self.ATTENDANCE_HDR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Principal>
+      <Dependent Role="ATTENDANCE_HDR">
+        <PropertyRef Name="course_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ATTENDANCE_HDR_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="ATTENDANCE_HDR" Type="Self.ATTENDANCE_HDR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="ATTENDANCE_HDR">
+        <PropertyRef Name="trans_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -530,15 +986,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_BATCH_MASTER_STD_MASTER">
-    <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
+  <Association Name="FK_BATCH_MASTER_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
     <End Role="BATCH_MASTER" Type="Self.BATCH_MASTER" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="STD_MASTER">
-        <PropertyRef Name="std_id" />
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
       </Principal>
       <Dependent Role="BATCH_MASTER">
-        <PropertyRef Name="std_id" />
+        <PropertyRef Name="class_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BATCH_MASTER_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="BATCH_MASTER" Type="Self.BATCH_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Principal>
+      <Dependent Role="BATCH_MASTER">
+        <PropertyRef Name="course_dtl_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -551,6 +1019,18 @@
       </Principal>
       <Dependent Role="BATCH_MASTER">
         <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BRANCH_AGREEMENT_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="BRANCH_AGREEMENT" Type="Self.BRANCH_AGREEMENT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="BRANCH_AGREEMENT">
+        <PropertyRef Name="branch_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -606,6 +1086,32 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER">
+    <End Role="PACKAGE_MASTER" Type="Self.PACKAGE_MASTER" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="BRANCH_RIGHTS_MASTER" Type="Self.BRANCH_RIGHTS_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PACKAGE_MASTER">
+        <PropertyRef Name="package_id" />
+      </Principal>
+      <Dependent Role="BRANCH_RIGHTS_MASTER">
+        <PropertyRef Name="package_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="BRANCH_RIGHTS_MASTER" Type="Self.BRANCH_RIGHTS_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="BRANCH_RIGHTS_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_BRANCH_STAFF_BRANCH_MASTER">
     <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
     <End Role="BRANCH_STAFF" Type="Self.BRANCH_STAFF" Multiplicity="*" />
@@ -626,6 +1132,328 @@
         <PropertyRef Name="trans_id" />
       </Principal>
       <Dependent Role="BRANCH_STAFF">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CATEGORY_MASTER_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="CATEGORY_MASTER" Type="Self.CATEGORY_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="CATEGORY_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CATEGORY_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="CATEGORY_MASTER" Type="Self.CATEGORY_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="CATEGORY_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CIRCULAR_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CIRCULAR_MASTER" Type="Self.CIRCULAR_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="CIRCULAR_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CLASS_DTL_MASTER_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CLASS_DTL_MASTER_CLASS_MASTER">
+    <End Role="CLASS_MASTER" Type="Self.CLASS_MASTER" Multiplicity="1" />
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLASS_MASTER">
+        <PropertyRef Name="class_id" />
+      </Principal>
+      <Dependent Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CLASS_DTL_MASTER_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="1" />
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Principal>
+      <Dependent Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CLASS_DTL_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CLASS_MASTER_CLASS_MASTER">
+    <End Role="CLASS_MASTER" Type="Self.CLASS_MASTER" Multiplicity="1" />
+    <End Role="CLASS_MASTER1" Type="Self.CLASS_MASTER" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="CLASS_MASTER">
+        <PropertyRef Name="class_id" />
+      </Principal>
+      <Dependent Role="CLASS_MASTER1">
+        <PropertyRef Name="class_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CLASS_MASTER_COURSE_MASTER">
+    <End Role="COURSE_MASTER" Type="Self.COURSE_MASTER" Multiplicity="0..1" />
+    <End Role="CLASS_MASTER" Type="Self.CLASS_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_MASTER">
+        <PropertyRef Name="course_id" />
+      </Principal>
+      <Dependent Role="CLASS_MASTER">
+        <PropertyRef Name="course_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CLASS_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CLASS_MASTER" Type="Self.CLASS_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="CLASS_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_COURSE_DTL_MASTER_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_COURSE_DTL_MASTER_COURSE_MASTER">
+    <End Role="COURSE_MASTER" Type="Self.COURSE_MASTER" Multiplicity="1" />
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_MASTER">
+        <PropertyRef Name="course_id" />
+      </Principal>
+      <Dependent Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_COURSE_DTL_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_COURSE_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="COURSE_MASTER" Type="Self.COURSE_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="COURSE_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FACULTY_MASTER_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="0..1" />
+    <End Role="FACULTY_MASTER" Type="Self.FACULTY_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="FACULTY_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FACULTY_MASTER_BRANCH_STAFF">
+    <End Role="BRANCH_STAFF" Type="Self.BRANCH_STAFF" Multiplicity="0..1" />
+    <End Role="FACULTY_MASTER" Type="Self.FACULTY_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_STAFF">
+        <PropertyRef Name="staff_id" />
+      </Principal>
+      <Dependent Role="FACULTY_MASTER">
+        <PropertyRef Name="staff_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FACULTY_MASTER_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="1" />
+    <End Role="FACULTY_MASTER" Type="Self.FACULTY_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Principal>
+      <Dependent Role="FACULTY_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FACULTY_MASTER_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="1" />
+    <End Role="FACULTY_MASTER" Type="Self.FACULTY_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Principal>
+      <Dependent Role="FACULTY_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FACULTY_MASTER_SUBJECT_DTL_MASTER">
+    <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="1" />
+    <End Role="FACULTY_MASTER" Type="Self.FACULTY_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT_DTL_MASTER">
+        <PropertyRef Name="subject_dtl_id" />
+      </Principal>
+      <Dependent Role="FACULTY_MASTER">
+        <PropertyRef Name="subject_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FACULTY_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="FACULTY_MASTER" Type="Self.FACULTY_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="FACULTY_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
+    <End Role="FEE_STRUCTURE_MASTER" Type="Self.FEE_STRUCTURE_MASTER" Multiplicity="1" />
+    <End Role="FEE_STRUCTURE_DTL" Type="Self.FEE_STRUCTURE_DTL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FEE_STRUCTURE_MASTER">
+        <PropertyRef Name="fee_struct_mst_id" />
+      </Principal>
+      <Dependent Role="FEE_STRUCTURE_DTL">
+        <PropertyRef Name="fee_struct_mst_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="FEE_STRUCTURE_DTL" Type="Self.FEE_STRUCTURE_DTL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="FEE_STRUCTURE_DTL">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="FEE_STRUCTURE_MASTER" Type="Self.FEE_STRUCTURE_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="FEE_STRUCTURE_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FEE_STRUCTURE_MASTER_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="FEE_STRUCTURE_MASTER" Type="Self.FEE_STRUCTURE_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Principal>
+      <Dependent Role="FEE_STRUCTURE_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FEE_STRUCTURE_MASTER_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="FEE_STRUCTURE_MASTER" Type="Self.FEE_STRUCTURE_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Principal>
+      <Dependent Role="FEE_STRUCTURE_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="FEE_STRUCTURE_MASTER" Type="Self.FEE_STRUCTURE_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="FEE_STRUCTURE_MASTER">
         <PropertyRef Name="trans_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -654,39 +1482,315 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_HOMEWORK_MASTER_STD_MASTER">
-    <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
+  <Association Name="FK_HOMEWORK_MASTER_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
     <End Role="HOMEWORK_MASTER" Type="Self.HOMEWORK_MASTER" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="STD_MASTER">
-        <PropertyRef Name="std_id" />
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
       </Principal>
       <Dependent Role="HOMEWORK_MASTER">
-        <PropertyRef Name="std_id" />
+        <PropertyRef Name="class_dtl_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_HOMEWORK_MASTER_SUBJECT_MASTER">
-    <End Role="SUBJECT_MASTER" Type="Self.SUBJECT_MASTER" Multiplicity="1" />
+  <Association Name="FK_HOMEWORK_MASTER_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
     <End Role="HOMEWORK_MASTER" Type="Self.HOMEWORK_MASTER" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="SUBJECT_MASTER">
-        <PropertyRef Name="subject_id" />
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
       </Principal>
       <Dependent Role="HOMEWORK_MASTER">
-        <PropertyRef Name="sub_id" />
+        <PropertyRef Name="course_dtl_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_LIBRARY_DATA_LIBRARY_MASTER">
+  <Association Name="FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="HOMEWORK_MASTER_DTL" Type="Self.HOMEWORK_MASTER_DTL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="HOMEWORK_MASTER_DTL">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER">
+    <End Role="HOMEWORK_MASTER" Type="Self.HOMEWORK_MASTER" Multiplicity="1" />
+    <End Role="HOMEWORK_MASTER_DTL" Type="Self.HOMEWORK_MASTER_DTL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HOMEWORK_MASTER">
+        <PropertyRef Name="homework_id" />
+      </Principal>
+      <Dependent Role="HOMEWORK_MASTER_DTL">
+        <PropertyRef Name="homework_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER">
+    <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="1" />
+    <End Role="HOMEWORK_MASTER_DTL" Type="Self.HOMEWORK_MASTER_DTL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STUDENT_MASTER">
+        <PropertyRef Name="student_id" />
+      </Principal>
+      <Dependent Role="HOMEWORK_MASTER_DTL">
+        <PropertyRef Name="stud_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="HOMEWORK_MASTER_DTL" Type="Self.HOMEWORK_MASTER_DTL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="HOMEWORK_MASTER_DTL">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HOMEWORK_MASTER_SUBJECT_DTL_MASTER">
+    <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="HOMEWORK_MASTER" Type="Self.HOMEWORK_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT_DTL_MASTER">
+        <PropertyRef Name="subject_dtl_id" />
+      </Principal>
+      <Dependent Role="HOMEWORK_MASTER">
+        <PropertyRef Name="subject_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LIBRARY_MASTER_CATEGORY_MASTER">
+    <End Role="CATEGORY_MASTER" Type="Self.CATEGORY_MASTER" Multiplicity="0..1" />
+    <End Role="LIBRARY_MASTER" Type="Self.LIBRARY_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORY_MASTER">
+        <PropertyRef Name="category_id" />
+      </Principal>
+      <Dependent Role="LIBRARY_MASTER">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LIBRARY_STD_MASTER_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="LIBRARY_STD_MASTER" Type="Self.LIBRARY_STD_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Principal>
+      <Dependent Role="LIBRARY_STD_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LIBRARY_STD_MASTER_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="LIBRARY_STD_MASTER" Type="Self.LIBRARY_STD_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Principal>
+      <Dependent Role="LIBRARY_STD_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LIBRARY_STD_MASTER_LIBRARY_MASTER">
     <End Role="LIBRARY_MASTER" Type="Self.LIBRARY_MASTER" Multiplicity="1" />
-    <End Role="LIBRARY_DATA" Type="Self.LIBRARY_DATA" Multiplicity="*" />
+    <End Role="LIBRARY_STD_MASTER" Type="Self.LIBRARY_STD_MASTER" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="LIBRARY_MASTER">
         <PropertyRef Name="library_id" />
       </Principal>
-      <Dependent Role="LIBRARY_DATA">
+      <Dependent Role="LIBRARY_STD_MASTER">
         <PropertyRef Name="library_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LIBRARY_STD_MASTER_SUBJECT_DTL_MASTER">
+    <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="LIBRARY_STD_MASTER" Type="Self.LIBRARY_STD_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT_DTL_MASTER">
+        <PropertyRef Name="subject_dtl_id" />
+      </Principal>
+      <Dependent Role="LIBRARY_STD_MASTER">
+        <PropertyRef Name="subject_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LINK_MASTER_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="LINK_MASTER" Type="Self.LINK_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Principal>
+      <Dependent Role="LINK_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LINK_MASTER_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="LINK_MASTER" Type="Self.LINK_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Principal>
+      <Dependent Role="LINK_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MARKS_MASTER_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="MARKS_MASTER" Type="Self.MARKS_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="MARKS_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MARKS_MASTER_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="MARKS_MASTER" Type="Self.MARKS_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Principal>
+      <Dependent Role="MARKS_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MARKS_MASTER_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="MARKS_MASTER" Type="Self.MARKS_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Principal>
+      <Dependent Role="MARKS_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MARKS_MASTER_STUDENT_MASTER">
+    <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="1" />
+    <End Role="MARKS_MASTER" Type="Self.MARKS_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STUDENT_MASTER">
+        <PropertyRef Name="student_id" />
+      </Principal>
+      <Dependent Role="MARKS_MASTER">
+        <PropertyRef Name="student_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MARKS_MASTER_SUBJECT_DTL_MASTER">
+    <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="MARKS_MASTER" Type="Self.MARKS_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT_DTL_MASTER">
+        <PropertyRef Name="subject_dtl_id" />
+      </Principal>
+      <Dependent Role="MARKS_MASTER">
+        <PropertyRef Name="subject_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MARKS_MASTER_TEST_MASTER">
+    <End Role="TEST_MASTER" Type="Self.TEST_MASTER" Multiplicity="1" />
+    <End Role="MARKS_MASTER" Type="Self.MARKS_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TEST_MASTER">
+        <PropertyRef Name="test_id" />
+      </Principal>
+      <Dependent Role="MARKS_MASTER">
+        <PropertyRef Name="test_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NEW_LIBRARY_MASTER_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="0..1" />
+    <End Role="NEW_LIBRARY_MASTER" Type="Self.NEW_LIBRARY_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="NEW_LIBRARY_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NEW_LIBRARY_MASTER_CATEGORY_MASTER">
+    <End Role="CATEGORY_MASTER" Type="Self.CATEGORY_MASTER" Multiplicity="0..1" />
+    <End Role="NEW_LIBRARY_MASTER" Type="Self.NEW_LIBRARY_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORY_MASTER">
+        <PropertyRef Name="category_id" />
+      </Principal>
+      <Dependent Role="NEW_LIBRARY_MASTER">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NEW_LIBRARY_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="NEW_LIBRARY_MASTER" Type="Self.NEW_LIBRARY_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="NEW_LIBRARY_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NOTIFICATION_STD_MASTER_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="NOTIFICATION_STD_MASTER" Type="Self.NOTIFICATION_STD_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Principal>
+      <Dependent Role="NOTIFICATION_STD_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NOTIFICATION_STD_MASTER_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="NOTIFICATION_STD_MASTER" Type="Self.NOTIFICATION_STD_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Principal>
+      <Dependent Role="NOTIFICATION_STD_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NOTIFICATION_STD_MASTER_NOTIFICATION_MASTER">
+    <End Role="NOTIFICATION_MASTER" Type="Self.NOTIFICATION_MASTER" Multiplicity="1" />
+    <End Role="NOTIFICATION_STD_MASTER" Type="Self.NOTIFICATION_STD_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NOTIFICATION_MASTER">
+        <PropertyRef Name="notif_id" />
+      </Principal>
+      <Dependent Role="NOTIFICATION_STD_MASTER">
+        <PropertyRef Name="notif_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -702,6 +1806,82 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PACKAGE_MASTER_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="PACKAGE_MASTER" Type="Self.PACKAGE_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="PACKAGE_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
+    <End Role="PACKAGE_MASTER" Type="Self.PACKAGE_MASTER" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PACKAGE_RIGHTS_MASTER" Type="Self.PACKAGE_RIGHTS_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PACKAGE_MASTER">
+        <PropertyRef Name="package_id" />
+      </Principal>
+      <Dependent Role="PACKAGE_RIGHTS_MASTER">
+        <PropertyRef Name="package_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER">
+    <End Role="PAGE_MASTER" Type="Self.PAGE_MASTER" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PACKAGE_RIGHTS_MASTER" Type="Self.PACKAGE_RIGHTS_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PAGE_MASTER">
+        <PropertyRef Name="page_id" />
+      </Principal>
+      <Dependent Role="PACKAGE_RIGHTS_MASTER">
+        <PropertyRef Name="page_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PAYMENT_MASTER_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="PAYMENT_MASTER" Type="Self.PAYMENT_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="PAYMENT_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PAYMENT_MASTER_STUDENT_MASTER">
+    <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="1" />
+    <End Role="PAYMENT_MASTER" Type="Self.PAYMENT_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STUDENT_MASTER">
+        <PropertyRef Name="student_id" />
+      </Principal>
+      <Dependent Role="PAYMENT_MASTER">
+        <PropertyRef Name="student_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PAYMENT_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="PAYMENT_MASTER" Type="Self.PAYMENT_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="PAYMENT_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PRACTICE_PAPER_BRANCH_MASTER">
     <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
     <End Role="PRACTICE_PAPER" Type="Self.PRACTICE_PAPER" Multiplicity="*" />
@@ -711,6 +1891,30 @@
       </Principal>
       <Dependent Role="PRACTICE_PAPER">
         <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PRACTICE_PAPER_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="PRACTICE_PAPER" Type="Self.PRACTICE_PAPER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Principal>
+      <Dependent Role="PRACTICE_PAPER">
+        <PropertyRef Name="class_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PRACTICE_PAPER_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="PRACTICE_PAPER" Type="Self.PRACTICE_PAPER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Principal>
+      <Dependent Role="PRACTICE_PAPER">
+        <PropertyRef Name="course_dtl_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -726,27 +1930,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PRACTICE_PAPER_STD_MASTER">
-    <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
+  <Association Name="FK_PRACTICE_PAPER_SUBJECT_DTL_MASTER">
+    <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="0..1" />
     <End Role="PRACTICE_PAPER" Type="Self.PRACTICE_PAPER" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="STD_MASTER">
-        <PropertyRef Name="std_id" />
+      <Principal Role="SUBJECT_DTL_MASTER">
+        <PropertyRef Name="subject_dtl_id" />
       </Principal>
       <Dependent Role="PRACTICE_PAPER">
-        <PropertyRef Name="std_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PRACTICE_PAPER_SUBJECT_MASTER">
-    <End Role="SUBJECT_MASTER" Type="Self.SUBJECT_MASTER" Multiplicity="1" />
-    <End Role="PRACTICE_PAPER" Type="Self.PRACTICE_PAPER" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SUBJECT_MASTER">
-        <PropertyRef Name="subject_id" />
-      </Principal>
-      <Dependent Role="PRACTICE_PAPER">
-        <PropertyRef Name="sub_id" />
+        <PropertyRef Name="subject_dtl_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -795,6 +1987,18 @@
       </Principal>
       <Dependent Role="STD_MASTER">
         <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_STD_MASTER_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Principal>
+      <Dependent Role="STD_MASTER">
+        <PropertyRef Name="class_dtl_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -870,6 +2074,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_STUDENT_MASTER_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Principal>
+      <Dependent Role="STUDENT_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_STUDENT_MASTER_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Principal>
+      <Dependent Role="STUDENT_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_STUDENT_MASTER_SCHOOL_MASTER">
     <End Role="SCHOOL_MASTER" Type="Self.SCHOOL_MASTER" Multiplicity="0..1" />
     <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="*" />
@@ -879,18 +2107,6 @@
       </Principal>
       <Dependent Role="STUDENT_MASTER">
         <PropertyRef Name="school_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_STUDENT_MASTER_STD_MASTER">
-    <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
-    <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="STD_MASTER">
-        <PropertyRef Name="std_id" />
-      </Principal>
-      <Dependent Role="STUDENT_MASTER">
-        <PropertyRef Name="std_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -906,6 +2122,154 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="STUDENT_PAYMENT_MASTER" Type="Self.STUDENT_PAYMENT_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="STUDENT_PAYMENT_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER">
+    <End Role="STUDENT_PAYMENT_MASTER" Type="Self.STUDENT_PAYMENT_MASTER" Multiplicity="1" />
+    <End Role="STUDENT_PAYMENT_REL" Type="Self.STUDENT_PAYMENT_REL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STUDENT_PAYMENT_MASTER">
+        <PropertyRef Name="payment_id" />
+      </Principal>
+      <Dependent Role="STUDENT_PAYMENT_REL">
+        <PropertyRef Name="payment_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="STUDENT_PAYMENT_REL" Type="Self.STUDENT_PAYMENT_REL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="STUDENT_PAYMENT_REL">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SUBJECT_BRANCH_MASTER_COURSE_MASTER">
+    <End Role="COURSE_MASTER" Type="Self.COURSE_MASTER" Multiplicity="0..1" />
+    <End Role="SUBJECT_BRANCH_MASTER" Type="Self.SUBJECT_BRANCH_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_MASTER">
+        <PropertyRef Name="course_id" />
+      </Principal>
+      <Dependent Role="SUBJECT_BRANCH_MASTER">
+        <PropertyRef Name="course_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SUBJECT_BRANCH_MASTER_SUBJECT_BRANCH_MASTER">
+    <End Role="SUBJECT_BRANCH_MASTER" Type="Self.SUBJECT_BRANCH_MASTER" Multiplicity="1" />
+    <End Role="SUBJECT_BRANCH_MASTER1" Type="Self.SUBJECT_BRANCH_MASTER" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT_BRANCH_MASTER">
+        <PropertyRef Name="subject_id" />
+      </Principal>
+      <Dependent Role="SUBJECT_BRANCH_MASTER1">
+        <PropertyRef Name="subject_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SUBJECT_BRANCH_MASTER_TRANSACTION_MASTER">
+    <End Role="CLASS_MASTER" Type="Self.CLASS_MASTER" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SUBJECT_BRANCH_MASTER" Type="Self.SUBJECT_BRANCH_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLASS_MASTER">
+        <PropertyRef Name="class_id" />
+      </Principal>
+      <Dependent Role="SUBJECT_BRANCH_MASTER">
+        <PropertyRef Name="class_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SUBJECT_BRANCH_MASTER_TRANSACTION_MASTER1">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="SUBJECT_BRANCH_MASTER" Type="Self.SUBJECT_BRANCH_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="SUBJECT_BRANCH_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SUBJECT_DTL_MASTER_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="SUBJECT_DTL_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SUBJECT_DTL_MASTER_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="1" />
+    <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Principal>
+      <Dependent Role="SUBJECT_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SUBJECT_DTL_MASTER_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="1" />
+    <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Principal>
+      <Dependent Role="SUBJECT_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SUBJECT_DTL_MASTER_SUBJECT_BRANCH_MASTER">
+    <End Role="SUBJECT_BRANCH_MASTER" Type="Self.SUBJECT_BRANCH_MASTER" Multiplicity="1" />
+    <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT_BRANCH_MASTER">
+        <PropertyRef Name="subject_id" />
+      </Principal>
+      <Dependent Role="SUBJECT_DTL_MASTER">
+        <PropertyRef Name="subject_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SUBJECT_DTL_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="SUBJECT_DTL_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SUBJECT_MASTER_BRANCH_MASTER">
     <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
     <End Role="SUBJECT_MASTER" Type="Self.SUBJECT_MASTER" Multiplicity="*" />
@@ -915,6 +2279,18 @@
       </Principal>
       <Dependent Role="SUBJECT_MASTER">
         <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SUBJECT_MASTER_SUBJECT_DTL_MASTER">
+    <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="SUBJECT_MASTER" Type="Self.SUBJECT_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT_DTL_MASTER">
+        <PropertyRef Name="subject_dtl_id" />
+      </Principal>
+      <Dependent Role="SUBJECT_MASTER">
+        <PropertyRef Name="subject_dtl_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -942,27 +2318,87 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TEST_MASTER_STD_MASTER">
-    <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
+  <Association Name="FK_TEST_MASTER_CLASS_DTL_MASTER">
+    <End Role="CLASS_DTL_MASTER" Type="Self.CLASS_DTL_MASTER" Multiplicity="0..1" />
     <End Role="TEST_MASTER" Type="Self.TEST_MASTER" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="STD_MASTER">
-        <PropertyRef Name="std_id" />
+      <Principal Role="CLASS_DTL_MASTER">
+        <PropertyRef Name="class_dtl_id" />
       </Principal>
       <Dependent Role="TEST_MASTER">
-        <PropertyRef Name="std_id" />
+        <PropertyRef Name="class_dtl_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TEST_MASTER_SUBJECT_MASTER">
-    <End Role="SUBJECT_MASTER" Type="Self.SUBJECT_MASTER" Multiplicity="1" />
+  <Association Name="FK_TEST_MASTER_COURSE_DTL_MASTER">
+    <End Role="COURSE_DTL_MASTER" Type="Self.COURSE_DTL_MASTER" Multiplicity="0..1" />
     <End Role="TEST_MASTER" Type="Self.TEST_MASTER" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="SUBJECT_MASTER">
-        <PropertyRef Name="subject_id" />
+      <Principal Role="COURSE_DTL_MASTER">
+        <PropertyRef Name="course_dtl_id" />
       </Principal>
       <Dependent Role="TEST_MASTER">
-        <PropertyRef Name="sub_id" />
+        <PropertyRef Name="course_dtl_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Test_MASTER_DTL_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="TEST_MASTER_DTL" Type="Self.TEST_MASTER_DTL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="TEST_MASTER_DTL">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Test_MASTER_DTL_STUDENT_MASTER">
+    <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="1" />
+    <End Role="TEST_MASTER_DTL" Type="Self.TEST_MASTER_DTL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STUDENT_MASTER">
+        <PropertyRef Name="student_id" />
+      </Principal>
+      <Dependent Role="TEST_MASTER_DTL">
+        <PropertyRef Name="stud_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Test_MASTER_DTL_Test_MASTER">
+    <End Role="TEST_MASTER" Type="Self.TEST_MASTER" Multiplicity="1" />
+    <End Role="TEST_MASTER_DTL" Type="Self.TEST_MASTER_DTL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TEST_MASTER">
+        <PropertyRef Name="test_id" />
+      </Principal>
+      <Dependent Role="TEST_MASTER_DTL">
+        <PropertyRef Name="Test_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Test_MASTER_DTL_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="TEST_MASTER_DTL" Type="Self.TEST_MASTER_DTL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="TEST_MASTER_DTL">
+        <PropertyRef Name="trans_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TEST_MASTER_SUBJECT_DTL_MASTER">
+    <End Role="SUBJECT_DTL_MASTER" Type="Self.SUBJECT_DTL_MASTER" Multiplicity="0..1" />
+    <End Role="TEST_MASTER" Type="Self.TEST_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT_DTL_MASTER">
+        <PropertyRef Name="subject_dtl_id" />
+      </Principal>
+      <Dependent Role="TEST_MASTER">
+        <PropertyRef Name="subject_dtl_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -987,6 +2423,30 @@
       </Principal>
       <Dependent Role="TODO_MASTER">
         <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UPI_MASTER_BRANCH_MASTER">
+    <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+    <End Role="UPI_MASTER" Type="Self.UPI_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRANCH_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Principal>
+      <Dependent Role="UPI_MASTER">
+        <PropertyRef Name="branch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UPI_MASTER_TRANSACTION_MASTER">
+    <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+    <End Role="UPI_MASTER" Type="Self.UPI_MASTER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANSACTION_MASTER">
+        <PropertyRef Name="trans_id" />
+      </Principal>
+      <Dependent Role="UPI_MASTER">
+        <PropertyRef Name="trans_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1038,68 +2498,56 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_VIDEO_MASTER_STD_MASTER">
-    <End Role="STD_MASTER" Type="Self.STD_MASTER" Multiplicity="1" />
-    <End Role="LINK_MASTER" Type="Self.LINK_MASTER" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="STD_MASTER">
-        <PropertyRef Name="std_id" />
-      </Principal>
-      <Dependent Role="LINK_MASTER">
-        <PropertyRef Name="std_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="version" Type="int" Mode="In" />
-    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  <Function Name="getfacultydetailbybranch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="classID" Type="bigint" Mode="In" />
+    <Parameter Name="courseID" Type="bigint" Mode="In" />
+    <Parameter Name="subjectID" Type="bigint" Mode="In" />
   </Function>
-  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="version" Type="int" Mode="In" />
-    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  <Function Name="getfacultydetailbysubject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="classID" Type="bigint" Mode="In" />
+    <Parameter Name="courseID" Type="bigint" Mode="In" />
+    <Parameter Name="subjectID" Type="bigint" Mode="In" />
   </Function>
-  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-  </Function>
-  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="AshirvadModelStoreContainer">
     <EntitySet Name="ABOUTUS_DETAIL_REL" EntityType="Self.ABOUTUS_DETAIL_REL" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ABOUTUS_MASTER" EntityType="Self.ABOUTUS_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ANNOUNCE_MASTER" EntityType="Self.ANNOUNCE_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="APPROVAL_MASTER" EntityType="Self.APPROVAL_MASTER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ATTENDANCE_DTL" EntityType="Self.ATTENDANCE_DTL" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ATTENDANCE_HDR" EntityType="Self.ATTENDANCE_HDR" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BANNER_MASTER" EntityType="Self.BANNER_MASTER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BANNER_TYPE_REL" EntityType="Self.BANNER_TYPE_REL" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BATCH_MASTER" EntityType="Self.BATCH_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BRANCH_AGREEMENT" EntityType="Self.BRANCH_AGREEMENT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BRANCH_LICENSE" EntityType="Self.BRANCH_LICENSE" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BRANCH_MAINT" EntityType="Self.BRANCH_MAINT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BRANCH_MASTER" EntityType="Self.BRANCH_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BRANCH_RIGHTS_MASTER" EntityType="Self.BRANCH_RIGHTS_MASTER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BRANCH_STAFF" EntityType="Self.BRANCH_STAFF" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CATEGORY_MASTER" EntityType="Self.CATEGORY_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CIRCULAR_MASTER" EntityType="Self.CIRCULAR_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CLASS_DTL_MASTER" EntityType="Self.CLASS_DTL_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CLASS_MASTER" EntityType="Self.CLASS_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="COURSE_DTL_MASTER" EntityType="Self.COURSE_DTL_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="COURSE_MASTER" EntityType="Self.COURSE_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FACULTY_MASTER" EntityType="Self.FACULTY_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FEE_STRUCTURE_DTL" EntityType="Self.FEE_STRUCTURE_DTL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FEE_STRUCTURE_MASTER" EntityType="Self.FEE_STRUCTURE_MASTER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GALLERY_MASTER" EntityType="Self.GALLERY_MASTER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="HOMEWORK_MASTER" EntityType="Self.HOMEWORK_MASTER" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="LIBRARY_DATA" EntityType="Self.LIBRARY_DATA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HOMEWORK_MASTER_DTL" EntityType="Self.HOMEWORK_MASTER_DTL" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LIBRARY_MASTER" EntityType="Self.LIBRARY_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LIBRARY_STD_MASTER" EntityType="Self.LIBRARY_STD_MASTER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LINK_MASTER" EntityType="Self.LINK_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MARKS_MASTER" EntityType="Self.MARKS_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NEW_LIBRARY_MASTER" EntityType="Self.NEW_LIBRARY_MASTER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NOTIFICATION_MASTER" EntityType="Self.NOTIFICATION_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NOTIFICATION_STD_MASTER" EntityType="Self.NOTIFICATION_STD_MASTER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NOTIFICATION_TYPE_REL" EntityType="Self.NOTIFICATION_TYPE_REL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PACKAGE_MASTER" EntityType="Self.PACKAGE_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PACKAGE_RIGHTS_MASTER" EntityType="Self.PACKAGE_RIGHTS_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PAGE_MASTER" EntityType="Self.PAGE_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PAYMENT_MASTER" EntityType="Self.PAYMENT_MASTER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PRACTICE_PAPER" EntityType="Self.PRACTICE_PAPER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PRACTICE_PAPER_REL" EntityType="Self.PRACTICE_PAPER_REL" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="REMINDER_MASTER" EntityType="Self.REMINDER_MASTER" Schema="dbo" store:Type="Tables" />
@@ -1108,22 +2556,55 @@
     <EntitySet Name="STUDENT_ANS_SHEET" EntityType="Self.STUDENT_ANS_SHEET" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="STUDENT_MAINT" EntityType="Self.STUDENT_MAINT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="STUDENT_MASTER" EntityType="Self.STUDENT_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="STUDENT_PAYMENT_MASTER" EntityType="Self.STUDENT_PAYMENT_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="STUDENT_PAYMENT_REL" EntityType="Self.STUDENT_PAYMENT_REL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SUBJECT_BRANCH_MASTER" EntityType="Self.SUBJECT_BRANCH_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SUBJECT_DTL_MASTER" EntityType="Self.SUBJECT_DTL_MASTER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SUBJECT_MASTER" EntityType="Self.SUBJECT_MASTER" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TEST_MASTER" EntityType="Self.TEST_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TEST_MASTER_DTL" EntityType="Self.TEST_MASTER_DTL" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TEST_PAPER_REL" EntityType="Self.TEST_PAPER_REL" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TODO_MASTER" EntityType="Self.TODO_MASTER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TRANSACTION_MASTER" EntityType="Self.TRANSACTION_MASTER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TYPE_DESC" EntityType="Self.TYPE_DESC" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UPI_MASTER" EntityType="Self.UPI_MASTER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="USER_DEF" EntityType="Self.USER_DEF" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="USER_ROLE" EntityType="Self.USER_ROLE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Faculty" EntityType="Self.Faculty" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Faculty].[name] AS [name], 
+    [Faculty].[class_id] AS [class_id], 
+    [Faculty].[course_id] AS [course_id], 
+    [Faculty].[subject_id] AS [subject_id], 
+    [Faculty].[subject_name] AS [subject_name], 
+    [Faculty].[file_path] AS [file_path], 
+    [Faculty].[branch_name] AS [branch_name], 
+    [Faculty].[faculty_id] AS [faculty_id]
+    FROM [dbo].[Faculty] AS [Faculty]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER" Association="Self.FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER">
-      <End Role="ABOUTUS_MASTER" EntitySet="ABOUTUS_MASTER" />
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="ABOUTUS_DETAIL_REL" EntitySet="ABOUTUS_DETAIL_REL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER" Association="Self.FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
       <End Role="ABOUTUS_DETAIL_REL" EntitySet="ABOUTUS_DETAIL_REL" />
     </AssociationSet>
     <AssociationSet Name="FK_ABOUTUS_MASTER_BRANCH_MASTER" Association="Self.FK_ABOUTUS_MASTER_BRANCH_MASTER">
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
       <End Role="ABOUTUS_MASTER" EntitySet="ABOUTUS_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_APPROVAL_MASTER_BRANCH_MASTER" Association="Self.FK_APPROVAL_MASTER_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="APPROVAL_MASTER" EntitySet="APPROVAL_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_APPROVAL_MASTER_LIBRARY_MASTER" Association="Self.FK_APPROVAL_MASTER_LIBRARY_MASTER">
+      <End Role="LIBRARY_MASTER" EntitySet="LIBRARY_MASTER" />
+      <End Role="APPROVAL_MASTER" EntitySet="APPROVAL_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_APPROVAL_MASTER_TRANSACTION_MASTER" Association="Self.FK_APPROVAL_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="APPROVAL_MASTER" EntitySet="APPROVAL_MASTER" />
     </AssociationSet>
     <AssociationSet Name="FK_ATTENDANCE_DTL_ATTENDANCE_HDR" Association="Self.FK_ATTENDANCE_DTL_ATTENDANCE_HDR">
       <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
@@ -1133,8 +2614,16 @@
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
       <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
     </AssociationSet>
-    <AssociationSet Name="FK_ATTENDANCE_HDR_STD_MASTER" Association="Self.FK_ATTENDANCE_HDR_STD_MASTER">
-      <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+    <AssociationSet Name="FK_ATTENDANCE_HDR_CLASS_DTL_MASTER" Association="Self.FK_ATTENDANCE_HDR_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+      <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ATTENDANCE_HDR_COURSE_DTL_MASTER" Association="Self.FK_ATTENDANCE_HDR_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+      <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ATTENDANCE_HDR_TRANSACTION_MASTER" Association="Self.FK_ATTENDANCE_HDR_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
       <End Role="ATTENDANCE_HDR" EntitySet="ATTENDANCE_HDR" />
     </AssociationSet>
     <AssociationSet Name="FK_BANNER_TYPE_REL_BANNER_MASTER" Association="Self.FK_BANNER_TYPE_REL_BANNER_MASTER">
@@ -1145,13 +2634,21 @@
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
       <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
     </AssociationSet>
-    <AssociationSet Name="FK_BATCH_MASTER_STD_MASTER" Association="Self.FK_BATCH_MASTER_STD_MASTER">
-      <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+    <AssociationSet Name="FK_BATCH_MASTER_CLASS_DTL_MASTER" Association="Self.FK_BATCH_MASTER_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+      <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BATCH_MASTER_COURSE_DTL_MASTER" Association="Self.FK_BATCH_MASTER_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
       <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
     </AssociationSet>
     <AssociationSet Name="FK_BATCH_MASTER_TRANSACTION_MASTER" Association="Self.FK_BATCH_MASTER_TRANSACTION_MASTER">
       <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
       <End Role="BATCH_MASTER" EntitySet="BATCH_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BRANCH_AGREEMENT_BRANCH_MASTER" Association="Self.FK_BRANCH_AGREEMENT_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="BRANCH_AGREEMENT" EntitySet="BRANCH_AGREEMENT" />
     </AssociationSet>
     <AssociationSet Name="FK_BRANCH_LICENSE_BRANCH_MASTER" Association="Self.FK_BRANCH_LICENSE_BRANCH_MASTER">
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
@@ -1169,6 +2666,14 @@
       <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
     </AssociationSet>
+    <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER" Association="Self.FK_BRANCH_RIGHTS_MASTER_PACKAGE_MASTER">
+      <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+      <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" Association="Self.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="BRANCH_RIGHTS_MASTER" EntitySet="BRANCH_RIGHTS_MASTER" />
+    </AssociationSet>
     <AssociationSet Name="FK_BRANCH_STAFF_BRANCH_MASTER" Association="Self.FK_BRANCH_STAFF_BRANCH_MASTER">
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
       <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
@@ -1176,6 +2681,110 @@
     <AssociationSet Name="FK_BRANCH_STAFF_TRANSACTION_MASTER" Association="Self.FK_BRANCH_STAFF_TRANSACTION_MASTER">
       <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
       <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CATEGORY_MASTER_BRANCH_MASTER" Association="Self.FK_CATEGORY_MASTER_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CATEGORY_MASTER_TRANSACTION_MASTER" Association="Self.FK_CATEGORY_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CIRCULAR_MASTER_TRANSACTION_MASTER" Association="Self.FK_CIRCULAR_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="CIRCULAR_MASTER" EntitySet="CIRCULAR_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CLASS_DTL_MASTER_BRANCH_MASTER" Association="Self.FK_CLASS_DTL_MASTER_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CLASS_DTL_MASTER_CLASS_MASTER" Association="Self.FK_CLASS_DTL_MASTER_CLASS_MASTER">
+      <End Role="CLASS_MASTER" EntitySet="CLASS_MASTER" />
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CLASS_DTL_MASTER_COURSE_DTL_MASTER" Association="Self.FK_CLASS_DTL_MASTER_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CLASS_DTL_MASTER_TRANSACTION_MASTER" Association="Self.FK_CLASS_DTL_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CLASS_MASTER_CLASS_MASTER" Association="Self.FK_CLASS_MASTER_CLASS_MASTER">
+      <End Role="CLASS_MASTER" EntitySet="CLASS_MASTER" />
+      <End Role="CLASS_MASTER1" EntitySet="CLASS_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CLASS_MASTER_COURSE_MASTER" Association="Self.FK_CLASS_MASTER_COURSE_MASTER">
+      <End Role="COURSE_MASTER" EntitySet="COURSE_MASTER" />
+      <End Role="CLASS_MASTER" EntitySet="CLASS_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CLASS_MASTER_TRANSACTION_MASTER" Association="Self.FK_CLASS_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="CLASS_MASTER" EntitySet="CLASS_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_COURSE_DTL_MASTER_BRANCH_MASTER" Association="Self.FK_COURSE_DTL_MASTER_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_COURSE_DTL_MASTER_COURSE_MASTER" Association="Self.FK_COURSE_DTL_MASTER_COURSE_MASTER">
+      <End Role="COURSE_MASTER" EntitySet="COURSE_MASTER" />
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_COURSE_DTL_MASTER_TRANSACTION_MASTER" Association="Self.FK_COURSE_DTL_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_COURSE_MASTER_TRANSACTION_MASTER" Association="Self.FK_COURSE_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="COURSE_MASTER" EntitySet="COURSE_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FACULTY_MASTER_BRANCH_MASTER" Association="Self.FK_FACULTY_MASTER_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FACULTY_MASTER_BRANCH_STAFF" Association="Self.FK_FACULTY_MASTER_BRANCH_STAFF">
+      <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
+      <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FACULTY_MASTER_CLASS_DTL_MASTER" Association="Self.FK_FACULTY_MASTER_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+      <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FACULTY_MASTER_COURSE_DTL_MASTER" Association="Self.FK_FACULTY_MASTER_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+      <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FACULTY_MASTER_SUBJECT_DTL_MASTER" Association="Self.FK_FACULTY_MASTER_SUBJECT_DTL_MASTER">
+      <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
+      <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FACULTY_MASTER_TRANSACTION_MASTER" Association="Self.FK_FACULTY_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="FACULTY_MASTER" EntitySet="FACULTY_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER" Association="Self.FK_FEE_STRUCTURE_DTL_FEE_STRUCTURE_MASTER">
+      <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+      <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER" Association="Self.FK_FEE_STRUCTURE_DTL_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="FEE_STRUCTURE_DTL" EntitySet="FEE_STRUCTURE_DTL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER" Association="Self.FK_FEE_STRUCTURE_MASTER_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_CLASS_DTL_MASTER" Association="Self.FK_FEE_STRUCTURE_MASTER_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+      <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_COURSE_DTL_MASTER" Association="Self.FK_FEE_STRUCTURE_MASTER_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+      <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER" Association="Self.FK_FEE_STRUCTURE_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="FEE_STRUCTURE_MASTER" EntitySet="FEE_STRUCTURE_MASTER" />
     </AssociationSet>
     <AssociationSet Name="FK_GALLERY_MASTER_BRANCH_MASTER" Association="Self.FK_GALLERY_MASTER_BRANCH_MASTER">
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
@@ -1185,36 +2794,156 @@
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
       <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
     </AssociationSet>
-    <AssociationSet Name="FK_HOMEWORK_MASTER_STD_MASTER" Association="Self.FK_HOMEWORK_MASTER_STD_MASTER">
-      <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+    <AssociationSet Name="FK_HOMEWORK_MASTER_CLASS_DTL_MASTER" Association="Self.FK_HOMEWORK_MASTER_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
       <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
     </AssociationSet>
-    <AssociationSet Name="FK_HOMEWORK_MASTER_SUBJECT_MASTER" Association="Self.FK_HOMEWORK_MASTER_SUBJECT_MASTER">
-      <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
+    <AssociationSet Name="FK_HOMEWORK_MASTER_COURSE_DTL_MASTER" Association="Self.FK_HOMEWORK_MASTER_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
       <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
     </AssociationSet>
-    <AssociationSet Name="FK_LIBRARY_DATA_LIBRARY_MASTER" Association="Self.FK_LIBRARY_DATA_LIBRARY_MASTER">
+    <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER" Association="Self.FK_HOMEWORK_MASTER_DTL_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER" Association="Self.FK_HOMEWORK_MASTER_DTL_HOMEWORK_MASTER">
+      <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
+      <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER" Association="Self.FK_HOMEWORK_MASTER_DTL_STUDENT_MASTER">
+      <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+      <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER" Association="Self.FK_HOMEWORK_MASTER_DTL_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="HOMEWORK_MASTER_DTL" EntitySet="HOMEWORK_MASTER_DTL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HOMEWORK_MASTER_SUBJECT_DTL_MASTER" Association="Self.FK_HOMEWORK_MASTER_SUBJECT_DTL_MASTER">
+      <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
+      <End Role="HOMEWORK_MASTER" EntitySet="HOMEWORK_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LIBRARY_MASTER_CATEGORY_MASTER" Association="Self.FK_LIBRARY_MASTER_CATEGORY_MASTER">
+      <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
       <End Role="LIBRARY_MASTER" EntitySet="LIBRARY_MASTER" />
-      <End Role="LIBRARY_DATA" EntitySet="LIBRARY_DATA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LIBRARY_STD_MASTER_CLASS_DTL_MASTER" Association="Self.FK_LIBRARY_STD_MASTER_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+      <End Role="LIBRARY_STD_MASTER" EntitySet="LIBRARY_STD_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LIBRARY_STD_MASTER_COURSE_DTL_MASTER" Association="Self.FK_LIBRARY_STD_MASTER_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+      <End Role="LIBRARY_STD_MASTER" EntitySet="LIBRARY_STD_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LIBRARY_STD_MASTER_LIBRARY_MASTER" Association="Self.FK_LIBRARY_STD_MASTER_LIBRARY_MASTER">
+      <End Role="LIBRARY_MASTER" EntitySet="LIBRARY_MASTER" />
+      <End Role="LIBRARY_STD_MASTER" EntitySet="LIBRARY_STD_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LIBRARY_STD_MASTER_SUBJECT_DTL_MASTER" Association="Self.FK_LIBRARY_STD_MASTER_SUBJECT_DTL_MASTER">
+      <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
+      <End Role="LIBRARY_STD_MASTER" EntitySet="LIBRARY_STD_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LINK_MASTER_CLASS_DTL_MASTER" Association="Self.FK_LINK_MASTER_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+      <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LINK_MASTER_COURSE_DTL_MASTER" Association="Self.FK_LINK_MASTER_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+      <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MARKS_MASTER_BRANCH_MASTER" Association="Self.FK_MARKS_MASTER_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MARKS_MASTER_CLASS_DTL_MASTER" Association="Self.FK_MARKS_MASTER_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+      <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MARKS_MASTER_COURSE_DTL_MASTER" Association="Self.FK_MARKS_MASTER_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+      <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MARKS_MASTER_STUDENT_MASTER" Association="Self.FK_MARKS_MASTER_STUDENT_MASTER">
+      <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+      <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MARKS_MASTER_SUBJECT_DTL_MASTER" Association="Self.FK_MARKS_MASTER_SUBJECT_DTL_MASTER">
+      <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
+      <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MARKS_MASTER_TEST_MASTER" Association="Self.FK_MARKS_MASTER_TEST_MASTER">
+      <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+      <End Role="MARKS_MASTER" EntitySet="MARKS_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NEW_LIBRARY_MASTER_BRANCH_MASTER" Association="Self.FK_NEW_LIBRARY_MASTER_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="NEW_LIBRARY_MASTER" EntitySet="NEW_LIBRARY_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NEW_LIBRARY_MASTER_CATEGORY_MASTER" Association="Self.FK_NEW_LIBRARY_MASTER_CATEGORY_MASTER">
+      <End Role="CATEGORY_MASTER" EntitySet="CATEGORY_MASTER" />
+      <End Role="NEW_LIBRARY_MASTER" EntitySet="NEW_LIBRARY_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NEW_LIBRARY_MASTER_TRANSACTION_MASTER" Association="Self.FK_NEW_LIBRARY_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="NEW_LIBRARY_MASTER" EntitySet="NEW_LIBRARY_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NOTIFICATION_STD_MASTER_CLASS_DTL_MASTER" Association="Self.FK_NOTIFICATION_STD_MASTER_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+      <End Role="NOTIFICATION_STD_MASTER" EntitySet="NOTIFICATION_STD_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NOTIFICATION_STD_MASTER_COURSE_DTL_MASTER" Association="Self.FK_NOTIFICATION_STD_MASTER_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+      <End Role="NOTIFICATION_STD_MASTER" EntitySet="NOTIFICATION_STD_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NOTIFICATION_STD_MASTER_NOTIFICATION_MASTER" Association="Self.FK_NOTIFICATION_STD_MASTER_NOTIFICATION_MASTER">
+      <End Role="NOTIFICATION_MASTER" EntitySet="NOTIFICATION_MASTER" />
+      <End Role="NOTIFICATION_STD_MASTER" EntitySet="NOTIFICATION_STD_MASTER" />
     </AssociationSet>
     <AssociationSet Name="FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER" Association="Self.FK_NOTIFICATION_TYPE_REL_NOTIFICATION_MASTER">
       <End Role="NOTIFICATION_MASTER" EntitySet="NOTIFICATION_MASTER" />
       <End Role="NOTIFICATION_TYPE_REL" EntitySet="NOTIFICATION_TYPE_REL" />
     </AssociationSet>
+    <AssociationSet Name="FK_PACKAGE_MASTER_BRANCH_MASTER" Association="Self.FK_PACKAGE_MASTER_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER" Association="Self.FK_PACKAGE_RIGHTS_MASTER_PACKAGE_MASTER">
+      <End Role="PACKAGE_MASTER" EntitySet="PACKAGE_MASTER" />
+      <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" Association="Self.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER">
+      <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
+      <End Role="PACKAGE_RIGHTS_MASTER" EntitySet="PACKAGE_RIGHTS_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PAYMENT_MASTER_BRANCH_MASTER" Association="Self.FK_PAYMENT_MASTER_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="PAYMENT_MASTER" EntitySet="PAYMENT_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PAYMENT_MASTER_STUDENT_MASTER" Association="Self.FK_PAYMENT_MASTER_STUDENT_MASTER">
+      <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+      <End Role="PAYMENT_MASTER" EntitySet="PAYMENT_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PAYMENT_MASTER_TRANSACTION_MASTER" Association="Self.FK_PAYMENT_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="PAYMENT_MASTER" EntitySet="PAYMENT_MASTER" />
+    </AssociationSet>
     <AssociationSet Name="FK_PRACTICE_PAPER_BRANCH_MASTER" Association="Self.FK_PRACTICE_PAPER_BRANCH_MASTER">
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PRACTICE_PAPER_CLASS_DTL_MASTER" Association="Self.FK_PRACTICE_PAPER_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+      <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PRACTICE_PAPER_COURSE_DTL_MASTER" Association="Self.FK_PRACTICE_PAPER_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
       <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
     </AssociationSet>
     <AssociationSet Name="FK_PRACTICE_PAPER_REL_PRACTICE_PAPER" Association="Self.FK_PRACTICE_PAPER_REL_PRACTICE_PAPER">
       <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
       <End Role="PRACTICE_PAPER_REL" EntitySet="PRACTICE_PAPER_REL" />
     </AssociationSet>
-    <AssociationSet Name="FK_PRACTICE_PAPER_STD_MASTER" Association="Self.FK_PRACTICE_PAPER_STD_MASTER">
-      <End Role="STD_MASTER" EntitySet="STD_MASTER" />
-      <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PRACTICE_PAPER_SUBJECT_MASTER" Association="Self.FK_PRACTICE_PAPER_SUBJECT_MASTER">
-      <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
+    <AssociationSet Name="FK_PRACTICE_PAPER_SUBJECT_DTL_MASTER" Association="Self.FK_PRACTICE_PAPER_SUBJECT_DTL_MASTER">
+      <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
       <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
     </AssociationSet>
     <AssociationSet Name="FK_REMINDER_MASTER_BRANCH_MASTER" Association="Self.FK_REMINDER_MASTER_BRANCH_MASTER">
@@ -1231,6 +2960,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_STD_MASTER_BRANCH_MASTER" Association="Self.FK_STD_MASTER_BRANCH_MASTER">
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_STD_MASTER_CLASS_DTL_MASTER" Association="Self.FK_STD_MASTER_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
       <End Role="STD_MASTER" EntitySet="STD_MASTER" />
     </AssociationSet>
     <AssociationSet Name="FK_STD_MASTER_TRANSACTION_MASTER" Association="Self.FK_STD_MASTER_TRANSACTION_MASTER">
@@ -1257,20 +2990,76 @@
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
       <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
     </AssociationSet>
-    <AssociationSet Name="FK_STUDENT_MASTER_SCHOOL_MASTER" Association="Self.FK_STUDENT_MASTER_SCHOOL_MASTER">
-      <End Role="SCHOOL_MASTER" EntitySet="SCHOOL_MASTER" />
+    <AssociationSet Name="FK_STUDENT_MASTER_CLASS_DTL_MASTER" Association="Self.FK_STUDENT_MASTER_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
       <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
     </AssociationSet>
-    <AssociationSet Name="FK_STUDENT_MASTER_STD_MASTER" Association="Self.FK_STUDENT_MASTER_STD_MASTER">
-      <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+    <AssociationSet Name="FK_STUDENT_MASTER_COURSE_DTL_MASTER" Association="Self.FK_STUDENT_MASTER_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+      <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_STUDENT_MASTER_SCHOOL_MASTER" Association="Self.FK_STUDENT_MASTER_SCHOOL_MASTER">
+      <End Role="SCHOOL_MASTER" EntitySet="SCHOOL_MASTER" />
       <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
     </AssociationSet>
     <AssociationSet Name="FK_STUDENT_MASTER_TRANSACTION_MASTER" Association="Self.FK_STUDENT_MASTER_TRANSACTION_MASTER">
       <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
       <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
     </AssociationSet>
+    <AssociationSet Name="FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER" Association="Self.FK_STUDENT_PAYMENT_MASTER_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="STUDENT_PAYMENT_MASTER" EntitySet="STUDENT_PAYMENT_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER" Association="Self.FK_STUDENT_PAYMENT_REL_STUDENT_PAYMENT_MASTER">
+      <End Role="STUDENT_PAYMENT_MASTER" EntitySet="STUDENT_PAYMENT_MASTER" />
+      <End Role="STUDENT_PAYMENT_REL" EntitySet="STUDENT_PAYMENT_REL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER" Association="Self.FK_STUDENT_PAYMENT_REL_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="STUDENT_PAYMENT_REL" EntitySet="STUDENT_PAYMENT_REL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_BRANCH_MASTER_COURSE_MASTER" Association="Self.FK_SUBJECT_BRANCH_MASTER_COURSE_MASTER">
+      <End Role="COURSE_MASTER" EntitySet="COURSE_MASTER" />
+      <End Role="SUBJECT_BRANCH_MASTER" EntitySet="SUBJECT_BRANCH_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_BRANCH_MASTER_SUBJECT_BRANCH_MASTER" Association="Self.FK_SUBJECT_BRANCH_MASTER_SUBJECT_BRANCH_MASTER">
+      <End Role="SUBJECT_BRANCH_MASTER" EntitySet="SUBJECT_BRANCH_MASTER" />
+      <End Role="SUBJECT_BRANCH_MASTER1" EntitySet="SUBJECT_BRANCH_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_BRANCH_MASTER_TRANSACTION_MASTER" Association="Self.FK_SUBJECT_BRANCH_MASTER_TRANSACTION_MASTER">
+      <End Role="CLASS_MASTER" EntitySet="CLASS_MASTER" />
+      <End Role="SUBJECT_BRANCH_MASTER" EntitySet="SUBJECT_BRANCH_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_BRANCH_MASTER_TRANSACTION_MASTER1" Association="Self.FK_SUBJECT_BRANCH_MASTER_TRANSACTION_MASTER1">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="SUBJECT_BRANCH_MASTER" EntitySet="SUBJECT_BRANCH_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_DTL_MASTER_BRANCH_MASTER" Association="Self.FK_SUBJECT_DTL_MASTER_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_DTL_MASTER_CLASS_DTL_MASTER" Association="Self.FK_SUBJECT_DTL_MASTER_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
+      <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_DTL_MASTER_COURSE_DTL_MASTER" Association="Self.FK_SUBJECT_DTL_MASTER_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+      <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_DTL_MASTER_SUBJECT_BRANCH_MASTER" Association="Self.FK_SUBJECT_DTL_MASTER_SUBJECT_BRANCH_MASTER">
+      <End Role="SUBJECT_BRANCH_MASTER" EntitySet="SUBJECT_BRANCH_MASTER" />
+      <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_DTL_MASTER_TRANSACTION_MASTER" Association="Self.FK_SUBJECT_DTL_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
+    </AssociationSet>
     <AssociationSet Name="FK_SUBJECT_MASTER_BRANCH_MASTER" Association="Self.FK_SUBJECT_MASTER_BRANCH_MASTER">
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_MASTER_SUBJECT_DTL_MASTER" Association="Self.FK_SUBJECT_MASTER_SUBJECT_DTL_MASTER">
+      <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
       <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
     </AssociationSet>
     <AssociationSet Name="FK_SUBJECT_MASTER_TRANSACTION_MASTER" Association="Self.FK_SUBJECT_MASTER_TRANSACTION_MASTER">
@@ -1281,12 +3070,32 @@
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
       <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
     </AssociationSet>
-    <AssociationSet Name="FK_TEST_MASTER_STD_MASTER" Association="Self.FK_TEST_MASTER_STD_MASTER">
-      <End Role="STD_MASTER" EntitySet="STD_MASTER" />
+    <AssociationSet Name="FK_TEST_MASTER_CLASS_DTL_MASTER" Association="Self.FK_TEST_MASTER_CLASS_DTL_MASTER">
+      <End Role="CLASS_DTL_MASTER" EntitySet="CLASS_DTL_MASTER" />
       <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
     </AssociationSet>
-    <AssociationSet Name="FK_TEST_MASTER_SUBJECT_MASTER" Association="Self.FK_TEST_MASTER_SUBJECT_MASTER">
-      <End Role="SUBJECT_MASTER" EntitySet="SUBJECT_MASTER" />
+    <AssociationSet Name="FK_TEST_MASTER_COURSE_DTL_MASTER" Association="Self.FK_TEST_MASTER_COURSE_DTL_MASTER">
+      <End Role="COURSE_DTL_MASTER" EntitySet="COURSE_DTL_MASTER" />
+      <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Test_MASTER_DTL_BRANCH_MASTER" Association="Self.FK_Test_MASTER_DTL_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Test_MASTER_DTL_STUDENT_MASTER" Association="Self.FK_Test_MASTER_DTL_STUDENT_MASTER">
+      <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+      <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Test_MASTER_DTL_Test_MASTER" Association="Self.FK_Test_MASTER_DTL_Test_MASTER">
+      <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
+      <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Test_MASTER_DTL_TRANSACTION_MASTER" Association="Self.FK_Test_MASTER_DTL_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="TEST_MASTER_DTL" EntitySet="TEST_MASTER_DTL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TEST_MASTER_SUBJECT_DTL_MASTER" Association="Self.FK_TEST_MASTER_SUBJECT_DTL_MASTER">
+      <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
       <End Role="TEST_MASTER" EntitySet="TEST_MASTER" />
     </AssociationSet>
     <AssociationSet Name="FK_TEST_PAPER_REL_TEST_MASTER" Association="Self.FK_TEST_PAPER_REL_TEST_MASTER">
@@ -1296,6 +3105,14 @@
     <AssociationSet Name="FK_TODO_MASTER_BRANCH_MASTER" Association="Self.FK_TODO_MASTER_BRANCH_MASTER">
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
       <End Role="TODO_MASTER" EntitySet="TODO_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UPI_MASTER_BRANCH_MASTER" Association="Self.FK_UPI_MASTER_BRANCH_MASTER">
+      <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+      <End Role="UPI_MASTER" EntitySet="UPI_MASTER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UPI_MASTER_TRANSACTION_MASTER" Association="Self.FK_UPI_MASTER_TRANSACTION_MASTER">
+      <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+      <End Role="UPI_MASTER" EntitySet="UPI_MASTER" />
     </AssociationSet>
     <AssociationSet Name="FK_USER_DEF_BRANCH_STAFF" Association="Self.FK_USER_DEF_BRANCH_STAFF">
       <End Role="BRANCH_STAFF" EntitySet="BRANCH_STAFF" />
@@ -1311,10 +3128,6 @@
     </AssociationSet>
     <AssociationSet Name="FK_VIDEO_MASTER_BRANCH_MASTER" Association="Self.FK_VIDEO_MASTER_BRANCH_MASTER">
       <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
-      <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
-    </AssociationSet>
-    <AssociationSet Name="FK_VIDEO_MASTER_STD_MASTER" Association="Self.FK_VIDEO_MASTER_STD_MASTER">
-      <End Role="STD_MASTER" EntitySet="STD_MASTER" />
       <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
     </AssociationSet>
   </EntityContainer>

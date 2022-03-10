@@ -1,0 +1,51 @@
+﻿﻿@model Ashirvad.Data.BranchWiseRightEntity
+
+<div class="col-md-12">
+    <form id="fPackageRightDetail">
+
+        <div class="col-md-4" id="drights">
+            @Html.Label("Package", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="PackageName" id="PackageName" class="form-control requiredDDL" alt="Package">
+                <option value="0">--Select Package--</option>
+            </select>
+            @Html.HiddenFor(x=>x.Packageinfo.PackageID)
+            @Html.HiddenFor(x=>x.BranchWiseRightsID)
+        </div>
+        <div class="col-md-4">
+            @Html.Label("Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="BranchName" id="BranchName" class="form-control requiredDDL" alt="Branch">
+                <option value="0">--Select Branch--</option>
+            </select>
+            @Html.HiddenFor(x=>x.branchinfo.BranchID)
+        </div>
+       
+        <div class="form-group">
+            <div class="col-md-4" style="text-align: right;">
+                <br />
+                <a onclick="return SaveBranchWiseRight();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Save
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+                <a href="@Url.Action("BranchRightMaintenance","BranchWiseRight", new { @BranchRightID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                    <span class="ladda-label">
+                        Cancel
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="course" id="UserDetails">
+
+</div>
+<div class="col-md-12">
+    <div id="rightsdiv" style="max-height: 200px; overflow-y: scroll !important">
+        @{
+            Html.RenderPartial("RightsDataTable", new ViewDataDictionary(Model.list));
+
+        }
+    </div>
+</div>

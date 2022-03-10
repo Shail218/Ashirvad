@@ -101,3 +101,8 @@ E:\source\repos\AshirwadProduct\Ashirvad-main\Ashirvad.Website\obj\Debug\Ashirva
 E:\source\repos\AshirwadProduct\Ashirvad-main\Ashirvad.Website\obj\Debug\Ashirvad.Website.dll
 E:\source\repos\AshirwadProduct\Ashirvad-main\Ashirvad.Website\obj\Debug\Ashirvad.Website.pdb
 E:\source\repos\AshirwadProduct\Ashirvad-main\Ashirvad.Website\obj\Debug\Ashirvad.Website.GeneratedMSBuildEditorConfig.editorconfig
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Website\obj\Debug\Ashirvad.Website.csproj.AssemblyReference.cache
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Website\obj\Debug\Ashirvad.Website.GeneratedMSBuildEditorConfig.editorconfig
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Website\obj\Debug\Ashirvad.Website.csproj.CoreCompileInputs.cache
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Website\obj\Debug\Ashirvad.Website.dll
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Website\obj\Debug\Ashirvad.Website.pdb

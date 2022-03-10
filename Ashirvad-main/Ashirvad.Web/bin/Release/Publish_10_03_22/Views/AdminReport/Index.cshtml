@@ -1,0 +1,56 @@
+﻿@model Ashirvad.Data.Model.AdminDataModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body" style="padding:5px">
+                    @{
+                        Html.RenderPartial("Create", new ViewDataDictionary(Model.dataUsageEntity));
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body" style="padding:5px">
+                    <div id="dataUsage">
+                        @{
+                            Html.RenderPartial("Manage", new ViewDataDictionary(Model.dataUsageEntitiesInfo));
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+        <script src="~/scripts/app/adminreport.js"></script>
+        @*<script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>*@
+        <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                $('#studenttbl').DataTable({
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": false,
+                    "bAutoWidth": true
+                });
+            });</script>
+        <script type="text/javascript">
+            function ConfirmationDialog() {
+                if (confirm("Are you sure to continue?"))
+                    return true;
+                else
+                    return false;
+            }</script>
+    }
+</section>

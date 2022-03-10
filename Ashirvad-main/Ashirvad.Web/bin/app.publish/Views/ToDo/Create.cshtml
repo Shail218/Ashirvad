@@ -1,0 +1,124 @@
+﻿@model Ashirvad.Data.ToDoEntity
+<form id="fToDoDetail">
+    <div class="form-group" id="dInformation">
+        @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+        {
+            <div class="col-md-3">
+                @Html.Label("Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <div id="datepickertodo" class="input-group date" data-date-format="dd/mm/yyyy">
+                    @if (Model == null)
+                    {
+                        @Html.TextBoxFor(x => x.ToDoDate, null, new { @class = "form-control required", @alt = "ToDo Date", autocomplete = "off", @readonly = "readonly" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(x => x.ToDoDate, Model.ToDoDate.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "ToDo Date" })
+                    }
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+                @Html.HiddenFor(x => x.ToDoID)
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BranchName" id="BranchName" class="form-control requiredDDL" alt="Branch">
+                    <option value="0">--Select Branch--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchInfo.BranchID)
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Select User", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="UserName" id="UserName" class="form-control requiredDDL select2" alt="User">
+                    <option value="0">--Select User--</option>
+                </select>
+                @Html.HiddenFor(x => x.UserInfo.UserID)
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Upload Document", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <input class="file-upload fileRequired" alt="Documente" id="fuDocument" name="FileInfo" type="file" />
+                @Html.HiddenFor(x => x.ToDoContentText)
+                @Html.HiddenFor(x => x.FilePath)
+                @Html.HiddenFor(x => x.ToDoFileName)
+                @Html.HiddenFor(x => x.FileInfo)
+                @Html.HiddenFor(x => x.ToDoContent)
+            </div>
+            <div class="col-md-9" style="margin-top:5px;">
+                @Html.Label("Task Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextBoxFor(x => x.ToDoDescription, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
+            </div>
+            <div class="col-md-3" style="text-align: right;margin-top:27px;">
+                <a onclick="return SaveToDo();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Save
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+                <a href="@Url.Action("ToDoMaintenance", "ToDo", new { @todoID = 0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                    <span class="ladda-label">
+                        Cancel
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="col-md-6">
+                @Html.Label("Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <div id="datepickertodo" class="input-group date" data-date-format="dd/mm/yyyy">
+                    @if (Model == null)
+                    {
+                        @Html.TextBoxFor(x => x.ToDoDate, null, new { @class = "form-control", @alt = "ToDo Date", autocomplete = "off", @readonly = "readonly" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(x => x.ToDoDate, Model.ToDoDate.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "ToDo Date" })
+                    }
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+                @Html.HiddenFor(x => x.ToDoID)
+            </div>
+            <div class="col-md-3" style="display:none;">
+                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BranchName" id="BranchName" class="form-control requiredDDL" alt="Branch">
+                    <option value="0">--Select Branch--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchInfo.BranchID)
+            </div>
+            <div class="col-md-6">
+                @Html.Label("Select User", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="UserName" id="UserName" class="form-control requiredDDL select2" alt="User">
+                    <option value="0">--Select User--</option>
+                </select>
+                @Html.HiddenFor(x => x.UserInfo.UserID)
+            </div>
+            <div class="col-md-12" style="margin-top:5px;">
+                @Html.Label("Task Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextBoxFor(x => x.ToDoDescription, new { @class = "form-control", @alt = "Remarks", autocomplete = "off" })
+            </div>
+            <div class="col-md-12" style="margin-top:5px;">
+                @Html.Label("Upload Document", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <input class="file-upload fileRequired" alt="Document" id="fuDocument" name="FileInfo" type="file" />
+                @Html.HiddenFor(x => x.ToDoContentText)
+                @Html.HiddenFor(x => x.ToDoContent)
+                @Html.HiddenFor(x => x.ToDoFileName)
+                @Html.HiddenFor(x => x.FilePath)
+            </div>
+            <div class="col-md-12 To-DoEntryCreate" style="text-align: right;">
+                <a onclick="return SaveToDo();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Save
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+                <a href="@Url.Action("ToDoMaintenance", "ToDo", new { @todoID = 0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                    <span class="ladda-label">
+                        Cancel
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+
+            </div>
+        }
+    </div>
+</form>

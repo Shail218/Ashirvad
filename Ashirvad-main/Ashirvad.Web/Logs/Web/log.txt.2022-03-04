@@ -1,0 +1,26 @@
+
+
+2022-03-04 09:42:05,660 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.FormatException: String was not recognized as a valid DateTime.
+   at System.DateTimeParse.ParseExact(String s, String format, DateTimeFormatInfo dtfi, DateTimeStyles style)
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at Ashirvad.Repo.Services.Area.User.User.<CheckAgreement>d__13.MoveNext() in D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Repo\Services\Area\User\User.cs:line 554
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.User.UserService.<CheckAgreement>d__5.MoveNext() in D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\User\UserService.cs:line 79
+
+
+2022-03-04 09:46:13,829 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.FormatException: String was not recognized as a valid DateTime.
+   at System.DateTimeParse.ParseExact(String s, String format, DateTimeFormatInfo dtfi, DateTimeStyles style)
+   at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+   at Ashirvad.Repo.Services.Area.User.User.<CheckAgreement>d__13.MoveNext() in D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Repo\Services\Area\User\User.cs:line 554
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.User.UserService.<CheckAgreement>d__5.MoveNext() in D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\User\UserService.cs:line 79

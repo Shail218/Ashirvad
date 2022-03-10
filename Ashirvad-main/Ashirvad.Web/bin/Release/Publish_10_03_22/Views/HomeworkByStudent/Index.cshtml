@@ -1,0 +1,42 @@
+﻿@model Ashirvad.Data.Model.HomeworkchartModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <section class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        Personal Info
+                    </h3>
+                </div>
+                <div class="box-body" id="PersonalData">
+                    @{
+                        Html.RenderPartial("PersonalInfo", new ViewDataDictionary(Model.studentlist));
+                    }
+                </div>
+            </div>
+        </section>
+        <section class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">HomeWork Details</h3>
+
+                    @{
+                        Html.RenderPartial("FilteredData", new ViewDataDictionary(Model.homeworklist));
+                    }
+                </div>
+            </div>
+        </section>
+    </div>
+    @section Scripts {
+        <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="~/scripts/app/homeworkbystudent.js"></script>
+    }
+</section>
+
+

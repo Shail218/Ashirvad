@@ -1,0 +1,111 @@
+﻿@model List<Ashirvad.Data.PaymentRegisterEntity>
+
+@{
+
+    Layout = null;
+}
+<style>
+    .customwidth {
+        width: 30% !important;
+    }
+</style>
+<table style="width: 100%;" id="paymentregistertable" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th>
+                Student Name
+            </th>
+            <th>
+               View
+            </th>
+            <th>
+                Download
+            </th>
+            <th>
+                Student Remarks
+            </th>
+            <th>
+                Remarks
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model?.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @item.studentEntity.FirstName @item.studentEntity.LastName @item.studentEntity.LastName
+            </td>
+            <td>
+            </td>
+            <td>
+                @if (item.file_path != null && item.file_path != "")
+                {
+                    <a style="margin-left:20px;" href="@item.file_path.Replace("https://mastermind.org.in","")" download="@item.file_name"><img src="~/ThemeData/images/icons8-desktop-download-24 (1).png" /></a>
+                }
+            </td>
+            <td>
+                @item.student_remark
+            </td>
+            <td>
+                <input type="text" class="form-control customwidth required" alt="Remarks" autocomplete="off" id="remarks_@item.payment_id" value="@item.remark" placeholder="Remarks"/>
+            </td>
+            <td>
+                @item.status_txt
+            </td>
+            <td>
+                @if (item.payment_status == 1)
+                {
+                    <a onclick="UpdatePaymentStatus('@item.payment_id', '@item.studentEntity.StudentID', '2');" class="ladda-button mb-2 mr-2 btn btn-success" data-style="expand-left">
+                        <span class="ladda-label">
+                            Approve
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>
+                    <a onclick="UpdatePaymentStatus('@item.payment_id', '@item.studentEntity.StudentID', '3');" class="ladda-button mb-2 mr-2 btn btn-danger">
+                        <span class="ladda-label">
+                            Reject
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>
+                }
+                else if (item.payment_status == 2)
+                {
+                    <a onclick="UpdatePaymentStatus('@item.payment_id', '@item.studentEntity.StudentID', '3');" class="ladda-button mb-2 mr-2 btn btn-danger" style="margin-left: 25%;">
+                        <span class="ladda-label">
+                            Reject
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>
+                }
+                else
+                {
+                    <a onclick="UpdatePaymentStatus('@item.payment_id', '@item.studentEntity.StudentID', '2');" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left" style="margin-left: 25%;">
+                        <span class="ladda-label">
+                            Approve
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>
+                }
+            </td>
+        </tr>
+            }
+        }
+    </tbody>
+
+</table>
+
+
+
+
+
+
+

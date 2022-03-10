@@ -1,0 +1,92 @@
+﻿@model Ashirvad.Data.FacultyEntity
+<form id="ffacultydetail">
+    <div class="form-group" id="dInformation">
+        @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+        {
+            <div class="col-md-12">
+                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BranchName" id="BranchName" class="form-control requiredDDL select2" alt="Branch">
+                    <option value="0">--Select Branch--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchInfo.BranchID)
+            </div>
+        }
+        else
+        {
+            <div class="col-md-12" style="display: none;">
+                @Html.Label("Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="BranchName" id="BranchName" class="form-control" alt="Branch">
+                    <option value="0">--Select Branch--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchInfo.BranchID)
+            </div>
+        }
+
+            <div class="col-md-12" style="margin-bottom:7px;">
+                @Html.Label("Select Faculty", htmlAttributes: new { @class = "control-label" })
+                <select name="facultyName" id="facultyName" class="form-control select2" alt="Faculty Name">
+                    <option value="0">--Select Faculty--</option>
+
+                </select>
+                @Html.HiddenFor(x => x.staff.StaffID)
+                @Html.HiddenFor(x => x.BranchInfo.BranchID)
+                @Html.HiddenFor(x => x.FacultyID)                
+            </div>
+        <div>
+            <div class="col-md-6">
+                @Html.Label("Course Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="CourseName" id="CourseName" class="form-control requiredDDL" alt="Course Name">
+                    <option value="0">--Select Course Name--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchCourse.course_dtl_id)
+            </div>
+            <div class="col-md-6">
+                @Html.Label("Class Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="ClassName" id="ClassName" class="form-control requiredDDL" alt="Class Name">
+                    <option value="0">--Select Class Name--</option>
+                </select>
+                @Html.HiddenFor(x => x.BranchClass.Class_dtl_id)
+            </div>
+        </div>
+        <div class="col-md-6" style="margin-bottom:7px;">
+            @Html.Label("Select Subject", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="SubjectName" id="SubjectName" class="form-control requiredDDL" alt="Subject Name">
+                <option value="0">--Select Subject--</option>
+
+            </select>
+            @Html.HiddenFor(x => x.branchSubject.Subject_dtl_id)
+        </div>
+        <div class="col-md-6" style="margin-bottom:7px;">
+            @Html.Label("Faculty Image", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <input class="file-upload fileRequired" alt="Header Image" id="fuHeaderImageDetail" name="ImageFile" type="file" accept="image/*" />
+            @Html.HiddenFor(x => x.HeaderImageText)
+            @Html.HiddenFor(x => x.FileInfo)
+            @Html.HiddenFor(x => x.FilePath)
+            @Html.HiddenFor(x => x.FacultyContentFileName)
+        </div>
+
+        <div class="col-md-12">
+            @Html.Label("Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextAreaFor(x => x.Descripation, new { @class = "form-control required", autocomplete = "off", @alt = "Description" })
+
+        </div>        
+        <div class="form-group">
+            <div class="col-md-12" style="text-align: right;margin-top:10px;">
+                <a onclick="return SaveFaculty();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Save
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+                <a href="@Url.Action("FacultyMaintenance","Faculty", new { @facultyID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                    <span class="ladda-label">
+                        Cancel
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</form>
+

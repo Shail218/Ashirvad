@@ -258,3 +258,6 @@ C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Websit
 C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Website\obj\Release\Ashirvad.Website.csproj.CopyComplete
 C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Website\obj\Release\Ashirvad.Website.dll
 C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Website\obj\Release\Ashirvad.Website.pdb
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Website\obj\Release\Ashirvad.Website.csproj.AssemblyReference.cache
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Website\obj\Release\Ashirvad.Website.GeneratedMSBuildEditorConfig.editorconfig
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Website\obj\Release\Ashirvad.Website.csproj.CoreCompileInputs.cache

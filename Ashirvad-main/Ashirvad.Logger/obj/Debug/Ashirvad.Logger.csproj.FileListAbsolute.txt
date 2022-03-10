@@ -18,3 +18,10 @@ C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Logger
 C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.csproj.CopyComplete
 C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.dll
 C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.pdb
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\bin\Debug\Ashirvad.Logger.dll
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\bin\Debug\Ashirvad.Logger.pdb
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.csproj.CoreCompileInputs.cache
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.csproj.CopyComplete
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.dll
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.pdb
+D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\obj\Debug\Ashirvad.Logger.csproj.AssemblyReference.cache

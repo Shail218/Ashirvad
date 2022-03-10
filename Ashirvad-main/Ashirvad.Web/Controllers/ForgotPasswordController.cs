@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ashirvad.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,7 @@ namespace Ashirvad.Web.Controllers
         // GET: ForgotPassword
         public ActionResult Index()
         {
+            UserEntity entity = new UserEntity(); 
             return View();
         }
     }

@@ -1,0 +1,35 @@
+﻿
+@using Ashirvad.Web.Controllers;
+@model List<Ashirvad.Data.ClassEntity>
+@{
+    Layout = null;
+}
+
+<table style="width: 100%;" id="choiceList" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            <th style="width:13%">
+                <input type="checkbox" class="allselected" onchange="OnSelectStatus(this,'isClass');" Id="allselect" /> All
+            </th>
+            <th>Class Name</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td class="js-export-checkbox">
+                @Html.CheckBox("isClass", new { @class = "isClass", @Id = "isClass", @onchange = "checkstatus()" })
+                <input type="hidden" value="0" class="Classdtlid" />
+            </td>
+            <td>
+                @Html.HiddenFor(x => item.ClassID, new { @class = "ClassID" })
+                @Html.HiddenFor(x => item.ClassName, new { @class = "ClassName" })
+                @item.ClassName
+
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

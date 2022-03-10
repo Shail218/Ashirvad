@@ -1,0 +1,74 @@
+﻿@model Ashirvad.Data.ToDoEntity
+    @{ 
+        Layout = null;
+    }
+<form id="fToDoRegisterDetail">
+    <div class="form-group" id="dInformation">
+        <div class="col-md-4">
+            @Html.Label("Status", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span><br />
+            <table id="rdbResult" class="radioboxlist form-control">
+                <tbody>
+                    <tr>
+                        <td>
+                            @if (Model.Registerstatus == true && Model != null)
+                            {
+                                <input type="radio" name="Status" id="rowStaActive" value="Active" style="margin-left:10px" checked onchange="changestatus(this);"/>
+                            }
+                            else
+                            {
+                                <input type="radio" name="Status" id="rowStaActive" value="Active" style="margin-left:10px" onchange="changestatus(this);"/>
+                            }
+                            <lable for="rowStaActive">Done</lable>
+                        </td>
+                        <td>
+                            @if (Model.Registerstatus == false && Model != null)
+                            {
+                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px" checked onchange="changestatus(this);" />
+                            }
+                            @if (!Model.Registerstatus.HasValue)
+                            {
+                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px" checked onchange="changestatus(this);" />
+                            }
+                            else
+                            {
+                                <input type="radio" name="Status" id="rowStaInactive" value="Inactive" style="margin-left:20px"  onchange="changestatus(this);" />
+                            }
+                            <lable for="rowStaInactive">Pending</lable>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-8">
+            @Html.Label("Remark", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBoxFor(x => x.Remark, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
+            @Html.HiddenFor(x => x.ToDoID)
+            @Html.HiddenFor(x => x.ToDoDate)
+            @Html.HiddenFor(x => x.BranchInfo.BranchID)
+            @Html.HiddenFor(x => x.UserInfo.UserID)
+            @Html.HiddenFor(x => x.ToDoDescription)
+            @Html.HiddenFor(x => x.ToDoContent)
+            @Html.HiddenFor(x => x.FileInfo)
+            @Html.HiddenFor(x => x.ToDoFileName)
+            @Html.HiddenFor(x => x.ToDoContentText)
+            @Html.HiddenFor(x => x.RowStatus.RowStatusId)   
+            @Html.HiddenFor(x => x.Registerstatus)   
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 To-DoRegisterCreate" style="text-align: right;margin-top:20px;">
+            <a onclick="return Savetodo('myModal');" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                <span class="ladda-label">
+                    Save
+                </span>
+                <span class="ladda-spinner"></span>
+            </a>
+            <a href="@Url.Action("ToDoRegisterMaintenance","ToDoRegister", new { todoID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                <span class="ladda-label">
+                    Cancel
+                </span>
+                <span class="ladda-spinner"></span>
+            </a>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+<section class="content">
+    <div class="row">
+        <section class="col-lg-6">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="ion ion-stats-bars"></i>
+                        Standard Wise Chart
+                    </h3>
+                </div>
+                <div class="box-body">
+                    @{
+                        Html.RenderPartial("AStandardWiseChart");
+                    }
+                </div>
+            </div>
+        </section>
+        <section class="col-lg-6">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="ion ion-stats-bars"></i>
+                        Circular
+                    </h3>
+                </div>
+                <div class="box-body">
+                    @{
+                        Html.RenderPartial("ACircle");
+                    }
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="row">
+        <section class="col-lg-6">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="ion ion-stats-bars"></i>
+                        Today Task
+                    </h3>
+                </div>
+                <div class="box-body">
+                    @{
+                        Html.RenderPartial("ATodo");
+                    }
+                </div>
+            </div>
+        </section>
+        <section class="col-lg-6">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="ion ion-stats-bars"></i>
+                        Today Reminder
+                    </h3>
+                </div>
+                <div class="box-body">
+                    @{
+                        Html.RenderPartial("AReminder");
+                    }
+                </div>
+            </div>
+        </section>
+    </div>
+    @section Scripts {
+        <script type="text/javascript" src="~/scripts/app/adashboard.js"></script>
+        @*<script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>*@
+        <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        @*<script>
+                $(document).ready(function () {
+
+                    $('#studenttbl').DataTable({
+                        "bPaginate": true,
+                        "bLengthChange": false,
+                        "bFilter": true,
+                        "bInfo": true,
+                        "bAutoWidth": true,
+                        "order": [[0, "desc"]]
+                    });
+                });
+            </script>*@
+        <script type="text/javascript">
+            function ConfirmationDialog() {
+                if (confirm("Are you sure to continue?"))
+                    return true;
+                else
+                    return false;
+            }
+        </script>
+
+    }
+</section>
+

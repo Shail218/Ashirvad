@@ -1,0 +1,30 @@
+
+
+2022-03-08 11:02:14,464 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at Ashirvad.Repo.ModelAccess.AddTransactionData(TransactionEntity transactionData) in D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Repo\ModelAccess.cs:line 53
+   at Ashirvad.Repo.Services.Area.Announcement.Announcement.<AnnouncementMaintenance>d__1.MoveNext() in D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Repo\Services\Area\Announcement\Announcement.cs:line 46
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Announcement.AnnouncementService.<AnnouncementMaintenance>d__2.MoveNext() in D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Announcement\AnnouncementService.cs:line 26
+
+
+2022-03-08 11:05:54,554 
+Ashirvad.Logger.EventLogger                         [(null)] 
+>> System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at Ashirvad.Repo.ModelAccess.AddTransactionData(TransactionEntity transactionData) in D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Repo\ModelAccess.cs:line 53
+   at Ashirvad.Repo.Services.Area.Announcement.Announcement.<AnnouncementMaintenance>d__1.MoveNext() in D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Repo\Services\Area\Announcement\Announcement.cs:line 46
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Ashirvad.ServiceAPI.Services.Area.Announcement.AnnouncementService.<AnnouncementMaintenance>d__2.MoveNext() in D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.ServiceAPI\Services\Area\Announcement\AnnouncementService.cs:line 26
