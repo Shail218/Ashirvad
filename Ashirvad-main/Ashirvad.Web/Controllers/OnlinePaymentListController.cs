@@ -27,7 +27,7 @@ namespace Ashirvad.Web.Controllers
         public async Task<ActionResult> GetStudentPaymentData(long CourseID,long ClassId,long StudentId)
         {
             PaymentRegisterDataModel model = new PaymentRegisterDataModel();
-            model.registerEntities = await _paymentRegisterService.GetPaymentRegisterList(SessionContext.Instance.LoginUser.FinancialYear, SessionContext.Instance.LoginUser.BranchInfo.BranchID, CourseID, ClassId, StudentId);
+            model.registerEntities = await _paymentRegisterService.GetPaymentRegisterList(SessionContext.Instance.LoginUser.BranchInfo.BranchID, CourseID, ClassId, StudentId);
             return View("~/Views/OnlinePaymentList/Manage.cshtml", model.registerEntities);
         }
         [HttpPost]
@@ -37,10 +37,12 @@ namespace Ashirvad.Web.Controllers
             model.payment_id = paymentID;
             model.payment_status = status;
             model.remark = Remarks;
+            model.studentEntity = new StudentEntity();
             model.studentEntity.StudentID = StudentID;
+            model.status_txt = status == 1 ? "Pending" : status == 2 ? "Approved" : "Rejected";
             model.Transaction = GetTransactionData(model.payment_id > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-            var data = _paymentRegisterService.PaymentRegisterMaintenance(model);
-            return Json(model);
+            var data = await _paymentRegisterService.UpdatePaymentRegisterbyAdmin(model);
+            return Json(data);
         }
     }
 }

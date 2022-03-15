@@ -31,11 +31,11 @@ namespace Ashirvad.Web.Controllers
             UPIModel branch = new UPIModel();
             if (upiID > 0)
             {
-                var result = await _upiService.GetUPIByUPIID(upiID,SessionContext.Instance.LoginUser.FinancialYear);
+                var result = await _upiService.GetUPIByUPIID(upiID);
                 branch.UPIInfo = result.Data;
             }
 
-            var branchData = await _upiService.GetAllUPIs(SessionContext.Instance.LoginUser.BranchInfo.BranchID,SessionContext.Instance.LoginUser.FinancialYear);
+            var branchData = await _upiService.GetAllUPIs(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             branch.UPIData = branchData.Data;
 
             return View("Index", branch);

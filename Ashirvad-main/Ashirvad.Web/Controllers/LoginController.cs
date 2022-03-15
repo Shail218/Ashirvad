@@ -29,7 +29,7 @@ namespace Ashirvad.Web.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            return View();
+            return View(new UserEntity());
         }
 
         [HttpPost]

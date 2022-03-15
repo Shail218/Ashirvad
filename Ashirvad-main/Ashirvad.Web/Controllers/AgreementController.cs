@@ -24,7 +24,7 @@ namespace Ashirvad.Web.Controllers
         // GET: Agreement
         public ActionResult Index()
         {
-            return View();
+            return View(new AgreementMaintenanceModel());
         }
 
         public async Task<ActionResult> AgreementMaintenance(long agreeID)

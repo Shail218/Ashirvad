@@ -41,14 +41,14 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> GetAllActiveStudent(long branchID)
         {
-            var data = await this._studentService.GetAllStudent(branchID, SessionContext.Instance.LoginUser.FinancialYear, (int)Enums.RowStatus.Active);
+            var data = await this._studentService.GetAllStudent(branchID, (int)Enums.RowStatus.Active);
             return View("~/Views/ManageStudent/Manage.cshtml", data);
         }
 
         [HttpPost]
         public async Task<ActionResult> GetAllInActiveStudent(long branchID)
         {
-            var data = await this._studentService.GetAllStudent(branchID, SessionContext.Instance.LoginUser.FinancialYear, (int)Enums.RowStatus.Inactive);
+            var data = await this._studentService.GetAllStudent(branchID, (int)Enums.RowStatus.Inactive);
             return View("~/Views/ManageStudent/Manage.cshtml", data);
         }
 
@@ -61,7 +61,7 @@ namespace Ashirvad.Web.Controllers
       
         public async Task<JsonResult> GetStudentByStd(long Std,long BatchTime)
         {
-            var result = _studentService.GetStudentByStd(Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime, SessionContext.Instance.LoginUser.FinancialYear).Result;
+            var result = _studentService.GetStudentByStd(Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime).Result;
             return Json(result);
         }
 
@@ -91,7 +91,7 @@ namespace Ashirvad.Web.Controllers
             {
                 statusid = Convert.ToInt32(status);
             }
-            var branchData = await _studentService.GetAllCustomStudent(model,SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.FinancialYear, statusid);
+            var branchData = await _studentService.GetAllCustomStudent(model,SessionContext.Instance.LoginUser.BranchInfo.BranchID, statusid);
             long total = 0;
             if (branchData.Count > 0)
             {
@@ -111,7 +111,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> GetExportData(string Search)
         {
-            var branchData = await _studentService.GetAllStudent(SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.FinancialYear);
+            var branchData = await _studentService.GetAllStudent(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             return View("~/Views/ManageStudent/_Export_Student.cshtml", branchData);
 
         }

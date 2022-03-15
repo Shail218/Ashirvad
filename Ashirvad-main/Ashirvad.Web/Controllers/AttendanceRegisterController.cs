@@ -52,7 +52,7 @@ namespace Ashirvad.Web.Controllers
             {
                 item.name = columns[item.column];
             }
-            var branchData = await _attendanceService.GetAllCustomAttendanceRegister(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.FinancialYear);
+            var branchData = await _attendanceService.GetAllCustomAttendanceRegister(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             long total = 0;
             if (branchData.Count > 0)
             {

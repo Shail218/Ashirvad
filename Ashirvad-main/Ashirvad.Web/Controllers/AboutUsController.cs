@@ -24,7 +24,7 @@ namespace Ashirvad.Web.Controllers
         public ActionResult Index()
         {
 
-            return View();
+            return View(new AboutUsMaintenanceModel());
         }
 
         public async Task<ActionResult> AboutUsMaintenance(long aboutID=0, long detailid = 0)

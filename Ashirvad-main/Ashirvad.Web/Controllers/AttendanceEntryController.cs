@@ -66,14 +66,14 @@ namespace Ashirvad.Web.Controllers
         {
             List<StudentEntity> list = new List<StudentEntity>();
 
-            list= await this._attendanceContext.GetAllStudentByBranchStdBatch(attendanceInfo.Branch.BranchID, attendanceInfo.Standard.StandardID, attendanceInfo.BatchTypeID,SessionContext.Instance.LoginUser.FinancialYear);
+            list= await this._attendanceContext.GetAllStudentByBranchStdBatch(attendanceInfo.Branch.BranchID, attendanceInfo.Standard.StandardID, attendanceInfo.BatchTypeID);
             return View("~/Views/AttendanceEntry/Manage.cshtml", list);
         }
 
         public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model, long STD,long courseid, long BatchTime)
         {
             List<string> columns = new List<string>();
-            var branchData = await _attendanceContext.GetAllCustomAttendance(model, STD,courseid, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime, SessionContext.Instance.LoginUser.FinancialYear);
+            var branchData = await _attendanceContext.GetAllCustomAttendance(model, STD,courseid, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime);
             long total = 0;
             if (branchData.Count > 0)
             {
@@ -93,7 +93,7 @@ namespace Ashirvad.Web.Controllers
         public async Task<JsonResult> VerifyAttendanceRegister(AttendanceEntity attendanceInfo)
         {
             ResponseModel res = new ResponseModel();
-            res= await this._attendanceContext.VerifyAttendanceRegister(attendanceInfo.Branch.BranchID, attendanceInfo.BranchClass.Class_dtl_id,attendanceInfo.BranchCourse.course_dtl_id, attendanceInfo.BatchTypeID,attendanceInfo.AttendanceDate, SessionContext.Instance.LoginUser.FinancialYear);
+            res= await this._attendanceContext.VerifyAttendanceRegister(attendanceInfo.Branch.BranchID, attendanceInfo.BranchClass.Class_dtl_id,attendanceInfo.BranchCourse.course_dtl_id, attendanceInfo.BatchTypeID,attendanceInfo.AttendanceDate);
             return Json(res);
         }
 
