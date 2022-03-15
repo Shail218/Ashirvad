@@ -39,12 +39,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Paper
             return paper;
         }
 
-        public async Task<OperationResult<List<SubjectEntity>>> GetPracticePaperSubject(long branchID,long courseid, long stdID,int batch_time, string financialyear)
+        public async Task<OperationResult<List<SubjectEntity>>> GetPracticePaperSubject(long branchID,long courseid, long stdID,int batch_time)
         {
             try
             {
                 OperationResult<List<SubjectEntity>> paper = new OperationResult<List<SubjectEntity>>();
-                paper.Data = await _paperContext.GetPracticePaperSubject(branchID, courseid,stdID,batch_time,financialyear);
+                paper.Data = await _paperContext.GetPracticePaperSubject(branchID, courseid,stdID,batch_time);
                 paper.Completed = true;
                 return paper;
             }
@@ -56,12 +56,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Paper
             return null;
         }
 
-        public async Task<OperationResult<List<PaperEntity>>> GetPracticePapersByStandardSubjectAndBranch(long branchID, long stdID, long subID, int batchTypeID, string financialyear)
+        public async Task<OperationResult<List<PaperEntity>>> GetPracticePapersByStandardSubjectAndBranch(long branchID, long stdID, long subID, int batchTypeID)
         {
             try
             {
                 OperationResult<List<PaperEntity>> paper = new OperationResult<List<PaperEntity>>();
-                paper.Data = await _paperContext.GetPracticePapersByStandardSubjectAndBranch(branchID, stdID, subID, batchTypeID,financialyear);
+                paper.Data = await _paperContext.GetPracticePapersByStandardSubjectAndBranch(branchID, stdID, subID, batchTypeID);
                 paper.Completed = true;
                 return paper;
             }
@@ -73,12 +73,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Paper
             return null;
         }
 
-        public async Task<OperationResult<List<SubjectEntity>>> GetPracticePapersSubjectByStandardBatchAndBranch(long branchID, long stdID, int batchTypeID, string financialyear)
+        public async Task<OperationResult<List<SubjectEntity>>> GetPracticePapersSubjectByStandardBatchAndBranch(long branchID, long stdID, int batchTypeID)
         {
             try
             {
                 OperationResult<List<SubjectEntity>> paper = new OperationResult<List<SubjectEntity>>();
-                var data = await _paperContext.GetPracticePapersByStandardSubjectAndBranch(branchID, stdID, 0, batchTypeID,financialyear);
+                var data = await _paperContext.GetPracticePapersByStandardSubjectAndBranch(branchID, stdID, 0, batchTypeID);
                 List<SubjectEntity> sub = new List<SubjectEntity>();
                 if (data?.Count > 0)
                 {
@@ -98,12 +98,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Paper
             return null;
         }
 
-        public async Task<OperationResult<List<PaperEntity>>> GetAllPaperWithoutContent(string financialyear,long branchID = 0)
+        public async Task<OperationResult<List<PaperEntity>>> GetAllPaperWithoutContent(long branchID = 0)
         {
             try
             {
                 OperationResult<List<PaperEntity>> paper = new OperationResult<List<PaperEntity>>();
-                paper.Data = await _paperContext.GetAllPaperWithoutContent(branchID,financialyear);
+                paper.Data = await _paperContext.GetAllPaperWithoutContent(branchID);
                 paper.Completed = true;
                 return paper;
             }
@@ -115,11 +115,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Paper
             return null;
         }
 
-        public async Task<List<PaperEntity>> GetAllCustomPaper(DataTableAjaxPostModel model, long branchID, string financialyear)
+        public async Task<List<PaperEntity>> GetAllCustomPaper(DataTableAjaxPostModel model, long branchID)
         {
             try
             {
-                return await this._paperContext.GetAllCustomPaper(model, branchID,financialyear);
+                return await this._paperContext.GetAllCustomPaper(model, branchID);
             }
             catch (Exception ex)
             {
@@ -129,12 +129,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Paper
             return null;
         }
 
-        public async Task<OperationResult<PaperEntity>> GetPaperByPaperID(long paperID, string financialyear)
+        public async Task<OperationResult<PaperEntity>> GetPaperByPaperID(long paperID)
         {
             try
             {
                 OperationResult<PaperEntity> lib = new OperationResult<PaperEntity>();
-                lib.Data = await _paperContext.GetPaperByPaperID(paperID,financialyear);
+                lib.Data = await _paperContext.GetPaperByPaperID(paperID);
                 lib.Completed = true;
                 return lib;
             }
@@ -146,11 +146,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Paper
             return null;
         }
 
-        public async Task<List<PaperEntity>> GetAllPaper( string financialyear,long branchID = 0)
+        public async Task<List<PaperEntity>> GetAllPaper(long branchID = 0)
         {
             try
             {
-                return await this._paperContext.GetAllPapers(branchID,financialyear);
+                return await this._paperContext.GetAllPapers(branchID);
             }
             catch (Exception ex)
             {

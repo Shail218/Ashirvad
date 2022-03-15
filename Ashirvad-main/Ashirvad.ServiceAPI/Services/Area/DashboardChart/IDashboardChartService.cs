@@ -7,6 +7,6 @@ namespace Ashirvad.ServiceAPI.Services.Area.DashboardChart
 {
     public interface IDashboardChartService
     {
-        Task<OperationResult<List<ChartBranchEntity>>> AllBranchWithCount(string financialyear);
+        Task<OperationResult<List<ChartBranchEntity>>> AllBranchWithCount();
     }
 }

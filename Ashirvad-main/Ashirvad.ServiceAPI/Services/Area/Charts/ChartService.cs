@@ -18,11 +18,11 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             this._studentContext = studentContext;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, string financialyear)
+        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID)
         {
             try
             {
-                return await this._studentContext.GetAllStudentsName(branchID,financialyear);
+                return await this._studentContext.GetAllStudentsName(branchID);
             }
             catch (Exception ex)
             {
@@ -32,11 +32,11 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             return null;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudentsNameByStandard(long StdID, long courseid, string financialyear)
+        public async Task<List<StudentEntity>> GetAllStudentsNameByStandard(long StdID, long courseid)
         {
             try
             {
-                return await this._studentContext.GetAllStudentsNameByStandard(StdID,courseid,financialyear);
+                return await this._studentContext.GetAllStudentsNameByStandard(StdID,courseid);
             }
             catch (Exception ex)
             {
@@ -46,11 +46,11 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             return null;
         }
 
-        public async Task<List<StandardEntity>> GetAllClassDDL(long branchID, string financialyear)
+        public async Task<List<StandardEntity>> GetAllClassDDL(long branchID)
         {
             try
             {
-                return await this._studentContext.GetAllClassDDL(branchID,financialyear);
+                return await this._studentContext.GetAllClassDDL(branchID);
             }
             catch (Exception ex)
             {
@@ -74,11 +74,11 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             return null;
         }
 
-        public async Task<List<StudentEntity>> GetStudentContent(long stdID, long branchID, long batchID, string financialyear)
+        public async Task<List<StudentEntity>> GetStudentContent(long stdID, long branchID, long batchID)
         {
             try
             {
-                return await this._studentContext.GetStudentContent(stdID, branchID, batchID,financialyear);
+                return await this._studentContext.GetStudentContent(stdID, branchID, batchID);
             }
             catch (Exception ex)
             {
@@ -88,11 +88,11 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             return null;
         }
 
-        public async Task<List<BranchStandardEntity>> AllBranchStandardWithCountByBranch(long branchid, string financialyear)
+        public async Task<List<BranchStandardEntity>> AllBranchStandardWithCountByBranch(long branchid)
         {
             try
             {
-                return await this._studentContext.AllBranchStandardWithCountByBranch(branchid,financialyear);
+                return await this._studentContext.AllBranchStandardWithCountByBranch(branchid);
             }
             catch (Exception ex)
             {

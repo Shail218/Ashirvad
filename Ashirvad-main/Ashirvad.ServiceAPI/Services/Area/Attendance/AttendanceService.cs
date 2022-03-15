@@ -35,12 +35,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
             return attendance;
         }
 
-        public async Task<OperationResult<List<AttendanceEntity>>> GetAllAttendanceByBranch(long branchID,string financialyear)
+        public async Task<OperationResult<List<AttendanceEntity>>> GetAllAttendanceByBranch(long branchID)
         {
             try
             {
                 OperationResult<List<AttendanceEntity>> attendance = new OperationResult<List<AttendanceEntity>>();
-                attendance.Data = await _attendanceContext.GetAllAttendanceByBranch(branchID,financialyear);
+                attendance.Data = await _attendanceContext.GetAllAttendanceByBranch(branchID);
                 attendance.Completed = true;
                 return attendance;
             }
@@ -52,11 +52,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
             return null;
         }
 
-        public async Task<List<AttendanceEntity>> GetAllCustomAttendanceRegister(DataTableAjaxPostModel model, long branchID, string financialyear)
+        public async Task<List<AttendanceEntity>> GetAllCustomAttendanceRegister(DataTableAjaxPostModel model, long branchID)
         {
             try
             {
-                return await this._attendanceContext.GetAllCustomAttendanceRegister(model, branchID,financialyear);
+                return await this._attendanceContext.GetAllCustomAttendanceRegister(model, branchID);
             }
             catch (Exception ex)
             {
@@ -100,11 +100,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
             return null;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudentByBranchStdBatch(long branchID, long stdID, int batchID, string financialyear)
+        public async Task<List<StudentEntity>> GetAllStudentByBranchStdBatch(long branchID, long stdID, int batchID )
         {
             try
             {
-                return await this._attendanceContext.GetAllStudentByBranchStdBatch(branchID, stdID, batchID,financialyear);
+                return await this._attendanceContext.GetAllStudentByBranchStdBatch(branchID, stdID, batchID);
             }
             catch (Exception ex)
             {
@@ -113,11 +113,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
 
             return null;
         }
-        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID,long courseid, int batchID, DateTime attendanceDate, string financialyear)
+        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID,long courseid, int batchID, DateTime attendanceDate )
         {
             try
             {
-                return await this._attendanceContext.VerifyAttendanceRegister(branchID, stdID,courseid, batchID, attendanceDate,financialyear);
+                return await this._attendanceContext.VerifyAttendanceRegister(branchID, stdID,courseid, batchID, attendanceDate);
             }
             catch (Exception ex)
             {
@@ -140,12 +140,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
 
             return false;
         }
-        public async Task<OperationResult<List<AttendanceEntity>>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid, string financialyear)
+        public async Task<OperationResult<List<AttendanceEntity>>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid )
         {
             try
             {
                 OperationResult<List<AttendanceEntity>> attendance = new OperationResult<List<AttendanceEntity>>();
-                attendance.Data = await _attendanceContext.GetAllAttendanceByFilter(fromDate, toDate, branchID, stdID,courseid, batchTimeID, studentid,financialyear);
+                attendance.Data = await _attendanceContext.GetAllAttendanceByFilter(fromDate, toDate, branchID, stdID,courseid, batchTimeID, studentid);
                 attendance.Completed = true;
                 return attendance;
             }
@@ -156,12 +156,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
 
             return null;
         }
-        public async Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid, string financialyear)
+        public async Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid )
         {
             try
             {
 
-                return  await _attendanceContext.GetAllAttendanceByCustom(model,fromDate, toDate, branchID, stdID,courseid, batchTimeID, studentid,financialyear);
+                return  await _attendanceContext.GetAllAttendanceByCustom(model,fromDate, toDate, branchID, stdID,courseid, batchTimeID, studentid);
                 
             }
             catch (Exception ex)
