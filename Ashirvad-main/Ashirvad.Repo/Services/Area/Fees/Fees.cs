@@ -14,18 +14,18 @@ namespace Ashirvad.Repo.Services.Area
     public class Fees : ModelAccess, IFeesAPI
     {
 
-        public async Task<long> CheckFees(long BranchID, long StdID, long feesid,long courseid,string financialyear)
+        public async Task<long> CheckFees(long BranchID, long StdID, long feesid,long courseid)
         {
             long result;
             bool isExists =(from u in  this.context.FEE_STRUCTURE_MASTER 
-                            where((feesid == 0 || u.fee_struct_mst_id != feesid) && u.branch_id == BranchID && u.class_dtl_id == StdID && u.course_dtl_id==courseid && u.row_sta_cd == 1 && u.TRANSACTION_MASTER.financial_year==financialyear)select u).FirstOrDefault() != null;
+                            where((feesid == 0 || u.fee_struct_mst_id != feesid) && u.branch_id == BranchID && u.class_dtl_id == StdID && u.course_dtl_id==courseid && u.row_sta_cd == 1)select u).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
         public async Task<long> FeesMaintenance(FeesEntity FeesInfo)
         {
             Model.FEE_STRUCTURE_MASTER FeesMaster = new Model.FEE_STRUCTURE_MASTER();
-            if (CheckFees(FeesInfo.BranchInfo.BranchID, FeesInfo.BranchClass.Class_dtl_id, FeesInfo.FeesID, FeesInfo.BranchCourse.course_dtl_id,FeesInfo.Transaction.FinancialYear).Result != -1)
+            if (CheckFees(FeesInfo.BranchInfo.BranchID, FeesInfo.BranchClass.Class_dtl_id, FeesInfo.FeesID, FeesInfo.BranchCourse.course_dtl_id).Result != -1)
             {
                 bool isUpdate = true;
                 var data = (from Fees in this.context.FEE_STRUCTURE_MASTER
@@ -103,11 +103,11 @@ namespace Ashirvad.Repo.Services.Area
             return this.context.SaveChanges() > 0 ? FeesMaster.fee_struct_dtl_id : 0;
         }
 
-        public async Task<List<FeesEntity>> GetAllFees(long BranchID,string financialyear)
+        public async Task<List<FeesEntity>> GetAllFees(long BranchID)
         {
             var data = (from u in this.context.FEE_STRUCTURE_MASTER
                         join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id orderby u.fee_struct_mst_id descending
-                        where u.row_sta_cd == 1 && u.branch_id == BranchID && u.TRANSACTION_MASTER.financial_year == financialyear
+                        where u.row_sta_cd == 1 && u.branch_id == BranchID
                         select new FeesEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -144,21 +144,21 @@ namespace Ashirvad.Repo.Services.Area
             return data;
         }
 
-        public async Task<List<FeesEntity>> GetAllCustomFees(DataTableAjaxPostModel model, long branchID, string financialyear)
+        public async Task<List<FeesEntity>> GetAllCustomFees(DataTableAjaxPostModel model, long branchID)
         {
             var Result = new List<FeesEntity>();
             bool Isasc = model.order[0].dir == "desc" ? false : true;
             long count = (from u in this.context.FEE_STRUCTURE_MASTER
                           join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
                           orderby u.fee_struct_mst_id descending
-                          where u.row_sta_cd == 1 && u.branch_id == branchID && u.TRANSACTION_MASTER.financial_year == financialyear
+                          where u.row_sta_cd == 1 && u.branch_id == branchID
                           select new FeesEntity() {
                               FeesID = u.fee_struct_mst_id
                           }).Distinct().Count();
             var data = (from u in this.context.FEE_STRUCTURE_MASTER.Include("CLASS_DTL_MASTER")
                         join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
                         orderby u.fee_struct_mst_id descending
-                        where u.row_sta_cd == 1 && u.branch_id == branchID && u.TRANSACTION_MASTER.financial_year == financialyear
+                        where u.row_sta_cd == 1 && u.branch_id == branchID
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.ToLower().Contains(model.search.value)
@@ -203,13 +203,13 @@ namespace Ashirvad.Repo.Services.Area
             return data;
         }
 
-        public async Task<List<FeesEntity>> GetAllFeesByBranchID(long BranchID,long courseid, long StdID, string financialyear)
+        public async Task<List<FeesEntity>> GetAllFeesByBranchID(long BranchID,long courseid, long StdID)
         {
             var data = (from u in this.context.FEE_STRUCTURE_MASTER
                         join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
                         orderby u.fee_struct_mst_id descending
                         where u.row_sta_cd == 1 && u.branch_id == BranchID && (u.class_dtl_id == StdID || StdID == 0)
-                        && (u.course_dtl_id == courseid || courseid == 0) && u.TRANSACTION_MASTER.financial_year == financialyear
+                        && (u.course_dtl_id == courseid || courseid == 0)
                         select new FeesEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -251,11 +251,11 @@ namespace Ashirvad.Repo.Services.Area
             throw new NotImplementedException();
         }
 
-        public async Task<FeesEntity> GetFeesByFeesID(long FeesID, string financialyear)
+        public async Task<FeesEntity> GetFeesByFeesID(long FeesID)
         {
             var data = (from u in this.context.FEE_STRUCTURE_MASTER
                         join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
-                        where u.fee_struct_mst_id == FeesID && u.TRANSACTION_MASTER.financial_year == financialyear
+                        where u.fee_struct_mst_id == FeesID
                         select new FeesEntity()
                         {
                             RowStatus = new RowStatusEntity()
