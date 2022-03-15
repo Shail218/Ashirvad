@@ -203,7 +203,7 @@ function SaveReport() {
                     targets: 5,
                     render: function (data, type, full, meta) {
                         if (type === 'display') {
-                            data = full.AttendanceDetail[0].IsAbsent == true ? "Absent" : "Present"
+                            data = full.AttendanceDetail[0].IsAbsent == true ? "<p style='font-color=red;'>Absent</p>" : "<p style='font-color=green;'>Present</p>"
                         }
                         return data;
                     },

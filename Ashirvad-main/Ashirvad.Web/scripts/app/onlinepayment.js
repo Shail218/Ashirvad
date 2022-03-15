@@ -1,28 +1,9 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 $(document).ready(function () {
-    if ($("#hdnBranchID").val() == 0) {
-        ShowLoader();
-        LoadBranch();
-    } else {
-        LoadCourse();
-        showStudentPaymentDetails(0,0,0);
-    }
+    ShowLoader();
+    LoadCourse();
 });
-function LoadBranch() {
-    var postCall = $.post(commonData.Branch + "BranchData");
-    postCall.done(function (data) {
-        $('#BranchName').empty();
-        $('#BranchName').select2();
-        $("#BranchName").append("<option value=" + 0 + ">---Select Branch---</option>");
-        for (i = 0; i < data.length; i++) {
-            $("#BranchName").append("<option value=" + data[i].BranchID + ">" + data[i].BranchName + "</option>");
-        }
-        HideLoader();
-    }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
-}
 
 function LoadCourse() {
     var postCall = $.post(commonData.BranchCourse + "GetCourseDDL");
@@ -42,7 +23,8 @@ function LoadCourse() {
         }
         HideLoader();
     }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        HideLoader();
+        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
@@ -76,7 +58,7 @@ function UpdatePaymentStatus(paymentID, StudentID,status) {
             HideLoader();
             if (data.Status == true) {
                 ShowMessage(data.Message, "Success");
-
+                showStudentPaymentDetails(0, 0, StudentID);
             } else {
                 ShowMessage(data.Message, "Error");
             }
@@ -86,18 +68,9 @@ function UpdatePaymentStatus(paymentID, StudentID,status) {
         });
     } else {
         HideLoader();
-        ShowMessage("Please Enter Achieve Marks!!", "Error");
+        ShowMessage("Please Enter Remarks!!", "Error");
     }
 }
-
-$("#BranchName").change(function () {
-    var Data = $("#BranchName option:selected").val();
-    LoadStudent(Data);
-    LoadStandard(Data);
-    clearcourse();
-    clearClass();
-    clearStudent();
-});
 
 $("#CourseName").change(function () {
     var Data = $("#CourseName option:selected").val();
@@ -105,7 +78,7 @@ $("#CourseName").change(function () {
     clearClass();
     clearStudent();
     LoadClass(Data);
-    showStudentPaymentDetails(Data, 0, 0);
+    //showStudentPaymentDetails(Data, 0, 0);
 });
 
 $("#StandardName").change(function () {
@@ -113,7 +86,7 @@ $("#StandardName").change(function () {
     clearStudent();
     LoadStudentByStandard(Data);
     var Data1 = $("#CourseName option:selected").val();
-    showStudentPaymentDetails(Data1, Data, 0);
+    //showStudentPaymentDetails(Data1, Data, 0);
 });
 $("#StudentName").change(function () {
     var Data = $("#StudentName option:selected").val();
@@ -131,7 +104,7 @@ function showStudentPaymentDetails(CourseId,ClassID,studentId) {
         $("#PaymentData").html(data);
     }).fail(function () {
         HideLoader();
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
@@ -148,7 +121,8 @@ function LoadStudentByStandard(stdid) {
         }
         HideLoader();
     }).fail(function () {
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        HideLoader();
+        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 function clearStudent() {
