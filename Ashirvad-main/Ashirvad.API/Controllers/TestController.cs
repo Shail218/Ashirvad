@@ -40,50 +40,50 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllTestByBranch")]
         [HttpGet]
-        public OperationResult<List<TestEntity>> GetAllTestByBranch(long branchID,string financialyear)
+        public OperationResult<List<TestEntity>> GetAllTestByBranch(long branchID)
         {
-            var data = this._testService.GetAllTestByBranch(branchID, financialyear);
+            var data = this._testService.GetAllTestByBranch(branchID);
             return data.Result;
         }
 
         [Route("GetAllTestByBranchAPI")]
         [HttpGet]
-        public OperationResult<List<TestEntity>> GetAllTestByBranchAPI(long branchID, string financialyear)
+        public OperationResult<List<TestEntity>> GetAllTestByBranchAPI(long branchID)
         {
-            var data = this._testService.GetAllTestByBranchAPI(branchID, financialyear);
+            var data = this._testService.GetAllTestByBranchAPI(branchID);
             return data.Result;
         }
 
         [Route("GetAllTestPapaerWithoutContentByTest")]
         [HttpGet]
-        public OperationResult<List<TestPaperEntity>> GetAllTestPapaerWithoutContentByTest(long testID, string financialyear)
+        public OperationResult<List<TestPaperEntity>> GetAllTestPapaerWithoutContentByTest(long testID)
         {
-            var data = this._testService.GetAllTestPapaerWithoutContentByTest(testID, financialyear);
+            var data = this._testService.GetAllTestPapaerWithoutContentByTest(testID);
             return data.Result;
         }
 
         [Route("GetAllTests")]
         [HttpGet]
-        public OperationResult<List<TestEntity>> GetAllTests(DateTime testDate, string searchParam, string financialyear)
+        public OperationResult<List<TestEntity>> GetAllTests(DateTime testDate, string searchParam)
         {
-            var data = this._testService.GetAllTest(testDate, searchParam, financialyear);
+            var data = this._testService.GetAllTest(testDate, searchParam);
             return data.Result;
         }
 
         [Route("GetAllTestByBranchAndSTD")]
         [HttpGet]
-        public OperationResult<List<TestEntity>> GetAllTestByBranchAndSTD(long branchID, long courseID, long stdID, int batchTime, string financialyear)
+        public OperationResult<List<TestEntity>> GetAllTestByBranchAndSTD(long branchID, long courseID, long stdID, int batchTime )
         {
-            var data = this._testService.GetAllTestByBranchAndStandard(branchID, courseID,stdID, batchTime, financialyear);
+            var data = this._testService.GetAllTestByBranchAndStandard(branchID, courseID,stdID, batchTime);
             return data.Result;
         }
 
 
         [Route("GetTestByTestID")]
         [HttpGet]
-        public OperationResult<TestEntity> GetTestByTestID(long testID, string financialyear)
+        public OperationResult<TestEntity> GetTestByTestID(long testID)
         {
-            var data = this._testService.GetTestByTestID(testID, financialyear);
+            var data = this._testService.GetTestByTestID(testID);
             OperationResult<TestEntity> result = new OperationResult<TestEntity>();
             result = data.Result;
             return result;
@@ -115,9 +115,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllTestPapaerByTest")]
         [HttpGet]
-        public OperationResult<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID, string financialyear)
+        public OperationResult<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID)
         {
-            var data = this._testService.GetAllTestPapaerByTest(testID, financialyear);
+            var data = this._testService.GetAllTestPapaerByTest(testID);
             OperationResult<List<TestPaperEntity>> result = new OperationResult<List<TestPaperEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -126,9 +126,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetTestPaperByPaperID")]
         [HttpGet]
-        public OperationResult<TestPaperEntity> GetTestPaperByPaperID(long paperID, string financialyear)
+        public OperationResult<TestPaperEntity> GetTestPaperByPaperID(long paperID)
         {
-            var data = this._testService.GetTestPaperByPaperID(paperID, financialyear);
+            var data = this._testService.GetTestPaperByPaperID(paperID);
             OperationResult<TestPaperEntity> result = new OperationResult<TestPaperEntity>();
             result.Data = data.Result;
             result.Completed = true;
@@ -137,9 +137,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetTestPaperChecking")]
         [HttpGet]
-        public OperationResult<List<TestEntity>> GetTestPaperChecking(long paperID, string financialyear)
+        public OperationResult<List<TestEntity>> GetTestPaperChecking(long paperID)
         {
-            var data = this._testService.GetTestPaperChecking(paperID, financialyear);
+            var data = this._testService.GetTestPaperChecking(paperID);
             OperationResult<List<TestEntity>> result = new OperationResult<List<TestEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -148,9 +148,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllTestPapaerByBranchStdDate")]
         [HttpGet]
-        public OperationResult<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime, string financialyear)
+        public OperationResult<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime)
         {
-            var data = this._testService.GetAllTestPapaerByBranchStdDate(branchID,courseid, stdID, dt, batchTime, financialyear);
+            var data = this._testService.GetAllTestPapaerByBranchStdDate(branchID,courseid, stdID, dt, batchTime);
             return data.Result;
         }
 
@@ -194,9 +194,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllAnsSheetByTest")]
         [HttpGet]
-        public OperationResult<List<StudentAnswerSheetEntity>> GetAllAnswerSheetByTest(long testID, string financialyear)
+        public OperationResult<List<StudentAnswerSheetEntity>> GetAllAnswerSheetByTest(long testID)
         {
-            var data = this._testService.GetAllAnswerSheetByTest(testID, financialyear);
+            var data = this._testService.GetAllAnswerSheetByTest(testID);
             OperationResult<List<StudentAnswerSheetEntity>> result = new OperationResult<List<StudentAnswerSheetEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -205,9 +205,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllAnsSheetWithoutContentByTest")]
         [HttpGet]
-        public OperationResult<List<StudentAnswerSheetEntity>> GetAllAnswerSheetWithoutContentByTest(long testID, string financialyear)
+        public OperationResult<List<StudentAnswerSheetEntity>> GetAllAnswerSheetWithoutContentByTest(long testID)
         {
-            var data = this._testService.GetAllAnswerSheetWithoutContentByTest(testID, financialyear);
+            var data = this._testService.GetAllAnswerSheetWithoutContentByTest(testID);
             OperationResult<List<StudentAnswerSheetEntity>> result = new OperationResult<List<StudentAnswerSheetEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -215,9 +215,9 @@ namespace Ashirvad.API.Controllers
         }
         [Route("GetAllAnsSheetByTestStudentID")]
         [HttpGet]
-        public OperationResult<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID,long studentID, string financialyear)
+        public OperationResult<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID,long studentID)
         {
-            var data = this._testService.GetAllAnsSheetByTestStudentID(testID, studentID, financialyear);
+            var data = this._testService.GetAllAnsSheetByTestStudentID(testID, studentID);
             OperationResult<List<StudentAnswerSheetEntity>> result = new OperationResult<List<StudentAnswerSheetEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -226,9 +226,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAnswerSheetByAnsID")]
         [HttpGet]
-        public OperationResult<StudentAnswerSheetEntity> GetAnswerSheetByID(long ansID, string financialyear)
+        public OperationResult<StudentAnswerSheetEntity> GetAnswerSheetByID(long ansID)
         {
-            var data = this._testService.GetAnswerSheetByID(ansID, financialyear);
+            var data = this._testService.GetAnswerSheetByID(ansID);
             OperationResult<StudentAnswerSheetEntity> result = new OperationResult<StudentAnswerSheetEntity>();
             result.Data = data.Result;
             result.Completed = true;
@@ -372,7 +372,7 @@ namespace Ashirvad.API.Controllers
                             // for live server
                             //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                             // for local server
-                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
+                            string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -463,7 +463,7 @@ namespace Ashirvad.API.Controllers
                         // for live server
                         //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
-                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
+                        string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
                         var postedFile = httpRequest.Files[file];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(postedFile.FileName);
@@ -516,18 +516,18 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllDocLinks")]
         [HttpGet]
-        public OperationResult<List<TestPaperEntity>> GetAllDocLinks(long branchID,long courseid, long stdID, int batchTime, string financialyear)
+        public OperationResult<List<TestPaperEntity>> GetAllDocLinks(long branchID,long courseid, long stdID, int batchTime)
         {
-            var data = this._testService.GetAllTestDocLinks(branchID,courseid, stdID,batchTime, financialyear);
+            var data = this._testService.GetAllTestDocLinks(branchID,courseid, stdID,batchTime);
             return data.Result;
            
         }
 
         [Route("GetAnswerSheetdata")]
         [HttpGet]
-        public OperationResult<List<StudentAnswerSheetEntity>> GetAnswerSheetdata(long testID, string financialyear)
+        public OperationResult<List<StudentAnswerSheetEntity>> GetAnswerSheetdata(long testID)
         {
-            var data = this._testService.GetAnswerSheetdata(testID, financialyear);
+            var data = this._testService.GetAnswerSheetdata(testID);
             OperationResult<List<StudentAnswerSheetEntity>> result = new OperationResult<List<StudentAnswerSheetEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -563,7 +563,7 @@ namespace Ashirvad.API.Controllers
 
         [HttpGet]
         [Route("DownloadZipFile/{TestID}/{StudentID}/{Homework}/{Student}/{Class}")]
-        public OperationResult<HomeworkEntity> SaveZipFile(long TestID, long StudentID, string Homework, string Student, string Class,string financialyear)
+        public OperationResult<HomeworkEntity> SaveZipFile(long TestID, long StudentID, string Homework, string Student, string Class)
         {
             //hi = 11;
             //si = 2;
@@ -573,7 +573,7 @@ namespace Ashirvad.API.Controllers
             try
             {
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
-                var homeworks = _testService.GetAnswerFiles(TestID, financialyear).Result;
+                var homeworks = _testService.GetAnswerFiles(TestID).Result;
                 //string randomfilename = Common.Common.RandomString(20);
                 string randomfilename = "HomeWork_" + Homework + "_Student_" + Student + "_Class_" + Class;
                 FileName = "/ZipFiles/TestPaperDetails/" + randomfilename + ".zip";
@@ -602,7 +602,7 @@ namespace Ashirvad.API.Controllers
 
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
+                        string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
                         // for local server
                         //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                         //Save the Zip File to MemoryStream.

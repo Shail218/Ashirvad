@@ -105,7 +105,7 @@ namespace Ashirvad.API.Controllers
                         // for live server
                         //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
-                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
+                        string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
                         var thumbnailFile = httpRequest.Files[0];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(thumbnailFile.FileName);
@@ -149,7 +149,7 @@ namespace Ashirvad.API.Controllers
                         // for live server
                         //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
-                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
+                        string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
                         var thumbnailFile = httpRequest.Files[0];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(thumbnailFile.FileName);
@@ -173,7 +173,7 @@ namespace Ashirvad.API.Controllers
                     try
                     {                       
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
+                        string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
                         var docFile = httpRequest.Files[0];
                         string docrandomfilename = Common.Common.RandomString(20);
                         string docExtension = Path.GetExtension(docFile.FileName);
