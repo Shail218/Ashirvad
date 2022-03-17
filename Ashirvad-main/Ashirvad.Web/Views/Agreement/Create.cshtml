@@ -13,7 +13,7 @@
             <div id="datepickerfromdate" class="input-group date" data-date-format="dd/mm/yyyy">
                 @if (Model == null)
                 {
-                    @Html.TextBoxFor(x => x.AgreementFromDate, null, new { @class = "form-control", @alt = "Agreement From Date", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(x => x.AgreementFromDate, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control", @alt = "Agreement From Date", autocomplete = "off", @readonly = "readonly" })
                 }
                 else
                 {
@@ -34,7 +34,7 @@
             <div id="datepickertodate" class="input-group date" data-date-format="dd/mm/yyyy">
                 @if (Model == null)
                 {
-                    @Html.TextBoxFor(x => x.AgreementToDate, null, new { @class = "form-control", @alt = "Agreement To Date", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(x => x.AgreementToDate, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control", @alt = "Agreement To Date", autocomplete = "off", @readonly = "readonly" })
                 }
                 else
                 {

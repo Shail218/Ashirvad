@@ -42,11 +42,11 @@
                 <div id="datepickerfromdate" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null)
                     {
-                        @Html.TextBoxFor(x => x.From_Date, null, new { @class = "form-control required", @alt = "From Date", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(x => x.From_Date, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "From Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {
-                        @Html.TextBoxFor(x => x.From_Date, null, new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "From Date" })
+                        @Html.TextBoxFor(x => x.From_Date, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "From Date" })
                     }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
@@ -56,11 +56,11 @@
                 <div id="datepickertodate" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null)
                     {
-                        @Html.TextBoxFor(x => x.To_Date, null, new { @class = "form-control required", @alt = "To Date", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(x => x.To_Date, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "To Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {
-                        @Html.TextBoxFor(x => x.To_Date, null, new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "To Date" })
+                        @Html.TextBoxFor(x => x.To_Date, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "To Date" })
                     }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>

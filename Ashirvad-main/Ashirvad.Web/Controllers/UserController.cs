@@ -100,10 +100,16 @@ namespace Ashirvad.Web.Controllers
             columns.Add("Name");
             columns.Add("MobileNo");
             columns.Add("EmailID");
-            foreach (var item in model.order)
+            columns.Add("GenderText");
+            columns.Add("StaffID");
+            if (model?.order?.Count > 0)
             {
-                item.name = columns[item.column];
+                foreach (var item in model.order)
+                {
+                    item.name = columns[item.column];
+                }
             }
+            
             var branchData = await _staffService.GetAllCustomStaff(model, SessionContext.Instance.LoginUser.UserType == Enums.UserType.SuperAdmin ? 0 : SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             long total = 0;
             if (branchData.Count > 0)

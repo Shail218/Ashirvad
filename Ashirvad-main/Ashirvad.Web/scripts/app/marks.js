@@ -7,8 +7,10 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
+  /*  $("#").val(setCurrentDate());*/
 
     table = $('#marksentrytable').DataTable({
         "bLengthChange": false

@@ -87,8 +87,13 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
+    if ($("#ReminderID").val() == '' || $("#ReminderID").val()==0) {
+
+        $("#ReminderDate").val(setCurrentDate());
+    }
 });
 
 function SaveReminder() {   

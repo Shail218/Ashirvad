@@ -122,6 +122,7 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
 
@@ -142,6 +143,8 @@ $(document).ready(function () {
 
     if ($("#BatchTimeID").val() != "") {
         $('#BatchTime option[value="' + $("#BatchTimeID").val() + '"]').attr("selected", "selected");
+    } else {
+        $("#HomeworkDate").val(setCurrentDate());
     }
 
     LoadCourse();

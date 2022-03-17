@@ -11,7 +11,7 @@
                 <div id="datepickerhomework" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null)
                     {
-                        @Html.TextBoxFor(x => x.HomeworkDate, null, new { @class = "form-control required", @alt = "Homework Date", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(x => x.HomeworkDate, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "Homework Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {
@@ -73,7 +73,7 @@
                 <div id="datepickerhomework" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null)
                     {
-                        @Html.TextBoxFor(x => x.HomeworkDate, null, new { @class = "form-control", @alt = "Homework Date", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(x => x.HomeworkDate, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control", @alt = "Homework Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {

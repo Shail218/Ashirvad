@@ -8,7 +8,7 @@
                 <div id="datepickertodo" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null)
                     {
-                        @Html.TextBoxFor(x => x.ToDoDate, null, new { @class = "form-control required", @alt = "ToDo Date", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(x => x.ToDoDate, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "ToDo Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {
@@ -68,7 +68,7 @@
                 <div id="datepickertodo" class="input-group date" data-date-format="dd/mm/yyyy">
                     @if (Model == null)
                     {
-                        @Html.TextBoxFor(x => x.ToDoDate, null, new { @class = "form-control", @alt = "ToDo Date", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(x => x.ToDoDate, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control", @alt = "ToDo Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {

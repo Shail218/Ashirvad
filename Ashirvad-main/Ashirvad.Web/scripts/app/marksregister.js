@@ -7,6 +7,7 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
     });
 
     table = $('#marksregistertable').DataTable({

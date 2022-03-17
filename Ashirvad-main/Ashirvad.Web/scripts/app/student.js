@@ -8,6 +8,7 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
 
@@ -15,6 +16,7 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
 
@@ -30,7 +32,7 @@ $(document).ready(function () {
     }
     
     if ($("#LastYearResult").val() != "") {
-        
+
         var rowStatus = $("#LastYearResult").val();
         if (rowStatus == "1") {
             $("#rowStaPass").attr('checked', 'checked');
@@ -38,6 +40,10 @@ $(document).ready(function () {
         else {
             $("#rowStaFail").attr('checked', 'checked');
         }
+    } else {
+        $("#DOB").val(setCurrentDate());
+        $("#AdmissionDate").val(setCurrentDate());
+
     }
 
     LoadBranch(function () {

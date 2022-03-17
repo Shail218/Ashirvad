@@ -101,6 +101,7 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
 
@@ -119,6 +120,9 @@ $(document).ready(function () {
     if ($("#BranchInfo_BranchID").val() != "") {
         $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
         LoadUser($("#BranchInfo_BranchID").val());
+    } else {
+        $("#ToDoDate").val(setCurrentDate());
+
     }
 
 });

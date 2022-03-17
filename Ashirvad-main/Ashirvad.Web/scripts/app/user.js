@@ -7,6 +7,7 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
 
@@ -14,6 +15,7 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
 
@@ -21,6 +23,7 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
 
@@ -28,6 +31,7 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
     var check = GetUserRights('UserMaster');
@@ -64,15 +68,15 @@ $(document).ready(function () {
             {
                 targets: 4,
                 render: function (data, type, full, meta) {
-                    if (check[0].Create) {
+                    //if (check[0].Create) {
                         if (type === 'display') {
                             data =
                                 '<a href="UserMaintenance?branchID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
                         }
-                    }
-                    else {
-                        data = "";
-                    }
+                    //}
+                    //else {
+                    //    data = "";
+                    //}
                     return data;
                 },
                 orderable: false,
@@ -81,15 +85,15 @@ $(document).ready(function () {
             {
                 targets: 5,
                 render: function (data, type, full, meta) {
-                    if (check[0].Delete) {
+                    /*if (check[0].Delete) {*/
                         if (type === 'display') {
                             data =
                                 '<a onclick = "RemoveUser(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
                         }
-                    }
-                    else {
-                        data = "";
-                    }
+                    //}
+                    //else {
+                    //    data = "";
+                    //}
                     return data;
                 },
                 orderable: false,
@@ -111,6 +115,12 @@ $(document).ready(function () {
 
     if ($("#BranchInfo_BranchID").val() != "") {
         $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
+    } else {
+        $("#DOB").val(setCurrentDate());
+        $("#ApptDT").val(setCurrentDate());
+        $("#JoinDT").val(setCurrentDate());
+        $("#LeavingDT").val(setCurrentDate());
+
     }
 
     if ($("#Gender").val() != "") {
