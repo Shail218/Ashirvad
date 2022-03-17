@@ -65,16 +65,15 @@ namespace Ashirvad.Repo.Services.Area.Paper
             return this.context.SaveChanges() > 0 ? paperMaster.paper_id : 0;
         }
 
-        public async Task<List<PaperEntity>> GetAllPapers(long branchID,string financialyear)
+        public async Task<List<PaperEntity>> GetAllPapers(long branchID)
         {
             var data = (from u in this.context.PRACTICE_PAPER
                         .Include("PRACTICE_PAPER_REL")
                         .Include("BRANCH_MASTER")
                         .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_MASTER")
-                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.paper_id descending
-                        where (0 == branchID || u.branch_id == branchID && u.row_sta_cd == 1 && t.financial_year == financialyear)
+                        where (0 == branchID || u.branch_id == branchID && u.row_sta_cd == 1)
                         select new PaperEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -131,17 +130,15 @@ namespace Ashirvad.Repo.Services.Area.Paper
         }
 
 
-        public async Task<List<SubjectEntity>> GetPracticePaperSubject(long branchID, long courseid,long stdID,int batch_time,string financialyear)
+        public async Task<List<SubjectEntity>> GetPracticePaperSubject(long branchID, long courseid,long stdID,int batch_time)
         {
             var data = (from u in this.context.PRACTICE_PAPER
-                        .Include("PRACTICE_PAPER_REL")                        
-                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
+                        .Include("PRACTICE_PAPER_REL")
                         orderby u.paper_id descending
                         where u.branch_id == branchID
                         && u.class_dtl_id == stdID
                         && u.course_dtl_id == courseid 
                         && u.batch_type == batch_time
-                        && t.financial_year == financialyear
                         select new SubjectEntity()
                         {
                             SubjectID = u.subject_dtl_id.HasValue? u.subject_dtl_id.Value:0,
@@ -151,20 +148,18 @@ namespace Ashirvad.Repo.Services.Area.Paper
             return data;
         }
 
-        public async Task<List<PaperEntity>> GetPracticePapersByStandardSubjectAndBranch(long branchID, long stdID, long subID, int batchTypeID,string financialyear)
+        public async Task<List<PaperEntity>> GetPracticePapersByStandardSubjectAndBranch(long branchID, long stdID, long subID, int batchTypeID)
         {
             var data = (from u in this.context.PRACTICE_PAPER
                         .Include("PRACTICE_PAPER_REL")
                         .Include("BRANCH_MASTER")
                         .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_MASTER")
-                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         orderby u.paper_id descending
                         where u.branch_id == branchID
                         && (0 == stdID || u.class_dtl_id == stdID)
                         && (0 == subID || u.subject_dtl_id == subID)
                         && (0 == batchTypeID || u.batch_type == batchTypeID)
-                        && t.financial_year == financialyear
                         select new PaperEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -221,16 +216,15 @@ namespace Ashirvad.Repo.Services.Area.Paper
             return data;
         }
 
-        public async Task<List<PaperEntity>> GetAllPaperWithoutContent(long branchID,string financialyear)
+        public async Task<List<PaperEntity>> GetAllPaperWithoutContent(long branchID)
         {
             var data = (from u in this.context.PRACTICE_PAPER
                         .Include("PRACTICE_PAPER_REL")
                         .Include("BRANCH_MASTER")
                         .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_MASTER")
-   join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id 
                         orderby u.paper_id descending
-                        where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1 && t.financial_year == financialyear
+                        where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new PaperEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -287,13 +281,12 @@ namespace Ashirvad.Repo.Services.Area.Paper
             return data;
         }
 
-        public async Task<List<PaperEntity>> GetAllCustomPaper(DataTableAjaxPostModel model, long branchID,string financialyear)
+        public async Task<List<PaperEntity>> GetAllCustomPaper(DataTableAjaxPostModel model, long branchID)
         {
             var Result = new List<PaperEntity>();
             bool Isasc = model.order[0].dir == "desc" ? false : true;
             long count = (from u in this.context.PRACTICE_PAPER
-                          join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
-                          where(u.row_sta_cd == 1 && u.branch_id == branchID && t.financial_year == financialyear)select u).Count();
+                          where(u.row_sta_cd == 1 && u.branch_id == branchID)select u).Count();
             var data = (from u in this.context.PRACTICE_PAPER
                         .Include("PRACTICE_PAPER_REL")
                         .Include("BRANCH_MASTER")
@@ -301,7 +294,6 @@ namespace Ashirvad.Repo.Services.Area.Paper
                         .Include("SUBJECT_MASTER")
                         join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
                         where (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
-                         && t.financial_year == financialyear
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.ToLower().Contains(model.search.value)
@@ -366,15 +358,14 @@ namespace Ashirvad.Repo.Services.Area.Paper
             return data;
         }
 
-        public async Task<PaperEntity> GetPaperByPaperID(long paperID,string financialyear)
+        public async Task<PaperEntity> GetPaperByPaperID(long paperID)
         {
             var data = (from u in this.context.PRACTICE_PAPER
                         .Include("PRACTICE_PAPER_REL")
                         .Include("BRANCH_MASTER")
                         .Include("CLASS_DTL_MASTER")
                         .Include("SUBJECT_MASTER")
-                        join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
-                        where u.paper_id == paperID && t.financial_year == financialyear
+                        where u.paper_id == paperID
                         select new PaperEntity()
                         {
                             RowStatus = new RowStatusEntity()

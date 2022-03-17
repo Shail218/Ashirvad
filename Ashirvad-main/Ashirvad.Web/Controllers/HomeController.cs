@@ -33,7 +33,7 @@ namespace Ashirvad.Web.Controllers
             try
             {
                 CommonChartModel model = new CommonChartModel();
-                var result = await _chartService.AllBranchWithCount(SessionContext.Instance.LoginUser.FinancialYear);
+                var result = await _chartService.AllBranchWithCount();
                 model.branchlist = result;
                 foreach(var item in model.branchlist)
                 {
@@ -57,7 +57,7 @@ namespace Ashirvad.Web.Controllers
             try
             {
                 CommonChartModel model = new CommonChartModel();
-                var result = await _chartService.AllBranchStandardWithCountByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID,SessionContext.Instance.LoginUser.FinancialYear);
+                var result = await _chartService.AllBranchStandardWithCountByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
                 model.branchstandardlist = result;
                 return Json(model);
             }

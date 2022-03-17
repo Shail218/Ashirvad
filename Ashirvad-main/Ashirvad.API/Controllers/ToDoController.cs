@@ -2,6 +2,7 @@
 using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.ToDo;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -104,35 +105,32 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-        [Route("ToDoMaintenance/{ToDoID}/{ToDo_Date}/{BranchID}/{UserID}/{ToDo_Description}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("ToDoMaintenance")]
         [HttpPost]
-        public OperationResult<ToDoEntity> ToDoMaintenance(long ToDoID, DateTime ToDo_Date, long BranchID,long UserID,
-            string ToDo_Description, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        public OperationResult<ToDoEntity> ToDoMaintenance(string model,bool HasFile)
         {
             OperationResult<ToDoEntity> result = new OperationResult<ToDoEntity>();
             var httpRequest = HttpContext.Current.Request;            
             ToDoEntity toDoEntity = new ToDoEntity();
-            ToDoEntity data = new ToDoEntity();
             toDoEntity.BranchInfo = new BranchEntity();
             toDoEntity.UserInfo = new UserEntity();
-            toDoEntity.ToDoID = ToDoID;
-            toDoEntity.ToDoDate = ToDo_Date;
-            toDoEntity.BranchInfo.BranchID = BranchID;
-            toDoEntity.UserInfo.UserID = UserID;
-            toDoEntity.ToDoDescription = ToDo_Description == "none" ? null : Decode(ToDo_Description);
-            toDoEntity.ToDoFileName = FileName;
-            toDoEntity.FilePath = "/ToDoDocument/" + FileName + "." + Extension;         
+            var entity = JsonConvert.DeserializeObject<ToDoEntity>(model);
+            toDoEntity.ToDoID = entity.ToDoID;
+            toDoEntity.ToDoDate = entity.ToDoDate;
+            toDoEntity.BranchInfo.BranchID = entity.BranchInfo.BranchID;
+            toDoEntity.UserInfo.UserID = entity.UserInfo.UserID;
+            toDoEntity.ToDoDescription = entity.ToDoDescription;     
             toDoEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             toDoEntity.Transaction = new TransactionEntity()
             {
-                TransactionId = TransactionId,
-                LastUpdateBy = CreateBy,
-                LastUpdateId = CreateId,
-                CreatedBy = CreateBy,
-                CreatedId = CreateId,
+                TransactionId = entity.Transaction.TransactionId,
+                LastUpdateBy = entity.Transaction.LastUpdateBy,
+                LastUpdateId = entity.Transaction.LastUpdateId,
+                CreatedBy = entity.Transaction.CreatedBy,
+                CreatedId = entity.Transaction.CreatedId
             };
             if (HasFile)
             {
@@ -145,10 +143,7 @@ namespace Ashirvad.API.Controllers
                             string fileName;
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            // for live server
-                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
-                            // for local server
-                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
+                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -172,24 +167,23 @@ namespace Ashirvad.API.Controllers
             }
             else
             {
-                string[] filename = FileName.Split(',');
-                toDoEntity.ToDoFileName = filename[0];
-                toDoEntity.FilePath = "/ToDoDocument/" + filename[1] + "." + Extension;
+                toDoEntity.ToDoFileName = entity.ToDoFileName;
+                toDoEntity.FilePath = entity.FilePath;
             }
-            data = this._todoService.ToDoMaintenance(toDoEntity).Result;
+            var data = this._todoService.ToDoMaintenance(toDoEntity).Result;
             result.Completed = false;
             result.Data = null;
             if (data.ToDoID > 0)
             {
                 result.Completed = true;
                 result.Data = data;
-                if (ToDoID > 0)
+                if (entity.ToDoID > 0)
                 {
-                    result.Message = "To-Do Updated Successfully";
+                    result.Message = "To-Do Updated Successfully.";
                 }
                 else
                 {
-                    result.Message = "To-Do Created Successfully";
+                    result.Message = "To-Do Created Successfully.";
                 }
             }
             return result;

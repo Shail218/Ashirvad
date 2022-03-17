@@ -12,39 +12,39 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Test
     {
         Task<long> TestMaintenance(TestEntity testInfo);
 
-        Task<List<TestEntity>> GetAllTestByBranch(long branchID, string financialyear);
-        Task<List<TestEntity>> GetAllTestByBranchType(long branchID,long BatchType, string financialyear);
-        Task<TestEntity> GetTestByTestID(long testID, string financialyear);
+        Task<List<TestEntity>> GetAllTestByBranch(long branchID);
+        Task<List<TestEntity>> GetAllTestByBranchType(long branchID,long BatchType);
+        Task<TestEntity> GetTestByTestID(long testID);
         bool RemoveTest(long testID, string lastupdatedby, bool removePaper);
-        Task<List<TestEntity>> GetAllTestByBranchAndStandard(long branchID, long courseID, long stdID, int batchTime, string financialyear);
+        Task<List<TestEntity>> GetAllTestByBranchAndStandard(long branchID, long courseID, long stdID, int batchTime);
         Task<long> TestPaperMaintenance(TestPaperEntity paperInfo);
-        Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID, string financialyear);
-        Task<List<TestPaperEntity>> GetAllTestPapaerWithoutContentByTest(long testID, string financialyear);
-        Task<TestPaperEntity> GetTestPaperByPaperID(long paperID, string financialyear);
-        Task<List<TestEntity>> GetTestPaperChecking(long paperID, string financialyear);
-        Task<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime, string financialyear);
+        Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID);
+        Task<List<TestPaperEntity>> GetAllTestPapaerWithoutContentByTest(long testID);
+        Task<TestPaperEntity> GetTestPaperByPaperID(long paperID);
+        Task<List<TestEntity>> GetTestPaperChecking(long paperID);
+        Task<List<TestPaperEntity>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime);
         bool RemoveTestPaper(long paperID, string lastupdatedby);
 
         Task<long> AnswerSheetMaintenance(StudentAnswerSheetEntity studAnswerSheet);
-        Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetByTestStudent(long testID, string financialyear);
-        Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetWithoutContentByTestStudent(long testID, string financialyear);
-        Task<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID, long studentID, string financialyear);
-        Task<StudentAnswerSheetEntity> GetTestAnswerSheetPaperByAnswerSheetID(long ansID, string financialyear);
+        Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetByTestStudent(long testID);
+        Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetWithoutContentByTestStudent(long testID);
+        Task<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID, long studentID);
+        Task<StudentAnswerSheetEntity> GetTestAnswerSheetPaperByAnswerSheetID(long ansID);
         bool RemoveAnswerSheet(long ansID, string lastupdatedby);
-        Task<List<TestEntity>> GetAllTest(DateTime testDate, string searchParam, string financialyear);
+        Task<List<TestEntity>> GetAllTest(DateTime testDate, string searchParam);
 
         Task<long> TestMaintenance(TestDetailEntity TestDetail);
-        Task<List<TestPaperEntity>> GetAllTestDocLinks(long branchID,long courseid, long stdID, int batchTime, string financialyear);
+        Task<List<TestPaperEntity>> GetAllTestDocLinks(long branchID,long courseid, long stdID, int batchTime);
 
-        Task<TestEntity> GetTestDetails(long TestID,long SubjectID, string financialyear);
+        Task<TestEntity> GetTestDetails(long TestID,long SubjectID);
         bool RemoveTestAnswerSheetdetail(long TestID, long studid);
-        Task<List<StudentAnswerSheetEntity>> GetallAnswerSheetData(long testID, string financialyear);
+        Task<List<StudentAnswerSheetEntity>> GetallAnswerSheetData(long testID);
 
-        Task<List<StudentAnswerSheetEntity>> GetStudentAnsFile(long TestID, string financialyear);
+        Task<List<StudentAnswerSheetEntity>> GetStudentAnsFile(long TestID);
         Task<long> AnsDetailUpdate(StudentAnswerSheetEntity studentAnswerSheet);
 
-        Task<List<TestEntity>> TestDateDDL(long branchID, long stdID, long courseid, int batchTime, string financialyear);
-        Task<List<TestEntity>> GetAllTestByBranchAPI(long branchID, string financialyear);
-        Task<List<TestEntity>> GetAllCustomTest(DataTableAjaxPostModel model, long branchID, string financialyear);
+        Task<List<TestEntity>> TestDateDDL(long branchID, long stdID, long courseid, int batchTime);
+        Task<List<TestEntity>> GetAllTestByBranchAPI(long branchID);
+        Task<List<TestEntity>> GetAllCustomTest(DataTableAjaxPostModel model, long branchID);
     }
 }

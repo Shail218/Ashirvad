@@ -11,12 +11,12 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Paper
     public interface IPaperAPI
     {
         Task<long> PaperMaintenance(PaperEntity paperInfo);
-        Task<List<PaperEntity>> GetAllPapers(long branchID,string financialyear);
-        Task<List<PaperEntity>> GetAllPaperWithoutContent(long branchID, string financialyear);
-        Task<PaperEntity> GetPaperByPaperID(long paperID, string financialyear);
+        Task<List<PaperEntity>> GetAllPapers(long branchID);
+        Task<List<PaperEntity>> GetAllPaperWithoutContent(long branchID);
+        Task<PaperEntity> GetPaperByPaperID(long paperID);
         bool RemovePaper(long paperID, string lastupdatedby);
-        Task<List<PaperEntity>> GetPracticePapersByStandardSubjectAndBranch(long branchID, long stdID, long subID, int batchTypeID, string financialyear);
-        Task<List<SubjectEntity>> GetPracticePaperSubject(long branchID,long courseid, long stdID,int batch_time, string financialyear);
-        Task<List<PaperEntity>> GetAllCustomPaper(DataTableAjaxPostModel model, long branchID, string financialyear);
+        Task<List<PaperEntity>> GetPracticePapersByStandardSubjectAndBranch(long branchID, long stdID, long subID, int batchTypeID);
+        Task<List<SubjectEntity>> GetPracticePaperSubject(long branchID,long courseid, long stdID,int batch_time);
+        Task<List<PaperEntity>> GetAllCustomPaper(DataTableAjaxPostModel model, long branchID);
     }
 }

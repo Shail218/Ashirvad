@@ -13,9 +13,6 @@
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
             <th>
-                Student Name
-            </th>
-            <th>
                View
             </th>
             <th>
@@ -42,9 +39,7 @@
             {
         <tr>
             <td>
-                @item.studentEntity.FirstName @item.studentEntity.LastName @item.studentEntity.LastName
-            </td>
-            <td>
+                <img src="@item.file_path" style="height:60px;width:60px;margin-left:20px;" />
             </td>
             <td>
                 @if (item.file_path != null && item.file_path != "")
@@ -88,7 +83,7 @@
                 }
                 else
                 {
-                    <a onclick="UpdatePaymentStatus('@item.payment_id', '@item.studentEntity.StudentID', '2');" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left" style="margin-left: 25%;">
+                    <a onclick="UpdatePaymentStatus('@item.payment_id', '@item.studentEntity.StudentID', '2');" class="ladda-button mb-2 mr-2 btn btn-success" data-style="expand-left" style="margin-left: 25%;">
                         <span class="ladda-label">
                             Approve
                         </span>

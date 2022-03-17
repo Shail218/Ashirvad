@@ -98,14 +98,14 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<ActionResult> GetStudentByStd(long Std, long BatchTime)
         {
-            var result = _studentService.GetStudentByStd(Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime, SessionContext.Instance.LoginUser.FinancialYear).Result;
+            var result = _studentService.GetStudentByStd(Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime).Result;
             return View("~/Views/ResultEntry/Manage.cshtml", result);
         }
 
         public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model, long Std, long courseid, long BatchTime)
         {
             List<string> columns = new List<string>();
-            var branchData = await _studentService.GetAllCustomStudentMarks(model, Std, courseid,SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime, SessionContext.Instance.LoginUser.FinancialYear);
+            var branchData = await _studentService.GetAllCustomStudentMarks(model, Std, courseid,SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime);
             long total = 0;
             if (branchData.Count > 0)
             {

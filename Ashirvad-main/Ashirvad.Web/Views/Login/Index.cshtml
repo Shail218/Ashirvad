@@ -243,13 +243,13 @@
                                             @Html.PasswordFor(x => x.Password, new { @name = "Password", @class = "user-password required", @placeholder = "Enter your password", @alt = "Password" })
                                             @*<input ID="txtpwd" name="Password" type="password" class="user-password" MaxLength="10" placeholder="Enter your password" />*@
                                         </span>
-                                        <span class="block input-icon input-icon-right">
+                                        <!--<span class="block input-icon input-icon-right">
                                             <select name="financeyr" id="financeyr" class="form-control requiredDDL" alt="Finanical Year">
                                                 <option value="0">--Select Financial Year--</option>
                                             </select>
-                                            @Html.HiddenFor(x => x.FinancialYear)
+                                            @Html.HiddenFor(x => x.FinancialYear)-->
                                             @*<input ID="txtpwd" name="Password" type="password" class="user-password" MaxLength="10" placeholder="Enter your password" />*@
-                                        </span>
+                                        <!--</span>-->
 
                                         <a href="@Url.Action("Index","ForgotPassword")" class="forgot-pass">Forgot your password?</a>
                                         <a href="#" onclick="login();" class="login-button">

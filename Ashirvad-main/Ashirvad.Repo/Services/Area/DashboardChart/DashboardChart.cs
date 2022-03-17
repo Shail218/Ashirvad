@@ -14,11 +14,11 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
 {
     public class DashboardChart : ModelAccess, IDashboardChartAPI
     {
-        public async Task<List<ChartBranchEntity>> AllBranchWithCount(string financialyear)
+        public async Task<List<ChartBranchEntity>> AllBranchWithCount()
         {
             var data = (from u in this.context.BRANCH_MASTER
                         join s in this.context.STUDENT_MASTER on u.branch_id equals s.branch_id
-                        where (u.branch_id != 1 && u.row_sta_cd == 1 && u.TRANSACTION_MASTER.financial_year == financialyear)
+                        where (u.branch_id != 1 && u.row_sta_cd == 1)
                         select new ChartBranchEntity()
                         {
                             name = u.branch_name,
@@ -35,19 +35,19 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                               {
                                   name = u.first_name
                               }).Distinct().Count();
-                    item.branchstandardlist = AllBranchStandardWithCount(item,financialyear);
+                    item.branchstandardlist = AllBranchStandardWithCount(item);
                 }
             }
             return data;
         }
 
-        public List<BranchStandardEntity> AllBranchStandardWithCount(ChartBranchEntity chart, string financialyear)
+        public List<BranchStandardEntity> AllBranchStandardWithCount(ChartBranchEntity chart)
         {
             List<BranchStandardEntity> branches = new List<BranchStandardEntity>();
             BranchStandardEntity standardEntity = new BranchStandardEntity();
             var data = (from u in this.context.STUDENT_MASTER
                        .Include("STD_MASTER")
-                        where (u.branch_id == chart.branchid && u.row_sta_cd == 1 && u.TRANSACTION_MASTER.financial_year == financialyear)
+                        where (u.branch_id == chart.branchid && u.row_sta_cd == 1 )
                         select new BranchStandardEntity()
                         {
                             name = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
@@ -58,7 +58,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                 ArrayList data1 = new ArrayList();
                 int count = (from u in this.context.STUDENT_MASTER
                        .Include("STD_MASTER")
-                             where (u.branch_id == chart.branchid && u.row_sta_cd == 1 && u.CLASS_DTL_MASTER.CLASS_MASTER.class_name == item.name && u.TRANSACTION_MASTER.financial_year == financialyear)
+                             where (u.branch_id == chart.branchid && u.row_sta_cd == 1 && u.CLASS_DTL_MASTER.CLASS_MASTER.class_name == item.name)
                              select new BranchStandardEntity()
                              {
                                  branchid = u.branch_id
@@ -72,13 +72,13 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
             return branches;
         }
 
-        public async Task<List<BranchStandardEntity>> AllBranchStandardWithCountByBranch(long branchid,string financialyear)
+        public async Task<List<BranchStandardEntity>> AllBranchStandardWithCountByBranch(long branchid)
         {
             List<BranchStandardEntity> branches = new List<BranchStandardEntity>();
             BranchStandardEntity standardEntity = new BranchStandardEntity();
             var data = (from u in this.context.STUDENT_MASTER
                        .Include("STD_MASTER")
-                        where (u.branch_id == branchid && u.row_sta_cd == 1 && u.TRANSACTION_MASTER.financial_year == financialyear)
+                        where (u.branch_id == branchid && u.row_sta_cd == 1)
                         select new BranchStandardEntity()
                         {
                             name = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
@@ -90,7 +90,7 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
                 ArrayList data1 = new ArrayList();
                 int count = (from u in this.context.STUDENT_MASTER
                        .Include("STD_MASTER")
-                             where (u.branch_id == branchid && u.row_sta_cd == 1 && u.CLASS_DTL_MASTER.CLASS_MASTER.class_name == item.name && u.TRANSACTION_MASTER.financial_year == financialyear)
+                             where (u.branch_id == branchid && u.row_sta_cd == 1 && u.CLASS_DTL_MASTER.CLASS_MASTER.class_name == item.name)
                              select new BranchStandardEntity()
                              {
                                  branchid = u.branch_id

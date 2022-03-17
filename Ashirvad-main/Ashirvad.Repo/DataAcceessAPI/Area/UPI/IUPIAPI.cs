@@ -10,8 +10,8 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.UPI
     public interface IUPIAPI
     {
         Task<long> UPIMaintenance(UPIEntity upiInfo);
-        Task<List<UPIEntity>> GetAllUPIs(long branchID, string financialyear);
-        Task<UPIEntity> GetUPIByID(long upiID, string financialyear);
+        Task<List<UPIEntity>> GetAllUPIs(long branchID);
+        Task<UPIEntity> GetUPIByID(long upiID);
         bool RemoveUPI(long upiID, string lastupdatedby);
     }
 }

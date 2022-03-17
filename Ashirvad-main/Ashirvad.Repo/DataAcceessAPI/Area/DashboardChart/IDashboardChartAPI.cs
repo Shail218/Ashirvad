@@ -11,8 +11,8 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.DashboardChart
 {
     public interface IDashboardChartAPI
     {
-        Task<List<ChartBranchEntity>> AllBranchWithCount(string financialyear);
-        Task<List<BranchStandardEntity>> AllBranchStandardWithCountByBranch(long branchid,string financialyear);
+        Task<List<ChartBranchEntity>> AllBranchWithCount();
+        Task<List<BranchStandardEntity>> AllBranchStandardWithCountByBranch(long branchid);
         Task<List<DataPoints>> GetStudentAttendanceDetails(long studentid);
         Task<List<ChartBranchEntity>> GetTotalCountList(long studentid);
         Task<List<DataPoints>> GetHomeworkByStudent(long branchid, long studentid);

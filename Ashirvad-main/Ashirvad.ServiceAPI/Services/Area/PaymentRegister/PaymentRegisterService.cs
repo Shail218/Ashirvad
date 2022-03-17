@@ -35,6 +35,22 @@ namespace Ashirvad.ServiceAPI.Services.Area.PaymentRegister
 
             return paymententity;
         }
+        public async Task<ResponseModel> UpdatePaymentRegisterbyAdmin(PaymentRegisterEntity entity)
+        {
+            ResponseModel paymententity = new ResponseModel();
+            try
+            {
+                var data = await _paymentContext.UpdatePaymentRegisterbyAdmin(entity);
+                paymententity = data;
+                return paymententity;
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return paymententity;
+        }
 
         public async Task<List<PaymentRegisterEntity>> GetPaymentListForStudent(long studentID,long branchID)
         {
@@ -50,11 +66,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.PaymentRegister
 
             return null;
         }
-        public async Task<List<PaymentRegisterEntity>> GetPaymentRegisterList(string financialyear, long BranchID, long CourseID, long ClassID, long studentID)
+        public async Task<List<PaymentRegisterEntity>> GetPaymentRegisterList( long BranchID, long CourseID, long ClassID, long studentID)
         {
             try
             {
-                var data = await _paymentContext.GetPaymentRegisterList(financialyear, BranchID,CourseID,ClassID, studentID);
+                var data = await _paymentContext.GetPaymentRegisterList(BranchID,CourseID,ClassID, studentID);
                 return data;
             }
             catch (Exception ex)

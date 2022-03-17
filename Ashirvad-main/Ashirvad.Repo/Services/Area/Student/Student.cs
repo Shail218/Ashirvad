@@ -12,8 +12,7 @@ namespace Ashirvad.Repo.Services.Area.Student
 {
     public class Student : ModelAccess, IStudentAPI
     {
-        ResponseModel responseModel = new ResponseModel();
-        public async Task<ResponseModel> CheckPackage(long BranchId,string financialyear)
+        public async Task<ResponseModel> CheckPackage(long BranchId)
         {
             ResponseModel response = new ResponseModel();
             long result;
@@ -26,7 +25,7 @@ namespace Ashirvad.Repo.Services.Area.Student
 
             long count = (from u in this.context.STUDENT_MASTER                       
                           orderby u.student_id descending
-                          where u.branch_id == BranchId && u.row_sta_cd == (long)Enums.RowStatus.Active && u.TRANSACTION_MASTER.financial_year == financialyear
+                          where u.branch_id == BranchId && u.row_sta_cd == (long)Enums.RowStatus.Active
                           select new StudentEntity()
                           {
                               StudentID = u.student_id
@@ -112,7 +111,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return this.context.SaveChanges() > 0 ? studentMaster.student_id : 0;
         }
-        public async Task<List<StudentEntity>> GetAllStudent(long branchID, int status,string financialyear)
+        public async Task<List<StudentEntity>> GetAllStudent(long branchID, int status)
         {
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
@@ -121,7 +120,6 @@ namespace Ashirvad.Repo.Services.Area.Student
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id orderby u.student_id descending
                         where branchID == 0 || u.branch_id == branchID 
                         && (0 == status || u.row_sta_cd == status)
-                        && u.TRANSACTION_MASTER.financial_year == financialyear
                         select new StudentEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -171,13 +169,13 @@ namespace Ashirvad.Repo.Services.Area.Student
                         }).ToList();
             return data;
         }
-        public async Task<List<StudentEntity>> GetAllStudentByStd(long Std, long Branch, long Batch,string financialyear)
+        public async Task<List<StudentEntity>> GetAllStudentByStd(long Std, long Branch, long Batch)
         {
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
-                        where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active && u.TRANSACTION_MASTER.financial_year== financialyear
+                        where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active
                         select new StudentEntity()
                         {
 
@@ -192,7 +190,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             
             return data;
         }
-        public async Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std,long courseid, long Branch, long Batch, string financialyear)
+        public async Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std,long courseid, long Branch, long Batch)
         {
             var Result = new List<StudentEntity>();
             bool Isasc = true;
@@ -205,7 +203,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
                         orderby u.student_id descending
-                          where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active && u.course_dtl_id == courseid && u.TRANSACTION_MASTER.financial_year == financialyear
+                          where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active && u.course_dtl_id == courseid 
                           select new StudentEntity()
                           {
                               StudentID = u.student_id
@@ -214,7 +212,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER") orderby u.student_id descending
-                        where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active && u.course_dtl_id == courseid && u.TRANSACTION_MASTER.financial_year == financialyear
+                        where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active && u.course_dtl_id == courseid
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.first_name.ToLower().Contains(model.search.value.ToLower())
@@ -235,7 +233,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                         .ToList();
             return data;
         }
-        public async Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, string financialyear, int status)
+        public async Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, int status)
         {
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
@@ -244,7 +242,6 @@ namespace Ashirvad.Repo.Services.Area.Student
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id orderby u.student_id descending
                         where branchID == 0 || u.branch_id == branchID
                         && (0 == status || u.row_sta_cd == status)
-                        && u.TRANSACTION_MASTER.financial_year == financialyear
                         select new StudentEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -312,13 +309,12 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return data;
         }
-        public async Task<List<StudentEntity>> GetAllStudentWithoutContentByRange(long branchID, int page,int limit,string financialyear)
+        public async Task<List<StudentEntity>> GetAllStudentWithoutContentByRange(long branchID, int page,int limit)
         {
             var data = (from u in this.context.STUDENT_MASTER
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
                         orderby u.student_id descending
                         where branchID == 0 || u.branch_id == branchID
-                        && u.TRANSACTION_MASTER.financial_year == financialyear
                         select new StudentEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -367,11 +363,11 @@ namespace Ashirvad.Repo.Services.Area.Student
                         }).Skip(page).Take(limit).ToList();
             return data;
         }
-        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid,long courseid, int batchtime,string financialyear)
+        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid,long courseid, int batchtime)
         {
             var data = (from u in this.context.STUDENT_MASTER                       
                         orderby u.student_id descending
-                        where u.branch_id == branchID && u.row_sta_cd == 1 && u.batch_time == batchtime && u.class_dtl_id == stdid && u.course_dtl_id == courseid && u.TRANSACTION_MASTER.financial_year == financialyear
+                        where u.branch_id == branchID && u.row_sta_cd == 1 && u.batch_time == batchtime && u.class_dtl_id == stdid && u.course_dtl_id == courseid
                         select new StudentEntity()
                         {
                             StudentID = u.student_id,
@@ -379,7 +375,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                         }).ToList();
             return data;
         }
-        public async Task<List<StudentEntity>> GetAllStudent(string studName, string contactNo,string financialyear)
+        public async Task<List<StudentEntity>> GetAllStudent(string studName, string contactNo)
         {
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
@@ -388,7 +384,6 @@ namespace Ashirvad.Repo.Services.Area.Student
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
                         where (string.IsNullOrEmpty(studName) || u.first_name == studName)
                         && (string.IsNullOrEmpty(contactNo) || u.contact_no == contactNo)
-                        && u.TRANSACTION_MASTER.financial_year == financialyear
                         select new StudentEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -528,7 +523,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return data;
         }
-        public async Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model,long branchID, int status,string financialyear)
+        public async Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model,long branchID, int status)
         {
             var Result = new List<StudentEntity>();
             bool Isasc=true;
@@ -536,7 +531,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             {
                 Isasc = model.order[0].dir == "desc" ? false : true;
             }           
-            long count = this.context.STUDENT_MASTER.Where(s => (0 == status || s.row_sta_cd == status) && s.branch_id == branchID && s.TRANSACTION_MASTER.financial_year == financialyear).Distinct().Count();
+            long count = this.context.STUDENT_MASTER.Where(s => (0 == status || s.row_sta_cd == status) && s.branch_id == branchID).Distinct().Count();
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
@@ -544,7 +539,6 @@ namespace Ashirvad.Repo.Services.Area.Student
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id orderby u.student_id descending
                         where branchID == 0 || u.branch_id == branchID
                         && (0 == status || u.row_sta_cd == status)
-                        && u.TRANSACTION_MASTER.financial_year == financialyear
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.first_name.ToLower().Contains(model.search.value.ToLower())
@@ -629,7 +623,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return data;
         }
-        public async Task<List<StudentEntity>> GetFilterStudent(long course, long classname, string finalyear, long branchID,string financialyear)
+        public async Task<List<StudentEntity>> GetFilterStudent(long course, long classname, string finalyear, long branchID)
         {
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
@@ -638,7 +632,6 @@ namespace Ashirvad.Repo.Services.Area.Student
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
                         orderby u.student_id descending
                         where branchID == 0 || u.branch_id == branchID
-                        && u.TRANSACTION_MASTER.financial_year == financialyear
                         select new StudentEntity()
                         {
                             RowStatus = new RowStatusEntity()

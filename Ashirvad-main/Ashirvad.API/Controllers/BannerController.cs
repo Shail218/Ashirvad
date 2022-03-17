@@ -2,6 +2,7 @@
 using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Banner;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -86,54 +87,31 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-        [Route("BannerMaintenance/{BannerID}/{BranchID}/{isAdmin}/{isTeacher}/{isStudent}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("BannerMaintenance")]
         [HttpPost]
-        public OperationResult<BannerEntity> BannerMaintenance(long BannerID,long BranchID, bool isAdmin, bool isTeacher, bool isStudent,long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        public OperationResult<BannerEntity> BannerMaintenance(string model,bool HasFile)
         {
             OperationResult<BannerEntity> result = new OperationResult<BannerEntity>();
             var httpRequest = HttpContext.Current.Request;            
             BannerEntity bannerEntity = new BannerEntity();
-            BannerEntity data = new BannerEntity();
             bannerEntity.BranchInfo = new BranchEntity();
-            bannerEntity.bannerTypeEntity = new BannerTypeEntity();
             bannerEntity.BannerType = new List<BannerTypeEntity>();
-            bannerEntity.BannerID = BannerID;
-            bannerEntity.BranchInfo.BranchID = BranchID;
-            bannerEntity.FileName = FileName;
-            bannerEntity.FilePath = "/BannerImage/" + FileName + "." + Extension;
+            var entity = JsonConvert.DeserializeObject<BannerEntity>(model);
+            bannerEntity.BannerID = entity.BannerID;
+            bannerEntity.BranchInfo.BranchID = entity.BranchInfo.BranchID;
+            bannerEntity.BannerType = entity.BannerType;
             bannerEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             bannerEntity.Transaction = new TransactionEntity()
             {
-                TransactionId = TransactionId,
-                LastUpdateBy = CreateBy,
-                LastUpdateId = CreateId,
-                CreatedBy = CreateBy,
-                CreatedId = CreateId,
+                TransactionId = entity.Transaction.TransactionId,
+                LastUpdateBy = entity.Transaction.LastUpdateBy,
+                LastUpdateId = entity.Transaction.LastUpdateId,
+                CreatedBy = entity.Transaction.CreatedBy,
+                CreatedId = entity.Transaction.CreatedId
             };
-            if(isAdmin)
-            {
-                bannerEntity.bannerTypeEntity = new BannerTypeEntity();
-                bannerEntity.bannerTypeEntity.TypeText = "Admin";
-                bannerEntity.bannerTypeEntity.TypeID = 1;
-                bannerEntity.BannerType.Add(bannerEntity.bannerTypeEntity);
-            }
-            if(isTeacher)
-            {
-                bannerEntity.bannerTypeEntity = new BannerTypeEntity();
-                bannerEntity.bannerTypeEntity.TypeText = "Teacher";
-                bannerEntity.bannerTypeEntity.TypeID = 2;
-                bannerEntity.BannerType.Add(bannerEntity.bannerTypeEntity);
-            }
-            if(isStudent)
-            {
-                bannerEntity.bannerTypeEntity = new BannerTypeEntity();
-                bannerEntity.bannerTypeEntity.TypeText = "Student";
-                bannerEntity.bannerTypeEntity.TypeID = 3;
-                bannerEntity.BannerType.Add(bannerEntity.bannerTypeEntity);
-            }
             if (HasFile)
             {
                 try
@@ -145,10 +123,7 @@ namespace Ashirvad.API.Controllers
                             string fileName;
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            // for live server
-                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
-                            // for local server
-                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
+                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -172,24 +147,23 @@ namespace Ashirvad.API.Controllers
             }
             else
             {
-                string[] filename = FileName.Split(',');
-                bannerEntity.FileName = filename[0];
-                bannerEntity.FilePath = "/BannerImage/" + filename[1] + "." + Extension;
+                bannerEntity.FileName = entity.FileName;
+                bannerEntity.FilePath = entity.FilePath;
             }
-            data = this._bannerService.BannerMaintenance(bannerEntity).Result;
+            var data = this._bannerService.BannerMaintenance(bannerEntity).Result;
             result.Completed = false;
             result.Data = null;
             if (data.BannerID > 0)
             {
                 result.Completed = true;
                 result.Data = data;
-                if (BannerID > 0)
+                if (entity.BannerID > 0)
                 {
-                    result.Message = "Banner Updated Successfully";
+                    result.Message = "Banner Updated Successfully.";
                 }
                 else
                 {
-                    result.Message = "Banner Created Successfully";
+                    result.Message = "Banner Created Successfully.";
                 }
             }
             return result;

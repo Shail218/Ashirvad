@@ -31,7 +31,7 @@ namespace Ashirvad.Web.Controllers
             PaperMaintenanceModel branch = new PaperMaintenanceModel();
             if (paperID > 0)
             {
-                var result = await _paperService.GetPaperByPaperID(paperID, SessionContext.Instance.LoginUser.FinancialYear);
+                var result = await _paperService.GetPaperByPaperID(paperID);
                 branch.PaperInfo = result.Data;
             }
             //var paperData = await _paperService.GetAllPaperWithoutContent(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
@@ -83,7 +83,7 @@ namespace Ashirvad.Web.Controllers
             {
                 item.name = columns[item.column];
             }
-            var branchData = await _paperService.GetAllCustomPaper(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID, SessionContext.Instance.LoginUser.FinancialYear);
+            var branchData = await _paperService.GetAllCustomPaper(model, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             long total = 0;
             if (branchData.Count > 0)
             {

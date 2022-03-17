@@ -31,9 +31,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetTestDatesByBatch")]
         [HttpPost]
-        public OperationResult<List<TestEntity>> GetTestDatesByBatch(long BranchID, long courseID,long stdID, int BatchType, string financialyear)
+        public OperationResult<List<TestEntity>> GetTestDatesByBatch(long BranchID, long courseID,long stdID, int BatchType)
         {
-            var data = this._testService.GetAllTestByBranchAndStandard(BranchID, courseID,stdID, BatchType,financialyear).Result;
+            var data = this._testService.GetAllTestByBranchAndStandard(BranchID, courseID,stdID, BatchType).Result;
             OperationResult<List<TestEntity>> result = new OperationResult<List<TestEntity>>();
             result.Completed = true;
             result.Data = data.Data;
@@ -42,9 +42,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetTestDetails")]
         [HttpPost]
-        public OperationResult<TestEntity> GetTestDetails(long TestID, long SubjectID, string financialyear)
+        public OperationResult<TestEntity> GetTestDetails(long TestID, long SubjectID)
         {
-            var data = this._testService.GetTestDetails(TestID, SubjectID,financialyear);
+            var data = this._testService.GetTestDetails(TestID, SubjectID);
             OperationResult<TestEntity> result = new OperationResult<TestEntity>();
             result.Completed = true;
             result.Data = data.Result;
@@ -53,9 +53,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetStudentByStd")]
         [HttpPost]
-        public OperationResult<List<StudentEntity>> GetStudentByStd(long Std, long Branch, long BatchTime,string financialyear)
+        public OperationResult<List<StudentEntity>> GetStudentByStd(long Std, long Branch, long BatchTime)
         {
-            var data = this._studentService.GetStudentByStd(Std, Branch, BatchTime,financialyear);
+            var data = this._studentService.GetStudentByStd(Std, Branch, BatchTime);
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
             result.Completed = true;
             result.Data = data.Result;
@@ -173,7 +173,7 @@ namespace Ashirvad.API.Controllers
                                 // for live server
                                 //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                                 // for local server
-                                string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
+                                string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
                                 var postedFile = httpRequest.Files[file];
                                 string randomfilename = Common.Common.RandomString(20);
                                 extension = Path.GetExtension(postedFile.FileName);

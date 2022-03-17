@@ -76,14 +76,14 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return this.context.SaveChanges() > 0 ? attendanceMaster.attendance_hdr_id : 0;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudentByBranchStdBatch(long branchID, long stdID, int batchID,string financialyear)
+        public async Task<List<StudentEntity>> GetAllStudentByBranchStdBatch(long branchID, long stdID, int batchID)
         {
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("CLASS_DTL_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id orderby u.student_id descending
-                        where u.branch_id == branchID && u.CLASS_DTL_MASTER.class_dtl_id == stdID && u.batch_time == batchID && u.row_sta_cd == 1 && u.TRANSACTION_MASTER.financial_year == financialyear
+                        where u.branch_id == branchID && u.CLASS_DTL_MASTER.class_dtl_id == stdID && u.batch_time == batchID && u.row_sta_cd == 1
                         select new StudentEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -125,7 +125,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return data;
         }
 
-        public async Task<List<StudentEntity>> GetAllCustomAttendance(DataTableAjaxPostModel model, long Std,long courseid, long Branch, long Batch,string financialyear)
+        public async Task<List<StudentEntity>> GetAllCustomAttendance(DataTableAjaxPostModel model, long Std,long courseid, long Branch, long Batch)
         {
             var Result = new List<StudentEntity>();
             bool Isasc = true;
@@ -139,7 +139,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         .Include("BRANCH_MASTER")
                           join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
                           orderby u.student_id descending
-                          where u.branch_id == Branch && u.class_dtl_id == Std && u.batch_time == Batch && u.row_sta_cd == 1 && u.course_dtl_id == courseid && u.TRANSACTION_MASTER.financial_year == financialyear
+                          where u.branch_id == Branch && u.class_dtl_id == Std && u.batch_time == Batch && u.row_sta_cd == 1 && u.course_dtl_id == courseid
                           select new StudentEntity()
                           {
                               StudentID = u.student_id
@@ -150,7 +150,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         .Include("BRANCH_MASTER")
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
                         orderby u.student_id descending
-                        where u.branch_id == Branch && u.class_dtl_id == Std && u.batch_time == Batch && u.row_sta_cd == 1 && u.course_dtl_id == courseid && u.TRANSACTION_MASTER.financial_year == financialyear
+                        where u.branch_id == Branch && u.class_dtl_id == Std && u.batch_time == Batch && u.row_sta_cd == 1 && u.course_dtl_id == courseid 
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.first_name.ToLower().Contains(model.search.value.ToLower())
@@ -208,12 +208,12 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return data;
         }
 
-        public async Task<List<AttendanceEntity>> GetAllAttendanceByBranch(long branchID,string financialyear)
+        public async Task<List<AttendanceEntity>> GetAllAttendanceByBranch(long branchID)
         {
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
                         .Include("CLASS_DTL_MASTER") orderby u.attendance_hdr_id descending
-                        where u.branch_id == branchID && u.row_sta_cd == 1 && u.TRANSACTION_MASTER.financial_year == financialyear
+                        where u.branch_id == branchID && u.row_sta_cd == 1
                         select new AttendanceEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -278,16 +278,15 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return data;
         }
 
-        public async Task<List<AttendanceEntity>> GetAllCustomAttendanceRegister(DataTableAjaxPostModel model, long branchID,string financialyear)
+        public async Task<List<AttendanceEntity>> GetAllCustomAttendanceRegister(DataTableAjaxPostModel model, long branchID)
         {
             var Result = new List<AttendanceEntity>();
             bool Isasc = model.order[0].dir == "desc" ? false : true;
-            long count = this.context.ATTENDANCE_HDR.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID && s.TRANSACTION_MASTER.financial_year == financialyear).Count();
+            long count = this.context.ATTENDANCE_HDR.Where(s => s.row_sta_cd == 1 && s.branch_id == branchID).Count();
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
                         .Include("CLASS_DTL_MASTER")
                         where u.branch_id == branchID && u.row_sta_cd == 1
-                        && u.TRANSACTION_MASTER.financial_year == financialyear
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.ToLower().Contains(model.search.value)
@@ -331,7 +330,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return data;
         }
 
-        public async Task<List<AttendanceEntity>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid,string financialyear)
+        public async Task<List<AttendanceEntity>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid)
         {
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
@@ -343,7 +342,6 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         && (0 == batchTimeID || u.batch_time_type == batchTimeID)
                         && (u.attendance_dt >= fromDate && u.attendance_dt <= toDate)
                         && student.student_id == studentid
-                        && u.TRANSACTION_MASTER.financial_year == financialyear
                         select new AttendanceEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -545,7 +543,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return false;
         }
 
-        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, long courseid, int batchID,DateTime attendanceDate,string financialyear)
+        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, long courseid, int batchID,DateTime attendanceDate)
         {
             ResponseModel model = new ResponseModel();
             try
@@ -556,7 +554,6 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             && atd.class_dtl_id == stdID 
                             && atd.course_dtl_id == courseid
                             && atd.attendance_dt == attendanceDate
-                            && atd.TRANSACTION_MASTER.financial_year == financialyear
                             && atd.row_sta_cd == 1
                             select atd).ToList();
                 if (data?.Count > 0)
@@ -579,7 +576,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return model;
         }
 
-        public async Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid,string financialyear)
+        public async Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid)
         {
             long count = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
@@ -592,7 +589,6 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                           && (0 == batchTimeID || u.batch_time_type == batchTimeID)
                           && (u.attendance_dt >= fromDate && u.attendance_dt <= toDate)
                           && student.student_id == studentid
-                          && u.TRANSACTION_MASTER.financial_year == financialyear
                           && (model.search.value == null
                         || model.search.value == ""
                         || u.CLASS_DTL_MASTER.CLASS_MASTER.class_name.ToLower().Contains(model.search.value)
@@ -640,7 +636,6 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         && (0 == batchTimeID || u.batch_time_type == batchTimeID)
                         && (u.attendance_dt >= fromDate && u.attendance_dt <= toDate)
                         && student.student_id == studentid
-                        && u.TRANSACTION_MASTER.financial_year == financialyear
                         select new AttendanceEntity()
                         {
                             RowStatus = new RowStatusEntity()

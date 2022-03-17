@@ -23,7 +23,7 @@ namespace Ashirvad.Web.Controllers
         // GET: Anouncement
         public ActionResult Index()
         {
-            return View();
+            return View(new AnnouncementMaintenanceModel());
         }
 
         public async Task<ActionResult> AnnouncementMaintenance(long annoID)

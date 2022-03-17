@@ -5,6 +5,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Homework;
 using Grpc.Core;
 using Ionic.Zip;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -47,9 +48,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllHomeworkByBranchStudent")]
         [HttpGet]
-        public OperationResult<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID,long courseid, long stdID, int batchTime, long studentId,string financialyear)
+        public OperationResult<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID,long courseid, long stdID, int batchTime, long studentId)
         {
-            var data = this._homeworkService.GetAllHomeworkByBranchStudent(branchID,courseid, stdID, batchTime,financialyear, studentId);
+            var data = this._homeworkService.GetAllHomeworkByBranchStudent(branchID,courseid, stdID, batchTime, studentId);
             OperationResult<List<HomeworkEntity>> result = new OperationResult<List<HomeworkEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -58,9 +59,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllHomeworkByBranch")]
         [HttpGet]
-        public OperationResult<List<HomeworkEntity>> GetAllHomeworkByBranch(long branchID, string financialyear)
+        public OperationResult<List<HomeworkEntity>> GetAllHomeworkByBranch(long branchID)
         {
-            var data = this._homeworkService.GetAllHomeworkByBranch(branchID,financialyear);
+            var data = this._homeworkService.GetAllHomeworkByBranch(branchID);
             OperationResult<List<HomeworkEntity>> result = new OperationResult<List<HomeworkEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -69,9 +70,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllHomeworkByBranchAndStd")]
         [HttpGet]
-        public OperationResult<List<HomeworkEntity>> GetAllHomeworkByBranch(long branchID, long stdID, int batchTime, string financialyear)
+        public OperationResult<List<HomeworkEntity>> GetAllHomeworkByBranch(long branchID, long stdID, int batchTime)
         {
-            var data = this._homeworkService.GetAllHomeworkByBranch(branchID,financialyear, stdID, batchTime);
+            var data = this._homeworkService.GetAllHomeworkByBranch(branchID, stdID, batchTime);
             OperationResult<List<HomeworkEntity>> result = new OperationResult<List<HomeworkEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -80,9 +81,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllHomeworkWithoutContentByBranch")]
         [HttpGet]
-        public OperationResult<List<HomeworkEntity>> GetAllHomeworkWithoutContentByBranch(long branchID, string financialyear)
+        public OperationResult<List<HomeworkEntity>> GetAllHomeworkWithoutContentByBranch(long branchID)
         {
-            var data = this._homeworkService.GetAllHomeworkWithoutContentByBranch(branchID,financialyear);
+            var data = this._homeworkService.GetAllHomeworkWithoutContentByBranch(branchID);
             OperationResult<List<HomeworkEntity>> result = new OperationResult<List<HomeworkEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -91,9 +92,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllHomeworkWithoutContentByBranchSTD")]
         [HttpGet]
-        public OperationResult<List<HomeworkEntity>> GetAllHomeworkWithoutContentByBranch(long branchID, long stdID, string financialyear)
+        public OperationResult<List<HomeworkEntity>> GetAllHomeworkWithoutContentByBranch(long branchID, long stdID)
         {
-            var data = this._homeworkService.GetAllHomeworkWithoutContentByBranch(branchID,financialyear, stdID);
+            var data = this._homeworkService.GetAllHomeworkWithoutContentByBranch(branchID, stdID);
             OperationResult<List<HomeworkEntity>> result = new OperationResult<List<HomeworkEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -102,9 +103,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllHomeworks")]
         [HttpGet]
-        public OperationResult<List<HomeworkEntity>> GetAllHomeworks(DateTime hwDate, string searchParam, string financialyear)
+        public OperationResult<List<HomeworkEntity>> GetAllHomeworks(DateTime hwDate, string searchParam)
         {
-            var data = this._homeworkService.GetAllHomeworks(hwDate, searchParam,financialyear);
+            var data = this._homeworkService.GetAllHomeworks(hwDate, searchParam);
             OperationResult<List<HomeworkEntity>> result = new OperationResult<List<HomeworkEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -113,9 +114,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetHomeworkByHWID")]
         [HttpGet]
-        public OperationResult<HomeworkEntity> GetHomeworkByHWID(long hwID, string financialyear)
+        public OperationResult<HomeworkEntity> GetHomeworkByHWID(long hwID)
         {
-            var data = this._homeworkService.GetHomeworkByHomeworkID(hwID,financialyear);
+            var data = this._homeworkService.GetHomeworkByHomeworkID(hwID);
             OperationResult<HomeworkEntity> result = new OperationResult<HomeworkEntity>();
             result.Data = data.Result;
             result.Completed = true;
@@ -145,40 +146,37 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-        [Route("HomeworkMaintenance/{HomeworkID}/{Homework_Date}/{BranchID}/{CourseID}/{StandardID}/{SubjectID}/{Batch_TimeID}/{Remark}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("HomeworkMaintenance")]
         [HttpPost]
-        public OperationResult<HomeworkEntity> HomeworkMaintenance(long HomeworkID, DateTime Homework_Date, long BranchID, long CourseID, long StandardID, long SubjectID, int Batch_TimeID,
-            string Remark, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        public OperationResult<HomeworkEntity> HomeworkMaintenance(string model,bool HasFile)
         {
             OperationResult<HomeworkEntity> result = new OperationResult<HomeworkEntity>();
             var httpRequest = HttpContext.Current.Request;            
             HomeworkEntity homeworkEntity = new HomeworkEntity();
-            HomeworkEntity data = new HomeworkEntity();
             homeworkEntity.BranchInfo = new BranchEntity();
             homeworkEntity.BranchCourse = new BranchCourseEntity();
             homeworkEntity.BranchClass = new BranchClassEntity();
             homeworkEntity.BranchSubject = new BranchSubjectEntity();
-            homeworkEntity.HomeworkID = HomeworkID;
-            homeworkEntity.HomeworkDate = Homework_Date;
-            homeworkEntity.BranchInfo.BranchID = BranchID;
-            homeworkEntity.BranchCourse.course_dtl_id = CourseID;
-            homeworkEntity.BranchClass.Class_dtl_id = StandardID;
-            homeworkEntity.BranchSubject.Subject_dtl_id = SubjectID;
-            homeworkEntity.BatchTimeID = Batch_TimeID;
-            homeworkEntity.Remarks = Remark == "none" ? null : Decode(Remark);
-            homeworkEntity.HomeworkContentFileName = FileName;
-            homeworkEntity.FilePath = "/HomeworkDocument/" + FileName + "." + Extension;        
+            var homeworkentity = JsonConvert.DeserializeObject<HomeworkEntity>(model);
+            homeworkEntity.HomeworkID = homeworkentity.HomeworkID;
+            homeworkEntity.HomeworkDate = homeworkentity.HomeworkDate;
+            homeworkEntity.BranchInfo.BranchID = homeworkentity.BranchInfo.BranchID;
+            homeworkEntity.BranchCourse.course_dtl_id = homeworkentity.BranchCourse.course_dtl_id;
+            homeworkEntity.BranchClass.Class_dtl_id = homeworkentity.BranchClass.Class_dtl_id;
+            homeworkEntity.BranchSubject.Subject_dtl_id = homeworkentity.BranchSubject.Subject_dtl_id;
+            homeworkEntity.BatchTimeID = homeworkentity.BatchTimeID;
+            homeworkEntity.Remarks = homeworkentity.Remarks;       
             homeworkEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             homeworkEntity.Transaction = new TransactionEntity()
             {
-                TransactionId = TransactionId,
-                LastUpdateBy = CreateBy,
-                LastUpdateId = CreateId,
-                CreatedBy = CreateBy,
-                CreatedId = CreateId,
+                TransactionId = homeworkentity.Transaction.TransactionId,
+                LastUpdateBy = homeworkentity.Transaction.LastUpdateBy,
+                LastUpdateId = homeworkentity.Transaction.LastUpdateId,
+                CreatedBy = homeworkentity.Transaction.CreatedBy,
+                CreatedId = homeworkentity.Transaction.CreatedId
             };
             if (HasFile)
             {
@@ -191,10 +189,7 @@ namespace Ashirvad.API.Controllers
                             string fileName;
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            // for live server
-                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
-                            // for local server
-                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
+                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -218,32 +213,23 @@ namespace Ashirvad.API.Controllers
             }
             else
             {
-                if(FileName != null && FileName != "0")
-                {
-                    string[] filename = FileName.Split(',');
-                    homeworkEntity.HomeworkContentFileName = filename[0];
-                    homeworkEntity.FilePath = "/HomeworkDocument/" + filename[1] + "." + Extension;
-                }
-                else
-                {
-                    homeworkEntity.HomeworkContentFileName = null;
-                    homeworkEntity.FilePath = null;
-                }
+                homeworkEntity.HomeworkContentFileName = homeworkentity.HomeworkContentFileName;
+                homeworkEntity.FilePath = homeworkentity.FilePath;
             }
-            data = this._homeworkService.HomeworkMaintenance(homeworkEntity).Result;
+            var data = this._homeworkService.HomeworkMaintenance(homeworkEntity).Result;
             result.Completed = false;
             result.Data = null;
             if (data.HomeworkID > 0)
             {
                 result.Completed = true;
                 result.Data = data;
-                if (HomeworkID > 0)
+                if (homeworkEntity.HomeworkID > 0)
                 {
-                    result.Message = "Homework Updated Successfully";
+                    result.Message = "Homework Updated Successfully.";
                 }
                 else
                 {
-                    result.Message = "Homework Created Successfully";
+                    result.Message = "Homework Created Successfully.";
                 }
             }
             else
@@ -302,7 +288,7 @@ namespace Ashirvad.API.Controllers
                         // for live server
                         //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
-                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
+                        string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
                         var postedFile = httpRequest.Files[file];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(postedFile.FileName);
@@ -351,9 +337,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetStudentHomeworkChecking")]
         [HttpGet]
-        public OperationResult<List<HomeworkEntity>> GetStudentHomeworkChecking(long hwID, string financialyear)
+        public OperationResult<List<HomeworkEntity>> GetStudentHomeworkChecking(long hwID)
         {
-            var data = this._homeworkService.GetStudentHomeworkChecking(hwID,financialyear);
+            var data = this._homeworkService.GetStudentHomeworkChecking(hwID);
             OperationResult<List<HomeworkEntity>> result = new OperationResult<List<HomeworkEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -392,8 +378,8 @@ namespace Ashirvad.API.Controllers
         }
 
         [HttpGet]
-        [Route("DownloadZipFile/{HomeworkID}/{StudentID}/{Homework}/{Student}/{Class}/{financialyear}")]
-        public OperationResult<HomeworkEntity> SaveZipFile(long HomeworkID, long StudentID, string Homework, string Student, string Class, string financialyear)
+        [Route("DownloadZipFile/{HomeworkID}/{StudentID}/{Homework}/{Student}/{Class}")]
+        public OperationResult<HomeworkEntity> SaveZipFile(long HomeworkID, long StudentID, string Homework, string Student, string Class)
         {
             //hi = 11;
             //si = 2;
@@ -403,7 +389,7 @@ namespace Ashirvad.API.Controllers
             try
             {
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
-                var homeworks = _homeworkService.GetHomeworkdetailsFiles(HomeworkID, financialyear).Result;
+                var homeworks = _homeworkService.GetHomeworkdetailsFiles(HomeworkID).Result;
                 //string randomfilename = Common.Common.RandomString(20);
                 string randomfilename = "HomeWork_" + Homework + "_Student_" + Student + "_Class_" + Class;
                 FileName = "/ZipFiles/HomeworkDetails/" + randomfilename + ".zip";
@@ -434,7 +420,7 @@ namespace Ashirvad.API.Controllers
                         // for live server
                         //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
-                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
+                        string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
                         //Save the Zip File to MemoryStream.
                         string _Filepath1 = "ZipFiles/HomeworkDetails/" + randomfilename + ".zip";
                         var filePath = HttpContext.Current.Server.MapPath("~/ZipFiles/HomeworkDetails/" + randomfilename + ".zip");

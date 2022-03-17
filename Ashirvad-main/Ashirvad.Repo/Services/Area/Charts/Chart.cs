@@ -13,10 +13,10 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
 {
     public class Chart : ModelAccess, IChartAPI
     {
-        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID,string financialyear)
+        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID)
         {
             var data = (from u in this.context.STUDENT_MASTER
-                        where u.branch_id == branchID && u.TRANSACTION_MASTER.financial_year == financialyear
+                        where u.branch_id == branchID
                         select new StudentEntity()
                         {
                             StudentID = u.student_id,
@@ -25,10 +25,10 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             return data;
         }
 
-        public async Task<List<StudentEntity>> GetAllStudentsNameByStandard(long StdID,long courseid, string financialyear)
+        public async Task<List<StudentEntity>> GetAllStudentsNameByStandard(long StdID,long courseid)
         {
             var data = (from u in this.context.STUDENT_MASTER
-                        where u.class_dtl_id == StdID && u.course_dtl_id == courseid && u.TRANSACTION_MASTER.financial_year == financialyear
+                        where u.class_dtl_id == StdID && u.course_dtl_id == courseid 
                         select new StudentEntity()
                         {
                             StudentID = u.student_id,
@@ -37,11 +37,11 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             return data;
         }
 
-        public async Task<List<StandardEntity>> GetAllClassDDL(long BranchID, string financialyear)
+        public async Task<List<StandardEntity>> GetAllClassDDL(long BranchID)
         {
 
             var data = (from u in this.context.STD_MASTER
-                        where u.row_sta_cd == 1 && u.branch_id == BranchID && u.TRANSACTION_MASTER.financial_year == financialyear
+                        where u.row_sta_cd == 1 && u.branch_id == BranchID
                         select new StandardEntity()
                         {
                             StandardID = u.std_id,
@@ -70,13 +70,13 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             return data;
         }
 
-        public async Task<List<StudentEntity>> GetStudentContent(long stdID, long branchID, long batchID, string financialyear)
+        public async Task<List<StudentEntity>> GetStudentContent(long stdID, long branchID, long batchID)
         {
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
                         where branchID == 0 || u.branch_id == branchID
-                        && (0 == batchID || u.batch_time == batchID) && u.class_dtl_id == stdID && u.row_sta_cd == 1 && u.TRANSACTION_MASTER.financial_year == financialyear
+                        && (0 == batchID || u.batch_time == batchID) && u.class_dtl_id == stdID && u.row_sta_cd == 1
                         select new StudentEntity()
                         {
                             StudentID = u.student_id,
@@ -91,13 +91,13 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             return data;
         }
 
-        public async Task<List<BranchStandardEntity>> AllBranchStandardWithCountByBranch(long branchid, string financialyear)
+        public async Task<List<BranchStandardEntity>> AllBranchStandardWithCountByBranch(long branchid)
         {
             List<BranchStandardEntity> branches = new List<BranchStandardEntity>();
             BranchStandardEntity standardEntity = new BranchStandardEntity();
             ArrayList data1 = new ArrayList();
             int count = (from u in this.context.STUDENT_MASTER
-                         where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 1 && u.TRANSACTION_MASTER.financial_year == financialyear)
+                         where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 1)
                          select new BranchStandardEntity()
                          {
                              branchid = u.branch_id
@@ -107,7 +107,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             standardEntity.data.Add(data1);
             ArrayList data2 = new ArrayList();
             int count1 = (from u in this.context.STUDENT_MASTER
-                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 2 && u.TRANSACTION_MASTER.financial_year == financialyear)
+                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 2)
                           select new BranchStandardEntity()
                           {
                               branchid = u.branch_id
@@ -117,7 +117,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             standardEntity.data.Add(data2);
             ArrayList data3 = new ArrayList();
             int count2 = (from u in this.context.STUDENT_MASTER
-                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 3 && u.TRANSACTION_MASTER.financial_year == financialyear)
+                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 3)
                           select new BranchStandardEntity()
                           {
                               branchid = u.branch_id

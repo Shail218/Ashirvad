@@ -766,7 +766,7 @@
           <Property Name="last_mod_dt" Type="datetime" />
           <Property Name="last_mod_by" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="last_mod_id" Type="bigint" />
-          <Property Name="financial_year" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="financial_year" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="TYPE_DESC">
           <Key>
@@ -6236,7 +6236,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="last_mod_dt" Type="DateTime" Precision="3" />
           <Property Name="last_mod_by" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="last_mod_id" Type="Int64" />
-          <Property Name="financial_year" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="financial_year" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ABOUTUS_DETAIL_REL" Relationship="AshirvadModel.FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="ABOUTUS_DETAIL_REL" />
           <NavigationProperty Name="APPROVAL_MASTER" Relationship="AshirvadModel.FK_APPROVAL_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="APPROVAL_MASTER" />
           <NavigationProperty Name="ATTENDANCE_HDR" Relationship="AshirvadModel.FK_ATTENDANCE_HDR_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="ATTENDANCE_HDR" />

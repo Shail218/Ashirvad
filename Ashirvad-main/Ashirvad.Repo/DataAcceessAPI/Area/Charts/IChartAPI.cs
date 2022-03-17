@@ -10,12 +10,12 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
 {
     public interface IChartAPI
     {
-        Task<List<StudentEntity>> GetAllStudentsName(long branchID, string financialyear);
-        Task<List<StandardEntity>> GetAllClassDDL(long BranchID, string financialyear);
+        Task<List<StudentEntity>> GetAllStudentsName(long branchID);
+        Task<List<StandardEntity>> GetAllClassDDL(long BranchID);
         Task<StudentEntity> GetStudentContentByID(long studentID);
-        Task<List<StudentEntity>> GetStudentContent(long stdID, long branchID, long batchID, string financialyear);
-        Task<List<BranchStandardEntity>> AllBranchStandardWithCountByBranch(long branchid, string financialyear);
+        Task<List<StudentEntity>> GetStudentContent(long stdID, long branchID, long batchID);
+        Task<List<BranchStandardEntity>> AllBranchStandardWithCountByBranch(long branchid);
         Task<List<AttendanceEntity>> GetStudentAttendanceDetails(long studentID, long type);
-        Task<List<StudentEntity>> GetAllStudentsNameByStandard(long StdID, long courseid, string financialyear);
+        Task<List<StudentEntity>> GetAllStudentsNameByStandard(long StdID, long courseid);
     }
 }

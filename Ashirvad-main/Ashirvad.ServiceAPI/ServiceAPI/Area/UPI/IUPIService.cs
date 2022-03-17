@@ -11,9 +11,9 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.UPI
     {
         Task<UPIEntity> UPIMaintenance(UPIEntity upiInfo);
 
-        Task<OperationResult<List<UPIEntity>>> GetAllUPIs(long branchID, string financialyear);
+        Task<OperationResult<List<UPIEntity>>> GetAllUPIs(long branchID);
 
-        Task<OperationResult<UPIEntity>> GetUPIByUPIID(long upiID, string financialyear);
+        Task<OperationResult<UPIEntity>> GetUPIByUPIID(long upiID);
         bool RemoveUPI(long upiID, string lastupdatedby);
     }
 }
