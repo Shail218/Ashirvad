@@ -17,10 +17,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
 {
     public class StudentService : IStudentService
     {
-
+        ResponseModel responseModel = new ResponseModel();
         private readonly IStudentAPI _studentContext;
         private readonly IBranchAPI _branchContext;
         private readonly IUserAPI _userContext;
+
+       
         public StudentService(IStudentAPI studentContext, IBranchAPI branchContext, IUserAPI userContext)
         {
             this._studentContext = studentContext;
@@ -239,38 +241,39 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
         }
 
 
-        public async Task<StudentEntity> StudentTransferMaintenance(StudentEntity studentInfo)
-        {
-            StudentEntity student = new StudentEntity();
+        public async Task<ResponseModel> StudentTransferMaintenance(StudentEntity studentInfo)
+        {            
             try
             {
-                long studentID = await _studentContext.StudentMaintenance(studentInfo);
-                //if (studentID > 0)
-                //{
-                //    student.StudentID = studentID;
-                //    var info = await _studentContext.GetStudentByID(studentID);
-                //    if (info != null)
-                //    {
-                //        studentInfo.StudentID = info.StudentID;
-                //        studentInfo.UserID = info.UserID;
-                //        studentInfo.StudentPassword2 = info.StudentPassword2;
-                //        studentInfo.StudentMaint.UserID = info.StudentMaint.UserID;
-                //        studentInfo.StudentMaint.ParentID = 0;
-                //        var user = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, studentID, Enums.UserType.Student));
-                //        studentInfo.StudentMaint.ParentID = info.StudentMaint.ParentID;
-                //        studentInfo.StudentPassword2 = info.StudentPassword2;
-                //        //studentInfo.StudentPassword2 = info.StudentMaint.ParentPassword2;
-                //        long parentId = info.StudentMaint.ParentID;
-                //        var user2 = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, parentId, Enums.UserType.Parent));
-                //    }
-                //}
+                responseModel = await _studentContext.StudentTransferMaintenance(studentInfo);
+                if (responseModel.Status)
+                {
+                    long StudentID =(long)responseModel.Data;
+                    var info = await _studentContext.GetStudentByID(StudentID);
+                    if (info != null)
+                    {
+                        studentInfo.StudentID = info.StudentID;
+                        studentInfo.UserID = info.UserID;
+                        studentInfo.StudentPassword2 = info.StudentPassword2;
+                        studentInfo.StudentMaint.UserID = info.StudentMaint.UserID;
+                        studentInfo.StudentMaint.ParentID = 0;
+                        var user = await _userContext.StudentUserMaintenance(await this.GetUserData(studentInfo, StudentID, Enums.UserType.Student));
+                        studentInfo.StudentMaint.ParentID = info.StudentMaint.ParentID;
+                        studentInfo.StudentPassword2 = info.StudentPassword2;
+                        //studentInfo.StudentPassword2 = info.StudentMaint.ParentPassword2;
+                        long parentId = info.StudentMaint.ParentID;
+                        var user2 = await _userContext.StudentUserMaintenance(await this.GetUserData(studentInfo, parentId, Enums.UserType.Parent));
+                    }
+                }
             }
             catch (Exception ex)
             {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message;
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return student;
+            return responseModel;
         }
 
     }

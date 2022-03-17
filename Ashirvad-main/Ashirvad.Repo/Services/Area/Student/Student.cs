@@ -12,6 +12,7 @@ namespace Ashirvad.Repo.Services.Area.Student
 {
     public class Student : ModelAccess, IStudentAPI
     {
+        ResponseModel responseModel = new ResponseModel();
         public async Task<ResponseModel> CheckPackage(long BranchId,string financialyear)
         {
             ResponseModel response = new ResponseModel();
@@ -688,72 +689,73 @@ namespace Ashirvad.Repo.Services.Area.Student
             return data;
         }
 
-        public async Task<long> StudentTransferMaintenance(StudentEntity studentInfo)
+        public async Task<ResponseModel> StudentTransferMaintenance(StudentEntity studentInfo)
         {
-            Model.STUDENT_MASTER studentMaster = new Model.STUDENT_MASTER();
-            Model.STUDENT_MAINT studentMaint = new Model.STUDENT_MAINT();
-            //studentMaster.STUDENT_MAINT = new Model.STUDENT_MAINT();
-            bool isUpdate = true;
-            var data = (from student in this.context.STUDENT_MASTER.Include("STUDENT_MAINT")
-                        where student.student_id == studentInfo.StudentID
-                        select new
+            try
+            {
+                Model.STUDENT_MASTER studentMaster = new Model.STUDENT_MASTER();
+                Model.STUDENT_MAINT studentMaint = new Model.STUDENT_MAINT();
+                //studentMaster.STUDENT_MAINT = new Model.STUDENT_MAINT();
+                bool isUpdate = true;
+                var data = (from student in this.context.STUDENT_MASTER.Include("STUDENT_MAINT")
+                            where student.student_id == studentInfo.StudentID
+                            select new
+                            {
+                                studentMaster = student,
+                                studentMaint = student.STUDENT_MAINT
+                            }).FirstOrDefault();
+                if (data != null)
+                {
+                    studentMaster = data.studentMaster;
+                    studentInfo.Transaction.TransactionId = studentMaster.trans_id;
+                    studentMaster.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    studentMaster.trans_id = this.AddTransactionData(studentInfo.Transaction);
+                    this.context.STUDENT_MASTER.Add(studentMaster);
+                    this.context.Entry(studentMaster).State = System.Data.Entity.EntityState.Modified;
+                    var result = this.context.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        studentMaster = data.studentMaster;
+                        studentMaster.course_dtl_id = studentInfo.BranchCourse.course_dtl_id;
+                        studentMaster.class_dtl_id = studentInfo.BranchClass.Class_dtl_id;
+                        studentMaster.final_year = studentInfo.Final_Year;
+                        this.context.STUDENT_MASTER.Add(studentMaster);
+                        //studentMaint.parent_name = studentInfo.StudentMaint.ParentName;
+                        //studentMaint.father_occupation = studentInfo.StudentMaint.FatherOccupation;
+                        //studentMaint.mother_occupation = studentInfo.StudentMaint.MotherOccupation;
+                        //studentMaint.contact_no = studentInfo.StudentMaint.ContactNo;
+                        //this.context.STUDENT_MAINT.Add(studentMaint);
+                        result = this.context.SaveChanges();
+                        if (result > 0)
                         {
-                            studentMaster = student,
-                            studentMaint = student.STUDENT_MAINT
-                        }).FirstOrDefault();
-            if (data != null)
-            {
-                studentMaster = data.studentMaster;
-                studentMaster.row_sta_cd =(int)Enums.RowStatus.Inactive;
+                            responseModel.Status = true;
+                            responseModel.Message = "Student Trasnfer Successfully!!";
+                            responseModel.Data = studentMaster.student_id;
+                        }
+                        else
+                        {
+                            responseModel.Status = false;
+                            responseModel.Message = "Failed To  Transfer Student!!";
+                        }
+
+                    }
+                    else
+                    {
+                        responseModel.Status = false;
+                        responseModel.Message = "Failed To  Transfer Student!!";
+
+                    }
+                }
             }
-            else
+            catch(Exception ex)
             {
-                studentMaster = data.studentMaster;
-                studentMaint = data.studentMaster.STUDENT_MAINT.FirstOrDefault();
-                studentInfo.Transaction.TransactionId = data.studentMaster.trans_id;
+                responseModel.Status = false;
+                responseModel.Message = ex.Message;
             }
-            studentMaster.gr_no = studentInfo.GrNo;
-            studentMaster.first_name = studentInfo.FirstName;
-            studentMaster.middle_name = studentInfo.MiddleName;
-            studentMaster.last_name = studentInfo.LastName;
-            studentMaster.dob = studentInfo.DOB;
-            studentMaster.admission_date = studentInfo.AdmissionDate;
-            studentMaster.address = studentInfo.Address;
-            studentMaster.branch_id = studentInfo.BranchInfo.BranchID;
-            studentMaster.course_dtl_id = studentInfo.BranchCourse.course_dtl_id;
-            studentMaster.class_dtl_id = studentInfo.BranchClass.Class_dtl_id;
-            studentMaster.school_id = studentInfo.SchoolInfo.SchoolID;
-            studentMaster.school_time = studentInfo.SchoolTime;
-            studentMaster.batch_time = (int)studentInfo.BatchInfo.BatchType;
-            studentMaster.last_yr_result = studentInfo.LastYearResult;
-            studentMaster.grade = studentInfo.Grade;
-            studentMaster.last_yr_class_name = studentInfo.LastYearClassName;
-            studentMaster.contact_no = studentInfo.ContactNo;
-            studentMaster.admission_date = studentInfo.AdmissionDate;
-            studentMaster.file_name = studentInfo.FileName;
-            studentMaster.file_path = studentInfo.FilePath;
-            studentMaster.final_year = studentInfo.Final_Year;
-            studentMaster.row_sta_cd = studentInfo.RowStatus.RowStatusId;
-            studentMaster.trans_id = this.AddTransactionData(studentInfo.Transaction);
-            this.context.STUDENT_MASTER.Add(studentMaster);
-            if (isUpdate)
-            {
-                this.context.Entry(studentMaster).State = System.Data.Entity.EntityState.Modified;
-            }
-            if (!isUpdate)
-            {
-                studentMaint.student_id = studentMaster.student_id;
-            }
-            studentMaint.parent_name = studentInfo.StudentMaint.ParentName;
-            studentMaint.father_occupation = studentInfo.StudentMaint.FatherOccupation;
-            studentMaint.mother_occupation = studentInfo.StudentMaint.MotherOccupation;
-            studentMaint.contact_no = studentInfo.StudentMaint.ContactNo;
-            this.context.STUDENT_MAINT.Add(studentMaint);
-            if (isUpdate)
-            {
-                this.context.Entry(studentMaint).State = System.Data.Entity.EntityState.Modified;
-            }
-            return this.context.SaveChanges() > 0 ? studentMaster.student_id : 0;
+
+            return responseModel;
+            
         }
 
     }

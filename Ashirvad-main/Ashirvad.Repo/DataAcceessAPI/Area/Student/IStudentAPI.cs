@@ -12,6 +12,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Student
     {
         Task<ResponseModel> CheckPackage(long BranchId, string financialyear);
         Task<long> StudentMaintenance(StudentEntity studentInfo);
+        Task<ResponseModel> StudentTransferMaintenance(StudentEntity studentInfo);
         Task<List<StudentEntity>> GetAllStudent(long branchID, int status,string financialyear);
         Task<List<StudentEntity>> GetAllStudentByStd(long Std, long Branch, long BatchTime, string financialyear);
         Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, string financialyear, int status = 0);

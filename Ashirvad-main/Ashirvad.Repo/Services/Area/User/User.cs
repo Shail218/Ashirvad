@@ -13,6 +13,7 @@ namespace Ashirvad.Repo.Services.Area.User
 {
     public class User : ModelAccess, IUserAPI
     {
+        ResponseModel responseModel = new ResponseModel();
         public async Task<long> UserMaintenance(UserEntity userInfo)
         {
             Model.USER_DEF user = new Model.USER_DEF();
@@ -579,6 +580,66 @@ namespace Ashirvad.Repo.Services.Area.User
                return this.context.SaveChanges()>0;
             }
             return false;
+        }
+
+
+
+        public async Task<ResponseModel> StudentUserMaintenance(UserEntity userInfo)
+        {
+            try
+            {
+                Model.USER_DEF user = new Model.USER_DEF();
+                bool isUpdate = true;
+                var data = (from u in this.context.USER_DEF
+                            where u.student_id == userInfo.StudentID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    user = data;
+                    user.trans_id = this.AddTransactionData(userInfo.Transaction);
+                    user.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    this.context.USER_DEF.Add(user);
+                    this.context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                    var res = this.context.SaveChanges();
+                    if (res > 0)
+                    {
+                        user.branch_id = userInfo.BranchInfo.BranchID;
+                        user.user_type = (int)userInfo.UserType;
+                        user.parent_id = userInfo.ParentID;
+                        user.password = userInfo.Password;
+                        user.row_sta_cd = userInfo.RowStatus.RowStatusId;
+                        user.staff_id = userInfo.StaffID;
+                        user.student_id = userInfo.StudentID;
+                        user.trans_id = this.AddTransactionData(userInfo.Transaction);
+                        user.username = userInfo.Username;
+                        this.context.USER_DEF.Add(user);
+                        res = this.context.SaveChanges();
+                        if (res > 0)
+                        {
+                            responseModel.Status = true;
+                            responseModel.Message = "Student Trasnfer Successfully!!";
+                        }
+                        else
+                        {
+                            responseModel.Status = false;
+                            responseModel.Message = "Failed To  Transfer Student!!";
+                        }
+                    }
+                    else
+                    {
+                        responseModel.Status = false;
+                        responseModel.Message = "Failed To  Transfer Student!!";
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message;
+            }
+
+
+            return responseModel;
         }
     }
 }
