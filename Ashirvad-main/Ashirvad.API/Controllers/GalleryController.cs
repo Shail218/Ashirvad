@@ -2,6 +2,7 @@
 using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Gallery;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -115,32 +116,30 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-        [Route("GalleryMaintenance/{UniqID}/{BranchID}/{Remark}/{UploadType}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("GalleryMaintenance")]
         [HttpPost]
-        public OperationResult<GalleryEntity> GalleryMaintenance(long UniqID,long BranchID, string Remark, int UploadType, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        public OperationResult<GalleryEntity> GalleryMaintenance(string model, bool HasFile)
         {
             OperationResult<GalleryEntity> result = new OperationResult<GalleryEntity>();
             var httpRequest = HttpContext.Current.Request;            
             GalleryEntity galleryEntity = new GalleryEntity();
-            GalleryEntity data = new GalleryEntity();
             galleryEntity.Branch = new BranchEntity();
-            galleryEntity.UniqueID = UniqID;
-            galleryEntity.Branch.BranchID = BranchID;
-            galleryEntity.Remarks = Remark == "none" ? null : Decode(Remark);
-            galleryEntity.GalleryType = UploadType;
-            galleryEntity.FileName = FileName;
-            galleryEntity.FilePath = "/GalleryImage/" + FileName + "." + Extension;       
+            var entity = JsonConvert.DeserializeObject<GalleryEntity>(model);
+            galleryEntity.UniqueID = entity.UniqueID;
+            galleryEntity.Branch.BranchID = entity.Branch.BranchID;
+            galleryEntity.Remarks = entity.Remarks;
+            galleryEntity.GalleryType = entity.GalleryType;     
             galleryEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             galleryEntity.Transaction = new TransactionEntity()
             {
-                TransactionId = TransactionId,
-                LastUpdateBy = CreateBy,
-                LastUpdateId = CreateId,
-                CreatedBy = CreateBy,
-                CreatedId = CreateId,
+                TransactionId = entity.Transaction.TransactionId,
+                LastUpdateBy = entity.Transaction.LastUpdateBy,
+                LastUpdateId = entity.Transaction.LastUpdateId,
+                CreatedBy = entity.Transaction.CreatedBy,
+                CreatedId = entity.Transaction.CreatedId
             };
             if (HasFile)
             {
@@ -153,10 +152,7 @@ namespace Ashirvad.API.Controllers
                             string fileName;
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            // for live server
-                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
-                            // for local server
-                            string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
+                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -180,18 +176,17 @@ namespace Ashirvad.API.Controllers
             }
             else
             {
-                string[] filename = FileName.Split(',');
-                galleryEntity.FileName = filename[0];
-                galleryEntity.FilePath = "/GalleryImage/" + filename[1] + "." + Extension;
+                galleryEntity.FileName = entity.FileName;
+                galleryEntity.FilePath = entity.FilePath;
             }
-            data = this._galleryService.GalleryMaintenance(galleryEntity).Result;
+            var data = this._galleryService.GalleryMaintenance(galleryEntity).Result;
             result.Completed = false;
             result.Data = null;
             if (data.UniqueID > 0)
             {
                 result.Completed = true;
                 result.Data = data;
-                if (UniqID > 0)
+                if (entity.UniqueID > 0)
                 {
                     result.Message = "Gallery Updated Successfully.";
                 }

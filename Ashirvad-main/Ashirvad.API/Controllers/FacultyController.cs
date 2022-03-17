@@ -11,6 +11,7 @@ using Ashirvad.Data.Model;
 using Ashirvad.Repo.Services.Area.Faculty;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Faculty;
 using Ashirvad.ServiceAPI.Services.Area.Faculty;
+using Newtonsoft.Json;
 
 namespace Ashirvad.Web.Controllers
 {
@@ -28,112 +29,111 @@ namespace Ashirvad.Web.Controllers
             _facultyService = new FacultyService(new Faculty());
         }
 
-        [Route("FacultyMaintenance/{facultyID}/{StaffID}/{Subject_dtl_id}/{course_dtl_id}/{Class_dtl_id}/{BranchID}/{Descripation}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("FacultyMaintenance")]
         [HttpPost]
-        public async Task<OperationResult<FacultyEntity>> FacultyMaintenance(long facultyID, long StaffID, long Subject_dtl_id, long course_dtl_id, long Class_dtl_id, long BranchID, string Descripation, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        public async Task<OperationResult<FacultyEntity>> FacultyMaintenance(string model, bool HasFile)
         {
             var httpRequest = HttpContext.Current.Request;
             OperationResult<FacultyEntity> response = new OperationResult<FacultyEntity>();
-            FacultyEntity data = new FacultyEntity();
-            string[] filename = FileName.Split(',');
-            string FilePath = "";
-            if (HasFile)
+            try
             {
-                try
+                FacultyEntity entity = new FacultyEntity();
+                var facultyentity = JsonConvert.DeserializeObject<FacultyEntity>(model);
+                entity.BranchInfo = new BranchEntity()
                 {
-                    if (httpRequest.Files.Count > 0)
-                    {
-                        foreach (string file in httpRequest.Files)
-                        {
-                            string fileName;
-                            string extension;
-                            string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            // for live server
-                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
-                            // for local server
-                            string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
-                            var postedFile = httpRequest.Files[file];
-                            string randomfilename = Common.Common.RandomString(20);
-                            extension = Path.GetExtension(postedFile.FileName);
-                            fileName = Path.GetFileName(postedFile.FileName);
-                            string _Filepath = "/FacultyImage/" + randomfilename + extension;
-                            string _Filepath1 = "FacultyImage/" + randomfilename + extension;
-                            var filePath = HttpContext.Current.Server.MapPath("~/FacultyImage/" + randomfilename + extension);
-                            string _path = UpdatedPath + _Filepath1;
-                            postedFile.SaveAs(_path);
-                            FileName = fileName;
-                            FilePath = _Filepath;
-                        }
-                    }
-                }
-                catch (Exception ex)
+                    BranchID = facultyentity.BranchInfo.BranchID
+                };
+                entity.staff = new StaffEntity()
                 {
-                    ex.ToString();
-                }
-            }
-            else
-            {
-                FileName = filename[0];
-                FilePath = "/FacultyImage/" + filename[1] + "." + Extension;
-            }
-            var facultyEntity = new FacultyEntity()
-            {
-                FacultyContentFileName = FileName,
-                FilePath = FilePath,
-                FacultyID = facultyID,
-                BranchInfo = new BranchEntity()
+                    StaffID = facultyentity.staff.StaffID
+                };
+                entity.branchSubject = new BranchSubjectEntity()
                 {
-                    BranchID = BranchID
-                },
-                staff = new StaffEntity()
+                    Subject_dtl_id = facultyentity.branchSubject.Subject_dtl_id
+                };
+                entity.BranchCourse = new BranchCourseEntity()
                 {
-                    StaffID = StaffID
-                },
-                branchSubject = new BranchSubjectEntity()
+                    course_dtl_id = facultyentity.BranchCourse.course_dtl_id
+                };
+                entity.BranchClass = new BranchClassEntity()
                 {
-                    Subject_dtl_id = Subject_dtl_id
-                },
-                BranchCourse = new BranchCourseEntity()
-                {
-                    course_dtl_id = course_dtl_id
-                },
-                BranchClass = new BranchClassEntity()
-                {
-                    Class_dtl_id = Class_dtl_id
-                },
-                Descripation = Descripation == "none" ? null : Decode(Descripation),
-                RowStatus = new RowStatusEntity()
+                    Class_dtl_id = facultyentity.BranchClass.Class_dtl_id
+                };
+                entity.RowStatus = new RowStatusEntity()
                 {
                     RowStatusId = (int)Enums.RowStatus.Active
-                },
-                Transaction = new TransactionEntity()
+                };
+                entity.Descripation = facultyentity.Descripation;
+                entity.FacultyID = facultyentity.FacultyID;
+                entity.Transaction = new TransactionEntity()
                 {
-                    TransactionId = TransactionId,
-                    LastUpdateBy = CreateBy,
-                    LastUpdateId = CreateId,
-                    CreatedBy = CreateBy,
-                    CreatedId = CreateId,
-                }
-            };
-            data = await _facultyService.FacultyMaintenance(facultyEntity);
-            response.Completed = false;
-            response.Data = null;
-            if(data.FacultyID > 0)
-            {
-                response.Completed = true;
-                response.Data = data;
-                if (facultyID > 0)
+                    TransactionId = facultyentity.Transaction.TransactionId,
+                    LastUpdateBy = facultyentity.Transaction.LastUpdateBy,
+                    LastUpdateId = facultyentity.Transaction.LastUpdateId,
+                    CreatedBy = facultyentity.Transaction.CreatedBy,
+                    CreatedId = facultyentity.Transaction.CreatedId
+                };
+                if (HasFile)
                 {
-                    response.Message = "Faculty Updated Successfully.";
+                    try
+                    {
+                        if (httpRequest.Files.Count > 0)
+                        {
+                            foreach (string file in httpRequest.Files)
+                            {
+                                string fileName;
+                                string extension;
+                                string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                                string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                                var postedFile = httpRequest.Files[file];
+                                string randomfilename = Common.Common.RandomString(20);
+                                extension = Path.GetExtension(postedFile.FileName);
+                                fileName = Path.GetFileName(postedFile.FileName);
+                                string _Filepath = "/FacultyImage/" + randomfilename + extension;
+                                string _Filepath1 = "FacultyImage/" + randomfilename + extension;
+                                var filePath = HttpContext.Current.Server.MapPath("~/FacultyImage/" + randomfilename + extension);
+                                string _path = UpdatedPath + _Filepath1;
+                                postedFile.SaveAs(_path);
+                                entity.FacultyContentFileName = fileName;
+                                entity.FilePath = _Filepath;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.ToString();
+                    }
                 }
                 else
                 {
-                    response.Message = "Faculty Created Successfully.";
+                    entity.FacultyContentFileName = facultyentity.FacultyContentFileName;
+                    entity.FilePath = facultyentity.FilePath;
+                }
+                var data = await _facultyService.FacultyMaintenance(entity);
+                response.Completed = false;
+                response.Data = null;
+                if (data.FacultyID > 0)
+                {
+                    response.Completed = true;
+                    response.Data = data;
+                    if (entity.FacultyID > 0)
+                    {
+                        response.Message = "Faculty Updated Successfully.";
+                    }
+                    else
+                    {
+                        response.Message = "Faculty Created Successfully.";
+                    }
+                }
+                else
+                {
+                    response.Message = "Faculty Already Exists!!";
                 }
             }
-            else
+            catch(Exception e)
             {
-                response.Message = "Faculty Already Exists!!";
+                response.Completed = false;
+                response.Message = e.ToString();
             }
             return response;
         }

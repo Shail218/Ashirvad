@@ -358,7 +358,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                                 }
                             },
                             BatchTimeID = u.batch_time_id,
-                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
+                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "AfterNoon" : "Evening",
                             BranchInfo = new BranchEntity()
                             {
                                 BranchID = u.BRANCH_MASTER.branch_id,

@@ -3,6 +3,7 @@ using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.Repo.Services.Area.Student;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Student;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -159,97 +160,60 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-        [Route("StudentMaintenance/{StudentID}/{ParentID}/{Gr_No}/{Name}" +
-            "/{Birth_Date}/{Address}/{BranchID}/{StandardID}/{SchoolID}/{School_TimeID}/{Batch_TimeID}" +
-            "/{Last_Year_Result}/{Grade}/{Class_Name}/{Student_Contact_No}/{Admission_Date}/{Parent_Name}" +
-            "/{Father_Occupation}/{Mother_Occupation}/{Parent_Contact_No}/{CreateId}/{CreateBy}/{TransactionId}" +
-            "/{std_pwd}/{parent_pwd}/{FileName}/{Extension}/{HasFile}")]
+        [Route("StudentMaintenance")]
         [HttpPost]
-        public OperationResult<StudentEntity> StudentMaintenance(long StudentID, long ParentID, string Gr_No, string Name, string Birth_Date, string Address, long BranchID, string StandardID,
-            long SchoolID, int School_TimeID, int Batch_TimeID, string Last_Year_Result, string Grade, string Class_Name,
-            string Student_Contact_No, string Admission_Date, string Parent_Name, string Father_Occupation,
-            string Mother_Occupation, string Parent_Contact_No, long CreateId, string CreateBy, long TransactionId, string std_pwd,
-            string parent_pwd, string FileName, string Extension, bool HasFile)
+        public OperationResult<StudentEntity> StudentMaintenance(string model,bool HasFile)
         {
             OperationResult<StudentEntity> result = new OperationResult<StudentEntity>();
             var httpRequest = HttpContext.Current.Request;
-            string[] name = Name.Split(',');
-            string[] result_status = Last_Year_Result.Split(',');
-            string[] course_standard = StandardID.Split(',');
             StudentEntity studentEntity = new StudentEntity();
-            StudentEntity data = new StudentEntity();
             studentEntity.BranchInfo = new BranchEntity();
-            studentEntity.StandardInfo = new StandardEntity();
             studentEntity.SchoolInfo = new SchoolEntity();
-            studentEntity.StudentMaint = new StudentMaint();
             studentEntity.BatchInfo = new BatchEntity();
             studentEntity.BranchClass = new BranchClassEntity();
             studentEntity.BranchCourse = new BranchCourseEntity();
-            studentEntity.StudentID = StudentID;
-            studentEntity.StudentMaint.ParentID = ParentID;
-            studentEntity.GrNo = Gr_No;
-            studentEntity.FirstName = name[0];
-            studentEntity.MiddleName = name[1];
-            studentEntity.LastName = name[2];
-            studentEntity.birth_date = Birth_Date == "01-01-0001" ? null : Birth_Date;
-            studentEntity.DOB = null;
-            if (!string.IsNullOrEmpty(studentEntity.birth_date))
+            var entity = JsonConvert.DeserializeObject<StudentEntity>(model);
+            studentEntity.StudentID = entity.StudentID;
+            studentEntity.StudentMaint = new StudentMaint()
             {
-                DateTime birthdate = Convert.ToDateTime(studentEntity.birth_date);
-                studentEntity.DOB = birthdate;
-            }
-            studentEntity.Address = Decode(Address);
-            studentEntity.BranchInfo.BranchID = BranchID;
-            studentEntity.BranchCourse.course_dtl_id = Convert.ToInt64(course_standard[0]);
-            studentEntity.BranchClass.Class_dtl_id = Convert.ToInt64(course_standard[1]);
-            studentEntity.SchoolInfo.SchoolID = SchoolID == -1 ? 0 : SchoolID;
-            studentEntity.SchoolTime = School_TimeID == -1 ? 0 : School_TimeID;
-            studentEntity.BatchInfo.BatchType = (Enums.BatchType)Batch_TimeID;
-            studentEntity.LastYearResult = Convert.ToInt32(result_status[0]) == -1 ? 0 : Convert.ToInt32(result_status[0]);
-            studentEntity.Grade = Grade == "none" ? "" : Grade;
-            studentEntity.LastYearClassName = Class_Name == "none" ? null : Decode(Class_Name);
-            studentEntity.ContactNo = Student_Contact_No == "none" ? null : Student_Contact_No;
+                ParentID = entity.StudentMaint.ParentID,
+                ParentName = entity.StudentMaint.ParentName,
+                FatherOccupation = entity.StudentMaint.FatherOccupation,
+                MotherOccupation = entity.StudentMaint.MotherOccupation,
+                ContactNo = entity.StudentMaint.ContactNo,
+                ParentPassword = entity.StudentPassword
+            };
+            studentEntity.GrNo = "1";
+            studentEntity.FirstName = entity.FirstName;
+            studentEntity.MiddleName = entity.MiddleName;
+            studentEntity.LastName = entity.LastName;
+            studentEntity.DOB = entity.DOB;
+            studentEntity.Address = entity.Address;
+            studentEntity.BranchInfo.BranchID = entity.BranchInfo.BranchID;
+            studentEntity.BranchCourse.course_dtl_id = entity.BranchCourse.course_dtl_id;
+            studentEntity.BranchClass.Class_dtl_id = entity.BranchClass.Class_dtl_id;
+            studentEntity.SchoolInfo.SchoolID = entity.SchoolInfo.SchoolID;
+            studentEntity.SchoolTime = entity.SchoolTime;
+            studentEntity.BatchInfo.BatchType = (Enums.BatchType)entity.BatchInfo.BatchTime;
+            studentEntity.LastYearResult = entity.LastYearResult;
+            studentEntity.Grade = entity.Grade;
+            studentEntity.LastYearClassName = entity.LastYearClassName;
+            studentEntity.ContactNo = entity.ContactNo;
             DateTime dateTime = DateTime.Now;
             studentEntity.Final_Year = dateTime.Month >= 4 ? dateTime.Year.ToString() + "_" + dateTime.Year + 1.ToString("yyyy") : (dateTime.Year - 1).ToString() + "-" + dateTime.Year.ToString();
-            studentEntity.admission_date = Admission_Date == "01-01-0001" ? null : Admission_Date;
-            studentEntity.AdmissionDate = null;
-            if (!string.IsNullOrEmpty(studentEntity.admission_date))
-            {
-                DateTime admissiondate = Convert.ToDateTime(studentEntity.admission_date);
-                studentEntity.AdmissionDate = admissiondate;
-            }
-            studentEntity.StudentMaint.ParentName = Decode(Parent_Name);
-            studentEntity.StudentMaint.FatherOccupation = Father_Occupation == "none" ? null : Decode(Father_Occupation);
-            studentEntity.StudentMaint.MotherOccupation = Mother_Occupation == "none" ? null : Decode(Mother_Occupation);
-            studentEntity.StudentMaint.ContactNo = Parent_Contact_No;
-            studentEntity.StudentPassword = std_pwd;
-            studentEntity.StudentMaint.ParentPassword = parent_pwd;
-            studentEntity.FileName = FileName == "none" ? null : FileName;
-            if (Extension == "none")
-            {
-                studentEntity.FilePath = null;
-            }
-            else
-            {
-                studentEntity.FilePath = "/StudentImage/" + FileName + "." + Extension;
-            }
-            if (studentEntity.StudentID > 0 && FileName != "none" && HasFile == false)
-            {
-                string[] filename = FileName.Split(',');
-                studentEntity.FileName = filename[0];
-                studentEntity.FilePath = "/StudentImage/" + filename[1] + "." + Extension;
-            }
+            studentEntity.AdmissionDate = entity.AdmissionDate;       
+            studentEntity.StudentPassword = entity.StudentPassword;
             studentEntity.RowStatus = new RowStatusEntity()
             {
-                RowStatusId = Convert.ToInt32(result_status[1])
+                RowStatusId = entity.RowStatus.RowStatusId
             };
             studentEntity.Transaction = new TransactionEntity()
             {
-                TransactionId = TransactionId,
-                LastUpdateBy = CreateBy,
-                LastUpdateId = CreateId,
-                CreatedBy = CreateBy,
-                CreatedId = CreateId,
+                TransactionId = entity.Transaction.TransactionId,
+                LastUpdateBy = entity.Transaction.LastUpdateBy,
+                LastUpdateId = entity.Transaction.LastUpdateId,
+                CreatedBy = entity.Transaction.CreatedBy,
+                CreatedId = entity.Transaction.CreatedId
             };
             if (HasFile)
             {
@@ -262,10 +226,7 @@ namespace Ashirvad.API.Controllers
                             string fileName;
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            // for live server
-                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
-                            // for local server
-                            string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
+                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -287,32 +248,29 @@ namespace Ashirvad.API.Controllers
                     result.Message = ex.ToString();
                 }
             }
-            data = this._studentService.StudentMaintenance(studentEntity).Result;
+            else
+            {
+                studentEntity.FileName = entity.FileName;
+                studentEntity.FilePath = entity.FilePath;
+            }
+            var data = this._studentService.StudentMaintenance(studentEntity).Result;
             result.Completed = false;
             result.Data = null;
             if (data.StudentID > 0)
             {
                 result.Completed = true;
                 result.Data = data;
-                if (StudentID > 0)
+                if (entity.StudentID > 0)
                 {
-                    result.Message = "Student Updated Successfully";
+                    result.Message = "Student Updated Successfully.";
                 }
                 else
                 {
-                    result.Message = "Student Created Successfully";
+                    result.Message = "Student Created Successfully.";
                 }
             }
             return result;
         }
-
-        public static string Decode(string Path)
-        {
-            byte[] mybyte = Convert.FromBase64String(Path);
-            string returntext = Encoding.UTF8.GetString(mybyte);
-            return returntext;
-        }
-
     }
 
 }

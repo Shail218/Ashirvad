@@ -2,6 +2,7 @@
 using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Paper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -112,42 +113,38 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-        [Route("PaperMaintenance/{PaperID}/{UniqID}/{BranchID}/{CourseID}/{StandardID}/{SubjectID}/{Batch_TimeID}/{Remark}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("PaperMaintenance")]
         [HttpPost]
-        public OperationResult<PaperEntity> PaperMaintenance(long PaperID, long UniqID, long BranchID, long CourseID, long StandardID,long SubjectID,int Batch_TimeID,
-            string Remark, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        public OperationResult<PaperEntity> PaperMaintenance(string model,bool HasFile)
         {
             OperationResult<PaperEntity> result = new OperationResult<PaperEntity>();
             var httpRequest = HttpContext.Current.Request;
-           
             PaperEntity paperEntity = new PaperEntity();
-            PaperEntity data = new PaperEntity();
             paperEntity.Branch = new BranchEntity();
             paperEntity.BranchCourse = new BranchCourseEntity();
             paperEntity.BranchClass = new BranchClassEntity();
             paperEntity.BranchSubject = new BranchSubjectEntity();
             paperEntity.PaperData = new PaperData();
-            paperEntity.PaperID = PaperID;
-            paperEntity.PaperData.UniqueID = UniqID;
-            paperEntity.Branch.BranchID = BranchID;
-            paperEntity.BranchCourse.course_dtl_id = CourseID;
-            paperEntity.BranchClass.Class_dtl_id = StandardID;
-            paperEntity.BranchSubject.Subject_dtl_id = SubjectID;
-            paperEntity.BatchTypeID = Batch_TimeID;
-            paperEntity.Remarks = Remark == "none" ? null : Decode(Remark);
-            paperEntity.PaperData.PaperPath = FileName;
-            paperEntity.PaperData.FilePath = "/PaperDocument/" + FileName + "." + Extension;       
+            var entity = JsonConvert.DeserializeObject<PaperEntity>(model);
+            paperEntity.PaperID = entity.PaperID;
+            paperEntity.PaperData.UniqueID = entity.PaperData.UniqueID;
+            paperEntity.Branch.BranchID = entity.Branch.BranchID;
+            paperEntity.BranchCourse.course_dtl_id = entity.BranchCourse.course_dtl_id;
+            paperEntity.BranchClass.Class_dtl_id = entity.BranchClass.Class_dtl_id;
+            paperEntity.BranchSubject.Subject_dtl_id = entity.BranchSubject.Subject_dtl_id;
+            paperEntity.BatchTypeID = entity.BatchTypeID;
+            paperEntity.Remarks = entity.Remarks;      
             paperEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             paperEntity.Transaction = new TransactionEntity()
             {
-                TransactionId = TransactionId,
-                LastUpdateBy = CreateBy,
-                LastUpdateId = CreateId,
-                CreatedBy = CreateBy,
-                CreatedId = CreateId,
+                TransactionId = entity.Transaction.TransactionId,
+                LastUpdateBy = entity.Transaction.LastUpdateBy,
+                LastUpdateId = entity.Transaction.LastUpdateId,
+                CreatedBy = entity.Transaction.CreatedBy,
+                CreatedId = entity.Transaction.CreatedId
             };
             if (HasFile)
             {
@@ -160,10 +157,7 @@ namespace Ashirvad.API.Controllers
                             string fileName;
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            // for live server
-                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
-                            // for local server
-                            string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
+                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -187,18 +181,17 @@ namespace Ashirvad.API.Controllers
             }
             else
             {
-                string[] filename = FileName.Split(',');
-                paperEntity.PaperData.PaperPath = filename[0];
-                paperEntity.PaperData.FilePath = "/PaperDocument/" + filename[1] + "." + Extension;
+                paperEntity.PaperData.PaperPath = entity.PaperData.PaperPath;
+                paperEntity.PaperData.FilePath = entity.PaperData.FilePath;
             }
-            data = this._paperService.PaperMaintenance(paperEntity).Result;
+            var data = this._paperService.PaperMaintenance(paperEntity).Result;
             result.Completed = false;
             result.Data = null;
             if (data.PaperID > 0 || data.PaperData.UniqueID > 0)
             {
                 result.Completed = true;
                 result.Data = data;
-                if (PaperID > 0)
+                if (entity.PaperID > 0)
                 {
                     result.Message = "Practice Paper Updated Successfully.";
                 }
