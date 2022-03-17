@@ -7,6 +7,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.UPI;
 using Ashirvad.ServiceAPI.Services.Area;
 using Ashirvad.ServiceAPI.Services.Area.UPI;
 using Ashirvad.Uploads;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,38 +36,34 @@ namespace Ashirvad.API.Controllers
         }
         // GET: Fees
 
-        [Route("FeesMaintenance/{FeesID}/{FeesDetailsID}/{CourseID}/{StandardID}/{BranchID}/{Remark}/{SubmitDate}/{CreateId}/{CreateBy}/{TransactionId}/{FileName}/{Extension}/{HasFile}")]
+        [Route("FeesMaintenance")]
         [HttpPost]
-        public OperationResult<FeesEntity> FeesMaintenance(long FeesID, long FeesDetailsID, long CourseID, long StandardID, long BranchID,
-            string Remark, long CreateId, string CreateBy, long TransactionId, string FileName, string Extension, bool HasFile)
+        public OperationResult<FeesEntity> FeesMaintenance(string model,bool HasFile)
         {
             OperationResult<FeesEntity> result = new OperationResult<FeesEntity>();
             var httpRequest = HttpContext.Current.Request;            
             FeesEntity feesEntity = new FeesEntity();
-            FeesEntity data = new FeesEntity();
             feesEntity.BranchInfo = new BranchEntity();
-            feesEntity.standardInfo = new StandardEntity();
             feesEntity.BranchCourse = new BranchCourseEntity();
             feesEntity.BranchClass = new BranchClassEntity();
-            feesEntity.BranchInfo.BranchID = BranchID;
-            feesEntity.BranchClass.Class_dtl_id = StandardID;
-            feesEntity.BranchCourse.course_dtl_id = CourseID;
-            feesEntity.FeesID = FeesID;
-            feesEntity.FeesDetailID = FeesDetailsID;
-            feesEntity.Remark = Remark == "none" ? null : Decode(Remark);
-            feesEntity.FileName = FileName;
-            feesEntity.FilePath = "/FeesImage/" + FileName + "." + Extension;
+            var entity = JsonConvert.DeserializeObject<FeesEntity>(model);
+            feesEntity.FeesID = entity.FeesID;
+            feesEntity.BranchInfo.BranchID = entity.BranchInfo.BranchID;
+            feesEntity.BranchClass.Class_dtl_id = entity.BranchClass.Class_dtl_id;
+            feesEntity.BranchCourse.course_dtl_id = entity.BranchCourse.course_dtl_id;
+            feesEntity.FeesDetailID = entity.FeesDetailID;
+            feesEntity.Remark = entity.Remark;
             feesEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             feesEntity.Transaction = new TransactionEntity()
             {
-                TransactionId = TransactionId,
-                LastUpdateBy = CreateBy,
-                LastUpdateId = CreateId,
-                CreatedBy = CreateBy,
-                CreatedId = CreateId,
+                TransactionId = entity.Transaction.TransactionId,
+                LastUpdateBy = entity.Transaction.LastUpdateBy,
+                LastUpdateId = entity.Transaction.LastUpdateId,
+                CreatedBy = entity.Transaction.CreatedBy,
+                CreatedId = entity.Transaction.CreatedId
             };
             if (HasFile)
             {
@@ -76,14 +73,10 @@ namespace Ashirvad.API.Controllers
                     {
                         foreach (string file in httpRequest.Files)
                         {
-                            feesEntity.FeesDetailID = FeesDetailsID;
                             string fileName;
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            // for live server
-                            //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
-                            // for local server
-                            string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
+                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -107,24 +100,23 @@ namespace Ashirvad.API.Controllers
             }
             else
             {
-                string[] filename = FileName.Split(',');
-                feesEntity.FileName = filename[0];
-                feesEntity.FilePath = "/FeesImage/" + filename[1] + "." + Extension;
+                feesEntity.FileName = entity.FileName;
+                feesEntity.FilePath = entity.FilePath;
             }
-            data = this._FeesService.FeesMaintenance(feesEntity).Result;
+            var data = this._FeesService.FeesMaintenance(feesEntity).Result;
             result.Completed = false;
             result.Data = null;
             if (data.FeesID > 0 || data.FeesDetailID > 0)
             {
                 result.Completed = true;
                 result.Data = data;
-                if (FeesID > 0)
+                if (entity.FeesID > 0)
                 {
-                    result.Message = "Fees Structure Updated Successfully";
+                    result.Message = "Fees Structure Updated Successfully.";
                 }
                 else
                 {
-                    result.Message = "Fees Structure Created Successfully";
+                    result.Message = "Fees Structure Created Successfully.";
                 }
             }else
             {
