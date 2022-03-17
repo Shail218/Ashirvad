@@ -106,11 +106,29 @@ namespace Ashirvad.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult TransferStudent(string Studentdata)
+        public async Task<JsonResult> TransferStudent(string Studentdata)
         {
-            //var result = _studentService.RemoveStudent(studentID, SessionContext.Instance.LoginUser.Username);
-            var result= JsonConvert.DeserializeObject<List<StudentEntity>>(Studentdata);
+            try
+            {
+                var result = JsonConvert.DeserializeObject<List<StudentEntity>>(Studentdata);
 
+                foreach (var item in result)
+                {
+                    item.Transaction = GetTransactionData(Common.Enums.TransactionType.Update);
+                    var result1 = await _studentService.StudentTransferMaintenance(item);
+                    if (!result1.Status)
+                    {
+                        break;
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
             return Json(null);
         }
     }
