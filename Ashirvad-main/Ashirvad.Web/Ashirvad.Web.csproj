@@ -1488,6 +1488,7 @@
     <Content Include="Views\BranchSubject\_Export_BranchSubject.cshtml" />
     <Content Include="Views\OnlinePaymentList\Filter.cshtml" />
     <Content Include="Views\OnlinePaymentList\Manage.cshtml" />
+    <Content Include="Views\Home\PackageUsageDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

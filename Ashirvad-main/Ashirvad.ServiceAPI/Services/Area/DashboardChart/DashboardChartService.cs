@@ -2,6 +2,7 @@
 using Ashirvad.Data.Model;
 using Ashirvad.Logger;
 using Ashirvad.Repo.DataAcceessAPI.Area.DashboardChart;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.DashboardChart;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,13 @@ namespace Ashirvad.ServiceAPI.Services.Area.DashboardChart
             }
 
             return null;
+        }
+        public async Task<OperationResult<PackageUsageEntity>> GetPackageUsageDetailbyBranch(long branchId)
+        {
+            OperationResult<PackageUsageEntity> usageEntity = new OperationResult<PackageUsageEntity>();
+            usageEntity.Completed = true;
+            usageEntity.Data = await _chartcontext.GetPackageUsageDetailbyBranch(branchId);
+            return usageEntity;
         }
     }
 }

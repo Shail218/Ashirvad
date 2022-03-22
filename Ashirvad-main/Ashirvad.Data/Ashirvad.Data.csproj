@@ -113,6 +113,7 @@
     <Compile Include="OperationResult.cs" />
     <Compile Include="PackageEntity.cs" />
     <Compile Include="PackageRightEntity.cs" />
+    <Compile Include="PackageUsageEntity.cs" />
     <Compile Include="PageEntity.cs" />
     <Compile Include="PaperEntity.cs" />
     <Compile Include="PaymentEntity.cs" />
