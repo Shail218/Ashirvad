@@ -226,5 +226,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
 
             return false;
         }
+
+        public async Task<UserEntity> ValidateStudentData(string userName, string password)
+        {
+            try
+            {
+                return await this._userContext.ValidateStudentData(userName, password);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
     }
 }

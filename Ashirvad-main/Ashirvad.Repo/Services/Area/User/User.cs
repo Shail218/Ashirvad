@@ -176,6 +176,69 @@ namespace Ashirvad.Repo.Services.Area.User
             return user;
         }
 
+       public async Task<UserEntity> ValidateStudentData(string userName,string password)
+        {
+            var user = (from u in this.context.USER_DEF
+                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
+                        where u.username == userName && u.password == password && u.user_type == (int)Enums.UserType.Student && u.row_sta_cd == (int)Enums.RowStatus.Active
+                        select new UserEntity()
+                        {
+                            //ClientSecret = u.client_secret,
+                            ParentID = u.parent_id,
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            StaffID = u.staff_id,
+                            StudentID = u.student_id,
+                            UserID = u.user_id,
+                            Username = u.username,
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.branch_id,
+                                BranchName = b.branch_name,
+                                ContactNo = b.contact_no
+                            },
+                            UserType = u.user_type == 5 ? Enums.UserType.SuperAdmin : u.user_type == 1 ? Enums.UserType.Admin : u.user_type == 2 ? Enums.UserType.Student : u.user_type == 3 ? Enums.UserType.Parent : Enums.UserType.Staff
+                        }).FirstOrDefault();
+
+            if (user != null)
+            {
+                user.Roles = this.GetRolesByUser(user.UserID);
+                if (user.UserType == Enums.UserType.Student)
+                {
+                    Student.Student stu = new Student.Student();
+                    var studentData = await stu.GetStudentByID(user.StudentID.Value);
+                    user.StudentDetail = studentData;
+                }
+                 var z = (from u in this.context.USER_DEF
+                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
+                        where u.username == userName && u.user_type == (int)Enums.UserType.Student && u.row_sta_cd == (int)Enums.RowStatus.Active
+                        select new UserEntity()
+                        {
+                            StudentID = u.student_id,
+                            UserID = u.user_id,
+                            Username = u.username
+                        }).ToList();
+                if (z?.Count > 0)
+                {
+                    user.studentEntities = new List<StudentEntity>();
+                    foreach (var item in z)
+                    {
+                        Student.Student stu = new Student.Student();
+                        var studentData = await stu.GetStudentByID(item.StudentID.Value);
+                        user.studentEntities.Add(studentData);
+                    }
+                }
+            }
+            else
+            {
+                user = new UserEntity();
+            }
+            return user;
+        }
+
         public List<UserEntity> GetAllUsers(long branchID, List<int> userType)
         {
             bool noUserType = userType.Count == 0;

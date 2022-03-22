@@ -229,6 +229,38 @@ namespace Ashirvad.API.Controllers
             }
             return result;
         }
+          [Route("ValidateStudentData")]
+        [HttpGet]
+        public OperationResult<UserEntity> ValidateStudentData(string userName, string password,string fcmtoken)
+        {
+            var data = this._userService.ValidateStudentData(userName, password);
+            OperationResult<UserEntity> result = new OperationResult<UserEntity>();
+            if (data.Result.UserID == 0)
+            {
+                result.Completed = false;
+                result.Data = null;
+                result.Message = "Invalid Username Or Password !!";
+
+            }
+            else
+            {
+                var da = this._userService.UpdatefcmToken(data.Result, fcmtoken);
+                var isAggrement = this._userService.CheckAgreement(data.Result.BranchInfo.BranchID);
+                if (isAggrement.Result)
+                {
+                    result.Completed = true;
+                    result.Data = data.Result;
+                    result.Message = "Login Successfully!!";
+                }
+                else
+                {
+                    result.Completed = false;
+                    result.Data = data.Result;
+                    result.Message = "Your agreement has expired!!!";
+                }
+            }
+            return result;
+        }
 
         [Route("GetAllUsersddl")]
         [HttpGet]
