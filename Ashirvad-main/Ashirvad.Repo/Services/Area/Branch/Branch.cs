@@ -54,6 +54,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 branchMaster.email_id = branchInfo.EmailID;
                 branchMaster.mobile_no = branchInfo.MobileNo;
                 branchMaster.row_sta_cd = branchInfo.RowStatus.RowStatusId;
+                branchMaster.alias_name = branchInfo.aliasName;
                 branchMaster.trans_id = this.AddTransactionData(branchInfo.Transaction);
                 branchMaster.board_type = null;
 
@@ -102,6 +103,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             ContactNo = u.contact_no,
                             BranchType = u.branch_type,
                             MobileNo = u.mobile_no,
+                            aliasName = u.alias_name,
                             BranchMaint = new BranchMaint()
                             {
                                 BranchId = u.BRANCH_MAINT.branch_id,
@@ -141,7 +143,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             ContactNo = u.contact_no,
                             BranchType = u.branch_type,
                             MobileNo = u.mobile_no,
-                            Count=count,
+                            aliasName = u.alias_name,
+                            Count =count,
                             BranchMaint = new BranchMaint()
                             {
                                 BranchId = u.BRANCH_MAINT.branch_id,
@@ -179,6 +182,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             ContactNo = u.contact_no,
                             BranchType = u.branch_type,
                             MobileNo = u.mobile_no,
+                            aliasName = u.alias_name,
                             BranchMaint = new BranchMaint()
                             {
                                 BranchId = u.BRANCH_MAINT.branch_id,
@@ -212,6 +216,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             ContactNo = u.contact_no,
                             MobileNo = u.mobile_no,
                             BranchType = u.branch_type,
+                            aliasName = u.alias_name,
                             BranchMaint = new BranchMaint()
                             {
                                 BranchId = u.BRANCH_MAINT.branch_id,

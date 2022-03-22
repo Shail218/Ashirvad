@@ -65,6 +65,7 @@ namespace Ashirvad.Repo.Model
         public long trans_id { get; set; }
         public int branch_type { get; set; }
         public Nullable<int> board_type { get; set; }
+        public string alias_name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ABOUTUS_DETAIL_REL> ABOUTUS_DETAIL_REL { get; set; }

@@ -12,6 +12,7 @@ namespace Ashirvad.Repo.Services.Area.Student
 {
     public class Student : ModelAccess, IStudentAPI
     {
+        ResponseModel responseModel = new ResponseModel();
         public async Task<ResponseModel> CheckPackage(long BranchId)
         {
             ResponseModel response = new ResponseModel();

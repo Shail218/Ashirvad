@@ -162,6 +162,7 @@
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="branch_type" Type="int" Nullable="false" />
           <Property Name="board_type" Type="int" />
+          <Property Name="alias_name" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="BRANCH_RIGHTS_MASTER">
           <Key>
@@ -4283,6 +4284,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="PAYMENT_MASTER" Relationship="AshirvadModel.FK_PAYMENT_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PAYMENT_MASTER" />
           <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PACKAGE_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER" FromRole="BRANCH_MASTER" ToRole="TRANSACTION_MASTER" />
+          <Property Name="alias_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="BRANCH_STAFF">
           <Key>
@@ -6995,6 +6997,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <EntitySetMapping Name="BRANCH_MASTER">
             <EntityTypeMapping TypeName="AshirvadModel.BRANCH_MASTER">
               <MappingFragment StoreEntitySet="BRANCH_MASTER">
+                <ScalarProperty Name="alias_name" ColumnName="alias_name" />
                 <ScalarProperty Name="board_type" ColumnName="board_type" />
                 <ScalarProperty Name="branch_type" ColumnName="branch_type" />
                 <ScalarProperty Name="trans_id" ColumnName="trans_id" />

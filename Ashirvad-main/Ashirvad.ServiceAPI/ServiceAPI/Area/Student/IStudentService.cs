@@ -13,8 +13,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Student
         Task<ResponseModel> CheckPackage(long BranchId);
         Task<StudentEntity> StudentMaintenance(StudentEntity studentInfo);
         Task<ResponseModel> StudentTransferMaintenance(StudentEntity studentInfo);
-        Task<List<StudentEntity>> GetAllStudent(long branchID, string financialyear, int status = 0);
-        Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, string financialyear, int status =0);
         Task<List<StudentEntity>> GetAllStudent(long branchID, int status = 0);
         Task<List<StudentEntity>> GetAllStudentWithoutContent(long branchID, int status =0);
         bool RemoveStudent(long StudentID, string lastupdatedby);

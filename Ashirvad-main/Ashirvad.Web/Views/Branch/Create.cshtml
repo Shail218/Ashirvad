@@ -2,9 +2,15 @@
 <form id="fBranchDetail">
     <div class="form-group" id="dInformation">
         <div class="col-md-12">
-            @Html.Label("Branch Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.BranchName, new { @class = "form-control required", @alt = "Branch Name", autocomplete = "off" })
-            @Html.HiddenFor(x => x.BranchID)
+            <div class="col-md-6">
+                @Html.Label("Branch Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextBoxFor(x => x.BranchName, new { @class = "form-control required", @alt = "Branch Name", autocomplete = "off" })
+                @Html.HiddenFor(x => x.BranchID)
+            </div>
+            <div class="col-md-6">
+                @Html.Label("Alias Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextBoxFor(x => x.aliasName, new { @class = "form-control required", @alt = "Alias Name", autocomplete = "off" })
+            </div>
         </div>
 
         <div class="col-md-12" style="margin-bottom:10px;">

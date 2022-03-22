@@ -90,7 +90,8 @@ namespace Ashirvad.Repo.Services.Area.User
                             {
                                 BranchID = u.branch_id,
                                 BranchName = b.branch_name,
-                                ContactNo = b.contact_no
+                                ContactNo = b.contact_no,
+                                aliasName = b.alias_name
                             },
                             StaffDetail = new StaffEntity()
                             {
