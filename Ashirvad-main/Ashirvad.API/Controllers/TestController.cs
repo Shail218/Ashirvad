@@ -293,7 +293,7 @@ namespace Ashirvad.API.Controllers
                             string fileName;
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -384,7 +384,7 @@ namespace Ashirvad.API.Controllers
                         // for live server
                         //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
-                        string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
+                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                         var postedFile = httpRequest.Files[file];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(postedFile.FileName);
@@ -523,9 +523,9 @@ namespace Ashirvad.API.Controllers
 
                         string currentDir = AppDomain.CurrentDomain.BaseDirectory;
                         // for live server
-                        string UpdatedPath = currentDir.Replace("WEBAPIUAT", "UAT");
+                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                         // for local server
-                        //string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                        //string UpdatedPath = currentDir.Replace("Ashirvad.API", "wwwroot");
                         //Save the Zip File to MemoryStream.
                         string _Filepath1 = "ZipFiles/TestPaperDetails/" + randomfilename + ".zip";
                         var filePath = HttpContext.Current.Server.MapPath("~/ZipFiles/TestPaperDetails/" + randomfilename + ".zip");

@@ -90,6 +90,7 @@ namespace Ashirvad.Web.Controllers
             // action inside a standard controller
             List<string> columns = new List<string>();
             columns.Add("BranchName");
+            columns.Add("aliasName");
             columns.Add("");
             columns.Add("RowStatusText");
             foreach (var item in model.order)

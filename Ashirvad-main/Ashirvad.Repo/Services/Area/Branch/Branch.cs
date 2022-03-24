@@ -14,17 +14,17 @@ namespace Ashirvad.Repo.Services.Area.Branch
     public class Branch : ModelAccess, IBranchAPI
     {
 
-        public async Task<long> CheckBranch(int BranchID, string Branchname)
+        public async Task<long> CheckBranch(int BranchID, string aliasName)
         {
             long result;
-            bool isExists = this.context.BRANCH_MASTER.Where(s => (BranchID == 0 || s.branch_id != BranchID) && s.branch_name == Branchname && s.row_sta_cd == 1).FirstOrDefault() != null;
+            bool isExists = this.context.BRANCH_MASTER.Where(s => (BranchID == 0 || s.branch_id != BranchID) && s.alias_name == aliasName && s.row_sta_cd == 1).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
         public async Task<long> BranchMaintenance(BranchEntity branchInfo)
         {
             Model.BRANCH_MASTER branchMaster = new Model.BRANCH_MASTER();
-            if (CheckBranch((int)branchInfo.BranchID, branchInfo.BranchName).Result != -1)
+            if (CheckBranch((int)branchInfo.BranchID, branchInfo.aliasName).Result != -1)
             {
                 branchMaster.BRANCH_MAINT = new Model.BRANCH_MAINT();
                 bool isUpdate = true;

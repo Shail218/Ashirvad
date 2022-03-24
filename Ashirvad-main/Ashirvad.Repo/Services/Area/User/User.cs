@@ -221,6 +221,7 @@ namespace Ashirvad.Repo.Services.Area.User
                             UserID = u.user_id,
                             Username = u.username
                         }).ToList();
+                user.userEntities = z;
                 if (z?.Count > 0)
                 {
                     user.studentEntities = new List<StudentEntity>();

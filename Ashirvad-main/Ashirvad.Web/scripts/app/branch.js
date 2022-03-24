@@ -27,13 +27,14 @@ $(document).ready(function () {
         },
         "columns": [
             { "data": "BranchName" },
+            {"data":"aliasName"},
             { "data": "BranchMaint.FilePath" },
             { "data": "RowStatus.RowStatusText" },
             { "data": "BranchID" },
         ],
         "columnDefs": [
             {
-                targets: 1,
+                targets: 2,
                 render: function (data, type, full, meta) {
 
                     if (type === 'display') {
@@ -46,11 +47,11 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 2,                
+                targets: 3,                
                 orderable: false,                
             },
             {
-                targets: 3,
+                targets: 4,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =

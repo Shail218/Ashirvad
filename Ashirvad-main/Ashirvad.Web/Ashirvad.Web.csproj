@@ -257,6 +257,7 @@
     <Content Include="LibraryImage\empty_cart.png" />
     <Content Include="MarksImage\empty_cart.png" />
     <Content Include="PaperDocument\LQ46TVWRYB8LMM9CCD68.png" />
+    <Content Include="PaymentRegisterImage\LQ46TVWRYB8LMM9CCD68.png" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="scripts\app\aboutus.js" />
@@ -331,6 +332,8 @@
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="CircularFiles\9QGCR5DXJ2LJQYP54A9R.xls" />
+    <Content Include="Apps\MasterMindUAT_1.6.apk" />
+    <Content Include="Apps\MyGeniusUAT_1.4.apk" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
@@ -1175,6 +1178,7 @@
     <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\CircularController.cs" />
     <Compile Include="Controllers\ClassController.cs" />
+    <Compile Include="Controllers\CompetitionController.cs" />
     <Compile Include="Controllers\FacultyController.cs" />
     <Compile Include="Controllers\ForgotPasswordController.cs" />
     <Compile Include="Controllers\HomeworkByStudentController.cs" />
@@ -1489,6 +1493,9 @@
     <Content Include="Views\OnlinePaymentList\Filter.cshtml" />
     <Content Include="Views\OnlinePaymentList\Manage.cshtml" />
     <Content Include="Views\Home\PackageUsageDetail.cshtml" />
+    <Content Include="Views\Competition\Create.cshtml" />
+    <Content Include="Views\Competition\Index.cshtml" />
+    <Content Include="Views\Competition\Manage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1499,7 +1506,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="PaymentRegisterImage\" />
     <Folder Include="Views\Base\" />
     <Folder Include="ZipFiles\HomeworkDetails\" />
     <Folder Include="ZipFiles\TestPaperDetails\" />
