@@ -21,49 +21,75 @@ namespace Ashirvad.Repo.Services.Area.Standard
             return result;
         }
 
-        public async Task<long> StandardMaintenance(StandardEntity standardInfo)
+        public async Task<ResponseModel> StandardMaintenance(StandardEntity standardInfo)
         {
-            Model.STD_MASTER standardMaster = new Model.STD_MASTER();
-            if (CheckStandard(standardInfo.Standard, standardInfo.BranchInfo.BranchID,standardInfo.StandardID).Result != -1)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                bool isUpdate = true;
-                var data = (from standard in this.context.STD_MASTER
-                            where standard.std_id == standardInfo.StandardID
-                            select standard).FirstOrDefault();
-                if (data == null)
+                Model.STD_MASTER standardMaster = new Model.STD_MASTER();
+                if (CheckStandard(standardInfo.Standard, standardInfo.BranchInfo.BranchID, standardInfo.StandardID).Result != -1)
                 {
-                    standardMaster = new Model.STD_MASTER();
+                    bool isUpdate = true;
+                    var data = (from standard in this.context.STD_MASTER
+                                where standard.std_id == standardInfo.StandardID
+                                select standard).FirstOrDefault();
+                    if (data == null)
+                    {
+                        standardMaster = new Model.STD_MASTER();
 
-                    isUpdate = false;
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        standardMaster = data;
+                        standardInfo.Transaction.TransactionId = data.trans_id;
+                    }
+
+                    standardMaster.standard = standardInfo.Standard;
+                    standardMaster.branch_id = standardInfo.BranchInfo.BranchID;
+                    standardMaster.row_sta_cd = (int)standardInfo.RowStatus.RowStatus;
+                    standardMaster.class_dtl_id = standardInfo.Branchclass.Class_dtl_id == 0 ? (long?)null : standardInfo.Branchclass.Class_dtl_id;
+                    standardMaster.trans_id = standardInfo.Transaction.TransactionId;
+                    this.context.STD_MASTER.Add(standardMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(standardMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var da = this.context.SaveChanges() > 0 ? standardMaster.std_id : 0;
+                    if (da > 0)
+                    {
+                        standardInfo.StandardID = da;
+                        responseModel.Data = standardInfo;
+                        responseModel.Message = isUpdate == true ? "Standard Updated Successfully." : "Standard Inserted Successfully.";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate == true ? "Standard Not Updated." : "Standard Not Inserted.";
+                        responseModel.Status = false;
+                    }
+                    //return this.context.SaveChanges() > 0 ? standardMaster.std_id : 0;
                 }
                 else
                 {
-                    standardMaster = data;
-                    standardInfo.Transaction.TransactionId = data.trans_id;
+                    responseModel.Status = false;
+                    responseModel.Message = "Standard Already Exists.";
+                    //return -1;
                 }
-
-                standardMaster.standard = standardInfo.Standard;
-                standardMaster.branch_id = standardInfo.BranchInfo.BranchID;
-                standardMaster.row_sta_cd = (int)standardInfo.RowStatus.RowStatus;
-                standardMaster.class_dtl_id = standardInfo.Branchclass.Class_dtl_id == 0 ? (long?)null : standardInfo.Branchclass.Class_dtl_id;
-                standardMaster.trans_id = standardInfo.Transaction.TransactionId;
-                this.context.STD_MASTER.Add(standardMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(standardMaster).State = System.Data.Entity.EntityState.Modified;
-                }
-                return this.context.SaveChanges() > 0 ? standardMaster.std_id : 0;
             }
-            else
+            catch (Exception ex)
             {
-                return -1;
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
             }
+            return responseModel;
         }
 
         public async Task<List<StandardEntity>> GetAllStandards(long branchID)
         {
             var data = (from u in this.context.STD_MASTER
-                        .Include("CLASS_DTL_MASTER") orderby u.std_id descending
+                        .Include("CLASS_DTL_MASTER")
+                        orderby u.std_id descending
                         where (branchID == 0 || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new StandardEntity()
                         {
@@ -83,22 +109,22 @@ namespace Ashirvad.Repo.Services.Area.Standard
                         }).ToList();
 
             return data;
-        }       
+        }
 
         public async Task<List<StandardEntity>> GetAllStandardsName(long branchid)
         {
-            var data = (from u in this.context.CLASS_MASTER                       
+            var data = (from u in this.context.CLASS_MASTER
                         orderby u.class_id descending
                         where u.row_sta_cd == 1
                         select new StandardEntity()
-                        {                           
-                            Standard = u.class_name,                            
+                        {
+                            Standard = u.class_name,
                         }).Distinct().ToList();
 
             return data;
         }
 
-        public async Task<List<StandardEntity>> GetAllStandardsID(string standardname,long branchid)
+        public async Task<List<StandardEntity>> GetAllStandardsID(string standardname, long branchid)
         {
             var data = (from u in this.context.CLASS_DTL_MASTER
                         orderby u.class_dtl_id descending
@@ -132,20 +158,36 @@ namespace Ashirvad.Repo.Services.Area.Standard
             return data;
         }
 
-        public bool RemoveStandard(long StandardID, string lastupdatedby)
+        public ResponseModel RemoveStandard(long StandardID, string lastupdatedby)
         {
-            var data = (from u in this.context.STD_MASTER
-                        where u.std_id == StandardID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
-            }
 
-            return false;
+
+                var data = (from u in this.context.STD_MASTER
+                            where u.std_id == StandardID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "Standard Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "Standard Not Found";
+                    responseModel.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
         }
     }
 }

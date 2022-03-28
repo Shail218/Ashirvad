@@ -10,10 +10,10 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Reminder
 {
     public interface IReminderAPI 
     {
-        Task<long> ReminderMaintenance(ReminderEntity reminderInfo);
+        Task<ResponseModel> ReminderMaintenance(ReminderEntity reminderInfo);
         Task<List<ReminderEntity>> GetAllRemindersByBranch(long branchID, long userID);
         Task<ReminderEntity> GetReminderByID(long reminderID);
-        bool RemoveReminder(long reminderID, string lastupdatedby);
+        ResponseModel RemoveReminder(long reminderID, string lastupdatedby);
         Task<List<ReminderEntity>> GetAllCustomReminder(DataTableAjaxPostModel model, long branchID);
         Task<List<ReminderEntity>> GetAllReminderList(long branchid);
     }

@@ -27,18 +27,25 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
             this._branchContext = branchContext;
         }
 
-        public async Task<StaffEntity> StaffMaintenance(StaffEntity staffInfo)
+        public async Task<ResponseModel> StaffMaintenance(StaffEntity staffInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             StaffEntity staff = new StaffEntity();
             try
             {
                 bool isUpdate = staffInfo.StaffID > 0;
-                long staffID = await _staffContext.StaffMaintenance(staffInfo);
-                staff.StaffID = staffID;
-                if(staffID > 0)
+                responseModel = await _staffContext.StaffMaintenance(staffInfo);
+                if (responseModel.Status)
                 {
-                    var user = await _userContext.UserMaintenance(await this.GetUserData(staffInfo, staffID));
-                }                
+                    var da = (StaffEntity)responseModel.Data;
+                    long staffID = da.StaffID;
+                    staff.StaffID = staffID;
+                    if (staffID > 0)
+                    {
+                        var user = await _userContext.UserMaintenance(await this.GetUserData(staffInfo, staffID));
+                    }
+                }
+                             
                 //if (staffID > 0)
                 //{
                 //    staff.StaffID = staffID;
@@ -50,7 +57,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return staff;
+            return responseModel;
         }
 
         public async Task<StaffEntity> UpdateProfile(StaffEntity staffInfo)
@@ -110,8 +117,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
             return null;
         }
 
-        public bool RemoveStaff(long StaffID, string lastupdatedby)
+        public ResponseModel RemoveStaff(long StaffID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._staffContext.RemoveStaff(StaffID, lastupdatedby);
@@ -121,7 +129,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
         public async Task<List<StaffEntity>> GetAllCustomStaff(DataTableAjaxPostModel model, long branchID)

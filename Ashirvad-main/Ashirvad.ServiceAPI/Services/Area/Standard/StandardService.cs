@@ -17,19 +17,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.Standard
         {
             this._standardContext = standardContext;
         }
-        public async Task<StandardEntity> StandardMaintenance(StandardEntity standardInfo)
+        public async Task<ResponseModel> StandardMaintenance(StandardEntity standardInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             StandardEntity standard = new StandardEntity();
             try
             {
-                long StandardID = await _standardContext.StandardMaintenance(standardInfo);
-                standard.StandardID = StandardID;
+                //long StandardID = await _standardContext.StandardMaintenance(standardInfo);
+                responseModel = await _standardContext.StandardMaintenance(standardInfo);
+                //standard.StandardID = StandardID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-            return standard;
+            return responseModel;
         }
 
         public async Task<List<StandardEntity>> GetAllStandards(long branchID)
@@ -88,8 +90,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Standard
             return null;
         }
 
-        public bool RemoveStandard(long StandardID, string lastupdatedby)
+        public ResponseModel RemoveStandard(long StandardID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._standardContext.RemoveStandard(StandardID,lastupdatedby);
@@ -99,7 +102,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Standard
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
     }
 }

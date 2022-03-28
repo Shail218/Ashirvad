@@ -13,40 +13,61 @@ namespace Ashirvad.Repo.Services.Area.Reminder
 {
     public class Reminder : ModelAccess, IReminderAPI
     {
-        public async Task<long> ReminderMaintenance(ReminderEntity reminderInfo)
+        public async Task<ResponseModel> ReminderMaintenance(ReminderEntity reminderInfo)
         {
-            Model.REMINDER_MASTER reminderMaster = new Model.REMINDER_MASTER();
-            bool isUpdate = true;
-            var data = (from notif in this.context.REMINDER_MASTER
-                        where notif.reminder_id == reminderInfo.ReminderID
-                        select notif).FirstOrDefault();
-            if (data == null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data = new Model.REMINDER_MASTER();
-                isUpdate = false;
-            }
-            else
-            {
-                reminderMaster = data;
-                reminderInfo.Transaction.TransactionId = data.trans_id;
-            }
+                Model.REMINDER_MASTER reminderMaster = new Model.REMINDER_MASTER();
+                bool isUpdate = true;
+                var data = (from notif in this.context.REMINDER_MASTER
+                            where notif.reminder_id == reminderInfo.ReminderID
+                            select notif).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.REMINDER_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    reminderMaster = data;
+                    reminderInfo.Transaction.TransactionId = data.trans_id;
+                }
 
-            reminderMaster.row_sta_cd = reminderInfo.RowStatus.RowStatusId;
-            reminderMaster.trans_id = this.AddTransactionData(reminderInfo.Transaction);
-            reminderMaster.branch_id = reminderInfo.BranchInfo.BranchID;
-            reminderMaster.reminder_desc = reminderInfo.ReminderDesc;
-            reminderMaster.reminder_dt = reminderInfo.ReminderDate;
-            reminderMaster.reminder_time = reminderInfo.ReminderTime;
-            reminderMaster.user_id = reminderInfo.UserID;
-            if (!isUpdate)
-            {
-                this.context.REMINDER_MASTER.Add(reminderMaster);
-            }
+                reminderMaster.row_sta_cd = reminderInfo.RowStatus.RowStatusId;
+                reminderMaster.trans_id = this.AddTransactionData(reminderInfo.Transaction);
+                reminderMaster.branch_id = reminderInfo.BranchInfo.BranchID;
+                reminderMaster.reminder_desc = reminderInfo.ReminderDesc;
+                reminderMaster.reminder_dt = reminderInfo.ReminderDate;
+                reminderMaster.reminder_time = reminderInfo.ReminderTime;
+                reminderMaster.user_id = reminderInfo.UserID;
+                if (!isUpdate)
+                {
+                    this.context.REMINDER_MASTER.Add(reminderMaster);
+                }
 
-            var reminderID = this.context.SaveChanges() > 0 ? reminderMaster.reminder_id : 0;
-            return reminderID;
+                var da = this.context.SaveChanges() > 0 ? reminderMaster.reminder_id : 0;
+                if (da > 0)
+                {
+                    reminderInfo.ReminderID = da;
+                    responseModel.Data = reminderInfo;
+                    responseModel.Message = isUpdate == true ? "Reminder Updated Successfully." : "Reminder Inserted Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = isUpdate == true ? "Reminder Not Updated." : "Reminder Not Inserted.";
+                    responseModel.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
         }
-        
+
         public async Task<List<ReminderEntity>> GetAllRemindersByBranch(long branchID, long userID)
         {
             var data = (from u in this.context.REMINDER_MASTER.Include("BRANCH_MASTER")
@@ -159,20 +180,36 @@ namespace Ashirvad.Repo.Services.Area.Reminder
             return data;
         }
 
-        public bool RemoveReminder(long reminderID, string lastupdatedby)
+        public ResponseModel RemoveReminder(long reminderID, string lastupdatedby)
         {
-            var data = (from u in this.context.REMINDER_MASTER
-                        where u.reminder_id == reminderID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.REMINDER_MASTER
+                            where u.reminder_id == reminderID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "Reminder Removed Successfully.";
+                    responseModel.Status = true;
+                    //return true;
+                }
+                else
+                {
+                    responseModel.Message = "Reminder Not Found";
+                    responseModel.Status = false;
+                }
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+            
         }
     }
 }

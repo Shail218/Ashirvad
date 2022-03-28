@@ -9,9 +9,9 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Standard
 {
     public interface IStandardAPI
     {
-        Task<long> StandardMaintenance(StandardEntity standardInfo);
+        Task<ResponseModel> StandardMaintenance(StandardEntity standardInfo);
         Task<List<StandardEntity>> GetAllStandards(long branchID);
-        bool RemoveStandard(long StandardID, string lastupdatedby);
+        ResponseModel RemoveStandard(long StandardID, string lastupdatedby);
         Task<StandardEntity> GetStandardsByID(long standardID);
         Task<List<StandardEntity>> GetAllStandardsName(long branchid);
         Task<List<StandardEntity>> GetAllStandardsID(string standardname, long branchid);

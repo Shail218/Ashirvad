@@ -29,38 +29,46 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             this._branchContext = branchContext;
             this._userContext = userContext;
         }
-        public async Task<StudentEntity> StudentMaintenance(StudentEntity studentInfo)
+        public async Task<ResponseModel> StudentMaintenance(StudentEntity studentInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             StudentEntity student = new StudentEntity();
             try
             {
-                long studentID = await _studentContext.StudentMaintenance(studentInfo);
-                if (studentID > 0)
+                //long studentID = await _studentContext.StudentMaintenance(studentInfo);
+                responseModel = await _studentContext.StudentMaintenance(studentInfo);
+                if (responseModel.Status)
                 {
-                    student.StudentID = studentID;
-                    var info = await _studentContext.GetStudentByID(studentID);
-                    if (info != null)
+                    var da = (StudentEntity)responseModel.Data;
+                    long studentID = da.StudentID;
+                    if (studentID > 0)
                     {
-                        studentInfo.StudentID = info.StudentID;
-                        studentInfo.UserID = info.UserID;
-                        studentInfo.StudentPassword2 = info.StudentPassword2;
-                        studentInfo.StudentMaint.UserID = info.StudentMaint.UserID;
-                        studentInfo.StudentMaint.ParentID = 0;
-                        var user = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, studentID, Enums.UserType.Student));
-                        studentInfo.StudentMaint.ParentID = info.StudentMaint.ParentID;
-                        studentInfo.StudentPassword2 = info.StudentPassword2;
-                        //studentInfo.StudentPassword2 = info.StudentMaint.ParentPassword2;
-                        long parentId = info.StudentMaint.ParentID;
-                        var user2 = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, parentId, Enums.UserType.Parent));
+                        student.StudentID = studentID;
+                        var info = await _studentContext.GetStudentByID(studentID);
+                        if (info != null)
+                        {
+                            studentInfo.StudentID = info.StudentID;
+                            studentInfo.UserID = info.UserID;
+                            studentInfo.StudentPassword2 = info.StudentPassword2;
+                            studentInfo.StudentMaint.UserID = info.StudentMaint.UserID;
+                            studentInfo.StudentMaint.ParentID = 0;
+                            var user = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, studentID, Enums.UserType.Student));
+                            studentInfo.StudentMaint.ParentID = info.StudentMaint.ParentID;
+                            studentInfo.StudentPassword2 = info.StudentPassword2;
+                            //studentInfo.StudentPassword2 = info.StudentMaint.ParentPassword2;
+                            long parentId = info.StudentMaint.ParentID;
+                            var user2 = await _userContext.UserMaintenance(await this.GetUserData(studentInfo, parentId, Enums.UserType.Parent));
+                        }
                     }
-                }
+                } 
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return student;
+            //return student;
+            return responseModel;
         }
         public async Task<ResponseModel> CheckPackage(long BranchId)
         {
@@ -170,8 +178,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             return null;
         }
 
-        public bool RemoveStudent(long StudentID, string lastupdatedby)
+        public ResponseModel RemoveStudent(long StudentID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._studentContext.RemoveStudent(StudentID, lastupdatedby);
@@ -181,7 +190,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
         public async Task<StudentEntity> GetStudentByID(long studenID)
