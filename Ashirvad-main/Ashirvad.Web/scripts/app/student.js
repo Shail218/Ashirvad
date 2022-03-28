@@ -21,7 +21,7 @@ $(document).ready(function () {
     });
 
     if ($("#RowStatus_RowStatusId").val() != "") {
-        
+
         var rowStatus = $("#RowStatus_RowStatusId").val();
         if (rowStatus == "1") {
             $("#rowStaActive").attr('checked', 'checked');
@@ -30,7 +30,7 @@ $(document).ready(function () {
             $("#rowStaInactive").attr('checked', 'checked');
         }
     }
-    
+
     if ($("#LastYearResult").val() != "") {
 
         var rowStatus = $("#LastYearResult").val();
@@ -83,12 +83,11 @@ function LoadCount() {
     var postCall = $.post(commonData.Student + "getcount");
     postCall.done(function (response) {
         HideLoader();
-        if (!response.Status)
-        {
+        if (!response.Status) {
             ShowMessage(response.Message, "Error");
             $("#savebtn").html("");
         }
-        
+
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
@@ -113,7 +112,7 @@ function LoadBranch(onLoaded) {
 }
 
 function LoadSchoolName(branchID) {
-    var postCall = $.post(commonData.School + "SchoolData", { "branchID": branchID});
+    var postCall = $.post(commonData.School + "SchoolData", { "branchID": branchID });
     postCall.done(function (data) {
         $('#SchoolName').empty();
         $('#SchoolName').select2();
@@ -145,7 +144,7 @@ function LoadCourse() {
                     $('#BranchCourse_course_dtl_id').val(data[i].course_dtl_id);
                 } else {
                     $("#CourseName").append("<option value='" + data[i].course_dtl_id + "'>" + data[i].course.CourseName + "</option>");
-                }         
+                }
             }
         }
 
@@ -174,7 +173,7 @@ function LoadClass(CourseID) {
                     $('#BranchClass_Class_dtl_id').val(data[i].Class_dtl_id);
                 } else {
                     $("#StandardName").append("<option value='" + data[i].Class_dtl_id + "'>" + data[i].Class.ClassName + "</option>");
-                }               
+                }
             }
         }
 
@@ -191,9 +190,9 @@ function SaveStudent() {
     var id = $("#StudentID").val();
     if (id > 0) {
         $("#StudentPassword1").removeClass('required');
-      
+
         $("#ParentPassword1").removeClass('required');
-       
+
     }
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
@@ -214,12 +213,22 @@ function SaveStudent() {
             formData.append('ImageFile', $('input[type=file]')[0].files[0]);
         }
         AjaxCallWithFileUpload(commonData.Student + 'SaveStudent', formData, function (data) {
-            HideLoader();
-            ShowMessage("Student added Successfully.", "Success");
-            window.location.href = "StudentMaintenance?studentID=0";
+            if (data) {
+                HideLoader();
+                if (data.Success) {
+                    ShowMessage(data.Message, 'Success');
+                    window.location.href = "StudentMaintenance?studentID=0";
+                } else {
+                    ShowMessage(data.Message, 'Error');
+                }
+            }
+            else {
+                HideLoader();
+                ShowMessage("An unexpected error occcurred while processing request!", "Error");
+            }
         }).fail(function () {
             HideLoader();
-            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+            //ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }
 }
@@ -236,16 +245,23 @@ function getCurrentFinancialYear() {
 }
 
 function RemoveStudent(studentID) {
-    ShowLoader();
-    var postCall = $.post(commonData.Student + "RemoveStudent", { "studentID": studentID });
-    postCall.done(function (data) {
-        HideLoader();
-        ShowMessage("Student Removed Successfully.", "Success");
-        window.location.href = "StudentMaintenance?studentID=0";
-    }).fail(function () {
-        HideLoader();
-        ShowMessage("An unexpected error occcurred while processing request!", "Error");
-    });
+    if (confirm('Are you sure want to delete this Student?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.Student + "RemoveStudent", { "studentID": studentID });
+        postCall.done(function (data) {
+            HideLoader();
+            if (data.Success) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "StudentMaintenance?studentID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+            
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
 }
 
 $("#BranchName").change(function () {
@@ -276,7 +292,7 @@ $("#SchoolTimeDDL").change(function () {
     $('#SchoolTime').val(Data);
 });
 
-$("#BatchTime").change(function () {    
+$("#BatchTime").change(function () {
     var Data = $("#BatchTime option:selected").val();
     $('#BatchInfo_BatchType').val(Data);
 });
@@ -285,7 +301,7 @@ $("#fuStudentImage").change(function () {
     readURL(this);
 });
 
-$('input[type=radio][name=Status]').change(function () {   
+$('input[type=radio][name=Status]').change(function () {
     if (this.value == '1') {
         $("#RowStatus_RowStatusId").val(1);
     }
@@ -294,7 +310,7 @@ $('input[type=radio][name=Status]').change(function () {
     }
 });
 
-$('input[type=radio][name=rdbResultofLastYear]').change(function () {   
+$('input[type=radio][name=rdbResultofLastYear]').change(function () {
     if (this.value == '1') {
         $("#LastYearResult").val(1);
     }
@@ -312,7 +328,7 @@ function readURL(input) {
         var reader = new FileReader();
         reader.readAsDataURL(input.files[0]);
         reader.onload = function (e) {
-            
+
             $('#imgStud').attr('src', e.target.result);
             var bas = reader.result;
             var PANtUploadval = bas;

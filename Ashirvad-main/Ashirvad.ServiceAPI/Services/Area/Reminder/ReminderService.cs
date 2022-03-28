@@ -19,23 +19,31 @@ namespace Ashirvad.ServiceAPI.Services.Area.Reminder
             this._reminderContext = reminderContext;
         }
 
-        public async Task<ReminderEntity> ReminderMaintenance(ReminderEntity reminderInfo)
+        public async Task<ResponseModel> ReminderMaintenance(ReminderEntity reminderInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             ReminderEntity notif = new ReminderEntity();
             try
             {
-                long reminderID = await _reminderContext.ReminderMaintenance(reminderInfo);
-                if (reminderID > 0)
-                {
-                    notif.ReminderID = reminderID;
-                }
+                //long reminderID = await _reminderContext.ReminderMaintenance(reminderInfo);
+                responseModel = await _reminderContext.ReminderMaintenance(reminderInfo);
+                //if (responseModel.Status)
+                //{
+                //    var da = (ReminderEntity)responseModel.Data;
+                //    long reminderID = da.ReminderID;
+                //    if (reminderID > 0)
+                //    {
+                //        notif.ReminderID = reminderID;
+                //    }
+                //}               
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return notif;
+            //return notif;
+            return responseModel;
         }
 
         public async Task<OperationResult<List<ReminderEntity>>> GetAllReminderByBranch(long branchID, long userID = 0)
@@ -100,8 +108,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Reminder
             return null;
         }
 
-        public bool RemoveReminder(long reminderID, string lastupdatedby)
+        public ResponseModel RemoveReminder(long reminderID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._reminderContext.RemoveReminder(reminderID, lastupdatedby);
@@ -111,7 +120,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Reminder
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
     }
 }

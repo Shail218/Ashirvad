@@ -20,22 +20,23 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             _testContext = testContext;
         }
 
-        public async Task<TestEntity> TestMaintenance(TestEntity testInfo)
+        public async Task<ResponseModel> TestMaintenance(TestEntity testInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             TestEntity paper = new TestEntity();
             try
             {
-                var data = await _testContext.TestMaintenance(testInfo);
-                paper = testInfo;
-                paper.TestID = data;
-                return paper;
+                responseModel = await _testContext.TestMaintenance(testInfo);
+                //paper = testInfo;
+                //paper.TestID = data;
+                //return paper;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return paper;
+            return responseModel;
         }
 
         public async Task<OperationResult<List<TestEntity>>> GetAllTestByBranch(long branchID)
@@ -137,8 +138,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public bool RemoveTest(long testID, string lastupdatedby, bool removePaper = false)
+        public ResponseModel RemoveTest(long testID, string lastupdatedby, bool removePaper = false)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._testContext.RemoveTest(testID, lastupdatedby, removePaper);
@@ -148,27 +150,29 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
-        public async Task<TestPaperEntity> TestPaperMaintenance(TestPaperEntity paperInfo)
+        public async Task<ResponseModel> TestPaperMaintenance(TestPaperEntity paperInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             TestPaperEntity paper = new TestPaperEntity();
             try
             {
-                long TestID = await _testContext.TestPaperMaintenance(paperInfo);
-                if (TestID > 0)
-                {
-                    paper = paperInfo;
-                    paper.TestID = TestID;
-                }              
+                responseModel = await _testContext.TestPaperMaintenance(paperInfo);
+                //long TestID = await _testContext.TestPaperMaintenance(paperInfo);
+                //if (TestID > 0)
+                //{
+                //    paper = paperInfo;
+                //    paper.TestID = TestID;
+                //}              
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return paper;
+            return responseModel;
         }
 
 
@@ -274,6 +278,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
 
             return null;
         }
+
         public async Task<List<TestEntity>> GetTestPaperChecking(long paperID)
         {
             try
@@ -289,29 +294,41 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public bool RemoveTestPaper(long paperID, string lastupdatedby)
+        public ResponseModel RemoveTestPaper(long paperID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
-                var data = _testContext.RemoveTestPaper(paperID, lastupdatedby);
-                return data;
+                responseModel = _testContext.RemoveTestPaper(paperID, lastupdatedby);
+                //var data = _testContext.RemoveTestPaper(paperID, lastupdatedby);
+                //return data;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
-        public bool RemoveTestAndPaper(long testID, string lastUpdatedBy)
+        public ResponseModel RemoveTestAndPaper(long testID, string lastUpdatedBy)
         {
-            return this.RemoveTest(testID, lastUpdatedBy, true);
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                responseModel = this.RemoveTest(testID, lastUpdatedBy, true);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return responseModel;
         }
 
         #region - Student Answer Sheet - 
-        public async Task<StudentAnswerSheetEntity> StudentAnswerSheetMaintenance(StudentAnswerSheetEntity ansSheetInfo)
+        public async Task<ResponseModel> StudentAnswerSheetMaintenance(StudentAnswerSheetEntity ansSheetInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             StudentAnswerSheetEntity paper = new StudentAnswerSheetEntity();
             try
             {
@@ -325,7 +342,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
                 //    ansSheetInfo.AnswerSheetContent = Convert.FromBase64String(ansSheetInfo.AnswerSheetContentText);
                 //}
 
-                var data = await _testContext.AnswerSheetMaintenance(ansSheetInfo);
+                responseModel = await _testContext.AnswerSheetMaintenance(ansSheetInfo);
 
                 //if (data > 0)
                 //{
@@ -335,23 +352,25 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
                 //    }
                 //}
 
-                paper = ansSheetInfo;
-                paper.AnsSheetID = data;
-                return paper;
+                // //paper = ansSheetInfo;
+               // //paper.AnsSheetID = data;
+               // //return paper;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return paper;
+            return responseModel;
         }
 
         public async Task<List<StudentAnswerSheetEntity>> BulkStudentAnswerSheetMaintenance(List<StudentAnswerSheetEntity> ansSheetInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             List<StudentAnswerSheetEntity> successStudents = new List<StudentAnswerSheetEntity>();
             foreach (var item in ansSheetInfo)
             {
+                
                 StudentAnswerSheetEntity paper = new StudentAnswerSheetEntity();
                 try
                 {
@@ -365,19 +384,27 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
                         item.AnswerSheetContent = Convert.FromBase64String(item.AnswerSheetContentText);
                     }
 
-
-                    var data = await _testContext.AnswerSheetMaintenance(item);
-                    if (data > 0)
+                    responseModel = await _testContext.AnswerSheetMaintenance(item);
+                    //var data = await _testContext.AnswerSheetMaintenance(item);
+                    if (responseModel.Status)
                     {
-                        if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
+                        var da = (StudentAnswerSheetEntity)responseModel.Data;
+                        long data = da.AnsSheetID;
+                        if (data > 0)
                         {
-                            Common.Common.SaveFile(item.AnswerSheetContent, item.AnswerSheetName, "StudentAnswerSheet\\");
-                        }
-                    }
+                            if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
+                            {
+                                Common.Common.SaveFile(item.AnswerSheetContent, item.AnswerSheetName, "StudentAnswerSheet\\");
+                            }
 
-                    paper = item;
-                    paper.AnsSheetID = data;
-                    successStudents.Add(paper);
+                        }
+                      
+
+                        paper = item;
+                        paper.AnsSheetID = data;
+                        successStudents.Add(paper);
+                    }
+                   
                 }
                 catch (Exception ex)
                 {
@@ -386,6 +413,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
 
             }
             return successStudents;
+            //return successStudents;
         }
 
 
@@ -447,38 +475,40 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public bool RemoveAnswerSheet(long ansID, string lastupdatedby)
+        public ResponseModel RemoveAnswerSheet(long ansID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
-                var data = _testContext.RemoveAnswerSheet(ansID, lastupdatedby);
-                return data;
+                responseModel = _testContext.RemoveAnswerSheet(ansID, lastupdatedby);
+                //return data;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-
-            return false;
+            return responseModel;
+            //return false;
         }
 
         #endregion
 
-        public async Task<TestDetailEntity> TestdetailMaintenance(TestDetailEntity TestDetail)
+        public async Task<ResponseModel> TestdetailMaintenance(TestDetailEntity TestDetail)
         {
+            ResponseModel responseModel = new ResponseModel();
             TestDetailEntity TestDetailEntity = new TestDetailEntity();
             try
             {
-                var data = await _testContext.TestMaintenance(TestDetail);
-                TestDetailEntity.TestDetailID = data;
-                return TestDetailEntity;
+                responseModel = await _testContext.TestMaintenance(TestDetail);
+                //TestDetailEntity.TestDetailID = data;
+                //return TestDetailEntity;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return TestDetailEntity;
+            return responseModel;
         }
 
         public async Task<TestEntity> GetTestDetails(long testID,long SubjectID)
@@ -498,19 +528,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public bool RemoveTestAnswerSheetdetail(long TestID, long studid)
+        public ResponseModel RemoveTestAnswerSheetdetail(long TestID, long studid)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
-                var data = _testContext.RemoveTestAnswerSheetdetail(TestID, studid);
-                return data;
+                responseModel = _testContext.RemoveTestAnswerSheetdetail(TestID, studid);
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
         public async Task<List<StudentAnswerSheetEntity>> GetAnswerSheetdata(long testID)
         {

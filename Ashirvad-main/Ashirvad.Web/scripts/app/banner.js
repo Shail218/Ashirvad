@@ -185,6 +185,7 @@ function SaveBanner() {
 }
 
 function RemoveBanner(branchID) {
+
     if (confirm('Are you sure want to delete this Banner?')) {
         ShowLoader();
         var postCall = $.post(commonData.Banner + "RemoveBanner", { "bannerID": branchID });

@@ -9,11 +9,9 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.UPI
 {
     public interface IUPIService
     {
-        Task<UPIEntity> UPIMaintenance(UPIEntity upiInfo);
-
+        Task<ResponseModel> UPIMaintenance(UPIEntity upiInfo);
         Task<OperationResult<List<UPIEntity>>> GetAllUPIs(long branchID);
-
         Task<OperationResult<UPIEntity>> GetUPIByUPIID(long upiID);
-        bool RemoveUPI(long upiID, string lastupdatedby);
+        ResponseModel RemoveUPI(long upiID, string lastupdatedby);
     }
 }

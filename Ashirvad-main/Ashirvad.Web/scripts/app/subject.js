@@ -69,8 +69,13 @@ function RemoveSubject(subjectID) {
         var postCall = $.post(commonData.Subject + "RemoveSubject", { "subjectID": subjectID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Subject Removed Successfully.", "Success");
-            window.location.href = "SubjectMaintenance?branchID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "SubjectMaintenance?branchID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+            
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

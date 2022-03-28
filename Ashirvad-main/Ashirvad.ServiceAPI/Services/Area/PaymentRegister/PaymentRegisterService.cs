@@ -19,21 +19,22 @@ namespace Ashirvad.ServiceAPI.Services.Area.PaymentRegister
             _paymentContext = paymentContext;
         }
 
-        public async Task<PaymentRegisterEntity> PaymentRegisterMaintenance(PaymentRegisterEntity entity)
+        public async Task<ResponseModel> PaymentRegisterMaintenance(PaymentRegisterEntity entity)
         {
+            ResponseModel responseModel = new ResponseModel();
             PaymentRegisterEntity paymententity = new PaymentRegisterEntity();
             try
             {
-                var data = await _paymentContext.PaymentRegisterMaintenance(entity);
-                paymententity.payment_id = data;
-                return paymententity;
+                responseModel = await _paymentContext.PaymentRegisterMaintenance(entity);
+                //paymententity.payment_id = data;
+                //return paymententity;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return paymententity;
+            return responseModel;
         }
         public async Task<ResponseModel> UpdatePaymentRegisterbyAdmin(PaymentRegisterEntity entity)
         {

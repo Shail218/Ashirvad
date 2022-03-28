@@ -9,11 +9,11 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Subject
 {
     public interface ISubjectAPI
     {
-        Task<long> SubjectMaintenance(SubjectEntity subjectInfo);
+        Task<ResponseModel> SubjectMaintenance(SubjectEntity subjectInfo);
         Task<List<SubjectEntity>> GetAllSubjects(long branchID);
         Task<List<SubjectEntity>> GetAllSubjectsName(long branchid);
         Task<List<SubjectEntity>> GetAllSubjectsID(string subjectName, long branchid);
-        bool RemoveSubject(long SubjectID, string lastupdatedby);
+        ResponseModel RemoveSubject(long SubjectID, string lastupdatedby);
         Task<List<SubjectEntity>> GetAllSubjects();
         Task<SubjectEntity> GetSubjectByID(long subjectID);
         Task<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate);

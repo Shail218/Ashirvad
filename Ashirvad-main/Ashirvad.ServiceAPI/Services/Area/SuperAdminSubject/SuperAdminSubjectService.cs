@@ -20,20 +20,22 @@ namespace Ashirvad.ServiceAPI.Services.Area.SuperAdminSubject
             this._subjectService = subjectService;
         }
 
-        public async Task<SuperAdminSubjectEntity> SubjectMaintenance(SuperAdminSubjectEntity subjectEntity)
+        public async Task<ResponseModel> SubjectMaintenance(SuperAdminSubjectEntity subjectEntity)
         {
+            ResponseModel responseModel = new ResponseModel();
             SuperAdminSubjectEntity cl = new SuperAdminSubjectEntity();
             try
             {
-                long subjectID = await _subjectService.SubjectMaintenance(subjectEntity);
-                cl.SubjectID = subjectID;
+                responseModel = await _subjectService.SubjectMaintenance(subjectEntity);
+                //long subjectID = await _subjectService.SubjectMaintenance(subjectEntity);
+                //cl.SubjectID = subjectID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return cl;
+            return responseModel;
         }
 
         public async Task<OperationResult<SuperAdminSubjectEntity>> GetSubjectBySubjectID(long subjectID)
@@ -104,18 +106,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.SuperAdminSubject
             return null;
         }
 
-        public bool RemoveSubject(long subjectID, string lastupdatedby)
+        public ResponseModel RemoveSubject(long subjectID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
-            {
-                return this._subjectService.RemoveSubject(subjectID, lastupdatedby);
+            { 
+                responseModel = this._subjectService.RemoveSubject(subjectID, lastupdatedby);
+                //return this._subjectService.RemoveSubject(subjectID, lastupdatedby);
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
         public async Task<List<BranchSubjectEntity>> GetAllSubjectByCourseClassddl(long courseid, long classid, bool Isupdate = false)

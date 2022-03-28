@@ -38,13 +38,19 @@ function SaveUPI() {
         ShowLoader();
         var postCall = $.post(commonData.UPI + "SaveUPI", $('#fUPIDetail').serialize());
         postCall.done(function (data) {
-            if (data.UPIId >= 0) {
+            if (data) {
+                if (data.Status) {
+                    HideLoader();
+                    ShowMessage(data.Message, "Success");
+                    setTimeout(function () { window.location.href = "UPIMaintenance?upiID=0"; }, 2000);
+                } else {
+                    HideLoader();
+                    ShowMessage(data.Message, "Error");
+                }
+            }
+            else {
                 HideLoader();
-                ShowMessage("UPI ID Inserted Successfully.", "Success");
-                setTimeout(function () { window.location.href = "UPIMaintenance?upiID=0"; }, 2000);
-            } else {
-                HideLoader();
-                ShowMessage("UPI ID Already exists!!", "Error");
+                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
         }).fail(function () {
             HideLoader();
@@ -58,9 +64,13 @@ function RemoveUPI(upiID) {
         ShowLoader();
         var postCall = $.post(commonData.UPI + "RemoveUPI", { "upiID": upiID });
         postCall.done(function (data) {
-            HideLoader();
-            ShowMessage("UPI ID Removed Successfully.", "Success");
-            window.location.href = "UPIMaintenance?upiID=0";
+            if (data.Status) {
+                HideLoader();
+                ShowMessage(data.Message, "Success");
+                window.location.href = "UPIMaintenance?upiID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

@@ -13,42 +13,65 @@ namespace Ashirvad.Repo.Services.Area.ToDo
 {
     public class ToDo : ModelAccess, IToDoAPI
     {
-        public async Task<long> ToDoMaintenance(ToDoEntity todoInfo)
+        public async Task<ResponseModel> ToDoMaintenance(ToDoEntity todoInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.TODO_MASTER todo = new Model.TODO_MASTER();
             bool isUpdate = true;
-            var data = (from t in this.context.TODO_MASTER
-                        where t.todo_id == todoInfo.ToDoID
-                        select t).FirstOrDefault();
-            if (data == null)
+            try
             {
-                data = new Model.TODO_MASTER();
-                isUpdate = false;
+                var data = (from t in this.context.TODO_MASTER
+                            where t.todo_id == todoInfo.ToDoID
+                            select t).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.TODO_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    todo = data;
+                    todoInfo.Transaction.TransactionId = data.trans_id;
+                }
+
+                todo.row_sta_cd = todoInfo.RowStatus.RowStatusId;
+                todo.trans_id = this.AddTransactionData(todoInfo.Transaction);
+                todo.branch_id = todoInfo.BranchInfo.BranchID;
+                todo.reg_status = todoInfo.Registerstatus;
+                todo.remark = todoInfo.Remark;
+                todo.branch_id = todoInfo.BranchInfo.BranchID;
+                todo.todo_desc = todoInfo.ToDoDescription;
+                todo.todo_doc_name = todoInfo.ToDoFileName;
+                todo.file_path = todoInfo.FilePath;
+                todo.todo_dt = todoInfo.ToDoDate;
+                todo.user_id = todoInfo.UserInfo.UserID;
+                this.context.TODO_MASTER.Add(todo);
+                if (isUpdate)
+                {
+                    this.context.Entry(todo).State = System.Data.Entity.EntityState.Modified;
+                }
+                var da = this.context.SaveChanges() > 0 ? todo.todo_id : 0;
+                if (da > 0)
+                {
+                    todoInfo.ToDoID = da;
+                    responseModel.Data = todoInfo;
+                    responseModel.Message = isUpdate == true ? "ToDoList Updated Successfully." : "ToDoList Inserted Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = isUpdate == true ? "ToDoList Not Updated." : "ToDoList Not Inserted.";
+                    responseModel.Status = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                todo = data;
-                todoInfo.Transaction.TransactionId = data.trans_id;
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
 
-            todo.row_sta_cd = todoInfo.RowStatus.RowStatusId;
-            todo.trans_id = this.AddTransactionData(todoInfo.Transaction);
-            todo.branch_id = todoInfo.BranchInfo.BranchID;
-            todo.reg_status = todoInfo.Registerstatus;
-            todo.remark = todoInfo.Remark;
-            todo.branch_id = todoInfo.BranchInfo.BranchID;
-            todo.todo_desc = todoInfo.ToDoDescription;
-            todo.todo_doc_name = todoInfo.ToDoFileName;
-            todo.file_path = todoInfo.FilePath;
-            todo.todo_dt = todoInfo.ToDoDate;
-            todo.user_id = todoInfo.UserInfo.UserID;
-            this.context.TODO_MASTER.Add(todo);
-            if (isUpdate)
-            {
-                this.context.Entry(todo).State = System.Data.Entity.EntityState.Modified;
-            }
+            return responseModel;
 
-            return this.context.SaveChanges() > 0 ? todo.todo_id : 0;
         }
 
         public async Task<List<ToDoEntity>> GetAllToDoByBranch(long branchID, long userID)
@@ -244,22 +267,36 @@ namespace Ashirvad.Repo.Services.Area.ToDo
             return data;
         }
 
-
-
-        public bool RemoveToDo(long todoID, string lastupdatedby)
+        public ResponseModel RemoveToDo(long todoID, string lastupdatedby)
         {
-            var data = (from u in this.context.TODO_MASTER
-                        where u.todo_id == todoID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.TODO_MASTER
+                            where u.todo_id == todoID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "ToDoList Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "TodoList Not Found.";
+                    responseModel.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
 
-            return false;
+
+            return responseModel;
         }
     }
 }

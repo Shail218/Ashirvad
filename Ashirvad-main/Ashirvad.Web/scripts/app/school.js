@@ -110,8 +110,9 @@ function SaveSchool() {
         ShowLoader();
         var postCall = $.post(commonData.School + "SaveSchool", $('#fSchoolDetail').serialize());
         postCall.done(function (data) {
-           
-            if (data.Status == true) {
+            HideLoader();
+            if (data.Status) {
+             //   HideLoader();
                 ShowMessage(data.Message, "Success");
                 setTimeout(function () { window.location.href = "SchoolMaintenance?branchID=0"; }, 2000);
             } else {
@@ -131,8 +132,12 @@ function RemoveSchool(schoolID) {
         var postCall = $.post(commonData.School + "RemoveSchool", { "branchID": schoolID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("School Removed Successfully.", "Success");
-            window.location.href = "SchoolMaintenance?branchID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "SchoolMaintenance?branchID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }           
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

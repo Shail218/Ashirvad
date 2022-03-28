@@ -9,14 +9,14 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.User
 {
     public interface IUserAPI
     {
-        Task<long> UserMaintenance(UserEntity userInfo);
-        Task<long> ProfileMaintenance(UserEntity userInfo);
+        Task<ResponseModel> UserMaintenance(UserEntity userInfo);
+        Task<ResponseModel> ProfileMaintenance(UserEntity userInfo);
         Task<UserEntity> ValidateUser(string userName, string password);
         Task<bool> CheckAgreement(long branchID);
 
         Task<UserEntity> ValidateStudent(string userName, string password);
         List<UserEntity> GetAllUsers(long branchID, List<int> userType);
-        bool RemoveUser(long userID, string lastupdatedby);
+        ResponseModel RemoveUser(long userID, string lastupdatedby);
         bool AddUserRoles(UserEntity user);
         Task<bool> ChangePassword(long userID, string password, string oldPassword);
         List<RolesEntity> GetRolesByUser(long userID);

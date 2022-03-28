@@ -163,16 +163,23 @@ function SaveUser() {
         $("#LeavingDT").val(ConvertData(date4));
         var postCall = $.post(commonData.User + "SaveUser", $('#fUserDetail').serialize());
         postCall.done(function (data) {
-            HideLoader();
-            if (data.Status == true) {
-                ShowMessage(data.Message, "Success");
-                setTimeout(function () { window.location.href = "UserMaintenance?branchID=0"; }, 2000);
-            } else {
-                ShowMessage(data.Message, "Error");
-            }   
+            if (data) {
+                HideLoader();
+                if (data.Status == true) {
+                    ShowMessage(data.Message, "Success");
+                    setTimeout(function () { window.location.href = "UserMaintenance?branchID=0"; }, 2000);
+                } else {
+                    ShowMessage(data.Message, "Error");
+                }
+            }
+            else {
+                HideLoader();
+                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+            }
         }).fail(function () {
             HideLoader();
-            ShowMessage(data.Message , "Error");
+            ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+            /*ShowMessage(data.Message , "Error");*/
         });
     }
 }
@@ -182,9 +189,13 @@ function RemoveUser(userID) {
         ShowLoader();
         var postCall = $.post(commonData.User + "RemoveUser", { "userID": userID });
         postCall.done(function (data) {
-            HideLoader();
-            ShowMessage("User Removed Successfully.", "Success");
-            window.location.href = "UserMaintenance?branchID=0";
+            if (data.Status) {
+                HideLoader();
+                ShowMessage(data.Message, "Success");
+                window.location.href = "UserMaintenance?branchID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
