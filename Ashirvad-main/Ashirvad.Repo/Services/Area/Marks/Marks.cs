@@ -21,45 +21,70 @@ namespace Ashirvad.Repo.Services.Area
             return result;
         }
 
-        public async Task<long> MarksMaintenance(MarksEntity MarksInfo)
+        public async Task<ResponseModel> MarksMaintenance(MarksEntity MarksInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.MARKS_MASTER MarksMaster = new Model.MARKS_MASTER();
             bool isUpdate = true;
-            var data = (from Marks in this.context.MARKS_MASTER
-                        where Marks.marks_id == MarksInfo.MarksID
-                        select new
-                        {
-                            MarksMaster = Marks
-                        }).FirstOrDefault();
-            if (data == null)
+            try
             {
-                MarksMaster = new Model.MARKS_MASTER();
-                isUpdate = false;
+                var data = (from Marks in this.context.MARKS_MASTER
+                            where Marks.marks_id == MarksInfo.MarksID
+                            select new
+                            {
+                                MarksMaster = Marks
+                            }).FirstOrDefault();
+                if (data == null)
+                {
+                    MarksMaster = new Model.MARKS_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    MarksMaster = data.MarksMaster;
+                    MarksInfo.Transaction.TransactionId = data.MarksMaster.trans_id;
+                }
+                MarksMaster.student_id = MarksInfo.student.StudentID;
+                MarksMaster.branch_id = MarksInfo.BranchInfo.BranchID;
+                MarksMaster.row_sta_cd = MarksInfo.RowStatus.RowStatusId;
+                MarksMaster.achive_marks = MarksInfo.AchieveMarks;
+                MarksMaster.test_id = MarksInfo.testEntityInfo.TestID;
+                MarksMaster.file_name = MarksInfo.MarksContentFileName;
+                MarksMaster.file_path = MarksInfo.MarksFilepath;
+                MarksMaster.marks_dt = MarksInfo.MarksDate;
+                MarksMaster.course_dtl_id = MarksInfo.BranchCourse.course_dtl_id;
+                MarksMaster.class_dtl_id = MarksInfo.BranchClass.Class_dtl_id;
+                MarksMaster.subject_dtl_id = MarksInfo.BranchSubject.Subject_dtl_id;
+                MarksMaster.batch_time_id = (int)MarksInfo.BatchType;
+                MarksMaster.trans_id = this.AddTransactionData(MarksInfo.Transaction);
+                this.context.MARKS_MASTER.Add(MarksMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(MarksMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+                //return this.context.SaveChanges() > 0 ? MarksMaster.marks_id : 0;
+                var da = this.context.SaveChanges() > 0 || MarksMaster.marks_id > 0;
+                if (da)
+                {
+                    MarksInfo.MarksID = MarksMaster.marks_id;
+                    responseModel.Message = isUpdate == true ? "Marks Updated." : "Marks Inserted Successfully";
+                    responseModel.Status = true;
+                    responseModel.Data = MarksInfo;
+                }
+                else
+                {
+                    responseModel.Message = isUpdate == true ? "Marks Not Updated." : "Marks Not Inserted Successfully";
+                    responseModel.Status = false;
+                }
+                
             }
-            else
+            catch (Exception ex)
             {
-                MarksMaster = data.MarksMaster;
-                MarksInfo.Transaction.TransactionId = data.MarksMaster.trans_id;
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
-            MarksMaster.student_id = MarksInfo.student.StudentID;
-            MarksMaster.branch_id = MarksInfo.BranchInfo.BranchID;
-            MarksMaster.row_sta_cd = MarksInfo.RowStatus.RowStatusId;
-            MarksMaster.achive_marks = MarksInfo.AchieveMarks;
-            MarksMaster.test_id = MarksInfo.testEntityInfo.TestID;
-            MarksMaster.file_name = MarksInfo.MarksContentFileName;
-            MarksMaster.file_path = MarksInfo.MarksFilepath;
-            MarksMaster.marks_dt = MarksInfo.MarksDate;
-            MarksMaster.course_dtl_id = MarksInfo.BranchCourse.course_dtl_id;
-            MarksMaster.class_dtl_id = MarksInfo.BranchClass.Class_dtl_id;
-            MarksMaster.subject_dtl_id = MarksInfo.BranchSubject.Subject_dtl_id;
-            MarksMaster.batch_time_id = (int)MarksInfo.BatchType;
-            MarksMaster.trans_id = this.AddTransactionData(MarksInfo.Transaction);
-            this.context.MARKS_MASTER.Add(MarksMaster);
-            if (isUpdate)
-            {
-                this.context.Entry(MarksMaster).State = System.Data.Entity.EntityState.Modified;
-            }
-            return this.context.SaveChanges() > 0 ? MarksMaster.marks_id : 0;
+            return responseModel;
+
         }
 
         public async Task<List<MarksEntity>> GetAllMarks()
@@ -260,20 +285,32 @@ namespace Ashirvad.Repo.Services.Area
             return data;
         }
 
-        public bool RemoveMarks(long MarksID, string lastupdatedby)
+        public ResponseModel RemoveMarks(long MarksID, string lastupdatedby)
         {
-            var data = (from u in this.context.MARKS_MASTER
-                        where u.marks_id == MarksID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.MARKS_MASTER
+                            where u.marks_id == MarksID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "Marks Removed Successfully.";
+                    responseModel.Status = true;
+                }
             }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
 
-            return false;
+
+            //return false;
         }
 
         public async Task<long> UpdateMarksDetails(MarksEntity marksEntity)

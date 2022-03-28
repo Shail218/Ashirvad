@@ -19,44 +19,67 @@ namespace Ashirvad.Repo.Services.Area.Subject
             return result;
         }
 
-        public async Task<long> SubjectMaintenance(SubjectEntity subjectInfo)
+        public async Task<ResponseModel> SubjectMaintenance(SubjectEntity subjectInfo)
         {
-            Model.SUBJECT_MASTER subjectMaster = new Model.SUBJECT_MASTER();
-            if (CheckSubject(subjectInfo.Subject, subjectInfo.BranchInfo.BranchID, subjectInfo.SubjectID).Result != -1)
-            {
-                bool isUpdate = true;
-                var data = (from subject in this.context.SUBJECT_MASTER
-                            where subject.subject_id == subjectInfo.SubjectID
-                            select subject).FirstOrDefault();
-                if (data == null)
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {              
+                Model.SUBJECT_MASTER subjectMaster = new Model.SUBJECT_MASTER();
+                if (CheckSubject(subjectInfo.Subject, subjectInfo.BranchInfo.BranchID, subjectInfo.SubjectID).Result != -1)
                 {
-                    subjectMaster = new Model.SUBJECT_MASTER();
+                    bool isUpdate = true;
+                    var data = (from subject in this.context.SUBJECT_MASTER
+                                where subject.subject_id == subjectInfo.SubjectID
+                                select subject).FirstOrDefault();
+                    if (data == null)
+                    {
+                        subjectMaster = new Model.SUBJECT_MASTER();
 
-                    isUpdate = false;
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        subjectMaster = data;
+                        subjectInfo.Transaction.TransactionId = data.trans_id;
+                    }
+
+                    subjectMaster.subject = subjectInfo.Subject;
+                    subjectMaster.branch_id = subjectInfo.BranchInfo.BranchID;
+                    subjectMaster.row_sta_cd = (int)subjectInfo.RowStatus.RowStatus;
+                    subjectMaster.subject_dtl_id = subjectInfo.BranchSubject.Subject_dtl_id == 0 ? (long?)null : subjectInfo.BranchSubject.Subject_dtl_id;
+                    subjectMaster.trans_id = subjectInfo.Transaction.TransactionId;
+                    this.context.SUBJECT_MASTER.Add(subjectMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(subjectMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    //var da = this.context.SaveChanges() > 0 ? subjectMaster.subject_id : 0;
+                    var da = this.context.SaveChanges() > 0 || subjectMaster.subject_id > 0;
+                    if (da)
+                    {
+                        subjectInfo.SubjectID = subjectMaster.subject_id;
+                        responseModel.Message = isUpdate == true ? "Subject Updated." : "Subject Inserted Successfully";
+                        responseModel.Status = true;
+                        responseModel.Data = subjectInfo;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate == true ? "Subject Not Updated." : "Subject Not Inserted Successfully";
+                        responseModel.Status = false;
+                    }
                 }
                 else
                 {
-                    subjectMaster = data;
-                    subjectInfo.Transaction.TransactionId = data.trans_id;
+                    responseModel.Status = false;
+                    responseModel.Message = "Subject Already Exist.";
                 }
-
-                subjectMaster.subject = subjectInfo.Subject;
-                subjectMaster.branch_id = subjectInfo.BranchInfo.BranchID;
-                subjectMaster.row_sta_cd = (int)subjectInfo.RowStatus.RowStatus;
-                subjectMaster.subject_dtl_id = subjectInfo.BranchSubject.Subject_dtl_id == 0 ? (long?)null : subjectInfo.BranchSubject.Subject_dtl_id;
-                subjectMaster.trans_id = subjectInfo.Transaction.TransactionId;
-                this.context.SUBJECT_MASTER.Add(subjectMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(subjectMaster).State = System.Data.Entity.EntityState.Modified;
-                }
-                return this.context.SaveChanges() > 0 ? subjectMaster.subject_id : 0;
             }
-            else
+            catch (Exception ex)
             {
-                return -1;
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
-
+            return responseModel;
         }
 
         public async Task<List<SubjectEntity>> GetAllSubjects(long branchID)
@@ -133,20 +156,35 @@ namespace Ashirvad.Repo.Services.Area.Subject
             return data;
         }
 
-        public bool RemoveSubject(long SubjectID, string lastupdatedby)
+        public ResponseModel RemoveSubject(long SubjectID, string lastupdatedby)
         {
-            var data = (from u in this.context.SUBJECT_MASTER
-                        where u.subject_id == SubjectID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.SUBJECT_MASTER
+                            where u.subject_id == SubjectID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "Subject Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "Subject Not Found.";
+                    responseModel.Status = false;
+                }
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
+            //return false;
         }
 
         public async Task<SubjectEntity> GetSubjectByID(long subjectID)

@@ -10,24 +10,24 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Test
 {
     public interface ITestService
     {
-        Task<TestEntity> TestMaintenance(TestEntity testInfo);
+        Task<ResponseModel> TestMaintenance(TestEntity testInfo);
         Task<OperationResult<List<TestEntity>>> GetAllTestByBranch(long branchID);
         Task<OperationResult<TestEntity>> GetTestByTestID(long testID);
-        bool RemoveTest(long testID, string lastupdatedby, bool removePaper);
-        Task<TestPaperEntity> TestPaperMaintenance(TestPaperEntity paperInfo);
+        ResponseModel RemoveTest(long testID, string lastupdatedby, bool removePaper);
+        Task<ResponseModel> TestPaperMaintenance(TestPaperEntity paperInfo);
         Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID);
         Task<OperationResult<List<TestPaperEntity>>> GetAllTestPapaerWithoutContentByTest(long testID);
         Task<TestPaperEntity> GetTestPaperByPaperID(long paperID);
         Task<List<TestEntity>> GetTestPaperChecking(long paperID);
-        bool RemoveTestPaper(long paperID, string lastupdatedby);
+        ResponseModel RemoveTestPaper(long paperID, string lastupdatedby);
 
-        Task<StudentAnswerSheetEntity> StudentAnswerSheetMaintenance(StudentAnswerSheetEntity ansSheetInfo);
+        Task<ResponseModel> StudentAnswerSheetMaintenance(StudentAnswerSheetEntity ansSheetInfo);
         Task<List<StudentAnswerSheetEntity>> GetAllAnswerSheetByTest(long testID);
         Task<List<StudentAnswerSheetEntity>> GetAllAnswerSheetWithoutContentByTest(long testID);
         Task<List<StudentAnswerSheetEntity>> GetAllAnsSheetByTestStudentID(long testID, long studentID);
         Task<StudentAnswerSheetEntity> GetAnswerSheetByID(long ansID);
-        bool RemoveAnswerSheet(long ansID, string lastupdatedby);
-        bool RemoveTestAndPaper(long testID, string lastUpdatedBy);
+        ResponseModel RemoveAnswerSheet(long ansID, string lastupdatedby);
+        ResponseModel RemoveTestAndPaper(long testID, string lastUpdatedBy);
 
         Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAndStandard(long branchID, long courseID, long stdID, int batchTime);
         Task<OperationResult<List<TestPaperEntity>>> GetAllTestPapaerByBranchStdDate(long branchID,long courseid, long stdID, DateTime dt, int batchTime);
@@ -35,13 +35,13 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Test
         Task<OperationResult<List<TestEntity>>> GetAllTest(DateTime testDate, string searchParam);
         Task<List<StudentAnswerSheetEntity>> BulkStudentAnswerSheetMaintenance(List<StudentAnswerSheetEntity> ansSheetInfo);
 
-        Task<TestDetailEntity> TestdetailMaintenance(TestDetailEntity testInfo);
+        Task<ResponseModel> TestdetailMaintenance(TestDetailEntity testInfo);
         Task<OperationResult<List<TestPaperEntity>>> GetAllTestDocLinks(long branchID,long courseid, long stdID, int batchTime);
         Task<List<TestEntity>> GetAllCustomTest(DataTableAjaxPostModel model, long branchID);
 
         #region New
         Task<TestEntity> GetTestDetails(long testID,long SubjectID);
-        bool RemoveTestAnswerSheetdetail(long TestID, long studid);
+        ResponseModel RemoveTestAnswerSheetdetail(long TestID, long studid);
         #endregion
 
         Task<List<StudentAnswerSheetEntity>> GetAnswerSheetdata(long testID);

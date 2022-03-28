@@ -171,9 +171,14 @@ function SaveLink() {
         ShowLoader();
         var postCall = $.post(commonData.LiveVideo + "SaveLink", $('#flinkDetail').serialize());
         postCall.done(function (data) {
-            HideLoader();
-            ShowMessage("School added Successfully.", "Success");
-            window.location.href = "LiveVideoMaintenance?linkID=0";
+            if (data.Status) {
+                HideLoader();
+                ShowMessage(data.Message, "Success");
+                window.location.href = "LiveVideoMaintenance?linkID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+           
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -186,9 +191,14 @@ function RemoveLink(schoolID) {
         ShowLoader();
         var postCall = $.post(commonData.LiveVideo + "RemoveLink", { "linkID": schoolID });
         postCall.done(function (data) {
-            HideLoader();
-            ShowMessage("Live Video Removed Successfully.", "Success");
-            window.location.href = "LiveVideoMaintenance?linkID=0";
+            if (data) {
+                HideLoader();
+                ShowMessage(data.Message, "Success");
+                window.location.href = "LiveVideoMaintenance?linkID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+          
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

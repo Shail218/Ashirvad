@@ -18,13 +18,15 @@ namespace Ashirvad.ServiceAPI.Services.Area.UPI
             this._upiContext = upiContext;
         }
 
-        public async Task<UPIEntity> UPIMaintenance(UPIEntity upiInfo)
+        public async Task<ResponseModel> UPIMaintenance(UPIEntity upiInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             UPIEntity upi = new UPIEntity();
             try
             {
-                long upiID = await _upiContext.UPIMaintenance(upiInfo);
-                upi.UPIId = upiID;
+                responseModel = await _upiContext.UPIMaintenance(upiInfo);
+                //long upiID = await _upiContext.UPIMaintenance(upiInfo);
+                //upi.UPIId = upiID;
                 //if (upiID > 0)
                 //{
                     
@@ -35,7 +37,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.UPI
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return upi;
+            return responseModel;
         }
 
         public async Task<OperationResult<List<UPIEntity>>> GetAllUPIs(long branchID)
@@ -72,8 +74,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.UPI
             return null;
         }
 
-        public bool RemoveUPI(long upiID, string lastupdatedby)
+        public ResponseModel RemoveUPI(long upiID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._upiContext.RemoveUPI(upiID, lastupdatedby);
@@ -83,7 +86,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.UPI
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
     }
 }
