@@ -9,12 +9,12 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Payment
 {
     public interface IStudentPaymentAPI
     {
-        Task<long> PaymentMaintenance(PaymentEntity paymentInfo);
+        Task<ResponseModel> PaymentMaintenance(PaymentEntity paymentInfo);
 
         Task<List<PaymentEntity>> GetAllPayment(long branchID);
         Task<List<PaymentEntity>> GetAllPaymentWithoutContent(long branchID);
         Task<PaymentEntity> GetPaymentByID(long paymentID);
 
-        bool RemovePayment(long paymentID, string lastupdatedby);
+        ResponseModel RemovePayment(long paymentID, string lastupdatedby);
     }
 }

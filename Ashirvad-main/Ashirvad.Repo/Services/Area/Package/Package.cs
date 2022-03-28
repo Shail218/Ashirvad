@@ -19,43 +19,66 @@ namespace Ashirvad.Repo.Services.Area.Package
             return result;
         }
 
-        public async Task<long> PackageMaintenance(PackageEntity packageInfo)
+        public async Task<ResponseModel> PackageMaintenance(PackageEntity packageInfo)
         {
-            Model.PACKAGE_MASTER packageMaster = new Model.PACKAGE_MASTER();
-            if (CheckPackage(packageInfo.Package, packageInfo.PackageID).Result != -1)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                bool isUpdate = true;
-                var data = (from package in this.context.PACKAGE_MASTER
-                            where package.package_id == packageInfo.PackageID
-                            select package).FirstOrDefault();
-                if (data == null)
+                Model.PACKAGE_MASTER packageMaster = new Model.PACKAGE_MASTER();
+                if (CheckPackage(packageInfo.Package, packageInfo.PackageID).Result != -1)
                 {
-                    packageMaster = new Model.PACKAGE_MASTER();
+                    bool isUpdate = true;
+                    var data = (from package in this.context.PACKAGE_MASTER
+                                where package.package_id == packageInfo.PackageID
+                                select package).FirstOrDefault();
+                    if (data == null)
+                    {
+                        packageMaster = new Model.PACKAGE_MASTER();
 
-                    isUpdate = false;
-                }
-                else
-                {
-                    packageMaster = data;
-                    packageInfo.Transaction.TransactionId = data.trans_id;
-                }
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        packageMaster = data;
+                        packageInfo.Transaction.TransactionId = data.trans_id;
+                    }
 
-                packageMaster.package = packageInfo.Package;
-                packageMaster.student_no = packageInfo.Studentno;
-                packageMaster.branch_id = packageInfo.BranchInfo.BranchID;
-                packageMaster.row_sta_cd = packageInfo.RowStatus.RowStatusId;
-                packageMaster.trans_id = this.AddTransactionData(packageInfo.Transaction);
-                this.context.PACKAGE_MASTER.Add(packageMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(packageMaster).State = System.Data.Entity.EntityState.Modified;
+                    packageMaster.package = packageInfo.Package;
+                    packageMaster.student_no = packageInfo.Studentno;
+                    packageMaster.branch_id = packageInfo.BranchInfo.BranchID;
+                    packageMaster.row_sta_cd = packageInfo.RowStatus.RowStatusId;
+                    packageMaster.trans_id = this.AddTransactionData(packageInfo.Transaction);
+                    this.context.PACKAGE_MASTER.Add(packageMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(packageMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    //return this.context.SaveChanges() > 0 ? packageMaster.package_id : 0;
+                    var da = this.context.SaveChanges() > 0 ? packageMaster.package_id : 0;
+                    if (da > 0)
+                    {
+                        packageInfo.PackageID = da;
+                        responseModel.Data = packageInfo;
+                        responseModel.Message = isUpdate == true ? "Package Updated Successfully." : "Package Inserted Successfully.";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate == true ? "Package Not Updated." : "Package Not Inserted.";
+                        responseModel.Status = false;
+                    }
                 }
-                return this.context.SaveChanges() > 0 ? packageMaster.package_id : 0;
+                //else
+                //{
+                //    return -1;
+                //}
             }
-            else
+            catch (Exception ex)
             {
-                return -1;
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
             }
+            return responseModel;
 
         }
 
@@ -139,20 +162,38 @@ namespace Ashirvad.Repo.Services.Area.Package
             return data;
         }
 
-        public bool RemovePackage(long PackageID, string lastupdatedby)
+        public ResponseModel RemovePackage(long PackageID, string lastupdatedby)
         {
-            var data = (from u in this.context.PACKAGE_MASTER
-                        where u.package_id == PackageID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
-            }
 
-            return false;
+                var data = (from u in this.context.PACKAGE_MASTER
+                            where u.package_id == PackageID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                   // return true;
+                    responseModel.Status = true;
+                    responseModel.Message = "Package Removed Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Package Not Found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+
+            //return false;
         }
 
         public async Task<PackageEntity> GetPackageByID(long packageID)

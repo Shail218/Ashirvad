@@ -10,10 +10,10 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
 {
     public interface IPackageRightsAPI
     {
-        Task<long> RightsMaintenance(PackageRightEntity RightsInfo);
+        Task<ResponseModel> RightsMaintenance(PackageRightEntity RightsInfo);
         Task<List<PackageRightEntity>> GetAllRights();
         Task<List<PackageRightEntity>> GetRightsByRightsID(long RightsID);
-        bool RemoveRights(long RightsID, string lastupdatedby);
+        ResponseModel RemoveRights(long RightsID, string lastupdatedby);
         Task<PackageRightEntity> GetPackagebyID(long RightsID);
         Task<List<PackageRightEntity>> GetAllCustomRights(DataTableAjaxPostModel model);
     }

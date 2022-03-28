@@ -19,13 +19,15 @@ namespace Ashirvad.ServiceAPI.Services.Area
             this._PackageRightsContext = PackageRightsContext;
         }
 
-        public async Task<PackageRightEntity> PackageRightsMaintenance(PackageRightEntity PackageRightsInfo)
+        public async Task<ResponseModel> PackageRightsMaintenance(PackageRightEntity PackageRightsInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             PackageRightEntity PackageRights = new PackageRightEntity();
             try
             {
-                long PackageRightsID = await _PackageRightsContext.RightsMaintenance(PackageRightsInfo);
-                PackageRights.PackageRightsId = PackageRightsID;
+                //long PackageRightsID = await _PackageRightsContext.RightsMaintenance(PackageRightsInfo);
+                responseModel = await _PackageRightsContext.RightsMaintenance(PackageRightsInfo);
+                //PackageRights.PackageRightsId = PackageRightsID;
 
             }
             catch (Exception ex)
@@ -33,7 +35,8 @@ namespace Ashirvad.ServiceAPI.Services.Area
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return PackageRights;
+            //return PackageRights;
+            return responseModel;
         }
 
         
@@ -98,8 +101,9 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public bool RemovePackageRights(long PackageRightsID, string lastupdatedby)
+        public ResponseModel RemovePackageRights(long PackageRightsID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._PackageRightsContext.RemoveRights(PackageRightsID, lastupdatedby);
@@ -108,8 +112,8 @@ namespace Ashirvad.ServiceAPI.Services.Area
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-
-            return false;
+            return responseModel;
+            // return false;
         }
 
         

@@ -18,19 +18,22 @@ namespace Ashirvad.ServiceAPI.Services.Area.Package
             this._packageContext = packageContext;
         }
 
-        public async Task<PackageEntity> PackageMaintenance(PackageEntity packageInfo)
+        public async Task<ResponseModel> PackageMaintenance(PackageEntity packageInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             PackageEntity standard = new PackageEntity();
             try
             {
-                long packageID = await _packageContext.PackageMaintenance(packageInfo);
-                standard.PackageID = packageID;
+                //long packageID = await _packageContext.PackageMaintenance(packageInfo);
+                responseModel = await _packageContext.PackageMaintenance(packageInfo);
+                //standard.PackageID = packageID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-            return standard;
+            //return standard;
+            return responseModel;
         }
 
         public async Task<List<PackageEntity>> GetAllPackages(long branchID)
@@ -75,8 +78,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Package
             return null;
         }
 
-        public bool RemovePackage(long PackageID, string lastupdatedby)
+        public ResponseModel RemovePackage(long PackageID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._packageContext.RemovePackage(PackageID, lastupdatedby);
@@ -85,8 +89,8 @@ namespace Ashirvad.ServiceAPI.Services.Area.Package
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-
-            return false;
+            return responseModel;
+            // return false;
         }
 
         public async Task<PackageEntity> GetPackageByIDAsync(long packageID)

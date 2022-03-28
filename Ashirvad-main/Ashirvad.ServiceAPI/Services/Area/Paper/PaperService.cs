@@ -20,23 +20,30 @@ namespace Ashirvad.ServiceAPI.Services.Area.Paper
             _paperContext = paperContext;
         }
 
-        public async Task<PaperEntity> PaperMaintenance(PaperEntity paperInfo)
+        public async Task<ResponseModel> PaperMaintenance(PaperEntity paperInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             PaperEntity paper = new PaperEntity();
             try
-            {               
-                long paperID = await _paperContext.PaperMaintenance(paperInfo);
-                if (paperID > 0)
-                {
-                    paper.PaperID = paperID;                   
-                }
+            {
+                //long paperID = await _paperContext.PaperMaintenance(paperInfo);
+                responseModel = await _paperContext.PaperMaintenance(paperInfo);
+                //if (responseModel.Status)
+                //{
+                //    var da = (PaperEntity)responseModel.Data;
+                //    long paperID = da.PaperID;
+                //    if (paperID > 0)
+                //    {
+                //        paper.PaperID = paperID;
+                //    }
+                //}
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-
-            return paper;
+            return responseModel;
+            //return paper;
         }
 
         public async Task<OperationResult<List<SubjectEntity>>> GetPracticePaperSubject(long branchID,long courseid, long stdID,int batch_time)
@@ -160,8 +167,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Paper
             return null;
         }
 
-        public bool RemovePaper(long paperID, string lastupdatedby)
+        public ResponseModel RemovePaper(long paperID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._paperContext.RemovePaper(paperID, lastupdatedby);
@@ -171,7 +179,8 @@ namespace Ashirvad.ServiceAPI.Services.Area.Paper
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            //return false;
+            return responseModel;
         }
     }
 }

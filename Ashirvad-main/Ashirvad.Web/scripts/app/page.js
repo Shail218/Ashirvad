@@ -95,7 +95,8 @@ function SavePage() {
         var postCall = $.post(commonData.Page + "SavePage", $('#fPageDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            if (data.Status == true) {
+            if (data.Status) {
+                HideLoader();
                 ShowMessage(data.Message, "Success");
                 setTimeout(function () { window.location.href = "PageMaintenance?branchID=0" }, 20);
             } else {
@@ -114,8 +115,12 @@ function RemovePage(pageID) {
         var postCall = $.post(commonData.Page + "RemovePage", { "pageID": pageID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Page Removed Successfully.", "Success");
-            window.location.href = "PageMaintenance?branchID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "PageMaintenance?branchID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }          
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

@@ -10,9 +10,9 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Page
 {
   public interface IPageService
     {
-        Task<PageEntity> PageMaintenance(PageEntity pageInfo);
+        Task<ResponseModel> PageMaintenance(PageEntity pageInfo);
         Task<List<PageEntity>> GetAllPages(long branchID);
-        bool RemovePage(long PageID, string lastupdatedby);
+        ResponseModel RemovePage(long PageID, string lastupdatedby);
         Task<List<PageEntity>> GetAllPages();
         Task<PageEntity> GetPageByIDAsync(long standardID);
         Task<List<PageEntity>> GetAllCustomPages(DataTableAjaxPostModel model);
