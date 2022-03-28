@@ -10,19 +10,19 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Branch
 {
     public interface IBranchService
     {
-        Task<BranchEntity> BranchMaintenance(BranchEntity branchInfo);
+        Task<ResponseModel> BranchMaintenance(BranchEntity branchInfo);
         Task<List<BranchEntity>> GetAllBranch();
 
         Task<OperationResult<List<BranchEntity>>> GetAllBranchWithoutImage();
         Task<OperationResult<BranchEntity>> GetBranchByBranchID(long branchID);
-        bool RemoveBranch(long BranchID, string lastupdatedby);
+        ResponseModel RemoveBranch(long BranchID, string lastupdatedby);
 
-        Task<BranchAgreementEntity> AgreementMaintenance(BranchAgreementEntity agreementInfo);
+        Task<ResponseModel> AgreementMaintenance(BranchAgreementEntity agreementInfo);
 
         Task<OperationResult<List<BranchAgreementEntity>>> GetAllAgreement(long branchID);
 
         Task<OperationResult<BranchAgreementEntity>> GetAgreementByAgreementID(long agreementID);
-        bool RemoveAgreement(long agreementID, string lastupdatedby);
+        ResponseModel RemoveAgreement(long agreementID, string lastupdatedby);
 
         Task<List<BranchEntity>> GetAllCustomBranch(DataTableAjaxPostModel model);
         Task<List<BranchAgreementEntity>> GetAllCustomAgreement(DataTableAjaxPostModel model, long branchID);

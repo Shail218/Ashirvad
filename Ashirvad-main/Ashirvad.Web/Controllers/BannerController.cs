@@ -99,12 +99,8 @@ namespace Ashirvad.Web.Controllers
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             var data = await _bannerService.BannerMaintenance(bannerEntity);
-            if (data != null)
-            {
-                return Json(true);
-            }
-
-            return Json(false);
+           
+            return Json(data);
         }
 
         [HttpPost]

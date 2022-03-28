@@ -10,11 +10,11 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
 {
     public interface IBranchRightsAPI
     {
-        Task<long> RightsMaintenance(BranchWiseRightEntity RightsInfo);
+        Task<ResponseModel> RightsMaintenance(BranchWiseRightEntity RightsInfo);
         Task<List<BranchWiseRightEntity>> GetAllRights();
         Task<List<BranchWiseRightEntity>> GetAllRightsUniqData(long PackageRightID);
         Task<BranchWiseRightEntity> GetRightsByRightsID(long RightsID);
-        bool RemoveRights(long RightsID, string lastupdatedby);
+        ResponseModel RemoveRights(long RightsID, string lastupdatedby);
         Task<List<BranchWiseRightEntity>> GetAllRightsByBranch(long PackageRightID);
         Task<List<BranchWiseRightEntity>> GetAllCustomRights(DataTableAjaxPostModel model);
     }

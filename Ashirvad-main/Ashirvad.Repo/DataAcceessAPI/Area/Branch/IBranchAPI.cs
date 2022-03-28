@@ -10,15 +10,15 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Branch
 {
     public interface IBranchAPI
     {
-        Task<long> BranchMaintenance(BranchEntity branchInfo);
+        Task<ResponseModel> BranchMaintenance(BranchEntity branchInfo);
         Task<List<BranchEntity>> GetAllBranch();
         Task<List<BranchEntity>> GetAllBranchWithoutImage();
         Task<BranchEntity> GetBranchByBranchID(long branchID);
-        bool RemoveBranch(long BranchID, string lastupdatedby);
-        Task<long> AgreementMaintenance(BranchAgreementEntity agrInfo);
+        ResponseModel RemoveBranch(long BranchID, string lastupdatedby);
+        Task<ResponseModel> AgreementMaintenance(BranchAgreementEntity agrInfo);
         Task<List<BranchAgreementEntity>> GetAllAgreements(long branchID);
         Task<BranchAgreementEntity> GetAgreementByID(long agreementID);
-        bool RemoveAgreement(long agreementID, string lastupdatedby);
+        ResponseModel RemoveAgreement(long agreementID, string lastupdatedby);
         Task<List<BranchEntity>> GetAllCustomBranch(DataTableAjaxPostModel model);
         Task<List<BranchAgreementEntity>> GetAllCustomAgreement(DataTableAjaxPostModel model, long branchID);
     }

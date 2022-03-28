@@ -20,20 +20,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.Class
             this._classService = classService;
         }
 
-        public async Task<ClassEntity> ClassMaintenance(ClassEntity classEntity)
+        public async Task<ResponseModel> ClassMaintenance(ClassEntity classEntity)
         {
             ClassEntity cl = new ClassEntity();
+            ResponseModel responseModel = new ResponseModel();
             try
             {
-                long classID = await _classService.ClassMaintenance(classEntity);
-                cl.ClassID = classID;
+                responseModel = await _classService.ClassMaintenance(classEntity);
+                //cl.ClassID = classID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return cl;
+            return responseModel;
         }
 
         public async Task<OperationResult<ClassEntity>> GetClassByClassID(long classID)
@@ -120,8 +121,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Class
             return null;
         }
 
-        public bool RemoveClass(long classID, string lastupdatedby)
+        public ResponseModel RemoveClass(long classID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._classService.RemoveClass(classID, lastupdatedby);
@@ -131,7 +133,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Class
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
         public async Task<List<CourseEntity>> GetAllCourse()

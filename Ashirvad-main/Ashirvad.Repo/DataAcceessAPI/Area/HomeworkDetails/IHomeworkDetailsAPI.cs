@@ -9,15 +9,15 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
 {
     public interface IHomeworkDetailsAPI
     {
-        Task<long> HomeworkMaintenance(HomeworkDetailEntity homeworkDetail);
+        Task<ResponseModel> HomeworkMaintenance(HomeworkDetailEntity homeworkDetail);
         Task<List<HomeworkDetailEntity>> GetAllHomeworkByStudent(long homeworkID);
         Task<List<HomeworkDetailEntity>> GetAllHomeworkdetailWithoutContentByStudentID(long homeworkID);
         Task<List<HomeworkDetailEntity>> GetAllAnsSheetByStudentID(long homeworkID, long studentID);
         Task<HomeworkDetailEntity> GetHomeworkByHomeworkID(long homeworkdetailID);
-        bool RemoveHomework(long homeworkdetailID, string lastupdatedby);
-        bool RemoveHomeworkdetail(long homeworkdetailID, long UserID);
+        ResponseModel RemoveHomework(long homeworkdetailID, string lastupdatedby);
+        ResponseModel RemoveHomeworkdetail(long homeworkdetailID, long UserID);
 
-        Task<long> HomeworkDetailUpdate(HomeworkDetailEntity homeworkDetail);
-        Task<long> HomeworkDetailFileUpdate(HomeworkDetailEntity homeworkDetail);
+        Task<ResponseModel> HomeworkDetailUpdate(HomeworkDetailEntity homeworkDetail);
+        Task<ResponseModel> HomeworkDetailFileUpdate(HomeworkDetailEntity homeworkDetail);
     }
 }

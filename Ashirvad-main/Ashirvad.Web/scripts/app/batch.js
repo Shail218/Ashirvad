@@ -205,8 +205,13 @@ function RemoveBatch(batchID) {
         var postCall = $.post(commonData.Batch + "RemoveBatch", { "batchID": batchID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Batch Removed Successfully.", "Success");
-            window.location.href = "BatchMaintenance?branchID=0";
+            if (data.Status == true) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "BatchMaintenance?branchID=0";
+            }
+            else {
+                ShowMessage(data.Message, "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

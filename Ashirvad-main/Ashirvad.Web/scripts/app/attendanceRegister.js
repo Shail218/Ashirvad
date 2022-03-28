@@ -163,8 +163,12 @@ function EditAttendance() {
         var postCall = $.post(commonData.AttendanceEntry + "AttendanceMaintenance", $('#attendence').serialize());
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Attendance added Successfully.", "Success");
-            window.location.href = "/AttendanceRegister/Index";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "/AttendanceRegister/Index";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

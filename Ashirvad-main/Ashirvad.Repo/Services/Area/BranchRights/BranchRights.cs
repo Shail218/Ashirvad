@@ -22,50 +22,74 @@ namespace Ashirvad.Repo.Services.Area
             result = isExists == true ? -1 : 1;
             return result;
         }
-        public async Task<long> RightsMaintenance(BranchWiseRightEntity RightsInfo)
+       
+        public async Task<ResponseModel> RightsMaintenance(BranchWiseRightEntity RightsInfo)
         {
-            Model.BRANCH_RIGHTS_MASTER RightsMaster = new Model.BRANCH_RIGHTS_MASTER();
-            if (CheckRights((int)RightsInfo.BranchWiseRightsID, (int)RightsInfo.BranchID).Result != -1)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                bool isUpdate = true;
-                var data = (from Branch in this.context.BRANCH_RIGHTS_MASTER
-                            where Branch.branchrights_id == RightsInfo.BranchWiseRightsID
-                            select new
-                            {
-                                RightsMaster = Branch
-                            }).FirstOrDefault();
-                if (data == null)
+                Model.BRANCH_RIGHTS_MASTER RightsMaster = new Model.BRANCH_RIGHTS_MASTER();
+                if (CheckRights((int)RightsInfo.BranchWiseRightsID, (int)RightsInfo.BranchID).Result != -1)
                 {
-                    RightsMaster = new Model.BRANCH_RIGHTS_MASTER();
-                    isUpdate = false;
+                    bool isUpdate = true;
+                    var data = (from Branch in this.context.BRANCH_RIGHTS_MASTER
+                                where Branch.branchrights_id == RightsInfo.BranchWiseRightsID
+                                select new
+                                {
+                                    RightsMaster = Branch
+                                }).FirstOrDefault();
+                    if (data == null)
+                    {
+                        RightsMaster = new Model.BRANCH_RIGHTS_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        RightsMaster = data.RightsMaster;
+                        RightsInfo.Transaction.TransactionId = data.RightsMaster.trans_id;
+                    }
+
+                    RightsMaster.branchrights_id = RightsInfo.BranchWiseRightsID;
+                    RightsMaster.package_id = RightsInfo.Packageinfo.PackageID;
+                    RightsMaster.row_sta_cd = RightsInfo.RowStatus.RowStatusId;
+                    RightsMaster.branch_id = RightsInfo.BranchID;
+
+                    RightsMaster.trans_id = this.AddTransactionData(RightsInfo.Transaction);
+                    this.context.BRANCH_RIGHTS_MASTER.Add(RightsMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(RightsMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var result = this.context.SaveChanges();
+                    if (result > 0)
+                    {
+                        RightsInfo.BranchWiseRightsID = RightsMaster.branchrights_id;
+                        //var result2 = BranchDetailMaintenance(BranchInfo).Result;
+                        //return result > 0 ? RightsInfo.BranchWiseRightsID : 0;
+                        responseModel.Data = RightsInfo;
+                        responseModel.Message = isUpdate == true ? "Branch Rights Updated Successfully." : "Branch Rights Inserted Successfully.";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate==true?"Branch Rights Not Updated.":"Branch Rights Not Inserted.";
+                        responseModel.Status = false;
+                    }
+                    //  return this.context.SaveChanges() > 0 ? RightsInfo.BranchWiseRightsID : 0;
                 }
                 else
                 {
-                    RightsMaster = data.RightsMaster;
-                    RightsInfo.Transaction.TransactionId = data.RightsMaster.trans_id;
+                    responseModel.Message ="Branch Rights Already Exists.";
+                    responseModel.Status = false;
                 }
-
-                RightsMaster.branchrights_id = RightsInfo.BranchWiseRightsID;
-                RightsMaster.package_id = RightsInfo.Packageinfo.PackageID;
-                RightsMaster.row_sta_cd = RightsInfo.RowStatus.RowStatusId;
-                RightsMaster.branch_id = RightsInfo.BranchID;
-
-                RightsMaster.trans_id = this.AddTransactionData(RightsInfo.Transaction);
-                this.context.BRANCH_RIGHTS_MASTER.Add(RightsMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(RightsMaster).State = System.Data.Entity.EntityState.Modified;
-                }
-                var result = this.context.SaveChanges();
-                if (result > 0)
-                {
-                    RightsInfo.BranchWiseRightsID = RightsMaster.branchrights_id;
-                    //var result2 = BranchDetailMaintenance(BranchInfo).Result;
-                    return result > 0 ? RightsInfo.BranchWiseRightsID : 0;
-                }
-                return this.context.SaveChanges() > 0 ? RightsInfo.BranchWiseRightsID : 0;
             }
-            return -1;
+            catch(Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+           
+            return responseModel;
         }
 
         public async Task<List<BranchWiseRightEntity>> GetAllRights()
@@ -243,19 +267,33 @@ namespace Ashirvad.Repo.Services.Area
             return data;
         }
 
-        public bool RemoveRights(long RightsID, string lastupdatedby)
+        public ResponseModel RemoveRights(long RightsID, string lastupdatedby)
         {
-            var data = (from u in this.context.BRANCH_RIGHTS_MASTER
-                        where u.branchrights_id == RightsID
-                        select u).ToList();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                this.context.BRANCH_RIGHTS_MASTER.RemoveRange(data);
-                this.context.SaveChanges();
-
-                return true;
+                var data = (from u in this.context.BRANCH_RIGHTS_MASTER
+                            where u.branchrights_id == RightsID
+                            select u).ToList();
+                if (data != null)
+                {
+                    this.context.BRANCH_RIGHTS_MASTER.RemoveRange(data);
+                    this.context.SaveChanges();
+                    responseModel.Message = "Branch Rights Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "Branch Rights Not Found.";
+                    responseModel.Status = true;
+                }
             }
-            return false;
+            catch(Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
         }
 
         public async Task<List<BranchWiseRightEntity>> GetAllRightsUniqData(long PackageRightID)

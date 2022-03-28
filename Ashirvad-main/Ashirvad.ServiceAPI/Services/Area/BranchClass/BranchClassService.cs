@@ -20,21 +20,19 @@ namespace Ashirvad.ServiceAPI.Services.Area
             this._BranchClassContext = BranchClassContext;
         }
 
-        public async Task<BranchClassEntity> BranchClassMaintenance(BranchClassEntity BranchClassInfo)
+        public async Task<ResponseModel> BranchClassMaintenance(BranchClassEntity BranchClassInfo)
         {
-            BranchClassEntity BranchClass = new BranchClassEntity();
+            ResponseModel responseModel = new ResponseModel();
             try
             {
-                long BranchClassID = await _BranchClassContext.ClassMaintenance(BranchClassInfo);
-                BranchClass.Data = BranchClassID;
-
+                responseModel = await _BranchClassContext.ClassMaintenance(BranchClassInfo);
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return BranchClass;
+            return responseModel;
         }
 
         

@@ -9,16 +9,16 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.AboutUs
 {
     public interface IAboutUsService
     {
-        Task<AboutUsEntity> AboutUsMaintenance(AboutUsEntity aboutUsInfo);
+        Task<ResponseModel> AboutUsMaintenance(AboutUsEntity aboutUsInfo);
         Task<OperationResult<List<AboutUsEntity>>> GetAllAboutUsWithoutContent(long branchID = 0);
         Task<AboutUsEntity> GetAboutUsByUniqueID(long uniqueID, long branchID = 0);
         Task<List<AboutUsDetailEntity>> GetAllAboutUs(long branchID = 0);
-        bool RemoveAboutUs(long aboutUsID, string lastupdatedby, bool remomveAboutUsDetail);
-        Task<AboutUsDetailEntity> AboutUsDetailMaintenance(AboutUsDetailEntity aboutUsInfo);
+        ResponseModel RemoveAboutUs(long aboutUsID, string lastupdatedby, bool remomveAboutUsDetail);
+        Task<ResponseModel> AboutUsDetailMaintenance(AboutUsDetailEntity aboutUsInfo);
         Task<OperationResult<List<AboutUsDetailEntity>>> GetAllAboutUsDetailWithoutContent(long aboutusID = 0, long branchID = 0);
         Task<OperationResult<AboutUsDetailEntity>> GetAboutUsDetailByUniqueID(long uniqueID);
         Task<List<AboutUsDetailEntity>> GetAllAboutUsDetail(long aboutusID = 0, long branchID = 0);
-        bool RemoveAboutUsDetail(long aboutUsID, string lastupdatedby);
+        ResponseModel RemoveAboutUsDetail(long aboutUsID, string lastupdatedby);
         Task<List<AboutUsDetailEntity>> GetAllAboutUsDetailforExport(long aboutusID = 0, long branchID = 0);
     }
 }

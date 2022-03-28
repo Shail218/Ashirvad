@@ -14,29 +14,101 @@ namespace Ashirvad.Repo.Services.Area
     public class Fees : ModelAccess, IFeesAPI
     {
 
-        public async Task<long> CheckFees(long BranchID, long StdID, long feesid,long courseid)
+        public async Task<long> CheckFees(long BranchID, long StdID, long feesid, long courseid)
         {
             long result;
-            bool isExists =(from u in  this.context.FEE_STRUCTURE_MASTER 
-                            where((feesid == 0 || u.fee_struct_mst_id != feesid) && u.branch_id == BranchID && u.class_dtl_id == StdID && u.course_dtl_id==courseid && u.row_sta_cd == 1)select u).FirstOrDefault() != null;
+            bool isExists = (from u in this.context.FEE_STRUCTURE_MASTER
+                             where ((feesid == 0 || u.fee_struct_mst_id != feesid) && u.branch_id == BranchID && u.class_dtl_id == StdID && u.course_dtl_id == courseid && u.row_sta_cd == 1)
+                             select u).FirstOrDefault() != null;
             result = isExists == true ? -1 : 1;
             return result;
         }
-        public async Task<long> FeesMaintenance(FeesEntity FeesInfo)
+        public async Task<ResponseModel> FeesMaintenance(FeesEntity FeesInfo)
         {
-            Model.FEE_STRUCTURE_MASTER FeesMaster = new Model.FEE_STRUCTURE_MASTER();
-            if (CheckFees(FeesInfo.BranchInfo.BranchID, FeesInfo.BranchClass.Class_dtl_id, FeesInfo.FeesID, FeesInfo.BranchCourse.course_dtl_id).Result != -1)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
+                Model.FEE_STRUCTURE_MASTER FeesMaster = new Model.FEE_STRUCTURE_MASTER();
+                if (CheckFees(FeesInfo.BranchInfo.BranchID, FeesInfo.BranchClass.Class_dtl_id, FeesInfo.FeesID, FeesInfo.BranchCourse.course_dtl_id).Result != -1)
+                {
+                    bool isUpdate = true;
+                    var data = (from Fees in this.context.FEE_STRUCTURE_MASTER
+                                where Fees.fee_struct_mst_id == FeesInfo.FeesID
+                                select new
+                                {
+                                    FeesMaster = Fees
+                                }).FirstOrDefault();
+                    if (data == null)
+                    {
+                        FeesMaster = new Model.FEE_STRUCTURE_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        FeesMaster = data.FeesMaster;
+                        FeesInfo.Transaction.TransactionId = data.FeesMaster.trans_id;
+                    }
+                    FeesMaster.branch_id = FeesInfo.BranchInfo.BranchID;
+                    FeesMaster.class_dtl_id = FeesInfo.BranchClass.Class_dtl_id;
+                    FeesMaster.course_dtl_id = FeesInfo.BranchCourse.course_dtl_id;
+                    FeesMaster.remarks = FeesInfo.Remark;
+                    FeesMaster.row_sta_cd = FeesInfo.RowStatus.RowStatusId;
+                    FeesMaster.trans_id = this.AddTransactionData(FeesInfo.Transaction);
+                    this.context.FEE_STRUCTURE_MASTER.Add(FeesMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(FeesMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var result = this.context.SaveChanges();
+                    if (result > 0)
+                    {
+                        FeesInfo.FeesID = FeesMaster.fee_struct_mst_id;
+                        var result2 = FeesDetailMaintenance(FeesInfo).Result;
+                        //var res2 = result2 > 0 ? FeesInfo.FeesID : 0;
+                        responseModel.Data = FeesInfo;
+                        responseModel = result2;
+
+                    }
+                    else
+                    {
+                        responseModel.Status = false;
+                        responseModel.Message = isUpdate == true ? "Fees Not Updated." : "Fees Not Inserted.";
+                    }
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Fees Already Exist.";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+
+
+        }
+
+        public async Task<ResponseModel> FeesDetailMaintenance(FeesEntity FeesInfo)
+        {
+
+
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                Model.FEE_STRUCTURE_DTL FeesMaster = new Model.FEE_STRUCTURE_DTL();
                 bool isUpdate = true;
-                var data = (from Fees in this.context.FEE_STRUCTURE_MASTER
-                            where Fees.fee_struct_mst_id == FeesInfo.FeesID
+                var data = (from Fees in this.context.FEE_STRUCTURE_DTL
+                            where Fees.fee_struct_dtl_id == FeesInfo.FeesDetailID
                             select new
                             {
                                 FeesMaster = Fees
                             }).FirstOrDefault();
                 if (data == null)
                 {
-                    FeesMaster = new Model.FEE_STRUCTURE_MASTER();
+                    FeesMaster = new Model.FEE_STRUCTURE_DTL();
                     isUpdate = false;
                 }
                 else
@@ -44,69 +116,45 @@ namespace Ashirvad.Repo.Services.Area
                     FeesMaster = data.FeesMaster;
                     FeesInfo.Transaction.TransactionId = data.FeesMaster.trans_id;
                 }
-                FeesMaster.branch_id = FeesInfo.BranchInfo.BranchID;
-                FeesMaster.class_dtl_id = FeesInfo.BranchClass.Class_dtl_id;
-                FeesMaster.course_dtl_id = FeesInfo.BranchCourse.course_dtl_id;
-                FeesMaster.remarks = FeesInfo.Remark;
+
+                FeesMaster.fee_content = FeesInfo.Fees_Content;
+                FeesMaster.file_name = FeesInfo.FileName;
+                FeesMaster.fee_struct_mst_id = FeesInfo.FeesID;
+                FeesMaster.file_path = FeesInfo.FilePath;
                 FeesMaster.row_sta_cd = FeesInfo.RowStatus.RowStatusId;
                 FeesMaster.trans_id = this.AddTransactionData(FeesInfo.Transaction);
-                this.context.FEE_STRUCTURE_MASTER.Add(FeesMaster);
+                this.context.FEE_STRUCTURE_DTL.Add(FeesMaster);
                 if (isUpdate)
                 {
                     this.context.Entry(FeesMaster).State = System.Data.Entity.EntityState.Modified;
                 }
-                var result = this.context.SaveChanges();
-                if (result > 0)
+
+                var res = this.context.SaveChanges() > 0 ? FeesMaster.fee_struct_dtl_id : 0;
+
+                if (res > 0)
                 {
-                    FeesInfo.FeesID = FeesMaster.fee_struct_mst_id;
-                    var result2 = FeesDetailMaintenance(FeesInfo).Result;
-                    return result2 > 0 ? FeesInfo.FeesID : 0;
+                    responseModel.Status = true;
+                    responseModel.Message = isUpdate == true ? "Fee Details Updated Successfully." : "Fee Details Inserted Successfully.";
                 }
-                return this.context.SaveChanges() > 0 ? FeesMaster.fee_struct_mst_id : 0;
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = isUpdate == true ? "Fee Details Not Updated." : "Fee Details Not Inserted.";
+                }
             }
-            return -1;
-        }
-
-        public async Task<long> FeesDetailMaintenance(FeesEntity FeesInfo)
-        {
-            Model.FEE_STRUCTURE_DTL FeesMaster = new Model.FEE_STRUCTURE_DTL();
-            bool isUpdate = true;
-            var data = (from Fees in this.context.FEE_STRUCTURE_DTL
-                        where Fees.fee_struct_dtl_id == FeesInfo.FeesDetailID
-                        select new
-                        {
-                            FeesMaster = Fees
-                        }).FirstOrDefault();
-            if (data == null)
+            catch (Exception ex)
             {
-                FeesMaster = new Model.FEE_STRUCTURE_DTL();
-                isUpdate = false;
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
             }
-            else
-            {
-                FeesMaster = data.FeesMaster;
-                FeesInfo.Transaction.TransactionId = data.FeesMaster.trans_id;
-            }
-
-            FeesMaster.fee_content = FeesInfo.Fees_Content;
-            FeesMaster.file_name = FeesInfo.FileName;
-            FeesMaster.fee_struct_mst_id = FeesInfo.FeesID;
-            FeesMaster.file_path = FeesInfo.FilePath;
-            FeesMaster.row_sta_cd = FeesInfo.RowStatus.RowStatusId;
-            FeesMaster.trans_id = this.AddTransactionData(FeesInfo.Transaction);
-            this.context.FEE_STRUCTURE_DTL.Add(FeesMaster);
-            if (isUpdate)
-            {
-                this.context.Entry(FeesMaster).State = System.Data.Entity.EntityState.Modified;
-            }
-
-            return this.context.SaveChanges() > 0 ? FeesMaster.fee_struct_dtl_id : 0;
+            return responseModel;
         }
 
         public async Task<List<FeesEntity>> GetAllFees(long BranchID)
         {
             var data = (from u in this.context.FEE_STRUCTURE_MASTER
-                        join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id orderby u.fee_struct_mst_id descending
+                        join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
+                        orderby u.fee_struct_mst_id descending
                         where u.row_sta_cd == 1 && u.branch_id == BranchID
                         select new FeesEntity()
                         {
@@ -120,13 +168,13 @@ namespace Ashirvad.Repo.Services.Area
                             Remark = u.remarks,
                             FilePath = "https://mastermind.org.in" + b.file_path,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                            BranchClass= new BranchClassEntity()
+                            BranchClass = new BranchClassEntity()
                             {
-                                Class_dtl_id= u.class_dtl_id.HasValue? u.class_dtl_id.Value:0,
-                                Class= new ClassEntity()
+                                Class_dtl_id = u.class_dtl_id.HasValue ? u.class_dtl_id.Value : 0,
+                                Class = new ClassEntity()
                                 {
-                                    ClassID= u.CLASS_DTL_MASTER.class_id,
-                                    ClassName= u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
+                                    ClassID = u.CLASS_DTL_MASTER.class_id,
+                                    ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name,
                                 }
                             },
                             BranchCourse = new BranchCourseEntity()
@@ -152,7 +200,8 @@ namespace Ashirvad.Repo.Services.Area
                           join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
                           orderby u.fee_struct_mst_id descending
                           where u.row_sta_cd == 1 && u.branch_id == branchID
-                          select new FeesEntity() {
+                          select new FeesEntity()
+                          {
                               FeesID = u.fee_struct_mst_id
                           }).Distinct().Count();
             var data = (from u in this.context.FEE_STRUCTURE_MASTER.Include("CLASS_DTL_MASTER")
@@ -203,7 +252,7 @@ namespace Ashirvad.Repo.Services.Area
             return data;
         }
 
-        public async Task<List<FeesEntity>> GetAllFeesByBranchID(long BranchID,long courseid, long StdID)
+        public async Task<List<FeesEntity>> GetAllFeesByBranchID(long BranchID, long courseid, long StdID)
         {
             var data = (from u in this.context.FEE_STRUCTURE_MASTER
                         join b in this.context.FEE_STRUCTURE_DTL on u.fee_struct_mst_id equals b.fee_struct_mst_id
@@ -295,20 +344,36 @@ namespace Ashirvad.Repo.Services.Area
             return data;
         }
 
-        public bool RemoveFees(long FeesID, string lastupdatedby)
+        public ResponseModel RemoveFees(long FeesID, string lastupdatedby)
         {
-            var data = (from u in this.context.FEE_STRUCTURE_MASTER
-                        where u.fee_struct_mst_id == FeesID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.FEE_STRUCTURE_MASTER
+                            where u.fee_struct_mst_id == FeesID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Status = true;
+                    responseModel.Message = "Fees Removed Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Fees Not Found.";
+                }
             }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
 
-            return false;
+
         }
     }
 }

@@ -166,6 +166,8 @@ namespace Ashirvad.Repo.Services.Area.User
                 {
                     Student.Student stu = new Student.Student();
                     var studentData = await stu.GetStudentByID(user.StudentID.Value);
+                    studentData.UserID = user.UserID;
+                    studentData.UserName = user.Username;
                     user.StudentDetail = studentData;
                 }
             }
@@ -221,7 +223,6 @@ namespace Ashirvad.Repo.Services.Area.User
                             UserID = u.user_id,
                             Username = u.username
                         }).ToList();
-                user.userEntities = z;
                 if (z?.Count > 0)
                 {
                     user.studentEntities = new List<StudentEntity>();
@@ -229,6 +230,8 @@ namespace Ashirvad.Repo.Services.Area.User
                     {
                         Student.Student stu = new Student.Student();
                         var studentData = await stu.GetStudentByID(item.StudentID.Value);
+                        studentData.UserID = item.UserID;
+                        studentData.UserName = item.Username;
                         user.studentEntities.Add(studentData);
                     }
                 }

@@ -26,20 +26,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.Faculty
             facul.Completed = true;
             return facul;
         }
-        public async Task<FacultyEntity> FacultyMaintenance(FacultyEntity faculInfo)
+        public async Task<ResponseModel> FacultyMaintenance(FacultyEntity faculInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             FacultyEntity notif = new FacultyEntity();
             try
             {
-                long faculID = await _facultyContext.FacultyMaintenance(faculInfo);
-                notif.FacultyID = faculID;
+                responseModel = await _facultyContext.FacultyMaintenance(faculInfo);
+               // notif.FacultyID = faculID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return notif;
+            return responseModel;
         }
 
         public async Task<List<FacultyEntity>> GetAllFaculty(long branchID = 0)
@@ -75,8 +76,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Faculty
             return null;
         }
 
-        public bool RemoveFaculty(long faculID, string lastupdatedby)
+        public ResponseModel RemoveFaculty(long faculID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._facultyContext.RemoveFaculty(faculID, lastupdatedby);
@@ -86,7 +88,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Faculty
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
         public async Task<List<FacultyEntity>> GetAllCustomFaculty(DataTableAjaxPostModel model, long branchID)

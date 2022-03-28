@@ -281,6 +281,7 @@ function SaveHomework() {
             }
         }, function (xhr) {
             HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }
 }
@@ -291,8 +292,13 @@ function RemoveHomework(homeworkID) {
         var postCall = $.post(commonData.Homework + "RemoveHomework", { "homeworkID": homeworkID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Homework Removed Successfully.", "Success");
-            window.location.href = "HomeworkMaintenance?homeworkID=0&branchID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "HomeworkMaintenance?homeworkID=0&branchID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+          
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

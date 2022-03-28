@@ -10,51 +10,74 @@ using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.Link
 {
-    public class LinkMGMT: ModelAccess, ILinkAPI
+    public class LinkMGMT : ModelAccess, ILinkAPI
     {
-        public async Task<long> LinkMaintenance(LinkEntity linkInfo)
+        public async Task<ResponseModel> LinkMaintenance(LinkEntity linkInfo)
         {
-            Model.LINK_MASTER linkMaster = new Model.LINK_MASTER();
-            bool isUpdate = true;
-            var data = (from link in this.context.LINK_MASTER
-                        where link.unique_id == linkInfo.UniqueID
-                        select link).FirstOrDefault();
-            if (data == null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data = new Model.LINK_MASTER();
-                isUpdate = false;
-            }
-            else
-            {
-                linkMaster = data;
-                linkInfo.Transaction.TransactionId = data.trans_id;
-            }
+                Model.LINK_MASTER linkMaster = new Model.LINK_MASTER();
+                bool isUpdate = true;
+                var data = (from link in this.context.LINK_MASTER
+                            where link.unique_id == linkInfo.UniqueID
+                            select link).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.LINK_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    linkMaster = data;
+                    linkInfo.Transaction.TransactionId = data.trans_id;
+                }
 
-            linkMaster.row_sta_cd = linkInfo.RowStatus.RowStatusId;
-            linkMaster.trans_id = this.AddTransactionData(linkInfo.Transaction);
-            linkMaster.branch_id = linkInfo.Branch.BranchID;
-            linkMaster.type = linkInfo.LinkType;
-            linkMaster.title = linkInfo.Title;
-            linkMaster.vid_desc = linkInfo.LinkDesc;
-            linkMaster.vid_url = linkInfo.LinkURL;
-            linkMaster.course_dtl_id = linkInfo.BranchCourse.course_dtl_id;
-            linkMaster.class_dtl_id = linkInfo.BranchClass.Class_dtl_id;
-            if (!isUpdate)
-            {
-                this.context.LINK_MASTER.Add(linkMaster);
-            }
+                linkMaster.row_sta_cd = linkInfo.RowStatus.RowStatusId;
+                linkMaster.trans_id = this.AddTransactionData(linkInfo.Transaction);
+                linkMaster.branch_id = linkInfo.Branch.BranchID;
+                linkMaster.type = linkInfo.LinkType;
+                linkMaster.title = linkInfo.Title;
+                linkMaster.vid_desc = linkInfo.LinkDesc;
+                linkMaster.vid_url = linkInfo.LinkURL;
+                linkMaster.course_dtl_id = linkInfo.BranchCourse.course_dtl_id;
+                linkMaster.class_dtl_id = linkInfo.BranchClass.Class_dtl_id;
+                if (!isUpdate)
+                {
+                    this.context.LINK_MASTER.Add(linkMaster);
+                }
 
-            var linkID = this.context.SaveChanges() > 0 ? linkMaster.unique_id : 0;
-            return linkID;
+                var linkID = this.context.SaveChanges() > 0 ? linkMaster.unique_id : 0;
+                if (linkID > 0)
+                {
+                    linkInfo.UniqueID = linkMaster.unique_id;
+                    responseModel.Data = linkInfo;
+                    responseModel.Status = true;
+                    responseModel.Message = isUpdate == true ? "Link Updated Successfully." : "Link Inserted Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = isUpdate==true?"Link Not Updated.":"Link Not Inserted.";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+
+
         }
 
         public async Task<List<LinkEntity>> GetAllLink(int type, long branchID, long stdID)
         {
             var data = (from u in this.context.LINK_MASTER
                         .Include("BRANCH_MASTER")
-                        orderby u.unique_id descending 
+                        orderby u.unique_id descending
                         where u.type == type
-                        &&  u.branch_id == branchID
+                        && u.branch_id == branchID
                         && (0 == stdID || u.class_dtl_id == stdID) && u.row_sta_cd == 1
                         select new LinkEntity()
                         {
@@ -68,7 +91,7 @@ namespace Ashirvad.Repo.Services.Area.Link
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             LinkDesc = u.vid_desc,
                             LinkURL = u.vid_url,
-                            LinkType =u.type,
+                            LinkType = u.type,
                             BranchCourse = new BranchCourseEntity()
                             {
                                 course_dtl_id = u.course_dtl_id.HasValue ? u.course_dtl_id.Value : 0,
@@ -91,10 +114,11 @@ namespace Ashirvad.Repo.Services.Area.Link
             return data;
         }
 
-        public async Task<List<LinkEntity>> GetAllLinkBySTD(int type, long branchID,long courseid, long stdID)
+        public async Task<List<LinkEntity>> GetAllLinkBySTD(int type, long branchID, long courseid, long stdID)
         {
             var data = (from u in this.context.LINK_MASTER
-                        .Include("BRANCH_MASTER") orderby u.unique_id descending
+                        .Include("BRANCH_MASTER")
+                        orderby u.unique_id descending
                         where u.type == type
                         && u.branch_id == branchID
                         && (0 == stdID || u.class_dtl_id == stdID) && u.row_sta_cd == 1 && u.course_dtl_id == courseid
@@ -133,11 +157,12 @@ namespace Ashirvad.Repo.Services.Area.Link
             return data;
         }
 
-        public async Task<List<LinkEntity>> GetAllCustomLiveVideo(DataTableAjaxPostModel model, long branchID,int type)
+        public async Task<List<LinkEntity>> GetAllCustomLiveVideo(DataTableAjaxPostModel model, long branchID, int type)
         {
             var Result = new List<LinkEntity>();
             bool Isasc = model.order[0].dir == "desc" ? false : true;
-            long count = (from u in this.context.LINK_MASTER orderby u.unique_id descending
+            long count = (from u in this.context.LINK_MASTER
+                          orderby u.unique_id descending
                           where u.type == type && u.branch_id == branchID && u.row_sta_cd == 1
                           select new LinkEntity()
                           {
@@ -229,20 +254,34 @@ namespace Ashirvad.Repo.Services.Area.Link
             return data;
         }
 
-        public bool RemoveLink(long uniqueID, string lastupdatedby)
+        public ResponseModel RemoveLink(long uniqueID, string lastupdatedby)
         {
-            var data = (from u in this.context.LINK_MASTER
-                        where u.unique_id == uniqueID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.LINK_MASTER
+                            where u.unique_id == uniqueID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Status = true;
+                    responseModel.Message = "Link Removed Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Link Not Found.";
+                }
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
         }
     }
 }

@@ -10,10 +10,10 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Link
 {
     public interface ILinkAPI
     {
-        Task<long> LinkMaintenance(LinkEntity linkInfo);
+        Task<ResponseModel> LinkMaintenance(LinkEntity linkInfo);
         Task<List<LinkEntity>> GetAllLink(int type, long branchID, long stdID);
         Task<LinkEntity> GetLinkByUniqueID(long uniqueID);
-        bool RemoveLink(long uniqueID, string lastupdatedby);
+        ResponseModel RemoveLink(long uniqueID, string lastupdatedby);
         Task<List<LinkEntity>> GetAllCustomLiveVideo(DataTableAjaxPostModel model, long branchID, int type);
         Task<List<LinkEntity>> GetAllLinkBySTD(int type, long branchID, long courseid, long stdID);
     }

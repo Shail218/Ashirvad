@@ -44,15 +44,10 @@ namespace Ashirvad.Web.Controllers
                 //var Test= DateTime.ParseExact(aInfo.AttendanceDatetxt, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
                 var line = JsonConvert.DeserializeObject<List<AttendanceDetailEntity>>(aInfo.JsonData);
                 aInfo.AttendanceDetail = line;
-                long attendanceID = await _attendanceContext.AttendanceMaintenance(aInfo);
-                if (attendanceID > 0)
-                {
-                    return Json(true);
-                }
-                else
-                {
-                    return Json(false);
-                }
+                var attendanceID = await _attendanceContext.AttendanceMaintenance(aInfo);
+                
+                    return Json(attendanceID);
+                
             }
             catch(Exception ex)
             {

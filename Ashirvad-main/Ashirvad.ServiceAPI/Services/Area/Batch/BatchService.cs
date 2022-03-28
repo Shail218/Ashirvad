@@ -18,20 +18,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.Batch
         {
             this._batchContext = batchContext;
         }
-        public async Task<BatchEntity> BatchMaintenance(BatchEntity batchInfo)
+        public async Task<ResponseModel> BatchMaintenance(BatchEntity batchInfo)
         {
-            BatchEntity batch = new BatchEntity();
+            ResponseModel responseModel = new ResponseModel();
+               BatchEntity batch = new BatchEntity();
             try
             {
-                long batchID = await _batchContext.BatchMaintenance(batchInfo);
-                batch.BatchID = batchID;
+                responseModel= await _batchContext.BatchMaintenance(batchInfo);
+                //batch.BatchID = batchID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return batch;
+            return responseModel;
         }
 
         public async Task<List<BatchEntity>> GetAllBatches(long branchID,long STDID=0)
@@ -105,8 +106,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Batch
             return null;
         }
 
-        public bool RemoveBatch(long BatchID, string lastupdatedby)
+        public ResponseModel RemoveBatch(long BatchID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._batchContext.RemoveBatch(BatchID,lastupdatedby);
@@ -116,7 +118,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Batch
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
     }
 }

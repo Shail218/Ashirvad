@@ -12,38 +12,56 @@ namespace Ashirvad.Repo.Services.Area.Circular
 {
     public class Circular : ModelAccess, ICircularAPI
     {
-        public async Task<long> CircularMaintenance(CircularEntity circularInfo)
+        public async Task<ResponseModel> CircularMaintenance(CircularEntity circularInfo)
         {
-            Model.CIRCULAR_MASTER circularMaster = new Model.CIRCULAR_MASTER();
-            bool isUpdate = true;
-            var data = (from banner in this.context.CIRCULAR_MASTER
-                        where banner.circular_id == circularInfo.CircularId
-                        select banner).FirstOrDefault();
-            if (data == null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data = new Model.CIRCULAR_MASTER();
-                isUpdate = false;
+                Model.CIRCULAR_MASTER circularMaster = new Model.CIRCULAR_MASTER();
+                bool isUpdate = true;
+                var data = (from banner in this.context.CIRCULAR_MASTER
+                            where banner.circular_id == circularInfo.CircularId
+                            select banner).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.CIRCULAR_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    circularMaster = data;
+                    circularInfo.Transaction.TransactionId = data.trans_id;
+                }
+                circularMaster.circular_title = circularInfo.CircularTitle;
+                circularMaster.circular_description = circularInfo.CircularDescription;
+                circularMaster.file_name = circularInfo.FileName;
+                circularMaster.file_path = circularInfo.FilePath;
+                circularMaster.row_sta_cd = (int)Enums.RowStatus.Active;
+                circularMaster.trans_id = this.AddTransactionData(circularInfo.Transaction);
+                if (!isUpdate)
+                {
+                    this.context.CIRCULAR_MASTER.Add(circularMaster);
+                }
+                var res = this.context.SaveChanges();
+                if(res>0)
+                {
+                     circularInfo.CircularId=circularMaster.circular_id;
+                    responseModel.Status = true;
+                    responseModel.Message = isUpdate==true?"Circular Updated Successfully.":"Circular Inserted Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = isUpdate == true ? "Circular Not Updated." : "Circular Not Inserted.";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                circularMaster = data;
-                circularInfo.Transaction.TransactionId = data.trans_id;
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
             }
-            circularMaster.circular_title = circularInfo.CircularTitle;
-            circularMaster.circular_description = circularInfo.CircularDescription;
-            circularMaster.file_name = circularInfo.FileName;
-            circularMaster.file_path = circularInfo.FilePath;
-            circularMaster.row_sta_cd = (int)Enums.RowStatus.Active;
-            circularMaster.trans_id = this.AddTransactionData(circularInfo.Transaction);
-            if (!isUpdate)
-            {
-                this.context.CIRCULAR_MASTER.Add(circularMaster);
-            }
-            if (this.context.SaveChanges() > 0 || circularMaster.circular_id > 0)
-            {
-                return circularMaster.circular_id;
-            }
-            return 0;
+            return responseModel;
+            
         }
 
         public async Task<List<CircularEntity>> GetAllCircular()
@@ -125,19 +143,36 @@ namespace Ashirvad.Repo.Services.Area.Circular
             return data;
         }
 
-        public bool RemoveCircular(long circularId, string lastupdatedby)
+        public ResponseModel RemoveCircular(long circularId, string lastupdatedby)
         {
-            var data = (from u in this.context.CIRCULAR_MASTER
-                        where u.circular_id == circularId
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.CIRCULAR_MASTER
+                            where u.circular_id == circularId
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Status = true;
+                    responseModel.Message = "Circular Removed Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Circular Not Found.";
+                }
             }
-            return false;
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+           
+     
         }
     }
 }

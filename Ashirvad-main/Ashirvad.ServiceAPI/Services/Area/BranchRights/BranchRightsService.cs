@@ -19,19 +19,20 @@ namespace Ashirvad.ServiceAPI.Services.Area
             this._BranchRightsContext = BranchRightsContext;
         }
 
-        public async Task<BranchWiseRightEntity> BranchRightsMaintenance(BranchWiseRightEntity BranchRightsInfo)
+        public async Task<ResponseModel> BranchRightsMaintenance(BranchWiseRightEntity BranchRightsInfo)
         {
             BranchWiseRightEntity standard = new BranchWiseRightEntity();
+            ResponseModel responseModel = new ResponseModel();
             try
             {
-                long BranchRightsID = await _BranchRightsContext.RightsMaintenance(BranchRightsInfo);
-                standard.BranchWiseRightsID = BranchRightsID;
+                responseModel = await _BranchRightsContext.RightsMaintenance(BranchRightsInfo);
+              //  standard.BranchWiseRightsID = BranchRightsID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-            return standard;
+            return responseModel;
         }
 
         
@@ -77,8 +78,9 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public bool RemoveBranchRights(long BranchRightsID, string lastupdatedby)
+        public ResponseModel RemoveBranchRights(long BranchRightsID, string lastupdatedby)
         {
+            ResponseModel model = new ResponseModel();
             try
             {
                 return this._BranchRightsContext.RemoveRights(BranchRightsID, lastupdatedby);
@@ -88,7 +90,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return model;
         }
 
         public async Task<BranchWiseRightEntity> GetBranchRightsByID(long BranchRightsID)

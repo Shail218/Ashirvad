@@ -44,20 +44,13 @@ function SaveAboutUs() {
         AjaxCallWithFileUpload(commonData.AboutUs + 'SaveAboutus', formData, function (data) {
             HideLoader();
 
-            if (data.AboutUsID > 0) {
-
-                ShowMessage('About us added Successfully.', 'Success');
+            if (data.Status) {
+                ShowMessage(data.Message, 'Success');
                 window.location.href = "AboutUsMaintenance?aboutID=0&detailid=0";
-
-            }
-            else if (data.AboutUsID < 0) {
-
-                ShowMessage('Already Exist.', 'Error');
-
             }
             else {
                 HideLoader();
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+                ShowMessage(data.Message, 'Error');
             }
         }, function (xhr) {
             HideLoader();
@@ -77,13 +70,13 @@ function SaveDetail(aboutID) {
             formData.append('ImageFile', $('input[type=file]')[0].files[0]);
         }
         AjaxCallWithFileUpload(commonData.AboutUs + 'SaveDetails', formData, function (data) {
-            if (data) {
+            if (data.Status) {
                 HideLoader();
-                ShowMessage("About Us Deatils added Successfully.", "Success");
+                ShowMessage(data.Message, "Success");
                 window.location.href = "AboutUsMaintenance?aboutID=0";
             } else {
                 HideLoader();
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+                ShowMessage(data.Message, 'Error');
             }
         }, function (xhr) {
             HideLoader();
@@ -100,8 +93,13 @@ function RemoveaboutUs(aboutID) {
         var postCall = $.post(commonData.AboutUs + "RemoveAboutUs", { "aboutID": aboutID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("About Us Removed Successfully.", "Success");
-            window.location.href = "AboutUsMaintenance?aboutID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "AboutUsMaintenance?aboutID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+            
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -116,8 +114,13 @@ function RemoveDetails(detailID) {
         var postCall = $.post(commonData.AboutUs + "RemoveDetails", { "detailID": detailID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("About Us Removed Successfully.", "Success");
-            window.location.href = "AboutUsMaintenance?aboutID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "AboutUsMaintenance?aboutID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+          
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

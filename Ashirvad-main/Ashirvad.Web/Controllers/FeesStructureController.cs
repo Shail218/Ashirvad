@@ -61,12 +61,8 @@ namespace Ashirvad.Web.Controllers
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             var data = await _FeesService.FeesMaintenance(Fees);
-            if (data != null)
-            {
-                return Json(data);
-            }
-
-            return Json(0);
+            
+            return Json(data);
         }
 
         [HttpPost]

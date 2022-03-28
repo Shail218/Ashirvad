@@ -10,13 +10,13 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Attendance
 {
     public interface IAttendanceService
     {
-        Task<AttendanceEntity> AttendanceMaintenance(AttendanceEntity attendanceInfo);
+        Task<ResponseModel> AttendanceMaintenance(AttendanceEntity attendanceInfo);
         Task<OperationResult<List<AttendanceEntity>>> GetAllAttendanceByBranch(long branchID);
 
         Task<OperationResult<AttendanceEntity>> GetAttendanceByAttendanceID(long attendanceID);
         Task<OperationResult<List<AttendanceEntity>>> GetAttendanceByStudentID(long studentID);
         Task<List<StudentEntity>> GetAllStudentByBranchStdBatch(long branchID, long stdID, int batchID);
-        bool RemoveAttendance(long attendanceID, string lastupdatedby);
+        ResponseModel RemoveAttendance(long attendanceID, string lastupdatedby);
         Task<List<AttendanceEntity>> GetAllCustomAttendanceRegister(DataTableAjaxPostModel model, long branchID);
         Task<OperationResult<List<AttendanceEntity>>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, long courseid, int batchTimeID, long studentid);
         Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, long courseid, int batchID, DateTime attendanceDate);

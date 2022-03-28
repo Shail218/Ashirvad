@@ -22,39 +22,60 @@ namespace Ashirvad.Repo.Services.Area.Announcement
             return result;
         }
 
-        public async Task<long> AnnouncementMaintenance(AnnouncementEntity annInfo)
+        public async Task<ResponseModel> AnnouncementMaintenance(AnnouncementEntity annInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.ANNOUNCE_MASTER annMaster = new Model.ANNOUNCE_MASTER();
-            if (CheckAnnouncement((int)annInfo.BranchData.BranchID, (int)annInfo.AnnouncementID).Result != -1)
+            try
             {
-                bool isUpdate = true;
-                var data = (from ann in this.context.ANNOUNCE_MASTER
-                            where ann.announce_id == annInfo.AnnouncementID
-                            select ann).FirstOrDefault();
-                if (data == null)
+                if (CheckAnnouncement((int)annInfo.BranchData.BranchID, (int)annInfo.AnnouncementID).Result != -1)
                 {
-                    data = new Model.ANNOUNCE_MASTER();
-                    isUpdate = false;
-                }
-                else
-                {
-                    annMaster = data;
-                    annInfo.TransactionData.TransactionId = data.trans_id;
-                }
+                    bool isUpdate = true;
+                    var data = (from ann in this.context.ANNOUNCE_MASTER
+                                where ann.announce_id == annInfo.AnnouncementID
+                                select ann).FirstOrDefault();
+                    if (data == null)
+                    {
+                        data = new Model.ANNOUNCE_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        annMaster = data;
+                        annInfo.TransactionData.TransactionId = data.trans_id;
+                    }
 
-                annMaster.row_sta_cd = annInfo.RowStatusData.RowStatusId;
-                annMaster.trans_id = this.AddTransactionData(annInfo.TransactionData);
-                annMaster.branch_id = annInfo.BranchData != null ? (long?)annInfo.BranchData.BranchID : null;
-                annMaster.announce_text = annInfo.AnnouncementText;
-                if (!isUpdate)
-                {
-                    this.context.ANNOUNCE_MASTER.Add(annMaster);
-                }
+                    annMaster.row_sta_cd = annInfo.RowStatusData.RowStatusId;
+                    annMaster.trans_id = this.AddTransactionData(annInfo.TransactionData);
+                    annMaster.branch_id = annInfo.BranchData != null ? (long?)annInfo.BranchData.BranchID : null;
+                    annMaster.announce_text = annInfo.AnnouncementText;
+                    if (!isUpdate)
+                    {
+                        this.context.ANNOUNCE_MASTER.Add(annMaster);
+                    }
 
-                var annID = this.context.SaveChanges() > 0 ? annMaster.announce_id : 0;
-                return annID;
+                    var annID = this.context.SaveChanges() > 0 ? annMaster.announce_id : 0;
+                    if (annID > 0)
+                    {
+                        annInfo.AnnouncementID = annID;
+                        responseModel.Data = annID;
+                        responseModel.Message = isUpdate==true?"Announcement Updated Successfully.":"Announcement Inserted Successfully.";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate == true ? "Announcement Not Updated." : "Announcement Not Inserted.";
+                        responseModel.Status = false;
+                    }
+                }
             }
-            return -1;
+            catch(Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            
+            return responseModel;
         }
 
         public async Task<List<AnnouncementEntity>> GetAllAnnouncement(long branchID)
@@ -109,20 +130,31 @@ namespace Ashirvad.Repo.Services.Area.Announcement
             return data;
         }
 
-        public bool RemoveAnnouncement(long annID, string lastupdatedby)
+        public ResponseModel RemoveAnnouncement(long annID, string lastupdatedby)
         {
-            var data = (from u in this.context.ANNOUNCE_MASTER
-                        where u.announce_id == annID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.ANNOUNCE_MASTER
+                            where u.announce_id == annID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "Announcement Removed Successfully.";
+                    responseModel.Status = true;
+                }
             }
+            catch(Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+           
 
-            return false;
+            return responseModel;
         }
     }
 }

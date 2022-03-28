@@ -346,13 +346,13 @@ function SaveBranchWiseRight() {
         var postCall = $.post(commonData.BranchWiseRight + "SaveBranchRight", $('#fPackageRightDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            if (data == true) {
-                ShowMessage("Created Successfully!!", 'Success');
+            if (data.Status) {
+                ShowMessage(data.Message, 'Success');
                 setTimeout(function () { window.location.href = "BranchRightMaintenance?BranchRightID=0"; }, 2000);
 
             }
             else {
-                ShowMessage("Failed to Create!!", 'Error');
+                ShowMessage(data.Message, 'Error');
             }
 
         }).fail(function () {
@@ -368,8 +368,13 @@ function RemoveBranchRight(BranchRightID) {
         var postCall = $.post(commonData.BranchWiseRight + "RemoveBranchRight", { "BranchRightID": BranchRightID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Branch Right Removed Successfully.", "Success");
-            window.location.href = "BranchRightMaintenance?BranchRightID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "BranchRightMaintenance?BranchRightID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+           
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

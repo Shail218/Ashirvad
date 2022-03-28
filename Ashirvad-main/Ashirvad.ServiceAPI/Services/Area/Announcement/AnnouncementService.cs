@@ -18,20 +18,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.Announcement
             this._announcementContext = announcementContext;
         }
 
-        public async Task<AnnouncementEntity> AnnouncementMaintenance(AnnouncementEntity annInfo)
+        public async Task<ResponseModel> AnnouncementMaintenance(AnnouncementEntity annInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             AnnouncementEntity ann = new AnnouncementEntity();
             try
             {
-                long announceID = await _announcementContext.AnnouncementMaintenance(annInfo);
-                ann.AnnouncementID = announceID;
+               responseModel = await _announcementContext.AnnouncementMaintenance(annInfo);
+                //ann.AnnouncementID = announceID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return ann;
+            return responseModel;
         }
 
         public async Task<OperationResult<List<AnnouncementEntity>>> GetAllAnnouncement(long branchID)
@@ -68,8 +69,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Announcement
             return null;
         }
 
-        public bool RemoveAnnouncement(long annID, string lastupdatedby)
+        public ResponseModel RemoveAnnouncement(long annID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._announcementContext.RemoveAnnouncement(annID, lastupdatedby);
@@ -79,7 +81,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Announcement
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
     }

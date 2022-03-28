@@ -151,14 +151,14 @@ namespace Ashirvad.Web.Controllers
 
                 entity.BranchInfo.BranchID = (int)SessionContext.Instance.LoginUser.BranchInfo.BranchID;
             }
-            data = await _aboutUsService.AboutUsDetailMaintenance(entity);
+           var data1 = await _aboutUsService.AboutUsDetailMaintenance(entity);
 
-            if (data.DetailID >0)
-            {
-                return Json(true);
-            }
+            //if (data.DetailID >0)
+            //{
+            //    return Json(true);
+            //}
 
-            return Json(false);
+            return Json(data1);
 
         }
 

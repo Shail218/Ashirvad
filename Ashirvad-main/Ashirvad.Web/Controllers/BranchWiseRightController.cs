@@ -62,6 +62,7 @@ namespace Ashirvad.Web.Controllers
         {
 
             BranchWiseRightEntity BranchRightEntity = new BranchWiseRightEntity();
+            ResponseModel responseModel = new ResponseModel();
             BranchRight.Transaction = GetTransactionData(BranchRight.BranchWiseRightsID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             BranchRight.RowStatus = new RowStatusEntity()
             {
@@ -71,14 +72,10 @@ namespace Ashirvad.Web.Controllers
             {
                 BranchRight.BranchID = BranchRight.branchinfo.BranchID;
             }
-            BranchRightEntity = await _BranchRightService.BranchRightsMaintenance(BranchRight);
+            responseModel = await _BranchRightService.BranchRightsMaintenance(BranchRight);
 
-            if (BranchRightEntity != null)
-            {
-                return Json(true);
-            }
-
-            return Json(false);
+            
+            return Json(responseModel);
         }
 
         [HttpPost]

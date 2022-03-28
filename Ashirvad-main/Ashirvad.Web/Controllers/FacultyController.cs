@@ -68,11 +68,8 @@ namespace Ashirvad.Web.Controllers
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             var data = await _facultyService.FacultyMaintenance(facultyEntity);
-            if (data != null)
-            {
-                return Json(data);
-            }
-            return Json(0);
+          
+            return Json(data);
         }
 
         [HttpPost]

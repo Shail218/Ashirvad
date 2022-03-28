@@ -19,20 +19,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
             _attendanceContext = attendanceContent;
         }
 
-        public async Task<AttendanceEntity> AttendanceMaintenance(AttendanceEntity attendanceInfo)
+        public async Task<ResponseModel> AttendanceMaintenance(AttendanceEntity attendanceInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             AttendanceEntity attendance = new AttendanceEntity();
             try
             {
-                long attendanceID = await _attendanceContext.AttendanceMaintenance(attendanceInfo);
-                attendanceInfo.AttendanceID = attendanceID;
+                responseModel = await _attendanceContext.AttendanceMaintenance(attendanceInfo);
+                //attendanceInfo.AttendanceID = attendanceID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return attendance;
+            return responseModel;
         }
 
         public async Task<OperationResult<List<AttendanceEntity>>> GetAllAttendanceByBranch(long branchID)
@@ -127,8 +128,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
             return null;
         }
 
-        public bool RemoveAttendance(long attendanceID, string lastupdatedby)
+        public ResponseModel RemoveAttendance(long attendanceID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._attendanceContext.RemoveAttendance(attendanceID, lastupdatedby);
@@ -138,7 +140,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
         public async Task<OperationResult<List<AttendanceEntity>>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid )
         {

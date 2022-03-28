@@ -10,13 +10,13 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
 {
     public interface IFeesService
     {
-        Task<FeesEntity> FeesMaintenance(FeesEntity FeesInfo);
+        Task<ResponseModel> FeesMaintenance(FeesEntity FeesInfo);
         Task<List<FeesEntity>> GetAllFees(long BranchID);
     
         Task<List<FeesEntity>> GetAllFeesWithoutImage();
         Task<FeesEntity> GetFeesByFeesID(long FeesID);
         Task<List<FeesEntity>> GetFeesByBranchID(long BranchID,long courseid, long STDID);
-        bool RemoveFees(long FeesID, string lastupdatedby);
+        ResponseModel RemoveFees(long FeesID, string lastupdatedby);
         Task<List<FeesEntity>> GetAllCustomFees(DataTableAjaxPostModel model, long branchID);
     }
 }

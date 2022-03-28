@@ -19,13 +19,13 @@ namespace Ashirvad.ServiceAPI.Services.Link
             this._linkContext = linkContext;
         }
 
-        public async Task<LinkEntity> LinkMaintenance(LinkEntity linkInfo)
+        public async Task<ResponseModel> LinkMaintenance(LinkEntity linkInfo)
         {
-            LinkEntity link = new LinkEntity();
+            ResponseModel link = new ResponseModel();
             try
             {
-                long linkID = await _linkContext.LinkMaintenance(linkInfo);
-                link.UniqueID = linkID;
+                 link = await _linkContext.LinkMaintenance(linkInfo);
+                //link.UniqueID = linkID;
             }
             catch (Exception ex)
             {
@@ -100,8 +100,9 @@ namespace Ashirvad.ServiceAPI.Services.Link
             return null;
         }
         
-        public bool RemoveLink(long linkID, string lastupdatedby)
+        public ResponseModel RemoveLink(long linkID, string lastupdatedby)
         {
+            ResponseModel response = new ResponseModel();
             try
             {
                 return this._linkContext.RemoveLink(linkID, lastupdatedby);
@@ -110,8 +111,7 @@ namespace Ashirvad.ServiceAPI.Services.Link
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-
-            return false;
+            return response;
         }
 
     }

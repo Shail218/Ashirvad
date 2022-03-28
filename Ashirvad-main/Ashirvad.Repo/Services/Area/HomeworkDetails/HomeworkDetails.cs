@@ -13,48 +13,70 @@ namespace Ashirvad.Repo.Services.Area.Homework
     public class HomeworkDetails : ModelAccess, IHomeworkDetailsAPI
     {
 
-        public async Task<long> HomeworkMaintenance(HomeworkDetailEntity homeworkDetail)
+        public async Task<ResponseModel> HomeworkMaintenance(HomeworkDetailEntity homeworkDetail)
         {
-            Model.HOMEWORK_MASTER_DTL homework = new Model.HOMEWORK_MASTER_DTL();
-            bool isUpdate = true;
-            var data = (from t in this.context.HOMEWORK_MASTER_DTL
-                        where t.homework_id == homeworkDetail.HomeworkEntity.HomeworkID && t.stud_id== homeworkDetail.StudentInfo.StudentID
-                        select t).FirstOrDefault();
-            if (data == null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data = new Model.HOMEWORK_MASTER_DTL();
-                isUpdate = false;
-            }
-            else
-            {
-                //bool result = RemoveHomeworkdetail(homeworkDetail.HomeworkEntity.HomeworkID, homeworkDetail.StudentInfo.StudentID);
-                data = new Model.HOMEWORK_MASTER_DTL();
-                isUpdate = false;
+                Model.HOMEWORK_MASTER_DTL homework = new Model.HOMEWORK_MASTER_DTL();
+                bool isUpdate = true;
+                var data = (from t in this.context.HOMEWORK_MASTER_DTL
+                            where t.homework_id == homeworkDetail.HomeworkEntity.HomeworkID && t.stud_id == homeworkDetail.StudentInfo.StudentID
+                            select t).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.HOMEWORK_MASTER_DTL();
+                    isUpdate = false;
+                }
+                else
+                {
+                    //bool result = RemoveHomeworkdetail(homeworkDetail.HomeworkEntity.HomeworkID, homeworkDetail.StudentInfo.StudentID);
+                    data = new Model.HOMEWORK_MASTER_DTL();
+                    isUpdate = false;
+                }
 
-            }
+                homework.row_sta_cd = homeworkDetail.RowStatus.RowStatusId;
+                homework.trans_id = this.AddTransactionData(homeworkDetail.Transaction);
+                homework.homework_id = homeworkDetail.HomeworkEntity.HomeworkID;
+                if (homework.homework_sheet_content?.Length > 0)
+                {
+                    homework.homework_sheet_content = homeworkDetail.AnswerSheetContent;
 
-            homework.row_sta_cd = homeworkDetail.RowStatus.RowStatusId;
-            homework.trans_id = this.AddTransactionData(homeworkDetail.Transaction);
-            homework.homework_id = homeworkDetail.HomeworkEntity.HomeworkID;
-            if (homework.homework_sheet_content?.Length > 0)
-            {
-                homework.homework_sheet_content = homeworkDetail.AnswerSheetContent;
-                
-            }
-            homework.homework_sheet_name = homeworkDetail.AnswerSheetName;
-            homework.homework_filepath = homeworkDetail.FilePath;
-            homework.branch_id = homeworkDetail.BranchInfo.BranchID;
-            homework.remarks = homeworkDetail.Remarks;
-            homework.status = homeworkDetail.Status;
-            homework.stud_id = homeworkDetail.StudentInfo.StudentID;
-            homework.submit_dt = homeworkDetail.SubmitDate;
-            this.context.HOMEWORK_MASTER_DTL.Add(homework);
-            if (isUpdate)
-            {
-                this.context.Entry(homework).State = System.Data.Entity.EntityState.Modified;
-            }
+                }
+                homework.homework_sheet_name = homeworkDetail.AnswerSheetName;
+                homework.homework_filepath = homeworkDetail.FilePath;
+                homework.branch_id = homeworkDetail.BranchInfo.BranchID;
+                homework.remarks = homeworkDetail.Remarks;
+                homework.status = homeworkDetail.Status;
+                homework.stud_id = homeworkDetail.StudentInfo.StudentID;
+                homework.submit_dt = homeworkDetail.SubmitDate;
+                this.context.HOMEWORK_MASTER_DTL.Add(homework);
+                if (isUpdate)
+                {
+                    this.context.Entry(homework).State = System.Data.Entity.EntityState.Modified;
+                }
 
-            return this.context.SaveChanges() > 0 ? homework.homework_master_dtl_id : 0;
+                var res = this.context.SaveChanges() > 0 ? homework.homework_master_dtl_id : 0;
+                if (res > 0)
+                {
+                    homeworkDetail.HomeworkDetailID = homework.homework_master_dtl_id;
+                    responseModel.Data = homeworkDetail;
+                    responseModel.Status = true;
+                    responseModel.Message = isUpdate == true ? "Homework Details Updated Successfully." : "Homework Details Inserted Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = isUpdate==true? "Homework Details Not Updated." : "Homework Details Not Inserted.";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+
         }
 
         public async Task<List<HomeworkDetailEntity>> GetAllHomeworkByStudent(long homeworkID)
@@ -62,7 +84,8 @@ namespace Ashirvad.Repo.Services.Area.Homework
             var data = (from u in this.context.HOMEWORK_MASTER_DTL
                        .Include("HOMEWORK_MASTER")
                        .Include("STUDENT_MASTER")
-                       .Include("BRANCH_MASTER") orderby u.homework_master_dtl_id descending
+                       .Include("BRANCH_MASTER")
+                        orderby u.homework_master_dtl_id descending
                         where u.homework_id == homeworkID
                         select new HomeworkDetailEntity()
                         {
@@ -235,85 +258,160 @@ namespace Ashirvad.Repo.Services.Area.Homework
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
-            
+
             return data;
         }
 
-        public  bool RemoveHomework(long homeworkdetailID, string lastupdatedby)
+        public ResponseModel RemoveHomework(long homeworkdetailID, string lastupdatedby)
         {
-            var data = (from u in this.context.HOMEWORK_MASTER_DTL
-                        where u.homework_master_dtl_id == homeworkdetailID
-                        select u).FirstOrDefault();
-
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
-            }
+                var data = (from u in this.context.HOMEWORK_MASTER_DTL
+                            where u.homework_master_dtl_id == homeworkdetailID
+                            select u).FirstOrDefault();
 
-            return false;
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Status = true;
+                    responseModel.Message = "Homework Removed Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Homework Not Found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
         }
 
-        public bool RemoveHomeworkdetail(long homeworkdetailID,long UserID)
+        public ResponseModel RemoveHomeworkdetail(long homeworkdetailID, long UserID)
         {
-            var data = (from u in this.context.HOMEWORK_MASTER_DTL
-                        where u.homework_id == homeworkdetailID && u.stud_id== UserID
-                        select u).ToList();
-
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                this.context.HOMEWORK_MASTER_DTL.RemoveRange(data);
-                this.context.SaveChanges();
-                return true;
-            }
+                var data = (from u in this.context.HOMEWORK_MASTER_DTL
+                            where u.homework_id == homeworkdetailID && u.stud_id == UserID
+                            select u).ToList();
 
-            return false;
+                if (data != null)
+                {
+                    this.context.HOMEWORK_MASTER_DTL.RemoveRange(data);
+                    this.context.SaveChanges();
+                    responseModel.Status = true;
+                    responseModel.Message = "Homework Details Removed Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Homework Details Not Found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+
+
+
         }
 
-        public async Task<long> HomeworkDetailUpdate(HomeworkDetailEntity homeworkDetail)
+        public async Task<ResponseModel> HomeworkDetailUpdate(HomeworkDetailEntity homeworkDetail)
         {
-            Model.HOMEWORK_MASTER_DTL homework = new Model.HOMEWORK_MASTER_DTL();
-            bool isUpdate = true;
-            var data = (from t in this.context.HOMEWORK_MASTER_DTL
-                        where t.homework_id == homeworkDetail.HomeworkEntity.HomeworkID && t.stud_id == homeworkDetail.HomeworkEntity.StudentInfo.StudentID
-                        select t).ToList();
-           
-           
-            foreach(var item in data)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
+                Model.HOMEWORK_MASTER_DTL homework = new Model.HOMEWORK_MASTER_DTL();
+                bool isUpdate = true;
+                var data = (from t in this.context.HOMEWORK_MASTER_DTL
+                            where t.homework_id == homeworkDetail.HomeworkEntity.HomeworkID && t.stud_id == homeworkDetail.HomeworkEntity.StudentInfo.StudentID
+                            select t).ToList();
 
-                item.remarks = homeworkDetail.Remarks;
-                item.status = homeworkDetail.Status;               
-                this.context.HOMEWORK_MASTER_DTL.Add(item);
-                this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+
+                foreach (var item in data)
+                {
+
+                    item.remarks = homeworkDetail.Remarks;
+                    item.status = homeworkDetail.Status;
+                    this.context.HOMEWORK_MASTER_DTL.Add(item);
+                    this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                }
+
+
+                var res = this.context.SaveChanges() > 0 ? homeworkDetail.HomeworkEntity.HomeworkID : 0;
+                if (res > 0)
+                {
+                    homeworkDetail.HomeworkDetailID = homework.homework_master_dtl_id;
+                    responseModel.Data = homeworkDetail;
+
+                    responseModel.Status = true;
+                    responseModel.Message = "Homework Details Remarks Updated Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Homework Details Remarks Not Updated.";
+                }
             }
-           
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
 
-            return this.context.SaveChanges() > 0 ? homeworkDetail.HomeworkEntity.HomeworkID : 0;
         }
 
-        public async Task<long> HomeworkDetailFileUpdate(HomeworkDetailEntity homeworkDetail)
+        public async Task<ResponseModel> HomeworkDetailFileUpdate(HomeworkDetailEntity homeworkDetail)
         {
-
-            Model.HOMEWORK_MASTER_DTL homework = new Model.HOMEWORK_MASTER_DTL();
-            bool isUpdate = true;
-            var data = (from t in this.context.HOMEWORK_MASTER_DTL
-                        where t.homework_id == homeworkDetail.HomeworkEntity.HomeworkID && t.stud_id == homeworkDetail.StudentInfo.StudentID
-                        select t).ToList();
-
-
-            foreach (var item in data)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                item.trans_id = this.AddTransactionData(homeworkDetail.Transaction);
-                item.student_filepath = homeworkDetail.StudentFilePath;              
-                this.context.HOMEWORK_MASTER_DTL.Add(item);
-                this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                Model.HOMEWORK_MASTER_DTL homework = new Model.HOMEWORK_MASTER_DTL();
+                bool isUpdate = true;
+                var data = (from t in this.context.HOMEWORK_MASTER_DTL
+                            where t.homework_id == homeworkDetail.HomeworkEntity.HomeworkID && t.stud_id == homeworkDetail.StudentInfo.StudentID
+                            select t).ToList();
+
+
+                foreach (var item in data)
+                {
+                    item.trans_id = this.AddTransactionData(homeworkDetail.Transaction);
+                    item.student_filepath = homeworkDetail.StudentFilePath;
+                    this.context.HOMEWORK_MASTER_DTL.Add(item);
+                    this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                }
+                var res = this.context.SaveChanges() > 0 ? homework.homework_master_dtl_id : 0;
+                if (res > 0)
+                {
+                    homeworkDetail.HomeworkDetailID = homework.homework_master_dtl_id;
+                    responseModel.Data = homeworkDetail;
+                    responseModel.Status = true;
+                    responseModel.Message = "Homework Details File Updated Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Homework Details File Not Updated.";
+                }
             }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
 
-
-            return this.context.SaveChanges() > 0 ? homework.homework_master_dtl_id : 0;
         }
 
     }

@@ -21,67 +21,88 @@ namespace Ashirvad.Repo.Services.Area.Branch
             result = isExists == true ? -1 : 1;
             return result;
         }
-        public async Task<long> BranchMaintenance(BranchEntity branchInfo)
+        public async Task<ResponseModel> BranchMaintenance(BranchEntity branchInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.BRANCH_MASTER branchMaster = new Model.BRANCH_MASTER();
-            if (CheckBranch((int)branchInfo.BranchID, branchInfo.aliasName).Result != -1)
+            try
             {
-                branchMaster.BRANCH_MAINT = new Model.BRANCH_MAINT();
-                bool isUpdate = true;
-                var data = (from branch in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
-                            where branch.branch_id == branchInfo.BranchID
-                            select new
-                            {
-                                branchMaster = branch
-                            }).FirstOrDefault();
-                if (data == null)
+                if (CheckBranch((int)branchInfo.BranchID, branchInfo.aliasName).Result != -1)
                 {
-                    branchMaster = new Model.BRANCH_MASTER();
                     branchMaster.BRANCH_MAINT = new Model.BRANCH_MAINT();
-                    isUpdate = false;
-                }
-                else
-                {
-                    branchMaster = data.branchMaster;
-                    branchMaster.BRANCH_MAINT = data.branchMaster.BRANCH_MAINT;
-                    branchInfo.Transaction.TransactionId = data.branchMaster.trans_id;
-                }
+                    bool isUpdate = true;
+                    var data = (from branch in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
+                                where branch.branch_id == branchInfo.BranchID
+                                select new
+                                {
+                                    branchMaster = branch
+                                }).FirstOrDefault();
+                    if (data == null)
+                    {
+                        branchMaster = new Model.BRANCH_MASTER();
+                        branchMaster.BRANCH_MAINT = new Model.BRANCH_MAINT();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        branchMaster = data.branchMaster;
+                        branchMaster.BRANCH_MAINT = data.branchMaster.BRANCH_MAINT;
+                        branchInfo.Transaction.TransactionId = data.branchMaster.trans_id;
+                    }
 
-                branchMaster.about_us = branchInfo.AboutUs;
-                branchMaster.branch_name = branchInfo.BranchName;
-                branchMaster.contact_no = branchInfo.ContactNo;
-                branchMaster.branch_type = 2;
-                branchMaster.email_id = branchInfo.EmailID;
-                branchMaster.mobile_no = branchInfo.MobileNo;
-                branchMaster.row_sta_cd = branchInfo.RowStatus.RowStatusId;
-                branchMaster.alias_name = branchInfo.aliasName;
-                branchMaster.trans_id = this.AddTransactionData(branchInfo.Transaction);
-                branchMaster.board_type = null;
+                    branchMaster.about_us = branchInfo.AboutUs;
+                    branchMaster.branch_name = branchInfo.BranchName;
+                    branchMaster.contact_no = branchInfo.ContactNo;
+                    branchMaster.branch_type = 2;
+                    branchMaster.email_id = branchInfo.EmailID;
+                    branchMaster.mobile_no = branchInfo.MobileNo;
+                    branchMaster.row_sta_cd = branchInfo.RowStatus.RowStatusId;
+                    branchMaster.alias_name = branchInfo.aliasName;
+                    branchMaster.trans_id = this.AddTransactionData(branchInfo.Transaction);
+                    branchMaster.board_type = null;
 
-                this.context.BRANCH_MASTER.Add(branchMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(branchMaster).State = System.Data.Entity.EntityState.Modified;
+                    this.context.BRANCH_MASTER.Add(branchMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(branchMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    if (!isUpdate)
+                    {
+                        branchMaster.BRANCH_MAINT.branch_id = branchMaster.branch_id;
+                    }
+                    branchMaster.BRANCH_MAINT.file_name = branchInfo.BranchMaint.FileName;
+                    branchMaster.BRANCH_MAINT.file_path = branchInfo.BranchMaint.FilePath;
+                    branchMaster.BRANCH_MAINT.branch_logo = null;
+                    branchMaster.BRANCH_MAINT.header_logo = null;
+                    branchMaster.BRANCH_MAINT.website = branchInfo.BranchMaint.Website;
+                    branchMaster.BRANCH_MAINT.branch_logo_ext = null;
+                    branchMaster.BRANCH_MAINT.header_logo_ext = null;
+                    this.context.BRANCH_MAINT.Add(branchMaster.BRANCH_MAINT);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(branchMaster.BRANCH_MAINT).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var id = this.context.SaveChanges() > 0 ? branchMaster.branch_id : 0;
+                    if (id > 0)
+                    {
+                        branchInfo.BranchID = branchMaster.branch_id;
+                        responseModel.Data = branchInfo;
+                        responseModel.Message = isUpdate == true ? "Branch Updated Successfully." : "Branch Inserted Successfully.";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate == true ? "Branch Not Updated." : "Branch Not Inserted.";
+                        responseModel.Status = false;
+                    }
                 }
-                if (!isUpdate)
-                {
-                    branchMaster.BRANCH_MAINT.branch_id = branchMaster.branch_id;
-                }
-                branchMaster.BRANCH_MAINT.file_name = branchInfo.BranchMaint.FileName;
-                branchMaster.BRANCH_MAINT.file_path = branchInfo.BranchMaint.FilePath;
-                branchMaster.BRANCH_MAINT.branch_logo = null;
-                branchMaster.BRANCH_MAINT.header_logo = null;
-                branchMaster.BRANCH_MAINT.website = branchInfo.BranchMaint.Website;
-                branchMaster.BRANCH_MAINT.branch_logo_ext = null;
-                branchMaster.BRANCH_MAINT.header_logo_ext = null;
-                this.context.BRANCH_MAINT.Add(branchMaster.BRANCH_MAINT);
-                if (isUpdate)
-                {
-                    this.context.Entry(branchMaster.BRANCH_MAINT).State = System.Data.Entity.EntityState.Modified;
-                }
-                return this.context.SaveChanges() > 0 ? branchMaster.branch_id : 0;
+            }catch(Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
-            return -1;
+          
+            return responseModel;
         }
 
         public async Task<List<BranchEntity>> GetAllBranch()
@@ -234,20 +255,38 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return data;
         }
 
-        public bool RemoveBranch(long BranchID, string lastupdatedby)
+        public ResponseModel RemoveBranch(long BranchID, string lastupdatedby)
         {
-            var data = (from u in this.context.BRANCH_MASTER
-                        where u.branch_id == BranchID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
-            }
+                var data = (from u in this.context.BRANCH_MASTER
+                            where u.branch_id == BranchID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
 
-            return false;
+                    responseModel.Message = "Branch Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "Branch Not Found";
+                    responseModel.Status = false;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
+           
         }
 
         public async Task<long> Checkagreement(long BranchID, long agreementid)
@@ -258,44 +297,67 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return result;
         }
 
-        public async Task<long> AgreementMaintenance(BranchAgreementEntity agrInfo)
+        public async Task<ResponseModel> AgreementMaintenance(BranchAgreementEntity agrInfo)
         {
             Model.BRANCH_AGREEMENT agrMaster = new Model.BRANCH_AGREEMENT();
-            if (Checkagreement(agrInfo.BranchData.BranchID, agrInfo.AgreementID).Result != -1)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                bool isUpdate = true;
-                var data = (from upi in this.context.BRANCH_AGREEMENT
-                            where upi.agreement_id == agrInfo.AgreementID
-                            select upi).FirstOrDefault();
-                if (data == null)
+                if (Checkagreement(agrInfo.BranchData.BranchID, agrInfo.AgreementID).Result != -1)
                 {
-                    data = new Model.BRANCH_AGREEMENT();
-                    isUpdate = false;
+                    bool isUpdate = true;
+                    var data = (from upi in this.context.BRANCH_AGREEMENT
+                                where upi.agreement_id == agrInfo.AgreementID
+                                select upi).FirstOrDefault();
+                    if (data == null)
+                    {
+                        data = new Model.BRANCH_AGREEMENT();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        agrMaster = data;
+                        agrInfo.TranscationData.TransactionId = data.trans_id;
+                    }
+
+                    agrMaster.row_sta_cd = agrInfo.RowStatusData.RowStatusId;
+                    agrMaster.trans_id = this.AddTransactionData(agrInfo.TranscationData);
+                    agrMaster.branch_id = agrInfo.BranchData.BranchID;
+                    agrMaster.from_dt = agrInfo.AgreementFromDate;
+                    agrMaster.amount = agrInfo.Amount;
+                    agrMaster.to_dt = agrInfo.AgreementToDate;
+                    if (!isUpdate)
+                    {
+                        this.context.BRANCH_AGREEMENT.Add(agrMaster);
+                    }
+
+                    var agrID = this.context.SaveChanges() > 0 ? agrMaster.agreement_id : 0;
+                    if (agrID > 0)
+                    {
+                        agrInfo.AgreementID = agrMaster.agreement_id;
+                        responseModel.Data = agrInfo;
+                        responseModel.Message = isUpdate==true? "Agreement Updated Successfully." : "Agreement Inserted Successfully.";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate ==true? "Agreement Not Updated" : "Agreement Not Inserted";
+                        responseModel.Status = false;
+                    }
                 }
                 else
                 {
-                    agrMaster = data;
-                    agrInfo.TranscationData.TransactionId = data.trans_id;
+                    responseModel.Message = "Agreement Already Exist.";
+                    responseModel.Status = false;
                 }
-
-                agrMaster.row_sta_cd = agrInfo.RowStatusData.RowStatusId;
-                agrMaster.trans_id = this.AddTransactionData(agrInfo.TranscationData);
-                agrMaster.branch_id = agrInfo.BranchData.BranchID;
-                agrMaster.from_dt = agrInfo.AgreementFromDate;
-                agrMaster.amount = agrInfo.Amount;
-                agrMaster.to_dt = agrInfo.AgreementToDate;
-                if (!isUpdate)
-                {
-                    this.context.BRANCH_AGREEMENT.Add(agrMaster);
-                }
-
-                var agrID = this.context.SaveChanges() > 0 ? agrMaster.agreement_id : 0;
-                return agrID;
             }
-            else
+            catch(Exception ex)
             {
-                return -1;
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
+            return responseModel;
+            
             
         }
 
@@ -389,20 +451,35 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return data;
         }
 
-        public bool RemoveAgreement(long agreementID, string lastupdatedby)
+        public ResponseModel RemoveAgreement(long agreementID, string lastupdatedby)
         {
-            var data = (from u in this.context.BRANCH_AGREEMENT
-                        where u.agreement_id == agreementID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.BRANCH_AGREEMENT
+                            where u.agreement_id == agreementID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "Agreement Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "Agreement Not Found";
+                    responseModel.Status = false;
+                }
             }
-
-            return false;
+            catch(Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
+           
         }
 
     }

@@ -132,17 +132,18 @@ function SavePhotos() {
             formData.append('ImageFile', $('input[type=file]')[0].files[0]);
         }  
         AjaxCallWithFileUpload(commonData.Photos + 'SavePhotos', formData, function (data) {
-            if (data) {
+            if (data.Status) {
                 HideLoader();
-                ShowMessage('Photos details saved!', 'Success');
+                ShowMessage(data.Message, 'Success');
                 window.location.href = "PhotosMaintenance?photoID=0";
             }
             else {
                 HideLoader();
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+                ShowMessage(data.Message, 'Error');
             }
         }, function (xhr) {
             HideLoader();
+            ShowMessage('An unexpected error occcurred while processing request!', 'Error');
         });
     }
 }
@@ -153,8 +154,13 @@ function RemovePhotos(branchID) {
         var postCall = $.post(commonData.Photos + "RemovePhotos", { "photoID": branchID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Photos Removed Successfully.", "Success");
-            window.location.href = "PhotosMaintenance?photoID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "PhotosMaintenance?photoID=0";
+            }
+            else {
+                ShowMessage(data.Message, "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

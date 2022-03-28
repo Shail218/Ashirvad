@@ -207,11 +207,12 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
             return false;
         }
 
-        public async Task<long> SubjectMasterMaintenance(SuperAdminSubjectEntity subjectentity)
+        public async Task<ResponseModel> SubjectMasterMaintenance(SuperAdminSubjectEntity subjectentity)
         {
+            ResponseModel model = new ResponseModel();
             try
             {
-                long result = 0;
+                //long result = 0;
 
                 var List = GetSubjectdetails(subjectentity.courseEntity.CourseID, subjectentity.classEntity.ClassID).Result;
 
@@ -241,8 +242,8 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                     {
                         Class_dtl_id = item.BranchClass.Class_dtl_id
                     };
-                    
-                    result = _BranchSubject.SubjectMaintenance(branchSubject).Result;
+
+                    model = _BranchSubject.SubjectMaintenance(branchSubject).Result;
                 }
                 //if ((int)subjectentity.UserType == 5)
                 //{
@@ -285,17 +286,19 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
 
                 //    result = _subject.SubjectMaintenance(subject).Result;
                 //}
-                return result;
+               
             }
             catch (Exception ex)
             {
-                throw;
+                model.Status = false;
+                model.Message = ex.Message.ToString();
             }
-
+            return model;
         }
 
-        public async Task<long> SuperAdminSubjectMasterMaintenance(SuperAdminSubjectEntity subjectentity)
+        public async Task<ResponseModel> SuperAdminSubjectMasterMaintenance(SuperAdminSubjectEntity subjectentity)
         {
+            ResponseModel model = new ResponseModel();
             try
             {
                 long result = 0;
@@ -348,15 +351,16 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                         Class_dtl_id = item.BranchClass.Class_dtl_id
                     };
 
-                    result = _BranchSubject.SubjectMaintenance(branchSubject).Result;
+                    model = _BranchSubject.SubjectMaintenance(branchSubject).Result;
                 }               
-                return result;
+              
             }
             catch (Exception ex)
             {
-                throw;
+                model.Status = false;
+                model.Message = ex.Message.ToString();
             }
-
+            return model;
         }
 
         public async Task<List<SuperAdminSubjectEntity>> GetAllCustomSubject(DataTableAjaxPostModel model)

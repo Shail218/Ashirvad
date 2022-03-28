@@ -88,12 +88,12 @@ function SaveCourse() {
         formData.append('ImageFile', $('input[type=file]')[0].files[0]);
         AjaxCallWithFileUpload(commonData.Course + 'SaveCourse', formData, function (data) {
             HideLoader();
-            if (data.CourseID >= 0) {
-                ShowMessage('Course details saved!', 'Success');
+            if (data.Status) {
+                ShowMessage(data.Message, 'Success');
                 window.location.href = "CourseMaintenance?courseID=0";
             }
             else {
-                ShowMessage('Course Already Exists!!!', 'Error');
+                ShowMessage(data.Message, 'Error');
             }
         }, function (xhr) {
             HideLoader();
@@ -107,12 +107,12 @@ function RemoveCourse(courseId) {
         var postCall = $.post(commonData.Course + "RemoveCourse", { "courseID": courseId });
         postCall.done(function (data) {
             HideLoader();
-            if (data) {
-                ShowMessage("Course Removed Successfully.", "Success");
+            if (data.Status) {
+                ShowMessage(data.Message, 'Success');
                 window.location.href = "CourseMaintenance?courseID=0";
             }
             else {
-                ShowMessage("Course is Already in used!!!.", "Error");
+                ShowMessage(data.Message, 'Error');
             }
         }).fail(function () {
             HideLoader();

@@ -13,41 +13,68 @@ namespace Ashirvad.Repo.Services.Area.Banner
 {
     public class Banner : ModelAccess, IBannerAPI
     {
-        public async Task<long> BannerMaintenance(BannerEntity bannerInfo)
+        public async Task<ResponseModel> BannerMaintenance(BannerEntity bannerInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.BANNER_MASTER bannerMaster = new Model.BANNER_MASTER();
             bool isUpdate = true;
-            var data = (from banner in this.context.BANNER_MASTER
-                        where banner.banner_id == bannerInfo.BannerID
-                        select banner).FirstOrDefault();
-            if (data == null)
+            try
             {
-                data = new Model.BANNER_MASTER();
-                isUpdate = false;
+                var data = (from banner in this.context.BANNER_MASTER
+                            where banner.banner_id == bannerInfo.BannerID
+                            select banner).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.BANNER_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    bannerMaster = data;
+                    bannerInfo.Transaction.TransactionId = data.trans_id;
+                }
+                bannerMaster.banner_img = null;
+                bannerMaster.file_name = bannerInfo.FileName;
+                bannerMaster.file_path = bannerInfo.FilePath;
+                bannerMaster.row_sta_cd = bannerInfo.RowStatus.RowStatusId;
+                bannerMaster.trans_id = this.AddTransactionData(bannerInfo.Transaction);
+                bannerMaster.branch_id = bannerInfo.BranchInfo != null ? (long?)bannerInfo.BranchInfo.BranchID : null;
+                if (!isUpdate)
+                {
+                    this.context.BANNER_MASTER.Add(bannerMaster);
+                }
+                var da = this.context.SaveChanges() > 0 || bannerMaster.banner_id > 0;
+                if (da)
+                {
+                    bannerInfo.BannerID = bannerMaster.banner_id;
+                    var result = await this.AddBannerType(bannerInfo.BannerType, bannerInfo.BannerID);
+                    if (result)
+                    {
+                        responseModel.Message = isUpdate == true ? "Banner Not Updated." : "Banner Not Inserted.";
+                        responseModel.Status = true;
+                        responseModel.Data = bannerInfo;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate == true ? "Banner Not Updated." : "Banner Not Inserted.";
+                        responseModel.Status = false;
+                    }
+                    //return bannerID;
+                }
+                else
+                {
+                    responseModel.Message = isUpdate == true ? "Banner Not Updated." : "Banner Not Inserted.";
+                    responseModel.Status = false;
+                }
+
             }
-            else
+            catch (Exception ex)
             {
-                bannerMaster = data;
-                bannerInfo.Transaction.TransactionId = data.trans_id;
-            }
-            bannerMaster.banner_img = null;
-            bannerMaster.file_name = bannerInfo.FileName;
-            bannerMaster.file_path = bannerInfo.FilePath;
-            bannerMaster.row_sta_cd = bannerInfo.RowStatus.RowStatusId;
-            bannerMaster.trans_id = this.AddTransactionData(bannerInfo.Transaction);
-            bannerMaster.branch_id = bannerInfo.BranchInfo != null ? (long?)bannerInfo.BranchInfo.BranchID : null;
-            if (!isUpdate)
-            {
-                this.context.BANNER_MASTER.Add(bannerMaster);
-            }
-            if (this.context.SaveChanges() > 0 || bannerMaster.banner_id > 0)
-            {
-                var bannerID = bannerMaster.banner_id;
-                var result = await this.AddBannerType(bannerInfo.BannerType, bannerID);
-                return bannerID;
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
 
-            return 0;
+            return responseModel;
         }
 
         public async Task<bool> AddBannerType(List<BannerTypeEntity> bannerType, long bannerID)
@@ -274,20 +301,34 @@ namespace Ashirvad.Repo.Services.Area.Banner
             return data;
         }
 
-        public bool RemoveBanner(long bannerID, string lastupdatedby)
+        public ResponseModel RemoveBanner(long bannerID, string lastupdatedby)
         {
-            var data = (from u in this.context.BANNER_MASTER
-                        where u.banner_id == bannerID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.BANNER_MASTER
+                            where u.banner_id == bannerID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "Banner Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "Banner Not Found";
+                    responseModel.Status = false;
+                }
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
         }
 
         public async Task<List<BannerEntity>> GetAllBannerforexcel(long branchID)

@@ -19,26 +19,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.Branch
             this._branchContext = branchContext;
         }
 
-        public async Task<BranchEntity> BranchMaintenance(BranchEntity branchInfo)
+        public async Task<ResponseModel> BranchMaintenance(BranchEntity branchInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             BranchEntity branch = new BranchEntity();
             try
             {
-                long branchID = await _branchContext.BranchMaintenance(branchInfo);
-                if (branchID > 0)
-                {
-                    //Add User
-                    //Get Branch
-                    branch.BranchID = branchID;
-                }
-
+                responseModel = await _branchContext.BranchMaintenance(branchInfo);
+               
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return branch;
+            return responseModel;
         }
 
         public async Task<OperationResult<List<BranchEntity>>> GetAllBranchWithoutImage()
@@ -105,8 +100,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Branch
         
         
         
-        public bool RemoveBranch(long BranchID, string lastupdatedby)
+        public ResponseModel RemoveBranch(long BranchID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._branchContext.RemoveBranch(BranchID, lastupdatedby);
@@ -116,23 +112,24 @@ namespace Ashirvad.ServiceAPI.Services.Area.Branch
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
-        public async Task<BranchAgreementEntity> AgreementMaintenance(BranchAgreementEntity agreementInfo)
+        public async Task<ResponseModel> AgreementMaintenance(BranchAgreementEntity agreementInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             BranchAgreementEntity agreement = new BranchAgreementEntity();
             try
             {
-                long agrID = await _branchContext.AgreementMaintenance(agreementInfo);
-                agreement.AgreementID = agrID;
+                responseModel = await _branchContext.AgreementMaintenance(agreementInfo);
+                //agreement.AgreementID = agrID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return agreement;
+            return responseModel;
         }
 
         public async Task<OperationResult<List<BranchAgreementEntity>>> GetAllAgreement(long branchID)
@@ -183,8 +180,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Branch
             return null;
         }
         
-        public bool RemoveAgreement(long AgreementID, string lastupdatedby)
+        public ResponseModel RemoveAgreement(long AgreementID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._branchContext.RemoveAgreement(AgreementID, lastupdatedby);
@@ -194,7 +192,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Branch
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
         public Task<List<BranchEntity>> GetAllBranch(Common.Common.DataTableAjaxPostModel model)

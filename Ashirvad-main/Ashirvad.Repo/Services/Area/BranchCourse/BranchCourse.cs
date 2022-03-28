@@ -22,49 +22,69 @@ namespace Ashirvad.Repo.Services.Area.Branch
             result = isExists == true ? -1 : 1;
             return result;
         }
-        public async Task<long> CourseMaintenance(BranchCourseEntity CourseInfo)
+        public async Task<ResponseModel> CourseMaintenance(BranchCourseEntity CourseInfo)
         {
-            Model.COURSE_DTL_MASTER CourseMaster = new Model.COURSE_DTL_MASTER();
-            if (CheckCourse((int)CourseInfo.course_dtl_id, (int)CourseInfo.course.CourseID, (int)CourseInfo.branch.BranchID).Result != -1)
-            {
-                bool isUpdate = true;
-                var data = (from course in this.context.COURSE_DTL_MASTER
-                            where course.course_dtl_id == CourseInfo.course_dtl_id
-                            select new
-                            {
-                                CourseMaster = course
-                            }).FirstOrDefault();
-                if (data == null)
+            ResponseModel responseModel = new ResponseModel();
+            try{
+                Model.COURSE_DTL_MASTER CourseMaster = new Model.COURSE_DTL_MASTER();
+                if (CheckCourse((int)CourseInfo.course_dtl_id, (int)CourseInfo.course.CourseID, (int)CourseInfo.branch.BranchID).Result != -1)
                 {
-                    CourseMaster = new Model.COURSE_DTL_MASTER();
-                    isUpdate = false;
+                    bool isUpdate = true;
+                    var data = (from course in this.context.COURSE_DTL_MASTER
+                                where course.course_dtl_id == CourseInfo.course_dtl_id
+                                select new
+                                {
+                                    CourseMaster = course
+                                }).FirstOrDefault();
+                    if (data == null)
+                    {
+                        CourseMaster = new Model.COURSE_DTL_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        CourseMaster = data.CourseMaster;
+                        CourseInfo.Transaction.TransactionId = data.CourseMaster.trans_id;
+                    }
+
+                    CourseMaster.course_id = CourseInfo.course.CourseID;
+                    CourseMaster.branch_id = CourseInfo.branch.BranchID;
+                    CourseMaster.row_sta_cd = CourseInfo.RowStatus.RowStatus == Enums.RowStatus.Active ? (int)Enums.RowStatus.Active : (int)Enums.RowStatus.Inactive;
+                    CourseMaster.is_course = CourseInfo.iscourse;
+                    CourseMaster.trans_id = CourseInfo.Transaction.TransactionId > 0 ? CourseInfo.Transaction.TransactionId : this.AddTransactionData(CourseInfo.Transaction);
+                    this.context.COURSE_DTL_MASTER.Add(CourseMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(CourseMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var result = this.context.SaveChanges();
+                    if (result > 0)
+                    {
+                        CourseInfo.course_dtl_id = CourseMaster.course_dtl_id;
+                        responseModel.Data = CourseInfo;
+                        //var result2 = courseDetailMaintenance(courseInfo).Result;
+                        responseModel.Message = isUpdate == true ? "Course Updated Successfully." : "Course Inserted Successfully.";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate == true ? "Course Not Updated." : "Course Not Inserted.";
+                        responseModel.Status = false;
+                    }
                 }
                 else
                 {
-                    CourseMaster = data.CourseMaster;
-                    CourseInfo.Transaction.TransactionId = data.CourseMaster.trans_id;
+                    responseModel.Message = "Course Already Exists.";
+                    responseModel.Status = false;
                 }
-
-                CourseMaster.course_id = CourseInfo.course.CourseID;                
-                CourseMaster.branch_id = CourseInfo.branch.BranchID;
-                CourseMaster.row_sta_cd = CourseInfo.RowStatus.RowStatus == Enums.RowStatus.Active ?(int)Enums.RowStatus.Active : (int)Enums.RowStatus.Inactive;
-                CourseMaster.is_course = CourseInfo.iscourse;               
-                CourseMaster.trans_id = CourseInfo.Transaction.TransactionId>0? CourseInfo.Transaction.TransactionId:this.AddTransactionData(CourseInfo.Transaction);
-                this.context.COURSE_DTL_MASTER.Add(CourseMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(CourseMaster).State = System.Data.Entity.EntityState.Modified;
-                }
-                var result = this.context.SaveChanges();
-                if (result > 0)
-                {
-                    CourseInfo.course_dtl_id = CourseMaster.course_dtl_id;
-                    //var result2 = courseDetailMaintenance(courseInfo).Result;
-                    return result > 0 ? CourseInfo.course_dtl_id : 0;
-                }
-                return this.context.SaveChanges() > 0 ? 1 : 0;
             }
-            return -1;
+            catch(Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+          
+            return responseModel;
         }
         public async Task<List<BranchCourseEntity>> GetAllCourse(long BranchID)
         {

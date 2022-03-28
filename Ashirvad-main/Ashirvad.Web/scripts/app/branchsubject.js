@@ -334,7 +334,6 @@ function RemoveSubject(CourseID,ClassID) {
             if (data.Status == true) {
                 ShowMessage(data.Message, 'Success');
                 setTimeout(function () { window.location.href = "SubjectMaintenance?SubjectID=0&&CourseID=0"; }, 2000);
-
             }
             else {
                 ShowMessage(data.Message, 'Error');

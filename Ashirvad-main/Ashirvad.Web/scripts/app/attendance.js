@@ -239,8 +239,13 @@ function SaveAttendance() {
         var postCall = $.post(commonData.AttendanceEntry + "AttendanceMaintenance", $('#fAttendanceReportDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Attendance added Successfully.", "Success");
-            window.location.href = "/AttendanceRegister/Index";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "/AttendanceRegister/Index";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+           
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -252,9 +257,13 @@ function RemoveStudent(studentID) {
     
     var postCall = $.post(commonData.Student + "RemoveStudent", { "studentID": studentID });
     postCall.done(function (data) {
-        
-        ShowMessage("Student Removed Successfully.", "Success");
-        window.location.href = "StudentMaintenance?studentID=0";
+        if (data.Status) {
+            ShowMessage((data.Message, "Success");
+            window.location.href = "StudentMaintenance?studentID=0";
+        } else {
+            ShowMessage(data.Message, "Error");
+        }
+
     }).fail(function () {
         
         ShowMessage("An unexpected error occcurred while processing request!", "Error");

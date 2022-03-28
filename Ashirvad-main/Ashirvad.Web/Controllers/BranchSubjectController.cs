@@ -59,8 +59,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveSubjectDetails(BranchSubjectEntity branchSubject)
         {
-            response.Status = false;
-
+            
 
             BranchSubjectEntity branchSubjectEntity = new BranchSubjectEntity();
 
@@ -82,29 +81,13 @@ namespace Ashirvad.Web.Controllers
                 branchSubject.isSubject = item.isSubject;
                 branchSubject.BranchClass.Class_dtl_id = ClassDetailID;
                 branchSubject.UserType = SessionContext.Instance.LoginUser.UserType;
-                branchSubject = await _branchSubjectService.BranchSubjectMaintenance(branchSubject);
-                if ((long)branchSubject.Data < 0)
+                response = await _branchSubjectService.BranchSubjectMaintenance(branchSubject);
+                if (!response.Status)
                 {
                     break;
                 }
             }
-            if ((long)branchSubject.Data > 0)
-            {
-                response.Status = true;
-                response.Message = branchSubject.Subject_dtl_id > 0 ? "Updated Successfully!!" : "Created Successfully!!";
-
-
-            }
-            else if ((long)branchSubject.Data < 0)
-            {
-                response.Status = false;
-                response.Message = "Already Exists!!";
-            }
-            else
-            {
-                response.Status = false;
-                response.Message = branchSubject.Subject_dtl_id > 0 ? "Failed To Update!!" : "Failed To Create!!";
-            }
+            
             return Json(response);
         }
 

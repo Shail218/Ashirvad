@@ -167,8 +167,12 @@ function SaveBanner() {
         AjaxCallWithFileUpload(commonData.Banner + 'SaveBanner', formData, function (data) {
             if (data) {
                 HideLoader();
-                ShowMessage('Banner details saved!', 'Success');
-                window.location.href = "BannerMaintenance?bannerID=0";
+                if (data.Success) {
+                    ShowMessage(data.Message, 'Success');
+                    window.location.href = "BannerMaintenance?bannerID=0";
+                } else {
+                    ShowMessage(data.Message, 'Error');
+                }
             }
             else {
                 HideLoader();
@@ -186,8 +190,12 @@ function RemoveBanner(branchID) {
         var postCall = $.post(commonData.Banner + "RemoveBanner", { "bannerID": branchID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Banner Removed Successfully.", "Success");
-            window.location.href = "BannerMaintenance?bannerID=0";
+            if (data.Success) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "BannerMaintenance?bannerID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

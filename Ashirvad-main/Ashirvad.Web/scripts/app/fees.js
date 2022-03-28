@@ -191,12 +191,12 @@ function SaveFeeStructure() {
         }
         AjaxCallWithFileUpload(commonData.FeesStructure + 'SaveFees', formData, function (data) {
             HideLoader();
-            if (data.FeesID>=0) {
-                ShowMessage("Fee Structure added Successfully.", "Success");
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
                 window.location.href = "FeesMaintenance?FeesID=0";
             }
             else {
-                ShowMessage("Fee Structure Already Exist. ","Error");
+                ShowMessage(data.Message,"Error");
             }
         }, function (xhr) {
             HideLoader();
@@ -210,8 +210,13 @@ function RemoveFees(feeID) {
         var postCall = $.post(commonData.FeesStructure + "RemoveFees", { "FeesID": feeID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Fee Structure Removed Successfully.", "Success");
-            window.location.href = "FeesMaintenance?FeesID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "FeesMaintenance?FeesID=0";
+            }
+            else {
+                ShowMessage(data.Message, "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

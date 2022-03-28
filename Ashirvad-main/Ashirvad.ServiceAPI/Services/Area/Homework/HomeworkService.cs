@@ -20,13 +20,14 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
             this._homeworkContext = homeworkContext;
         }
 
-        public async Task<HomeworkEntity> HomeworkMaintenance(HomeworkEntity homework)
+        public async Task<ResponseModel> HomeworkMaintenance(HomeworkEntity homework)
         {
+            ResponseModel responseModel = new ResponseModel();
             HomeworkEntity hw = new HomeworkEntity();
             try
             {
-                long HomeworkID = await _homeworkContext.HomeworkMaintenance(homework);
-                hw.HomeworkID = HomeworkID;
+                responseModel = await _homeworkContext.HomeworkMaintenance(homework);
+              //  hw.HomeworkID = HomeworkID;
 
 
             }
@@ -35,7 +36,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return hw;
+            return responseModel;
         }
 
         public async Task<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID,long courseid, long stdID, int batchTime, long studentId=0)
@@ -141,8 +142,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
             return null;
         }
 
-        public bool RemoveHomework(long hwID, string lastupdatedby)
+        public ResponseModel RemoveHomework(long hwID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 var data = _homeworkContext.RemoveHomework(hwID, lastupdatedby);
@@ -153,7 +155,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Homework
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
         public async Task<List<HomeworkEntity>>GetHomeworkdetailsFiles(long hwID)

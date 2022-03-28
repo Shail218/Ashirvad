@@ -10,10 +10,10 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Circular
 {
     public interface ICircularService
     {
-        Task<CircularEntity> CircularMaintenance(CircularEntity branchInfo);        
+        Task<ResponseModel> CircularMaintenance(CircularEntity branchInfo);        
         Task<List<CircularEntity>> GetAllCircular();
         Task<List<CircularEntity>> GetAllCustomCircular(DataTableAjaxPostModel model);
-        bool RemoveCircular(long BranchID, string lastupdatedby);
+        ResponseModel RemoveCircular(long BranchID, string lastupdatedby);
         Task<CircularEntity> GetCircularById(long circularID);
     }
 }
