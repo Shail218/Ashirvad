@@ -19,20 +19,22 @@ namespace Ashirvad.ServiceAPI.Services.Area
             this._MarksContext = MarksContext;
         }
 
-        public async Task<MarksEntity> MarksMaintenance(MarksEntity MarksInfo)
+        public async Task<ResponseModel> MarksMaintenance(MarksEntity MarksInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             MarksEntity Marks = new MarksEntity();
             try
-            {
-                long MarksID = await _MarksContext.MarksMaintenance(MarksInfo);
-                Marks.MarksID = MarksID;
+            { 
+                responseModel = await _MarksContext.MarksMaintenance(MarksInfo);
+                //long MarksID = await _MarksContext.MarksMaintenance(MarksInfo);
+                //Marks.MarksID = MarksID;
             }
             catch (Exception ex)
                 {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return Marks;
+            return responseModel;
         }
 
         public async Task<MarksEntity> GetMarksByMarksID(long MarksID)
@@ -65,18 +67,20 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public bool RemoveMarks(long MarksID, string lastupdatedby)
+        public ResponseModel RemoveMarks(long MarksID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
-                return this._MarksContext.RemoveMarks(MarksID, lastupdatedby);
+                responseModel = this._MarksContext.RemoveMarks(MarksID, lastupdatedby);
+                //return this._MarksContext.RemoveMarks(MarksID, lastupdatedby);
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
 
