@@ -18,19 +18,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.Subject
             this._subjectContext = subjectContext;
         }
 
-        public async Task<SubjectEntity> SubjectMaintenance(SubjectEntity subjectInfo)
+        public async Task<ResponseModel> SubjectMaintenance(SubjectEntity subjectInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             SubjectEntity standard = new SubjectEntity();
             try
             {
-                long subjectID = await _subjectContext.SubjectMaintenance(subjectInfo);
-                standard.SubjectID = subjectID;
+                responseModel = await _subjectContext.SubjectMaintenance(subjectInfo);
+                //long subjectID = await _subjectContext.SubjectMaintenance(subjectInfo);
+                //standard.SubjectID = subjectID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-            return standard;
+            return responseModel;
         }
 
         public async Task<List<SubjectEntity>> GetAllSubjects(long branchID)
@@ -102,18 +104,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Subject
             return null;
         }
 
-        public bool RemoveSubject(long SubjectID, string lastupdatedby)
+        public ResponseModel RemoveSubject(long SubjectID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
-                return this._subjectContext.RemoveSubject(SubjectID,lastupdatedby);
+                responseModel = this._subjectContext.RemoveSubject(SubjectID, lastupdatedby);
+                //return this._subjectContext.RemoveSubject(SubjectID,lastupdatedby);
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
         public async Task<SubjectEntity> GetSubjectByIDAsync(long subjectID)
