@@ -9,11 +9,14 @@ function Savetodo(myModal) {
         ShowLoader();
         var postCall = $.post(commonData.ToDoRegister + 'SaveToDo', $('#fToDoRegisterDetail').serialize())
         postCall.done(function (data) {
-            HideLoader();
-            document.getElementById("" + myModal).style.display = "none";
-            ShowMessage('ToDo details saved!', 'Success');
-            window.location.href = "ToDoRegisterMaintenance?todoID=0";
-           
+            if (data.Status) {
+                HideLoader();
+                document.getElementById("" + myModal).style.display = "none";
+                ShowMessage(data.Message, 'Success');
+                window.location.href = "ToDoRegisterMaintenance?todoID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }                    
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

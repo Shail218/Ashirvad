@@ -72,15 +72,19 @@ function SaveSubject() {
         ShowLoader();
         var postCall = $.post(commonData.SuperAdminSubject + "SaveSubject", $('#fSubjectDetail').serialize());
         postCall.done(function (data) {
-            HideLoader();
-            if (data.SubjectID >= 0) {
-                ShowMessage("Subject details saved!", "Success");
-                setTimeout(function () { window.location.href = "SubjectMaintenance?subjectID=0" }, 2000);
-            } else {
-                ShowMessage("Subject Already Exists!!", "Error");
+            
+                HideLoader();
+                if (data.Status) {
+                    ShowMessage(data.Message, "Success");
+                    setTimeout(function () { window.location.href = "SubjectMaintenance?subjectID=0" }, 2000);
+                } else {
+                    ShowMessage(data.Message, "Error");
+                
             }
+            
         }).fail(function () {
             HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }
 }
@@ -91,11 +95,11 @@ function RemoveSubject(subjectId) {
         var postCall = $.post(commonData.SuperAdminSubject + "RemoveSubject", { "subjectID": subjectId });
         postCall.done(function (data) {
             HideLoader();
-            if (data) {
-                ShowMessage("Subject Removed Successfully.", "Success");
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
                 window.location.href = "SubjectMaintenance?subjectID=0";
             } else {
-                ShowMessage("Subject is Already in used!!.", "Error");
+                ShowMessage(data.Message, "Error");
             }
             
         }).fail(function () {

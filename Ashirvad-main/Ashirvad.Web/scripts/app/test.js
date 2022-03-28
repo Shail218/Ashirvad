@@ -296,11 +296,11 @@ function Savetest() {
             formData.append('FileInfo', $('input[type=file]')[0].files[0]);
         }
         AjaxCallWithFileUpload(commonData.TestPaper + 'SaveTest', formData, function (data) {
-            if (data) {
-                ShowMessage("Test paper added Successfully.", "Success");
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
                 setTimeout(function () { window.location.href = "TestPaperMaintenance?testID=0" }, 2000);
             } else {
-                ShowMessage('Test Already Exists!!', 'Error');
+                ShowMessage(data.Message, 'Error');
             }
             HideLoader();
         }, function (xhr) {
@@ -325,16 +325,18 @@ function Savetestpaper(testID, date) {
             formData.append('FileInfo', $('input[type=file]')[0].files[0]);
         }
         AjaxCallWithFileUpload(commonData.TestPaper + 'SaveTestPaper', formData, function (data) {
-            if (data) {
+            if (data.Status) {
                 HideLoader();
-                ShowMessage("Test paper added Successfully.", "Success");
+                ShowMessage(data.Message, "Success");
                 window.location.href = "TestPaperMaintenance?testID=0";
             } else {
                 HideLoader();
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+                ShowMessage(data.Message, "Error");
+               
             }
         }, function (xhr) {
             HideLoader();
+            ShowMessage('An unexpected error occcurred while processing request!', 'Error');
         });
     } else {
         HideLoader();
@@ -346,9 +348,14 @@ function RemoveTest(testID) {
         ShowLoader();
         var postCall = $.post(commonData.TestPaper + "RemoveTest", { "testID": testID });
         postCall.done(function (data) {
-            HideLoader();
-            ShowMessage("Test Removed Successfully.", "Success");
-            window.location.href = "TestPaperMaintenance?testID=0";
+            if (data) {
+                HideLoader();
+                ShowMessage(data.Message, "Success");
+                window.location.href = "TestPaperMaintenance?testID=0";
+            } else {
+                HideLoader();
+                ShowMessage(data.Message, 'Error');
+            
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
