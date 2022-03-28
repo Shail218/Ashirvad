@@ -31,59 +31,85 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
             return result;
         }
 
-        public async Task<long> SubjectMaintenance(SuperAdminSubjectEntity subjectEntity)
+        public async Task<ResponseModel> SubjectMaintenance(SuperAdminSubjectEntity subjectEntity)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.SUBJECT_BRANCH_MASTER subjectMaster = new Model.SUBJECT_BRANCH_MASTER();
-            if (CheckSubject(subjectEntity.SubjectName, subjectEntity.courseEntity.CourseID,subjectEntity.classEntity.ClassID ,subjectEntity.SubjectID).Result != -1)
+            try
             {
-                bool isUpdate = true;
-                var data = (from subject in this.context.SUBJECT_BRANCH_MASTER
-                            where subject.subject_id == subjectEntity.SubjectID
-                            select new
-                            {
-                                subjectMaster = subject
-                            }).FirstOrDefault();
-                if (data == null)
+                if (CheckSubject(subjectEntity.SubjectName, subjectEntity.courseEntity.CourseID, subjectEntity.classEntity.ClassID, subjectEntity.SubjectID).Result != -1)
                 {
-                    subjectMaster = new Model.SUBJECT_BRANCH_MASTER();
-                    isUpdate = false;
-                }
-                else
-                {
-                    subjectMaster = data.subjectMaster;
-                    subjectEntity.Transaction.TransactionId = data.subjectMaster.trans_id;
-                }
-                subjectMaster.subject_name = subjectEntity.SubjectName;
-                subjectMaster.row_sta_cd = subjectEntity.RowStatus.RowStatusId;
-                subjectMaster.trans_id = this.AddTransactionData(subjectEntity.Transaction);
-                subjectMaster.course_id = subjectEntity.courseEntity.CourseID;
-                subjectMaster.class_id = subjectEntity.classEntity.ClassID;
-                this.context.SUBJECT_BRANCH_MASTER.Add(subjectMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(subjectMaster).State = System.Data.Entity.EntityState.Modified;
-                }
-                var Result = this.context.SaveChanges();
-                if (Result > 0)
-                {
-                    subjectEntity.SubjectID = subjectMaster.subject_id;
-                    subjectEntity.Transaction.TransactionId = subjectEntity.Transaction.TransactionId;
-                    if((int)subjectEntity.UserType == 5)
+                    bool isUpdate = true;
+                    var data = (from subject in this.context.SUBJECT_BRANCH_MASTER
+                                where subject.subject_id == subjectEntity.SubjectID
+                                select new
+                                {
+                                    subjectMaster = subject
+                                }).FirstOrDefault();
+                    if (data == null)
                     {
-                        SuperAdminSubjectMasterMaintenance(subjectEntity);
+                        subjectMaster = new Model.SUBJECT_BRANCH_MASTER();
+                        isUpdate = false;
                     }
                     else
                     {
-                        SubjectMasterMaintenance(subjectEntity);
-                    }                   
-                    //UpdateSubject(subjectEntity);
+                        subjectMaster = data.subjectMaster;
+                        subjectEntity.Transaction.TransactionId = data.subjectMaster.trans_id;
+                    }
+                    subjectMaster.subject_name = subjectEntity.SubjectName;
+                    subjectMaster.row_sta_cd = subjectEntity.RowStatus.RowStatusId;
+                    subjectMaster.trans_id = this.AddTransactionData(subjectEntity.Transaction);
+                    subjectMaster.course_id = subjectEntity.courseEntity.CourseID;
+                    subjectMaster.class_id = subjectEntity.classEntity.ClassID;
+                    this.context.SUBJECT_BRANCH_MASTER.Add(subjectMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(subjectMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var Result = this.context.SaveChanges();
+                    if (Result > 0)
+                    {
+                        subjectEntity.SubjectID = subjectMaster.subject_id;
+                        subjectEntity.Transaction.TransactionId = subjectEntity.Transaction.TransactionId;
+                        if ((int)subjectEntity.UserType == 5)
+                        {
+                            SuperAdminSubjectMasterMaintenance(subjectEntity);
+                        }
+                        else
+                        {
+                            SubjectMasterMaintenance(subjectEntity);
+                        }
+                        //UpdateSubject(subjectEntity);
+                    }
+                    var da = this.context.SaveChanges() > 0 || subjectEntity.SubjectID > 0;
+                    if (da)
+                    {
+                        subjectEntity.SubjectID = subjectEntity.SubjectID;
+                        responseModel.Message = isUpdate == true ? "Subject Updated." : "Subject Inserted Successfully";
+                        responseModel.Status = true;
+                        responseModel.Data = subjectEntity;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate == true ? "Subject Not Updated." : "Subject Not Inserted Successfully";
+                        responseModel.Status = false;
+                    }
                 }
-                return this.context.SaveChanges() > 0 ? subjectEntity.SubjectID : 0;
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Subject Already Exist.";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return -1;
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
+
+            return responseModel;
+
+
         }
 
         public async Task<SuperAdminSubjectEntity> GetSubjectBySubjectID(long subjectID)
@@ -179,32 +205,50 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
             return true;
         }
 
-        public bool RemoveSubject(long subjectID, string lastupdatedby)
+        public ResponseModel RemoveSubject(long subjectID, string lastupdatedby)
         {
-            bool Isvalid = CheckHistory(subjectID);
-            if (Isvalid)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                var data = (from u in this.context.SUBJECT_BRANCH_MASTER
-                            where u.subject_id == subjectID
-                            select u).FirstOrDefault();
-                if (data != null)
+                bool Isvalid = CheckHistory(subjectID);
+                if (Isvalid)
                 {
-                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                    this.context.SaveChanges();
-                }
-                var data1 = (from u in this.context.SUBJECT_DTL_MASTER
-                             where u.subject_id == subjectID && u.is_subject == false && u.row_sta_cd == 1
-                             select u).FirstOrDefault();
-                if (data1 != null)
-                {
-                    data1.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    data1.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data1.trans_id, LastUpdateBy = lastupdatedby });
-                    this.context.SaveChanges();
-                    return true;
+                    var data = (from u in this.context.SUBJECT_BRANCH_MASTER
+                                where u.subject_id == subjectID
+                                select u).FirstOrDefault();
+                    if (data != null)
+                    {
+                        data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                        this.context.SaveChanges();
+                    }
+                    var data1 = (from u in this.context.SUBJECT_DTL_MASTER
+                                 where u.subject_id == subjectID && u.is_subject == false && u.row_sta_cd == 1
+                                 select u).FirstOrDefault();
+                    if (data1 != null)
+                    {
+                        data1.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        data1.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data1.trans_id, LastUpdateBy = lastupdatedby });
+                        this.context.SaveChanges();
+                        responseModel.Message = "Subject Removed Successfully.";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = "Subject Not Found.";
+                        responseModel.Status = false;
+                    }
                 }
             }
-            return false;
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+
+            return responseModel;
+
+            //return false;
         }
 
         public async Task<ResponseModel> SubjectMasterMaintenance(SuperAdminSubjectEntity subjectentity)

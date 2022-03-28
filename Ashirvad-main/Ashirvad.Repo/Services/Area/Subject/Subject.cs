@@ -172,6 +172,11 @@ namespace Ashirvad.Repo.Services.Area.Subject
                     responseModel.Message = "Subject Removed Successfully.";
                     responseModel.Status = true;
                 }
+                else
+                {
+                    responseModel.Message = "Subject Not Found.";
+                    responseModel.Status = false;
+                }
             }
             catch (Exception ex)
             {

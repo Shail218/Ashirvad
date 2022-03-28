@@ -11,10 +11,10 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.SuperAdminSubject
 {
     public interface ISuperAdminSubjectService
     {
-        Task<SuperAdminSubjectEntity> SubjectMaintenance(SuperAdminSubjectEntity subjectEntity);
+        Task<ResponseModel> SubjectMaintenance(SuperAdminSubjectEntity subjectEntity);
         Task<OperationResult<SuperAdminSubjectEntity>> GetSubjectBySubjectID(long subjectID);
         Task<OperationResult<List<SuperAdminSubjectEntity>>> GetAllSubject();
-        bool RemoveSubject(long subjectID, string lastupdatedby);
+        ResponseModel RemoveSubject(long subjectID, string lastupdatedby);
         Task<OperationResult<List<SuperAdminSubjectEntity>>> GetAllCustomSubject(DataTableAjaxPostModel model);
         Task<OperationResult<List<SuperAdminSubjectEntity>>> GetAllSubjectByCourseClass(long courseid, long classid);
 
