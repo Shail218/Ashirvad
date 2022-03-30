@@ -527,6 +527,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     var res = this.context.SaveChanges() > 0 ? subjectMaster.subject_id : 0;
                     if (res > 0)
                     {
+                        subjectInfo.BranchSubject.Subject_dtl_id = subjectMaster.subject_id;
+                        responseModel.Data = subjectInfo;
                         responseModel.Status = true;
                         responseModel.Message = isUpdate==true?"Subject Updated Successfully.":"Subject Inserted Successfully.";
                     }

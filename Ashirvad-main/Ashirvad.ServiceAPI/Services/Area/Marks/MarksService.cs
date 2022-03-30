@@ -112,21 +112,20 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public async Task<MarksEntity> UpdateMarksDetails(MarksEntity marksEntity)
+        public async Task<ResponseModel> UpdateMarksDetails(MarksEntity marksEntity)
         {
-            MarksEntity marks = new MarksEntity();
+            ResponseModel response = new ResponseModel();
             try
             {
-                var data = await _MarksContext.UpdateMarksDetails(marksEntity);
-                marks.MarksID = data;
-                return marks;
+                response = await _MarksContext.UpdateMarksDetails(marksEntity);
+                
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return marks;
+            return response;
         }
 
         public async Task<List<MarksEntity>> GetAllStudentMarks(long BranchID, long StudentID)

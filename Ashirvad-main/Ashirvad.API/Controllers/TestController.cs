@@ -33,8 +33,13 @@ namespace Ashirvad.API.Controllers
         {
             OperationResult<TestEntity> result = new OperationResult<TestEntity>();
             var data = this._testService.TestMaintenance(testInfo);
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+                result.Data = (TestEntity)data.Result.Data;
+
+            }
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -96,8 +101,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._testService.RemoveTest(testID, lastupdatedby,true);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 
@@ -108,8 +114,9 @@ namespace Ashirvad.API.Controllers
             OperationResult<TestPaperEntity> result = new OperationResult<TestPaperEntity>();
 
             var data = this._testService.TestPaperMaintenance(testInfo);
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            result.Data = (TestPaperEntity)data.Result.Data;
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -161,8 +168,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._testService.RemoveTestPaper(paperID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 
@@ -175,8 +183,13 @@ namespace Ashirvad.API.Controllers
             OperationResult<StudentAnswerSheetEntity> result = new OperationResult<StudentAnswerSheetEntity>();
 
             var data = this._testService.StudentAnswerSheetMaintenance(ansSheet);
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+
+                result.Data = (StudentAnswerSheetEntity)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -242,8 +255,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._testService.RemoveAnswerSheet(ansID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 
@@ -316,20 +330,12 @@ namespace Ashirvad.API.Controllers
                 }
             }
             var data = this._testService.TestPaperMaintenance(testPaperEntity).Result;
-            result.Completed = false;
-            result.Data = null;
-            if (data.TestID > 0)
+            result.Completed = data.Status;
+           
+            result.Message = data.Message;
+            if (data.Status)
             {
-                result.Completed = true;
-                result.Data = data;
-                if (entity.TestPaperID > 0)
-                {
-                    result.Message = "Test Paper Updated Successfully.";
-                }
-                else
-                {
-                    result.Message = "Test Paper Created Successfully.";
-                }
+                result.Data = (TestPaperEntity)data.Data;
             }
             return result;
         }
@@ -350,6 +356,7 @@ namespace Ashirvad.API.Controllers
 
             StudentAnswerSheetEntity TestDetail = new StudentAnswerSheetEntity();
             StudentAnswerSheetEntity Response = new StudentAnswerSheetEntity();
+            ResponseModel ResponseM = new ResponseModel();
 
             TestDetail.TestInfo = new TestEntity();
             TestDetail.BranchInfo = new BranchEntity();
@@ -397,16 +404,14 @@ namespace Ashirvad.API.Controllers
                         TestDetail.AnswerSheetName = fileName;
                         TestDetail.FilePath = _Filepath;
                         var data = this._testService.StudentAnswerSheetMaintenance(TestDetail);
-                        Response = data.Result;
+                        ResponseM = data.Result;
                     }
-                    result.Data = null;
-                    result.Completed = false;
-                    if (Response.AnsSheetID > 0)
+                    result.Completed = ResponseM.Status;
+                    if (ResponseM.Status)
                     {
-                        result.Data = Response;
-                        result.Completed = true;
-                        result.Message = "Test Uploaded Successfully!!";
+                        result.Data = (StudentAnswerSheetEntity)ResponseM.Data;
                     }
+                    result.Message = ResponseM.Message;
 
                 }
                 catch (Exception ex)
@@ -420,15 +425,14 @@ namespace Ashirvad.API.Controllers
             else
             {
                 var data = this._testService.StudentAnswerSheetMaintenance(TestDetail);
-                Response = data.Result;
-                result.Data = null;
-                result.Completed = false;
-                if (Response.AnsSheetID > 0)
+               // Response = data.Result;
+               
+                result.Completed = data.Result.Status;
+                if (data.Result.Status)
                 {
-                    result.Data = Response;
-                    result.Completed = true;
-                    result.Message = "Test Uploaded Successfully!!";
+                    result.Data = (StudentAnswerSheetEntity)data.Result.Data;
                 }
+                result.Message = data.Result.Message;
             }
             return result;
 
@@ -469,15 +473,11 @@ namespace Ashirvad.API.Controllers
             answerSheetEntity.Remarks = Remark;
             answerSheetEntity.Status = Status;
             var result1 = _testService.Ansdetailupdate(answerSheetEntity).Result;
-            if (result1.AnsSheetID > 0)
+            result.Completed = result1.Status;
+            result.Message = result1.Message;
+            if (result1.Status)
             {
-                result.Completed = true;
-                result.Message = "Updated Successfully!!";
-            }
-            else
-            {
-                result.Completed = false;
-                result.Message = "Failed To Updated!!";
+                result.Data = (StudentAnswerSheetEntity)result1.Data;
             }
             return result;
         }

@@ -11,7 +11,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Staff
     public interface IStaffAPI
     {
         Task<ResponseModel> StaffMaintenance(StaffEntity staffInfo);
-        Task<long> UpdateProfile(StaffEntity staffInfo);
+        Task<ResponseModel> UpdateProfile(StaffEntity staffInfo);
         Task<List<StaffEntity>> GetAllStaff(long branchID);
         ResponseModel RemoveStaff(long StaffID, string lastupdatedby);
         Task<List<StaffEntity>> GetAllStaff();

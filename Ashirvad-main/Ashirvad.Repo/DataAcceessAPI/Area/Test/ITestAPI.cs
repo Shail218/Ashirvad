@@ -40,7 +40,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Test
         Task<List<StudentAnswerSheetEntity>> GetallAnswerSheetData(long testID);
 
         Task<List<StudentAnswerSheetEntity>> GetStudentAnsFile(long TestID);
-        Task<long> AnsDetailUpdate(StudentAnswerSheetEntity studentAnswerSheet);
+        Task<ResponseModel> AnsDetailUpdate(StudentAnswerSheetEntity studentAnswerSheet);
 
         Task<List<TestEntity>> TestDateDDL(long branchID, long stdID, long courseid, int batchTime);
         Task<List<TestEntity>> GetAllTestByBranchAPI(long branchID);

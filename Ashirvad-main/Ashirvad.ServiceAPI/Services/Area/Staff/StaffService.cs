@@ -60,27 +60,40 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
             return responseModel;
         }
 
-        public async Task<StaffEntity> UpdateProfile(StaffEntity staffInfo)
+        public async Task<ResponseModel> UpdateProfile(StaffEntity staffInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             StaffEntity staff = new StaffEntity();
             try
             {
                 bool isUpdate = staffInfo.StaffID > 0;
-                long staffID = await _staffContext.UpdateProfile(staffInfo);
-                staff.StaffID = staffID;
-                var user = await _userContext.ProfileMaintenance(new UserEntity()
+                responseModel = await _staffContext.UpdateProfile(staffInfo);
+                if (responseModel.Status)
                 {
-                    Username = staffInfo.MobileNo,
-                    Transaction = staffInfo.Transaction,
-                    UserID = staffInfo.UserID
-                });
+                    var da = (StaffEntity)responseModel.Data;
+                    long staffID = da.StaffID;
+                    staff.StaffID = staffID;
+                    var user = await _userContext.ProfileMaintenance(new UserEntity()
+                    {
+                        Username = staffInfo.MobileNo,
+                        Transaction = staffInfo.Transaction,
+                        UserID = staffInfo.UserID
+                    });
+                }
+                //staff.StaffID = staffID;
+                //var user = await _userContext.ProfileMaintenance(new UserEntity()
+                //{
+                //    Username = staffInfo.MobileNo,
+                //    Transaction = staffInfo.Transaction,
+                //    UserID = staffInfo.UserID
+                //});
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Severity.Error, ex);
             }
 
-            return staff;
+            return responseModel;
         }
 
         private async Task<UserEntity> GetUserData(StaffEntity staffInfo, long studentID)

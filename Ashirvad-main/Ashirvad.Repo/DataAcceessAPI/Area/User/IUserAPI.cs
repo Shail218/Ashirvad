@@ -18,13 +18,13 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.User
         List<UserEntity> GetAllUsers(long branchID, List<int> userType);
         ResponseModel RemoveUser(long userID, string lastupdatedby);
         bool AddUserRoles(UserEntity user);
-        Task<bool> ChangePassword(long userID, string password, string oldPassword);
+        Task<ResponseModel> ChangePassword(long userID, string password, string oldPassword);
         List<RolesEntity> GetRolesByUser(long userID);
         Task<UserEntity> GetUserByUserID(long userID);
         List<UserEntity> GetAllUsers(string userName, string contactNo);
 
         List<UserEntity> GetAllUsersddl(long branchID);
-        Task<bool> UpdatefcmToken(UserEntity userentity, string fcm_token);
+        Task<ResponseModel> UpdatefcmToken(UserEntity userentity, string fcm_token);
         Task<ResponseModel> StudentUserMaintenance(UserEntity userInfo);
 
         Task<UserEntity> ValidateStudentData(string userName, string password);

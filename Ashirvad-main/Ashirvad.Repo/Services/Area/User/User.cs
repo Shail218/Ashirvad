@@ -72,14 +72,14 @@ namespace Ashirvad.Repo.Services.Area.User
                     responseModel.Status = false;
                 }
             }
-           catch (Exception ex)
+            catch (Exception ex)
             {
                 responseModel.Message = ex.Message.ToString();
                 responseModel.Status = false;
             }
 
             return responseModel;
-            
+
 
             //this.context.SaveChanges();
             //this.AddUserRoles(userInfo);
@@ -91,12 +91,14 @@ namespace Ashirvad.Repo.Services.Area.User
             ResponseModel responseModel = new ResponseModel();
             USER_DEF user = new USER_DEF();
             bool isUpdate = true;
+            var flag = false;
             try
             {
                 var data = (from u in this.context.USER_DEF
                             where u.user_id == userInfo.UserID
                             select u).FirstOrDefault();
                 user = data;
+                flag = data.username.Equals(userInfo.Username);
                 user.trans_id = this.AddTransactionData(userInfo.Transaction);
                 user.username = userInfo.Username;
                 this.context.USER_DEF.Add(user);
@@ -105,9 +107,10 @@ namespace Ashirvad.Repo.Services.Area.User
                 if (da)
                 {
                     userInfo.UserID = user.user_id;
-                    responseModel.Message = isUpdate == true ? "Profile Updated." : "Profile Inserted Successfully";
+                    responseModel.Message = isUpdate == true ? flag == false ? "Your Mobile Number has Changed!! Please Login Again!!" : "Profile Updated." : "Profile Inserted Successfully";
                     responseModel.Status = true;
                     responseModel.Data = userInfo;
+                    
                 }
                 else
                 {
@@ -235,7 +238,7 @@ namespace Ashirvad.Repo.Services.Area.User
             return user;
         }
 
-       public async Task<UserEntity> ValidateStudentData(string userName,string password)
+        public async Task<UserEntity> ValidateStudentData(string userName, string password)
         {
             var user = (from u in this.context.USER_DEF
                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
@@ -271,15 +274,15 @@ namespace Ashirvad.Repo.Services.Area.User
                     var studentData = await stu.GetStudentByID(user.StudentID.Value);
                     user.StudentDetail = studentData;
                 }
-                 var z = (from u in this.context.USER_DEF
-                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
-                        where u.username == userName && u.user_type == (int)Enums.UserType.Student && u.row_sta_cd == (int)Enums.RowStatus.Active
-                        select new UserEntity()
-                        {
-                            StudentID = u.student_id,
-                            UserID = u.user_id,
-                            Username = u.username
-                        }).ToList();
+                var z = (from u in this.context.USER_DEF
+                         join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
+                         where u.username == userName && u.user_type == (int)Enums.UserType.Student && u.row_sta_cd == (int)Enums.RowStatus.Active
+                         select new UserEntity()
+                         {
+                             StudentID = u.student_id,
+                             UserID = u.user_id,
+                             Username = u.username
+                         }).ToList();
                 if (z?.Count > 0)
                 {
                     user.studentEntities = new List<StudentEntity>();
@@ -616,18 +619,43 @@ namespace Ashirvad.Repo.Services.Area.User
             return false;
         }
 
-        public async Task<bool> ChangePassword(long userID, string password, string oldPassword)
+        public async Task<ResponseModel> ChangePassword(long userID, string password, string oldPassword)
         {
-            var user = this.context.USER_DEF
-                .Where(x => x.user_id == userID
-                && x.password == oldPassword).FirstOrDefault();
-            if (user != null)
+            ResponseModel model = new ResponseModel();
+            try
             {
-                user.password = password;
-                return this.context.SaveChanges() > 0;
+                var user = this.context.USER_DEF
+              .Where(x => x.user_id == userID
+              && x.password == oldPassword).FirstOrDefault();
+                if (user != null)
+                {
+                    user.password = password;
+                    var da = this.context.SaveChanges() > 0;
+                    if (da)
+                    {
+                        model.Status = true;
+                        model.Message = "Password Updated Successfully.";
+                    }
+                    else
+                    {
+                        model.Status = false;
+                        model.Message = "Password Not Updated.";
+                    }
+                }
+                else
+                {
+                    model.Status = false;
+                    model.Message = "User Not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                model.Status = false;
+                model.Message = ex.Message;
             }
 
-            return false;
+
+            return model;
         }
 
         public ResponseModel RemoveUser(long userID, string lastupdatedby)
@@ -710,15 +738,42 @@ namespace Ashirvad.Repo.Services.Area.User
             }
         }
 
-        public async Task<bool> UpdatefcmToken(UserEntity userentity, string fcm_token)
+        public async Task<ResponseModel> UpdatefcmToken(UserEntity userentity, string fcm_token)
         {
-            var user = this.context.USER_DEF.Where(x => x.user_id == userentity.UserID).FirstOrDefault();
-            if (user != null)
+            ResponseModel model = new ResponseModel();
+            try
             {
-                user.fcm_token = fcm_token;
-               return this.context.SaveChanges()>0;
+                var user = this.context.USER_DEF.Where(x => x.user_id == userentity.UserID).FirstOrDefault();
+                if (user != null)
+                {
+                    user.fcm_token = fcm_token;
+                    var da = this.context.SaveChanges() > 0;
+                    if (da)
+                    {
+                        model.Status = true;
+                        model.Message = "Fcm token Updated Successfully.";
+                    }
+                    else
+                    {
+                        model.Status = false;
+                        model.Message = "Fcm token Not Updated.";
+                    }
+                }
+                else
+                {
+                    model.Status = false;
+                    model.Message = "User Not Found";
+                }
+
             }
-            return false;
+            catch (Exception ex)
+            {
+                model.Status = false;
+                model.Message = ex.Message;
+            }
+
+
+            return model;
         }
 
         public async Task<ResponseModel> StudentUserMaintenance(UserEntity userInfo)
@@ -769,7 +824,7 @@ namespace Ashirvad.Repo.Services.Area.User
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 responseModel.Status = false;
                 responseModel.Message = ex.Message;

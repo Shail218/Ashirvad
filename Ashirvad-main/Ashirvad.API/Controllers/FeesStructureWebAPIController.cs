@@ -31,17 +31,17 @@ namespace Ashirvad.API.Controllers
 
         public FeesStructureWebAPIController()
         {
-            _FeesService = new FeesService(new Fees()) ;
+            _FeesService = new FeesService(new Fees());
             _upiservice = new UPIService(new UPI());
         }
         // GET: Fees
 
         [Route("FeesMaintenance")]
         [HttpPost]
-        public OperationResult<FeesEntity> FeesMaintenance(string model,bool HasFile)
+        public OperationResult<FeesEntity> FeesMaintenance(string model, bool HasFile)
         {
             OperationResult<FeesEntity> result = new OperationResult<FeesEntity>();
-            var httpRequest = HttpContext.Current.Request;            
+            var httpRequest = HttpContext.Current.Request;
             FeesEntity feesEntity = new FeesEntity();
             feesEntity.BranchInfo = new BranchEntity();
             feesEntity.BranchCourse = new BranchCourseEntity();
@@ -104,24 +104,13 @@ namespace Ashirvad.API.Controllers
                 feesEntity.FilePath = entity.FilePath;
             }
             var data = this._FeesService.FeesMaintenance(feesEntity).Result;
-            result.Completed = false;
-            result.Data = null;
-            if (data.FeesID > 0 || data.FeesDetailID > 0)
+            result.Completed = data.Status;
+            result.Message = data.Message;
+            if (data.Status)
             {
-                result.Completed = true;
-                result.Data = data;
-                if (entity.FeesID > 0)
-                {
-                    result.Message = "Fees Structure Updated Successfully.";
-                }
-                else
-                {
-                    result.Message = "Fees Structure Created Successfully.";
-                }
-            }else
-            {
-                result.Message = "Fees Structure Already Exists!!";
+                result.Data = (FeesEntity)data.Data;
             }
+
             return result;
         }
 
@@ -149,8 +138,9 @@ namespace Ashirvad.API.Controllers
         {
             var result = _FeesService.RemoveFees(FeesID, lastupdatedby);
             OperationResult<bool> response = new OperationResult<bool>();
-            response.Completed = result;
-            response.Data = result;
+            response.Completed = result.Status;
+            response.Data = result.Status;
+            response.Message = result.Message;
             return response;
         }
         [Route("GetAllFees")]

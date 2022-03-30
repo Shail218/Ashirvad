@@ -28,7 +28,6 @@ namespace Ashirvad.Web.Controllers
             _courseService = courseService;
             _branchcourseService = branchCourseService;
         }
-
         public BranchCourseController()
         {
             _courseService = new CourseService(new Course(new BranchCourse()));
@@ -40,9 +39,10 @@ namespace Ashirvad.Web.Controllers
         public OperationResult<BranchCourseEntity> BranchCourseMaintenance(BranchCourseEntity branchClassEntity)
         {
             Task<BranchCourseEntity> data = null;
+            Task<ResponseModel> responseModel = null;
             foreach (var item in branchClassEntity.BranchCourseData)
             {
-                data = this._branchcourseService.BranchCourseMaintenance(new BranchCourseEntity()
+                responseModel = this._branchcourseService.BranchCourseMaintenance(new BranchCourseEntity()
                 {
                     branch = item.branch,
                     course = new CourseEntity()
@@ -59,25 +59,12 @@ namespace Ashirvad.Web.Controllers
                     Transaction = item.Transaction
                 });
             }
-            OperationResult<BranchCourseEntity> result = new OperationResult<BranchCourseEntity>();
-            result.Completed = false;
-            result.Data = null;
-            if ((long)data.Result.Data > 0)
+             OperationResult<BranchCourseEntity> result = new OperationResult<BranchCourseEntity>();
+            result.Completed = responseModel.Result.Status;
+            result.Message = responseModel.Result.Message;
+            if (responseModel.Result.Status)
             {
-                result.Completed = true;
-                result.Data = data.Result;
-                if (branchClassEntity.BranchCourseData[0].course_dtl_id > 0)
-                {
-                    result.Message = "Branch Course Updated Successfully";
-                }
-                else
-                {
-                    result.Message = "Branch Course Created Successfully";
-                }
-            }
-            else
-            {
-                result.Message = "Branch Course Already Exists!!";
+                result.Data = (BranchCourseEntity)responseModel.Result.Data;
             }
             return result;
         }

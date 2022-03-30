@@ -71,9 +71,9 @@ namespace Ashirvad.Web.Controllers
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            var data = await _schoolService.SchoolMaintenance(branch);
-            res.Status = data.SchoolID > 0 ? true : false;
-            res.Message = data.SchoolID == -1 ? "School Already exists!!" : data.SchoolID == 0 ? "School failed to insert!!":"School Inserted Successfully!!";
+            res = await _schoolService.SchoolMaintenance(branch);
+           // res.Status = data.SchoolID > 0 ? true : false;
+          //  res.Message = data.SchoolID == -1 ? "School Already exists!!" : data.SchoolID == 0 ? "School failed to insert!!":"School Inserted Successfully!!";
             return Json(res);
         }
 

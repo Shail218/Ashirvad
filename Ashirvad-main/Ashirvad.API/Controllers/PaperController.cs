@@ -32,8 +32,13 @@ namespace Ashirvad.API.Controllers
             OperationResult<PaperEntity> result = new OperationResult<PaperEntity>();
 
             var data = this._paperService.PaperMaintenance(paperInfo);
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+                result.Data = (PaperEntity)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
+
             return result;
         }
 
@@ -108,8 +113,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._paperService.RemovePaper(paperID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 
@@ -185,21 +191,12 @@ namespace Ashirvad.API.Controllers
                 paperEntity.PaperData.FilePath = entity.PaperData.FilePath;
             }
             var data = this._paperService.PaperMaintenance(paperEntity).Result;
-            result.Completed = false;
-            result.Data = null;
-            if (data.PaperID > 0 || data.PaperData.UniqueID > 0)
+            result.Completed = data.Status;
+            if (data.Status)
             {
-                result.Completed = true;
-                result.Data = data;
-                if (entity.PaperID > 0)
-                {
-                    result.Message = "Practice Paper Updated Successfully.";
-                }
-                else
-                {
-                    result.Message = "Practice Paper Created Successfully.";
-                }
+                result.Data = (PaperEntity)data.Data;
             }
+            result.Message = data.Message;
             return result;
         }
 

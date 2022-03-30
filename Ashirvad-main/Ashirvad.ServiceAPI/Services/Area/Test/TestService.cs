@@ -572,13 +572,13 @@ namespace Ashirvad.ServiceAPI.Services.Area.Test
             return null;
         }
 
-        public async Task<StudentAnswerSheetEntity> Ansdetailupdate(StudentAnswerSheetEntity studentAnswerSheet)
+        public async Task<ResponseModel> Ansdetailupdate(StudentAnswerSheetEntity studentAnswerSheet)
         {
-            StudentAnswerSheetEntity answerSheetEntity = new StudentAnswerSheetEntity();
+            ResponseModel answerSheetEntity = new ResponseModel();
             try
             {
-                var data = await _testContext.AnsDetailUpdate(studentAnswerSheet);
-                answerSheetEntity.AnsSheetID = data;
+                answerSheetEntity = await _testContext.AnsDetailUpdate(studentAnswerSheet);
+               
                 return answerSheetEntity;
             }
             catch (Exception ex)

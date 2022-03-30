@@ -91,29 +91,27 @@ namespace Ashirvad.Web.Controllers
                 PackageRight.Createstatus = item.Createstatus;
                 PackageRight.Viewstatus = item.Viewstatus;
                 PackageRight.Deletestatus = item.Deletestatus;
-                packageRightEntity = await _PackageRightService.PackageRightsMaintenance(PackageRight);
-                if (packageRightEntity.PackageRightsId < 0)
+                response = await _PackageRightService.PackageRightsMaintenance(PackageRight);
+                if (!response.Status)
                 {
                     break;
                 }
             }
-            if (packageRightEntity.PackageRightsId > 0)
-            {
-                response.Status = true;
-                response.Message = PackageRight.PackageRightsId > 0 ? "Updated Successfully!!" : "Created Successfully!!";
-
-
-            }
-            else if (packageRightEntity.PackageRightsId < 0)
-            {
-                response.Status = false;
-                response.Message = "Already Exists!!";
-            }
-            else
-            {
-                response.Status = false;
-                response.Message = PackageRight.PackageRightsId > 0 ? "Failed To Update!!" : "Failed To Create!!";
-            }
+            //if (packageRightEntity.PackageRightsId > 0)
+            //{
+            //    response.Status = true;
+            //    response.Message = PackageRight.PackageRightsId > 0 ? "Updated Successfully!!" : "Created Successfully!!";
+            //}
+            //else if (packageRightEntity.PackageRightsId < 0)
+            //{
+            //    response.Status = false;
+            //    response.Message = "Already Exists!!";
+            //}
+            //else
+            //{
+            //    response.Status = false;
+            //    response.Message = PackageRight.PackageRightsId > 0 ? "Failed To Update!!" : "Failed To Create!!";
+            //}
             return Json(response);
         }
 

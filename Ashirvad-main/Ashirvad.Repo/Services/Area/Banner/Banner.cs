@@ -50,7 +50,7 @@ namespace Ashirvad.Repo.Services.Area.Banner
                     var result = await this.AddBannerType(bannerInfo.BannerType, bannerInfo.BannerID);
                     if (result)
                     {
-                        responseModel.Message = isUpdate == true ? "Banner Not Updated." : "Banner Not Inserted.";
+                        responseModel.Message = isUpdate == true ? "Banner Updated Successfully." : "Banner Inserted Successfully.";
                         responseModel.Status = true;
                         responseModel.Data = bannerInfo;
                     }

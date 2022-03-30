@@ -44,17 +44,8 @@ namespace Ashirvad.Web.Controllers
             marks.student.StudentID = StudentID;
             marks.AchieveMarks = AchieveMarks;
             marks.Transaction = GetTransactionData(Common.Enums.TransactionType.Insert);
-            var result1 = _MarksService.UpdateMarksDetails(marks).Result;
-            if (result1.MarksID > 0)
-            {
-                response.Status = true;
-                response.Message = "Marks Updated Successfully!!";
-            }
-            else
-            {
-                response.Status = false;
-                response.Message = "Marks Failed To Updated!!";
-            }
+            response = _MarksService.UpdateMarksDetails(marks).Result;
+          
             return Json(response);
         }
 

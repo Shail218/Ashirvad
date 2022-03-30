@@ -54,12 +54,12 @@ namespace Ashirvad.Web.Controllers
             };
 
             var data = await _linkService.LinkMaintenance(youtubeVideo);
-            if (data != null)
-            {
-                return Json(true);
-            }
+            //if (data != null)
+            //{
+            //    return Json(true);
+            //}
 
-            return Json(false);
+            return Json(data);
         }
 
         [HttpPost]

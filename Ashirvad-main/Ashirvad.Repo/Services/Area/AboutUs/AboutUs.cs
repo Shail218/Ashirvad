@@ -70,10 +70,10 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
                     }
                     else
                     {
-                        aboutUsInfo.AboutUsID = uniqueID;
+                        //aboutUsInfo.AboutUsID = uniqueID;
                         responseModel.Message = isUpdate == true ? "About Us Not Updated." : "About Us Not Inserted.";
                         responseModel.Status = false;
-                        responseModel.Data = aboutUsInfo;
+                        //responseModel.Data = aboutUsInfo;
                     }
                   
                 }

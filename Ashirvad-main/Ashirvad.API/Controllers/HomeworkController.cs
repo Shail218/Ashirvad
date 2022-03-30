@@ -41,8 +41,12 @@ namespace Ashirvad.API.Controllers
             OperationResult<HomeworkEntity> result = new OperationResult<HomeworkEntity>();
 
             var data = this._homeworkService.HomeworkMaintenance(homework);
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+                result.Data = (HomeworkEntity)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -130,8 +134,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._homeworkService.RemoveHomework(hwID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 
@@ -217,25 +222,12 @@ namespace Ashirvad.API.Controllers
                 homeworkEntity.FilePath = homeworkentity.FilePath;
             }
             var data = this._homeworkService.HomeworkMaintenance(homeworkEntity).Result;
-            result.Completed = false;
-            result.Data = null;
-            if (data.HomeworkID > 0)
+            result.Completed = data.Status;
+            if (data.Status)
             {
-                result.Completed = true;
-                result.Data = data;
-                if (homeworkEntity.HomeworkID > 0)
-                {
-                    result.Message = "Homework Updated Successfully.";
-                }
-                else
-                {
-                    result.Message = "Homework Created Successfully.";
-                }
+                result.Data = (HomeworkEntity)data.Data;
             }
-            else
-            {
-                result.Message = "Homework Already Exists!!";
-            }
+            result.Message = data.Message;
             return result;
         }
 
@@ -274,6 +266,7 @@ namespace Ashirvad.API.Controllers
                 CreatedId = CreateId,
                 CreatedDate = DateTime.Now,
             };
+            ResponseModel responseModel = new ResponseModel();
             var data1 = this._homeworkdetailService.RemoveHomeworkdetail(HomeworkID, StudentID);
             OperationResult<HomeworkDetailEntity> result = new OperationResult<HomeworkDetailEntity>();
             if (httpRequest.Files.Count > 0)
@@ -301,35 +294,34 @@ namespace Ashirvad.API.Controllers
                         homeworkDetail.AnswerSheetName = fileName;
                         homeworkDetail.FilePath = _Filepath;
                         var data = this._homeworkdetailService.HomeworkdetailMaintenance(homeworkDetail);
-                        Response = data.Result;
+                        responseModel = data.Result;
                     }
-                    result.Data = null;
-                    result.Completed = false;
-                    if (Response.HomeworkDetailID > 0)
+                   
+                    result.Completed = responseModel.Status;
+                    result.Message = responseModel.Message;
+                    if (responseModel.Status)
                     {
-                        result.Data = Response;
-                        result.Completed = true;
-                        result.Message = "Homework Uploaded Successfully!!";
+                        result.Data = (HomeworkDetailEntity)responseModel.Data;
                     }
+                   
 
                 }
                 catch (Exception ex)
                 {
-
+                    result.Completed = false;
+                    result.Message = ex.Message.ToString();
                 }
 
             }
             else
             {
                 var data = this._homeworkdetailService.HomeworkdetailMaintenance(homeworkDetail);
-                Response = data.Result;
-                result.Data = null;
-                result.Completed = false;
-                if (Response.HomeworkDetailID > 0)
+                responseModel = data.Result;
+                result.Completed = responseModel.Status;
+                result.Message = responseModel.Message;
+                if (responseModel.Status)
                 {
-                    result.Data = Response;
-                    result.Completed = true;
-                    result.Message = "Homework Uploaded Successfully!!";
+                    result.Data = (HomeworkDetailEntity)responseModel.Data;
                 }
             }
             return result;
@@ -364,15 +356,11 @@ namespace Ashirvad.API.Controllers
                 CreatedId = CreatedId,
             };
             var result1 = _homeworkdetailService.Homeworkdetailupdate(homeworkDetail).Result;
-            if (result1.HomeworkDetailID > 0)
+            result.Completed = result1.Status;
+            result.Message = result1.Message;
+            if (result1.Status)
             {
-                result.Completed = true;
-                result.Message = "Updated Successfully!!";
-            }
-            else
-            {
-                result.Completed = false;
-                result.Message = "Failed To Updated!!";
+                result.Data = (HomeworkDetailEntity)result1.Data;
             }
             return result;
         }

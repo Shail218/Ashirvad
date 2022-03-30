@@ -30,7 +30,7 @@ namespace Ashirvad.API.Controllers
             OperationResult<PaymentRegisterEntity> result = new OperationResult<PaymentRegisterEntity>();
             var httpRequest = HttpContext.Current.Request;
             PaymentRegisterEntity entity = new PaymentRegisterEntity();
-            PaymentRegisterEntity response = new PaymentRegisterEntity();
+            ResponseModel response = new ResponseModel();
             entity.studentEntity = new StudentEntity();
             entity.branchEntity = new BranchEntity();
             var paymententity = JsonConvert.DeserializeObject<PaymentRegisterEntity>(model);
@@ -76,14 +76,14 @@ namespace Ashirvad.API.Controllers
                             var data = this._paymentservice.PaymentRegisterMaintenance(entity);
                             response = data.Result;
                         }
-                        result.Data = null;
-                        result.Completed = false;
-                        if (response.payment_id > 0)
+                       
+                        result.Completed = response.Status;
+                        result.Message = response.Message;
+                        if (response.Status)
                         {
-                            result.Data = response;
-                            result.Completed = true;
-                            result.Message = "Payment Register Successfully.";
+                            result.Data = (PaymentRegisterEntity)response.Data;
                         }
+                        
                     }
                 }
                 catch (Exception ex)

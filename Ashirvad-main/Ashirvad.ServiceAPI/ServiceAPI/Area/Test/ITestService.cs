@@ -47,7 +47,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Test
         Task<List<StudentAnswerSheetEntity>> GetAnswerSheetdata(long testID);
         Task<List<StudentAnswerSheetEntity>> GetAnswerFiles(long hwID);
 
-        Task<StudentAnswerSheetEntity> Ansdetailupdate(StudentAnswerSheetEntity answerSheetEntity);
+        Task<ResponseModel> Ansdetailupdate(StudentAnswerSheetEntity answerSheetEntity);
         Task<OperationResult<List<TestEntity>>> TestDateDDL(long branchID, long stdID, long courseid, int batchTime);
         Task<OperationResult<List<TestEntity>>> GetAllTestByBranchAPI(long branchID);
     }

@@ -110,25 +110,14 @@ namespace Ashirvad.Web.Controllers
                     entity.FilePath = facultyentity.FilePath;
                 }
                 var data = await _facultyService.FacultyMaintenance(entity);
-                response.Completed = false;
-                response.Data = null;
-                if (data.FacultyID > 0)
+                response.Completed = data.Status;
+                if (data.Status)
                 {
-                    response.Completed = true;
-                    response.Data = data;
-                    if (entity.FacultyID > 0)
-                    {
-                        response.Message = "Faculty Updated Successfully.";
-                    }
-                    else
-                    {
-                        response.Message = "Faculty Created Successfully.";
-                    }
+                    response.Data = (FacultyEntity)data.Data;
                 }
-                else
-                {
-                    response.Message = "Faculty Already Exists!!";
-                }
+
+                response.Message = data.Message;
+               
             }
             catch(Exception e)
             {
@@ -155,8 +144,9 @@ namespace Ashirvad.Web.Controllers
         {
             var result = _facultyService.RemoveFaculty(facultyID, lastupdatedby);
             OperationResult<bool> response = new OperationResult<bool>();
-            response.Completed = true;
-            response.Data = result;
+            response.Completed = result.Status;
+            response.Data = result.Status;
+            response.Message = result.Message;
             return response;
         }
 

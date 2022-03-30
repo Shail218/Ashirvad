@@ -339,7 +339,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     }
                     else
                     {
-                        message = message + "<br />" + data_class.Message;
+                        message = message + data_class.Message;
                     }
                 }
 

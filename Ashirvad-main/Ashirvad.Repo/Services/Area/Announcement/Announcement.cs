@@ -58,7 +58,7 @@ namespace Ashirvad.Repo.Services.Area.Announcement
                     if (annID > 0)
                     {
                         annInfo.AnnouncementID = annID;
-                        responseModel.Data = annID;
+                        responseModel.Data = annInfo;
                         responseModel.Message = isUpdate==true?"Announcement Updated Successfully.":"Announcement Inserted Successfully.";
                         responseModel.Status = true;
                     }
@@ -67,6 +67,11 @@ namespace Ashirvad.Repo.Services.Area.Announcement
                         responseModel.Message = isUpdate == true ? "Announcement Not Updated." : "Announcement Not Inserted.";
                         responseModel.Status = false;
                     }
+                }
+                else
+                {
+                    responseModel.Message = "Announcement Already Exist.";
+                    responseModel.Status = false;
                 }
             }
             catch(Exception ex)

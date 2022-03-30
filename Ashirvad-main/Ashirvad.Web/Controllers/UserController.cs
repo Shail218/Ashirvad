@@ -81,9 +81,9 @@ namespace Ashirvad.Web.Controllers
                 branch.BranchInfo.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
 
             }
-            var data = await _staffService.StaffMaintenance(branch);
-            res.Status = data.StaffID > 0 ? true : false;
-            res.Message = data.StaffID == -1 ? "User Already exists!!" : data.StaffID == 0 ? "User failed to insert!!" : "User Inserted Successfully!!";
+            res = await _staffService.StaffMaintenance(branch);
+            //res.Status = data.StaffID > 0 ? true : false;
+            //res.Message = data.StaffID == -1 ? "User Already exists!!" : data.StaffID == 0 ? "User failed to insert!!" : "User Inserted Successfully!!";
             return Json(res);
         }
 

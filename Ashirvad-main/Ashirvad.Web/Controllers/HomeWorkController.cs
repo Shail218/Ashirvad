@@ -101,17 +101,8 @@ namespace Ashirvad.Web.Controllers
             homeworkDetail.Status = Status;
             homeworkDetail.Transaction = GetTransactionData(Common.Enums.TransactionType.Insert);
             var result1 = _homeworkdetailService.Homeworkdetailupdate(homeworkDetail).Result;
-            if (result1.HomeworkEntity.HomeworkID > 0)
-            {
-                response.Status = true;
-                response.Message = "Updated Successfully!!";
-            }
-            else
-            {
-                response.Status = false;
-                response.Message = "Failed To Updated!!";
-            }
-            return Json(response);
+            
+            return Json(result1);
         }
 
         

@@ -93,8 +93,13 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._userService.UserMaintenance(userinfo);
             OperationResult<UserEntity> result = new OperationResult<UserEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            result.Message = data.Result.Message;
+            if (data.Result.Status)
+            {
+                result.Data = (UserEntity)data.Result.Data;
+            }
+     
             return result;
         }
 
@@ -104,8 +109,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._userService.RemoveUser(userID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 
@@ -159,8 +165,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._userService.ChangePassword(userID, password, oldPassword);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            result.Data = data.Result.Status;
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -341,12 +348,12 @@ namespace Ashirvad.API.Controllers
             UPI upi = new UPI();
             var data = upi.UPIMaintenance(uPIEntity).Result;
             OperationResult<long> result = new OperationResult<long>();
-            result.Completed = false;
-            result.Data = 0;
-            if(data > 0)
+            result.Completed = data.Status;
+            result.Message = data.Message;
+            if (data.Status)
             {
-                result.Completed = true;
-                result.Data = data;
+               var da= (UPIEntity)data.Data;
+                result.Data = da.UPIId;
             }
             return result;
         }
@@ -358,8 +365,9 @@ namespace Ashirvad.API.Controllers
             UPI upi = new UPI();
             var data = upi.RemoveUPI(UPIID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 
@@ -371,8 +379,9 @@ namespace Ashirvad.API.Controllers
             user.UserID = userID;
             var da = this._userService.UpdatefcmToken(user, fcmtoken);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = da.Result;
+            result.Completed = da.Result.Status;
+            result.Data = da.Result.Status;
+            result.Message = da.Result.Message;
             return result;
         }
     }

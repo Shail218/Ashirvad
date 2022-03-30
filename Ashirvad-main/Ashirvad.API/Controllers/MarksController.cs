@@ -104,16 +104,14 @@ namespace Ashirvad.API.Controllers
                 CreatedId = CreatedId,
             };
             var result1 = _marksService.UpdateMarksDetails(marks).Result;
-            if (result1.MarksID > 0)
+          
+                result.Completed = result1.Status;
+            result.Message = result1.Message;
+            if (result1.Status)
             {
-                result.Completed = true;
-                result.Message = "Marks Updated Successfully!!";
+                result.Data = (MarksEntity)result1.Data;
             }
-            else
-            {
-                result.Completed = false;
-                result.Message = "Marks Failed To Updated!!";
-            }
+           
             return result;
         }
 
@@ -124,6 +122,7 @@ namespace Ashirvad.API.Controllers
             OperationResult<MarksEntity> result = new OperationResult<MarksEntity>();
             var httpRequest = HttpContext.Current.Request;
             MarksEntity data = new MarksEntity();
+            ResponseModel response = new ResponseModel();
             string[] studet = StudentID.Split(',');
             string[] marks = Achieve_Marks.Split(',');
             for (int i = 0; i < studet.Length; i++)
@@ -195,20 +194,16 @@ namespace Ashirvad.API.Controllers
                         result.Message = ex.ToString();
                     }
                 }
-                data = this._marksService.MarksMaintenance(marksEntity).Result;
+                response = this._marksService.MarksMaintenance(marksEntity).Result;
+                result.Completed = response.Status;
+                result.Message = response.Message;
+                if (response.Status)
+                {
+                    result.Data = (MarksEntity)response.Data;
+                }
             }
-            result.Completed = false;
-            result.Data = null;
-            if (data.MarksID > 0)
-            {
-                result.Completed = true;
-                result.Data = data;
-                result.Message = "Marks Added Successfully.";
-            }
-            else
-            {
-                result.Message = "Marks Already Added!!";
-            }
+   
+           
             return result;
         }
     }

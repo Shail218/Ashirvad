@@ -67,11 +67,9 @@ namespace Ashirvad.Repo.Services.Area.Course
                     {
                         courseEntity.CourseID = courseMaster.course_id;
                         courseEntity.Transaction.TransactionId = courseMaster.trans_id;
-                        CourseMasterMaintenance(courseEntity);
-                    }
-                    var es=  Result > 0 ? courseEntity.CourseID : 0;
-                    if (es > 0)
-                    {
+                      //  CourseMasterMaintenance(courseEntity);
+                   
+                        responseModel.Data = courseEntity;
                         responseModel.Status = true;
                         responseModel.Message = isUpdate == true ? "Course Updated Successfully." : "Course Inserted Successfully.";
 

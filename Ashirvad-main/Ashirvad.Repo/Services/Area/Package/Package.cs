@@ -68,10 +68,11 @@ namespace Ashirvad.Repo.Services.Area.Package
                         responseModel.Status = false;
                     }
                 }
-                //else
-                //{
-                //    return -1;
-                //}
+                else
+                {
+                    responseModel.Message = "Package Already Exists.";
+                    responseModel.Status = false;
+                }
             }
             catch (Exception ex)
             {

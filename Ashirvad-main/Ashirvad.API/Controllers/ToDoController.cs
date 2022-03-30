@@ -33,8 +33,14 @@ namespace Ashirvad.API.Controllers
             OperationResult<ToDoEntity> result = new OperationResult<ToDoEntity>();
 
             var data = this._todoService.ToDoMaintenance(todo);
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            result.Message = data.Result.Message;
+            if (data.Result.Status)
+            {
+                result.Data =(ToDoEntity)data.Result.Data;
+
+            }
+        
             return result;
         }
 
@@ -100,8 +106,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._todoService.RemoveToDo(todoID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 
@@ -171,20 +178,12 @@ namespace Ashirvad.API.Controllers
                 toDoEntity.FilePath = entity.FilePath;
             }
             var data = this._todoService.ToDoMaintenance(toDoEntity).Result;
-            result.Completed = false;
-            result.Data = null;
-            if (data.ToDoID > 0)
+            result.Completed = data.Status;
+            result.Message = data.Message;
+            if (data.Status)
             {
-                result.Completed = true;
-                result.Data = data;
-                if (entity.ToDoID > 0)
-                {
-                    result.Message = "To-Do Updated Successfully.";
-                }
-                else
-                {
-                    result.Message = "To-Do Created Successfully.";
-                }
+                result.Data = (ToDoEntity)data.Data;
+
             }
             return result;
         }

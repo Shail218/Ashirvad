@@ -301,6 +301,11 @@ namespace Ashirvad.Repo.Services.Area
                     responseModel.Message = "Marks Removed Successfully.";
                     responseModel.Status = true;
                 }
+                else
+                {
+                    responseModel.Message = "Marks Not Found.";
+                    responseModel.Status = false;
+                }
             }
             catch (Exception ex)
             {
@@ -313,25 +318,48 @@ namespace Ashirvad.Repo.Services.Area
             //return false;
         }
 
-        public async Task<long> UpdateMarksDetails(MarksEntity marksEntity)
+        public async Task<ResponseModel> UpdateMarksDetails(MarksEntity marksEntity)
         {
-            Model.MARKS_MASTER marks = new Model.MARKS_MASTER();
-            bool isUpdate = true;
-            var data = (from t in this.context.MARKS_MASTER
-                        where t.marks_id == marksEntity.MarksID && t.student_id == marksEntity.student.StudentID
-                        select t).ToList();
-
-
-            foreach (var item in data)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
+                Model.MARKS_MASTER marks = new Model.MARKS_MASTER();
+                bool isUpdate = true;
+                var data = (from t in this.context.MARKS_MASTER
+                            where t.marks_id == marksEntity.MarksID && t.student_id == marksEntity.student.StudentID
+                            select t).ToList();
 
-                item.achive_marks = marksEntity.AchieveMarks;
-                this.context.MARKS_MASTER.Add(item);
-                this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+
+                foreach (var item in data)
+                {
+
+                    item.achive_marks = marksEntity.AchieveMarks;
+                    this.context.MARKS_MASTER.Add(item);
+                    this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                }
+
+
+                var da = this.context.SaveChanges() > 0 ? marksEntity.MarksID : 0;
+                if (da > 0)
+                {
+                    responseModel.Data = marksEntity;
+                    responseModel.Status = true;
+                    responseModel.Message = isUpdate == true ? "Marks Updated Successfully." : "Marks Inserted Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message =isUpdate==true?"Marks Not Updated.":"Marks Not Inserted.";
+                }
+            }
+            catch(Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+
             }
 
-
-            return this.context.SaveChanges() > 0 ? marksEntity.MarksID : 0;
+            return responseModel;
         }
 
         public async Task<List<MarksEntity>> GetAllStudentMarks(long BranchID,long StudentID)

@@ -348,7 +348,7 @@ function RemoveTest(testID) {
         ShowLoader();
         var postCall = $.post(commonData.TestPaper + "RemoveTest", { "testID": testID });
         postCall.done(function (data) {
-            if (data) {
+            if (data.Status) {
                 HideLoader();
                 ShowMessage(data.Message, "Success");
                 window.location.href = "TestPaperMaintenance?testID=0";

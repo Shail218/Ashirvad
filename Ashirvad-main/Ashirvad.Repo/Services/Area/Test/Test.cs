@@ -1541,26 +1541,47 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<long> AnsDetailUpdate(StudentAnswerSheetEntity homeworkDetail)
+        public async Task<ResponseModel> AnsDetailUpdate(StudentAnswerSheetEntity homeworkDetail)
         {
-            Model.STUDENT_ANS_SHEET homework = new Model.STUDENT_ANS_SHEET();
-            bool isUpdate = true;
-            var data = (from t in this.context.STUDENT_ANS_SHEET
-                        where t.test_id == homeworkDetail.TestInfo.TestID && t.stud_id == homeworkDetail.StudentInfo.StudentID
-                        select t).ToList();
-
-
-            foreach (var item in data)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
+                Model.STUDENT_ANS_SHEET homework = new Model.STUDENT_ANS_SHEET();
+                bool isUpdate = true;
+                var data = (from t in this.context.STUDENT_ANS_SHEET
+                            where t.test_id == homeworkDetail.TestInfo.TestID && t.stud_id == homeworkDetail.StudentInfo.StudentID
+                            select t).ToList();
 
-                item.remarks = homeworkDetail.Remarks;
-                item.status = homeworkDetail.Status;
-                this.context.STUDENT_ANS_SHEET.Add(item);
-                this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+
+                foreach (var item in data)
+                {
+
+                    item.remarks = homeworkDetail.Remarks;
+                    item.status = homeworkDetail.Status;
+                    this.context.STUDENT_ANS_SHEET.Add(item);
+                    this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                }
+
+
+                var da = this.context.SaveChanges() > 0 ? homeworkDetail.TestInfo.TestID : 0;
+                if (da > 0)
+                {
+                    responseModel.Data = homeworkDetail;
+                    responseModel.Message = "AnswerSheet Updated Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "AnswerSheet Not Updated.";
+                    responseModel.Status = false;
+                }
             }
-
-
-            return this.context.SaveChanges() > 0 ? homeworkDetail.TestInfo.TestID : 0;
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
         }
 
     }

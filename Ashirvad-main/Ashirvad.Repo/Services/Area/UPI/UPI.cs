@@ -67,6 +67,11 @@ namespace Ashirvad.Repo.Services.Area.UPI
                         responseModel.Status = false;
                     }
                 }
+                else
+                {
+                    responseModel.Message = "UPI-ID Already Exists.";
+                    responseModel.Status = false;
+                }
             }
             catch(Exception ex)
             {

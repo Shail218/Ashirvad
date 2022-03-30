@@ -64,9 +64,10 @@ namespace Ashirvad.Web.Controllers
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             var data = await _testService.TestMaintenance(testEntity);
-            if (data != null && data.TestID != -1)
+            if (data.Status)
             {
-                testEntity.test.TestID = data.TestID;
+                var da = (TestEntity)data.Data;
+                testEntity.test.TestID = da.TestID;
                 if(testEntity.test.RowStatus.RowStatusId == 1)
                 {
                     testEntity.test.RowStatus = new RowStatusEntity()
@@ -94,10 +95,10 @@ namespace Ashirvad.Web.Controllers
                     testEntity.test.FilePath = _Filepath;
                 }
                 var data2 = await _testService.TestPaperMaintenance(testEntity.test);
-                return Json(true);
+                return Json(data2);
             }
 
-            return Json(false);
+            return Json(data);
         }
 
         [HttpPost]
@@ -105,11 +106,8 @@ namespace Ashirvad.Web.Controllers
         {
             testpaperEntity.Transaction = GetTransactionData(testpaperEntity.TestPaperID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             var data = await _testService.TestPaperMaintenance(testpaperEntity);
-            if (data != null)
-            {
-                return Json(true);
-            }
-            return Json(false);
+           
+            return Json(data);
         }
 
         [HttpPost]
@@ -198,17 +196,8 @@ namespace Ashirvad.Web.Controllers
             answerSheetEntity.Remarks = Remark;
             answerSheetEntity.Status = Status;
             answerSheetEntity.Transaction = GetTransactionData(Common.Enums.TransactionType.Insert);
-            var result1 = _testService.Ansdetailupdate(answerSheetEntity).Result;
-            if (result1.AnsSheetID > 0)
-            {
-                response.Status = true;
-                response.Message = "Updated Successfully!!";
-            }
-            else
-            {
-                response.Status = false;
-                response.Message = "Failed To Updated!!";
-            }
+            response = _testService.Ansdetailupdate(answerSheetEntity).Result;
+            
             return Json(response);
         }
 

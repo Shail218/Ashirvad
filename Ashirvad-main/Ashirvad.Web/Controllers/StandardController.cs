@@ -74,9 +74,9 @@ namespace Ashirvad.Web.Controllers
             {
                 RowStatusId = (int)Enums.RowStatus.Active
             };
-            var data = await _standardService.StandardMaintenance(branch);
-            res.Status = data.StandardID > 0 ? true : false;
-            res.Message = data.StandardID == -1 ? "Standard Already exists!!" : data.StandardID == 0 ? "Standard failed to insert!!" : "Standard Inserted Successfully!!";
+            res = await _standardService.StandardMaintenance(branch);
+            //res.Status = data.StandardID > 0 ? true : false;
+            //res.Message = data.StandardID == -1 ? "Standard Already exists!!" : data.StandardID == 0 ? "Standard failed to insert!!" : "Standard Inserted Successfully!!";
             return Json(res);
 
         }

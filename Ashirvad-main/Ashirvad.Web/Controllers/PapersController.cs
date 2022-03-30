@@ -60,12 +60,9 @@ namespace Ashirvad.Web.Controllers
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             var data = await _paperService.PaperMaintenance(paperEntity);
-            if (data != null)
-            {
-                return Json(true);
-            }
+            
 
-            return Json(false);
+            return Json(data);
         }
 
         [HttpPost]

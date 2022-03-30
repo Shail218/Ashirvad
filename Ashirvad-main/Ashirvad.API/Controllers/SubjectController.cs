@@ -27,8 +27,12 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._subjectService.SubjectMaintenance(subjectInfo);
             OperationResult<SubjectEntity> result = new OperationResult<SubjectEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+                result.Data = (SubjectEntity)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -49,8 +53,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._subjectService.RemoveSubject(SubjectID,lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 

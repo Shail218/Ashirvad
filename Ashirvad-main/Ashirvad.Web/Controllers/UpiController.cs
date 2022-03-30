@@ -54,11 +54,8 @@ namespace Ashirvad.Web.Controllers
                 BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
             };
             var data = await _upiService.UPIMaintenance(upi);
-            if(data != null)
-            {
-                return Json(data);
-            }
-            return Json(0);
+          
+            return Json(data);
         }
 
         [HttpPost]

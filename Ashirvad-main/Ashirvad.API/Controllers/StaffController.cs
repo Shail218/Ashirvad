@@ -27,8 +27,13 @@ namespace Ashirvad.API.Controllers
             staffInfo.Userrole = Enums.UserType.Staff;
             var data = this._staffService.StaffMaintenance(staffInfo);
             OperationResult<StaffEntity> result = new OperationResult<StaffEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            result.Message = data.Result.Message;
+            if (data.Result.Status)
+            {
+                result.Data = (StaffEntity)data.Result.Data;
+            }
+
             return result;
         }
 
@@ -50,8 +55,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._staffService.RemoveStaff(StaffID,lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
     }

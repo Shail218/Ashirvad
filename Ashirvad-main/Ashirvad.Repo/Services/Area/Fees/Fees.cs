@@ -133,6 +133,8 @@ namespace Ashirvad.Repo.Services.Area
 
                 if (res > 0)
                 {
+                    FeesInfo.FeesDetailID = FeesMaster.fee_struct_dtl_id;
+                    responseModel.Data = FeesInfo;
                     responseModel.Status = true;
                     responseModel.Message = isUpdate == true ? "Fee Details Updated Successfully." : "Fee Details Inserted Successfully.";
                 }

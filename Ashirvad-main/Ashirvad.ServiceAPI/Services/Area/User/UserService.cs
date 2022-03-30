@@ -190,8 +190,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
             return new UserEntity();
         }
 
-        public async Task<bool> ChangePassword(long userID, string password, string oldPassword)
+        public async Task<ResponseModel> ChangePassword(long userID, string password, string oldPassword)
         {
+            ResponseModel model = new ResponseModel();
             try
             {
                 return await this._userContext.ChangePassword(userID, password, oldPassword);
@@ -201,7 +202,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return model;
         }
 
         public ResponseModel RemoveUser(long userID, string lastupdatedby)
@@ -218,8 +219,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
 
             return responseModel;
         }
-        public async Task<bool> UpdatefcmToken(UserEntity userentity, string fcm_token)
+        public async Task<ResponseModel> UpdatefcmToken(UserEntity userentity, string fcm_token)
         {
+            ResponseModel model = new ResponseModel();
             try
             {
                 return await this._userContext.UpdatefcmToken(userentity, fcm_token);
@@ -229,7 +231,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return model;
         }
 
         public async Task<UserEntity> ValidateStudentData(string userName, string password)

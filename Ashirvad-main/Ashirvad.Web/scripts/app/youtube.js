@@ -173,8 +173,13 @@ function SaveYoutube() {
         var postCall = $.post(commonData.Youtube + "SaveYoutube", $('#fyoutubeDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Youtube added Successfully.", "Success");
-            window.location.href = "YoutubeMaintenance?linkID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "YoutubeMaintenance?linkID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+          
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -188,8 +193,12 @@ function RemoveYoutube(schoolID) {
         var postCall = $.post(commonData.Youtube + "RemoveYoutube", { "linkID": schoolID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Youtube Removed Successfully.", "Success");
-            window.location.href = "YoutubeMaintenance?linkID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "YoutubeMaintenance?linkID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

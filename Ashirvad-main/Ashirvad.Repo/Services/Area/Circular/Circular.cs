@@ -46,6 +46,7 @@ namespace Ashirvad.Repo.Services.Area.Circular
                 if(res>0)
                 {
                      circularInfo.CircularId=circularMaster.circular_id;
+                    responseModel.Data = circularInfo;
                     responseModel.Status = true;
                     responseModel.Message = isUpdate==true?"Circular Updated Successfully.":"Circular Inserted Successfully.";
                 }

@@ -19,10 +19,10 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.User
         ResponseModel RemoveUser(long userID, string lastupdatedby);
         bool AddUserRoles(UserEntity user);
         List<RolesEntity> GetRolesByUser(long userID);
-        Task<bool> ChangePassword(long userID, string password, string oldPassword);
+        Task<ResponseModel> ChangePassword(long userID, string password, string oldPassword);
         Task<UserEntity> GetUserByID(long userID);
         List<UserEntity> GetAllUsers(string userName, string contactNo);
-        Task<bool> UpdatefcmToken(UserEntity userentity, string fcm_token);
+        Task<ResponseModel> UpdatefcmToken(UserEntity userentity, string fcm_token);
         Task<UserEntity> ValidateStudentData(string userName, string password);
     }
 }

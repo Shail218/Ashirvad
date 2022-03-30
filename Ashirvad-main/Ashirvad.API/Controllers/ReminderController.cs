@@ -26,8 +26,12 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._reminderService.ReminderMaintenance(reminderInfo);
             OperationResult<ReminderEntity> result = new OperationResult<ReminderEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+                result.Data = (ReminderEntity)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -68,8 +72,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._reminderService.RemoveReminder(reminderID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
     }

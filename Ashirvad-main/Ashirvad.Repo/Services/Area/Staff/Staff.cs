@@ -96,27 +96,62 @@ namespace Ashirvad.Repo.Services.Area.Staff
             return responseModel;
         }
 
-        public async Task<long> UpdateProfile(StaffEntity staffInfo)
+        public async Task<ResponseModel> UpdateProfile(StaffEntity staffInfo)
         {
-            Model.BRANCH_STAFF branchStaff = new Model.BRANCH_STAFF();
-            if (CheckUser(staffInfo.MobileNo, staffInfo.StaffID).Result != -1)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                var data = (from staff in this.context.BRANCH_STAFF
-                            where staff.staff_id == staffInfo.StaffID
-                            select staff).FirstOrDefault();
-                branchStaff = data;
-                staffInfo.Transaction.TransactionId = data.trans_id;
-                branchStaff.name = staffInfo.Name;
-                branchStaff.email_id = staffInfo.EmailID;
-                branchStaff.mobile_no = staffInfo.MobileNo;
-                this.context.BRANCH_STAFF.Add(branchStaff);
-                this.context.Entry(branchStaff).State = System.Data.Entity.EntityState.Modified;
-                return this.context.SaveChanges() > 0 ? branchStaff.staff_id : 0;
+                var flag = false;
+                Model.BRANCH_STAFF branchStaff = new Model.BRANCH_STAFF();
+                if (CheckUser(staffInfo.MobileNo, staffInfo.StaffID).Result != -1)
+                {
+                    var data = (from staff in this.context.BRANCH_STAFF
+                                where staff.staff_id == staffInfo.StaffID
+                                select staff).FirstOrDefault();
+                    branchStaff = data;
+                    flag = data.mobile_no.Equals(staffInfo.MobileNo);
+                    staffInfo.Transaction.TransactionId = data.trans_id;
+                    branchStaff.name = staffInfo.Name;
+                    branchStaff.email_id = staffInfo.EmailID;
+                    branchStaff.mobile_no = staffInfo.MobileNo;
+                    this.context.BRANCH_STAFF.Add(branchStaff);
+                    this.context.Entry(branchStaff).State = System.Data.Entity.EntityState.Modified;
+                    var da = this.context.SaveChanges() > 0 ? branchStaff.staff_id : 0;
+                    if (da > 0)
+                    {
+                        staffInfo.StaffID = da;
+                        responseModel.Data = staffInfo;
+                        responseModel.Message = "Staff Updated Successfully.";
+                        responseModel.Status = true;
+                        if (!flag)
+                        {
+                            responseModel.Message = "Your Mobile Number has Changed!! Please Login Again!!";
+                            responseModel.Status = true;
+                        }
+                    }
+                    else
+                    {
+                        responseModel.Message ="Staff Not Updated.";
+                        responseModel.Status = false;
+                    }
+
+                   
+                    //return this.context.SaveChanges() > 0 ? branchStaff.staff_id : 0;
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Staff Already Exists.";
+                    //return -1;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return -1;
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
             }
+          
+            return responseModel;
         }
 
         public async Task<List<StaffEntity>> GetAllStaff(long branchID)
