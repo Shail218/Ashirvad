@@ -55,7 +55,6 @@ namespace Ashirvad.Data
 
     public class TestDetailEntity
     {
-
         public long TestDetailID { get; set; }
         public TestEntity TestEntity { get; set; }
         public BranchEntity BranchInfo { get; set; }
