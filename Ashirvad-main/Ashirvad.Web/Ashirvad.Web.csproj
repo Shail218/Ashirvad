@@ -1172,6 +1172,7 @@
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BranchCourseController.cs" />
     <Compile Include="Controllers\BranchSubjectController.cs" />
+    <Compile Include="Controllers\BranchWiseRankController.cs" />
     <Compile Include="Controllers\BranchWiseRightController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CaurseController.cs" />
@@ -1202,6 +1203,7 @@
     <Compile Include="Controllers\PhotosController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ProgressReportChartController.cs" />
+    <Compile Include="Controllers\RankController.cs" />
     <Compile Include="Controllers\ReminderController.cs" />
     <Compile Include="Controllers\ResultEntryController.cs" />
     <Compile Include="Controllers\ResultRegisterController.cs" />
@@ -1211,6 +1213,7 @@
     <Compile Include="Controllers\StandardWiseChartController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\OnlinePaymentListController.cs" />
+    <Compile Include="Controllers\StudentRankController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Controllers\SuperAdminSubjectController.cs" />
     <Compile Include="Controllers\TestByStudentController.cs" />
@@ -1225,6 +1228,8 @@
     <Compile Include="Controllers\UserPermissionController.cs" />
     <Compile Include="Controllers\VideosController.cs" />
     <Compile Include="Controllers\WinnerEntryController.cs" />
+    <Compile Include="Controllers\WinnerListController.cs" />
+    <Compile Include="Controllers\ViewCompetitionlistController.cs" />
     <Compile Include="Controllers\YoutubeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1500,6 +1505,17 @@
     <Content Include="Views\WinnerEntry\Index.cshtml" />
     <Content Include="Views\WinnerEntry\Create.cshtml" />
     <Content Include="Views\WinnerEntry\Manage.cshtml" />
+    <Content Include="Views\BranchWiseRank\Index.cshtml" />
+    <Content Include="Views\BranchWiseRank\Create.cshtml" />
+    <Content Include="Views\BranchWiseRank\Manage.cshtml" />
+    <Content Include="Views\WinnerList\Index.cshtml" />
+    <Content Include="Views\WinnerList\Create.cshtml" />
+    <Content Include="Views\WinnerList\Manage.cshtml" />
+    <Content Include="Views\StudentRank\Index.cshtml" />
+    <Content Include="Views\StudentRank\Create.cshtml" />
+    <Content Include="Views\StudentRank\Manage.cshtml" />
+    <Content Include="Views\ViewCompetitionlist\Index.cshtml" />
+    <Content Include="Views\Rank\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

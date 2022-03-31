@@ -1,0 +1,32 @@
+﻿@model Ashirvad.Data.TestEntity
+<form id="fCaurseDetail">
+    <div class="form-group" id="dInformation">
+        <div class="col-md-12">
+            <div class="col-md-12">
+                @Html.Label("Select Competition", htmlAttributes: new { @class = "control-label" })
+                <select name="Type" id="Type" class="form-control select2" alt="Type">
+                    <option value="0">--Select Competition--</option>
+                    <option value="0">National Level</option>
+                    <option value="0">State Level</option>
+                    <option value="0">School Level</option>
+                </select>
+                @Html.HiddenFor(x => x.test.PaperTypeID)
+                @Html.HiddenFor(x => x.test.PaperType)
+                @Html.HiddenFor(x => x.test.TestID, new { @class = "form-control", @Id = "test_id", autocomplete = "off" })
+                @Html.HiddenFor(x => x.test.TestPaperID)
+                @Html.HiddenFor(x => x.test.TestDate, new { @class = "form-control", @Id = "test_date", autocomplete = "off" })
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12 TestCompetitionEntryCreate" style="text-align: right; margin-top: 5PX">
+                <a onclick="" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Submit
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+

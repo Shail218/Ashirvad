@@ -1,0 +1,95 @@
+﻿@model List<Ashirvad.Data.TestEntity>
+@{
+    ViewBag.Title = "Competiton";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="row">
+        <section class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <div class="box-header with-border">
+                        <h2 class="box-title">Competition Detail</h2>
+                    </div>
+                    <div class="box-body" style="padding:20px;">
+                        <div>
+                            <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+                                <thead>
+                                    <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+                                        <th>
+                                            Sr.no
+                                        </th>
+                                        <th>
+                                            Submit Date
+                                        </th>
+                                        <th>
+                                            Branch Name
+                                        </th>
+                                        <th>
+                                            Course Name
+                                        </th>
+                                        <th>
+                                            Standard Name
+                                        </th>
+                                        <th>
+                                            Competition Status
+                                        </th>
+                                        <th>
+                                            Edit
+                                        </th>
+                                        <th>
+                                            Delete
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>30/03/2022</td>
+                                        <td>ABC</td>
+                                        <td>Computer</td>
+                                        <td>12-Std</td>
+                                        <td>National Level</td>
+                                        <td>
+                                            <img src="~/ThemeData/images/viewIcon.png" />
+                                        </td>
+                                        <td class="">
+                                            <img src="~/ThemeData/images/delete.png" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </section>
+    </div>
+    @section Scripts {
+        
+        <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                $('#studenttbl').DataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": true,
+                    "order": [[0, "desc"]]
+                });
+            });
+        </script>
+        <script type="text/javascript">
+            function ConfirmationDialog() {
+                if (confirm("Are you sure to continue?"))
+                    return true;
+                else
+                    return false;
+            }
+        </script>
+    }
+</section>
+

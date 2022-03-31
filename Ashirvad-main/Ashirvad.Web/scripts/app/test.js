@@ -355,6 +355,7 @@ function RemoveTest(testID) {
             } else {
                 HideLoader();
                 ShowMessage(data.Message, 'Error');
+            }
             
         }).fail(function () {
             HideLoader();
