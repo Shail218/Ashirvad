@@ -1,8 +1,6 @@
-﻿@model Ashirvad.Data.Model.TestMaintenanceModel
+﻿@model Ashirvad.Data.Model.CompetitonMaintenanceModel
 
 @{
-    /**/
-
     ViewBag.Title = "Competition";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -17,7 +15,7 @@
                 </div>
                 <div class="box-body">
                     @{
-                        Html.RenderPartial("Create", new ViewDataDictionary(Model.TestInfo));
+                        Html.RenderPartial("Create", new ViewDataDictionary(Model.CompetitonInfo));
                     }
                 </div>
             </div>
@@ -27,7 +25,7 @@
                 <div class="box-header with-border">
                     <h3 class="col-md-6">Competition Details</h3>
                     @{
-                        Html.RenderPartial("Manage", new ViewDataDictionary(Model.TestData));
+                        Html.RenderPartial("Manage", new ViewDataDictionary(Model.CompetitionData));
                     }
                 </div>
             </div>

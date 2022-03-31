@@ -1,6 +1,9 @@
 ﻿@using Ashirvad.Web.Controllers;
-@model List<Ashirvad.Data.TestEntity>
-
+@model List<Ashirvad.Data.Model.CompetitionEntity>
+@{
+    ViewBag.Title = "Manage";
+    int intSno = 0;
+}
 <table style="width: 100%;" id="competitionpapertable" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
@@ -30,8 +33,50 @@
             </th>
         </tr>
     </thead>
-    <tbody></tbody>
-   
+    <tbody>
+        @foreach (var item in Model)
+        {
+            intSno = intSno + 1;
+        <tr>
+            <td>
+                @intSno
+            </td>
+            <td>
+                @Html.DisplayFor(Model => item.CompetitionName)
+
+            </td>
+            <td>
+                @Html.DisplayFor(Model => item.CompetitionStartTime)
+
+            </td>
+            <td>
+                @Html.DisplayFor(Model => item.CompetitionEndTime)
+
+            </td>
+            <td>
+                @Html.DisplayFor(Model => item.CompetitionDt)
+            </td>
+            <td>
+                @Html.DisplayFor(Model => item.Remarks)
+            </td>
+            <td>
+                @Html.DisplayFor(Model => item.FileName)
+            </td>
+            <td>
+
+                <a href="@Url.Action("Index", "Competiton", new { @CompetitionID= item.CompetitionID })">
+                    <img src="~/image/Edit.png" />
+                </a>
+            </td>
+            <td>
+                <a href="javascript:void(0)" onclick="RemoveCompetiton('@item.CompetitionID')">
+                    <img src="~/image/delete.png" />
+                </a>
+            </td>
+        </tr>
+        }
+    </tbody>
+
 </table>
 
 

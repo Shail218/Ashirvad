@@ -75,7 +75,7 @@
     <Compile Include="Model\BannerMaintenanceModel.cs" />
     <Compile Include="Model\CircularMaintenanceModel.cs" />
     <Compile Include="Model\CommonChartModel.cs" />
-    <Compile Include="Model\CompetitionEntity.cs" />
+    <Compile Include="CompetitionEntity.cs" />
     <Compile Include="Model\CompetitonMaintenanceModel.cs" />
     <Compile Include="Model\HomeworkchartModel.cs" />
     <Compile Include="Model\PaymentRegisterDataModel.cs" />

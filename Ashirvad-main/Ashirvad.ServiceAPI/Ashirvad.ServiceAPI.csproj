@@ -67,6 +67,7 @@
     <Compile Include="ServiceAPI\Area\Charts\IChartService.cs" />
     <Compile Include="ServiceAPI\Area\Circular\ICircularService.cs" />
     <Compile Include="ServiceAPI\Area\Class\IClassService.cs" />
+    <Compile Include="ServiceAPI\Area\Competiton\ICompetitonService.cs" />
     <Compile Include="ServiceAPI\Area\Course\ICourseService.cs" />
     <Compile Include="ServiceAPI\Area\DashboardChart\IDashboardChartService.cs" />
     <Compile Include="ServiceAPI\Area\Faculty\IFacultyService.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Services\Area\Charts\ChartService.cs" />
     <Compile Include="Services\Area\Circular\CircularService.cs" />
     <Compile Include="Services\Area\Class\ClassService.cs" />
+    <Compile Include="Services\Area\Competition\CompetitionService.cs" />
     <Compile Include="Services\Area\Course\CourseService.cs" />
     <Compile Include="Services\Area\DashboardChart\DashboardChartService.cs" />
     <Compile Include="Services\Area\Faculty\FacultyService.cs" />

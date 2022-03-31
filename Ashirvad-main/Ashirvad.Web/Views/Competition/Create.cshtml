@@ -1,33 +1,37 @@
-﻿﻿@model Ashirvad.Data.TestEntity
+﻿﻿@model Ashirvad.Data.Model.CompetitionEntity
 <form id="fTestDetail">
     <div class="row" id="dInformation" style="padding-top:15px">
         <div class="col-md-12">
-
+            <div class="col-md-3">
+                @Html.Label("Competition Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                @Html.TextBoxFor(x => x.CompetitionName, new { @class = "form-control required", @alt = "Competition Name", autocomplete = "off" })
+                @Html.HiddenFor(x => x.CompetitionID)
+            </div>
             <div class="col-md-3">
                 @Html.Label("Competition Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <div id="datepickertest" class="input-group date" data-date-format="dd/mm/yyyy">
-                    @if (Model == null || Model.TestDate.ToString("dd/MM/yyyy") == "01/01/0001" || Model.TestDate.ToString("dd-MM-yyyy") == "01-01-0001")
+                    @if (Model == null || Model.CompetitionDt.ToString("dd/MM/yyyy") == "01/01/0001" || Model.CompetitionDt.ToString("dd-MM-yyyy") == "01-01-0001")
                     {
-                        @Html.TextBoxFor(x => x.TestDate, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "Test Date", autocomplete = "off", @readonly = "readonly" })
+                        @Html.TextBoxFor(x => x.CompetitionDt, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "CompetitionDt Date", autocomplete = "off", @readonly = "readonly" })
                     }
                     else
                     {
-                        @Html.TextBoxFor(x => x.TestDate, Model.TestDate.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "Test Date" })
+                        @Html.TextBoxFor(x => x.CompetitionDt, Model.CompetitionDt.ToString("dd/MM/yyyy"), new { @class = "form-control required", autocomplete = "off", @readonly = "readonly", @alt = "CompetitionDt Date" })
                     }
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
             </div>
             <div class="col-md-3">
                 @Html.Label("Competition Start Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.TestStartTime, null, new { @class = "form-control required readonly timeformat", @alt = "Start Time", autocomplete = "off", @type = "time" })
+                @Html.TextBoxFor(x => x.CompetitionStartTime, null, new { @class = "form-control required readonly timeformat", @alt = "Start Time", autocomplete = "off", @type = "time" })
             </div>
             <div class="col-md-3">
                 @Html.Label("Competition End Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.TestEndTime, null, new { @class = "form-control required readonly timeformat", @alt = "End Time", autocomplete = "off", @type = "time" })
+                @Html.TextBoxFor(x => x.CompetitionEndTime, null, new { @class = "form-control required readonly timeformat", @alt = "End Time", autocomplete = "off", @type = "time" })
             </div>
             <div class="col-md-3">
                 @Html.Label("Total Marks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.Marks, new { @class = "form-control required", @alt = "Marks", autocomplete = "off" })
+                @Html.TextBoxFor(x => x.Remarks, new { @class = "form-control required", @alt = "Marks", autocomplete = "off" })
             </div>
         </div>
 
@@ -47,16 +51,12 @@
             </div>
             <div class="col-md-3" style="display:none" id="link">
                 @Html.Label("Link", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.test.DocLink, new { @class = "form-control", @alt = "Link", autocomplete = "off" })
+                @Html.TextBoxFor(x => x.extra1, new { @class = "form-control", @alt = "Link", autocomplete = "off" })
             </div>
             <div class="col-md-3" style="display:none" id="testpaper">
                 @Html.Label("Uplolad Competition paper", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                <input class="file-upload" alt="Thumbnail Image" id="FileInfo" name="FileInfo" type="file" />
-                @Html.HiddenFor(x => x.test.DocContentText)
-                @Html.HiddenFor(x => x.test.DocContent)
-
-                @Html.HiddenFor(x => x.test.FileName)
-                @Html.HiddenFor(x => x.test.FilePath)
+                <input class="file-upload" alt="Thumbnail Image" id="FileInfo" name="FileInfo" type="file" />           
+                @Html.HiddenFor(x => x.FileName)              
             </div>
             @*<div class="col-md-3">
                 @Html.Label("Paper Remarks", htmlAttributes: new { @class = "control-label" })
@@ -69,7 +69,7 @@
                     <option value="1">Active</option>
                     <option value="2">InActive</option>
                 </select>
-                @Html.HiddenFor(x => x.test.RowStatus.RowStatusId)
+                @Html.HiddenFor(x => x.RowStatus.RowStatusId)
             </div>
         </div>
         <div class="col-md-12">

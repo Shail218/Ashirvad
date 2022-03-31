@@ -70,6 +70,7 @@
     <Compile Include="DataAcceessAPI\Area\Charts\IChartAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Circular\ICircularAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Class\IClassAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\Competition\ICompetitonAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Course\ICourseAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\DashboardChart\IDashboardChartAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Faculty\IFacultyAPI.cs" />
@@ -345,6 +346,7 @@
     <Compile Include="Services\Area\Check_Delete\Check_Delete.cs" />
     <Compile Include="Services\Area\Circular\Circular.cs" />
     <Compile Include="Services\Area\Class\Class.cs" />
+    <Compile Include="Services\Area\Competiton\Competition.cs" />
     <Compile Include="Services\Area\Course\Course.cs" />
     <Compile Include="Services\Area\DashboardChart\DashboardChart.cs" />
     <Compile Include="Services\Area\Faculty\Faculty.cs" />
