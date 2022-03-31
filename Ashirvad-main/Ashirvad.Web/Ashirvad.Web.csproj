@@ -1172,6 +1172,7 @@
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BranchCourseController.cs" />
     <Compile Include="Controllers\BranchSubjectController.cs" />
+    <Compile Include="Controllers\BranchWiseRankController.cs" />
     <Compile Include="Controllers\BranchWiseRightController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CaurseController.cs" />
@@ -1211,6 +1212,7 @@
     <Compile Include="Controllers\StandardWiseChartController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\OnlinePaymentListController.cs" />
+    <Compile Include="Controllers\StudentRankController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Controllers\SuperAdminSubjectController.cs" />
     <Compile Include="Controllers\TestByStudentController.cs" />
@@ -1224,6 +1226,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserPermissionController.cs" />
     <Compile Include="Controllers\VideosController.cs" />
+    <Compile Include="Controllers\WinnerListController.cs" />
     <Compile Include="Controllers\YoutubeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1496,6 +1499,15 @@
     <Content Include="Views\Competition\Create.cshtml" />
     <Content Include="Views\Competition\Index.cshtml" />
     <Content Include="Views\Competition\Manage.cshtml" />
+    <Content Include="Views\BranchWiseRank\Index.cshtml" />
+    <Content Include="Views\BranchWiseRank\Create.cshtml" />
+    <Content Include="Views\BranchWiseRank\Manage.cshtml" />
+    <Content Include="Views\WinnerList\Index.cshtml" />
+    <Content Include="Views\WinnerList\Create.cshtml" />
+    <Content Include="Views\WinnerList\Manage.cshtml" />
+    <Content Include="Views\StudentRank\Index.cshtml" />
+    <Content Include="Views\StudentRank\Create.cshtml" />
+    <Content Include="Views\StudentRank\Manage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
