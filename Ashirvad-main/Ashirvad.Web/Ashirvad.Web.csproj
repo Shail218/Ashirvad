@@ -1202,6 +1202,7 @@
     <Compile Include="Controllers\PhotosController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ProgressReportChartController.cs" />
+    <Compile Include="Controllers\RankController.cs" />
     <Compile Include="Controllers\ReminderController.cs" />
     <Compile Include="Controllers\ResultEntryController.cs" />
     <Compile Include="Controllers\ResultRegisterController.cs" />
@@ -1224,6 +1225,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserPermissionController.cs" />
     <Compile Include="Controllers\VideosController.cs" />
+    <Compile Include="Controllers\ViewCompetitionlistController.cs" />
     <Compile Include="Controllers\YoutubeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1496,6 +1498,8 @@
     <Content Include="Views\Competition\Create.cshtml" />
     <Content Include="Views\Competition\Index.cshtml" />
     <Content Include="Views\Competition\Manage.cshtml" />
+    <Content Include="Views\ViewCompetitionlist\Index.cshtml" />
+    <Content Include="Views\Rank\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
