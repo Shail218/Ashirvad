@@ -266,14 +266,35 @@
                                         </a>
                                     </li>
                                 }
-                                @*@if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+                                @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
                                 {
                                     <li class="dropdown" visible="true" style="margin-left:10px;">
-                                        <a href="@Url.Action("Index","Competition")">
+                                        @*<a href="@Url.Action("Index","Competition")">*@
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                             Competition
                                         </a>
+                                        @*</a>*@
+                                    <ul class="dropdown-menu">
+                                        <li id="wentry" class="Winnerentry">
+                                            <a href="@Url.Action("Index","WinnerEntry")">Winner Entry</a>
+                                        </li>
+
+                                        <li id="bentry" class="branchwiesrankentry">
+                                            <a href="@Url.Action("Index","BranchWiseRank")">Branch Wise Rank Entry</a>
+                                        </li>
+
+                                        <li id="" class="">
+                                            <a href="@Url.Action("Index","Competition")">Competition Entry</a>
+                                        </li>
+                                        <li id="" class="">
+                                            <a href="@Url.Action("Index","Rank")">Rank Details</a>
+                                        </li>
+                                        <li id="" class="">
+                                            <a href="@Url.Action("Index","ViewCompetitionlist")">View Competition Details</a>
+                                        </li>
+                                    </ul>
                                     </li>
-                                }*@
+                                }
                                 @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
                                 {
                                     <li class="dropdown" id="StudentMenu" style="margin-left:10px;">
@@ -324,6 +345,19 @@
                                                 <a href="@Url.Action("Index","ResultRegister")">Marks Register</a>
                                             </li>
 
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown" id="StudentMenu" style="margin-left:10px;">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            Competiton
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li id="" class="">
+                                                <a href="@Url.Action("Index","StudentRank")">Student Rank</a>
+                                            </li>
+                                            <li id="" class="">
+                                                <a href="@Url.Action("Index","WinnerList")">Winner List</a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li class="dropdown" id="GalleryMenu" style="margin-left:10px;">
@@ -507,23 +541,23 @@
                                     </li>
 
                                 }
-                            <li class="dropdown" id="Library" style="margin-left:10px;">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    Download App
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li class="treeview">
-                                        <a href="~/Apps/MyGeniusUAT_1.4.apk" download>
-                                           Genius App
-                                        </a>
-                                    </li>
-                                    <li class="treeview LibraryImage">
-                                        <a href="~/Apps/MasterMindUAT_1.6.apk" download>
-                                            Mastermind App
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                                <li class="dropdown" id="Library" style="margin-left:10px;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Download App
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="treeview">
+                                            <a href="~/Apps/MyGeniusUAT_1.4.apk" download>
+                                                Genius App
+                                            </a>
+                                        </li>
+                                        <li class="treeview LibraryImage">
+                                            <a href="~/Apps/MasterMindUAT_1.6.apk" download>
+                                                Mastermind App
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
 
                             </ul>
                         </div>
