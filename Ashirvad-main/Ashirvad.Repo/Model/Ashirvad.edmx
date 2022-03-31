@@ -240,6 +240,41 @@
           <Property Name="extra2" Type="varchar" MaxLength="50" />
           <Property Name="extra3" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="COMPETITION_MASTER">
+          <Key>
+            <PropertyRef Name="competition_id" />
+          </Key>
+          <Property Name="competition_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="competition_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="total_marks" Type="float" Nullable="false" />
+          <Property Name="competition_dt" Type="datetime" Nullable="false" />
+          <Property Name="competition_st_time" Type="nvarchar" MaxLength="50" />
+          <Property Name="competition_end_time" Type="nvarchar" MaxLength="50" />
+          <Property Name="remarks" Type="nvarchar(max)" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="file_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="extra1" Type="nvarchar" MaxLength="255" />
+          <Property Name="extra2" Type="nvarchar" MaxLength="255" />
+          <Property Name="extra3" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="COMPETITION_MASTER_DTL">
+          <Key>
+            <PropertyRef Name="competition_dtl_id" />
+          </Key>
+          <Property Name="competition_dtl_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="competition_id" Type="bigint" Nullable="false" />
+          <Property Name="branch_id" Type="bigint" Nullable="false" />
+          <Property Name="stud_id" Type="bigint" Nullable="false" />
+          <Property Name="competition_sheet_content" Type="varbinary(max)" />
+          <Property Name="competition_sheet_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="competition_filepath" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="remarks" Type="nvarchar(max)" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="submit_dt" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="COURSE_DTL_MASTER">
           <Key>
             <PropertyRef Name="course_dtl_id" />
@@ -533,6 +568,21 @@
           <Property Name="file_path" Type="varchar(max)" Nullable="false" />
           <Property Name="paper_file" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="RANK_MASTER">
+          <Key>
+            <PropertyRef Name="rank_id" />
+          </Key>
+          <Property Name="rank_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rank" Type="nvarchar" MaxLength="50" />
+          <Property Name="student_id" Type="bigint" />
+          <Property Name="branch_id" Type="bigint" />
+          <Property Name="competition_id" Type="bigint" />
+          <Property Name="row_sta_cd" Type="int" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="extra1" Type="varchar" MaxLength="50" />
+          <Property Name="extra2" Type="varchar" MaxLength="50" />
+          <Property Name="extra3" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="REMINDER_MASTER">
           <Key>
             <PropertyRef Name="reminder_id" />
@@ -816,6 +866,21 @@
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="has_priv" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WINNER_MASTER">
+          <Key>
+            <PropertyRef Name="winner_id" />
+          </Key>
+          <Property Name="winner_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="student_id" Type="bigint" />
+          <Property Name="branch_id" Type="bigint" />
+          <Property Name="competition_id" Type="bigint" />
+          <Property Name="prize_name" Type="varchar" MaxLength="50" />
+          <Property Name="row_sta_cd" Type="int" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="extra1" Type="varchar" MaxLength="50" />
+          <Property Name="extra2" Type="varchar" MaxLength="50" />
+          <Property Name="extra3" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1264,6 +1329,66 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
               <PropertyRef Name="trans_id" />
             </Principal>
             <Dependent Role="CLASS_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMPETITION_MASTER_DTL_BRANCH_MASTER">
+          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+          <End Role="COMPETITION_MASTER_DTL" Type="Self.COMPETITION_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="COMPETITION_MASTER_DTL">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMPETITION_MASTER_DTL_COMPETITION_MASTER">
+          <End Role="COMPETITION_MASTER" Type="Self.COMPETITION_MASTER" Multiplicity="1" />
+          <End Role="COMPETITION_MASTER_DTL" Type="Self.COMPETITION_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMPETITION_MASTER">
+              <PropertyRef Name="competition_id" />
+            </Principal>
+            <Dependent Role="COMPETITION_MASTER_DTL">
+              <PropertyRef Name="competition_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMPETITION_MASTER_DTL_STUDENT_MASTER">
+          <End Role="STUDENT_MASTER" Type="Self.STUDENT_MASTER" Multiplicity="1" />
+          <End Role="COMPETITION_MASTER_DTL" Type="Self.COMPETITION_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT_MASTER">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="COMPETITION_MASTER_DTL">
+              <PropertyRef Name="stud_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMPETITION_MASTER_DTL_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="COMPETITION_MASTER_DTL" Type="Self.COMPETITION_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="COMPETITION_MASTER_DTL">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMPETITION_MASTER_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="COMPETITION_MASTER" Type="Self.COMPETITION_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="COMPETITION_MASTER">
               <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1948,6 +2073,32 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RANK_MASTER_COMPETITION_MASTER">
+          <End Role="COMPETITION_MASTER" Type="Self.COMPETITION_MASTER" Multiplicity="0..1" />
+          <End Role="RANK_MASTER" Type="Self.RANK_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMPETITION_MASTER">
+              <PropertyRef Name="competition_id" />
+            </Principal>
+            <Dependent Role="RANK_MASTER">
+              <PropertyRef Name="competition_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RANK_MASTER_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RANK_MASTER" Type="Self.RANK_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="RANK_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_REMINDER_MASTER_BRANCH_MASTER">
           <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
           <End Role="REMINDER_MASTER" Type="Self.REMINDER_MASTER" Multiplicity="*" />
@@ -2504,6 +2655,32 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WINNER_MASTER_COMPETITION_MASTER">
+          <End Role="COMPETITION_MASTER" Type="Self.COMPETITION_MASTER" Multiplicity="0..1" />
+          <End Role="WINNER_MASTER" Type="Self.WINNER_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMPETITION_MASTER">
+              <PropertyRef Name="competition_id" />
+            </Principal>
+            <Dependent Role="WINNER_MASTER">
+              <PropertyRef Name="competition_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WINNER_MASTER_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WINNER_MASTER" Type="Self.WINNER_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="WINNER_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="getfacultydetailbybranch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="classID" Type="bigint" Mode="In" />
           <Parameter Name="courseID" Type="bigint" Mode="In" />
@@ -2534,6 +2711,8 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <EntitySet Name="CIRCULAR_MASTER" EntityType="Self.CIRCULAR_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CLASS_DTL_MASTER" EntityType="Self.CLASS_DTL_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CLASS_MASTER" EntityType="Self.CLASS_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COMPETITION_MASTER" EntityType="Self.COMPETITION_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COMPETITION_MASTER_DTL" EntityType="Self.COMPETITION_MASTER_DTL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COURSE_DTL_MASTER" EntityType="Self.COURSE_DTL_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COURSE_MASTER" EntityType="Self.COURSE_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FACULTY_MASTER" EntityType="Self.FACULTY_MASTER" Schema="dbo" store:Type="Tables" />
@@ -2556,6 +2735,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <EntitySet Name="PAYMENT_MASTER" EntityType="Self.PAYMENT_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PRACTICE_PAPER" EntityType="Self.PRACTICE_PAPER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PRACTICE_PAPER_REL" EntityType="Self.PRACTICE_PAPER_REL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RANK_MASTER" EntityType="Self.RANK_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REMINDER_MASTER" EntityType="Self.REMINDER_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SCHOOL_MASTER" EntityType="Self.SCHOOL_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STD_MASTER" EntityType="Self.STD_MASTER" Schema="dbo" store:Type="Tables" />
@@ -2576,6 +2756,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <EntitySet Name="UPI_MASTER" EntityType="Self.UPI_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER_DEF" EntityType="Self.USER_DEF" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER_ROLE" EntityType="Self.USER_ROLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WINNER_MASTER" EntityType="Self.WINNER_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Faculty" EntityType="Self.Faculty" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Faculty].[name] AS [name], 
@@ -2727,6 +2908,26 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <AssociationSet Name="FK_CLASS_MASTER_TRANSACTION_MASTER" Association="Self.FK_CLASS_MASTER_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="CLASS_MASTER" EntitySet="CLASS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMPETITION_MASTER_DTL_BRANCH_MASTER" Association="Self.FK_COMPETITION_MASTER_DTL_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="COMPETITION_MASTER_DTL" EntitySet="COMPETITION_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMPETITION_MASTER_DTL_COMPETITION_MASTER" Association="Self.FK_COMPETITION_MASTER_DTL_COMPETITION_MASTER">
+            <End Role="COMPETITION_MASTER" EntitySet="COMPETITION_MASTER" />
+            <End Role="COMPETITION_MASTER_DTL" EntitySet="COMPETITION_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMPETITION_MASTER_DTL_STUDENT_MASTER" Association="Self.FK_COMPETITION_MASTER_DTL_STUDENT_MASTER">
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+            <End Role="COMPETITION_MASTER_DTL" EntitySet="COMPETITION_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMPETITION_MASTER_DTL_TRANSACTION_MASTER" Association="Self.FK_COMPETITION_MASTER_DTL_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="COMPETITION_MASTER_DTL" EntitySet="COMPETITION_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMPETITION_MASTER_TRANSACTION_MASTER" Association="Self.FK_COMPETITION_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="COMPETITION_MASTER" EntitySet="COMPETITION_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_COURSE_DTL_MASTER_BRANCH_MASTER" Association="Self.FK_COURSE_DTL_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
@@ -2952,6 +3153,14 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
             <End Role="SUBJECT_DTL_MASTER" EntitySet="SUBJECT_DTL_MASTER" />
             <End Role="PRACTICE_PAPER" EntitySet="PRACTICE_PAPER" />
           </AssociationSet>
+          <AssociationSet Name="FK_RANK_MASTER_COMPETITION_MASTER" Association="Self.FK_RANK_MASTER_COMPETITION_MASTER">
+            <End Role="COMPETITION_MASTER" EntitySet="COMPETITION_MASTER" />
+            <End Role="RANK_MASTER" EntitySet="RANK_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RANK_MASTER_TRANSACTION_MASTER" Association="Self.FK_RANK_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="RANK_MASTER" EntitySet="RANK_MASTER" />
+          </AssociationSet>
           <AssociationSet Name="FK_REMINDER_MASTER_BRANCH_MASTER" Association="Self.FK_REMINDER_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="REMINDER_MASTER" EntitySet="REMINDER_MASTER" />
@@ -3135,6 +3344,14 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <AssociationSet Name="FK_VIDEO_MASTER_BRANCH_MASTER" Association="Self.FK_VIDEO_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="LINK_MASTER" EntitySet="LINK_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WINNER_MASTER_COMPETITION_MASTER" Association="Self.FK_WINNER_MASTER_COMPETITION_MASTER">
+            <End Role="COMPETITION_MASTER" EntitySet="COMPETITION_MASTER" />
+            <End Role="WINNER_MASTER" EntitySet="WINNER_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WINNER_MASTER_TRANSACTION_MASTER" Association="Self.FK_WINNER_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="WINNER_MASTER" EntitySet="WINNER_MASTER" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -3801,6 +4018,46 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="USER_DEF" EntitySet="USER_DEF" />
           </AssociationSet>
+          <EntitySet Name="COMPETITION_MASTER" EntityType="AshirvadModel.COMPETITION_MASTER" />
+          <EntitySet Name="COMPETITION_MASTER_DTL" EntityType="AshirvadModel.COMPETITION_MASTER_DTL" />
+          <EntitySet Name="RANK_MASTER" EntityType="AshirvadModel.RANK_MASTER" />
+          <EntitySet Name="WINNER_MASTER" EntityType="AshirvadModel.WINNER_MASTER" />
+          <AssociationSet Name="FK_COMPETITION_MASTER_DTL_BRANCH_MASTER" Association="AshirvadModel.FK_COMPETITION_MASTER_DTL_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="COMPETITION_MASTER_DTL" EntitySet="COMPETITION_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMPETITION_MASTER_DTL_COMPETITION_MASTER" Association="AshirvadModel.FK_COMPETITION_MASTER_DTL_COMPETITION_MASTER">
+            <End Role="COMPETITION_MASTER" EntitySet="COMPETITION_MASTER" />
+            <End Role="COMPETITION_MASTER_DTL" EntitySet="COMPETITION_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMPETITION_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_COMPETITION_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="COMPETITION_MASTER" EntitySet="COMPETITION_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RANK_MASTER_COMPETITION_MASTER" Association="AshirvadModel.FK_RANK_MASTER_COMPETITION_MASTER">
+            <End Role="COMPETITION_MASTER" EntitySet="COMPETITION_MASTER" />
+            <End Role="RANK_MASTER" EntitySet="RANK_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WINNER_MASTER_COMPETITION_MASTER" Association="AshirvadModel.FK_WINNER_MASTER_COMPETITION_MASTER">
+            <End Role="COMPETITION_MASTER" EntitySet="COMPETITION_MASTER" />
+            <End Role="WINNER_MASTER" EntitySet="WINNER_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMPETITION_MASTER_DTL_STUDENT_MASTER" Association="AshirvadModel.FK_COMPETITION_MASTER_DTL_STUDENT_MASTER">
+            <End Role="STUDENT_MASTER" EntitySet="STUDENT_MASTER" />
+            <End Role="COMPETITION_MASTER_DTL" EntitySet="COMPETITION_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMPETITION_MASTER_DTL_TRANSACTION_MASTER" Association="AshirvadModel.FK_COMPETITION_MASTER_DTL_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="COMPETITION_MASTER_DTL" EntitySet="COMPETITION_MASTER_DTL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RANK_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_RANK_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="RANK_MASTER" EntitySet="RANK_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WINNER_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_WINNER_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="WINNER_MASTER" EntitySet="WINNER_MASTER" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_TYPE_REL">
           <Key>
@@ -4285,6 +4542,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="PACKAGE_MASTER" Relationship="AshirvadModel.FK_PACKAGE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PACKAGE_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER" FromRole="BRANCH_MASTER" ToRole="TRANSACTION_MASTER" />
           <Property Name="alias_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="COMPETITION_MASTER_DTL" Relationship="AshirvadModel.FK_COMPETITION_MASTER_DTL_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="COMPETITION_MASTER_DTL" />
         </EntityType>
         <EntityType Name="BRANCH_STAFF">
           <Key>
@@ -5972,6 +6230,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="TEST_MASTER_DTL" />
           <NavigationProperty Name="PAYMENT_MASTER" Relationship="AshirvadModel.FK_PAYMENT_MASTER_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="PAYMENT_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_STUDENT_MASTER_TRANSACTION_MASTER" FromRole="STUDENT_MASTER" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="COMPETITION_MASTER_DTL" Relationship="AshirvadModel.FK_COMPETITION_MASTER_DTL_STUDENT_MASTER" FromRole="STUDENT_MASTER" ToRole="COMPETITION_MASTER_DTL" />
         </EntityType>
         <Association Name="FK_STUDENT_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -6269,6 +6528,10 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="TEST_MASTER_DTL" Relationship="AshirvadModel.FK_Test_MASTER_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="TEST_MASTER_DTL" />
           <NavigationProperty Name="UPI_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="UPI_MASTER" />
           <NavigationProperty Name="USER_DEF" Relationship="AshirvadModel.FK_USER_DEF_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="USER_DEF" />
+          <NavigationProperty Name="COMPETITION_MASTER" Relationship="AshirvadModel.FK_COMPETITION_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="COMPETITION_MASTER" />
+          <NavigationProperty Name="COMPETITION_MASTER_DTL" Relationship="AshirvadModel.FK_COMPETITION_MASTER_DTL_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="COMPETITION_MASTER_DTL" />
+          <NavigationProperty Name="RANK_MASTER" Relationship="AshirvadModel.FK_RANK_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="RANK_MASTER" />
+          <NavigationProperty Name="WINNER_MASTER" Relationship="AshirvadModel.FK_WINNER_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="WINNER_MASTER" />
         </EntityType>
         <Association Name="FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER">
           <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
@@ -6640,6 +6903,195 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
               <PropertyRef Name="trans_id" />
             </Principal>
             <Dependent Role="USER_DEF">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="COMPETITION_MASTER">
+          <Key>
+            <PropertyRef Name="competition_id" />
+          </Key>
+          <Property Name="competition_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="competition_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="total_marks" Type="Double" Nullable="false" />
+          <Property Name="competition_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="competition_st_time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="competition_end_time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="file_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="extra1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="extra2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="extra3" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="COMPETITION_MASTER_DTL" Relationship="AshirvadModel.FK_COMPETITION_MASTER_DTL_COMPETITION_MASTER" FromRole="COMPETITION_MASTER" ToRole="COMPETITION_MASTER_DTL" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_COMPETITION_MASTER_TRANSACTION_MASTER" FromRole="COMPETITION_MASTER" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="RANK_MASTER" Relationship="AshirvadModel.FK_RANK_MASTER_COMPETITION_MASTER" FromRole="COMPETITION_MASTER" ToRole="RANK_MASTER" />
+          <NavigationProperty Name="WINNER_MASTER" Relationship="AshirvadModel.FK_WINNER_MASTER_COMPETITION_MASTER" FromRole="COMPETITION_MASTER" ToRole="WINNER_MASTER" />
+        </EntityType>
+        <EntityType Name="COMPETITION_MASTER_DTL">
+          <Key>
+            <PropertyRef Name="competition_dtl_id" />
+          </Key>
+          <Property Name="competition_dtl_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="competition_id" Type="Int64" Nullable="false" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="stud_id" Type="Int64" Nullable="false" />
+          <Property Name="competition_sheet_content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="competition_sheet_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="competition_filepath" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="submit_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_COMPETITION_MASTER_DTL_BRANCH_MASTER" FromRole="COMPETITION_MASTER_DTL" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="COMPETITION_MASTER" Relationship="AshirvadModel.FK_COMPETITION_MASTER_DTL_COMPETITION_MASTER" FromRole="COMPETITION_MASTER_DTL" ToRole="COMPETITION_MASTER" />
+          <NavigationProperty Name="STUDENT_MASTER" Relationship="AshirvadModel.FK_COMPETITION_MASTER_DTL_STUDENT_MASTER" FromRole="COMPETITION_MASTER_DTL" ToRole="STUDENT_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_COMPETITION_MASTER_DTL_TRANSACTION_MASTER" FromRole="COMPETITION_MASTER_DTL" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <EntityType Name="RANK_MASTER">
+          <Key>
+            <PropertyRef Name="rank_id" />
+          </Key>
+          <Property Name="rank_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rank" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="student_id" Type="Int64" />
+          <Property Name="branch_id" Type="Int64" />
+          <Property Name="competition_id" Type="Int64" />
+          <Property Name="row_sta_cd" Type="Int32" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="extra1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="extra2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="extra3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="COMPETITION_MASTER" Relationship="AshirvadModel.FK_RANK_MASTER_COMPETITION_MASTER" FromRole="RANK_MASTER" ToRole="COMPETITION_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_RANK_MASTER_TRANSACTION_MASTER" FromRole="RANK_MASTER" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <EntityType Name="WINNER_MASTER">
+          <Key>
+            <PropertyRef Name="winner_id" />
+          </Key>
+          <Property Name="winner_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="student_id" Type="Int64" />
+          <Property Name="branch_id" Type="Int64" />
+          <Property Name="competition_id" Type="Int64" />
+          <Property Name="prize_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="row_sta_cd" Type="Int32" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <Property Name="extra1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="extra2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="extra3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="COMPETITION_MASTER" Relationship="AshirvadModel.FK_WINNER_MASTER_COMPETITION_MASTER" FromRole="WINNER_MASTER" ToRole="COMPETITION_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_WINNER_MASTER_TRANSACTION_MASTER" FromRole="WINNER_MASTER" ToRole="TRANSACTION_MASTER" />
+        </EntityType>
+        <Association Name="FK_COMPETITION_MASTER_DTL_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.COMPETITION_MASTER_DTL" Role="COMPETITION_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="COMPETITION_MASTER_DTL">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMPETITION_MASTER_DTL_COMPETITION_MASTER">
+          <End Type="AshirvadModel.COMPETITION_MASTER" Role="COMPETITION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.COMPETITION_MASTER_DTL" Role="COMPETITION_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMPETITION_MASTER">
+              <PropertyRef Name="competition_id" />
+            </Principal>
+            <Dependent Role="COMPETITION_MASTER_DTL">
+              <PropertyRef Name="competition_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMPETITION_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.COMPETITION_MASTER" Role="COMPETITION_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="COMPETITION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RANK_MASTER_COMPETITION_MASTER">
+          <End Type="AshirvadModel.COMPETITION_MASTER" Role="COMPETITION_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.RANK_MASTER" Role="RANK_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMPETITION_MASTER">
+              <PropertyRef Name="competition_id" />
+            </Principal>
+            <Dependent Role="RANK_MASTER">
+              <PropertyRef Name="competition_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WINNER_MASTER_COMPETITION_MASTER">
+          <End Type="AshirvadModel.COMPETITION_MASTER" Role="COMPETITION_MASTER" Multiplicity="0..1" />
+          <End Type="AshirvadModel.WINNER_MASTER" Role="WINNER_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMPETITION_MASTER">
+              <PropertyRef Name="competition_id" />
+            </Principal>
+            <Dependent Role="WINNER_MASTER">
+              <PropertyRef Name="competition_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMPETITION_MASTER_DTL_STUDENT_MASTER">
+          <End Type="AshirvadModel.STUDENT_MASTER" Role="STUDENT_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.COMPETITION_MASTER_DTL" Role="COMPETITION_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT_MASTER">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="COMPETITION_MASTER_DTL">
+              <PropertyRef Name="stud_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMPETITION_MASTER_DTL_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.COMPETITION_MASTER_DTL" Role="COMPETITION_MASTER_DTL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="COMPETITION_MASTER_DTL">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RANK_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.RANK_MASTER" Role="RANK_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="RANK_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WINNER_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.WINNER_MASTER" Role="WINNER_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="WINNER_MASTER">
               <PropertyRef Name="trans_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -7568,6 +8020,75 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
                 <ScalarProperty Name="created_by" ColumnName="created_by" />
                 <ScalarProperty Name="created_dt" ColumnName="created_dt" />
                 <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMPETITION_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.COMPETITION_MASTER">
+              <MappingFragment StoreEntitySet="COMPETITION_MASTER">
+                <ScalarProperty Name="extra3" ColumnName="extra3" />
+                <ScalarProperty Name="extra2" ColumnName="extra2" />
+                <ScalarProperty Name="extra1" ColumnName="extra1" />
+                <ScalarProperty Name="file_name" ColumnName="file_name" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="competition_end_time" ColumnName="competition_end_time" />
+                <ScalarProperty Name="competition_st_time" ColumnName="competition_st_time" />
+                <ScalarProperty Name="competition_dt" ColumnName="competition_dt" />
+                <ScalarProperty Name="total_marks" ColumnName="total_marks" />
+                <ScalarProperty Name="competition_name" ColumnName="competition_name" />
+                <ScalarProperty Name="competition_id" ColumnName="competition_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMPETITION_MASTER_DTL">
+            <EntityTypeMapping TypeName="AshirvadModel.COMPETITION_MASTER_DTL">
+              <MappingFragment StoreEntitySet="COMPETITION_MASTER_DTL">
+                <ScalarProperty Name="submit_dt" ColumnName="submit_dt" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="competition_filepath" ColumnName="competition_filepath" />
+                <ScalarProperty Name="competition_sheet_name" ColumnName="competition_sheet_name" />
+                <ScalarProperty Name="competition_sheet_content" ColumnName="competition_sheet_content" />
+                <ScalarProperty Name="stud_id" ColumnName="stud_id" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="competition_id" ColumnName="competition_id" />
+                <ScalarProperty Name="competition_dtl_id" ColumnName="competition_dtl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RANK_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.RANK_MASTER">
+              <MappingFragment StoreEntitySet="RANK_MASTER">
+                <ScalarProperty Name="extra3" ColumnName="extra3" />
+                <ScalarProperty Name="extra2" ColumnName="extra2" />
+                <ScalarProperty Name="extra1" ColumnName="extra1" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="competition_id" ColumnName="competition_id" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="rank" ColumnName="rank" />
+                <ScalarProperty Name="rank_id" ColumnName="rank_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WINNER_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.WINNER_MASTER">
+              <MappingFragment StoreEntitySet="WINNER_MASTER">
+                <ScalarProperty Name="extra3" ColumnName="extra3" />
+                <ScalarProperty Name="extra2" ColumnName="extra2" />
+                <ScalarProperty Name="extra1" ColumnName="extra1" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="prize_name" ColumnName="prize_name" />
+                <ScalarProperty Name="competition_id" ColumnName="competition_id" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="winner_id" ColumnName="winner_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
