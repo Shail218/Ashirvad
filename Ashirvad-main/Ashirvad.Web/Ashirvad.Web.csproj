@@ -1224,6 +1224,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserPermissionController.cs" />
     <Compile Include="Controllers\VideosController.cs" />
+    <Compile Include="Controllers\WinnerEntryController.cs" />
     <Compile Include="Controllers\YoutubeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1496,6 +1497,9 @@
     <Content Include="Views\Competition\Create.cshtml" />
     <Content Include="Views\Competition\Index.cshtml" />
     <Content Include="Views\Competition\Manage.cshtml" />
+    <Content Include="Views\WinnerEntry\Index.cshtml" />
+    <Content Include="Views\WinnerEntry\Create.cshtml" />
+    <Content Include="Views\WinnerEntry\Manage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
