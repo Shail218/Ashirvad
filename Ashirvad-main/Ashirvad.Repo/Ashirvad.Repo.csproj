@@ -175,6 +175,12 @@
     <Compile Include="Model\CLASS_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\COMPETITION_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\COMPETITION_MASTER_DTL.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\COURSE_DTL_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -250,6 +256,9 @@
     <Compile Include="Model\PRACTICE_PAPER_REL.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\RANK_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\REMINDER_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -317,6 +326,9 @@
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\usp_get_usage_Result.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\WINNER_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
