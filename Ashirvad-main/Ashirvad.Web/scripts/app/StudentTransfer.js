@@ -217,8 +217,8 @@ function Filterstudent() {
     ShowLoader();
     var course = $('#BranchCourse_course_dtl_id').val();
     var classname = $('#BranchClass_Class_dtl_id').val();
-    var finalyear = $('#Final_Year').val();
-    var postCall = $.post(commonData.Student + "GetFilterStudent", { "course": course, "classname": classname, "finalyear": finalyear });
+   
+    var postCall = $.post(commonData.Student + "GetFilterStudent", { "course": course, "classname": classname});
     postCall.done(function (data) {
         $("#studentdetails").html(data);
         LoadYear();

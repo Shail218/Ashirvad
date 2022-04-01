@@ -18,13 +18,7 @@
         </select>
         @Html.HiddenFor(x => x.BranchClass.Class_dtl_id)
     </div>
-    <div class="col-md-3">
-        @Html.Label("Year", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-        <select name="YearName" id="YearName" class="form-control requiredDDL" alt="Year Name">
-            <option value="0">--Select Year--</option>
-        </select>
-        @Html.HiddenFor(x => x.Final_Year)
-    </div>
+    
 
 
     <input hidden name="Next_Course" id="Next_Course" />

@@ -12,6 +12,7 @@ namespace Ashirvad.Repo.Services.Area.Student
 {
     public class Student : ModelAccess, IStudentAPI
     {
+        ResponseModel responseModel = new ResponseModel();
         public async Task<ResponseModel> CheckPackage(long BranchId)
         {
             ResponseModel response = new ResponseModel();
@@ -702,6 +703,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                     studentMaster = data.studentMaster;
                     studentInfo.Transaction.TransactionId = studentMaster.trans_id;
                     studentMaster.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    studentMaster.final_year = studentInfo.Final_Year;
                     studentMaster.trans_id = this.AddTransactionData(studentInfo.Transaction);
                     this.context.STUDENT_MASTER.Add(studentMaster);
                     this.context.Entry(studentMaster).State = System.Data.Entity.EntityState.Modified;
@@ -713,12 +715,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                         studentMaster.course_dtl_id = studentInfo.BranchCourse.course_dtl_id;
                         studentMaster.class_dtl_id = studentInfo.BranchClass.Class_dtl_id;
                         studentMaster.final_year = studentInfo.Final_Year;
-                        this.context.STUDENT_MASTER.Add(studentMaster);
-                        //studentMaint.parent_name = studentInfo.StudentMaint.ParentName;
-                        //studentMaint.father_occupation = studentInfo.StudentMaint.FatherOccupation;
-                        //studentMaint.mother_occupation = studentInfo.StudentMaint.MotherOccupation;
-                        //studentMaint.contact_no = studentInfo.StudentMaint.ContactNo;
-                        //this.context.STUDENT_MAINT.Add(studentMaint);
+                        this.context.STUDENT_MASTER.Add(studentMaster);                       
                         result = this.context.SaveChanges();
                         if (result > 0)
                         {
