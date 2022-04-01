@@ -11,58 +11,82 @@ namespace Ashirvad.Repo.Services.Area.Payment
 {
     public class StudentPayment : ModelAccess, IStudentPaymentAPI
     {
-        public async Task<long> PaymentMaintenance(PaymentEntity paymentInfo)
+        public async Task<ResponseModel> PaymentMaintenance(PaymentEntity paymentInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.STUDENT_PAYMENT_MASTER paymentMaster = new Model.STUDENT_PAYMENT_MASTER();
             Model.STUDENT_PAYMENT_REL paymentData = new Model.STUDENT_PAYMENT_REL();
-            bool isUpdate = true;
-            var data = (from payment in this.context.STUDENT_PAYMENT_MASTER.Include("STUDENT_PAYMENT_REL")
-                        where payment.payment_id == paymentInfo.PaymentID
-                        select new
-                        {
-                            paymentMaster = payment,
-                            paymentData = payment.STUDENT_PAYMENT_REL
-                        }).FirstOrDefault();
-            if (data == null)
+            try
             {
-                paymentMaster = new Model.STUDENT_PAYMENT_MASTER();
-                paymentData = new Model.STUDENT_PAYMENT_REL();
-                isUpdate = false;
+                bool isUpdate = true;
+                var data = (from payment in this.context.STUDENT_PAYMENT_MASTER.Include("STUDENT_PAYMENT_REL")
+                            where payment.payment_id == paymentInfo.PaymentID
+                            select new
+                            {
+                                paymentMaster = payment,
+                                paymentData = payment.STUDENT_PAYMENT_REL
+                            }).FirstOrDefault();
+                if (data == null)
+                {
+                    paymentMaster = new Model.STUDENT_PAYMENT_MASTER();
+                    paymentData = new Model.STUDENT_PAYMENT_REL();
+                    isUpdate = false;
+                }
+                else
+                {
+                    paymentMaster = data.paymentMaster;
+                    paymentData = data.paymentMaster.STUDENT_PAYMENT_REL.FirstOrDefault();
+                    paymentInfo.TransactionData.TransactionId = data.paymentMaster.trans_id;
+                }
+
+                paymentMaster.row_sta_cd = paymentInfo.RowStatusData.RowStatusId;
+                paymentMaster.trans_id = this.AddTransactionData(paymentInfo.TransactionData);
+                paymentMaster.branch_id = paymentInfo.BranchData.BranchID;
+                paymentMaster.admin_remark = paymentInfo.AdminRemarks;
+                paymentMaster.status_id = (int)paymentInfo.PaymentStatus;
+                paymentMaster.student_remark = paymentInfo.StudentRemarks;
+                paymentMaster.student_id = paymentInfo.StudentData.StudentID;
+                this.context.STUDENT_PAYMENT_MASTER.Add(paymentMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(paymentMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+                if (!isUpdate)
+                {
+                    paymentData.payment_id = paymentMaster.payment_id;
+                }
+
+                paymentData.payment_content = !string.IsNullOrEmpty(paymentInfo.PaymentData.PaymentContentText) ? Convert.FromBase64String(paymentInfo.PaymentData.PaymentContentText) : paymentInfo.PaymentData.PaymentContent;
+                paymentData.file_name = paymentInfo.PaymentData.PaymentContentFileName;
+                paymentData.trans_id = paymentInfo.TransactionData.TransactionId;
+                paymentData.row_sta_cd = paymentInfo.RowStatusData.RowStatusId;
+                this.context.STUDENT_PAYMENT_REL.Add(paymentData);
+                if (isUpdate)
+                {
+                    this.context.Entry(paymentData).State = System.Data.Entity.EntityState.Modified;
+                }
+                //return this.context.SaveChanges() > 0 ? paymentMaster.payment_id : 0;
+                var da = this.context.SaveChanges() > 0 ? paymentMaster.payment_id : 0;
+                if (da > 0)
+                {
+                    paymentInfo.PaymentID = da;
+                    responseModel.Data = paymentInfo;
+                    responseModel.Message = isUpdate == true ? "Payment Updated Successfully." : "Payment Inserted Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = isUpdate == true ? "Payment Not Updated." : "Payment Not Inserted.";
+                    responseModel.Status = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                paymentMaster = data.paymentMaster;
-                paymentData = data.paymentMaster.STUDENT_PAYMENT_REL.FirstOrDefault();
-                paymentInfo.TransactionData.TransactionId = data.paymentMaster.trans_id;
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
 
-            paymentMaster.row_sta_cd = paymentInfo.RowStatusData.RowStatusId;
-            paymentMaster.trans_id = this.AddTransactionData(paymentInfo.TransactionData);
-            paymentMaster.branch_id = paymentInfo.BranchData.BranchID;
-            paymentMaster.admin_remark = paymentInfo.AdminRemarks;
-            paymentMaster.status_id = (int)paymentInfo.PaymentStatus;
-            paymentMaster.student_remark = paymentInfo.StudentRemarks;
-            paymentMaster.student_id = paymentInfo.StudentData.StudentID;
-            this.context.STUDENT_PAYMENT_MASTER.Add(paymentMaster);
-            if (isUpdate)
-            {
-                this.context.Entry(paymentMaster).State = System.Data.Entity.EntityState.Modified;
-            }
-            if (!isUpdate)
-            {
-                paymentData.payment_id = paymentMaster.payment_id;
-            }
-
-            paymentData.payment_content = !string.IsNullOrEmpty(paymentInfo.PaymentData.PaymentContentText) ? Convert.FromBase64String(paymentInfo.PaymentData.PaymentContentText) : paymentInfo.PaymentData.PaymentContent;
-            paymentData.file_name = paymentInfo.PaymentData.PaymentContentFileName;
-            paymentData.trans_id = paymentInfo.TransactionData.TransactionId;
-            paymentData.row_sta_cd = paymentInfo.RowStatusData.RowStatusId;
-            this.context.STUDENT_PAYMENT_REL.Add(paymentData);
-            if (isUpdate)
-            {
-                this.context.Entry(paymentData).State = System.Data.Entity.EntityState.Modified;
-            }
-            return this.context.SaveChanges() > 0 ? paymentMaster.payment_id : 0;
+            return responseModel;
         }
 
         public async Task<List<PaymentEntity>> GetAllPayment(long branchID)
@@ -128,7 +152,7 @@ namespace Ashirvad.Repo.Services.Area.Payment
                         .Include("BRANCH_MASTER")
                         join stu in this.context.STUDENT_MASTER on u.student_id equals stu.student_id
                         join std in this.context.STD_MASTER on stu.class_dtl_id equals std.std_id
-                        where (0 == u.branch_id || u.branch_id == branchID) 
+                        where (0 == u.branch_id || u.branch_id == branchID)
                         && u.row_sta_cd == 1
                         select new PaymentEntity()
                         {
@@ -219,20 +243,34 @@ namespace Ashirvad.Repo.Services.Area.Payment
             return data;
         }
 
-        public bool RemovePayment(long paymentID, string lastupdatedby)
+        public ResponseModel RemovePayment(long paymentID, string lastupdatedby)
         {
-            var data = (from u in this.context.STUDENT_PAYMENT_MASTER
-                        where u.payment_id == paymentID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.STUDENT_PAYMENT_MASTER
+                            where u.payment_id == paymentID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    //return true;
+                    responseModel.Message = "Payment Removed Successfully.";
+                    responseModel.Status = true;
+                }
+               
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
         }
+
+            //return false;
     }
 }
+

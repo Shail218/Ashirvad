@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Ashirvad | @ViewBag.Title</title>
+    <title>Mastermind | @ViewBag.Title</title>
     <link rel="icon" type="image/x-icon" href="~/ThemeData/images/logo.png">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
@@ -125,6 +125,7 @@
 <body class="skin-blue layout-top-nav">
     <input id="rightslist" hidden value="@SessionContext.Instance.userRightsList" />
     <input id="Lbranch" hidden value="@SessionContext.Instance.LoginUser.BranchInfo.BranchName" />
+    <input id="Lbranchalias" hidden value="@SessionContext.Instance.LoginUser.BranchInfo.aliasName" />
     <input id="FinanceYear" hidden value="@SessionContext.Instance.LoginUser.FinancialYear" />
     <input type="hidden" id="hdnFldVDName" value="@Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["VDName"])" />
     @if (SessionContext.Instance.LoginUser.UserType != Ashirvad.Common.Enums.UserType.SuperAdmin)
@@ -180,17 +181,17 @@
                                         @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
                                         {
                                             @*<li id="StM">
-                                                <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master</a>
-                                            </li>*@
+                        <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master</a>
+                    </li>*@
                                             <li id="BrM">
                                                 <a href="@Url.Action("BranchMaintenance","Branch", new { @branchID=0 })">Branch Master</a>
                                             </li>
                                             @*<li id="Banner">
-                                                <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })" )">Banner Master</a>
-                                            </li>*@
+                        <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })" )">Banner Master</a>
+                    </li>*@
                                             @*<li id="NotificationMaster">
-                                                <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
-                                            </li>*@
+                        <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
+                    </li>*@
                                             <li id="StM">
                                                 <a href="@Url.Action("UserMaintenance","User", new { @branchID=0 })">User Master</a>
                                             </li>
@@ -265,6 +266,35 @@
                                         </a>
                                     </li>
                                 }
+                                @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
+                                {
+                                    <li class="dropdown" visible="true" style="margin-left:10px;">
+                                        @*<a href="@Url.Action("Index","Competition")">*@
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            Competition
+                                        </a>
+                                        @*</a>*@
+                                    <ul class="dropdown-menu">
+                                        <li id="wentry" class="Winnerentry">
+                                            <a href="@Url.Action("Index","WinnerEntry")">Winner Entry</a>
+                                        </li>
+
+                                        <li id="bentry" class="branchwiesrankentry">
+                                            <a href="@Url.Action("Index","BranchWiseRank")">Branch Wise Rank Entry</a>
+                                        </li>
+
+                                        <li id="" class="">
+                                            <a href="@Url.Action("Index","Competition")">Competition Entry</a>
+                                        </li>
+                                        <li id="" class="">
+                                            <a href="@Url.Action("Index","Rank")">Rank Details</a>
+                                        </li>
+                                        <li id="" class="">
+                                            <a href="@Url.Action("Index","ViewCompetitionlist")">View Competition Details</a>
+                                        </li>
+                                    </ul>
+                                    </li>
+                                }
                                 @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
                                 {
                                     <li class="dropdown" id="StudentMenu" style="margin-left:10px;">
@@ -315,6 +345,19 @@
                                                 <a href="@Url.Action("Index","ResultRegister")">Marks Register</a>
                                             </li>
 
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown" id="StudentMenu" style="margin-left:10px;">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            Competiton
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li id="" class="">
+                                                <a href="@Url.Action("Index","StudentRank")">Student Rank</a>
+                                            </li>
+                                            <li id="" class="">
+                                                <a href="@Url.Action("Index","WinnerList")">Winner List</a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li class="dropdown" id="GalleryMenu" style="margin-left:10px;">
@@ -436,10 +479,10 @@
                                                 </a>
                                             </li>
                                             @*<li class="treeview Report" id="Li3">
-                                                    <a href="@Url.Action("GetAllReportData","AdminReport")">
-                                                        Report
-                                                    </a>
-                                                </li>*@
+                        <a href="@Url.Action("GetAllReportData","AdminReport")">
+                            Report
+                        </a>
+                    </li>*@
                                         </ul>
                                     </li>
 
@@ -498,6 +541,24 @@
                                     </li>
 
                                 }
+                                <li class="dropdown" id="Library" style="margin-left:10px;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Download App
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="treeview">
+                                            <a href="~/Apps/MyGeniusUAT_1.4.apk" download>
+                                                Genius App
+                                            </a>
+                                        </li>
+                                        <li class="treeview LibraryImage">
+                                            <a href="~/Apps/MasterMindUAT_1.6.apk" download>
+                                                Mastermind App
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
                             </ul>
                         </div>
                         <div class="navbar-custom-menu">
@@ -531,7 +592,7 @@
                     </div>
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <h4 style="color: white;" id="lblBranchName">@SessionContext.Instance.LoginUser.BranchInfo.BranchName - @SessionContext.Instance.LoginUser.FinancialYear</h4>
+                            <h4 style="color: white;" id="lblBranchName">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</h4>
                             @*<h4 style="color: white;" id="lblFinanceYear"></h4>*@
                         </div>
                     </div>

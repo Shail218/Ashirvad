@@ -32,8 +32,12 @@ namespace Ashirvad.API.Controllers
             galleryInfo.GalleryType = 1;
             var data = this._galleryService.GalleryMaintenance(galleryInfo);
             OperationResult<GalleryEntity> result = new OperationResult<GalleryEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+                result.Data = (GalleryEntity)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -78,8 +82,12 @@ namespace Ashirvad.API.Controllers
             galleryInfo.GalleryType = 2;
             var data = this._galleryService.GalleryMaintenance(galleryInfo);
             OperationResult<GalleryEntity> result = new OperationResult<GalleryEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+                result.Data = (GalleryEntity)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -111,8 +119,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._galleryService.RemoveGallery(uniqueID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 
@@ -121,14 +130,14 @@ namespace Ashirvad.API.Controllers
         public OperationResult<GalleryEntity> GalleryMaintenance(string model, bool HasFile)
         {
             OperationResult<GalleryEntity> result = new OperationResult<GalleryEntity>();
-            var httpRequest = HttpContext.Current.Request;            
+            var httpRequest = HttpContext.Current.Request;
             GalleryEntity galleryEntity = new GalleryEntity();
             galleryEntity.Branch = new BranchEntity();
             var entity = JsonConvert.DeserializeObject<GalleryEntity>(model);
             galleryEntity.UniqueID = entity.UniqueID;
             galleryEntity.Branch.BranchID = entity.Branch.BranchID;
             galleryEntity.Remarks = entity.Remarks;
-            galleryEntity.GalleryType = entity.GalleryType;     
+            galleryEntity.GalleryType = entity.GalleryType;
             galleryEntity.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
@@ -152,7 +161,7 @@ namespace Ashirvad.API.Controllers
                             string fileName;
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -180,21 +189,13 @@ namespace Ashirvad.API.Controllers
                 galleryEntity.FilePath = entity.FilePath;
             }
             var data = this._galleryService.GalleryMaintenance(galleryEntity).Result;
-            result.Completed = false;
-            result.Data = null;
-            if (data.UniqueID > 0)
+            result.Completed = data.Status;
+            if (data.Status)
             {
-                result.Completed = true;
-                result.Data = data;
-                if (entity.UniqueID > 0)
-                {
-                    result.Message = "Gallery Updated Successfully.";
-                }
-                else
-                {
-                    result.Message = "Gallery Created Successfully.";
-                }
+                result.Data = (GalleryEntity)data.Data;
             }
+           
+            result.Message = data.Message;
             return result;
         }
 

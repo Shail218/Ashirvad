@@ -18,20 +18,20 @@ namespace Ashirvad.ServiceAPI.Services.Area
         {
             this._CategoryContext = CategoryContext;
         }
-        public async Task<CategoryEntity> CategoryMaintenance(CategoryEntity CategoryInfo)
+        public async Task<ResponseModel> CategoryMaintenance(CategoryEntity CategoryInfo)
         {
-            CategoryEntity Category = new CategoryEntity();
+            ResponseModel responseModel = new ResponseModel();
             try
             {
-                long CategoryID = await _CategoryContext.CategoryMaintenance(CategoryInfo);
-                Category.CategoryID = CategoryID;
+                responseModel = await _CategoryContext.CategoryMaintenance(CategoryInfo);
+                //Category.CategoryID = CategoryID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return Category;
+            return responseModel;
         }
 
         public async Task<List<CategoryEntity>> GetAllCategorys(long branchID)
@@ -76,8 +76,9 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public bool RemoveCategory(long CategoryID, string lastupdatedby)
+        public ResponseModel RemoveCategory(long CategoryID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._CategoryContext.RemoveCategory(CategoryID, lastupdatedby);
@@ -87,7 +88,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
         public async Task<CategoryEntity> GetCategorysByID(long CategoryInfo)

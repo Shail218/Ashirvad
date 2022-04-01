@@ -18,48 +18,72 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
             result = isExists == true ? -1 : 1;
             return result;
         }
-        public async Task<long> AboutUsMaintenance(AboutUsEntity aboutUsInfo)
+        public async Task<ResponseModel> AboutUsMaintenance(AboutUsEntity aboutUsInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.ABOUTUS_MASTER aboutUsMaster = new Model.ABOUTUS_MASTER();
-            if (/*CheckBranch((int)aboutUsInfo.BranchInfo.BranchID).Result*/ 1 != -1)
+            try
             {
-                bool isUpdate = true;
-                var data = (from aboutus in this.context.ABOUTUS_MASTER
-                            where aboutus.aboutus_id == aboutUsInfo.AboutUsID
-                            select aboutus).FirstOrDefault();
-                if (data == null)
+
+                if (/*CheckBranch((int)aboutUsInfo.BranchInfo.BranchID).Result*/ 1 != -1)
                 {
-                    data = new Model.ABOUTUS_MASTER();
-                    isUpdate = false;
-                }
-                else
-                {
-                    aboutUsMaster = data;
-                    aboutUsInfo.TransactionInfo.TransactionId = data.trans_id;
-                }
+                    bool isUpdate = true;
+                    var data = (from aboutus in this.context.ABOUTUS_MASTER
+                                where aboutus.aboutus_id == aboutUsInfo.AboutUsID
+                                select aboutus).FirstOrDefault();
+                    if (data == null)
+                    {
+                        data = new Model.ABOUTUS_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        aboutUsMaster = data;
+                        aboutUsInfo.TransactionInfo.TransactionId = data.trans_id;
+                    }
 
 
-                aboutUsMaster.header_img_name = aboutUsInfo.HeaderImageName;
-                aboutUsMaster.aboutus_desc = aboutUsInfo.AboutUsDesc;
-                aboutUsMaster.row_sta_cd = aboutUsInfo.RowStatus.RowStatusId;
-                aboutUsMaster.trans_id = this.AddTransactionData(aboutUsInfo.TransactionInfo);
-                aboutUsMaster.branch_id = aboutUsInfo.BranchInfo.BranchID;
-                aboutUsMaster.email_id = aboutUsInfo.EmailID;
-                aboutUsMaster.contact_no = aboutUsInfo.ContactNo;
-                aboutUsMaster.website = aboutUsInfo.WebsiteURL;
-                aboutUsMaster.whatsapp_no = aboutUsInfo.WhatsAppNo;
-                aboutUsMaster.contact_no = aboutUsInfo.ContactNo;
-                aboutUsMaster.header_img_path = aboutUsInfo.FilePath;
-                this.context.ABOUTUS_MASTER.Add(aboutUsMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(aboutUsMaster).State = System.Data.Entity.EntityState.Modified;
-                }
+                    aboutUsMaster.header_img_name = aboutUsInfo.HeaderImageName;
+                    aboutUsMaster.aboutus_desc = aboutUsInfo.AboutUsDesc;
+                    aboutUsMaster.row_sta_cd = aboutUsInfo.RowStatus.RowStatusId;
+                    aboutUsMaster.trans_id = this.AddTransactionData(aboutUsInfo.TransactionInfo);
+                    aboutUsMaster.branch_id = aboutUsInfo.BranchInfo.BranchID;
+                    aboutUsMaster.email_id = aboutUsInfo.EmailID;
+                    aboutUsMaster.contact_no = aboutUsInfo.ContactNo;
+                    aboutUsMaster.website = aboutUsInfo.WebsiteURL;
+                    aboutUsMaster.whatsapp_no = aboutUsInfo.WhatsAppNo;
+                    aboutUsMaster.contact_no = aboutUsInfo.ContactNo;
+                    aboutUsMaster.header_img_path = aboutUsInfo.FilePath;
+                    this.context.ABOUTUS_MASTER.Add(aboutUsMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(aboutUsMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
 
-                var uniqueID = this.context.SaveChanges() > 0 ? aboutUsMaster.aboutus_id : 0;
-                return uniqueID;
+                    var uniqueID = this.context.SaveChanges() > 0 ? aboutUsMaster.aboutus_id : 0;
+                    if (uniqueID > 0)
+                    {
+                        aboutUsInfo.AboutUsID = uniqueID;
+                        responseModel.Message = isUpdate == true ? "About Us Updated Successfully." : "About Us Inserted Successfully.";
+                        responseModel.Status = true;
+                        responseModel.Data = aboutUsInfo;
+                    }
+                    else
+                    {
+                        //aboutUsInfo.AboutUsID = uniqueID;
+                        responseModel.Message = isUpdate == true ? "About Us Not Updated." : "About Us Not Inserted.";
+                        responseModel.Status = false;
+                        //responseModel.Data = aboutUsInfo;
+                    }
+                  
+                }
             }
-            return -1;
+            catch(Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
         }
 
         public async Task<List<AboutUsDetailEntity>> GetAllAboutUs(long branchID)
@@ -143,73 +167,107 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
             return data;
         }
 
-        public bool RemoveAboutUs(long uniqueID, string lastupdatedby, bool removeAboutUsDetail)
+        public ResponseModel RemoveAboutUs(long uniqueID, string lastupdatedby, bool removeAboutUsDetail)
         {
-            var data = (from u in this.context.ABOUTUS_MASTER
-                        where u.aboutus_id == uniqueID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                if (removeAboutUsDetail)
+                var data = (from u in this.context.ABOUTUS_MASTER
+                            where u.aboutus_id == uniqueID
+                            select u).FirstOrDefault();
+                if (data != null)
                 {
-                    var tAboutUs = (from au in this.context.ABOUTUS_DETAIL_REL
-                                    where au.branch_id == uniqueID
-                                    select au).ToList();
-                    if (tAboutUs?.Count > 0)
+                    if (removeAboutUsDetail)
                     {
-                        foreach (var item in tAboutUs)
+                        var tAboutUs = (from au in this.context.ABOUTUS_DETAIL_REL
+                                        where au.branch_id == uniqueID
+                                        select au).ToList();
+                        if (tAboutUs?.Count > 0)
                         {
-                            item.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                            item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                            foreach (var item in tAboutUs)
+                            {
+                                item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                                item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                            }
                         }
                     }
+
+
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "About Us Removed Successfully.";
+                    responseModel.Status = true;
                 }
-
-
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                else
+                {
+                    responseModel.Message = "About Us Does not Exist.";
+                    responseModel.Status = false;
+                }
             }
+            catch(Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+      
 
-            return false;
+            return responseModel;
         }
 
 
         #region - About Us Details -
-        public async Task<long> AboutUsDetailMaintenance(AboutUsDetailEntity aboutUsDetailInfo)
+        public async Task<ResponseModel> AboutUsDetailMaintenance(AboutUsDetailEntity aboutUsDetailInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.ABOUTUS_DETAIL_REL aboutUsDetailMaster = new Model.ABOUTUS_DETAIL_REL();
-            bool isUpdate = true;
-            var data = (from aboutus in this.context.ABOUTUS_DETAIL_REL
-                        where aboutus.brand_id == aboutUsDetailInfo.DetailID
-                        select aboutus).FirstOrDefault();
-            if (data == null)
+            try
             {
-                data = new Model.ABOUTUS_DETAIL_REL();
-                isUpdate = false;
+                bool isUpdate = true;
+                var data = (from aboutus in this.context.ABOUTUS_DETAIL_REL
+                            where aboutus.brand_id == aboutUsDetailInfo.DetailID
+                            select aboutus).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.ABOUTUS_DETAIL_REL();
+                    isUpdate = false;
+                }
+                else
+                {
+                    aboutUsDetailMaster = data;
+                    aboutUsDetailInfo.TransactionInfo.TransactionId = data.trans_id;
+                }
+                aboutUsDetailMaster.branch_id = aboutUsDetailInfo.BranchInfo.BranchID;
+                aboutUsDetailMaster.header_img = aboutUsDetailInfo.HeaderImageText;
+                aboutUsDetailMaster.header_img_path = aboutUsDetailInfo.FilePath;
+                aboutUsDetailMaster.row_sta_cd = aboutUsDetailInfo.RowStatus.RowStatusId;
+                aboutUsDetailMaster.trans_id = this.AddTransactionData(aboutUsDetailInfo.TransactionInfo);
+                aboutUsDetailMaster.brand_name = aboutUsDetailInfo.BrandName;
+                this.context.ABOUTUS_DETAIL_REL.Add(aboutUsDetailMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(aboutUsDetailMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+
+                var uniqueID = this.context.SaveChanges() > 0 ? aboutUsDetailMaster.brand_id : 0;
+                if (uniqueID > 0)
+                {
+                    responseModel.Message = isUpdate == true ? "About Us Detail Updated Successfully." : "About Us Detail Inserted Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = isUpdate == true ? "About Us Detail Not Updated." : "About Us Detail Not Inserted.";
+                    responseModel.Status = false;
+                }
             }
-            else
+            catch(Exception ex)
             {
-                aboutUsDetailMaster = data;
-                aboutUsDetailInfo.TransactionInfo.TransactionId = data.trans_id;
+                responseModel.Message =ex.Message.ToString();
+                responseModel.Status = false;
             }
-
-
-            aboutUsDetailMaster.branch_id = aboutUsDetailInfo.BranchInfo.BranchID;
-            aboutUsDetailMaster.header_img = aboutUsDetailInfo.HeaderImageText;
-            aboutUsDetailMaster.header_img_path = aboutUsDetailInfo.FilePath;
-            aboutUsDetailMaster.row_sta_cd = aboutUsDetailInfo.RowStatus.RowStatusId;
-            aboutUsDetailMaster.trans_id = this.AddTransactionData(aboutUsDetailInfo.TransactionInfo);
-            aboutUsDetailMaster.brand_name = aboutUsDetailInfo.BrandName;
-            this.context.ABOUTUS_DETAIL_REL.Add(aboutUsDetailMaster);
-            if (isUpdate)
-            {
-                this.context.Entry(aboutUsDetailMaster).State = System.Data.Entity.EntityState.Modified;
-            }
-
-            var uniqueID = this.context.SaveChanges() > 0 ? aboutUsDetailMaster.brand_id : 0;
-            return uniqueID;
+           
+            return responseModel;
         }
 
         public async Task<List<AboutUsDetailEntity>> GetAllAboutUsDetails(long aboutusID, long branchID)
@@ -311,20 +369,33 @@ namespace Ashirvad.Repo.Services.Area.AboutUs
             return detaildata;
         }
 
-        public bool RemoveAboutUsDetail(long uniqueID, string lastupdatedby)
+        public ResponseModel RemoveAboutUsDetail(long uniqueID, string lastupdatedby)
         {
-            var data = (from u in this.context.ABOUTUS_DETAIL_REL
-                        where u.brand_id == uniqueID
-                        select u).FirstOrDefault();
-            if (data != null)
-            {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+            ResponseModel responseModel = new ResponseModel();
+            try {
+                var data = (from u in this.context.ABOUTUS_DETAIL_REL
+                            where u.brand_id == uniqueID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Status = true;
+                    responseModel.Message = "About Us Detail Removed Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "About Us Detail Not Found.";
+                }
             }
-
-            return false;
+            catch(Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
         }
 
         public async Task<List<AboutUsDetailEntity>> GetAllAboutUsDetailsforExport(long aboutusID, long branchID)

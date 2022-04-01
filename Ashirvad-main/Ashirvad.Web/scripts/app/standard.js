@@ -50,7 +50,8 @@ function SaveStandard() {
         var postCall = $.post(commonData.Standard + "SaveStandard", $('#fStandardDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            if (data.Status == true) {
+            if (data.Status) {
+                HideLoader();
                 ShowMessage(data.Message, "Success");
                 setTimeout(function () { window.location.href = "StandardMaintenance?branchID=0" }, 2000);
             } else {
@@ -69,8 +70,13 @@ function RemoveStandard(standardID) {
         var postCall = $.post(commonData.Standard + "RemoveStandard", { "standardID": standardID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Standard Removed Successfully.", "Success");
-            window.location.href = "StandardMaintenance?branchID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "StandardMaintenance?branchID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+           
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

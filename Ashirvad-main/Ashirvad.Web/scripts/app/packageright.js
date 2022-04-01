@@ -248,7 +248,7 @@ function SavePackageRight() {
         var postCall = $.post(commonData.PackageRight + "SavePackageRight", $('#fPackageRightDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            if (data.Status == true) {
+            if (data.Status) {
                 ShowMessage(data.Message, 'Success');
                 setTimeout(function () { window.location.href = "PackageRightMaintenance?PackageRightID=0"; }, 2000);
 
@@ -258,6 +258,7 @@ function SavePackageRight() {
             }
 
         }).fail(function () {
+            HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
 
@@ -276,18 +277,14 @@ function RemovePackageRight(PackageRightID) {
         var postCall = $.post(commonData.PackageRight + "RemovePackageRight", { "PackageRightID": PackageRightID });
         postCall.done(function (data) {
             HideLoader();
-            if (data == true) {
-                ShowMessage("Rights Deleted Successfully!!", 'Success');
-                setTimeout(function () { window.location.href = "PackageRightMaintenance?PackageRightID=0"; }, 2000);
-
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "PackageRightMaintenance?PackageRightID=0";       
+            } else {
+                ShowMessage(data.Message, "Error");
             }
-            else {
-                ShowMessage("Rights Can not Deleted!!", 'Error');
-            }
-
-
         }).fail(function () {
-
+            HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }

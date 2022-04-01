@@ -10,7 +10,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
 {
     public interface IBranchClassService
     {
-        Task<BranchClassEntity> BranchClassMaintenance(BranchClassEntity BranchClassInfo);
+        Task<ResponseModel> BranchClassMaintenance(BranchClassEntity BranchClassInfo);
         Task<List<BranchClassEntity>> GetAllBranchClass(DataTableAjaxPostModel model,long BrancchID=0,long CourseID=0);
         Task<List<BranchClassEntity>> GetAllBranchClassDDL(long BrancchID=0,long CourseID=0);
         Task<List<BranchClassEntity>> GetMobileAllBranchClass(long BrancchID = 0, long CourseID = 0);

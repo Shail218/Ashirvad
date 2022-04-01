@@ -21,48 +21,74 @@ namespace Ashirvad.Repo.Services.Area.Faculty
             return result;
         }
 
-        public async Task<long> FacultyMaintenance(FacultyEntity facultyInfo)
+        public async Task<ResponseModel> FacultyMaintenance(FacultyEntity facultyInfo)
         {
-            Model.FACULTY_MASTER facultymaster = new Model.FACULTY_MASTER();
-            if (CheckFaculty(facultyInfo.staff.StaffID, facultyInfo.BranchCourse.course_dtl_id, facultyInfo.BranchClass.Class_dtl_id,
-                facultyInfo.branchSubject.Subject_dtl_id, facultyInfo.BranchInfo.BranchID, facultyInfo.FacultyID).Result != -1)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                bool isUpdate = true;
-                var data = (from facul in this.context.FACULTY_MASTER
-                            where facul.faculty_id == facultyInfo.FacultyID
-                            select facul).FirstOrDefault();
-                if (data == null)
+                Model.FACULTY_MASTER facultymaster = new Model.FACULTY_MASTER();
+                if (CheckFaculty(facultyInfo.staff.StaffID, facultyInfo.BranchCourse.course_dtl_id, facultyInfo.BranchClass.Class_dtl_id,
+                    facultyInfo.branchSubject.Subject_dtl_id, facultyInfo.BranchInfo.BranchID, facultyInfo.FacultyID).Result != -1)
                 {
-                    data = new Model.FACULTY_MASTER();
-                    isUpdate = false;
+                    bool isUpdate = true;
+                    var data = (from facul in this.context.FACULTY_MASTER
+                                where facul.faculty_id == facultyInfo.FacultyID
+                                select facul).FirstOrDefault();
+                    if (data == null)
+                    {
+                        data = new Model.FACULTY_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        facultymaster = data;
+                        isUpdate = true;
+                        facultyInfo.Transaction.TransactionId = data.trans_id;
+
+                    }
+                    facultymaster.staff_id = facultyInfo.staff.StaffID;
+                    facultymaster.course_dtl_id = facultyInfo.BranchCourse.course_dtl_id;
+                    facultymaster.class_dtl_id = facultyInfo.BranchClass.Class_dtl_id;
+                    facultymaster.subject_dtl_id = facultyInfo.branchSubject.Subject_dtl_id;
+                    facultymaster.description = facultyInfo.Descripation;
+                    facultymaster.file_name = facultyInfo.FacultyContentFileName;
+                    facultymaster.file_path = facultyInfo.FilePath;
+                    facultymaster.row_sta_cd = facultyInfo.RowStatus.RowStatusId;
+                    facultymaster.trans_id = this.AddTransactionData(facultyInfo.Transaction);
+                    facultymaster.branch_id = facultyInfo.BranchInfo.BranchID;
+                    this.context.FACULTY_MASTER.Add(facultymaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(facultymaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+
+                    var res = this.context.SaveChanges() > 0 ? facultymaster.faculty_id : 0;
+                    if (res > 0)
+                    {
+                        facultyInfo.FacultyID = facultymaster.faculty_id;
+                        responseModel.Data = facultyInfo;
+                        responseModel.Status = true;
+                        responseModel.Message = isUpdate==true?"Faculty Updated Successfully.":"Faculty Inserted Successfully.";
+                    }
+                    else
+                    {
+                        responseModel.Status = false;
+                        responseModel.Message = isUpdate == true ? "Faculty Not Updated." : "Faculty Not Inserted.";
+                    }
                 }
                 else
                 {
-                    facultymaster = data;
-                    isUpdate = true;
-                    facultyInfo.Transaction.TransactionId = data.trans_id;
-
+                    responseModel.Status = false;
+                    responseModel.Message = "Faculty Already Exists.";
                 }
-                facultymaster.staff_id = facultyInfo.staff.StaffID;
-                facultymaster.course_dtl_id = facultyInfo.BranchCourse.course_dtl_id;
-                facultymaster.class_dtl_id = facultyInfo.BranchClass.Class_dtl_id;
-                facultymaster.subject_dtl_id = facultyInfo.branchSubject.Subject_dtl_id;
-                facultymaster.description = facultyInfo.Descripation;
-                facultymaster.file_name = facultyInfo.FacultyContentFileName;
-                facultymaster.file_path = facultyInfo.FilePath;
-                facultymaster.row_sta_cd = facultyInfo.RowStatus.RowStatusId;
-                facultymaster.trans_id = this.AddTransactionData(facultyInfo.Transaction);
-                facultymaster.branch_id = facultyInfo.BranchInfo.BranchID;
-                this.context.FACULTY_MASTER.Add(facultymaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(facultymaster).State = System.Data.Entity.EntityState.Modified;
-                }
-
-                return this.context.SaveChanges() > 0 ? facultymaster.faculty_id : 0;
             }
-
-            return -1;
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+   
         }
 
         public async Task<List<FacultyEntity>> GetAllFaculty(long branchID)
@@ -339,20 +365,35 @@ namespace Ashirvad.Repo.Services.Area.Faculty
             return data;
         }
 
-        public bool RemoveFaculty(long faculID, string lastupdatedby)
+        public ResponseModel RemoveFaculty(long faculID, string lastupdatedby)
         {
-            var data = (from u in this.context.FACULTY_MASTER
-                        where u.faculty_id == faculID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.FACULTY_MASTER
+                            where u.faculty_id == faculID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Status = true;
+                    responseModel.Message = "Faculty Removed Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Faculty Not Found.";
+                }
             }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
 
-            return false;
         }
         //website
         public async Task<List<FacultyEntity>> GetAllFacultyWebsite(long branchID, long courseID, long classID, long subjectID)

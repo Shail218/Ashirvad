@@ -76,12 +76,8 @@ namespace Ashirvad.Web.Controllers
             {
                 branch.LastYearResult = 1;
             }
-            data = await _studentService.StudentMaintenance(branch);
-            if (data != null)
-            {
-                return Json(true);
-            }
-            return Json(false);
+           var res = await _studentService.StudentMaintenance(branch);
+            return Json(res);
         }
 
         [HttpPost]

@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -74,8 +75,11 @@
     <Compile Include="Model\BannerMaintenanceModel.cs" />
     <Compile Include="Model\CircularMaintenanceModel.cs" />
     <Compile Include="Model\CommonChartModel.cs" />
+    <Compile Include="CompetitionEntity.cs" />
+    <Compile Include="Model\CompetitonMaintenanceModel.cs" />
     <Compile Include="Model\HomeworkchartModel.cs" />
     <Compile Include="Model\PaymentRegisterDataModel.cs" />
+    <Compile Include="Model\RankMaintenanceModel.cs" />
     <Compile Include="Model\WebsiteModel.cs" />
     <Compile Include="Model\BatchMaintenanceModel.cs" />
     <Compile Include="Model\BranchSubjectMaintenanceModel.cs" />
@@ -109,15 +113,18 @@
     <Compile Include="Model\UPIModel.cs" />
     <Compile Include="Model\UserMaintenanceModel.cs" />
     <Compile Include="Model\UserPermissionMaintenanceModel.cs" />
+    <Compile Include="Model\WinnerEntryMaintenanceModel.cs" />
     <Compile Include="NotificationEntity.cs" />
     <Compile Include="OperationResult.cs" />
     <Compile Include="PackageEntity.cs" />
     <Compile Include="PackageRightEntity.cs" />
+    <Compile Include="PackageUsageEntity.cs" />
     <Compile Include="PageEntity.cs" />
     <Compile Include="PaperEntity.cs" />
     <Compile Include="PaymentEntity.cs" />
     <Compile Include="PaymentRegisterEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RankEntity.cs" />
     <Compile Include="ReminderEntity.cs" />
     <Compile Include="ResponseModel.cs" />
     <Compile Include="RowStatusEntity.cs" />
@@ -133,6 +140,7 @@
     <Compile Include="TransactionEntity.cs" />
     <Compile Include="UPIEntity.cs" />
     <Compile Include="UserEntity.cs" />
+    <Compile Include="WinnerEntryEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ashirvad.Common\Ashirvad.Common.csproj">

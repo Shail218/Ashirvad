@@ -18,20 +18,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.School
         {
             this._schoolContext = schoolContext;
         }
-        public async Task<SchoolEntity> SchoolMaintenance(SchoolEntity schoolInfo)
+        public async Task<ResponseModel> SchoolMaintenance(SchoolEntity schoolInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             SchoolEntity school = new SchoolEntity();
             try
             {
-                long schoolID = await _schoolContext.SchoolMaintenance(schoolInfo);
-                school.SchoolID = schoolID;
+                responseModel = await _schoolContext.SchoolMaintenance(schoolInfo);
+                //school.SchoolID = schoolID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return school;
+            return responseModel;
         }
 
         public async Task<List<SchoolEntity>> GetAllSchools(long branchID)
@@ -90,8 +91,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.School
             return null;
         }
 
-        public bool RemoveSchool(long SchoolID, string lastupdatedby)
+        public ResponseModel RemoveSchool(long SchoolID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._schoolContext.RemoveSchool(SchoolID, lastupdatedby);
@@ -101,7 +103,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.School
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
         public async Task<SchoolEntity> GetSchoolsByID(long schoolInfo)

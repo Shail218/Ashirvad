@@ -74,9 +74,7 @@ namespace Ashirvad.Web.Controllers
             };
             branch.BranchInfo = new BranchEntity();
             branch.BranchInfo = SessionContext.Instance.LoginUser.BranchInfo;
-            var data = await _packageService.PackageMaintenance(branch);
-            res.Status = data.PackageID > 0 ? true : false;
-            res.Message = data.PackageID == -1 ? "Package Already exists!!" : data.PackageID == 0 ? "Package failed to insert!!" : "Package Inserted Successfully!!";
+            res = await _packageService.PackageMaintenance(branch);
             return Json(res);
         }
 

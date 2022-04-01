@@ -87,8 +87,13 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
+    if ($("#ReminderID").val() == '' || $("#ReminderID").val()==0) {
+
+        $("#ReminderDate").val(setCurrentDate());
+    }
 });
 
 function SaveReminder() {   
@@ -100,8 +105,13 @@ function SaveReminder() {
         var postCall = $.post(commonData.Reminder + "SaveReminder", $('#fReminderDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Reminder added Successfully.", "Success");
-            window.location.href = "ReminderMaintenance?reminderID=0";
+            if (data.Status) {
+                HideLoader();
+                ShowMessage(data.Message, "Success");
+                window.location.href = "ReminderMaintenance?reminderID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -115,8 +125,12 @@ function RemoveReminder(reminderID) {
         var postCall = $.post(commonData.Reminder + "RemoveReminder", { "reminderID": reminderID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Reminder Removed Successfully.", "Success");
-            window.location.href = "ReminderMaintenance?reminderID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "ReminderMaintenance?reminderID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }         
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

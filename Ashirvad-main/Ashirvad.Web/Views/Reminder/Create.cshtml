@@ -6,7 +6,7 @@
             <div id="datepickerreminder" class="input-group date" data-date-format="dd/mm/yyyy">
                 @if (Model == null)
                 {
-                    @Html.TextBoxFor(x => x.ReminderDate, null, new { @class = "form-control required", @alt = "Reminder Date", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(x => x.ReminderDate, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "Reminder Date", autocomplete = "off", @readonly = "readonly" })
                 }
                 else
                 {

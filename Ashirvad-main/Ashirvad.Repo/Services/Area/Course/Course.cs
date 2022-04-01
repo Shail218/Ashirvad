@@ -27,51 +27,73 @@ namespace Ashirvad.Repo.Services.Area.Course
             return result;
         }
 
-        public async Task<long> CourseMaintenance(CourseEntity courseEntity)
+        public async Task<ResponseModel> CourseMaintenance(CourseEntity courseEntity)
         {
-            Model.COURSE_MASTER courseMaster = new Model.COURSE_MASTER();
-            if (CheckCourse(courseEntity.CourseName, courseEntity.CourseID).Result != -1)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                bool isUpdate = true;
-                var data = (from course in this.context.COURSE_MASTER
-                            where course.course_id == courseEntity.CourseID
-                            select new
-                            {
-                                courseMaster = course
-                            }).FirstOrDefault();
-                if (data == null)
+                Model.COURSE_MASTER courseMaster = new Model.COURSE_MASTER();
+                if (CheckCourse(courseEntity.CourseName, courseEntity.CourseID).Result != -1)
                 {
-                    courseMaster = new Model.COURSE_MASTER();
-                    isUpdate = false;
+                    bool isUpdate = true;
+                    var data = (from course in this.context.COURSE_MASTER
+                                where course.course_id == courseEntity.CourseID
+                                select new
+                                {
+                                    courseMaster = course
+                                }).FirstOrDefault();
+                    if (data == null)
+                    {
+                        courseMaster = new Model.COURSE_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        courseMaster = data.courseMaster;
+                        courseEntity.Transaction.TransactionId = data.courseMaster.trans_id;
+                    }
+                    courseMaster.course_name = courseEntity.CourseName;
+                    courseMaster.row_sta_cd = courseEntity.RowStatus.RowStatusId;
+                    courseMaster.file_name = courseEntity.filename;
+                    courseMaster.file_path = courseEntity.filepath;
+                    courseMaster.trans_id = this.AddTransactionData(courseEntity.Transaction);
+                    this.context.COURSE_MASTER.Add(courseMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(courseMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var Result = this.context.SaveChanges();
+                    if (Result > 0)
+                    {
+                        courseEntity.CourseID = courseMaster.course_id;
+                        courseEntity.Transaction.TransactionId = courseMaster.trans_id;
+                      //  CourseMasterMaintenance(courseEntity);
+                   
+                        responseModel.Data = courseEntity;
+                        responseModel.Status = true;
+                        responseModel.Message = isUpdate == true ? "Course Updated Successfully." : "Course Inserted Successfully.";
+
+                    }
+                    else
+                    {
+                        responseModel.Status = false;
+                        responseModel.Message = isUpdate==true?"Course Not Updated.":"Course Not Inserted.";
+                    }
                 }
                 else
                 {
-                    courseMaster = data.courseMaster;
-                    courseEntity.Transaction.TransactionId = data.courseMaster.trans_id;
+                    responseModel.Status = false;
+                    responseModel.Message = "Course Already Exist.";
                 }
-                courseMaster.course_name = courseEntity.CourseName;
-                courseMaster.row_sta_cd = courseEntity.RowStatus.RowStatusId;
-                courseMaster.file_name = courseEntity.filename;
-                courseMaster.file_path = courseEntity.filepath;
-                courseMaster.trans_id = this.AddTransactionData(courseEntity.Transaction);
-                this.context.COURSE_MASTER.Add(courseMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(courseMaster).State = System.Data.Entity.EntityState.Modified;
-                }
-                var Result = this.context.SaveChanges();
-                if (Result > 0)
-                {
-                    courseEntity.CourseID = courseMaster.course_id;
-                    courseEntity.Transaction.TransactionId = courseMaster.trans_id;
-                    CourseMasterMaintenance(courseEntity);
-                }
-                return Result > 0 ? courseEntity.CourseID : 0;
             }
-            else
+            catch (Exception ex)
             {
-                return -1;
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
             }
+            return responseModel;
+            
+           
         }
 
         public async Task<CourseEntity> GetCourseByCourseID(long courseID)
@@ -158,28 +180,48 @@ namespace Ashirvad.Repo.Services.Area.Course
             return true;
         }
 
-        public bool RemoveCourse(long courseID, string lastupdatedby)
+        public ResponseModel RemoveCourse(long courseID, string lastupdatedby)
         {
-            bool Isvalid = CheckHistory(courseID);
-            if(Isvalid)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                var data = (from u in this.context.COURSE_MASTER
-                            where u.course_id == courseID
-                            select u).FirstOrDefault();
-                if (data != null)
+                bool Isvalid = CheckHistory(courseID);
+                if (Isvalid)
                 {
-                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                    this.context.SaveChanges();
-                    return true;
+                    var data = (from u in this.context.COURSE_MASTER
+                                where u.course_id == courseID
+                                select u).FirstOrDefault();
+                    if (data != null)
+                    {
+                        data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                        this.context.SaveChanges();
+                        responseModel.Status = true;
+                        responseModel.Message = "Course Removed Successfully.";
+                    }
+                    else
+                    {
+                        responseModel.Status = false;
+                        responseModel.Message = "Course Not Found.";
+                    }
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Course Cannot be Removed.";
                 }
             }
-          
-            return false;
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
         }
 
-        public async Task<long> CourseMasterMaintenance(CourseEntity courseEntity)
+        public async Task<ResponseModel> CourseMasterMaintenance(CourseEntity courseEntity)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 long result = 0;
@@ -211,7 +253,7 @@ namespace Ashirvad.Repo.Services.Area.Course
 
                     };
                     branchCourse.course_dtl_id = 0;
-                    result = _BranchCourse.CourseMaintenance(branchCourse).Result;
+                    responseModel = _BranchCourse.CourseMaintenance(branchCourse).Result;
                 }
                 if((int)courseEntity.UserType == 5)
                 {
@@ -221,11 +263,11 @@ namespace Ashirvad.Repo.Services.Area.Course
                         BranchID = courseEntity.branchEntity.BranchID,
 
                     };
-                    result = _BranchCourse.CourseMaintenance(branchCourse).Result;
+                    responseModel = _BranchCourse.CourseMaintenance(branchCourse).Result;
                 }
 
 
-                return result;
+                return responseModel;
             }
             catch (Exception ex)
             {

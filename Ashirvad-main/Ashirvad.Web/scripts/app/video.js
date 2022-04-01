@@ -100,14 +100,14 @@ function SaveVideo() {
         }
         AjaxCallWithFileUpload(commonData.Videos + 'SaveVideos', formData, function (data) {
 
-            if (data) {
+            if (data.Status) {
                 HideLoader();
-                ShowMessage('Videos details saved!', 'Success');
+                ShowMessage(data.Message, 'Success');
                 window.location.href = "VideosMaintenance?videoID=0";
             }
             else {
                 HideLoader();
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+                ShowMessage(data.Message, 'Error');
             }
         }, function (xhr) {
             HideLoader();
@@ -122,8 +122,13 @@ function RemoveVideos(branchID) {
         var postCall = $.post(commonData.Videos + "RemoveVideos", { "videoID": branchID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Videos Removed Successfully.", "Success");
-            window.location.href = "VideosMaintenance?videoID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "VideosMaintenance?videoID=0";
+            }
+            else {
+                ShowMessage(data.Message, "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

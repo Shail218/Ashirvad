@@ -259,14 +259,15 @@ function SaveFaculty() {
         }
         AjaxCallWithFileUpload(commonData.Faculty + 'SaveFaculty', formData, function (data) {
             HideLoader();
-            if (data.FacultyID >= 0) {
-                ShowMessage("Faculty added Successfully.", "Success");
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
                 window.location.href = "FacultyMaintenance?facultyID=0";
             } else {                
-                ShowMessage('Faculty Already inserted!', 'Error');
+                ShowMessage(data.Message, 'Error');
             }
         }, function (xhr) {
             HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }
 }
@@ -277,8 +278,13 @@ function RemoveFaculty(facultyID) {
         var postCall = $.post(commonData.Faculty + "RemoveFaculty", { "FacultyID": facultyID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Faculty Removed Successfully.", "Success");
-            window.location.href = "FacultyMaintenance?facultyID=0";
+            if (data.Success) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "FacultyMaintenance?facultyID=0";
+            } else {
+                ShowMessage(data.Message, "Success");
+            }
+
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

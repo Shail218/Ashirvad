@@ -30,8 +30,13 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._bannerService.BannerMaintenance(bannerInfo);
             OperationResult<BannerEntity> result = new OperationResult<BannerEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+
+                result.Data = (BannerEntity)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -82,8 +87,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._bannerService.RemoveBanner(bannerID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 
@@ -123,7 +129,7 @@ namespace Ashirvad.API.Controllers
                             string fileName;
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -151,22 +157,15 @@ namespace Ashirvad.API.Controllers
                 bannerEntity.FilePath = entity.FilePath;
             }
             var data = this._bannerService.BannerMaintenance(bannerEntity).Result;
-            result.Completed = false;
-            result.Data = null;
-            if (data.BannerID > 0)
+
+                result.Completed = data.Status;
+            if (data.Status)
             {
-                result.Completed = true;
-                result.Data = data;
-                if (entity.BannerID > 0)
-                {
-                    result.Message = "Banner Updated Successfully.";
-                }
-                else
-                {
-                    result.Message = "Banner Created Successfully.";
-                }
+                result.Data = (BannerEntity)data.Data;
             }
-            return result;
+             
+                result.Message = data.Message;
+             return result;
         }
 
         [Route("Test")]

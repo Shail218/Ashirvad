@@ -20,16 +20,14 @@ namespace Ashirvad.ServiceAPI.Services.Area.Circular
             this._circularContext = circularContext;
         }
 
-        public async Task<CircularEntity> CircularMaintenance(CircularEntity circularInfo)
+        public async Task<ResponseModel> CircularMaintenance(CircularEntity circularInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             CircularEntity branch = new CircularEntity();
             try
             {
-                long circularID = await _circularContext.CircularMaintenance(circularInfo);
-                if (circularID > 0)
-                {
-                    branch.CircularId = circularID;
-                }
+                 responseModel = await _circularContext.CircularMaintenance(circularInfo);
+              
 
             }
             catch (Exception ex)
@@ -37,7 +35,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Circular
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return branch;
+            return responseModel;
         }
 
         public async Task<List<CircularEntity>> GetAllCircular()
@@ -82,8 +80,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Circular
             return null;
         }
 
-        public bool RemoveCircular(long CircularId, string lastupdatedby)
+        public ResponseModel RemoveCircular(long CircularId, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._circularContext.RemoveCircular(CircularId, lastupdatedby);
@@ -93,7 +92,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Circular
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
     }
 }

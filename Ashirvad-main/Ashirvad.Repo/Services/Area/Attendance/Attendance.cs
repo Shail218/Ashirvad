@@ -14,8 +14,10 @@ namespace Ashirvad.Repo.Services.Area.Attendance
     public class Attendance : ModelAccess, IAttendanceAPI
     {
 
-        public async Task<long> AttendanceMaintenance(AttendanceEntity attendanceInfo)
+        public async Task<ResponseModel> AttendanceMaintenance(AttendanceEntity attendanceInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
+
             Model.ATTENDANCE_HDR attendanceMaster = new Model.ATTENDANCE_HDR();
             bool isUpdate = true;
             try
@@ -68,12 +70,27 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                     };
                     this.context.ATTENDANCE_DTL.Add(dtl);
                 }
+                var id = this.context.SaveChanges() > 0 ? attendanceMaster.attendance_hdr_id : 0;
+                if (id > 0)
+                {
+                    responseModel.Data = attendanceInfo;
+                    responseModel.Message = isUpdate == true ? "Attendance Updated Successfully." : "Attendance Inserted Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = isUpdate==true?"Attendance Not Updated.":"Attendance Not Inserted.";
+                    responseModel.Status = false;
+                }
             }
             catch (Exception ex)
             {
-
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
-            return this.context.SaveChanges() > 0 ? attendanceMaster.attendance_hdr_id : 0;
+            return responseModel;
+
+
         }
 
         public async Task<List<StudentEntity>> GetAllStudentByBranchStdBatch(long branchID, long stdID, int batchID)
@@ -82,7 +99,8 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         .Include("CLASS_DTL_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
-                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id orderby u.student_id descending
+                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
+                        orderby u.student_id descending
                         where u.branch_id == branchID && u.CLASS_DTL_MASTER.class_dtl_id == stdID && u.batch_time == batchID && u.row_sta_cd == 1
                         select new StudentEntity()
                         {
@@ -107,7 +125,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             FilePath = u.file_path,
                             FileName = u.file_name,
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
-                            BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0 , Class = new ClassEntity() { ClassName =  u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
+                            BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
                             BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
                             StudentMaint = new StudentMaint()
@@ -125,7 +143,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return data;
         }
 
-        public async Task<List<StudentEntity>> GetAllCustomAttendance(DataTableAjaxPostModel model, long Std,long courseid, long Branch, long Batch)
+        public async Task<List<StudentEntity>> GetAllCustomAttendance(DataTableAjaxPostModel model, long Std, long courseid, long Branch, long Batch)
         {
             var Result = new List<StudentEntity>();
             bool Isasc = true;
@@ -150,7 +168,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         .Include("BRANCH_MASTER")
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
                         orderby u.student_id descending
-                        where u.branch_id == Branch && u.class_dtl_id == Std && u.batch_time == Batch && u.row_sta_cd == 1 && u.course_dtl_id == courseid 
+                        where u.branch_id == Branch && u.class_dtl_id == Std && u.batch_time == Batch && u.row_sta_cd == 1 && u.course_dtl_id == courseid
                         && (model.search.value == null
                         || model.search.value == ""
                         || u.first_name.ToLower().Contains(model.search.value.ToLower())
@@ -212,7 +230,8 @@ namespace Ashirvad.Repo.Services.Area.Attendance
         {
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
-                        .Include("CLASS_DTL_MASTER") orderby u.attendance_hdr_id descending
+                        .Include("CLASS_DTL_MASTER")
+                        orderby u.attendance_hdr_id descending
                         where u.branch_id == branchID && u.row_sta_cd == 1
                         select new AttendanceEntity()
                         {
@@ -229,7 +248,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             BranchClass = new BranchClassEntity()
                             {
                                 Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
-                                Class = new ClassEntity() { ClassName =  u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
+                                Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
                             },
                             BranchCourse = new BranchCourseEntity()
                             {
@@ -330,12 +349,13 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return data;
         }
 
-        public async Task<List<AttendanceEntity>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid)
+        public async Task<List<AttendanceEntity>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, long courseid, int batchTimeID, long studentid)
         {
             var data = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
                         .Include("CLASS_DTL_MASTER")
-                        join student in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals student.attd_hdr_id orderby u.attendance_hdr_id descending
+                        join student in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals student.attd_hdr_id
+                        orderby u.attendance_hdr_id descending
                         where (0 == branchID || u.branch_id == branchID)
                         && (0 == stdID || u.class_dtl_id == stdID)
                         && (0 == courseid || u.course_dtl_id == courseid)
@@ -437,7 +457,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                     CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
                                 }
                             },
-                            AttendanceDate = u.attendance_dt,                           
+                            AttendanceDate = u.attendance_dt,
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
                             BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
@@ -480,7 +500,8 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         .Include("CLASS_DTL_MASTER")
                         .Include("ATTENDANCE_DTL")
                         join detail in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals detail.attd_hdr_id
-                        join stu in this.context.STUDENT_MASTER on detail.student_id equals stu.student_id orderby u.attendance_hdr_id descending
+                        join stu in this.context.STUDENT_MASTER on detail.student_id equals stu.student_id
+                        orderby u.attendance_hdr_id descending
                         where detail.student_id == studentID
                         select new AttendanceEntity()
                         {
@@ -527,31 +548,45 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return data;
         }
 
-        public bool RemoveAttendance(long attendanceID, string lastupdatedby)
+        public ResponseModel RemoveAttendance(long attendanceID, string lastupdatedby)
         {
-            var data = (from u in this.context.ATTENDANCE_HDR
-                        where u.attendance_hdr_id == attendanceID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.ATTENDANCE_HDR
+                            where u.attendance_hdr_id == attendanceID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "Attendance Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "Attendance Not Found.";
+                    responseModel.Status = false;
+                }
             }
-
-            return false;
+            catch(Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
         }
 
-        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, long courseid, int batchID,DateTime attendanceDate)
+        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, long courseid, int batchID, DateTime attendanceDate)
         {
             ResponseModel model = new ResponseModel();
             try
             {
                 var data = (from atd in this.context.ATTENDANCE_HDR
-                            where atd.batch_time_type == batchID 
-                            && atd.branch_id == branchID 
-                            && atd.class_dtl_id == stdID 
+                            where atd.batch_time_type == batchID
+                            && atd.branch_id == branchID
+                            && atd.class_dtl_id == stdID
                             && atd.course_dtl_id == courseid
                             && atd.attendance_dt == attendanceDate
                             && atd.row_sta_cd == 1
@@ -567,16 +602,16 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                     model.Status = true;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 model.Message = ex.Message.ToString();
                 model.Status = false;
             }
-           
+
             return model;
         }
 
-        public async Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid)
+        public async Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID, long courseid, int batchTimeID, long studentid)
         {
             long count = (from u in this.context.ATTENDANCE_HDR
                         .Include("BRANCH_MASTER")
@@ -667,7 +702,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             BatchTypeID = u.batch_time_type,
                             BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
-                        })                        
+                        })
                         .Skip(model.start)
                         .Take(model.length)
                         .ToList();
@@ -704,6 +739,6 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             }
             return data;
         }
-        
+
     }
 }

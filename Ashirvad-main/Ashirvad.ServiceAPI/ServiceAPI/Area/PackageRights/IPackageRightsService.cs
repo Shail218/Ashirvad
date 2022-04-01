@@ -10,12 +10,12 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
 {
     public interface IPackageRightsService
     {
-        Task<PackageRightEntity> PackageRightsMaintenance(PackageRightEntity PackageRightsInfo);
+        Task<ResponseModel> PackageRightsMaintenance(PackageRightEntity PackageRightsInfo);
         Task<List<PackageRightEntity>> GetAllPackageRights();
         Task<List<PackageRightEntity>> GetAllCustomRights(DataTableAjaxPostModel model);
         Task<List<PackageRightEntity>> GetPackageRightsByPackageRightsID(long PackageRightsID);
-            Task<PackageRightEntity> GetPackaegrightsByID(long PackageRightsID);
-        bool RemovePackageRights(long PackageRightsID, string lastupdatedby);
+        Task<PackageRightEntity> GetPackaegrightsByID(long PackageRightsID);
+        ResponseModel RemovePackageRights(long PackageRightsID, string lastupdatedby);
         
     }
 }

@@ -12,57 +12,82 @@ namespace Ashirvad.Repo.Services.Area.Paper
 {
     public class Paper : ModelAccess, IPaperAPI
     {
-        public async Task<long> PaperMaintenance(PaperEntity paperInfo)
+        public async Task<ResponseModel> PaperMaintenance(PaperEntity paperInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.PRACTICE_PAPER paperMaster = new Model.PRACTICE_PAPER();
             Model.PRACTICE_PAPER_REL paperData = new Model.PRACTICE_PAPER_REL();
-            bool isUpdate = true;
-            var data = (from p in this.context.PRACTICE_PAPER.Include("PRACTICE_PAPER_REL")
-                        where p.paper_id == paperInfo.PaperID
-                        select new
-                        {
-                            paperMaster = p,
-                            paperData = p.PRACTICE_PAPER_REL
-                        }).FirstOrDefault();
-            if (data == null)
+            try
             {
-                paperMaster = new Model.PRACTICE_PAPER();
-                paperData = new Model.PRACTICE_PAPER_REL();
-                isUpdate = false;
-            }
-            else
-            {
-                paperMaster = data.paperMaster;
-                paperData = data.paperData.FirstOrDefault();
-                paperInfo.Transaction.TransactionId = data.paperMaster.trans_id;
-            }
 
-            paperMaster.row_sta_cd = paperInfo.RowStatus.RowStatusId;
-            paperMaster.trans_id = this.AddTransactionData(paperInfo.Transaction);
-            paperMaster.branch_id = paperInfo.Branch.BranchID;
-            paperMaster.class_dtl_id = paperInfo.BranchClass.Class_dtl_id;
-            paperMaster.course_dtl_id = paperInfo.BranchCourse.course_dtl_id;
-            paperMaster.subject_dtl_id = paperInfo.BranchSubject.Subject_dtl_id;
-            paperMaster.remarks = paperInfo.Remarks;
-            paperMaster.batch_type = paperInfo.BatchTypeID;
-            this.context.PRACTICE_PAPER.Add(paperMaster);
-            if (isUpdate)
-            {
-                this.context.Entry(paperMaster).State = System.Data.Entity.EntityState.Modified;
-            }
-            if (!isUpdate)
-            {
-                paperData.paper_id = paperMaster.paper_id;
-            }
 
-            paperData.file_path = paperInfo.PaperData.FilePath;
-            paperData.paper_file = paperInfo.PaperData.PaperPath;
-            this.context.PRACTICE_PAPER_REL.Add(paperData);
-            if (isUpdate)
-            {
-                this.context.Entry(paperData).State = System.Data.Entity.EntityState.Modified;
+                bool isUpdate = true;
+                var data = (from p in this.context.PRACTICE_PAPER.Include("PRACTICE_PAPER_REL")
+                            where p.paper_id == paperInfo.PaperID
+                            select new
+                            {
+                                paperMaster = p,
+                                paperData = p.PRACTICE_PAPER_REL
+                            }).FirstOrDefault();
+                if (data == null)
+                {
+                    paperMaster = new Model.PRACTICE_PAPER();
+                    paperData = new Model.PRACTICE_PAPER_REL();
+                    isUpdate = false;
+                }
+                else
+                {
+                    paperMaster = data.paperMaster;
+                    paperData = data.paperData.FirstOrDefault();
+                    paperInfo.Transaction.TransactionId = data.paperMaster.trans_id;
+                }
+
+                paperMaster.row_sta_cd = paperInfo.RowStatus.RowStatusId;
+                paperMaster.trans_id = this.AddTransactionData(paperInfo.Transaction);
+                paperMaster.branch_id = paperInfo.Branch.BranchID;
+                paperMaster.class_dtl_id = paperInfo.BranchClass.Class_dtl_id;
+                paperMaster.course_dtl_id = paperInfo.BranchCourse.course_dtl_id;
+                paperMaster.subject_dtl_id = paperInfo.BranchSubject.Subject_dtl_id;
+                paperMaster.remarks = paperInfo.Remarks;
+                paperMaster.batch_type = paperInfo.BatchTypeID;
+                this.context.PRACTICE_PAPER.Add(paperMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(paperMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+                if (!isUpdate)
+                {
+                    paperData.paper_id = paperMaster.paper_id;
+                }
+
+                paperData.file_path = paperInfo.PaperData.FilePath;
+                paperData.paper_file = paperInfo.PaperData.PaperPath;
+                this.context.PRACTICE_PAPER_REL.Add(paperData);
+                if (isUpdate)
+                {
+                    this.context.Entry(paperData).State = System.Data.Entity.EntityState.Modified;
+                }
+                //return this.context.SaveChanges() > 0 ? paperMaster.paper_id : 0;
+                var da = this.context.SaveChanges() > 0 ? paperMaster.paper_id : 0;
+                if (da > 0)
+                {
+                    paperInfo.PaperID = da;
+                    responseModel.Data = paperInfo;
+                    responseModel.Message = isUpdate == true ? "Paper Updated Successfully." : "Paper Inserted Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = isUpdate == true ? "Paper Not Updated." : "Paper Not Inserted.";
+                    responseModel.Status = false;
+                }
             }
-            return this.context.SaveChanges() > 0 ? paperMaster.paper_id : 0;
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
         }
 
         public async Task<List<PaperEntity>> GetAllPapers(long branchID)
@@ -422,20 +447,33 @@ namespace Ashirvad.Repo.Services.Area.Paper
             return data;
         }
 
-        public bool RemovePaper(long paperID, string lastupdatedby)
+        public ResponseModel RemovePaper(long paperID, string lastupdatedby)
         {
-            var data = (from u in this.context.PRACTICE_PAPER
-                        where u.paper_id == paperID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.PRACTICE_PAPER
+                            where u.paper_id == paperID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    //return true;
+                    responseModel.Message = "Paper Removed Successfully.";
+                    responseModel.Status = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
 
-            return false;
+            return responseModel;
+            //return false;
         }
     }
 }

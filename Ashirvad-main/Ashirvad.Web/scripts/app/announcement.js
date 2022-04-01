@@ -36,12 +36,12 @@ function SaveAnnouncement() {
         var postCall = $.post(commonData.Announcement + "SaveAnnouncement", $('#fAnnouncementDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            if (data.AnnouncementID >= 0) {
+            if (data.Status) {
                 HideLoader();
-                ShowMessage("Announcement Inserted Successfully.", "Success");
+                ShowMessage(data.Message, "Success");
                 setTimeout(function () { window.location.href = "AnnouncementMaintenance?annoID=0"; }, 2000);
             } else {
-                ShowMessage("Announcement Already Exist!!!", "Error");             
+                ShowMessage(data.Message, "Error");
             }           
         }).fail(function () {
             HideLoader();
@@ -56,8 +56,13 @@ function RemoveAnnouncement(annoID) {
         var postCall = $.post(commonData.Announcement + "RemoveAnnouncement", { "annoID": annoID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Announcement Removed Successfully.", "Success");
-            window.location.href = "AnnouncementMaintenance?annoID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "AnnouncementMaintenance?annoID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+         
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

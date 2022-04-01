@@ -31,8 +31,12 @@ namespace Ashirvad.API.Controllers
         {
             var data = _circularService.CircularMaintenance(circularEntity);
             OperationResult<CircularEntity> result = new OperationResult<CircularEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+                result.Data = (CircularEntity)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -42,8 +46,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = _circularService.RemoveCircular(circularID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 

@@ -19,13 +19,14 @@ namespace Ashirvad.ServiceAPI.Services.Area
             this._BranchCourseContext = BranchCourseContext;
         }
 
-        public async Task<BranchCourseEntity> BranchCourseMaintenance(BranchCourseEntity BranchCourseInfo)
+        public async Task<ResponseModel> BranchCourseMaintenance(BranchCourseEntity BranchCourseInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             BranchCourseEntity BranchCourse = new BranchCourseEntity();
             try
             {
-                long BranchCourseID = await _BranchCourseContext.CourseMaintenance(BranchCourseInfo);
-                BranchCourse.Data = BranchCourseID;
+                responseModel = await _BranchCourseContext.CourseMaintenance(BranchCourseInfo);
+                
 
             }
             catch (Exception ex)
@@ -33,7 +34,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return BranchCourse;
+            return responseModel;
         }
 
         

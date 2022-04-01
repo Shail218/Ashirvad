@@ -28,8 +28,12 @@ namespace Ashirvad.API.Controllers
             batchInfo.BatchType = (Enums.BatchType)batchInfo.BatchTime;
             var data = this._batchService.BatchMaintenance(batchInfo);
             OperationResult<BatchEntity> result = new OperationResult<BatchEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+                result.Data = (BatchEntity)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -50,8 +54,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._batchService.RemoveBatch(BatchID,lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 

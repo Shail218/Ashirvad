@@ -39,7 +39,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public OperationResult<BranchClassEntity> BranchClassMaintenance(BranchClassEntity branchClassEntity)
         {
-            Task<BranchClassEntity> data = null;
+            Task<ResponseModel> data = null;
             foreach (var item in branchClassEntity.BranchClassData)
             {
                 data = this._branchClassService.BranchClassMaintenance(new BranchClassEntity()
@@ -52,31 +52,20 @@ namespace Ashirvad.Web.Controllers
                     Class = item.Class,
                     BranchCourse = item.BranchCourse
                 });
-                if ((long)data.Result.Data < 0)
+                if (!data.Result.Status)
                 {
                     break;
                 }
             }
             OperationResult<BranchClassEntity> result = new OperationResult<BranchClassEntity>();
-            result.Completed = false;
-            result.Data = null;
-            if ((long)data.Result.Data >= 0)
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
             {
-                result.Completed = true;
-                result.Data = data.Result;
-                if (branchClassEntity.BranchClassData[0].Class_dtl_id > 0)
-                {
-                    result.Message = "Branch Class Updated Successfully";
-                }
-                else
-                {
-                    result.Message = "Branch Class Created Successfully";
-                }
+                result.Data = (BranchClassEntity)data.Result.Data;
             }
-            else
-            {
-                result.Message = "Branch Class Already Exists!!";
-            }
+         
+            result.Message = data.Result.Message;
+            
             return result;
         }
 

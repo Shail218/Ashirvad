@@ -68,25 +68,8 @@ namespace Ashirvad.Web.Controllers
             };
             homeworkEntity.Transaction = GetTransactionData(homeworkEntity.HomeworkID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             var data = await _homeworkService.HomeworkMaintenance(homeworkEntity);
-            if (data.HomeworkID>0)
-            {
-                response.Status = true;
-                response.Message = "Homework Created Successfully!!";
-                
-            }
-            else if(data.HomeworkID < 0)
-            {
-                response.Status = false;
-                response.Message = "Homework Already Exist!!";
-
-            }
-            else
-            {
-                response.Status = false;
-                response.Message = "Homework Failed To Create!!";
-
-            }
-            return Json(response);
+            
+            return Json(data);
         }
 
         [HttpPost]
@@ -118,17 +101,8 @@ namespace Ashirvad.Web.Controllers
             homeworkDetail.Status = Status;
             homeworkDetail.Transaction = GetTransactionData(Common.Enums.TransactionType.Insert);
             var result1 = _homeworkdetailService.Homeworkdetailupdate(homeworkDetail).Result;
-            if (result1.HomeworkEntity.HomeworkID > 0)
-            {
-                response.Status = true;
-                response.Message = "Updated Successfully!!";
-            }
-            else
-            {
-                response.Status = false;
-                response.Message = "Failed To Updated!!";
-            }
-            return Json(response);
+            
+            return Json(result1);
         }
 
         

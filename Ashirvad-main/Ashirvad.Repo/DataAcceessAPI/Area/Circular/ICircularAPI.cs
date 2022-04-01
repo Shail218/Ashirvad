@@ -10,9 +10,9 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Circular
 {
     public interface ICircularAPI
     {
-        Task<long> CircularMaintenance(CircularEntity circularInfo);
+        Task<ResponseModel> CircularMaintenance(CircularEntity circularInfo);
         Task<List<CircularEntity>> GetAllCircular();
-        bool RemoveCircular(long circularId, string lastupdatedby);
+        ResponseModel RemoveCircular(long circularId, string lastupdatedby);
         Task<List<CircularEntity>> GetAllCustomCircular(DataTableAjaxPostModel model);
         Task<CircularEntity> GetCircularById(long circularID);
     }

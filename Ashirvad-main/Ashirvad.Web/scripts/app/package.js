@@ -104,7 +104,7 @@ function SavePackage() {
         var postCall = $.post(commonData.Package + "SavePackage", $('#fPackageDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            if (data.Status == true) {
+            if (data.Status) {
                 ShowMessage(data.Message, "Success");
                 setTimeout(function () { window.location.href = "PackageMaintenance?branchID=0" }, 2000);
             } else {
@@ -123,8 +123,12 @@ function RemovePackage(packageID) {
         var postCall = $.post(commonData.Package + "RemovePackage", { "packageID": packageID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Package Removed Successfully.", "Success");
-            window.location.href = "PackageMaintenance?branchID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "PackageMaintenance?branchID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

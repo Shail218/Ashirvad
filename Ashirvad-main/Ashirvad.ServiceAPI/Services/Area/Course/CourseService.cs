@@ -20,20 +20,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.Course
             this._coursecontext = coursecontext;
         }
 
-        public async Task<CourseEntity> CourseMaintenance(CourseEntity courseEntity)
+        public async Task<ResponseModel> CourseMaintenance(CourseEntity courseEntity)
         {
+            ResponseModel responseModel = new ResponseModel();
             CourseEntity course = new CourseEntity();
             try
             {
-                long courseID = await _coursecontext.CourseMaintenance(courseEntity);
-                course.CourseID = courseID;
+                responseModel = await _coursecontext.CourseMaintenance(courseEntity);
+               // course.CourseID = courseID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return course;
+            return responseModel;
         }
 
         public async Task<OperationResult<CourseEntity>> GetCourseByCourseID(long courseID)
@@ -87,8 +88,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Course
             return null;
         }
 
-        public bool RemoveCourse(long courseID, string lastupdatedby)
+        public ResponseModel RemoveCourse(long courseID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._coursecontext.RemoveCourse(courseID, lastupdatedby);
@@ -98,7 +100,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Course
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
     }
 }

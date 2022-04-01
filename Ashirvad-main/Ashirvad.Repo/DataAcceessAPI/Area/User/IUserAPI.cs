@@ -9,22 +9,24 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.User
 {
     public interface IUserAPI
     {
-        Task<long> UserMaintenance(UserEntity userInfo);
-        Task<long> ProfileMaintenance(UserEntity userInfo);
+        Task<ResponseModel> UserMaintenance(UserEntity userInfo);
+        Task<ResponseModel> ProfileMaintenance(UserEntity userInfo);
         Task<UserEntity> ValidateUser(string userName, string password);
         Task<bool> CheckAgreement(long branchID);
 
         Task<UserEntity> ValidateStudent(string userName, string password);
         List<UserEntity> GetAllUsers(long branchID, List<int> userType);
-        bool RemoveUser(long userID, string lastupdatedby);
+        ResponseModel RemoveUser(long userID, string lastupdatedby);
         bool AddUserRoles(UserEntity user);
-        Task<bool> ChangePassword(long userID, string password, string oldPassword);
+        Task<ResponseModel> ChangePassword(long userID, string password, string oldPassword);
         List<RolesEntity> GetRolesByUser(long userID);
         Task<UserEntity> GetUserByUserID(long userID);
         List<UserEntity> GetAllUsers(string userName, string contactNo);
 
         List<UserEntity> GetAllUsersddl(long branchID);
-        Task<bool> UpdatefcmToken(UserEntity userentity, string fcm_token);
+        Task<ResponseModel> UpdatefcmToken(UserEntity userentity, string fcm_token);
         Task<ResponseModel> StudentUserMaintenance(UserEntity userInfo);
+
+        Task<UserEntity> ValidateStudentData(string userName, string password);
     }
 }

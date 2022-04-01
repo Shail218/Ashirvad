@@ -10,9 +10,9 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Package
 {
   public interface IPackageAPI
     {
-        Task<long> PackageMaintenance(PackageEntity packageInfo);
+        Task<ResponseModel> PackageMaintenance(PackageEntity packageInfo);
         Task<List<PackageEntity>> GetAllPackages(long branchID);
-        bool RemovePackage(long PackageID, string lastupdatedby);
+        ResponseModel RemovePackage(long PackageID, string lastupdatedby);
         Task<List<PackageEntity>> GetAllPackages();
         Task<PackageEntity> GetPackageByID(long packageID);
         Task<List<PackageEntity>> GetAllCustomPackage(Common.Common.DataTableAjaxPostModel model, long branchID);

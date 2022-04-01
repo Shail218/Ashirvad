@@ -229,18 +229,21 @@ function SavePaper() {
             formData.append('PaperData.PaperFile', $('input[type=file]')[0].files[0]);
         }
         AjaxCallWithFileUpload(commonData.Paper + 'SavePaper', formData, function (data) {
-           
-            if (data) {
+
                 HideLoader();
-                ShowMessage("Paper added Successfully.", "Success");
-                window.location.href = "PaperMaintenance?paperID=0";
-            }
-            else {
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
-            }
+                if (data.Success) {
+                    ShowMessage(data.Message, 'Success');
+                    window.location.href = "PaperMaintenance?paperID=0";
+                } else {
+                    ShowMessage(data.Message, 'Error');
+                }                  
+           
+             
+            
            
         }, function (xhr) {
             HideLoader();
+            ShowMessage('An unexpected error occcurred while processing request!', 'Error');
         });
     }
 }
@@ -251,8 +254,12 @@ function RemovePaper(paperID) {
         var postCall = $.post(commonData.Paper + "RemovePaper", { "paperID": paperID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Paper Removed Successfully.", "Success");
-            window.location.href = "PaperMaintenance?paperID=0";
+            if (data.Success) {
+                ShowMessage(data.Message, 'Success');
+                window.location.href = "PaperMaintenance?paperID=0";
+            } else {
+                ShowMessage(data.Message, 'Error');
+            }           
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

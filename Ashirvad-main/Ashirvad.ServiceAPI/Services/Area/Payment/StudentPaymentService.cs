@@ -20,8 +20,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Payment
             _studentPaymentContext = studentContext;
         }
 
-        public async Task<PaymentEntity> PaymentMaintenance(PaymentEntity paymentInfo)
+        public async Task<ResponseModel> PaymentMaintenance(PaymentEntity paymentInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             PaymentEntity payment = new PaymentEntity();
             try
             {
@@ -35,22 +36,30 @@ namespace Ashirvad.ServiceAPI.Services.Area.Payment
                     }
                 }
 
-                long paymentID = await _studentPaymentContext.PaymentMaintenance(paymentInfo);
-                if (paymentID > 0)
+                //long paymentID = await _studentPaymentContext.PaymentMaintenance(paymentInfo);
+                responseModel = await _studentPaymentContext.PaymentMaintenance(paymentInfo);
+                if (responseModel.Status)
                 {
-                    payment.PaymentID = paymentID;
-                    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
+                    var da = (PaymentEntity)responseModel.Data;
+                    long paymentID = da.PaymentID;
+                    if (paymentID > 0)
                     {
-                        Common.Common.SaveFile(paymentInfo.PaymentData.PaymentContent, paymentInfo.PaymentData.PaymentContentFileName, "Paper\\");
+                        payment.PaymentID = paymentID;
+                        if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
+                        {
+                            Common.Common.SaveFile(paymentInfo.PaymentData.PaymentContent, paymentInfo.PaymentData.PaymentContentFileName, "Paper\\");
+                        }
                     }
                 }
+              
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return payment;
+            //return payment;
+            return responseModel;
         }
 
         public async Task<OperationResult<List<PaymentEntity>>> GetAllPayments(long branchID)
@@ -103,8 +112,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Payment
             return null;
         }
         
-        public bool RemovePayment(long paymentID, string lastupdatedby)
+        public ResponseModel RemovePayment(long paymentID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._studentPaymentContext.RemovePayment(paymentID, lastupdatedby);
@@ -114,7 +124,8 @@ namespace Ashirvad.ServiceAPI.Services.Area.Payment
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            //return false;
+            return responseModel;
         }
     }
 }

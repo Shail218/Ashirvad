@@ -27,13 +27,14 @@ $(document).ready(function () {
         },
         "columns": [
             { "data": "BranchName" },
+            {"data":"aliasName"},
             { "data": "BranchMaint.FilePath" },
             { "data": "RowStatus.RowStatusText" },
             { "data": "BranchID" },
         ],
         "columnDefs": [
             {
-                targets: 1,
+                targets: 2,
                 render: function (data, type, full, meta) {
 
                     if (type === 'display') {
@@ -46,11 +47,11 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 2,                
+                targets: 3,                
                 orderable: false,                
             },
             {
-                targets: 3,
+                targets: 4,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
@@ -107,24 +108,31 @@ function SaveBranch() {
         formData.append('ImageFile', $('input[type=file]')[0].files[0]);
         AjaxCallWithFileUpload(commonData.Branch + 'SaveBranch', formData, function (data) {
             HideLoader();
-            if (data) {
-                ShowMessage('Branch details saved!', 'Success');
+            if (data.Success) {
+                ShowMessage(data.Message, 'Success');
                 window.location.href = "BranchMaintenance?branchID=0";
             }
             else {
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+                ShowMessage(data.Message, 'Error');
             }
         }, function (xhr) {
-
+            HideLoader();
+            ShowMessage('An unexpected error occcurred while processing request!', 'Error');
         });
     }
 }
 
 function RemoveBranch(branchID) {
+
     var postCall = $.post(commonData.Branch + "RemoveBranch", { "branchID": branchID });
     postCall.done(function (data) {
-        ShowMessage("Branch Removed Successfully.", "Success");
-        window.location.href = "BranchMaintenance?branchID=0";
+        if (data.Success) {
+            ShowMessage(data.Message, 'Success');
+            window.location.href = "BranchMaintenance?branchID=0";
+        } else {
+            ShowMessage(data.Message, 'Error');
+        }
+       
     }).fail(function () {
         ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });

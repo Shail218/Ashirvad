@@ -72,11 +72,11 @@ function SaveClass() {
         var postCall = $.post(commonData.Class + "SaveClass", $('#fClassDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            if (data.ClassID >= 0) {
-                ShowMessage("Class details saved!", "Success");
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
                 setTimeout(function () { window.location.href = "ClassMaintenance?classID=0" }, 2000);
             } else {
-                ShowMessage("Class Already Exists!!", "Error");
+                ShowMessage(data.Message, "Error");
             }
         }).fail(function () {
             HideLoader();
@@ -90,12 +90,12 @@ function RemoveClass(classId) {
         var postCall = $.post(commonData.Class + "RemoveClass", { "classID": classId });
         postCall.done(function (data) {
             HideLoader();
-            if (data) {
-                ShowMessage("Class Removed Successfully.", "Success");
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
                 window.location.href = "ClassMaintenance?classID=0";
             }
             else {
-                ShowMessage("Class is Already in used!!.", "Error");
+                ShowMessage(data.Message, "Error");
             }
         }).fail(function () {
             HideLoader();

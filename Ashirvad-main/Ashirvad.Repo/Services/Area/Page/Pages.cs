@@ -1,4 +1,6 @@
-﻿using Ashirvad.Common;
+﻿
+
+using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.Repo.DataAcceessAPI.Area;
 using Ashirvad.Repo.DataAcceessAPI.Area.Page;
@@ -29,51 +31,75 @@ namespace Ashirvad.Repo.Services.Area.Page
             return result;
         }
 
-        public async Task<long> PageMaintenance(PageEntity pageInfo)
+        public async Task<ResponseModel> PageMaintenance(PageEntity pageInfo)
         {
-            Model.PAGE_MASTER pageMaster = new Model.PAGE_MASTER();
-            if (CheckPage(pageInfo.Page, pageInfo.BranchInfo.BranchID, pageInfo.PageID).Result != -1)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                bool isUpdate = true;
-                var data = (from page in this.context.PAGE_MASTER
-                            where page.page_id == pageInfo.PageID
-                            select page).FirstOrDefault();
-                if (data == null)
-                {
-                    pageMaster = new Model.PAGE_MASTER();
+                Model.PAGE_MASTER pageMaster = new Model.PAGE_MASTER();
 
-                    isUpdate = false;
+                if (CheckPage(pageInfo.Page, pageInfo.BranchInfo.BranchID, pageInfo.PageID).Result != -1)
+                {
+                    bool isUpdate = true;
+                    var data = (from page in this.context.PAGE_MASTER
+                                where page.page_id == pageInfo.PageID
+                                select page).FirstOrDefault();
+                    if (data == null)
+                    {
+                        pageMaster = new Model.PAGE_MASTER();
+
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        pageMaster = data;
+                        pageInfo.Transaction.TransactionId = data.trans_id;
+                    }
+
+                    pageMaster.page = pageInfo.Page;
+                    pageMaster.branch_id = pageInfo.BranchInfo.BranchID;
+                    pageMaster.row_sta_cd = pageInfo.RowStatus.RowStatusId;
+                    pageMaster.trans_id = this.AddTransactionData(pageInfo.Transaction);
+                    this.context.PAGE_MASTER.Add(pageMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(pageMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var Result = this.context.SaveChanges();
+                    //  return this.context.SaveChanges() > 0 ? pageMaster.page_id : 0;
+                    if (Result > 0)
+                    {
+                        pageInfo.PageID = pageMaster.page_id;
+                        pageInfo.Transaction.TransactionId = pageMaster.trans_id;
+                        PageMasterMaintenance(pageInfo);
+                    }
+                    var res= Result > 0 ? pageInfo.PageID : 0;
+                    if (res > 0)
+                    {
+                        pageInfo.PageID = pageMaster.page_id;
+                        responseModel.Data = pageInfo;
+                        responseModel.Status = true;
+                        responseModel.Message = isUpdate == true ? "Page Updated Successfully." : "Page Inserted Successfully.";
+                    }
+                    else
+                    {
+                        responseModel.Status = false;
+                        responseModel.Message = isUpdate == true ? "Page Not Updated." : "Page Not Inserted.";
+                    }
                 }
                 else
                 {
-                    pageMaster = data;
-                    pageInfo.Transaction.TransactionId = data.trans_id;
+                    responseModel.Status = false;
+                    responseModel.Message = "Page Already Exists.";
+                    //return -1;
                 }
-
-                pageMaster.page = pageInfo.Page;
-                pageMaster.branch_id = pageInfo.BranchInfo.BranchID;
-                pageMaster.row_sta_cd = pageInfo.RowStatus.RowStatusId;
-                pageMaster.trans_id = this.AddTransactionData(pageInfo.Transaction);
-                this.context.PAGE_MASTER.Add(pageMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(pageMaster).State = System.Data.Entity.EntityState.Modified;
-                }
-                var Result = this.context.SaveChanges();
-                //  return this.context.SaveChanges() > 0 ? pageMaster.page_id : 0;
-                if (Result > 0)
-                {
-                    pageInfo.PageID = pageMaster.page_id;
-                    pageInfo.Transaction.TransactionId = pageMaster.trans_id;
-                    PageMasterMaintenance(pageInfo);
-                }
-                return Result > 0 ? pageInfo.PageID : 0;
             }
-            else
+            catch (Exception ex)
             {
-                return -1;
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
             }
-
+            return responseModel;
         }
 
         public async Task<List<PageEntity>> GetAllPages(long branchID)
@@ -157,21 +183,38 @@ namespace Ashirvad.Repo.Services.Area.Page
             return data;
         }
 
-        public bool RemovePage(long PageID, string lastupdatedby)
+        public ResponseModel RemovePage(long PageID, string lastupdatedby)
         {
-            var data = (from u in this.context.PAGE_MASTER
-                        where u.page_id == PageID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.PAGE_MASTER
+                            where u.page_id == PageID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    //return true;
+                    responseModel.Status = true;
+                    responseModel.Message = "Page Removed Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Page Not Found.";
+                }
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+            //return false;
         }
+
 
         public async Task<PageEntity> GetPageByID(long pageID)
         {
@@ -196,8 +239,9 @@ namespace Ashirvad.Repo.Services.Area.Page
             return data;
         }
 
-        public async Task<long> PageMasterMaintenance(PageEntity pageEntity)
+        public async Task<ResponseModel> PageMasterMaintenance(PageEntity pageEntity)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 long result = 0;
@@ -231,9 +275,11 @@ namespace Ashirvad.Repo.Services.Area.Page
 
                     };
                     packageRight.PackageRightsId = 0;
-                    result = _packageRights.RightsMaintenance(packageRight).Result;
+                    responseModel = _packageRights.RightsMaintenance(packageRight).Result;
+                    //var da = _packageRights.RightsMaintenance(packageRight).Result;
                 }
-                return result;
+                //return result;
+                return responseModel;
             }
             catch (Exception ex)
             {

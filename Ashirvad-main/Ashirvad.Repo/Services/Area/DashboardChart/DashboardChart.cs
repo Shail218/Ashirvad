@@ -407,5 +407,25 @@ namespace Ashirvad.Repo.Services.Area.DashboardChart
             }
             return data;
         }
+ 
+        public async Task<PackageUsageEntity> GetPackageUsageDetailbyBranch(long branchId)
+        {
+            PackageUsageEntity usageEntity = new PackageUsageEntity();
+            try
+            {
+                var data = (from u in this.context.BRANCH_RIGHTS_MASTER where u.branch_id == branchId select u.PACKAGE_MASTER).FirstOrDefault();
+                if (data != null)
+                {
+                    usageEntity.totalPackageSize =data.student_no;
+                    usageEntity.packageType = data.package;
+                }
+                usageEntity.activeStudent = this.context.STUDENT_MASTER.Where(x => x.row_sta_cd == 1 && x.branch_id == branchId).Count();
+                usageEntity.inActiveStudent = this.context.STUDENT_MASTER.Where(x => x.row_sta_cd == 2 && x.branch_id == branchId).Count();
+            }catch(Exception ex)
+            {
+
+            }
+            return usageEntity;
+        }
     }
 }

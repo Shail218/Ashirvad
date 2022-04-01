@@ -67,7 +67,6 @@ function Savecategory() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-
         var postCall = $.post(commonData.Category + "SaveCategory", $("#fCategory").serialize());
         postCall.done(function (data) {
             HideLoader();
@@ -90,8 +89,12 @@ function RemoveCategory(categoryID) {
         var postCall = $.post(commonData.Category + "RemoveCategory", { "categoryID": categoryID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Category Removed Successfully.", "Success");
-            window.location.href = "CategoryMaintenance?categoryID=0";
+            if (data.Success) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "CategoryMaintenance?categoryID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

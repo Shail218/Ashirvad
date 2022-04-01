@@ -19,19 +19,23 @@ namespace Ashirvad.ServiceAPI.Services.Area.Page
             this._pageContext = pageContext;
         }
 
-        public async Task<PageEntity> PageMaintenance(PageEntity pageInfo)
+        public async Task<ResponseModel> PageMaintenance(PageEntity pageInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             PageEntity standard = new PageEntity();
             try
             {
-                long pageID = await _pageContext.PageMaintenance(pageInfo);
-                standard.PageID = pageID;
+                //long pageID = await _pageContext.PageMaintenance(pageInfo);
+                responseModel = await _pageContext.PageMaintenance(pageInfo);
+
+                //standard.PageID = pageID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-            return standard;
+            //return standard;
+            return responseModel;
         }
 
         public async Task<List<PageEntity>> GetAllPages(long branchID)
@@ -62,8 +66,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Page
             return null;
         }
 
-        public bool RemovePage(long PageID, string lastupdatedby)
+        public ResponseModel RemovePage(long PageID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._pageContext.RemovePage(PageID, lastupdatedby);
@@ -72,8 +77,8 @@ namespace Ashirvad.ServiceAPI.Services.Area.Page
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
-
-            return false;
+            return responseModel;
+            //return false;
         }
 
         public async Task<PageEntity> GetPageByIDAsync(long pageID)

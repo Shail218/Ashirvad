@@ -11,10 +11,10 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Course
 {
     public interface ICourseAPI
     {
-        Task<long> CourseMaintenance(CourseEntity courseEntity);
+        Task<ResponseModel> CourseMaintenance(CourseEntity courseEntity);
         Task<CourseEntity> GetCourseByCourseID(long courseID);
         Task<List<CourseEntity>> GetAllCourse();
-        bool RemoveCourse(long courseID, string lastupdatedby);
+        ResponseModel RemoveCourse(long courseID, string lastupdatedby);
         Task<List<CourseEntity>> GetAllCustomCourse(DataTableAjaxPostModel model);
     }
 }

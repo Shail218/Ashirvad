@@ -76,15 +76,9 @@ namespace Ashirvad.Web.Controllers
                 Marks.student = new StudentEntity(){
                     StudentID = item.student.StudentID
             };
-                data = await _MarksService.MarksMaintenance(Marks);
+                res = await _MarksService.MarksMaintenance(Marks);
             }
-            
-            if (data != null)
-            {
-                return Json(data);
-            }
-
-            return Json(0);
+            return Json(res);
         }
 
         [HttpPost]

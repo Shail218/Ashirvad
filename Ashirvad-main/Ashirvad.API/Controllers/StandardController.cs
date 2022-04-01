@@ -27,8 +27,12 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._standardService.StandardMaintenance(standardInfo);
             OperationResult<StandardEntity> result = new OperationResult<StandardEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+                result.Data = (StandardEntity)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -50,8 +54,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._standardService.RemoveStandard(StandardID,lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
     }

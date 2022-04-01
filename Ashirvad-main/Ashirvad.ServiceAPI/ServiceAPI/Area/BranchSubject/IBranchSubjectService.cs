@@ -10,7 +10,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
 {
     public interface IBranchSubjectService
     {
-        Task<BranchSubjectEntity> BranchSubjectMaintenance(BranchSubjectEntity BranchSubjectInfo);
+        Task<ResponseModel> BranchSubjectMaintenance(BranchSubjectEntity BranchSubjectInfo);
         Task<List<BranchSubjectEntity>> GetAllBranchSubject(long BrancchID = 0);
         Task<List<BranchSubjectEntity>> GetMobileAllBranchSubject(long BranchID = 0);
         Task<List<BranchSubjectEntity>> GetBranchSubjectByBranchSubjectID(long BranchSubjectID, long BranchID, long ClassID);

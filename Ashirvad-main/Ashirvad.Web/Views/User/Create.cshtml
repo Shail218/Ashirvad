@@ -37,13 +37,13 @@
             <div id="datepicker" class="input-group date" data-date-format="dd/mm/yyyy">
                 @if (Model == null)
                 {
-                    @Html.TextBoxFor(x => x.DOB, null, new { @class = "form-control required", @alt = "Date of Birth", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(x => x.DOB, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control required", @alt = "Date of Birth", autocomplete = "off", @readonly = "readonly" })
                 }
                 else
                 {
                     if (Model.DOB == null)
                     {
-                        @Html.TextBoxFor(x => x.DOB, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Birth" })
+                        @Html.TextBoxFor(x => x.DOB, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Birth" })
                     }
                     else
                     {
@@ -85,13 +85,13 @@
             <div id="datepickerappointment" class="input-group date" data-date-format="dd/mm/yyyy">
                 @if (Model == null)
                 {
-                    @Html.TextBoxFor(x => x.ApptDT, null, new { @class = "form-control", @alt = "Date of Appointment", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(x => x.ApptDT, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control", @alt = "Date of Appointment", autocomplete = "off", @readonly = "readonly" })
                 }
                 else
                 {
                     if (Model.ApptDT == null)
                     {
-                        @Html.TextBoxFor(x => x.ApptDT, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Appointment" })
+                        @Html.TextBoxFor(x => x.ApptDT, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Appointment" })
                     }
                     else
                     {
@@ -106,13 +106,13 @@
             <div id="datepickerjoining" class="input-group date" data-date-format="dd/mm/yyyy">
                 @if (Model == null)
                 {
-                    @Html.TextBoxFor(x => x.JoinDT, null, new { @class = "form-control", @alt = "Date of Joining", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(x => x.JoinDT, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control", @alt = "Date of Joining", autocomplete = "off", @readonly = "readonly" })
                 }
                 else
                 {
                     if (Model.JoinDT == null)
                     {
-                        @Html.TextBoxFor(x => x.JoinDT, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Joining" })
+                        @Html.TextBoxFor(x => x.JoinDT, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Joining" })
                     }
                     else
                     {
@@ -127,13 +127,13 @@
             <div id="datepickerleaving" class="input-group date" data-date-format="dd/mm/yyyy">
                 @if (Model == null)
                 {
-                    @Html.TextBoxFor(x => x.LeavingDT, null, new { @class = "form-control", @alt = "Date of Leaving", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(x => x.LeavingDT, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control", @alt = "Date of Leaving", autocomplete = "off", @readonly = "readonly" })
                 }
                 else
                 {
                     if (Model.LeavingDT == null)
                     {
-                        @Html.TextBoxFor(x => x.LeavingDT, new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Leaving" })
+                        @Html.TextBoxFor(x => x.LeavingDT, DateTime.Now.ToString("dd/MM/yyyy"), new { @class = "form-control", autocomplete = "off", @readonly = "readonly", @alt = "Date of Leaving" })
                     }
                     else
                     {

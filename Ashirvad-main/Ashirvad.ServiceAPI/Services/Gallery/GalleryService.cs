@@ -19,23 +19,24 @@ namespace Ashirvad.ServiceAPI.Services.Gallery
             this._galleryContext = galleryContext;
         }
 
-        public async Task<GalleryEntity> GalleryMaintenance(GalleryEntity galleryInfo)
+        public async Task<ResponseModel> GalleryMaintenance(GalleryEntity galleryInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             GalleryEntity gallery = new GalleryEntity();
             try
             {
-                long uniqueID = await _galleryContext.GalleryMaintenance(galleryInfo);
-                if (uniqueID > 0)
-                {
-                    gallery.UniqueID = uniqueID;
-                }
+                responseModel = await _galleryContext.GalleryMaintenance(galleryInfo);
+                //if (uniqueID > 0)
+                //{
+                //    gallery.UniqueID = uniqueID;
+                //}
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return gallery;
+            return responseModel;
         }
 
         public async Task<OperationResult<List<GalleryEntity>>> GetAllGalleryWithoutContent(int type, long branchID = 0)
@@ -100,8 +101,9 @@ namespace Ashirvad.ServiceAPI.Services.Gallery
             return null;
         }
 
-        public bool RemoveGallery(long galleryID, string lastupdatedby)
+        public ResponseModel RemoveGallery(long galleryID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._galleryContext.RemoveGallery(galleryID, lastupdatedby);
@@ -111,7 +113,7 @@ namespace Ashirvad.ServiceAPI.Services.Gallery
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
     }
 }

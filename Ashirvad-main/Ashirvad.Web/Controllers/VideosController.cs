@@ -73,12 +73,8 @@ namespace Ashirvad.Web.Controllers
                 BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
             };
             var data = await _gallaryService.GalleryMaintenance(videos);
-            if (data != null)
-            {
-                return Json(true);
-            }
-
-            return Json(false);
+            
+            return Json(data);
         }
 
         [HttpPost]

@@ -44,18 +44,9 @@ namespace Ashirvad.Web.Controllers
         {
             var data = _staffService.UpdateProfile(branch);
             OperationResult<ResponseModel> result = new OperationResult<ResponseModel>();
-            result.Completed = false;
-            result.Data = null;
-            if (data.Result.StaffID > 0)
-            {
-                result.Completed = true;
-                result.Data = data.Result;
-                result.Message = "Profile Update Successfully!!";
-            }
-            else
-            {
-                result.Message = "Profile failed to Update!!";
-            }
+            result.Completed = data.Result.Status;
+            result.Message = data.Result.Message;
+            result.Data = data.Result;
             return result;
         }
     }

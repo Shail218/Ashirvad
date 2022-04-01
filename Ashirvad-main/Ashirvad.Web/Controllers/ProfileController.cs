@@ -57,17 +57,17 @@ namespace Ashirvad.Web.Controllers
                 branch.BranchInfo = new BranchEntity();
                 branch.BranchInfo.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
                 var data = await _staffService.UpdateProfile(branch);
-                res.Status = data.StaffID > 0 ? true : false;
-                if (branch.MobileNo == SessionContext.Instance.LoginUser.Username)
-                {
-                    res.Message = data.StaffID == 0 ? "Profile failed to Update!!" : "Profile Update Successfully!!";
-                    res.IsEdit = false;
-                }
-                else
-                {
-                    res.Message = data.StaffID == 0 ? "Profile failed to Update!!" : "Your Mobile Number has Changed!! Please Login Again!!";
-                    res.IsEdit = true;
-                }
+                res = data;
+                //if (branch.MobileNo == SessionContext.Instance.LoginUser.Username)
+                //{
+                //    res.Message = data.StaffID == 0 ? "Profile failed to Update!!" : "Profile Update Successfully!!";
+                //    res.IsEdit = false;
+                //}
+                //else
+                //{
+                //    res.Message = data.StaffID == 0 ? "Profile failed to Update!!" : "Your Mobile Number has Changed!! Please Login Again!!";
+                //    res.IsEdit = true;
+                //}
                 return Json(res);
             }
             else
@@ -79,17 +79,17 @@ namespace Ashirvad.Web.Controllers
                     Username = branch.MobileNo,
                     UserID = branch.UserID
                 });
-                res.Status = data > 0 ? true : false;
-                if (branch.MobileNo == SessionContext.Instance.LoginUser.Username)
-                {
-                    res.Message = data == 0 ? "Profile failed to Update!!" : "Profile Update Successfully!!";
-                    res.IsEdit = false;
-                }
-                else
-                {
-                    res.Message = data == 0 ? "Profile failed to Update!!" : "Your Mobile Number has Changed!! Please Login Again!!";
-                    res.IsEdit = true;
-                }
+                res = data;
+                //if (branch.MobileNo == SessionContext.Instance.LoginUser.Username)
+                //{
+                //    res.Message = data == 0 ? "Profile failed to Update!!" : "Profile Update Successfully!!";
+                //    res.IsEdit = false;
+                //}
+                //else
+                //{
+                //    res.Message = data == 0 ? "Profile failed to Update!!" : "Your Mobile Number has Changed!! Please Login Again!!";
+                //    res.IsEdit = true;
+                //}
                 return Json(res);
             }
         }

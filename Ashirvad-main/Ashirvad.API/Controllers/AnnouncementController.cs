@@ -35,8 +35,13 @@ namespace Ashirvad.API.Controllers
         {
             var data = _announcementService.AnnouncementMaintenance(announcementEntity);
             OperationResult<AnnouncementEntity> result = new OperationResult<AnnouncementEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+                result.Data = (AnnouncementEntity)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
+      
             return result;
         }
 
@@ -57,8 +62,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = _announcementService.RemoveAnnouncement(annoID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
     }

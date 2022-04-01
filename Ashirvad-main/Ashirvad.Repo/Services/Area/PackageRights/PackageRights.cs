@@ -22,54 +22,76 @@ namespace Ashirvad.Repo.Services.Area.Branch
             result = isExists == true ? -1 : 1;
             return result;
         }
-        public async Task<long> RightsMaintenance(PackageRightEntity RightsInfo)
+        public async Task<ResponseModel> RightsMaintenance(PackageRightEntity RightsInfo)
         {
-            Model.PACKAGE_RIGHTS_MASTER RightsMaster = new Model.PACKAGE_RIGHTS_MASTER();
-            if (CheckRights((int)RightsInfo.PackageRightsId, (int)RightsInfo.Packageinfo.PackageID, (int)RightsInfo.PageInfo.PageID).Result != -1)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                bool isUpdate = true;
-                var data = (from package in this.context.PACKAGE_RIGHTS_MASTER
-                            where package.packagerights_id == RightsInfo.PackageRightsId
-                            select new
-                            {
-                                RightsMaster = package
-                            }).FirstOrDefault();
-                if (data == null)
+                Model.PACKAGE_RIGHTS_MASTER RightsMaster = new Model.PACKAGE_RIGHTS_MASTER();
+                if (CheckRights((int)RightsInfo.PackageRightsId, (int)RightsInfo.Packageinfo.PackageID, (int)RightsInfo.PageInfo.PageID).Result != -1)
                 {
-                    RightsMaster = new Model.PACKAGE_RIGHTS_MASTER();
-                    isUpdate = false;
+                    bool isUpdate = true;
+                    var data = (from package in this.context.PACKAGE_RIGHTS_MASTER
+                                where package.packagerights_id == RightsInfo.PackageRightsId
+                                select new
+                                {
+                                    RightsMaster = package
+                                }).FirstOrDefault();
+                    if (data == null)
+                    {
+                        RightsMaster = new Model.PACKAGE_RIGHTS_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        RightsMaster = data.RightsMaster;
+                        RightsInfo.Transaction.TransactionId = data.RightsMaster.trans_id;
+                    }
+
+                    RightsMaster.package_id = RightsInfo.Packageinfo.PackageID;
+                    RightsMaster.page_id = RightsInfo.PageInfo.PageID;
+                    // RightsMaster.row_sta_cd = RightsInfo.RowStatus.RowStatus == Enums.RowStatus.Active ? (int)Enums.RowStatus.Active : (int)Enums.RowStatus.Inactive;
+                    RightsMaster.row_sta_cd = RightsInfo.RowStatus.RowStatusId;
+                    RightsMaster.createstatus = RightsInfo.Createstatus;
+                    RightsMaster.viewstatus = RightsInfo.Viewstatus;
+                    RightsMaster.deletestatus = RightsInfo.Deletestatus;
+                    RightsMaster.trans_id = RightsInfo.Transaction.TransactionId > 0 ? RightsInfo.Transaction.TransactionId : this.AddTransactionData(RightsInfo.Transaction);
+
+                    //  RightsMaster.trans_id = this.AddTransactionData(RightsInfo.Transaction);
+                    this.context.PACKAGE_RIGHTS_MASTER.Add(RightsMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(RightsMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var result = this.context.SaveChanges();
+                    if (result > 0)
+                    {
+                        RightsInfo.PackageRightsId = RightsMaster.packagerights_id;
+                        //var result2 = PackageDetailMaintenance(PackageInfo).Result;
+                        //return result > 0 ? RightsInfo.PackageRightsId : 0;
+                        responseModel.Data = RightsInfo;
+                        responseModel.Message = isUpdate == true ? "Package Rights Updated Successfully." : "Package Rights Inserted Successfully.";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate == true ? "Package Rights Not Updated." : "Package Rights Not Inserted.";
+                        responseModel.Status = false;
+                    }
+                    //return this.context.SaveChanges() > 0 ? RightsInfo.PackageRightsId : 0;
                 }
                 else
                 {
-                    RightsMaster = data.RightsMaster;
-                    RightsInfo.Transaction.TransactionId = data.RightsMaster.trans_id;
-                }
-
-                RightsMaster.package_id = RightsInfo.Packageinfo.PackageID;
-                RightsMaster.page_id = RightsInfo.PageInfo.PageID;
-               // RightsMaster.row_sta_cd = RightsInfo.RowStatus.RowStatus == Enums.RowStatus.Active ? (int)Enums.RowStatus.Active : (int)Enums.RowStatus.Inactive;
-                RightsMaster.row_sta_cd = RightsInfo.RowStatus.RowStatusId;
-                RightsMaster.createstatus = RightsInfo.Createstatus;
-                RightsMaster.viewstatus = RightsInfo.Viewstatus;
-                RightsMaster.deletestatus = RightsInfo.Deletestatus;
-                RightsMaster.trans_id = RightsInfo.Transaction.TransactionId > 0 ? RightsInfo.Transaction.TransactionId : this.AddTransactionData(RightsInfo.Transaction);
-
-              //  RightsMaster.trans_id = this.AddTransactionData(RightsInfo.Transaction);
-                this.context.PACKAGE_RIGHTS_MASTER.Add(RightsMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(RightsMaster).State = System.Data.Entity.EntityState.Modified;
-                }
-                var result = this.context.SaveChanges();
-                if (result > 0)
-                {
-                    RightsInfo.PackageRightsId = RightsMaster.packagerights_id;
-                    //var result2 = PackageDetailMaintenance(PackageInfo).Result;
-                    return result > 0 ? RightsInfo.PackageRightsId : 0;
-                }
-                return this.context.SaveChanges() > 0 ? RightsInfo.PackageRightsId : 0;
+                    responseModel.Message = "Package Rights Already Exists.";
+                    responseModel.Status = false;
+                }              
             }
-            return -1;
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
         }
 
         public async Task<List<PackageRightEntity>> GetAllRights()
@@ -239,24 +261,39 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return data;
         }
 
-        public bool RemoveRights(long RightsID, string lastupdatedby)
+        public ResponseModel RemoveRights(long RightsID, string lastupdatedby)
         {
-            var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
-                        where u.package_id == RightsID
-                        select u).ToList();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                foreach(var item in data)
+                var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
+                            where u.package_id == RightsID
+                            select u).ToList();
+                if (data != null)
                 {
-                    item.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
-                    this.context.SaveChanges();
+                    foreach (var item in data)
+                    {
+                        item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                        this.context.SaveChanges();
+                        responseModel.Message = "Package Rights Removed Successfully.";
+                        responseModel.Status = true;
+                    }
                 }
-               
-                return true;
+                else
+                {
+                    responseModel.Message = "Package Rights Not Found.";
+                    responseModel.Status = true;
+                }
+                    //return true;               
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
+            //return false;
         }
 
 

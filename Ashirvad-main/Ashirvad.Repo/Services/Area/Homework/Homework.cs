@@ -24,48 +24,74 @@ namespace Ashirvad.Repo.Services.Area.Homework
             result = isExists == true ? -1 : 1;
             return result;
         }
-        public async Task<long> HomeworkMaintenance(HomeworkEntity homeworkInfo)
+        public async Task<ResponseModel> HomeworkMaintenance(HomeworkEntity homeworkInfo)
         {
-            Model.HOMEWORK_MASTER homework = new Model.HOMEWORK_MASTER();
-            if (CheckHomework(homeworkInfo).Result != -1)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                bool isUpdate = true;
-                var data = (from t in this.context.HOMEWORK_MASTER
-                            where t.homework_id == homeworkInfo.HomeworkID
-                            select t).FirstOrDefault();
-                if (data == null)
+                Model.HOMEWORK_MASTER homework = new Model.HOMEWORK_MASTER();
+                if (CheckHomework(homeworkInfo).Result != -1)
                 {
-                    data = new Model.HOMEWORK_MASTER();
-                    isUpdate = false;
+                    bool isUpdate = true;
+                    var data = (from t in this.context.HOMEWORK_MASTER
+                                where t.homework_id == homeworkInfo.HomeworkID
+                                select t).FirstOrDefault();
+                    if (data == null)
+                    {
+                        data = new Model.HOMEWORK_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        homework = data;
+                        homeworkInfo.Transaction.TransactionId = data.trans_id;
+                    }
+
+                    homework.row_sta_cd = homeworkInfo.RowStatus.RowStatusId;
+                    homework.trans_id = this.AddTransactionData(homeworkInfo.Transaction);
+                    homework.branch_id = homeworkInfo.BranchInfo.BranchID;
+                    homework.batch_time_id = homeworkInfo.BatchTimeID;
+                    homework.homework_file = homeworkInfo.HomeworkContentFileName;
+                    homework.file_path = homeworkInfo.FilePath;
+                    homework.remarks = homeworkInfo.Remarks;
+                    homework.homework_dt = homeworkInfo.HomeworkDate;
+                    homework.course_dtl_id = homeworkInfo.BranchCourse.course_dtl_id;
+                    homework.class_dtl_id = homeworkInfo.BranchClass.Class_dtl_id;
+                    homework.subject_dtl_id = homeworkInfo.BranchSubject.Subject_dtl_id;
+                    this.context.HOMEWORK_MASTER.Add(homework);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(homework).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var res = this.context.SaveChanges() > 0 ? homework.homework_id : 0;
+                    if (res > 0)
+                    {
+                        homeworkInfo.HomeworkID = homework.homework_id;
+                        responseModel.Data = homeworkInfo;
+                        responseModel.Status = true;
+                        responseModel.Message = isUpdate==true?"Homework Updated Successfully.":"Homework Inserted Successfully.";
+                    }
+                    else
+                    {
+                        responseModel.Status = false;
+                        responseModel.Message = isUpdate == true ? "Homework Not Updated." : "Homework Not Inserted.";
+                    }
                 }
                 else
                 {
-                    homework = data;
-                    homeworkInfo.Transaction.TransactionId = data.trans_id;
-                }
-
-                homework.row_sta_cd = homeworkInfo.RowStatus.RowStatusId;
-                homework.trans_id = this.AddTransactionData(homeworkInfo.Transaction);
-                homework.branch_id = homeworkInfo.BranchInfo.BranchID;
-                homework.batch_time_id = homeworkInfo.BatchTimeID;
-                homework.homework_file = homeworkInfo.HomeworkContentFileName;
-                homework.file_path = homeworkInfo.FilePath;
-                homework.remarks = homeworkInfo.Remarks;
-                homework.homework_dt = homeworkInfo.HomeworkDate;
-                homework.course_dtl_id = homeworkInfo.BranchCourse.course_dtl_id;
-                homework.class_dtl_id = homeworkInfo.BranchClass.Class_dtl_id;
-                homework.subject_dtl_id = homeworkInfo.BranchSubject.Subject_dtl_id;
-                this.context.HOMEWORK_MASTER.Add(homework);
-                if (isUpdate)
-                {
-                    this.context.Entry(homework).State = System.Data.Entity.EntityState.Modified;
+                    responseModel.Status = false;
+                    responseModel.Message = "HomeWork Already Exist.";
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return -1;
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
             }
-            return this.context.SaveChanges() > 0 ? homework.homework_id : 0;
+            return responseModel;
+           
+        
+            
         }
 
         public async Task<List<HomeworkEntity>> GetAllHomeworkByBranchStudent(long branchID, long courseid,long stdID, int batchTime, long studentId)
@@ -568,20 +594,36 @@ namespace Ashirvad.Repo.Services.Area.Homework
             return data;
         }
 
-        public bool RemoveHomework(long homeworkID, string lastupdatedby)
+        public ResponseModel RemoveHomework(long homeworkID, string lastupdatedby)
         {
-            var data = (from u in this.context.HOMEWORK_MASTER
-                        where u.homework_id == homeworkID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.HOMEWORK_MASTER
+                            where u.homework_id == homeworkID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Status = true;
+                    responseModel.Message = "Homework Removed Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Homework Not Found.";
+                }
             }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+           
 
-            return false;
         }
 
 

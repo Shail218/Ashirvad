@@ -19,8 +19,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
             this._aboutusContext = aboutusContext;
         }
 
-        public async Task<AboutUsEntity> AboutUsMaintenance(AboutUsEntity aboutUsInfo)
+        public async Task<ResponseModel> AboutUsMaintenance(AboutUsEntity aboutUsInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             AboutUsEntity aboutus = new AboutUsEntity();
             try
             {
@@ -34,8 +35,8 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
                 //    aboutUsInfo.HeaderImage = Convert.FromBase64String(aboutUsInfo.HeaderImageText);
                 //}
 
-                long uniqueID = await _aboutusContext.AboutUsMaintenance(aboutUsInfo);
-                aboutus.AboutUsID = uniqueID;
+                responseModel = await _aboutusContext.AboutUsMaintenance(aboutUsInfo);
+                //aboutus.AboutUsID = uniqueID;
                 //if (uniqueID > 0)
                 //{
                 //    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
@@ -51,7 +52,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
             
-            return aboutus;
+            return responseModel;
         }
 
         public async Task<OperationResult<List<AboutUsEntity>>> GetAllAboutUsWithoutContent(long branchID = 0)
@@ -99,8 +100,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
             return null;
         }
 
-        public bool RemoveAboutUs(long aboutUsID, string lastupdatedby, bool remomveAboutUsDetail = false)
+        public ResponseModel RemoveAboutUs(long aboutUsID, string lastupdatedby, bool remomveAboutUsDetail = false)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._aboutusContext.RemoveAboutUs(aboutUsID, lastupdatedby, remomveAboutUsDetail);
@@ -110,12 +112,13 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
 
-        public async Task<AboutUsDetailEntity> AboutUsDetailMaintenance(AboutUsDetailEntity aboutUsInfo)
+        public async Task<ResponseModel> AboutUsDetailMaintenance(AboutUsDetailEntity aboutUsInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             AboutUsDetailEntity aboutus = new AboutUsDetailEntity();
             try
             {
@@ -128,8 +131,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
                 //    aboutUsInfo.HeaderImage = Convert.FromBase64String(aboutUsInfo.HeaderImageText);
                 //}
 
-                long uniqueID = await _aboutusContext.AboutUsDetailMaintenance(aboutUsInfo);
-                aboutus.DetailID = uniqueID;
+                responseModel = await _aboutusContext.AboutUsDetailMaintenance(aboutUsInfo);
                 //if (uniqueID > 0)
                 //{
                 //    if (!string.IsNullOrEmpty(Common.Common.GetStringConfigKey("DocDirectory")))
@@ -145,7 +147,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
            
-            return aboutus;
+            return responseModel;
         }
 
         public async Task<OperationResult<List<AboutUsDetailEntity>>> GetAllAboutUsDetailWithoutContent(long aboutusID = 0, long branchID = 0)
@@ -208,8 +210,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
 
             return null;
         }
-        public bool RemoveAboutUsDetail(long aboutUsID, string lastupdatedby)
+        public ResponseModel RemoveAboutUsDetail(long aboutUsID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._aboutusContext.RemoveAboutUsDetail(aboutUsID, lastupdatedby);
@@ -219,7 +222,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.AboutUs
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
     }

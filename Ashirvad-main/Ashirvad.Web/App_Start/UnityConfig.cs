@@ -77,6 +77,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Charts;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Circular;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Class;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Course;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.DashboardChart;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Faculty;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Gallery;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Homework;

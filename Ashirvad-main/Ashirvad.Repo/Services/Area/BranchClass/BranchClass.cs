@@ -23,45 +23,65 @@ namespace Ashirvad.Repo.Services.Area.Branch
             result = isExists == true ? -1 : 1;
             return result;
         }
-        public async Task<long> ClassMaintenance(BranchClassEntity ClassInfo)
+        public async Task<ResponseModel> ClassMaintenance(BranchClassEntity ClassInfo)
         {
-            Model.CLASS_DTL_MASTER ClassMaster = new Model.CLASS_DTL_MASTER();
-            if (CheckClass((int)ClassInfo.Class_dtl_id, (int)ClassInfo.Class.ClassID, (int)ClassInfo.branch.BranchID, (int)ClassInfo.BranchCourse.course_dtl_id).Result != -1)
+            ResponseModel model = new ResponseModel();
+            try
             {
-                bool isUpdate = true;
-                var data = (from Class in this.context.CLASS_DTL_MASTER
-                            where Class.class_dtl_id == ClassInfo.Class_dtl_id
-                            select new
-                            {
-                                ClassMaster = Class
-                            }).FirstOrDefault();
-                if (data == null)
+                Model.CLASS_DTL_MASTER ClassMaster = new Model.CLASS_DTL_MASTER();
+                if (CheckClass((int)ClassInfo.Class_dtl_id, (int)ClassInfo.Class.ClassID, (int)ClassInfo.branch.BranchID, (int)ClassInfo.BranchCourse.course_dtl_id).Result != -1)
                 {
-                    ClassMaster = new Model.CLASS_DTL_MASTER();
-                    isUpdate = false;
-                }
-                else
-                {
-                    ClassMaster = data.ClassMaster;
-                    ClassInfo.Transaction.TransactionId = data.ClassMaster.trans_id;
-                }
+                    bool isUpdate = true;
+                    var data = (from Class in this.context.CLASS_DTL_MASTER
+                                where Class.class_dtl_id == ClassInfo.Class_dtl_id
+                                select new
+                                {
+                                    ClassMaster = Class
+                                }).FirstOrDefault();
+                    if (data == null)
+                    {
+                        ClassMaster = new Model.CLASS_DTL_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        ClassMaster = data.ClassMaster;
+                        ClassInfo.Transaction.TransactionId = data.ClassMaster.trans_id;
+                    }
 
-                ClassMaster.class_id = ClassInfo.Class.ClassID;
-                ClassMaster.branch_id = ClassInfo.branch.BranchID;
-                ClassMaster.row_sta_cd = (int)Enums.RowStatus.Active;
-                ClassMaster.is_class = ClassInfo.isClass;
-                ClassMaster.course_dtl_id = ClassInfo.BranchCourse.course_dtl_id;
-                ClassMaster.trans_id = ClassInfo.Transaction.TransactionId > 0 ? ClassInfo.Transaction.TransactionId : this.AddTransactionData(ClassInfo.Transaction);
-                this.context.CLASS_DTL_MASTER.Add(ClassMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(ClassMaster).State = System.Data.Entity.EntityState.Modified;
+                    ClassMaster.class_id = ClassInfo.Class.ClassID;
+                    ClassMaster.branch_id = ClassInfo.branch.BranchID;
+                    ClassMaster.row_sta_cd = (int)Enums.RowStatus.Active;
+                    ClassMaster.is_class = ClassInfo.isClass;
+                    ClassMaster.course_dtl_id = ClassInfo.BranchCourse.course_dtl_id;
+                    ClassMaster.trans_id = ClassInfo.Transaction.TransactionId > 0 ? ClassInfo.Transaction.TransactionId : this.AddTransactionData(ClassInfo.Transaction);
+                    this.context.CLASS_DTL_MASTER.Add(ClassMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(ClassMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var result = this.context.SaveChanges();
+                    if (result > 0)
+                    {
+                        ClassInfo.Class_dtl_id = ClassMaster.class_dtl_id;
+                        model.Data = ClassInfo;
+                        model.Status = true;
+                        model.Message = isUpdate==true?"Class Updated Successfully.":"Class Inserted Successfully.";
+                    }
+                    else
+                    {
+                        model.Status = false;
+                        model.Message = isUpdate == true ? "Class Not Updated." : "Class Not Inserted.";
+                    }
                 }
-                var result = this.context.SaveChanges();
-               
-                return result > 0 ? 1 : 0;
             }
-            return -1;
+            catch(Exception ex)
+            {
+                model.Status = false;
+                model.Message = ex.Message.ToString();
+            }
+            return model;
+           
         }
 
         public async Task<List<BranchClassEntity>> GetAllClass(DataTableAjaxPostModel model, long BranchID, long ClassID = 0)
@@ -319,7 +339,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     }
                     else
                     {
-                        message = message + "<br />" + data_class.Message;
+                        message = message + data_class.Message;
                     }
                 }
 
@@ -341,8 +361,9 @@ namespace Ashirvad.Repo.Services.Area.Branch
             return isExists;
         }
 
-        public async Task<long> StandardMaintenance(StandardEntity standardInfo)
+        public async Task<ResponseModel> StandardMaintenance(StandardEntity standardInfo)
         {
+            ResponseModel model = new ResponseModel();
             try
             {
                 bool IsSuccess = CheckStd(standardInfo.Branchclass.Class_dtl_id, standardInfo.Standard, standardInfo.BranchInfo.BranchID).Result;
@@ -375,21 +396,40 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     {
                         this.context.Entry(standardMaster).State = System.Data.Entity.EntityState.Modified;
                     }
-                    return this.context.SaveChanges() > 0 ? standardMaster.std_id : 0;
+                    var az = this.context.SaveChanges() > 0 ? standardMaster.std_id : 0;
+                    if (az > 0)
+                    {
+                        standardInfo.StandardID = standardMaster.std_id;
+                        model.Data = standardInfo;
+                        model.Status = true;
+                        model.Message = isUpdate==true?"Standard Updated Successfully.":"Standard Inserted Successfully.";
+                    }
+                    else
+                    {
+                        model.Status = false;
+                        model.Message = isUpdate == true ? "Standard Not Updated." : "Standard Not Inserted.";
+                    }
+                }
+                else
+                {
+                    model.Status = false;
+                    model.Message = "Standard Already Exist.";
                 }
 
 
             }
             catch (Exception ex)
             {
-
+                model.Status = false;
+                model.Message = ex.Message.ToString();
             }
-            return 0;
+            return model;
 
         }
 
-        public bool RemoveStandard(string ClassName, long BranchID, string lastupdatedby)
+        public ResponseModel RemoveStandard(string ClassName, long BranchID, string lastupdatedby)
         {
+            ResponseModel model = new ResponseModel();
             try
             {
                 var data1 = (from u in this.context.CLASS_DTL_MASTER
@@ -411,17 +451,23 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
                             this.context.SaveChanges();
                         }
-
-                        return true;
+                        model.Status = true;
+                        model.Message = "Standard Removed Successfully.";
                     }
 
                 }
-                return false;
+                else
+                {
+                    model.Status = false;
+                    model.Message = "Standard Not Found.";
+                }
             }
             catch (Exception ex)
             {
-                throw;
+                model.Status = false;
+                model.Message = ex.Message.ToString();
             }
+            return model;
 
         }
 

@@ -32,6 +32,7 @@ namespace Ashirvad.Data
 
         public Enums.BoardType board { get; set; }
         public string boardtype { get; set; }
+        public string aliasName { get; set; }
     }
 
     public class BranchMaint

@@ -29,6 +29,7 @@ namespace Ashirvad.Data
         public string fcm_token { get; set; }
         public string FinancialYear { get; set; }
         public List<BranchWiseRightEntity> Permission { get; set; }
+        public List<StudentEntity> studentEntities { get; set; } = new List<StudentEntity>();
     }
 
     public class RolesEntity

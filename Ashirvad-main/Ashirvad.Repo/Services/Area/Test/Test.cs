@@ -26,51 +26,76 @@ namespace Ashirvad.Repo.Services.Area.Test
             return result;
         }
 
-        public async Task<long> TestMaintenance(TestEntity testInfo)
+        public async Task<ResponseModel> TestMaintenance(TestEntity testInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.TEST_MASTER testMaster = new Model.TEST_MASTER();
-            if (CheckTest(testInfo.Branch.BranchID, testInfo.BranchClass.Class_dtl_id, testInfo.BranchSubject.Subject_dtl_id, testInfo.BatchTimeID,
-                testInfo.TestDate, testInfo.TestID, testInfo.BranchCourse.course_dtl_id).Result != -1)
+            try
             {
-                bool isUpdate = true;
-                var data = (from t in this.context.TEST_MASTER
-                            where t.test_id == testInfo.TestID
-                            select t).FirstOrDefault();
-                if (data == null)
+                if (CheckTest(testInfo.Branch.BranchID, testInfo.BranchClass.Class_dtl_id, testInfo.BranchSubject.Subject_dtl_id, testInfo.BatchTimeID,
+                testInfo.TestDate, testInfo.TestID, testInfo.BranchCourse.course_dtl_id).Result != -1)
                 {
-                    data = new Model.TEST_MASTER();
-                    isUpdate = false;
+                    bool isUpdate = true;
+                    var data = (from t in this.context.TEST_MASTER
+                                where t.test_id == testInfo.TestID
+                                select t).FirstOrDefault();
+                    if (data == null)
+                    {
+                        data = new Model.TEST_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        testMaster = data;
+                        testInfo.Transaction.TransactionId = data.trans_id;
+                    }
+
+                    testMaster.row_sta_cd = testInfo.RowStatus.RowStatusId;
+                    testMaster.trans_id = this.AddTransactionData(testInfo.Transaction);
+                    testMaster.branch_id = testInfo.Branch.BranchID;
+                    testMaster.class_dtl_id = testInfo.BranchClass.Class_dtl_id;
+                    testMaster.course_dtl_id = testInfo.BranchCourse.course_dtl_id;
+                    testMaster.subject_dtl_id = testInfo.BranchSubject.Subject_dtl_id;
+                    testMaster.remarks = testInfo.Remarks;
+                    testMaster.total_marks = testInfo.Marks;
+                    testMaster.batch_time_id = testInfo.BatchTimeID;
+                    testMaster.test_dt = testInfo.TestDate;
+                    testMaster.test_st_time = testInfo.TestStartTime;
+                    testMaster.test_end_time = testInfo.TestEndTime;
+                    testMaster.test_name = "Demo";
+                    this.context.TEST_MASTER.Add(testMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(testMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var da= this.context.SaveChanges() > 0 ? testMaster.test_id : 0;
+                    if (da > 0)
+                    {
+                        testInfo.TestID = da;
+                        responseModel.Data = testInfo;
+                        responseModel.Message = isUpdate == true ? "Test Updated Successfully." : "Test Inserted Successfully.";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate == true ? "Test Not Updated." : "Test Not Inserted.";
+                        responseModel.Status = false;
+                    }
                 }
                 else
                 {
-                    testMaster = data;
-                    testInfo.Transaction.TransactionId = data.trans_id;
+                    responseModel.Status = false;
+                    responseModel.Message = "Test Already Exist.";
                 }
-
-                testMaster.row_sta_cd = testInfo.RowStatus.RowStatusId;
-                testMaster.trans_id = this.AddTransactionData(testInfo.Transaction);
-                testMaster.branch_id = testInfo.Branch.BranchID;
-                testMaster.class_dtl_id = testInfo.BranchClass.Class_dtl_id;
-                testMaster.course_dtl_id = testInfo.BranchCourse.course_dtl_id;
-                testMaster.subject_dtl_id = testInfo.BranchSubject.Subject_dtl_id;
-                testMaster.remarks = testInfo.Remarks;
-                testMaster.total_marks = testInfo.Marks;
-                testMaster.batch_time_id = testInfo.BatchTimeID;
-                testMaster.test_dt = testInfo.TestDate;
-                testMaster.test_st_time = testInfo.TestStartTime;
-                testMaster.test_end_time = testInfo.TestEndTime;
-                testMaster.test_name = "Demo";
-                this.context.TEST_MASTER.Add(testMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(testMaster).State = System.Data.Entity.EntityState.Modified;
-                }
-                return this.context.SaveChanges() > 0 ? testMaster.test_id : 0;
             }
-            else
+            catch (Exception ex)
             {
-                return -1;
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
+
+            return responseModel;
+
 
         }
 
@@ -612,72 +637,109 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public bool RemoveTest(long testID, string lastupdatedby, bool removePaper)
+        public ResponseModel RemoveTest(long testID, string lastupdatedby, bool removePaper)
         {
-            var data = (from u in this.context.TEST_MASTER
-                        where u.test_id == testID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                if (removePaper)
+                var data = (from u in this.context.TEST_MASTER
+                            where u.test_id == testID
+                            select u).FirstOrDefault();
+                if (data != null)
                 {
-                    var tPaper = (from paper in this.context.TEST_PAPER_REL
-                                  where paper.test_id == testID
-                                  select paper).ToList();
-                    if (tPaper?.Count > 0)
+                    if (removePaper)
                     {
-                        foreach (var item in tPaper)
+                        var tPaper = (from paper in this.context.TEST_PAPER_REL
+                                      where paper.test_id == testID
+                                      select paper).ToList();
+                        if (tPaper?.Count > 0)
                         {
-                            item.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                            item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                            foreach (var item in tPaper)
+                            {
+                                item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                                item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                            }
                         }
                     }
+
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "Test Removed Successfully.";
+                    responseModel.Status = true;
                 }
-
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                else
+                {
+                    responseModel.Message = "Test Not Found.";
+                    responseModel.Status = false;
+                }
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
         }
 
-        public async Task<long> TestPaperMaintenance(TestPaperEntity paperInfo)
+        public async Task<ResponseModel> TestPaperMaintenance(TestPaperEntity paperInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.TEST_PAPER_REL testRel = new Model.TEST_PAPER_REL();
             bool isUpdate = true;
-            var data = (from t in this.context.TEST_PAPER_REL
-                        where t.test_paper_id == paperInfo.TestPaperID
-                        select t).FirstOrDefault();
-            if (data == null)
+            try
             {
-                data = new Model.TEST_PAPER_REL();
-                isUpdate = false;
+                var data = (from t in this.context.TEST_PAPER_REL
+                            where t.test_paper_id == paperInfo.TestPaperID
+                            select t).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.TEST_PAPER_REL();
+                    isUpdate = false;
+                }
+                else
+                {
+                    testRel = data;
+                    paperInfo.Transaction.TransactionId = data.trans_id;
+                }
+
+                testRel.row_sta_cd = paperInfo.RowStatus.RowStatusId;
+                testRel.trans_id = this.AddTransactionData(paperInfo.Transaction);
+                testRel.test_id = paperInfo.TestID;
+                testRel.doc_content = null;
+                testRel.file_name = paperInfo.FileName;
+                testRel.file_path = paperInfo.FilePath;
+                testRel.doc_link = paperInfo.DocLink;
+                testRel.remakrs = paperInfo.Remarks;
+                testRel.paper_type = paperInfo.PaperTypeID;
+
+                this.context.TEST_PAPER_REL.Add(testRel);
+                if (isUpdate)
+                {
+                    this.context.Entry(testRel).State = System.Data.Entity.EntityState.Modified;
+                }
+
+                var da = this.context.SaveChanges() > 0 ? testRel.test_id : 0;
+                if (da > 0)
+                {
+                    paperInfo.TestPaperID = da;
+                    responseModel.Data = paperInfo;
+                    responseModel.Message = isUpdate == true ? "TestPaper Updated Successfully." : "TestPaper Inserted Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = isUpdate == true ? "TestPaper Not Updated." : "TestPaper Not Inserted.";
+                    responseModel.Status = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                testRel = data;
-                paperInfo.Transaction.TransactionId = data.trans_id;
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
+            return responseModel;
 
-            testRel.row_sta_cd = paperInfo.RowStatus.RowStatusId;
-            testRel.trans_id = this.AddTransactionData(paperInfo.Transaction);
-            testRel.test_id = paperInfo.TestID;
-            testRel.doc_content = null;
-            testRel.file_name = paperInfo.FileName;
-            testRel.file_path = paperInfo.FilePath;
-            testRel.doc_link = paperInfo.DocLink;
-            testRel.remakrs = paperInfo.Remarks;
-            testRel.paper_type = paperInfo.PaperTypeID;
-
-            this.context.TEST_PAPER_REL.Add(testRel);
-            if (isUpdate)
-            {
-                this.context.Entry(testRel).State = System.Data.Entity.EntityState.Modified;
-            }
-
-            return this.context.SaveChanges() > 0 ? testRel.test_id : 0;
         }
 
         public async Task<List<TestPaperEntity>> GetAllTestPapaerByTest(long testID)
@@ -927,61 +989,98 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public bool RemoveTestPaper(long paperID, string lastupdatedby)
+        public ResponseModel RemoveTestPaper(long paperID, string lastupdatedby)
         {
-            var data = (from u in this.context.TEST_PAPER_REL
-                        where u.test_paper_id == paperID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.TEST_PAPER_REL
+                            where u.test_paper_id == paperID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "TestPaper Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "TestPaper Not Found.";
+                    responseModel.Status = false;
+                }
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;        
         }
 
         #region - Test Answer Sheet
 
-        public async Task<long> AnswerSheetMaintenance(StudentAnswerSheetEntity studAnswerSheet)
+        public async Task<ResponseModel> AnswerSheetMaintenance(StudentAnswerSheetEntity studAnswerSheet)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.STUDENT_ANS_SHEET ansSheet = new Model.STUDENT_ANS_SHEET();
             bool isUpdate = true;
-            var data = (from t in this.context.STUDENT_ANS_SHEET
-                        where t.test_id == studAnswerSheet.TestInfo.TestID && t.stud_id == studAnswerSheet.StudentInfo.StudentID 
-                        select t).FirstOrDefault();
-            if (data == null)
+            try
             {
-                data = new Model.STUDENT_ANS_SHEET();
-                isUpdate = false;
+                var data = (from t in this.context.STUDENT_ANS_SHEET
+                            where t.test_id == studAnswerSheet.TestInfo.TestID && t.stud_id == studAnswerSheet.StudentInfo.StudentID
+                            select t).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.STUDENT_ANS_SHEET();
+                    isUpdate = false;
+                }
+                else
+                {
+                    ansSheet = new Model.STUDENT_ANS_SHEET();
+                    isUpdate = false;
+
+                }
+
+                ansSheet.row_sta_cd = studAnswerSheet.RowStatus.RowStatusId;
+                ansSheet.trans_id = this.AddTransactionData(studAnswerSheet.Transaction);
+                ansSheet.test_id = studAnswerSheet.TestInfo.TestID;
+                ansSheet.ans_sheet_content = null;
+                ansSheet.ans_sheet_name = studAnswerSheet.AnswerSheetName;
+                ansSheet.branch_id = studAnswerSheet.BranchInfo.BranchID;
+                ansSheet.remarks = studAnswerSheet.Remarks;
+                ansSheet.status = studAnswerSheet.Status;
+                ansSheet.stud_id = studAnswerSheet.StudentInfo.StudentID;
+                ansSheet.submit_dt = studAnswerSheet.SubmitDate;
+                ansSheet.ans_sheet_filepath = studAnswerSheet.FilePath;
+                this.context.STUDENT_ANS_SHEET.Add(ansSheet);
+                if (isUpdate)
+                {
+                    this.context.Entry(ansSheet).State = System.Data.Entity.EntityState.Modified;
+                }
+
+                var da = this.context.SaveChanges() > 0 ? ansSheet.test_id : 0;
+                if (da > 0)
+                {
+                    studAnswerSheet.AnsSheetID = da;
+                    responseModel.Data = studAnswerSheet;
+                    responseModel.Message = isUpdate == true ? "AnswerSheet Updated Successfully." : "AnswerSheet Inserted Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = isUpdate == true ? "AnswerSheet Not Updated." : "AnswerSheet Not Inserted.";
+                    responseModel.Status = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ansSheet = new Model.STUDENT_ANS_SHEET();
-                isUpdate = false;
-
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
+            return responseModel;
 
-            ansSheet.row_sta_cd = studAnswerSheet.RowStatus.RowStatusId;
-            ansSheet.trans_id = this.AddTransactionData(studAnswerSheet.Transaction);
-            ansSheet.test_id = studAnswerSheet.TestInfo.TestID;
-            ansSheet.ans_sheet_content = null;
-            ansSheet.ans_sheet_name = studAnswerSheet.AnswerSheetName;
-            ansSheet.branch_id = studAnswerSheet.BranchInfo.BranchID;
-            ansSheet.remarks = studAnswerSheet.Remarks;
-            ansSheet.status = studAnswerSheet.Status;
-            ansSheet.stud_id = studAnswerSheet.StudentInfo.StudentID;
-            ansSheet.submit_dt = studAnswerSheet.SubmitDate;
-            ansSheet.ans_sheet_filepath = studAnswerSheet.FilePath;
-            this.context.STUDENT_ANS_SHEET.Add(ansSheet);
-            if (isUpdate)
-            {
-                this.context.Entry(ansSheet).State = System.Data.Entity.EntityState.Modified;
-            }
-
-            return this.context.SaveChanges() > 0 ? ansSheet.test_id : 0;
         }
 
         public async Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetByTestStudent(long testID)
@@ -1226,27 +1325,46 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public bool RemoveAnswerSheet(long ansID, string lastupdatedby)
+        public ResponseModel RemoveAnswerSheet(long ansID, string lastupdatedby)
         {
-            var data = (from u in this.context.STUDENT_ANS_SHEET
-                        where u.ans_sheet_id == ansID
-                        select u).FirstOrDefault();
-
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
-            }
+                var data = (from u in this.context.STUDENT_ANS_SHEET
+                            where u.ans_sheet_id == ansID
+                            select u).FirstOrDefault();
 
-            return false;
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "AnswerSheet Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "AnswerSheet Not Found.";
+                    responseModel.Status = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
+
+
+
         }
 
         #endregion
 
-        public async Task<long> TestMaintenance(TestDetailEntity TestDetail)
+        public async Task<ResponseModel> TestMaintenance(TestDetailEntity TestDetail)
         {
+            ResponseModel responseModel = new ResponseModel();
             //Model.TEST_MASTER_DTL Test = new Model.TEST_MASTER_DTL();
             //bool isUpdate = true;
             //var data = (from t in this.context.TEST_MASTER_DTL
@@ -1284,7 +1402,7 @@ namespace Ashirvad.Repo.Services.Area.Test
             //    this.context.Entry(Test).State = System.Data.Entity.EntityState.Modified;
             //}
 
-            return 1;
+            return responseModel;
         }
 
         public async Task<List<TestPaperEntity>> GetAllTestDocLinks(long branchID,long courseid, long stdID, int batchTime)
@@ -1308,20 +1426,34 @@ namespace Ashirvad.Repo.Services.Area.Test
         }
 
 
-        public bool RemoveTestAnswerSheetdetail(long TestID, long studid)
+        public ResponseModel RemoveTestAnswerSheetdetail(long TestID, long studid)
         {
-            var data = (from u in this.context.STUDENT_ANS_SHEET
-                        where u.test_id == TestID && u.stud_id == studid
-                        select u).ToList();
-
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                this.context.STUDENT_ANS_SHEET.RemoveRange(data);
-                this.context.SaveChanges();
-                return true;
-            }
+                var data = (from u in this.context.STUDENT_ANS_SHEET
+                            where u.test_id == TestID && u.stud_id == studid
+                            select u).ToList();
 
-            return false;
+                if (data != null)
+                {
+                    this.context.STUDENT_ANS_SHEET.RemoveRange(data);
+                    this.context.SaveChanges();
+                    responseModel.Message = "TestAnswerSheetDetails Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "TestAnswerSheetDetails Not Found.";
+                    responseModel.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
         }
 
         public async Task<TestEntity> GetTestDetails(long TestID, long SubjectID)
@@ -1409,26 +1541,47 @@ namespace Ashirvad.Repo.Services.Area.Test
             return data;
         }
 
-        public async Task<long> AnsDetailUpdate(StudentAnswerSheetEntity homeworkDetail)
+        public async Task<ResponseModel> AnsDetailUpdate(StudentAnswerSheetEntity homeworkDetail)
         {
-            Model.STUDENT_ANS_SHEET homework = new Model.STUDENT_ANS_SHEET();
-            bool isUpdate = true;
-            var data = (from t in this.context.STUDENT_ANS_SHEET
-                        where t.test_id == homeworkDetail.TestInfo.TestID && t.stud_id == homeworkDetail.StudentInfo.StudentID
-                        select t).ToList();
-
-
-            foreach (var item in data)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
+                Model.STUDENT_ANS_SHEET homework = new Model.STUDENT_ANS_SHEET();
+                bool isUpdate = true;
+                var data = (from t in this.context.STUDENT_ANS_SHEET
+                            where t.test_id == homeworkDetail.TestInfo.TestID && t.stud_id == homeworkDetail.StudentInfo.StudentID
+                            select t).ToList();
 
-                item.remarks = homeworkDetail.Remarks;
-                item.status = homeworkDetail.Status;
-                this.context.STUDENT_ANS_SHEET.Add(item);
-                this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+
+                foreach (var item in data)
+                {
+
+                    item.remarks = homeworkDetail.Remarks;
+                    item.status = homeworkDetail.Status;
+                    this.context.STUDENT_ANS_SHEET.Add(item);
+                    this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                }
+
+
+                var da = this.context.SaveChanges() > 0 ? homeworkDetail.TestInfo.TestID : 0;
+                if (da > 0)
+                {
+                    responseModel.Data = homeworkDetail;
+                    responseModel.Message = "AnswerSheet Updated Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "AnswerSheet Not Updated.";
+                    responseModel.Status = false;
+                }
             }
-
-
-            return this.context.SaveChanges() > 0 ? homeworkDetail.TestInfo.TestID : 0;
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
         }
 
     }

@@ -21,10 +21,10 @@ namespace Ashirvad.Repo.Services.Area.Student
                         where student.branch_id == BranchId
                         select new PackageEntity
                         {
-                           Studentno= student.PACKAGE_MASTER.student_no
+                            Studentno = student.PACKAGE_MASTER.student_no
                         }).FirstOrDefault();
 
-            long count = (from u in this.context.STUDENT_MASTER                       
+            long count = (from u in this.context.STUDENT_MASTER
                           orderby u.student_id descending
                           where u.branch_id == BranchId && u.row_sta_cd == (long)Enums.RowStatus.Active
                           select new StudentEntity()
@@ -43,74 +43,97 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return response;
         }
-        public async Task<long> StudentMaintenance(StudentEntity studentInfo)
+        public async Task<ResponseModel> StudentMaintenance(StudentEntity studentInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.STUDENT_MASTER studentMaster = new Model.STUDENT_MASTER();
             Model.STUDENT_MAINT studentMaint = new Model.STUDENT_MAINT();
             //studentMaster.STUDENT_MAINT = new Model.STUDENT_MAINT();
             bool isUpdate = true;
-            var data = (from student in this.context.STUDENT_MASTER.Include("STUDENT_MAINT")
-                        where student.student_id == studentInfo.StudentID
-                        select new
-                        {
-                            studentMaster = student,
-                            studentMaint = student.STUDENT_MAINT
-                        }).FirstOrDefault();
-            if (data == null)
+            try
             {
-                studentMaster = new Model.STUDENT_MASTER();
-                studentMaint = new Model.STUDENT_MAINT();
-                //studentMaster.STUDENT_MAINT = new Model.STUDENT_MAINT();
-                isUpdate = false;
+                var data = (from student in this.context.STUDENT_MASTER.Include("STUDENT_MAINT")
+                            where student.student_id == studentInfo.StudentID
+                            select new
+                            {
+                                studentMaster = student,
+                                studentMaint = student.STUDENT_MAINT
+                            }).FirstOrDefault();
+                if (data == null)
+                {
+                    studentMaster = new Model.STUDENT_MASTER();
+                    studentMaint = new Model.STUDENT_MAINT();
+                    //studentMaster.STUDENT_MAINT = new Model.STUDENT_MAINT();
+                    isUpdate = false;
+                }
+                else
+                {
+                    studentMaster = data.studentMaster;
+                    studentMaint = data.studentMaster.STUDENT_MAINT.FirstOrDefault();
+                    studentInfo.Transaction.TransactionId = data.studentMaster.trans_id;
+                }
+                studentMaster.gr_no = studentInfo.GrNo;
+                studentMaster.first_name = studentInfo.FirstName;
+                studentMaster.middle_name = studentInfo.MiddleName;
+                studentMaster.last_name = studentInfo.LastName;
+                studentMaster.dob = studentInfo.DOB;
+                studentMaster.admission_date = studentInfo.AdmissionDate;
+                studentMaster.address = studentInfo.Address;
+                studentMaster.branch_id = studentInfo.BranchInfo.BranchID;
+                studentMaster.course_dtl_id = studentInfo.BranchCourse.course_dtl_id;
+                studentMaster.class_dtl_id = studentInfo.BranchClass.Class_dtl_id;
+                studentMaster.school_id = studentInfo.SchoolInfo.SchoolID;
+                studentMaster.school_time = studentInfo.SchoolTime;
+                studentMaster.batch_time = (int)studentInfo.BatchInfo.BatchType;
+                studentMaster.last_yr_result = studentInfo.LastYearResult;
+                studentMaster.grade = studentInfo.Grade;
+                studentMaster.last_yr_class_name = studentInfo.LastYearClassName;
+                studentMaster.contact_no = studentInfo.ContactNo;
+                studentMaster.admission_date = studentInfo.AdmissionDate;
+                studentMaster.file_name = studentInfo.FileName;
+                studentMaster.file_path = studentInfo.FilePath;
+                studentMaster.final_year = studentInfo.Final_Year;
+                studentMaster.row_sta_cd = studentInfo.RowStatus.RowStatusId;
+                studentMaster.trans_id = this.AddTransactionData(studentInfo.Transaction);
+                this.context.STUDENT_MASTER.Add(studentMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(studentMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+                if (!isUpdate)
+                {
+                    studentMaint.student_id = studentMaster.student_id;
+                }
+                studentMaint.parent_name = studentInfo.StudentMaint.ParentName;
+                studentMaint.father_occupation = studentInfo.StudentMaint.FatherOccupation;
+                studentMaint.mother_occupation = studentInfo.StudentMaint.MotherOccupation;
+                studentMaint.contact_no = studentInfo.StudentMaint.ContactNo;
+                this.context.STUDENT_MAINT.Add(studentMaint);
+                if (isUpdate)
+                {
+                    this.context.Entry(studentMaint).State = System.Data.Entity.EntityState.Modified;
+                }
+                var da = this.context.SaveChanges() > 0 ? studentMaster.student_id : 0;
+                if (da > 0)
+                {
+                    studentInfo.StudentID = da;
+                    responseModel.Data = studentInfo;
+                    responseModel.Message = isUpdate == true ? "Student Updated Successfully." : "Student Inserted Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = isUpdate == true ? "Student Not Updated." : "Student Not Inserted.";
+                    responseModel.Status = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                studentMaster = data.studentMaster;
-                studentMaint = data.studentMaster.STUDENT_MAINT.FirstOrDefault();
-                studentInfo.Transaction.TransactionId = data.studentMaster.trans_id;
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
-            studentMaster.gr_no = studentInfo.GrNo;
-            studentMaster.first_name = studentInfo.FirstName;
-            studentMaster.middle_name = studentInfo.MiddleName;
-            studentMaster.last_name = studentInfo.LastName;
-            studentMaster.dob = studentInfo.DOB;
-            studentMaster.admission_date = studentInfo.AdmissionDate;
-            studentMaster.address = studentInfo.Address;
-            studentMaster.branch_id = studentInfo.BranchInfo.BranchID;
-            studentMaster.course_dtl_id = studentInfo.BranchCourse.course_dtl_id;
-            studentMaster.class_dtl_id = studentInfo.BranchClass.Class_dtl_id;
-            studentMaster.school_id = studentInfo.SchoolInfo.SchoolID;
-            studentMaster.school_time = studentInfo.SchoolTime;
-            studentMaster.batch_time = (int)studentInfo.BatchInfo.BatchType;
-            studentMaster.last_yr_result = studentInfo.LastYearResult;
-            studentMaster.grade = studentInfo.Grade;
-            studentMaster.last_yr_class_name = studentInfo.LastYearClassName;
-            studentMaster.contact_no = studentInfo.ContactNo;
-            studentMaster.admission_date = studentInfo.AdmissionDate;
-            studentMaster.file_name = studentInfo.FileName;
-            studentMaster.file_path = studentInfo.FilePath;
-            studentMaster.final_year = studentInfo.Final_Year;
-            studentMaster.row_sta_cd = studentInfo.RowStatus.RowStatusId;
-            studentMaster.trans_id = this.AddTransactionData(studentInfo.Transaction);
-            this.context.STUDENT_MASTER.Add(studentMaster);
-            if (isUpdate)
-            {
-                this.context.Entry(studentMaster).State = System.Data.Entity.EntityState.Modified;
-            }
-            if (!isUpdate)
-            {
-                studentMaint.student_id = studentMaster.student_id;
-            }
-            studentMaint.parent_name = studentInfo.StudentMaint.ParentName;
-            studentMaint.father_occupation = studentInfo.StudentMaint.FatherOccupation;
-            studentMaint.mother_occupation = studentInfo.StudentMaint.MotherOccupation;
-            studentMaint.contact_no = studentInfo.StudentMaint.ContactNo;
-            this.context.STUDENT_MAINT.Add(studentMaint);
-            if (isUpdate)
-            {
-                this.context.Entry(studentMaint).State = System.Data.Entity.EntityState.Modified;
-            }
-            return this.context.SaveChanges() > 0 ? studentMaster.student_id : 0;
+            //return this.context.SaveChanges() > 0 ? studentMaster.student_id : 0;
+            return responseModel;
         }
         public async Task<List<StudentEntity>> GetAllStudent(long branchID, int status)
         {
@@ -118,8 +141,9 @@ namespace Ashirvad.Repo.Services.Area.Student
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
-                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id orderby u.student_id descending
-                        where branchID == 0 || u.branch_id == branchID 
+                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
+                        orderby u.student_id descending
+                        where branchID == 0 || u.branch_id == branchID
                         && (0 == status || u.row_sta_cd == status)
                         select new StudentEntity()
                         {
@@ -188,10 +212,10 @@ namespace Ashirvad.Repo.Services.Area.Student
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Name = u.first_name + " " + u.last_name
                         }).ToList();
-            
+
             return data;
         }
-        public async Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std,long courseid, long Branch, long Batch)
+        public async Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std, long courseid, long Branch, long Batch)
         {
             var Result = new List<StudentEntity>();
             bool Isasc = true;
@@ -203,8 +227,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
-                        orderby u.student_id descending
-                          where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active && u.course_dtl_id == courseid 
+                          orderby u.student_id descending
+                          where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active && u.course_dtl_id == courseid
                           select new StudentEntity()
                           {
                               StudentID = u.student_id
@@ -212,7 +236,8 @@ namespace Ashirvad.Repo.Services.Area.Student
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
-                        .Include("BRANCH_MASTER") orderby u.student_id descending
+                        .Include("BRANCH_MASTER")
+                        orderby u.student_id descending
                         where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active && u.course_dtl_id == courseid
                         && (model.search.value == null
                         || model.search.value == ""
@@ -240,7 +265,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
-                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id orderby u.student_id descending
+                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
+                        orderby u.student_id descending
                         where branchID == 0 || u.branch_id == branchID
                         && (0 == status || u.row_sta_cd == status)
                         select new StudentEntity()
@@ -310,7 +336,7 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return data;
         }
-        public async Task<List<StudentEntity>> GetAllStudentWithoutContentByRange(long branchID, int page,int limit)
+        public async Task<List<StudentEntity>> GetAllStudentWithoutContentByRange(long branchID, int page, int limit)
         {
             var data = (from u in this.context.STUDENT_MASTER
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
@@ -364,15 +390,15 @@ namespace Ashirvad.Repo.Services.Area.Student
                         }).Skip(page).Take(limit).ToList();
             return data;
         }
-        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid,long courseid, int batchtime)
+        public async Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid, long courseid, int batchtime)
         {
-            var data = (from u in this.context.STUDENT_MASTER                       
+            var data = (from u in this.context.STUDENT_MASTER
                         orderby u.student_id descending
                         where u.branch_id == branchID && u.row_sta_cd == 1 && u.batch_time == batchtime && u.class_dtl_id == stdid && u.course_dtl_id == courseid
                         select new StudentEntity()
                         {
                             StudentID = u.student_id,
-                            Name = u.first_name + " " + u.last_name,                            
+                            Name = u.first_name + " " + u.last_name,
                         }).ToList();
             return data;
         }
@@ -429,20 +455,38 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return data;
         }
-        public bool RemoveStudent(long StudentID, string lastupdatedby)
+        public ResponseModel RemoveStudent(long StudentID, string lastupdatedby)
         {
-            var data = (from u in this.context.STUDENT_MASTER
-                        where u.student_id == StudentID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
-            }
 
-            return false;
+
+                var data = (from u in this.context.STUDENT_MASTER
+                            where u.student_id == StudentID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "Student Removed Successfully";
+                    responseModel.Status = true;
+                    //return true;
+                }
+                else
+                {
+                    responseModel.Message = "Student Not Found";
+                    responseModel.Status = false;
+                }
+            }
+            catch(Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            //return false;
+            return responseModel;
         }
         public async Task<StudentEntity> GetStudentByID(long studenID)
         {
@@ -524,20 +568,21 @@ namespace Ashirvad.Repo.Services.Area.Student
             }
             return data;
         }
-        public async Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model,long branchID, int status)
+        public async Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model, long branchID, int status)
         {
             var Result = new List<StudentEntity>();
-            bool Isasc=true;
+            bool Isasc = true;
             if (model.order?.Count > 0)
             {
                 Isasc = model.order[0].dir == "desc" ? false : true;
-            }           
+            }
             long count = this.context.STUDENT_MASTER.Where(s => (0 == status || s.row_sta_cd == status) && s.branch_id == branchID).Distinct().Count();
             var data = (from u in this.context.STUDENT_MASTER
                         .Include("STD_MASTER")
                         .Include("SCHOOL_MASTER")
                         .Include("BRANCH_MASTER")
-                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id orderby u.student_id descending
+                        join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
+                        orderby u.student_id descending
                         where branchID == 0 || u.branch_id == branchID
                         && (0 == status || u.row_sta_cd == status)
                         && (model.search.value == null
@@ -553,7 +598,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             {
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = u.row_sta_cd,
-                                RowStatusText= u.row_sta_cd == 1?"Active":"Deactive"
+                                RowStatusText = u.row_sta_cd == 1 ? "Active" : "Deactive"
                             },
                             StudentID = u.student_id,
                             Address = u.address,
@@ -602,7 +647,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         })
-                        .OrderByDescending(s=>s.StudentMaint.StudentID)
+                        .OrderByDescending(s => s.StudentMaint.StudentID)
                         .Skip(model.start)
                         .Take(model.length)
                         .ToList();
@@ -738,14 +783,14 @@ namespace Ashirvad.Repo.Services.Area.Student
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 responseModel.Status = false;
                 responseModel.Message = ex.Message;
             }
 
             return responseModel;
-            
+
         }
 
     }

@@ -1,0 +1,17 @@
+﻿@model Ashirvad.Data.PackageUsageEntity
+    @{ 
+        Layout = null;
+    }
+<div class="col-md-12">
+    <div class="info-box bg-green-gradient">
+        <span class="info-box-icon">
+            <i class="ion ion-stats-bars"></i>
+        </span>
+        <div class="info-box-content">
+            <span class="info-box-number"> </span>
+            <br />
+            <span class="info-box-text" style="font-weight: 600 !important; font-size: initial !important;">Your Package is @Model.packageType . Package Size is @Model.totalPackageSize . Usage : Active Students - @Model.activeStudent, Inactive Students - @Model.inActiveStudent</span>
+            <span class="info-box-text" style="font-weight: 600 !important; font-size: initial !important; "> </span>
+        </div>
+    </div>
+</div>

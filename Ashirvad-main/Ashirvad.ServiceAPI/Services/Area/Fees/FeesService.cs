@@ -20,20 +20,21 @@ namespace Ashirvad.ServiceAPI.Services.Area
             this._FeesContext = FeesContext;
         }
 
-        public async Task<FeesEntity> FeesMaintenance(FeesEntity FeesInfo)
+        public async Task<ResponseModel> FeesMaintenance(FeesEntity FeesInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             FeesEntity Fees = new FeesEntity();
             try
             {
-                long FeesID = await _FeesContext.FeesMaintenance(FeesInfo);
-                Fees.FeesID = FeesID;
+                responseModel = await _FeesContext.FeesMaintenance(FeesInfo);
+              //  Fees.FeesID = FeesID;
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return Fees;
+            return responseModel;
         }
 
         public async Task<OperationResult<List<FeesEntity>>> GetAllFeesWithoutImage()
@@ -112,8 +113,9 @@ namespace Ashirvad.ServiceAPI.Services.Area
             return null;
         }
 
-        public bool RemoveFees(long FeesID, string lastupdatedby)
+        public ResponseModel RemoveFees(long FeesID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._FeesContext.RemoveFees(FeesID, lastupdatedby);
@@ -123,7 +125,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
         Task<List<FeesEntity>> IFeesService.GetAllFeesWithoutImage()

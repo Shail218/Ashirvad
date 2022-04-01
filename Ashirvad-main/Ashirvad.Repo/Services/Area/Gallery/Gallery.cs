@@ -12,44 +12,68 @@ namespace Ashirvad.Repo.Services.Area.Gallery
 {
     public class Gallery : ModelAccess, IGalleryAPI
     {
-        public async Task<long> GalleryMaintenance(GalleryEntity galleryInfo)
+        public async Task<ResponseModel> GalleryMaintenance(GalleryEntity galleryInfo)
         {
-            Model.GALLERY_MASTER galleryMaster = new Model.GALLERY_MASTER();
-            bool isUpdate = true;
-            var data = (from gallery in this.context.GALLERY_MASTER
-                        where gallery.unique_id == galleryInfo.UniqueID
-                        select gallery).FirstOrDefault();
-            if (data == null)
-            {
-                data = new Model.GALLERY_MASTER();
-                isUpdate = false;
-            }
-            else
-            {
-                galleryMaster = data;
-                galleryInfo.Transaction.TransactionId = data.trans_id;
-            }
 
-            galleryMaster.row_sta_cd = galleryInfo.RowStatus.RowStatusId;
-            galleryMaster.trans_id = this.AddTransactionData(galleryInfo.Transaction);
-            galleryMaster.branch_id = galleryInfo.Branch.BranchID;
-            galleryMaster.uplaod_type = galleryInfo.GalleryType;
-            galleryMaster.remarks = galleryInfo.Remarks;
-            galleryMaster.file_name = galleryInfo.FileName;
-            galleryMaster.file_path = galleryInfo.FilePath;            
-            this.context.GALLERY_MASTER.Add(galleryMaster);
-            if (isUpdate)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                this.context.Entry(galleryMaster).State = System.Data.Entity.EntityState.Modified;
+                Model.GALLERY_MASTER galleryMaster = new Model.GALLERY_MASTER();
+                bool isUpdate = true;
+                var data = (from gallery in this.context.GALLERY_MASTER
+                            where gallery.unique_id == galleryInfo.UniqueID
+                            select gallery).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.GALLERY_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    galleryMaster = data;
+                    galleryInfo.Transaction.TransactionId = data.trans_id;
+                }
+
+                galleryMaster.row_sta_cd = galleryInfo.RowStatus.RowStatusId;
+                galleryMaster.trans_id = this.AddTransactionData(galleryInfo.Transaction);
+                galleryMaster.branch_id = galleryInfo.Branch.BranchID;
+                galleryMaster.uplaod_type = galleryInfo.GalleryType;
+                galleryMaster.remarks = galleryInfo.Remarks;
+                galleryMaster.file_name = galleryInfo.FileName;
+                galleryMaster.file_path = galleryInfo.FilePath;
+                this.context.GALLERY_MASTER.Add(galleryMaster);
+                if (isUpdate)
+                {
+                    this.context.Entry(galleryMaster).State = System.Data.Entity.EntityState.Modified;
+                }
+                var uniqueID = this.context.SaveChanges() > 0 ? galleryMaster.unique_id : 0;
+                if (uniqueID > 0)
+                {
+                    galleryInfo.UniqueID = galleryMaster.unique_id;
+                    responseModel.Data = galleryInfo;
+                    responseModel.Status = true;
+                    responseModel.Message = isUpdate==true?"Gallery Image/Video Updated Successfully.": "Gallery Image/Video Inserted Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = isUpdate == true ? "Gallery Image/Video Not Updated." : "Gallery Image/Video Not Inserted.";
+                }
             }
-            var uniqueID = this.context.SaveChanges() > 0 ? galleryMaster.unique_id : 0;
-            return uniqueID;
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+
         }
-        
+
         public async Task<List<GalleryEntity>> GetAllGallery(int type, long branchID)
         {
             var data = (from u in this.context.GALLERY_MASTER
-                        .Include("BRANCH_MASTER") orderby u.unique_id descending
+                        .Include("BRANCH_MASTER")
+                        orderby u.unique_id descending
                         where u.uplaod_type == type
                         && (0 == branchID || u.branch_id == branchID) && u.row_sta_cd == 1
                         select new GalleryEntity()
@@ -153,20 +177,36 @@ namespace Ashirvad.Repo.Services.Area.Gallery
             return data;
         }
 
-        public bool RemoveGallery(long uniqueID, string lastupdatedby)
+        public ResponseModel RemoveGallery(long uniqueID, string lastupdatedby)
         {
-            var data = (from u in this.context.GALLERY_MASTER
-                        where u.unique_id == uniqueID
-                        select u).FirstOrDefault();
-            if (data != null)
-            {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
-            }
 
-            return false;
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                var data = (from u in this.context.GALLERY_MASTER
+                            where u.unique_id == uniqueID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Status = true;
+                    responseModel.Message = "Gallery Image/Video Removed Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Gallery Image/Video Not Found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+
         }
     }
 }

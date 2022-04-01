@@ -1,4 +1,4 @@
-﻿
+﻿@model Ashirvad.Data.PackageUsageEntity
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -75,6 +75,15 @@
                 </div>
             </div>
         </section>
+        <section class="col-lg-12">
+        
+                    <div class="box-body">
+                        @{
+                            Html.RenderPartial("PackageUsageDetail",new ViewDataDictionary(Model));
+                        }
+                    </div>
+               
+</section>
     </div>
     @section Scripts {
         <script type="text/javascript" src="~/scripts/app/adashboard.js"></script>

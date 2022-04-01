@@ -10,11 +10,11 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area
 {
     public interface ICategoryAPI
     {
-        Task<long> CategoryMaintenance(CategoryEntity CategoryInfo);
+        Task<ResponseModel> CategoryMaintenance(CategoryEntity CategoryInfo);
         Task<List<CategoryEntity>> GetAllCategorys(long branchID);
         Task<List<CategoryEntity>> GetAllCategorys();
         Task<CategoryEntity> GetCategorysByID(long CategoryInfo);
-        bool RemoveCategory(long CategoryID, string lastupdatedby);
+        ResponseModel RemoveCategory(long CategoryID, string lastupdatedby);
         Task<List<CategoryEntity>> GetAllCustomCategory(DataTableAjaxPostModel model, long branchID);
     }
 }

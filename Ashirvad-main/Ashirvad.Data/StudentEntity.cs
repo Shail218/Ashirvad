@@ -9,6 +9,7 @@ namespace Ashirvad.Data
 {
     public class StudentEntity
     {
+        public string UserName { get; set; }
         public long StudentID { get; set; }
         public string GrNo { get; set; }
         public string FirstName { get; set; }

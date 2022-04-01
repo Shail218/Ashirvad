@@ -53,6 +53,7 @@ namespace Ashirvad.Repo.Model
             this.STUDENT_MASTER = new HashSet<STUDENT_MASTER>();
             this.PAYMENT_MASTER = new HashSet<PAYMENT_MASTER>();
             this.PACKAGE_MASTER = new HashSet<PACKAGE_MASTER>();
+            this.COMPETITION_MASTER_DTL = new HashSet<COMPETITION_MASTER_DTL>();
         }
     
         public long branch_id { get; set; }
@@ -65,6 +66,7 @@ namespace Ashirvad.Repo.Model
         public long trans_id { get; set; }
         public int branch_type { get; set; }
         public Nullable<int> board_type { get; set; }
+        public string alias_name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ABOUTUS_DETAIL_REL> ABOUTUS_DETAIL_REL { get; set; }
@@ -140,5 +142,7 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PACKAGE_MASTER> PACKAGE_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<COMPETITION_MASTER_DTL> COMPETITION_MASTER_DTL { get; set; }
     }
 }

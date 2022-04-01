@@ -7,8 +7,10 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
+  /*  $("#").val(setCurrentDate());*/
 
     table = $('#marksentrytable').DataTable({
         "bLengthChange": false
@@ -168,15 +170,16 @@ function SaveMarks() {
         }
         AjaxCallWithFileUpload(commonData.ResultEntry + 'SaveMarks', formData, function (data) {
             HideLoader();
-            if (data.MarksID >= 0) {
-                ShowMessage("Marks added Successfully.", "Success");
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
                 window.location.href = "/ResultRegister/Index";
             }
             else {
-                ShowMessage('Achieve Marks Already added!!', 'Error');
+                ShowMessage(data.Message, 'Error');
             }
         }, function (xhr) {
             HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     } else if(!status){
         ShowMessage('Please Enter Achieve Marks!!', 'Error');

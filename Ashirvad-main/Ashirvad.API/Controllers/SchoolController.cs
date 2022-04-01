@@ -27,8 +27,12 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._schoolService.SchoolMaintenance(schoolInfo);
             OperationResult<SchoolEntity> result = new OperationResult<SchoolEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            result.Message = data.Result.Message;
+            if (data.Result.Status)
+            {
+                result.Data = (SchoolEntity)data.Result.Data;
+            }
             return result;
         }
 
@@ -50,8 +54,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._schoolService.RemoveSchool(SchoolID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 

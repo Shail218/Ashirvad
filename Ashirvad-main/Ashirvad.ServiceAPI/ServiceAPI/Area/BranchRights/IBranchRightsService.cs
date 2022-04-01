@@ -10,8 +10,8 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area
 {
    public interface IBranchRightsService
     {
-        Task<BranchWiseRightEntity> BranchRightsMaintenance(BranchWiseRightEntity BranchRightsInfo);     
-        bool RemoveBranchRights(long BranchRightsID, string lastupdatedby);
+        Task<ResponseModel> BranchRightsMaintenance(BranchWiseRightEntity BranchRightsInfo);
+        ResponseModel RemoveBranchRights(long BranchRightsID, string lastupdatedby);
         Task<List<BranchWiseRightEntity>> GetAllBranchRightss();
         Task<List<BranchWiseRightEntity>> GetAllBranchRightsUniqData(long PackageRightID);
         Task<BranchWiseRightEntity> GetBranchRightsByID(long standardID);

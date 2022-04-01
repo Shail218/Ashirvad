@@ -10,6 +10,7 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
 
@@ -17,6 +18,7 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
 
@@ -33,6 +35,9 @@ $(document).ready(function () {
 
     if ($("#Branch_BranchID").val() != "") {
         $('#BranchName option[value="' + $("#Branch_BranchID").val() + '"]').attr("selected", "selected");
+    } else {
+        $("#From_Date").val(setCurrentDate());
+        $("#To_Date").val(setCurrentDate());
     }
 
     if ($("#BatchTypeID").val() != "") {

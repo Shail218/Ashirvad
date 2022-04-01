@@ -19,25 +19,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.Banner
             this._bannerContext = bannerContext;
         }
 
-        public async Task<BannerEntity> BannerMaintenance(BannerEntity bannerInfo)
+        public async Task<ResponseModel> BannerMaintenance(BannerEntity bannerInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             BannerEntity banner = new BannerEntity();
             try
             {
-                long bannerID = await _bannerContext.BannerMaintenance(bannerInfo);
-                if (bannerID > 0)
-                {
-                    //Add User
-                    //Get Branch
-                    banner.BannerID = bannerID;
-                }
+                responseModel= await _bannerContext.BannerMaintenance(bannerInfo);
+               
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return banner;
+            return responseModel;
         }
 
         public async Task<OperationResult<List<BannerEntity>>> GetAllBannerWithoutImage(long branchID = 0)
@@ -88,8 +84,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.Banner
             return null;
         }
 
-        public bool RemoveBanner(long bannerID, string lastupdatedby)
+        public ResponseModel RemoveBanner(long bannerID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._bannerContext.RemoveBanner(bannerID, lastupdatedby);
@@ -99,7 +96,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Banner
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
 
         public async Task<List<BannerEntity>> GetAllCustomBanner(DataTableAjaxPostModel model, long branchID, int bannerTypeID)

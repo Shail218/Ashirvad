@@ -52,12 +52,8 @@ namespace Ashirvad.Web.Controllers
         {
             toDoEntity.Transaction = GetTransactionData(toDoEntity.ToDoID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             var data = await _todoService.ToDoMaintenance(toDoEntity);
-            if (data != null)
-            {
-                return Json(true);
-            }
-
-            return Json(false);
+           
+            return Json(data);
         }
 
     }

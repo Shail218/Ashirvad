@@ -20,46 +20,70 @@ namespace Ashirvad.Repo.Services.Area.Batch
             return result;
         }
 
-        public async Task<long> BatchMaintenance(BatchEntity batchInfo)
+        public async Task<ResponseModel> BatchMaintenance(BatchEntity batchInfo)
         {
-            Model.BATCH_MASTER batchMaster = new Model.BATCH_MASTER();
-            if (CheckBatch((int)batchInfo.BatchType, batchInfo.BranchClass.Class_dtl_id, batchInfo.BranchCourse.course_dtl_id,batchInfo.BatchID).Result != -1)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                bool isUpdate = true;
-                var data = (from batch in this.context.BATCH_MASTER
-                            where batch.batch_id == batchInfo.BatchID
-                            select batch).FirstOrDefault();
-                if (data == null)
+                Model.BATCH_MASTER batchMaster = new Model.BATCH_MASTER();
+                if (CheckBatch((int)batchInfo.BatchType, batchInfo.BranchClass.Class_dtl_id, batchInfo.BranchCourse.course_dtl_id, batchInfo.BatchID).Result != -1)
                 {
-                    batchMaster = new Model.BATCH_MASTER();
-                    isUpdate = false;
+                    bool isUpdate = true;
+                    var data = (from batch in this.context.BATCH_MASTER
+                                where batch.batch_id == batchInfo.BatchID
+                                select batch).FirstOrDefault();
+                    if (data == null)
+                    {
+                        batchMaster = new Model.BATCH_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        batchMaster = data;
+                        batchInfo.Transaction.TransactionId = data.trans_id;
+                    }
+                    batchMaster.batch_time = (int)batchInfo.BatchType;
+                    batchMaster.course_dtl_id = batchInfo.BranchCourse.course_dtl_id;
+                    batchMaster.class_dtl_id = batchInfo.BranchClass.Class_dtl_id;
+                    batchMaster.mon_fri_batch_time = batchInfo.MonFriBatchTime;
+                    batchMaster.sat_batch_time = batchInfo.SatBatchTime;
+                    batchMaster.sun_batch_time = batchInfo.SunBatchTime;
+                    batchMaster.branch_id = batchInfo.BranchInfo.BranchID;
+                    batchMaster.row_sta_cd = batchInfo.RowStatus.RowStatusId;
+                    batchMaster.trans_id = this.AddTransactionData(batchInfo.Transaction);
+                    this.context.BATCH_MASTER.Add(batchMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(batchMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var id = this.context.SaveChanges() > 0 ? batchMaster.batch_id : 0;
+                    if (id > 0)
+                    {
+                        batchInfo.BatchID = batchMaster.batch_id;
+                        responseModel.Data = batchInfo;
+                        responseModel.Message = isUpdate==true?"Batch Updated Successfully.":"Batch Inserted Successfully.";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate == true ? "Batch Not Updated." : "Batch Not Inserted.";
+                        responseModel.Status = false;
+                    }
                 }
                 else
                 {
-                    batchMaster = data;
-                    batchInfo.Transaction.TransactionId = data.trans_id;
+                    responseModel.Message = "Batch Already Inserted.";
+                    responseModel.Status = false;
                 }
-                batchMaster.batch_time = (int)batchInfo.BatchType;
-                batchMaster.course_dtl_id = batchInfo.BranchCourse.course_dtl_id;
-                batchMaster.class_dtl_id = batchInfo.BranchClass.Class_dtl_id;
-                batchMaster.mon_fri_batch_time = batchInfo.MonFriBatchTime;
-                batchMaster.sat_batch_time = batchInfo.SatBatchTime;
-                batchMaster.sun_batch_time = batchInfo.SunBatchTime;
-                batchMaster.branch_id = batchInfo.BranchInfo.BranchID;
-                batchMaster.row_sta_cd = batchInfo.RowStatus.RowStatusId;
-                batchMaster.trans_id = this.AddTransactionData(batchInfo.Transaction);
-                this.context.BATCH_MASTER.Add(batchMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(batchMaster).State = System.Data.Entity.EntityState.Modified;
-                }
-                return this.context.SaveChanges() > 0 ? batchMaster.batch_id : 0;
             }
-            else
+            catch(Exception ex)
             {
-                return -1;
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
-                
+
+            return responseModel;
+
         }
 
         public async Task<List<BatchEntity>> GetAllBatches(long branchID, long STDID=0)
@@ -284,24 +308,40 @@ namespace Ashirvad.Repo.Services.Area.Batch
             return data;
         }
 
-        public bool RemoveBatch(long BatchID, string lastupdatedby)
+        public ResponseModel RemoveBatch(long BatchID, string lastupdatedby)
         {
-            var data = (from u in this.context.BATCH_MASTER
-                        where u.batch_id == BatchID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity()
+                var data = (from u in this.context.BATCH_MASTER
+                            where u.batch_id == BatchID
+                            select u).FirstOrDefault();
+                if (data != null)
                 {
-                    TransactionId = data.trans_id,
-                    LastUpdateBy = lastupdatedby
-                });
-                this.context.SaveChanges();
-                return true;
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity()
+                    {
+                        TransactionId = data.trans_id,
+                        LastUpdateBy = lastupdatedby
+                    });
+                    this.context.SaveChanges();
+                    responseModel.Message = "Batch Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message ="Batch Not Found.";
+                    responseModel.Status = false;
+                }
             }
+            catch(Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+           
 
-            return false;
+            return responseModel;
         }
 
     }

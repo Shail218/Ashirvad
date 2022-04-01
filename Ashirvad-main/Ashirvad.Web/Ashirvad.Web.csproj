@@ -257,6 +257,7 @@
     <Content Include="LibraryImage\empty_cart.png" />
     <Content Include="MarksImage\empty_cart.png" />
     <Content Include="PaperDocument\LQ46TVWRYB8LMM9CCD68.png" />
+    <Content Include="PaymentRegisterImage\LQ46TVWRYB8LMM9CCD68.png" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="scripts\app\aboutus.js" />
@@ -331,6 +332,8 @@
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="CircularFiles\9QGCR5DXJ2LJQYP54A9R.xls" />
+    <Content Include="Apps\MasterMindUAT_1.6.apk" />
+    <Content Include="Apps\MyGeniusUAT_1.4.apk" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
@@ -1169,12 +1172,14 @@
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BranchCourseController.cs" />
     <Compile Include="Controllers\BranchSubjectController.cs" />
+    <Compile Include="Controllers\BranchWiseRankController.cs" />
     <Compile Include="Controllers\BranchWiseRightController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CaurseController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\CircularController.cs" />
     <Compile Include="Controllers\ClassController.cs" />
+    <Compile Include="Controllers\CompetitionController.cs" />
     <Compile Include="Controllers\FacultyController.cs" />
     <Compile Include="Controllers\ForgotPasswordController.cs" />
     <Compile Include="Controllers\HomeworkByStudentController.cs" />
@@ -1198,6 +1203,7 @@
     <Compile Include="Controllers\PhotosController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ProgressReportChartController.cs" />
+    <Compile Include="Controllers\RankController.cs" />
     <Compile Include="Controllers\ReminderController.cs" />
     <Compile Include="Controllers\ResultEntryController.cs" />
     <Compile Include="Controllers\ResultRegisterController.cs" />
@@ -1207,6 +1213,7 @@
     <Compile Include="Controllers\StandardWiseChartController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\OnlinePaymentListController.cs" />
+    <Compile Include="Controllers\StudentRankController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Controllers\SuperAdminSubjectController.cs" />
     <Compile Include="Controllers\TestByStudentController.cs" />
@@ -1220,6 +1227,9 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserPermissionController.cs" />
     <Compile Include="Controllers\VideosController.cs" />
+    <Compile Include="Controllers\WinnerEntryController.cs" />
+    <Compile Include="Controllers\WinnerListController.cs" />
+    <Compile Include="Controllers\ViewCompetitionlistController.cs" />
     <Compile Include="Controllers\YoutubeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1488,6 +1498,24 @@
     <Content Include="Views\BranchSubject\_Export_BranchSubject.cshtml" />
     <Content Include="Views\OnlinePaymentList\Filter.cshtml" />
     <Content Include="Views\OnlinePaymentList\Manage.cshtml" />
+    <Content Include="Views\Home\PackageUsageDetail.cshtml" />
+    <Content Include="Views\Competition\Create.cshtml" />
+    <Content Include="Views\Competition\Index.cshtml" />
+    <Content Include="Views\Competition\Manage.cshtml" />
+    <Content Include="Views\WinnerEntry\Index.cshtml" />
+    <Content Include="Views\WinnerEntry\Create.cshtml" />
+    <Content Include="Views\WinnerEntry\Manage.cshtml" />
+    <Content Include="Views\BranchWiseRank\Index.cshtml" />
+    <Content Include="Views\BranchWiseRank\Create.cshtml" />
+    <Content Include="Views\BranchWiseRank\Manage.cshtml" />
+    <Content Include="Views\WinnerList\Index.cshtml" />
+    <Content Include="Views\WinnerList\Create.cshtml" />
+    <Content Include="Views\WinnerList\Manage.cshtml" />
+    <Content Include="Views\StudentRank\Index.cshtml" />
+    <Content Include="Views\StudentRank\Create.cshtml" />
+    <Content Include="Views\StudentRank\Manage.cshtml" />
+    <Content Include="Views\ViewCompetitionlist\Index.cshtml" />
+    <Content Include="Views\Rank\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1498,7 +1526,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="PaymentRegisterImage\" />
     <Folder Include="Views\Base\" />
     <Folder Include="ZipFiles\HomeworkDetails\" />
     <Folder Include="ZipFiles\TestPaperDetails\" />

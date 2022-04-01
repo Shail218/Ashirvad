@@ -101,6 +101,7 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
 
     });
 
@@ -119,6 +120,9 @@ $(document).ready(function () {
     if ($("#BranchInfo_BranchID").val() != "") {
         $('#BranchName option[value="' + $("#BranchInfo_BranchID").val() + '"]').attr("selected", "selected");
         LoadUser($("#BranchInfo_BranchID").val());
+    } else {
+        $("#ToDoDate").val(setCurrentDate());
+
     }
 
 });
@@ -176,17 +180,19 @@ function SaveToDo() {
             formData.append('FileInfo', $('input[type=file]')[0].files[0]);
         }
         AjaxCallWithFileUpload(commonData.ToDo + 'SaveToDo', formData, function (data) {           
-            if (data) {
+            if (data.Status) {
                 HideLoader();
-                ShowMessage('ToDo details saved!', 'Success');
+                ShowMessage(data.Message, 'Success');
                 window.location.href = "ToDoMaintenance?todoID=0";
             }
             else {
                 HideLoader();
-                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+                ShowMessage(data.Message, 'Error');
+                
             }
         }, function (xhr) {
             HideLoader();
+            ShowMessage('An unexpected error occcurred while processing request!', 'Error');
         });
     }
 }
@@ -196,9 +202,13 @@ function RemoveToDo(todoID) {
         ShowLoader();
         var postCall = $.post(commonData.ToDo + "RemoveToDo", { "todoID": todoID });
         postCall.done(function (data) {
-            HideLoader();
-            ShowMessage("ToDo Removed Successfully.", "Success");
-            window.location.href = "ToDoMaintenance?todoID=0";
+            if (data.Status) {
+                HideLoader();
+                ShowMessage(data.Message, "Success");
+                window.location.href = "ToDoMaintenance?todoID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }         
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

@@ -10,10 +10,10 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Faculty
 {
     public interface IFacultyAPI
     {
-        Task<long> FacultyMaintenance(FacultyEntity facultyinfo);
+        Task<ResponseModel> FacultyMaintenance(FacultyEntity facultyinfo);
         Task<List<FacultyEntity>> GetAllFaculty(long branchID);
         Task<FacultyEntity> GetFacultyByFacultyID(long FacultyID);
-        bool RemoveFaculty(long FacultyID, string lastupdatedby);
+        ResponseModel RemoveFaculty(long FacultyID, string lastupdatedby);
         Task<List<FacultyEntity>> GetAllFaculty(long branchID, int typeID);
         Task<List<FacultyEntity>> GetAllFacultyWebsite(long branchID, long courseID, long classID, long subjectID);
         Task<List<FacultyEntity>> GetFacultyDetail(long facultyID);

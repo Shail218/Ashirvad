@@ -47,6 +47,10 @@ namespace Ashirvad.Repo.Model
             this.TEST_MASTER_DTL = new HashSet<TEST_MASTER_DTL>();
             this.UPI_MASTER = new HashSet<UPI_MASTER>();
             this.USER_DEF = new HashSet<USER_DEF>();
+            this.COMPETITION_MASTER = new HashSet<COMPETITION_MASTER>();
+            this.COMPETITION_MASTER_DTL = new HashSet<COMPETITION_MASTER_DTL>();
+            this.RANK_MASTER = new HashSet<RANK_MASTER>();
+            this.WINNER_MASTER = new HashSet<WINNER_MASTER>();
         }
     
         public long trans_id { get; set; }
@@ -118,5 +122,13 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<UPI_MASTER> UPI_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USER_DEF> USER_DEF { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<COMPETITION_MASTER> COMPETITION_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<COMPETITION_MASTER_DTL> COMPETITION_MASTER_DTL { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RANK_MASTER> RANK_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WINNER_MASTER> WINNER_MASTER { get; set; }
     }
 }

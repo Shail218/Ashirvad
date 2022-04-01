@@ -70,6 +70,7 @@
     <Compile Include="DataAcceessAPI\Area\Charts\IChartAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Circular\ICircularAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Class\IClassAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\Competition\ICompetitonAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Course\ICourseAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\DashboardChart\IDashboardChartAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Faculty\IFacultyAPI.cs" />
@@ -175,6 +176,12 @@
     <Compile Include="Model\CLASS_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\COMPETITION_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\COMPETITION_MASTER_DTL.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\COURSE_DTL_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -250,6 +257,9 @@
     <Compile Include="Model\PRACTICE_PAPER_REL.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\RANK_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\REMINDER_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -319,6 +329,9 @@
     <Compile Include="Model\usp_get_usage_Result.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\WINNER_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Area\AboutUs\AboutUs.cs" />
     <Compile Include="Services\Area\Admin\AdminData.cs" />
@@ -333,6 +346,7 @@
     <Compile Include="Services\Area\Check_Delete\Check_Delete.cs" />
     <Compile Include="Services\Area\Circular\Circular.cs" />
     <Compile Include="Services\Area\Class\Class.cs" />
+    <Compile Include="Services\Area\Competiton\Competition.cs" />
     <Compile Include="Services\Area\Course\Course.cs" />
     <Compile Include="Services\Area\DashboardChart\DashboardChart.cs" />
     <Compile Include="Services\Area\Faculty\Faculty.cs" />

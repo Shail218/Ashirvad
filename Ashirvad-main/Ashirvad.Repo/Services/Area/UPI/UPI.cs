@@ -21,39 +21,65 @@ namespace Ashirvad.Repo.Services.Area.UPI
             return result;
         }
 
-        public async Task<long> UPIMaintenance(UPIEntity upiInfo)
+        public async Task<ResponseModel> UPIMaintenance(UPIEntity upiInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             Model.UPI_MASTER upiMaster = new Model.UPI_MASTER();
-            if (CheckUpi(upiInfo.UPIId,upiInfo.BranchData.BranchID, upiInfo.UPICode).Result != -1)
+            try 
             {
-                bool isUpdate = true;
-                var data = (from upi in this.context.UPI_MASTER
-                            where upi.unique_id == upiInfo.UPIId
-                            select upi).FirstOrDefault();
-                if (data == null)
+                if (CheckUpi(upiInfo.UPIId, upiInfo.BranchData.BranchID, upiInfo.UPICode).Result != -1)
                 {
-                    data = new Model.UPI_MASTER();
-                    isUpdate = false;
+                    bool isUpdate = true;
+                    var data = (from upi in this.context.UPI_MASTER
+                                where upi.unique_id == upiInfo.UPIId
+                                select upi).FirstOrDefault();
+                    if (data == null)
+                    {
+                        data = new Model.UPI_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        upiMaster = data;
+                        upiInfo.TransactionData.TransactionId = data.trans_id;
+                    }
+
+                    upiMaster.row_sta_cd = upiInfo.RowStatusData.RowStatusId;
+                    upiMaster.trans_id = this.AddTransactionData(upiInfo.TransactionData);
+                    upiMaster.branch_id = upiInfo.BranchData.BranchID;
+                    upiMaster.upi_code = upiInfo.UPICode;
+                    if (!isUpdate)
+                    {
+                        this.context.UPI_MASTER.Add(upiMaster);
+                    }
+
+                    var upiID = this.context.SaveChanges() > 0 ? upiMaster.unique_id : 0;
+                    if (upiID > 0)
+                    {
+                        upiInfo.UPIId = upiID;
+                        responseModel.Data = upiInfo;
+                        responseModel.Message = isUpdate == true ? "UPI-ID Updated Successfully." : "UPI-ID Inserted Successfully.";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = isUpdate == true ? "UPI-ID Not Updated." : "UPI-ID Not Inserted.";
+                        responseModel.Status = false;
+                    }
                 }
                 else
                 {
-                    upiMaster = data;
-                    upiInfo.TransactionData.TransactionId = data.trans_id;
+                    responseModel.Message = "UPI-ID Already Exists.";
+                    responseModel.Status = false;
                 }
-
-                upiMaster.row_sta_cd = upiInfo.RowStatusData.RowStatusId;
-                upiMaster.trans_id = this.AddTransactionData(upiInfo.TransactionData);
-                upiMaster.branch_id = upiInfo.BranchData.BranchID;
-                upiMaster.upi_code = upiInfo.UPICode;
-                if (!isUpdate)
-                {
-                    this.context.UPI_MASTER.Add(upiMaster);
-                }
-
-                var upiID = this.context.SaveChanges() > 0 ? upiMaster.unique_id : 0;
-                return upiID;
             }
-            return -1;
+            catch(Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+          
+            return responseModel;
         }
 
         public async Task<List<UPIEntity>> GetAllUPIs(long branchID)
@@ -97,20 +123,35 @@ namespace Ashirvad.Repo.Services.Area.UPI
             return data;
         }
 
-        public bool RemoveUPI(long upiID, string lastupdatedby)
+        public ResponseModel RemoveUPI(long upiID, string lastupdatedby)
         {
-            var data = (from u in this.context.UPI_MASTER
-                        where u.unique_id == upiID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
+                var data = (from u in this.context.UPI_MASTER
+                            where u.unique_id == upiID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = "UPI-ID Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "UPI-ID Not Found.";
+                    responseModel.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
             }
 
-            return false;
+            return responseModel;
         }
     }
 }

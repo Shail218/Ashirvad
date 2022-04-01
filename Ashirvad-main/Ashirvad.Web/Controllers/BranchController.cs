@@ -64,12 +64,8 @@ namespace Ashirvad.Web.Controllers
             }
             branch.Transaction = GetTransactionData(branch.BranchID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             var data = await _branchService.BranchMaintenance(branch);
-            if (data != null)
-            {
-                return Json(true);
-            }
-
-            return Json(false);
+            
+            return Json(data);
         }
 
         [HttpPost]
@@ -90,6 +86,7 @@ namespace Ashirvad.Web.Controllers
             // action inside a standard controller
             List<string> columns = new List<string>();
             columns.Add("BranchName");
+            columns.Add("aliasName");
             columns.Add("");
             columns.Add("RowStatusText");
             foreach (var item in model.order)

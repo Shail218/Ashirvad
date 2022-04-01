@@ -33,8 +33,12 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._studentService.StudentMaintenance(studentInfo);
             OperationResult<StudentEntity> result = new OperationResult<StudentEntity>();
-            result.Completed = true;
-            result.Data = data.Result;
+            result.Completed = data.Result.Status;
+            if (data.Result.Status)
+            {
+                result.Data = (StudentEntity)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
             return result;
         }
 
@@ -73,10 +77,10 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllStudentWithoutContentByRange")]
         [HttpGet]
-        public async Task<OperationResult<List<StudentEntity>>> GetAllStudentWithoutContentByRange(long branchID,int page,int limit)
+        public async Task<OperationResult<List<StudentEntity>>> GetAllStudentWithoutContentByRange(long branchID, int page, int limit)
         {
             Student s = new Student();
-            var data = s.GetAllStudentWithoutContentByRange(branchID,page,limit);
+            var data = s.GetAllStudentWithoutContentByRange(branchID, page, limit);
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
             result.Completed = true;
             result.Data = data.Result;
@@ -144,8 +148,9 @@ namespace Ashirvad.API.Controllers
         {
             var data = this._studentService.RemoveStudent(StudentID, lastupdatedby);
             OperationResult<bool> result = new OperationResult<bool>();
-            result.Completed = true;
-            result.Data = data;
+            result.Completed = data.Status;
+            result.Data = data.Status;
+            result.Message = data.Message;
             return result;
         }
 
@@ -162,7 +167,7 @@ namespace Ashirvad.API.Controllers
 
         [Route("StudentMaintenance")]
         [HttpPost]
-        public OperationResult<StudentEntity> StudentMaintenance(string model,bool HasFile)
+        public OperationResult<StudentEntity> StudentMaintenance(string model, bool HasFile)
         {
             OperationResult<StudentEntity> result = new OperationResult<StudentEntity>();
             var httpRequest = HttpContext.Current.Request;
@@ -201,7 +206,7 @@ namespace Ashirvad.API.Controllers
             studentEntity.ContactNo = entity.ContactNo;
             DateTime dateTime = DateTime.Now;
             studentEntity.Final_Year = dateTime.Month >= 4 ? dateTime.Year.ToString() + "_" + dateTime.Year + 1.ToString("yyyy") : (dateTime.Year - 1).ToString() + "-" + dateTime.Year.ToString();
-            studentEntity.AdmissionDate = entity.AdmissionDate;       
+            studentEntity.AdmissionDate = entity.AdmissionDate;
             studentEntity.StudentPassword = entity.StudentPassword;
             studentEntity.RowStatus = new RowStatusEntity()
             {
@@ -226,7 +231,7 @@ namespace Ashirvad.API.Controllers
                             string fileName;
                             string extension;
                             string currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                            string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
+                            string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
                             var postedFile = httpRequest.Files[file];
                             string randomfilename = Common.Common.RandomString(20);
                             extension = Path.GetExtension(postedFile.FileName);
@@ -254,21 +259,13 @@ namespace Ashirvad.API.Controllers
                 studentEntity.FilePath = entity.FilePath;
             }
             var data = this._studentService.StudentMaintenance(studentEntity).Result;
-            result.Completed = false;
-            result.Data = null;
-            if (data.StudentID > 0)
+            result.Completed = data.Status;
+            if (data.Status)
             {
-                result.Completed = true;
-                result.Data = data;
-                if (entity.StudentID > 0)
-                {
-                    result.Message = "Student Updated Successfully.";
-                }
-                else
-                {
-                    result.Message = "Student Created Successfully.";
-                }
+                result.Data = (StudentEntity)data.Data; 
             }
+            result.Message = data.Message;
+
             return result;
         }
     }

@@ -79,12 +79,14 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
     });
-
+  
     $("#datepickertodate").datepicker({
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate:new Date(),
     });
 
     LoadBranch(function () {
@@ -95,6 +97,9 @@ $(document).ready(function () {
 
     if ($("#BranchData_BranchID").val() != "") {
         $('#BranchName option[value="' + $("#BranchData_BranchID").val() + '"]').attr("selected", "selected");
+    } else {
+        $("#AgreementFromDate").val(setCurrentDate());
+        $("#AgreementToDate").val(setCurrentDate());
     }
 
     if ($("#RowStatusData_RowStatusId").val() != "") {

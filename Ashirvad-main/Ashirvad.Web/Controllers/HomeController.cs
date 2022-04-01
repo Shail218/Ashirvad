@@ -23,9 +23,10 @@ namespace Ashirvad.Web.Controllers
             return View();
         }
 
-        public ActionResult ADashboard()
+        public async Task<ActionResult> ADashboard()
         {
-            return View();
+            var result = await _chartService.GetPackageUsageDetailbyBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            return View(result);
         }
 
         public async Task<JsonResult> GetAllBranchChart()
@@ -60,6 +61,19 @@ namespace Ashirvad.Web.Controllers
                 var result = await _chartService.AllBranchStandardWithCountByBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
                 model.branchstandardlist = result;
                 return Json(model);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public async Task<JsonResult> GetPackageDetailsbyBranch()
+        {
+            try
+            {
+                var result = await _chartService.GetPackageUsageDetailbyBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                return Json(result);
             }
             catch (Exception e)
             {

@@ -10,12 +10,12 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.School
 {
    public interface ISchoolService
     {
-        Task<SchoolEntity> SchoolMaintenance(SchoolEntity schoolInfo);
+        Task<ResponseModel> SchoolMaintenance(SchoolEntity schoolInfo);
         Task<List<SchoolEntity>> GetAllSchools(long branchID);
         Task<List<SchoolEntity>> GetAllExportSchools(long branchID);
         Task<List<SchoolEntity>> GetAllSchools();
         Task<SchoolEntity> GetSchoolsByID(long schoolInfo);
-        bool RemoveSchool(long SchoolID, string lastupdatedby);
+        ResponseModel RemoveSchool(long SchoolID, string lastupdatedby);
         Task<List<SchoolEntity>> GetAllCustomSchools(DataTableAjaxPostModel model, long branchID);
     }
 }

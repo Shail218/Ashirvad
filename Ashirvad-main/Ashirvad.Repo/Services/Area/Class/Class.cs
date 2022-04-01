@@ -31,59 +31,83 @@ namespace Ashirvad.Repo.Services.Area.Class
             return result;
         }
 
-        public async Task<long> ClassMaintenance(ClassEntity classEntity)
+        public async Task<ResponseModel> ClassMaintenance(ClassEntity classEntity)
         {
-            Model.CLASS_MASTER classMaster = new Model.CLASS_MASTER();
-            if (CheckClass(classEntity.ClassName, classEntity.courseEntity.CourseID, classEntity.ClassID).Result != -1)
+            ResponseModel responseModel = new ResponseModel();
+            try
             {
-                bool isUpdate = true;
-                var data = (from cl in this.context.CLASS_MASTER
-                            where cl.class_id == classEntity.ClassID
-                            select new
-                            {
-                                classMaster = cl
-                            }).FirstOrDefault();
-                if (data == null)
+                Model.CLASS_MASTER classMaster = new Model.CLASS_MASTER();
+                if (CheckClass(classEntity.ClassName, classEntity.courseEntity.CourseID, classEntity.ClassID).Result != -1)
                 {
-                    classMaster = new Model.CLASS_MASTER();
-                    isUpdate = false;
-                }
-                else
-                {
-                    classMaster = data.classMaster;
-                    classEntity.Transaction.TransactionId = data.classMaster.trans_id;
-                }
-                classMaster.class_name = classEntity.ClassName;
-                classMaster.row_sta_cd = classEntity.RowStatus.RowStatusId;
-                classMaster.trans_id = this.AddTransactionData(classEntity.Transaction);
-                classMaster.course_id = classEntity.courseEntity.CourseID;
-                this.context.CLASS_MASTER.Add(classMaster);
-                if (isUpdate)
-                {
-                    this.context.Entry(classMaster).State = System.Data.Entity.EntityState.Modified;
-                }
-                var Result = this.context.SaveChanges();
-                if (Result > 0)
-                {
-                    classEntity.ClassID = classMaster.class_id;
-                    classEntity.Transaction.TransactionId = classEntity.Transaction.TransactionId;
-                    if((int)classEntity.UserType == 5)
+                    bool isUpdate = true;
+                    var data = (from cl in this.context.CLASS_MASTER
+                                where cl.class_id == classEntity.ClassID
+                                select new
+                                {
+                                    classMaster = cl
+                                }).FirstOrDefault();
+                    if (data == null)
                     {
-                        SuperadminClassMasterMaintenance(classEntity);
+                        classMaster = new Model.CLASS_MASTER();
+                        isUpdate = false;
                     }
                     else
                     {
-                        ClassMasterMaintenance(classEntity);
+                        classMaster = data.classMaster;
+                        classEntity.Transaction.TransactionId = data.classMaster.trans_id;
                     }
-                    
-                    // UpdateStandard(classEntity);
+                    classMaster.class_name = classEntity.ClassName;
+                    classMaster.row_sta_cd = classEntity.RowStatus.RowStatusId;
+                    classMaster.trans_id = this.AddTransactionData(classEntity.Transaction);
+                    classMaster.course_id = classEntity.courseEntity.CourseID;
+                    this.context.CLASS_MASTER.Add(classMaster);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(classMaster).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var Result = this.context.SaveChanges();
+                    if (Result > 0)
+                    {
+                        classEntity.ClassID = classMaster.class_id;
+                        classEntity.Transaction.TransactionId = classEntity.Transaction.TransactionId;
+                        if ((int)classEntity.UserType == 5)
+                        {
+                            SuperadminClassMasterMaintenance(classEntity);
+                        }
+                        else
+                        {
+                            ClassMasterMaintenance(classEntity);
+                        }
+
+                        // UpdateStandard(classEntity);
+                    }
+                    var re = Result > 0 ? classEntity.ClassID : 0;
+                    if (re > 0)
+                    {
+                        classEntity.ClassID = classMaster.class_id;
+                        responseModel.Data = classEntity;
+                        responseModel.Status = true;
+                        responseModel.Message = isUpdate == true ? "Class Updated Successfully." : "Class Inserted Successfully.";
+                    }
+                    else
+                    {
+                        responseModel.Status = false;
+                        responseModel.Message = isUpdate==true?"Class Not Updated.":"Class Not Inserted.";
+                    }
                 }
-                return Result > 0 ? classEntity.ClassID : 0;
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Class Already Exist.";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return -1;
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
             }
+            return responseModel;
+         
         }
 
         public async Task<ClassEntity> GetClassByClassID(long classID)
@@ -277,40 +301,61 @@ namespace Ashirvad.Repo.Services.Area.Class
             return true;
         }
 
-        public bool RemoveClass(long classID, string lastupdatedby)
+        public ResponseModel RemoveClass(long classID, string lastupdatedby)
         {
-            bool Isvalid = CheckHistory(classID);
-            if (Isvalid)
-            {
-                var data = (from u in this.context.CLASS_MASTER
-                            where u.class_id == classID
-                            select u).FirstOrDefault();
-                if (data != null)
-                {
-                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                    this.context.SaveChanges();
-
-                }
-                var data1 = (from u in this.context.CLASS_DTL_MASTER
-                             where u.class_id == classID && u.is_class == false && u.row_sta_cd == 1
-                             select u).FirstOrDefault();
-                if (data1 != null)
-                {
-                    data1.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    data1.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data1.trans_id, LastUpdateBy = lastupdatedby });
-                    this.context.SaveChanges();
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public async Task<long> ClassMasterMaintenance(ClassEntity ClassEntity)
-        {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
-                long result = 0;
+                bool Isvalid = CheckHistory(classID);
+                if (Isvalid)
+                {
+                    var data = (from u in this.context.CLASS_MASTER
+                                where u.class_id == classID
+                                select u).FirstOrDefault();
+                    if (data != null)
+                    {
+                        data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                        this.context.SaveChanges();
+
+                    }
+                    var data1 = (from u in this.context.CLASS_DTL_MASTER
+                                 where u.class_id == classID && u.is_class == false && u.row_sta_cd == 1
+                                 select u).FirstOrDefault();
+                    if (data1 != null)
+                    {
+                        data1.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        data1.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data1.trans_id, LastUpdateBy = lastupdatedby });
+                        this.context.SaveChanges();
+                        responseModel.Status = true;
+                        responseModel.Message = "Class Removed Successfully.";
+                    }
+                    else
+                    {
+                        responseModel.Status = false;
+                        responseModel.Message = "Class Not Found.";
+                    }
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Class Cannot be Removed.";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+        }
+
+        public async Task<ResponseModel> ClassMasterMaintenance(ClassEntity ClassEntity)
+        {
+            ResponseModel result = new ResponseModel();
+            try
+            {
+             
                 var List = GetClassdetails(ClassEntity.courseEntity.CourseID).Result;
                 BranchClassEntity branchClass = new BranchClassEntity();
                 branchClass.Class = new ClassEntity()
@@ -377,20 +422,22 @@ namespace Ashirvad.Repo.Services.Area.Class
 
                 //    result = _standard.StandardMaintenance(standard).Result;
                 //}
-                return result;
+            
             }
             catch (Exception ex)
             {
-                throw;
+                result.Status = false;
+                result.Message = ex.Message.ToString();
             }
-
+            return result;
         }
 
-        public async Task<long> SuperadminClassMasterMaintenance(ClassEntity ClassEntity)
+        public async Task<ResponseModel> SuperadminClassMasterMaintenance(ClassEntity ClassEntity)
         {
+            ResponseModel result = new ResponseModel();
             try
             {
-                long result = 0;
+               
                 var List = (from u in context.COURSE_DTL_MASTER
                             where u.branch_id == ClassEntity.branchEntity.BranchID 
                             && u.row_sta_cd == 1
@@ -426,13 +473,14 @@ namespace Ashirvad.Repo.Services.Area.Class
                     branchClass.branch = item.branch;
                     result = _BranchClass.ClassMaintenance(branchClass).Result;
                 }                
-                return result;
+               
             }
             catch (Exception ex)
             {
-                throw;
+                result.Status = false;
+                result.Message = ex.Message.ToString();
             }
-
+             return result;
         }
 
         public async Task<long> UpdateStandard(ClassEntity ClassEntity)

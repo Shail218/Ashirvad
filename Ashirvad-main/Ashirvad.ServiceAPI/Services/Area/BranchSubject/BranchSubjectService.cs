@@ -20,13 +20,14 @@ namespace Ashirvad.ServiceAPI.Services.Area
             this._BranchSubjectContext = BranchSubjectContext;
         }
 
-        public async Task<BranchSubjectEntity> BranchSubjectMaintenance(BranchSubjectEntity BranchSubjectInfo)
+        public async Task<ResponseModel> BranchSubjectMaintenance(BranchSubjectEntity BranchSubjectInfo)
         {
             BranchSubjectEntity BranchSubject = new BranchSubjectEntity();
+            ResponseModel responseModel = new ResponseModel();
             try
             {
-                long BranchSubjectID = await _BranchSubjectContext.SubjectMaintenance(BranchSubjectInfo);
-                BranchSubject.Data = BranchSubjectID;
+                responseModel = await _BranchSubjectContext.SubjectMaintenance(BranchSubjectInfo);
+                //BranchSubject.Data = BranchSubjectID;
 
             }
             catch (Exception ex)
@@ -34,7 +35,7 @@ namespace Ashirvad.ServiceAPI.Services.Area
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return BranchSubject;
+            return responseModel;
         }
 
         

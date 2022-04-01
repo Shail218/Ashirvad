@@ -74,8 +74,8 @@ namespace Ashirvad.Web.Controllers
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             var data = await _batchService.BatchMaintenance(branch);
-            res.Status = data.BatchID > 0 ? true : false;
-            res.Message = data.BatchID == -1 ? "Batch Already exists!!" : data.BatchID == 0 ? "Batch failed to insert!!" : "Batch Inserted Successfully!!";
+            res.Status = data.Status;
+            res.Message = data.Message;
             return Json(res);
         }
 

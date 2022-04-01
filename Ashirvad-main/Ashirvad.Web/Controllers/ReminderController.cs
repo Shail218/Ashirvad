@@ -56,12 +56,12 @@ namespace Ashirvad.Web.Controllers
             };
             reminderEntity.Transaction = GetTransactionData(reminderEntity.ReminderID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
             var data = await _reminderService.ReminderMaintenance(reminderEntity);
-            if (data != null)
-            {
-                return Json(true);
-            }
+            //if (data != null)
+            //{
+            //    return Json(true);
+            //}
 
-            return Json(false);
+            return Json(data);
         }
 
         [HttpPost]

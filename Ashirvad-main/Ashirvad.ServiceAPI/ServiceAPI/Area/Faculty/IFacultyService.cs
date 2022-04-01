@@ -10,10 +10,10 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Faculty
 {
     public interface IFacultyService
     {
-        Task<FacultyEntity> FacultyMaintenance(FacultyEntity faculInfo);
+        Task<ResponseModel> FacultyMaintenance(FacultyEntity faculInfo);
         Task<List<FacultyEntity>> GetAllFaculty(long branchID = 0);
         Task<OperationResult<FacultyEntity>> GetFacultyByFacultyID(long facultyID);
-        bool RemoveFaculty(long facultyID, string lastupdatedby);
+        ResponseModel RemoveFaculty(long facultyID, string lastupdatedby);
         Task<OperationResult<List<FacultyEntity>>> GetAllFaculty(long branchID, int typeID);
         Task<List<FacultyEntity>> GetAllCustomFaculty(DataTableAjaxPostModel model, long branchID);
 

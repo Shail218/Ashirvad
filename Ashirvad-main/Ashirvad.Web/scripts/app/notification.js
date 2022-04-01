@@ -108,7 +108,9 @@ $(document).ready(function () {
         autoclose: true,
         todayHighlight: true,
         format: 'dd/mm/yyyy',
+        defaultDate: new Date(),
     });
+    $("#Notification_Date").val(setCurrentDate());
 
     if ($("#Branch_BranchID").val() != "") {
         if ($("#Branch_BranchID").val() == "0") {

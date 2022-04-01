@@ -18,44 +18,48 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
             this._userContext = userContext;
         }
 
-        public async Task<long> ProfileMaintenance(UserEntity userInfo)
+        public async Task<ResponseModel> ProfileMaintenance(UserEntity userInfo)
         {
+            ResponseModel responseModel = new ResponseModel();
             UserEntity user = new UserEntity();
             try
             {
-                long userID = await this._userContext.ProfileMaintenance(userInfo);
-                if (userID > 0)
-                {
-                    user.UserID = userID;
-                }
+                responseModel = await this._userContext.ProfileMaintenance(userInfo);
+                //long userID = await this._userContext.ProfileMaintenance(userInfo);
+                //if (userID > 0)
+                //{
+                //    user.UserID = userID;
+                //}
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return user.UserID;
+            return responseModel;
         }
 
-        public async Task<UserEntity> UserMaintenance(UserEntity UserInfo)
+        public async Task<ResponseModel> UserMaintenance(UserEntity UserInfo)
         {
+             ResponseModel responseModel = new ResponseModel();
             UserEntity user = new UserEntity();
             try
             {
-                long userID = await this._userContext.UserMaintenance(UserInfo);
-                if (userID > 0)
-                {
-                    //Add User
-                    //Get Branch
-                    user.UserID = userID;
-                }
+                responseModel = await this._userContext.UserMaintenance(UserInfo);
+                //long userID = await this._userContext.UserMaintenance(UserInfo);
+                //if (userID > 0)
+                //{
+                //    //Add User
+                //    //Get Branch
+                //    user.UserID = userID;
+                //}
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return user;
+            return responseModel;
         }
 
         public async Task<UserEntity> ValidateUser(string userName, string password)
@@ -186,8 +190,9 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
             return new UserEntity();
         }
 
-        public async Task<bool> ChangePassword(long userID, string password, string oldPassword)
+        public async Task<ResponseModel> ChangePassword(long userID, string password, string oldPassword)
         {
+            ResponseModel model = new ResponseModel();
             try
             {
                 return await this._userContext.ChangePassword(userID, password, oldPassword);
@@ -197,11 +202,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return model;
         }
 
-        public bool RemoveUser(long userID, string lastupdatedby)
+        public ResponseModel RemoveUser(long userID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
                 return this._userContext.RemoveUser(userID, lastupdatedby);
@@ -211,10 +217,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
-        public async Task<bool> UpdatefcmToken(UserEntity userentity, string fcm_token)
+        public async Task<ResponseModel> UpdatefcmToken(UserEntity userentity, string fcm_token)
         {
+            ResponseModel model = new ResponseModel();
             try
             {
                 return await this._userContext.UpdatefcmToken(userentity, fcm_token);
@@ -224,7 +231,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return model;
+        }
+
+        public async Task<UserEntity> ValidateStudentData(string userName, string password)
+        {
+            try
+            {
+                return await this._userContext.ValidateStudentData(userName, password);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
         }
     }
 }

@@ -160,4 +160,6 @@ $(document).ready(function () {
             $(tr.children[1]).addClass('textalign');
         }
     });
+
+
 });

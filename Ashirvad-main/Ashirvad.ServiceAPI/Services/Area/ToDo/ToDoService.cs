@@ -20,23 +20,25 @@ namespace Ashirvad.ServiceAPI.Services.Area.ToDo
             this._todoContext = todoContext;
         }
 
-        public async Task<ToDoEntity> ToDoMaintenance(ToDoEntity todo)
+        public async Task<ResponseModel> ToDoMaintenance(ToDoEntity todo)
         {
+            ResponseModel responseModel = new ResponseModel();
             ToDoEntity td = new ToDoEntity();
             try
             {
-                long ToDoID = await _todoContext.ToDoMaintenance(todo);
-                if (ToDoID > 0)
-                {
-                    td.ToDoID = ToDoID;
-                }
+                responseModel = await _todoContext.ToDoMaintenance(todo);
+                //long ToDoID = await _todoContext.ToDoMaintenance(todo);
+                //if (ToDoID > 0)
+                //{
+                //    td.ToDoID = ToDoID;
+                //}
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return td;
+            return responseModel;
         }
 
         public async Task<List<ToDoEntity>> GetAllToDoByBranch(long branchID, long userID = 0)
@@ -112,19 +114,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.ToDo
             return null;
         }
 
-        public bool RemoveToDo(long todoID, string lastupdatedby)
+        public ResponseModel RemoveToDo(long todoID, string lastupdatedby)
         {
+            ResponseModel responseModel = new ResponseModel();
             try
             {
-                var data = _todoContext.RemoveToDo(todoID, lastupdatedby);
-                return data;
+                return this._todoContext.RemoveToDo(todoID, lastupdatedby);               
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 
-            return false;
+            return responseModel;
         }
     }
 }

@@ -77,9 +77,7 @@ namespace Ashirvad.Web.Controllers
                 BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID
             };
             var data = await _CategoryService.CategoryMaintenance(categoryEntity);
-            res.Status = data.CategoryID > 0 ? true : false;
-            res.Message = data.CategoryID == -1 ? "Category Already exists!!" : data.CategoryID == 0 ? "Category failed to insert!!" : "Category Inserted Successfully!!";
-            return Json(res);
+            return Json(data);
         }
 
         [HttpPost]
