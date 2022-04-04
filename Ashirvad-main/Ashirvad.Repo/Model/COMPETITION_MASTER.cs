@@ -35,6 +35,9 @@ namespace Ashirvad.Repo.Model
         public string extra1 { get; set; }
         public string extra2 { get; set; }
         public string extra3 { get; set; }
+        public string file_path { get; set; }
+        public string doc_link { get; set; }
+        public Nullable<bool> doc_type { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<COMPETITION_MASTER_DTL> COMPETITION_MASTER_DTL { get; set; }

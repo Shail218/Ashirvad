@@ -192,6 +192,7 @@
           <Property Name="mobile_no" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
           <Property Name="trans_id" Type="bigint" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="CATEGORY_MASTER">
           <Key>
@@ -257,6 +258,9 @@
           <Property Name="extra1" Type="nvarchar" MaxLength="255" />
           <Property Name="extra2" Type="nvarchar" MaxLength="255" />
           <Property Name="extra3" Type="nvarchar" MaxLength="255" />
+          <Property Name="file_path" Type="varchar" MaxLength="250" />
+          <Property Name="doc_link" Type="varchar" MaxLength="250" />
+          <Property Name="doc_type" Type="bit" />
         </EntityType>
         <EntityType Name="COMPETITION_MASTER_DTL">
           <Key>
@@ -855,6 +859,7 @@
           <Property Name="student_id" Type="bigint" />
           <Property Name="parent_id" Type="bigint" />
           <Property Name="fcm_token" Type="varchar(max)" />
+          <Property Name="mobile_no" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="USER_ROLE">
           <Key>
@@ -4143,6 +4148,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="BRANCH_STAFF" Relationship="AshirvadModel.FK_USER_DEF_BRANCH_STAFF" FromRole="USER_DEF" ToRole="BRANCH_STAFF" />
           <Property Name="fcm_token" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_USER_DEF_TRANSACTION_MASTER" FromRole="USER_DEF" ToRole="TRANSACTION_MASTER" />
+          <Property Name="mobile_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="USER_ROLE">
           <Key>
@@ -4566,6 +4572,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="USER_DEF" Relationship="AshirvadModel.FK_USER_DEF_BRANCH_STAFF" FromRole="BRANCH_STAFF" ToRole="USER_DEF" />
           <NavigationProperty Name="FACULTY_MASTER" Relationship="AshirvadModel.FK_FACULTY_MASTER_BRANCH_STAFF" FromRole="BRANCH_STAFF" ToRole="FACULTY_MASTER" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_BRANCH_STAFF_TRANSACTION_MASTER" FromRole="BRANCH_STAFF" ToRole="TRANSACTION_MASTER" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -6928,6 +6935,9 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_COMPETITION_MASTER_TRANSACTION_MASTER" FromRole="COMPETITION_MASTER" ToRole="TRANSACTION_MASTER" />
           <NavigationProperty Name="RANK_MASTER" Relationship="AshirvadModel.FK_RANK_MASTER_COMPETITION_MASTER" FromRole="COMPETITION_MASTER" ToRole="RANK_MASTER" />
           <NavigationProperty Name="WINNER_MASTER" Relationship="AshirvadModel.FK_WINNER_MASTER_COMPETITION_MASTER" FromRole="COMPETITION_MASTER" ToRole="WINNER_MASTER" />
+          <Property Name="file_path" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="doc_link" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="doc_type" Type="Boolean" />
         </EntityType>
         <EntityType Name="COMPETITION_MASTER_DTL">
           <Key>
@@ -7168,6 +7178,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <EntitySetMapping Name="USER_DEF">
             <EntityTypeMapping TypeName="AshirvadModel.USER_DEF">
               <MappingFragment StoreEntitySet="USER_DEF">
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
                 <ScalarProperty Name="fcm_token" ColumnName="fcm_token" />
                 <ScalarProperty Name="parent_id" ColumnName="parent_id" />
                 <ScalarProperty Name="student_id" ColumnName="student_id" />
@@ -7466,6 +7477,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <EntitySetMapping Name="BRANCH_STAFF">
             <EntityTypeMapping TypeName="AshirvadModel.BRANCH_STAFF">
               <MappingFragment StoreEntitySet="BRANCH_STAFF">
+                <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="trans_id" ColumnName="trans_id" />
                 <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
                 <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
@@ -8026,6 +8038,9 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <EntitySetMapping Name="COMPETITION_MASTER">
             <EntityTypeMapping TypeName="AshirvadModel.COMPETITION_MASTER">
               <MappingFragment StoreEntitySet="COMPETITION_MASTER">
+                <ScalarProperty Name="doc_type" ColumnName="doc_type" />
+                <ScalarProperty Name="doc_link" ColumnName="doc_link" />
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
                 <ScalarProperty Name="extra3" ColumnName="extra3" />
                 <ScalarProperty Name="extra2" ColumnName="extra2" />
                 <ScalarProperty Name="extra1" ColumnName="extra1" />

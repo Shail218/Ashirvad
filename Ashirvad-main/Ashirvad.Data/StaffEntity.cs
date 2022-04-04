@@ -24,9 +24,11 @@ namespace Ashirvad.Data
         public DateTime? LeavingDT { get; set; }
         public string EmailID { get; set; }
         public string MobileNo { get; set; }
+        public string userNameNew { get; set; }
         public long UserID { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public BranchEntity BranchInfo { get; set; }
+
     }
 }

@@ -35,6 +35,7 @@ namespace Ashirvad.Repo.Model
         public string mobile_no { get; set; }
         public int row_sta_cd { get; set; }
         public long trans_id { get; set; }
+        public string username { get; set; }
     
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

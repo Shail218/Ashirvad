@@ -13,14 +13,25 @@ namespace Ashirvad.Repo.Services.Area.Staff
     public class Staff : ModelAccess, IStaffAPI
     {
 
-        public async Task<long> CheckUser(string mobileno, long userID)
+        public async Task<long> CheckUser(string username, long userID)
         {
             long result;
             bool isExists = (from u in this.context.BRANCH_STAFF
-                             join t in this.context.TRANSACTION_MASTER on u.trans_id equals t.trans_id
-                             where ((userID == 0 || u.staff_id != userID) && u.mobile_no == mobileno && u.row_sta_cd == 1)
+                             where ((userID == 0 || u.staff_id != userID) && u.username == username && u.row_sta_cd == 1)
                              select u).FirstOrDefault() != null;
-            result = isExists == true ? -1 : 1;
+            if (!isExists)
+            {
+                bool isExists2 = (from u in this.context.USER_DEF
+                                where ((userID == 0 || u.staff_id != userID) && u.username == username && u.row_sta_cd == 1)
+                                 select u).FirstOrDefault() != null;
+                result = isExists2 == true ? -1 : 1;
+                return result;
+            }
+            else
+            {
+                result = isExists == true ? -1 : 1;
+                return result;
+            }
             return result;
         }
 
@@ -30,7 +41,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
             try
             {
                 Model.BRANCH_STAFF branchStaff = new Model.BRANCH_STAFF();
-                if (CheckUser(staffInfo.MobileNo, staffInfo.StaffID).Result != -1)
+                if (CheckUser(staffInfo.userNameNew, staffInfo.StaffID).Result != -1)
                 {
                     bool isUpdate = true;
                     var data = (from staff in this.context.BRANCH_STAFF
@@ -58,6 +69,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                     branchStaff.email_id = staffInfo.EmailID;
                     branchStaff.branch_id = staffInfo.BranchInfo.BranchID;
                     branchStaff.mobile_no = staffInfo.MobileNo;
+                    branchStaff.username = staffInfo.userNameNew;
                     branchStaff.row_sta_cd = staffInfo.RowStatus.RowStatusId;
                     branchStaff.trans_id = this.AddTransactionData(staffInfo.Transaction);
                     this.context.BRANCH_STAFF.Add(branchStaff);
@@ -103,17 +115,18 @@ namespace Ashirvad.Repo.Services.Area.Staff
             {
                 var flag = false;
                 Model.BRANCH_STAFF branchStaff = new Model.BRANCH_STAFF();
-                if (CheckUser(staffInfo.MobileNo, staffInfo.StaffID).Result != -1)
+                if (CheckUser(staffInfo.userNameNew, staffInfo.StaffID).Result != -1)
                 {
                     var data = (from staff in this.context.BRANCH_STAFF
                                 where staff.staff_id == staffInfo.StaffID
                                 select staff).FirstOrDefault();
                     branchStaff = data;
-                    flag = data.mobile_no.Equals(staffInfo.MobileNo);
+                    flag = data.username.Equals(staffInfo.userNameNew);
                     staffInfo.Transaction.TransactionId = data.trans_id;
                     branchStaff.name = staffInfo.Name;
                     branchStaff.email_id = staffInfo.EmailID;
                     branchStaff.mobile_no = staffInfo.MobileNo;
+                    branchStaff.username = staffInfo.userNameNew;
                     this.context.BRANCH_STAFF.Add(branchStaff);
                     this.context.Entry(branchStaff).State = System.Data.Entity.EntityState.Modified;
                     var da = this.context.SaveChanges() > 0 ? branchStaff.staff_id : 0;
@@ -125,7 +138,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                         responseModel.Status = true;
                         if (!flag)
                         {
-                            responseModel.Message = "Your Mobile Number has Changed!! Please Login Again!!";
+                            responseModel.Message = "Your User Name has Changed!! Please Login Again!!";
                             responseModel.Status = true;
                         }
                     }
@@ -141,7 +154,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                 else
                 {
                     responseModel.Status = false;
-                    responseModel.Message = "Staff Already Exists.";
+                    responseModel.Message = "Staff or User Name Already Exists.";
                     //return -1;
                 }
             }
@@ -183,6 +196,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                             UserID = li.user_id,
                             StaffID = u.staff_id,
                             User_Password = li.password,
+                            userNameNew = u.username,
                             BranchInfo = new BranchEntity()
                             {
                                 BranchID = u.branch_id,
@@ -243,7 +257,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                         LeavingDT = u.leaving_dt,
                         MobileNo = u.mobile_no,
                         Name = u.name,
-
+                        userNameNew = u.username,
                         StaffID = u.staff_id,
                         BranchInfo = new BranchEntity()
                         {
@@ -294,6 +308,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                             MobileNo = u.mobile_no,
                             Name = u.name,
                             StaffID = u.staff_id,
+                            userNameNew = u.username,
                             BranchInfo = new BranchEntity()
                             {
                                 BranchID = u.branch_id,
@@ -370,6 +385,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
                             MobileNo = u.mobile_no,
                             Name = u.name,
                             StaffID = u.staff_id,
+                            userNameNew = u.username,
                             User_Password = ud.password,
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }

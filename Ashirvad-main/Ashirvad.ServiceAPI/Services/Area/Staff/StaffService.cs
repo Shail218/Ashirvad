@@ -75,7 +75,8 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
                     staff.StaffID = staffID;
                     var user = await _userContext.ProfileMaintenance(new UserEntity()
                     {
-                        Username = staffInfo.MobileNo,
+                        Username = staffInfo.userNameNew,
+                        mobileNo = staffInfo.MobileNo,
                         Transaction = staffInfo.Transaction,
                         UserID = staffInfo.UserID
                     });
@@ -107,7 +108,8 @@ namespace Ashirvad.ServiceAPI.Services.Area.Staff
                 RowStatus = staffInfo.RowStatus,
                 StaffID = studentID,
                 Transaction = staffInfo.Transaction,
-                Username = staffInfo.MobileNo,
+                Username = staffInfo.userNameNew,
+                mobileNo = staffInfo.MobileNo,
                 //UserType = Enums.UserType.Staff
                 UserType = staffInfo.Userrole,
                 UserID = staffInfo.UserID

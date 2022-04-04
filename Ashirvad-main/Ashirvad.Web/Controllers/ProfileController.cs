@@ -38,7 +38,8 @@ namespace Ashirvad.Web.Controllers
                     Transaction = SessionContext.Instance.LoginUser.Transaction,
                     StaffID = 0,
                     UserID = SessionContext.Instance.LoginUser.UserID,
-                    MobileNo = SessionContext.Instance.LoginUser.Username
+                    MobileNo = SessionContext.Instance.LoginUser.mobileNo,
+                    userNameNew = SessionContext.Instance.LoginUser.Username,
                 };
                 return View(staff);
             }
@@ -76,8 +77,9 @@ namespace Ashirvad.Web.Controllers
                 var data = await _userService.ProfileMaintenance(new UserEntity()
                 {
                     Transaction = branch.Transaction,
-                    Username = branch.MobileNo,
-                    UserID = branch.UserID
+                    Username = branch.userNameNew,
+                    UserID = branch.UserID,
+                    mobileNo = branch.MobileNo
                 });
                 res = data;
                 //if (branch.MobileNo == SessionContext.Instance.LoginUser.Username)

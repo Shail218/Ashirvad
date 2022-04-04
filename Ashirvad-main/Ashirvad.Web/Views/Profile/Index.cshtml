@@ -30,13 +30,25 @@
                                     <div class="col-md-12">
                                         @if (Model.Userrole == Ashirvad.Common.Enums.UserType.Admin)
                                         {
-                                            @Html.Label("Mobile No(Login ID)", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                                            @Html.TextBoxFor(x => x.MobileNo, new { @class = "form-control required mobile", autocomplete = "off", maxlength = 10, minlength = 10, alt = "Mobile No(Login ID)" })
+                                            @Html.Label("User name(Login ID)", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                                            @Html.TextBoxFor(x => x.userNameNew, new { @class = "form-control required user name", autocomplete = "off", minlength = 3, alt = "User name(Login ID)" })
                                         }
                                         else
                                         {
-                                            @Html.Label("User name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                                            @Html.TextBoxFor(x => x.MobileNo, new { @class = "form-control required user name", autocomplete = "off", alt = "User name" })
+                                            @Html.Label("User name(Login ID)", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                                            @Html.TextBoxFor(x => x.userNameNew, new { @class = "form-control required user name", autocomplete = "off", alt = "User name(Login ID)" })
+                                        }
+                                    </div>
+                                    <div class="col-md-12">
+                                        @if (Model.Userrole == Ashirvad.Common.Enums.UserType.Admin)
+                                        {
+                                            @Html.Label("Mobile No(Forgot Password)", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                                            @Html.TextBoxFor(x => x.MobileNo, new { @class = "form-control required mobile", autocomplete = "off", minlength = 3, alt = "Mobile No(Forgot Password)" })
+                                        }
+                                        else
+                                        {
+                                            @Html.Label("Mobile No(Forgot Password)", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                                            @Html.TextBoxFor(x => x.MobileNo, new { @class = "form-control required mobile", autocomplete = "off", alt = "Mobile No(Forgot Password)" })
                                         }
                                     </div>
                                     <div class="col-md-12">

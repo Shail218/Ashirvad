@@ -42,6 +42,7 @@ namespace Ashirvad.Repo.Services.Area.User
                 user.student_id = userInfo.StudentID;
                 user.trans_id = this.AddTransactionData(userInfo.Transaction);
                 user.username = userInfo.Username;
+                user.mobile_no = userInfo.mobileNo;
                 string clientSecret = Security.GenerateToken(Security.CreateClientSecret(userInfo.Username, userInfo.RowStatus.RowStatusId.ToString()));
                 //user.client_secret = clientSecret;
                 this.context.USER_DEF.Add(user);
@@ -101,13 +102,14 @@ namespace Ashirvad.Repo.Services.Area.User
                 flag = data.username.Equals(userInfo.Username);
                 user.trans_id = this.AddTransactionData(userInfo.Transaction);
                 user.username = userInfo.Username;
+                user.mobile_no = userInfo.mobileNo;
                 this.context.USER_DEF.Add(user);
                 this.context.Entry(user).State = System.Data.Entity.EntityState.Modified;
                 var da = this.context.SaveChanges() > 0 || user.user_id > 0;
                 if (da)
                 {
                     userInfo.UserID = user.user_id;
-                    responseModel.Message = isUpdate == true ? flag == false ? "Your Mobile Number has Changed!! Please Login Again!!" : "Profile Updated." : "Profile Inserted Successfully";
+                    responseModel.Message = isUpdate == true ? flag == false ? "Your User Name has Changed!! Please Login Again!!" : "Profile Updated." : "Profile Inserted Successfully";
                     responseModel.Status = true;
                     responseModel.Data = userInfo;
                     
@@ -146,6 +148,7 @@ namespace Ashirvad.Repo.Services.Area.User
                             StudentID = u.student_id,
                             UserID = u.user_id,
                             Username = u.username,
+                            mobileNo = u.mobile_no,
                             BranchInfo = new BranchEntity()
                             {
                                 BranchID = u.branch_id,
@@ -187,6 +190,7 @@ namespace Ashirvad.Repo.Services.Area.User
                         {
                             Username = u.username,
                             Password = u.password,
+                            mobileNo = u.mobile_no,
                             ClientSecret = u.BRANCH_STAFF.name
                         }).FirstOrDefault();
             return user;
@@ -210,6 +214,7 @@ namespace Ashirvad.Repo.Services.Area.User
                             StudentID = u.student_id,
                             UserID = u.user_id,
                             Username = u.username,
+                            mobileNo = u.mobile_no,
                             BranchInfo = new BranchEntity()
                             {
                                 BranchID = u.branch_id,
@@ -256,6 +261,7 @@ namespace Ashirvad.Repo.Services.Area.User
                             StudentID = u.student_id,
                             UserID = u.user_id,
                             Username = u.username,
+                            mobileNo = u.mobile_no,
                             BranchInfo = new BranchEntity()
                             {
                                 BranchID = u.branch_id,
@@ -281,7 +287,8 @@ namespace Ashirvad.Repo.Services.Area.User
                          {
                              StudentID = u.student_id,
                              UserID = u.user_id,
-                             Username = u.username
+                             Username = u.username,
+                             mobileNo = u.mobile_no
                          }).ToList();
                 if (z?.Count > 0)
                 {
@@ -331,6 +338,7 @@ namespace Ashirvad.Repo.Services.Area.User
                             StudentID = u.student_id,
                             UserID = u.user_id,
                             Username = u.username,
+                            mobileNo = u.mobile_no,
                             UserType = u.user_type == 5 ? Enums.UserType.SuperAdmin : u.user_type == 1 ? Enums.UserType.Admin : u.user_type == 2 ? Enums.UserType.Student : u.user_type == 3 ? Enums.UserType.Parent : Enums.UserType.Staff,
                             UserTypeText = tdUserType.short_desc,
                             BranchInfo = new BranchEntity()
@@ -410,6 +418,7 @@ namespace Ashirvad.Repo.Services.Area.User
                             StudentID = u.student_id,
                             UserID = u.user_id,
                             Username = u.username,
+                            mobileNo = u.mobile_no,
                             UserType = u.user_type == 5 ? Enums.UserType.SuperAdmin : u.user_type == 1 ? Enums.UserType.Admin : u.user_type == 2 ? Enums.UserType.Student : u.user_type == 3 ? Enums.UserType.Parent : Enums.UserType.Staff,
                             UserTypeText = tdUserType.short_desc,
                             BranchInfo = new BranchEntity()
@@ -823,7 +832,7 @@ namespace Ashirvad.Repo.Services.Area.User
                 else
                 {
                     responseModel.Status = false;
-                    responseModel.Message = "Failed To  Transfer Student!!";
+                    responseModel.Message = "Failed To Transfer Student!!";
                 }
             }
             catch (Exception ex)

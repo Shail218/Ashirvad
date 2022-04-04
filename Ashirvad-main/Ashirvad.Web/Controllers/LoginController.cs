@@ -104,7 +104,7 @@ namespace Ashirvad.Web.Controllers
                 var data = model.Check_UserName(user.Username).Result;
                 if (data != null)
                 {
-                    string contactNo = data.Username;
+                    string contactNo = data.mobileNo;
                     string message = "Dear%20" + "User" + "%20your%20Password%20is:%20" + data.Password + "%20Thank%20you" + "%20MSMIND";
                     //string message = "testing msg oasissoftwares";
                     string requestUrl = string.Format("http://sms.oasissoftwares.online/sms-panel/api/http/index.php?username=MSMlND&apikey=7F7A1-06464&apirequest=Text&sender=MSMlND&mobile=" + contactNo + "&message=" + message + "&route=TRANS&TemplateID=1507164378545227889&format=JSON");
@@ -136,7 +136,7 @@ namespace Ashirvad.Web.Controllers
                 else
                 {
                     entity.Status = false;
-                    entity.Message = "Please Enter Registered Mobile Number!!";
+                    entity.Message = "Please Enter User Name!!";
                 }
 
             }

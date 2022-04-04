@@ -31,6 +31,7 @@ namespace Ashirvad.Repo.Model
         public Nullable<long> student_id { get; set; }
         public Nullable<long> parent_id { get; set; }
         public string fcm_token { get; set; }
+        public string mobile_no { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USER_ROLE> USER_ROLE { get; set; }
