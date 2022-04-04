@@ -480,7 +480,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                     responseModel.Status = false;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 responseModel.Message = ex.Message.ToString();
                 responseModel.Status = false;
@@ -548,14 +548,14 @@ namespace Ashirvad.Repo.Services.Area.Student
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
-            data.StudImage = data.StudentImgByte != null && data.StudentImgByte.Length > 0 ? Convert.ToBase64String(data.StudentImgByte) : "";
+           // data.StudImage = data.StudentImgByte != null && data.StudentImgByte.Length > 0 ? Convert.ToBase64String(data.StudentImgByte) : "";
             if (data != null)
             {
                 if (data.UserID == null)
                 {
                     data.UserID = 0;
                 }
-                if (data.StudentMaint.ParentID != null)
+                if (data.StudentMaint.ParentID != 0)
                 {
                     var d = (from a in this.context.USER_DEF where a.parent_id == data.StudentMaint.ParentID && a.student_id == data.StudentID select a).FirstOrDefault();
                     if (d != null)
@@ -677,7 +677,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                         .Include("BRANCH_MASTER")
                         join maint in this.context.STUDENT_MAINT on u.student_id equals maint.student_id
                         orderby u.student_id descending
-                        where branchID == 0 || u.branch_id == branchID
+                        where (branchID == 0 || u.branch_id == branchID) &&
+                        (u.row_sta_cd==1) && u.course_dtl_id==course && u.class_dtl_id==classname
                         select new StudentEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -732,55 +733,113 @@ namespace Ashirvad.Repo.Services.Area.Student
         {
             try
             {
+                
                 Model.STUDENT_MASTER studentMaster = new Model.STUDENT_MASTER();
+                Model.STUDENT_MASTER studentMaster1 = new Model.STUDENT_MASTER();
                 Model.STUDENT_MAINT studentMaint = new Model.STUDENT_MAINT();
+                Model.USER_DEF userdef = new Model.USER_DEF();
                 //studentMaster.STUDENT_MAINT = new Model.STUDENT_MAINT();
                 bool isUpdate = true;
-                var data = (from student in this.context.STUDENT_MASTER.Include("STUDENT_MAINT")
+                var data = (from student in this.context.STUDENT_MASTER
+                            join maint in this.context.STUDENT_MAINT on student.student_id equals maint.student_id
+                            join userdefd in this.context.USER_DEF on student.student_id equals userdefd.student_id
                             where student.student_id == studentInfo.StudentID
                             select new
                             {
                                 studentMaster = student,
-                                studentMaint = student.STUDENT_MAINT
+                                studentMaint = maint,
+                                userdef= userdefd
                             }).FirstOrDefault();
                 if (data != null)
                 {
+                    
                     studentMaster = data.studentMaster;
-                    studentInfo.Transaction.TransactionId = studentMaster.trans_id;
-                    studentMaster.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    studentMaster.final_year = studentInfo.Final_Year;
-                    studentMaster.trans_id = this.AddTransactionData(studentInfo.Transaction);
-                    this.context.STUDENT_MASTER.Add(studentMaster);
-                    this.context.Entry(studentMaster).State = System.Data.Entity.EntityState.Modified;
-                    var result = this.context.SaveChanges();
-
-                    if (result > 0)
-                    {
-                        studentMaster = data.studentMaster;
-                        studentMaster.course_dtl_id = studentInfo.BranchCourse.course_dtl_id;
-                        studentMaster.class_dtl_id = studentInfo.BranchClass.Class_dtl_id;
+                    studentMaint = data.studentMaint;
+                    //var Check = CheckPackage(studentMaster.branch_id);
+                    //{
+                        studentInfo.Transaction.TransactionId = studentMaster.trans_id;
+                        studentMaster.row_sta_cd = (int)Enums.RowStatus.Inactive;
                         studentMaster.final_year = studentInfo.Final_Year;
-                        this.context.STUDENT_MASTER.Add(studentMaster);                       
+                        studentMaster.trans_id = this.AddTransactionData(studentInfo.Transaction);
+                        this.context.STUDENT_MASTER.Add(studentMaster);
+                        this.context.Entry(studentMaster).State = System.Data.Entity.EntityState.Modified;
+                        var result = this.context.SaveChanges();
+
+
+                        var data2 = (from student in this.context.USER_DEF
+                                     where student.student_id == studentInfo.StudentID
+                                     select new
+                                     {
+                                         studentMaster = student,
+
+                                     }).FirstOrDefault();
+
+                        userdef = data2.studentMaster;
+                        userdef.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        this.context.USER_DEF.Add(userdef);
+                        this.context.Entry(userdef).State = System.Data.Entity.EntityState.Modified;
                         result = this.context.SaveChanges();
+
+
+
                         if (result > 0)
                         {
-                            responseModel.Status = true;
-                            responseModel.Message = "Student Trasnfer Successfully!!";
-                            responseModel.Data = studentMaster.student_id;
+                            studentInfo.BranchInfo = new BranchEntity();
+                            studentInfo.GrNo = studentMaster.gr_no;
+                            studentInfo.FirstName = studentMaster.first_name;
+                            studentInfo.MiddleName = studentMaster.middle_name;
+                            studentInfo.LastName = studentMaster.last_name;
+                            studentInfo.DOB = studentMaster.dob;
+                            studentInfo.AdmissionDate = studentMaster.admission_date;
+                            studentInfo.Address = studentMaster.address;
+                            studentInfo.BranchInfo.BranchID = studentMaster.branch_id;
+                            studentInfo.BranchCourse.course_dtl_id = studentInfo.BranchCourse.course_dtl_id;
+                            studentInfo.BranchClass.Class_dtl_id = studentInfo.BranchClass.Class_dtl_id;
+                            studentInfo.SchoolInfo.SchoolID = studentMaster.school_id.HasValue ? studentMaster.school_id.Value : 0;
+                            studentInfo.SchoolTime = studentMaster.school_time;
+                            studentInfo.BatchInfo.BatchType = (Enums.BatchType)studentMaster.batch_time;
+                            studentInfo.LastYearResult = studentMaster.last_yr_result;
+                            studentInfo.Grade = studentMaster.grade;
+                            studentInfo.LastYearClassName = studentMaster.last_yr_class_name;
+                            studentInfo.ContactNo = studentMaster.contact_no;
+                            studentInfo.AdmissionDate = studentMaster.admission_date;
+                            studentInfo.FileName = studentMaster.file_name;
+                            studentInfo.FilePath = studentMaster.file_path;
+                            studentInfo.Final_Year = studentMaster.final_year;
+                            studentInfo.RowStatus.RowStatusId = 1;
+                            studentInfo.StudentID = 0;
+                            studentInfo.StudentPassword = userdef.password;
+                            studentInfo.StudentMaint = new StudentMaint()
+                            {
+                                ParentName = studentMaint.parent_name,
+                                FatherOccupation = studentMaint.father_occupation,
+                                MotherOccupation = studentMaint.mother_occupation,
+                                ContactNo = studentMaint.contact_no
+                            };
+                            var result1 = StudentMaintenance(studentInfo).Result;
+
+                            if (result1.Status)
+                            {
+                                var Student = (StudentEntity)result1.Data;
+                                responseModel.Status = true;
+                                responseModel.Message = "Student Trasnfer Successfully!!";
+                                responseModel.Data = Student.StudentID;
+                            }
+                            else
+                            {
+                                responseModel.Status = false;
+                                responseModel.Message = "Failed To  Transfer Student!!";
+                            }
+
                         }
                         else
                         {
                             responseModel.Status = false;
                             responseModel.Message = "Failed To  Transfer Student!!";
+
                         }
-
-                    }
-                    else
-                    {
-                        responseModel.Status = false;
-                        responseModel.Message = "Failed To  Transfer Student!!";
-
-                    }
+                    //}
+                   
                 }
             }
             catch (Exception ex)

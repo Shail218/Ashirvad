@@ -181,17 +181,17 @@
                                         @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
                                         {
                                             @*<li id="StM">
-                        <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master</a>
-                    </li>*@
+                <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master</a>
+            </li>*@
                                             <li id="BrM">
                                                 <a href="@Url.Action("BranchMaintenance","Branch", new { @branchID=0 })">Branch Master</a>
                                             </li>
                                             @*<li id="Banner">
-                        <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })" )">Banner Master</a>
-                    </li>*@
+                <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })" )">Banner Master</a>
+            </li>*@
                                             @*<li id="NotificationMaster">
-                        <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
-                    </li>*@
+                <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
+            </li>*@
                                             <li id="StM">
                                                 <a href="@Url.Action("UserMaintenance","User", new { @branchID=0 })">User Master</a>
                                             </li>
@@ -245,6 +245,9 @@
                                             </li>
                                             <li id="BS" class="BranchSubjectMaster">
                                                 <a href="@Url.Action("SubjectMaintenance","BranchSubject", new { @SubjectID=0,@CourseID=0})">Subject Master</a>
+                                            </li>
+                                            <li id="BS" class="StudentTransfer">
+                                                <a href="@Url.Action("StudentTransfer","Student")">Subject Transfer</a>
                                             </li>
                                         }
 

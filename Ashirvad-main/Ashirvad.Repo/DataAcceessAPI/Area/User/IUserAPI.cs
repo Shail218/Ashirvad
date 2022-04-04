@@ -25,7 +25,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.User
 
         List<UserEntity> GetAllUsersddl(long branchID);
         Task<ResponseModel> UpdatefcmToken(UserEntity userentity, string fcm_token);
-        Task<ResponseModel> StudentUserMaintenance(UserEntity userInfo);
+        Task<ResponseModel> StudentUserMaintenance(UserEntity userInfo, bool IsDeleted = false);
 
         Task<UserEntity> ValidateStudentData(string userName, string password);
     }

@@ -28,20 +28,20 @@ namespace Ashirvad.Data
         public string FileName { get; set; }
         public string FilePath { get; set; }
         public byte[] StudentImgByte { get; set; }
-        public StandardEntity StandardInfo { get; set; }
-        public SchoolEntity SchoolInfo { get; set; }
-        public BranchEntity BranchInfo { get; set; }
-        public TransactionEntity Transaction { get; set; }
-        public RowStatusEntity RowStatus { get; set; }
-        public BatchEntity BatchInfo { get; set; }
-        public StudentMaint StudentMaint { get; set; }
+        public StandardEntity StandardInfo { get; set; } = new StandardEntity();
+        public SchoolEntity SchoolInfo { get; set; } = new SchoolEntity();
+        public BranchEntity BranchInfo { get; set; } = new BranchEntity();
+        public TransactionEntity Transaction { get; set; } = new TransactionEntity();
+        public RowStatusEntity RowStatus { get; set; } = new RowStatusEntity();
+        public BatchEntity BatchInfo { get; set; } = new BatchEntity();
+        public StudentMaint StudentMaint { get; set; } = new StudentMaint();
         public DateTime? AdmissionDate { get; set; }
         public string StudentPassword { get; set; }
         public string StudentPassword2 { get; set; }
         public long? UserID { get; set; } = 0;
         public HttpPostedFileBase ImageFile { get; set; }
-        public BranchCourseEntity BranchCourse { get; set; }
-        public BranchClassEntity BranchClass { get; set; }
+        public BranchCourseEntity BranchCourse { get; set; } = new BranchCourseEntity();
+        public BranchClassEntity BranchClass { get; set; } = new BranchClassEntity();
         public string Final_Year { get; set; }
         public string birth_date { get; set; }
         public string admission_date { get; set; }

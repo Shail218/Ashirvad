@@ -257,7 +257,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
                 responseModel = await _studentContext.StudentTransferMaintenance(studentInfo);
                 if (responseModel.Status)
                 {
-                    long StudentID =(long)responseModel.Data;
+                    var StudentID = Convert.ToInt64(responseModel.Data);
                     var info = await _studentContext.GetStudentByID(StudentID);
                     if (info != null)
                     {

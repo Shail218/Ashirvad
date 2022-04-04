@@ -15,6 +15,7 @@ namespace Ashirvad.Web.Controllers
 {
     public class StudentController : BaseController
     {
+        ResponseModel response = new ResponseModel();
         private readonly IStudentService _studentService;
         public StudentController(IStudentService studentService)
         {
@@ -76,7 +77,7 @@ namespace Ashirvad.Web.Controllers
             {
                 branch.LastYearResult = 1;
             }
-           var res = await _studentService.StudentMaintenance(branch);
+            var res = await _studentService.StudentMaintenance(branch);
             return Json(res);
         }
 
@@ -110,22 +111,35 @@ namespace Ashirvad.Web.Controllers
 
                 foreach (var item in result)
                 {
-                    item.Transaction = GetTransactionData(Common.Enums.TransactionType.Update);
-                    var result1 = await _studentService.StudentTransferMaintenance(item);
-                    if (!result1.Status)
+                    var getstudentno = await _studentService.CheckPackage(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                    if (getstudentno.Status)
+                    {
+
+                        
+                        item.Transaction = GetTransactionData(Common.Enums.TransactionType.Update);
+                        response = await _studentService.StudentTransferMaintenance(item);
+                        if (!response.Status)
+                        {
+                            break;
+                        }
+
+                    }
+                    else
                     {
                         break;
+                        response = getstudentno;
                     }
-
                 }
+                
+
 
             }
             catch (Exception ex)
             {
 
             }
-            
-            return Json(null);
+
+            return Json(response);
         }
     }
 }

@@ -237,7 +237,15 @@ function TransferStudent() {
     postCall.done(function (data) {
        
         HideLoader();
-
+        if (data.Status) {
+            ShowMessage(data.Message, "Success");
+            setTimeout(function () { window.location.href = "studenttransfer" }, 2000);
+        } else {
+            ShowMessage(data.Message, "Error");
+        }
+    }).fail(function () {
+        HideLoader();
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
@@ -304,5 +312,5 @@ function CheckData() {
         $("#studentdiv").css("height", "0px");
         $("#studentdiv").css("overflow-y", "none");
     }
-
+    HideLoader();
 }
