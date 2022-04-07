@@ -67,7 +67,7 @@ namespace Ashirvad.Repo.Services.Area.Course
                     {
                         courseEntity.CourseID = courseMaster.course_id;
                         courseEntity.Transaction.TransactionId = courseMaster.trans_id;
-                      //  CourseMasterMaintenance(courseEntity);
+                        CourseMasterMaintenance(courseEntity);
                    
                         responseModel.Data = courseEntity;
                         responseModel.Status = true;

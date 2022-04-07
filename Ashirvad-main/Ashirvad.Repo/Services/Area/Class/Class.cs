@@ -42,10 +42,7 @@ namespace Ashirvad.Repo.Services.Area.Class
                     bool isUpdate = true;
                     var data = (from cl in this.context.CLASS_MASTER
                                 where cl.class_id == classEntity.ClassID
-                                select new
-                                {
-                                    classMaster = cl
-                                }).FirstOrDefault();
+                                select cl).FirstOrDefault();
                     if (data == null)
                     {
                         classMaster = new Model.CLASS_MASTER();
@@ -53,8 +50,8 @@ namespace Ashirvad.Repo.Services.Area.Class
                     }
                     else
                     {
-                        classMaster = data.classMaster;
-                        classEntity.Transaction.TransactionId = data.classMaster.trans_id;
+                        classMaster = data;
+                        classEntity.Transaction.TransactionId = classMaster.trans_id;
                     }
                     classMaster.class_name = classEntity.ClassName;
                     classMaster.row_sta_cd = classEntity.RowStatus.RowStatusId;
@@ -308,22 +305,22 @@ namespace Ashirvad.Repo.Services.Area.Class
             {
                 bool Isvalid = CheckHistory(classID);
                 if (Isvalid)
-                {
-                    var data = (from u in this.context.CLASS_MASTER
-                                where u.class_id == classID
-                                select u).FirstOrDefault();
-                    if (data != null)
-                    {
-                        data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                        data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                        this.context.SaveChanges();
-
-                    }
+                {                  
                     var data1 = (from u in this.context.CLASS_DTL_MASTER
                                  where u.class_id == classID && u.is_class == false && u.row_sta_cd == 1
                                  select u).FirstOrDefault();
                     if (data1 != null)
                     {
+                        var data = (from u in this.context.CLASS_MASTER
+                                    where u.class_id == classID
+                                    select u).FirstOrDefault();
+                        if (data != null)
+                        {
+                            data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                            data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                            this.context.SaveChanges();
+
+                        }
                         data1.row_sta_cd = (int)Enums.RowStatus.Inactive;
                         data1.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data1.trans_id, LastUpdateBy = lastupdatedby });
                         this.context.SaveChanges();
@@ -339,7 +336,7 @@ namespace Ashirvad.Repo.Services.Area.Class
                 else
                 {
                     responseModel.Status = false;
-                    responseModel.Message = "Class Cannot be Removed.";
+                    responseModel.Message = "Class Already in used.";
                 }
             }
             catch (Exception ex)
