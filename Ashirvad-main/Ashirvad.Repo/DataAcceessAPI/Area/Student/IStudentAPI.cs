@@ -23,5 +23,8 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Student
         Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid, long courseid, int batchtime);
         Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std, long courseid, long Branch, long Batch);
         Task<List<StudentEntity>> GetFilterStudent(long course, long classname, string finalyear, long branchID);
+
+        Task<ResponseModel> ChangeStudentStatus(long StudentID, string lastupdatedby, int status);
+        Task<List<StudentEntity>> GetFilterStudentStatusWise(long course, long classname, int status, long branchID);
     }
 }

@@ -11,6 +11,7 @@ $(document).ready(function () {
         "bInfo": true,
         "bAutoWidth": true,
         "proccessing": true,
+        "scrollX":true,
         "sLoadingRecords": "Loading...",
         "sProcessing": true,
         "serverSide": true,
@@ -171,8 +172,8 @@ function SaveLink() {
         ShowLoader();
         var postCall = $.post(commonData.LiveVideo + "SaveLink", $('#flinkDetail').serialize());
         postCall.done(function (data) {
+            HideLoader();
             if (data.Status) {
-                HideLoader();
                 ShowMessage(data.Message, "Success");
                 window.location.href = "LiveVideoMaintenance?linkID=0";
             } else {
@@ -191,7 +192,7 @@ function RemoveLink(schoolID) {
         ShowLoader();
         var postCall = $.post(commonData.LiveVideo + "RemoveLink", { "linkID": schoolID });
         postCall.done(function (data) {
-            if (data) {
+            if (data.Status) {
                 HideLoader();
                 ShowMessage(data.Message, "Success");
                 window.location.href = "LiveVideoMaintenance?linkID=0";

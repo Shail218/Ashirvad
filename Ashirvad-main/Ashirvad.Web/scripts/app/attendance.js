@@ -258,7 +258,7 @@ function RemoveStudent(studentID) {
     var postCall = $.post(commonData.Student + "RemoveStudent", { "studentID": studentID });
     postCall.done(function (data) {
         if (data.Status) {
-            ShowMessage((data.Message, "Success");
+            ShowMessage(data.Message, "Success");
             window.location.href = "StudentMaintenance?studentID=0";
         } else {
             ShowMessage(data.Message, "Error");

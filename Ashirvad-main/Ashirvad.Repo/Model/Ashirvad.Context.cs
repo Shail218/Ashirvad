@@ -68,8 +68,6 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<Faculty> Faculties { get; set; }
         public virtual DbSet<NOTIFICATION_MASTER> NOTIFICATION_MASTER { get; set; }
         public virtual DbSet<CIRCULAR_MASTER> CIRCULAR_MASTER { get; set; }
-        public virtual DbSet<CLASS_MASTER> CLASS_MASTER { get; set; }
-        public virtual DbSet<SUBJECT_BRANCH_MASTER> SUBJECT_BRANCH_MASTER { get; set; }
         public virtual DbSet<BATCH_MASTER> BATCH_MASTER { get; set; }
         public virtual DbSet<ATTENDANCE_HDR> ATTENDANCE_HDR { get; set; }
         public virtual DbSet<FEE_STRUCTURE_DTL> FEE_STRUCTURE_DTL { get; set; }
@@ -93,6 +91,8 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<COMPETITION_MASTER_DTL> COMPETITION_MASTER_DTL { get; set; }
         public virtual DbSet<RANK_MASTER> RANK_MASTER { get; set; }
         public virtual DbSet<WINNER_MASTER> WINNER_MASTER { get; set; }
+        public virtual DbSet<CLASS_MASTER> CLASS_MASTER { get; set; }
+        public virtual DbSet<SUBJECT_BRANCH_MASTER> SUBJECT_BRANCH_MASTER { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

@@ -232,8 +232,13 @@ function RemoveStudent(studentID) {
         var postCall = $.post(commonData.ManageStudent + "Removestudent", { "studentID": studentID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Student Removed Successfully.", "Success");
-            window.location.href = "ManageStudentMaintenance?branchID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "ManageStudentMaintenance?branchID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+           
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

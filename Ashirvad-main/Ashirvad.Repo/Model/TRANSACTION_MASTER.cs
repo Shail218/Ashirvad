@@ -28,7 +28,6 @@ namespace Ashirvad.Repo.Model
             this.CATEGORY_MASTER = new HashSet<CATEGORY_MASTER>();
             this.CIRCULAR_MASTER = new HashSet<CIRCULAR_MASTER>();
             this.CLASS_DTL_MASTER = new HashSet<CLASS_DTL_MASTER>();
-            this.CLASS_MASTER = new HashSet<CLASS_MASTER>();
             this.COURSE_DTL_MASTER = new HashSet<COURSE_DTL_MASTER>();
             this.COURSE_MASTER = new HashSet<COURSE_MASTER>();
             this.FACULTY_MASTER = new HashSet<FACULTY_MASTER>();
@@ -41,7 +40,6 @@ namespace Ashirvad.Repo.Model
             this.STD_MASTER = new HashSet<STD_MASTER>();
             this.STUDENT_MASTER = new HashSet<STUDENT_MASTER>();
             this.STUDENT_PAYMENT_REL = new HashSet<STUDENT_PAYMENT_REL>();
-            this.SUBJECT_BRANCH_MASTER = new HashSet<SUBJECT_BRANCH_MASTER>();
             this.SUBJECT_DTL_MASTER = new HashSet<SUBJECT_DTL_MASTER>();
             this.SUBJECT_MASTER = new HashSet<SUBJECT_MASTER>();
             this.TEST_MASTER_DTL = new HashSet<TEST_MASTER_DTL>();
@@ -51,6 +49,8 @@ namespace Ashirvad.Repo.Model
             this.COMPETITION_MASTER_DTL = new HashSet<COMPETITION_MASTER_DTL>();
             this.RANK_MASTER = new HashSet<RANK_MASTER>();
             this.WINNER_MASTER = new HashSet<WINNER_MASTER>();
+            this.CLASS_MASTER = new HashSet<CLASS_MASTER>();
+            this.SUBJECT_BRANCH_MASTER = new HashSet<SUBJECT_BRANCH_MASTER>();
         }
     
         public long trans_id { get; set; }
@@ -85,8 +85,6 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CLASS_DTL_MASTER> CLASS_DTL_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CLASS_MASTER> CLASS_MASTER { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<COURSE_DTL_MASTER> COURSE_DTL_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<COURSE_MASTER> COURSE_MASTER { get; set; }
@@ -111,8 +109,6 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<STUDENT_PAYMENT_REL> STUDENT_PAYMENT_REL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SUBJECT_BRANCH_MASTER> SUBJECT_BRANCH_MASTER { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SUBJECT_DTL_MASTER> SUBJECT_DTL_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SUBJECT_MASTER> SUBJECT_MASTER { get; set; }
@@ -130,5 +126,9 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<RANK_MASTER> RANK_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WINNER_MASTER> WINNER_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CLASS_MASTER> CLASS_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SUBJECT_BRANCH_MASTER> SUBJECT_BRANCH_MASTER { get; set; }
     }
 }

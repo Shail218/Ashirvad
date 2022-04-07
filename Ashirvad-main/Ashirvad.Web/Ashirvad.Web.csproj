@@ -316,6 +316,7 @@
     <Content Include="scripts\app\standard.js" />
     <Content Include="scripts\app\standardwise.js" />
     <Content Include="scripts\app\student.js" />
+    <Content Include="scripts\app\StudentStatusChange.js" />
     <Content Include="scripts\app\StudentTransfer.js" />
     <Content Include="scripts\app\subject.js" />
     <Content Include="scripts\app\superadminsubject.js" />
@@ -1516,6 +1517,9 @@
     <Content Include="Views\StudentRank\Manage.cshtml" />
     <Content Include="Views\ViewCompetitionlist\Index.cshtml" />
     <Content Include="Views\Rank\Index.cshtml" />
+    <Content Include="Views\Student\StudentStatusChange.cshtml" />
+    <Content Include="Views\Student\FilterStudentData.cshtml" />
+    <Content Include="Views\Student\ManageStudentData.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

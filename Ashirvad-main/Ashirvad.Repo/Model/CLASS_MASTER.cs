@@ -32,11 +32,9 @@ namespace Ashirvad.Repo.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CLASS_DTL_MASTER> CLASS_DTL_MASTER { get; set; }
-        public virtual CLASS_MASTER CLASS_MASTER1 { get; set; }
-        public virtual CLASS_MASTER CLASS_MASTER2 { get; set; }
         public virtual COURSE_MASTER COURSE_MASTER { get; set; }
+        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SUBJECT_BRANCH_MASTER> SUBJECT_BRANCH_MASTER { get; set; }
-        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
     }
 }

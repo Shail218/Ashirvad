@@ -22,6 +22,11 @@ namespace Ashirvad.Repo.Model
         public string header_logo_ext { get; set; }
         public string file_path { get; set; }
         public string file_name { get; set; }
+        public string app_file_path { get; set; }
+        public string app_file_name { get; set; }
+        public string extra_1 { get; set; }
+        public string extra_2 { get; set; }
+        public string extra_3 { get; set; }
     
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
     }

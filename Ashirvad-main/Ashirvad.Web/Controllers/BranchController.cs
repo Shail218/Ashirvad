@@ -50,22 +50,38 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveBranch(BranchEntity branch)
         {
-            if (branch.ImageFile != null)
-            {
-                //photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
-                string _FileName = Path.GetFileName(branch.ImageFile.FileName);
-                string extension = System.IO.Path.GetExtension(branch.ImageFile.FileName);
-                string randomfilename = Common.Common.RandomString(20);
-                string _Filepath = "/BranchImage/" + randomfilename + extension;
-                string _path = Path.Combine(Server.MapPath("~/BranchImage"), randomfilename + extension);
-                branch.ImageFile.SaveAs(_path);
-                branch.BranchMaint.FileName = _FileName;
-                branch.BranchMaint.FilePath = _Filepath;
-            }
-            branch.Transaction = GetTransactionData(branch.BranchID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+            ResponseModel response = new ResponseModel();
+         if (branch.ImageFile != null)
+                {
+                    //photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
+                    string _FileName = Path.GetFileName(branch.ImageFile.FileName);
+                    string extension = System.IO.Path.GetExtension(branch.ImageFile.FileName);
+                    string randomfilename = Common.Common.RandomString(20);
+                    string _Filepath = "/BranchImage/" + randomfilename + extension;
+                    string _path = Path.Combine(Server.MapPath("~/BranchImage"), randomfilename + extension);
+                    branch.ImageFile.SaveAs(_path);
+                    branch.BranchMaint.FileName = _FileName;
+                    branch.BranchMaint.FilePath = _Filepath;
+                }
+                if (branch.AppImageFile != null)
+                {
+                    //photos.FileInfo = Common.Common.ReadFully(photos.ImageFile.InputStream);
+                    string _AppFileName = Path.GetFileName(branch.AppImageFile.FileName);
+                    string extension = System.IO.Path.GetExtension(branch.AppImageFile.FileName);
+                    string randomfilename = Common.Common.RandomString(20);
+                    string _AppFilepath = "/BranchImage/" + randomfilename + extension;
+                    string _path = Path.Combine(Server.MapPath("~/BranchImage"), randomfilename + extension);
+                    branch.AppImageFile.SaveAs(_path);
+                    branch.BranchMaint.AppFileName = _AppFileName;
+                    branch.BranchMaint.AppFilePath = _AppFilepath;
+                }
+                branch.Transaction = GetTransactionData(branch.BranchID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+              
+
+         
             var data = await _branchService.BranchMaintenance(branch);
-            
-            return Json(data);
+            response = data;
+            return Json(response);
         }
 
         [HttpPost]
@@ -87,6 +103,7 @@ namespace Ashirvad.Web.Controllers
             List<string> columns = new List<string>();
             columns.Add("BranchName");
             columns.Add("aliasName");
+            columns.Add("");
             columns.Add("");
             columns.Add("RowStatusText");
             foreach (var item in model.order)

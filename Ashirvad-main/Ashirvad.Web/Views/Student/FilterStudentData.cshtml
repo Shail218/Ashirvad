@@ -1,0 +1,44 @@
+﻿@model Ashirvad.Data.StudentEntity
+@{
+    ViewBag.Title = "Manage Student";
+    Layout = null;
+
+}
+
+<div style="margin-top:10px;">
+    <div class="col-md-3">
+        @Html.Label("Course Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        <select name="CourseName" id="CourseName" class="form-control requiredDDL" alt="Course Name">
+            <option value="0">--Select Course Name--</option>
+        </select>
+        @Html.HiddenFor(x => x.BranchCourse.course_dtl_id)
+    </div>
+    <div class="col-md-3">
+        @Html.Label("Class Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        <select name="StandardName" id="StandardName" class="form-control requiredDDL" alt="Class Name">
+            <option value="0">--Select Class Name--</option>
+        </select>
+        @Html.HiddenFor(x => x.BranchClass.Class_dtl_id)
+    </div>  
+    <div class="col-md-3">
+        @Html.Label("Status", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        <select name="Status" id="Status" class="form-control requiredDDL" alt="Status">
+            <option value="0">--Select Status--</option>
+            <option value="1">Active</option>
+            <option value="2">InActive</option>
+        </select>
+        @Html.HiddenFor(x =>x.RowStatus)
+    </div>
+
+   <div class="col-md-1" style="padding-top: 25px !important;">
+        <a onclick="return FilterstudentStatusWise();" class="ladda-button mb-2 mr-2 btn btn-primary" style="width:100% !important;height:100% !important; font-size:110% !important;" data-style="expand-left">
+            <span class="ladda-label">
+                <i class="fa fa-search"></i>
+                Filter
+            </span>
+            <span class="ladda-spinner"></span>
+        </a>
+    </div>
+</div>
+
+

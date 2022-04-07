@@ -210,12 +210,12 @@ namespace Ashirvad.Repo.Services.Area.Subject
             return data;
         }
 
-        public async Task<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate)
+        public async Task<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate, long BranchID)
         {
             DateTime dateTime = Convert.ToDateTime(TestDate);
             var data = (from u in this.context.TEST_MASTER                     
                         orderby u.test_id descending
-                        where (u.test_dt == dateTime && u.row_sta_cd == 1)
+                        where (u.test_dt == dateTime && u.branch_id==BranchID && u.row_sta_cd == 1)
                         select new SubjectEntity()
                         {
                             testID = u.test_id,

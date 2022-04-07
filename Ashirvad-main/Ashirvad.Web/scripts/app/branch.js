@@ -29,6 +29,7 @@ $(document).ready(function () {
             { "data": "BranchName" },
             {"data":"aliasName"},
             { "data": "BranchMaint.FilePath" },
+            { "data": "BranchMaint.AppFilePath" },
             { "data": "RowStatus.RowStatusText" },
             { "data": "BranchID" },
         ],
@@ -45,13 +46,25 @@ $(document).ready(function () {
                 },
                 orderable: false,
                 searchable: false
+            },{
+                targets: 3,
+                render: function (data, type, full, meta) {
+
+                    if (type === 'display') {
+                        data =
+                            '<img src = "' + data + '" style="height:40px;width:40px;"/>'
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
             },
             {
-                targets: 3,                
+                targets: 4,                
                 orderable: false,                
             },
             {
-                targets: 4,
+                targets: 5,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
@@ -105,16 +118,25 @@ function SaveBranch() {
         ShowLoader();
         var frm = $('#fBranchDetail');
         var formData = new FormData(frm[0]);
-        formData.append('ImageFile', $('input[type=file]')[0].files[0]);
+        var item = $('input[type=file]');
+        if (item[0].files.length > 0) {
+            formData.append('ImageFile', $('input[type=file]')[0].files[0]);
+            formData.append('AppImageFile', $('input[type=file]')[1].files[0]);
+        }
         AjaxCallWithFileUpload(commonData.Branch + 'SaveBranch', formData, function (data) {
             HideLoader();
-            if (data.Success) {
-                ShowMessage(data.Message, 'Success');
-                window.location.href = "BranchMaintenance?branchID=0";
+            if (data) {
+                if (data.Status) {
+                    ShowMessage(data.Message, 'Success');
+                    window.location.href = "BranchMaintenance?branchID=0";
+                }
+                else {
+                    ShowMessage(data.Message, 'Error');
+                }
+            } else {
+                ShowMessage('An unexpected error occcurred while processing request!', 'Error');
             }
-            else {
-                ShowMessage(data.Message, 'Error');
-            }
+          
         }, function (xhr) {
             HideLoader();
             ShowMessage('An unexpected error occcurred while processing request!', 'Error');
@@ -126,7 +148,7 @@ function RemoveBranch(branchID) {
 
     var postCall = $.post(commonData.Branch + "RemoveBranch", { "branchID": branchID });
     postCall.done(function (data) {
-        if (data.Success) {
+        if (data.Status) {
             ShowMessage(data.Message, 'Success');
             window.location.href = "BranchMaintenance?branchID=0";
         } else {

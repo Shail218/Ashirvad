@@ -25,9 +25,11 @@ $(document).ready(function () {
         var rowStatus = $("#RowStatus_RowStatusId").val();
         if (rowStatus == "1") {
             $("#rowStaActive").attr('checked', 'checked');
+            $("#RowStatus_RowStatusId").val(1);
         }
         else {
             $("#rowStaInactive").attr('checked', 'checked');
+            $("#RowStatus_RowStatusId").val(2);
         }
     }
 
@@ -215,7 +217,7 @@ function SaveStudent() {
         AjaxCallWithFileUpload(commonData.Student + 'SaveStudent', formData, function (data) {
             if (data) {
                 HideLoader();
-                if (data.Success) {
+                if (data.Status) {
                     ShowMessage(data.Message, 'Success');
                     window.location.href = "StudentMaintenance?studentID=0";
                 } else {
@@ -250,7 +252,7 @@ function RemoveStudent(studentID) {
         var postCall = $.post(commonData.Student + "RemoveStudent", { "studentID": studentID });
         postCall.done(function (data) {
             HideLoader();
-            if (data.Success) {
+            if (data.Status) {
                 ShowMessage(data.Message, "Success");
                 window.location.href = "StudentMaintenance?studentID=0";
             } else {

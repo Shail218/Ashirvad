@@ -116,7 +116,7 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> SubjectDataByTestDate(string TestDate)
         {
-            var branchData = await _subjectService.GetAllSubjectsByTestDate(TestDate);
+            var branchData = await _subjectService.GetAllSubjectsByTestDate(TestDate,SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             return Json(branchData);
         }
     }

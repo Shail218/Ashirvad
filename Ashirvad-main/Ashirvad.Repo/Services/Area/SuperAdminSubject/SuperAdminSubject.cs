@@ -239,6 +239,11 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                         responseModel.Status = false;
                     }
                 }
+                else
+                {
+                    responseModel.Message = "Subject Cannot be Removed.";
+                    responseModel.Status = false;
+                }
             }
             catch (Exception ex)
             {

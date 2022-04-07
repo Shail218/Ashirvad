@@ -278,7 +278,7 @@ function RemoveFaculty(facultyID) {
         var postCall = $.post(commonData.Faculty + "RemoveFaculty", { "FacultyID": facultyID });
         postCall.done(function (data) {
             HideLoader();
-            if (data.Success) {
+            if (data.Status) {
                 ShowMessage(data.Message, "Success");
                 window.location.href = "FacultyMaintenance?facultyID=0";
             } else {

@@ -170,11 +170,11 @@ function SaveAgreement() {
         var postCall = $.post(commonData.Agreement + "SaveAgreement", $('#fAgreementDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            if (data.AgreementID >= 0) {
-                ShowMessage("Agreement Details Inserted Successfully.", "Success");
+            if (data.Success) {
+                ShowMessage(data.Message, "Success");
                 setTimeout(function () { window.location.href = "AgreementMaintenance?agreeID=0"; }, 2000);
             } else {
-                ShowMessage("Agreement is Already Exists for the same branch!!", "Error");
+                ShowMessage(data.Message, "Error");
             }
         }).fail(function () {
             HideLoader();

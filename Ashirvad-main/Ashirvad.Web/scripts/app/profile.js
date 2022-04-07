@@ -19,7 +19,7 @@ function SaveUser() {
             }
         }).fail(function () {
             HideLoader();
-            ShowMessage(data.Message, "Error");
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }
 }

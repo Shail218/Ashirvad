@@ -1,7 +1,6 @@
 ﻿@model Ashirvad.Data.Model.StudentMaintenanceModel
-
 @{
-    ViewBag.Title = "StudentTransfer";
+    ViewBag.Title = "Student Active/Inactive";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,23 +10,21 @@
         <section class="col-md-12">
             <div class="box box-warning">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Student Transfer</h3>
+                    <h3 class="box-title">Student Active/Inactive</h3>
                 </div>
                 <div class="box-body">
                     @{
-                        Html.RenderPartial("FilterStudent", new ViewDataDictionary(Model.StudentInfo));
+                        Html.RenderPartial("FilterStudentData", new ViewDataDictionary(Model.StudentInfo));
                     }
                 </div>
             </div>
         </section>
         <section class="col-md-12">
             <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Student Transfer List</h3>
-                </div>
+
                 <div class="box-header with-border" id="studentdetails">
                     @{
-                        Html.RenderPartial("ManageStudent", new ViewDataDictionary(Model.StudentData));
+                        Html.RenderPartial("ManageStudentData", new ViewDataDictionary(Model.StudentData));
                     }
                 </div>
             </div>
@@ -38,7 +35,7 @@
         @*<script src="~/ThemeData/plugins/jQuery/jquery-2.2.3.min.js"></script>*@
         <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
-        <script src="~/scripts/app/StudentTransfer.js"></script>
+        <script src="~/scripts/app/StudentStatusChange.js"></script>
         @*<script>
                 $(document).ready(function () {
 
@@ -61,4 +58,3 @@
         </script>
     }
 </section>
-

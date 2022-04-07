@@ -59,7 +59,7 @@ namespace Ashirvad.Web.Controllers
                 Marks.MarksFilepath = _Filepath;
             }
 
-            Marks.Transaction = GetTransactionData(Marks.MarksID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
+
             Marks.RowStatus = new RowStatusEntity()
             {
                 RowStatusId = (int)Enums.RowStatus.Active
@@ -72,6 +72,8 @@ namespace Ashirvad.Web.Controllers
             var line = JsonConvert.DeserializeObject<List<MarksEntity>>(Marks.JsonData);
             foreach(var item in line)
             {
+                Marks.MarksID = 0;
+                Marks.Transaction = GetTransactionData(Marks.MarksID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
                 Marks.AchieveMarks = item.AchieveMarks;
                 Marks.student = new StudentEntity(){
                     StudentID = item.student.StudentID

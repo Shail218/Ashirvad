@@ -248,8 +248,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             }
 
             return null;
-        }
-
+        }      
 
         public async Task<ResponseModel> StudentTransferMaintenance(StudentEntity studentInfo)
         {            
@@ -280,6 +279,40 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
             {
                 responseModel.Status = false;
                 responseModel.Message = ex.Message;
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return responseModel;
+        }
+
+
+        public async Task<List<StudentEntity>> GetFilterStudentStatusWise(long course, long classname, int status, long branchID)
+        {
+            try
+            {
+                return await this._studentContext.GetFilterStudentStatusWise(course, classname, status, branchID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
+
+        public async Task<ResponseModel> ChangeStudentStatus(long StudentID, string lastupdatedby, int status)
+        {
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                responseModel = await this._studentContext.ChangeStudentStatus(StudentID, lastupdatedby,status);
+                if (responseModel.Status)
+                {
+                    return this._userContext.ChangeUserStatus(StudentID, lastupdatedby, status);
+                }
+            }
+            catch (Exception ex)
+            {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
 

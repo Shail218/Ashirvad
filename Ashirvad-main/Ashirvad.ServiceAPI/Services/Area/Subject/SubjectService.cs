@@ -77,11 +77,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Subject
             return null;
         }
 
-        public async Task<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate)
+        public async Task<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate, long BranchID)
         {
             try
             {
-                return await this._subjectContext.GetAllSubjectsByTestDate(TestDate);
+                return await this._subjectContext.GetAllSubjectsByTestDate(TestDate, BranchID);
             }
             catch (Exception ex)
             {

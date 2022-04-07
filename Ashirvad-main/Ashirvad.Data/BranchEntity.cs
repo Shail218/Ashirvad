@@ -27,8 +27,10 @@ namespace Ashirvad.Data
         public RowStatusEntity RowStatus { get; set; }
         public BranchMaint BranchMaint { get; set; }
         public string ImagePath { get; set; }
+        public string AppImagePath { get; set; }
         public int BranchType { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
+        public HttpPostedFileBase AppImageFile { get; set; }
 
         public Enums.BoardType board { get; set; }
         public string boardtype { get; set; }
@@ -46,5 +48,7 @@ namespace Ashirvad.Data
         public string Website { get; set; }
         public string FilePath { get; set; }
         public string FileName { get; set; }
+        public string AppFilePath { get; set; }
+        public string AppFileName { get; set; }
     }
 }

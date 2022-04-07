@@ -695,6 +695,35 @@ namespace Ashirvad.Repo.Services.Area.User
                 responseModel.Status = false;
             }
             return responseModel;
+        } 
+        public ResponseModel ChangeUserStatus(long studentId, string lastupdatedby,int status)
+        {
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                var data = (from u in this.context.USER_DEF
+                            where u.student_id == studentId
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = status;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Message = status==1?"User Active Successfully.":"User Inactived Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "User Not Found.";
+                    responseModel.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
         }
 
         public List<UserEntity> GetAllUsersddl(long branchID)

@@ -36,6 +36,13 @@ namespace Ashirvad.Web.Controllers
                 var result = await _studentService.GetStudentByID(studentID);
                 branch.StudentInfo = result;
             }
+            else
+            {
+                branch.StudentInfo.RowStatus = new RowStatusEntity()
+                {
+                    RowStatusId = 1
+                };
+            }
 
             return View("Index", branch);
         }
@@ -93,6 +100,12 @@ namespace Ashirvad.Web.Controllers
         {
             StudentMaintenanceModel studentEntity = new StudentMaintenanceModel();
             return View(studentEntity);
+        } 
+        public ActionResult StudentStatusChange()
+
+        {
+            StudentMaintenanceModel studentEntity = new StudentMaintenanceModel();
+            return View(studentEntity);
         }
 
         [HttpPost]
@@ -100,6 +113,13 @@ namespace Ashirvad.Web.Controllers
         {
             var result = await _studentService.GetFilterStudent(course, classname, finalyear, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             return View("~/Views/Student/ManageStudent.cshtml", result);
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> GetFilterStudentStatusWise(long course, long classname, int status)
+        {
+            var result = await _studentService.GetFilterStudentStatusWise(course, classname, status, SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            return View("~/Views/Student/ManageStudentData.cshtml", result);
         }
 
         [HttpPost]
@@ -118,6 +138,46 @@ namespace Ashirvad.Web.Controllers
                         
                         item.Transaction = GetTransactionData(Common.Enums.TransactionType.Update);
                         response = await _studentService.StudentTransferMaintenance(item);
+                        if (!response.Status)
+                        {
+                            break;
+                        }
+
+                    }
+                    else
+                    {
+                        break;
+                        response = getstudentno;
+                    }
+                }
+                
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return Json(response);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ChangeStudentStatus(string Studentdata)
+        {
+            try
+            {
+                var result = JsonConvert.DeserializeObject<List<StudentEntity>>(Studentdata);
+
+                foreach (var item in result)
+                {
+                    var getstudentno = await _studentService.CheckPackage(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+                    if (getstudentno.Status)
+                    {
+
+                        
+                        item.Transaction = GetTransactionData(Common.Enums.TransactionType.Update);
+                        response = await _studentService.ChangeStudentStatus(item.StudentID,item.Transaction.LastUpdateBy,(int)item.RowStatus.RowStatus);
                         if (!response.Status)
                         {
                             break;

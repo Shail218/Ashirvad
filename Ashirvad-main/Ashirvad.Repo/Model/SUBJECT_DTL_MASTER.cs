@@ -40,7 +40,6 @@ namespace Ashirvad.Repo.Model
         public virtual COURSE_DTL_MASTER COURSE_DTL_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FACULTY_MASTER> FACULTY_MASTER { get; set; }
-        public virtual SUBJECT_BRANCH_MASTER SUBJECT_BRANCH_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRACTICE_PAPER> PRACTICE_PAPER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -54,5 +53,6 @@ namespace Ashirvad.Repo.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LIBRARY_STD_MASTER> LIBRARY_STD_MASTER { get; set; }
         public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
+        public virtual SUBJECT_BRANCH_MASTER SUBJECT_BRANCH_MASTER { get; set; }
     }
 }

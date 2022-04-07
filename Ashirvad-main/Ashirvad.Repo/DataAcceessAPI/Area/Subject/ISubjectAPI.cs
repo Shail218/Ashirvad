@@ -16,6 +16,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Subject
         ResponseModel RemoveSubject(long SubjectID, string lastupdatedby);
         Task<List<SubjectEntity>> GetAllSubjects();
         Task<SubjectEntity> GetSubjectByID(long subjectID);
-        Task<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate);
+        Task<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate, long BranchID);
     }
 }

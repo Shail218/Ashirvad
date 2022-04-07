@@ -167,7 +167,7 @@ function SaveBanner() {
         AjaxCallWithFileUpload(commonData.Banner + 'SaveBanner', formData, function (data) {
             if (data) {
                 HideLoader();
-                if (data.Success) {
+                if (data.Status) {
                     ShowMessage(data.Message, 'Success');
                     window.location.href = "BannerMaintenance?bannerID=0";
                 } else {
@@ -191,7 +191,7 @@ function RemoveBanner(branchID) {
         var postCall = $.post(commonData.Banner + "RemoveBanner", { "bannerID": branchID });
         postCall.done(function (data) {
             HideLoader();
-            if (data.Success) {
+            if (data.Status) {
                 ShowMessage(data.Message, "Success");
                 window.location.href = "BannerMaintenance?bannerID=0";
             } else {

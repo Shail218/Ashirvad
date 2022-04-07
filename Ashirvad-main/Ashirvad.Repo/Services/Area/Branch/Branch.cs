@@ -72,6 +72,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     }
                     branchMaster.BRANCH_MAINT.file_name = branchInfo.BranchMaint.FileName;
                     branchMaster.BRANCH_MAINT.file_path = branchInfo.BranchMaint.FilePath;
+                    branchMaster.BRANCH_MAINT.app_file_name = branchInfo.BranchMaint.AppFileName;
+                    branchMaster.BRANCH_MAINT.app_file_path = branchInfo.BranchMaint.AppFilePath;
                     branchMaster.BRANCH_MAINT.branch_logo = null;
                     branchMaster.BRANCH_MAINT.header_logo = null;
                     branchMaster.BRANCH_MAINT.website = branchInfo.BranchMaint.Website;
@@ -130,7 +132,9 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 BranchId = u.BRANCH_MAINT.branch_id,
                                 Website = u.BRANCH_MAINT.website,
                                 FileName = u.BRANCH_MAINT.file_name,
-                                FilePath = "https://mastermind.org.in" + u.BRANCH_MAINT.file_path
+                                FilePath = "https://mastermind.org.in" + u.BRANCH_MAINT.file_path,
+                                AppFileName = u.BRANCH_MAINT.app_file_name,
+                                AppFilePath = "https://mastermind.org.in" + u.BRANCH_MAINT.app_file_path
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
 
@@ -171,7 +175,9 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 BranchId = u.BRANCH_MAINT.branch_id,
                                 Website = u.BRANCH_MAINT.website,
                                 FileName = u.BRANCH_MAINT.file_name,
-                                FilePath = "https://mastermind.org.in" + u.BRANCH_MAINT.file_path
+                                FilePath = "https://mastermind.org.in" + u.BRANCH_MAINT.file_path,
+                                AppFileName = u.BRANCH_MAINT.app_file_name,
+                                AppFilePath = "https://mastermind.org.in" + u.BRANCH_MAINT.app_file_path
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
 
@@ -209,7 +215,9 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 BranchId = u.BRANCH_MAINT.branch_id,
                                 Website = u.BRANCH_MAINT.website,
                                 FileName = u.BRANCH_MAINT.file_name,
-                                FilePath = "https://mastermind.org.in" + u.BRANCH_MAINT.file_path
+                                FilePath = "https://mastermind.org.in" + u.BRANCH_MAINT.file_path,  
+                                AppFileName = u.BRANCH_MAINT.app_file_name,
+                                AppFilePath = "https://mastermind.org.in" + u.BRANCH_MAINT.app_file_path
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
 
@@ -246,6 +254,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 //HasImage = u.BRANCH_MAINT.branch_logo != null,
                                 //BranchLogo = u.BRANCH_MAINT.branch_logo,
                                 //HeaderLogo = u.BRANCH_MAINT.header_logo,
+                                AppFileName = u.BRANCH_MAINT.app_file_name,
+                                AppFilePath =  u.BRANCH_MAINT.app_file_path,
                                 Website = u.BRANCH_MAINT.website,
                             },
                             board = u.board_type == 1 ? Enums.BoardType.GujaratBoard : u.board_type == 2 ? Enums.BoardType.CBSC : Enums.BoardType.Both,

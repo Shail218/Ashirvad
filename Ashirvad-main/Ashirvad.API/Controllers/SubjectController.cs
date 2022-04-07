@@ -61,9 +61,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllSubjectsByTestDate")]
         [HttpGet]
-        public OperationResult<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate)
+        public OperationResult<List<SubjectEntity>> GetAllSubjectsByTestDate(string TestDate, long BranchID)
         {
-            var data = this._subjectService.GetAllSubjectsByTestDate(TestDate);
+            var data = this._subjectService.GetAllSubjectsByTestDate(TestDate,BranchID);
             OperationResult<List<SubjectEntity>> result = new OperationResult<List<SubjectEntity>>();
             result.Completed = true;
             result.Data = data.Result;

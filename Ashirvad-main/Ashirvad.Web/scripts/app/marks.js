@@ -1,6 +1,8 @@
 ﻿/// <reference path="common.js" />
 /// <reference path="../ashirvad.js" />
 
+//const { cache } = require("npm");
+
 $(document).ready(function () {
     ShowLoader();
     $("#datepickermarks").datepicker({
@@ -124,15 +126,21 @@ function LoadTestDetails(TestID, Subject) {
         if (data.marksentered) {
 
             ShowMessage("Marks Already inserted for this Test !", "Error");
-            $("#StudentDetail").html('');
+            $("#marksentrytable").empty();
+            //var table2 = $('#marksentrytable').DataTable();
+            ////table2.data.empty();
+            //table2.clear();
+            ////table2.destroy();
+            LoadStudentDetails(0, 0, 0);
         } else {
             var Std = $('#BranchClass_Class_dtl_id').val();
             var Batch = $('#BatchType').val();
             var courseid = $("#BranchCourse_course_dtl_id").val();
             LoadStudentDetails(Std,courseid,Batch);
         }
-    }).fail(function () {
-        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    }).fail(function (xhr) {
+        HideLoader();
+        ShowMessage("An unexpected error occcurred while processing request!", "Error");
     });
 }
 
@@ -218,47 +226,53 @@ function LoadStudentDetails(Std, courseid,Batch)
 {
     ShowLoader();
     table.destroy();
-    table = $('#marksentrytable').DataTable({
-        "bPaginate": true,
-        "bLengthChange": false,
-        "bFilter": true,
-        "bInfo": true,
-        "bAutoWidth": true,
-        "proccessing": true,
-        "sLoadingRecords": "Loading...",
-        "sProcessing": true,
-        "serverSide": true,
-        "language": {
-            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
-        },
-        "ajax": {
-            url: "" + GetSiteURL() + "/ResultEntry/CustomServerSideSearchAction?Std=" + Std + "&courseid=" + courseid + "&BatchTime=" + Batch + "",
-            type: 'POST',
-            "data": function (d) {
-                HideLoader();
-                d.Std = Std;
-                d.BatchTime = Batch;
-                d.courseid = courseid;
-            }
-        },
-        "columns": [
-            { "data": "Name" }
-        ],
-        "columnDefs": [
-            {
-                targets: 1,
-                render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data = `<input name="Marks" class="form-control customwidth required" alt="Achieve Mark" autocomplete="off" Id="Marks" />
-                        <input hidden value= `+ full.StudentID +` Id="StudentID" />`
-                    }
-                    return data;
-                },
-                orderable: false,
-                searchable: false
-            }
-        ]
-    });
+    try {
+        table = $('#marksentrytable').DataTable({
+            "bPaginate": true,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "proccessing": true,
+            "sLoadingRecords": "Loading...",
+            "sProcessing": true,
+            "serverSide": true,
+            "language": {
+                processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+            },
+            "ajax": {
+                url: "" + GetSiteURL() + "/ResultEntry/CustomServerSideSearchAction?Std=" + Std + "&courseid=" + courseid + "&BatchTime=" + Batch + "",
+                type: 'POST',
+                "data": function (d) {
+                    HideLoader();
+                    d.Std = Std;
+                    d.BatchTime = Batch;
+                    d.courseid = courseid;
+                }
+            },
+            "columns": [
+                { "data": "Name" }
+            ],
+            "columnDefs": [
+                {
+                    targets: 1,
+                    render: function (data, type, full, meta) {
+                        if (type === 'display') {
+                            data = `<input name="Marks" class="form-control customwidth required" alt="Achieve Mark" autocomplete="off" Id="Marks" />
+                        <input hidden value= `+ full.StudentID + ` Id="StudentID" />`
+                        }
+                        return data;
+                    },
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+    } catch (err) {
+        HideLoader();
+        ShowMessage(err.Message, "Error");
+    }
+ 
 }
 
 function clearsubject() {

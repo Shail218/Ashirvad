@@ -217,11 +217,12 @@ function LoadSubject(ClassID, CourseID) {
 }
 
 function SavePaper() {
-    ShowLoader();
+   
     var isSuccess = ValidateData('dInformation');
    
 
     if (isSuccess) {
+        ShowLoader();
         var frm = $('#fPaperDetail');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');
@@ -231,7 +232,7 @@ function SavePaper() {
         AjaxCallWithFileUpload(commonData.Paper + 'SavePaper', formData, function (data) {
 
                 HideLoader();
-                if (data.Success) {
+                if (data.Status) {
                     ShowMessage(data.Message, 'Success');
                     window.location.href = "PaperMaintenance?paperID=0";
                 } else {
@@ -254,7 +255,7 @@ function RemovePaper(paperID) {
         var postCall = $.post(commonData.Paper + "RemovePaper", { "paperID": paperID });
         postCall.done(function (data) {
             HideLoader();
-            if (data.Success) {
+            if (data.Status) {
                 ShowMessage(data.Message, 'Success');
                 window.location.href = "PaperMaintenance?paperID=0";
             } else {

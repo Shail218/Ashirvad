@@ -98,7 +98,7 @@ namespace Ashirvad.Repo.Services.Area.UPI
                             UPIId = u.unique_id,
                             BranchData = new BranchEntity() { BranchID = b.branch_id, BranchName = b.branch_name },
                             TransactionData = new TransactionEntity() { TransactionId = u.trans_id }
-                        }).ToList();
+                        }).OrderByDescending(x=>x.UPIId).ToList();
 
             return data;
         }

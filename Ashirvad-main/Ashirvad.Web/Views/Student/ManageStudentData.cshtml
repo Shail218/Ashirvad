@@ -1,32 +1,24 @@
-﻿@using Ashirvad.Web.Controllers;
+﻿
+@using Ashirvad.Web.Controllers;
 @model List<Ashirvad.Data.StudentEntity>
 @{
 
     ViewBag.Title = "Manage Student";
-    Layout =null;
+    Layout = null;
 }
-
 <div style="margin-top:10px;">
+    <div class="col-md-4">
+        @Html.Label("Change Status to", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+        <select name="Status" id="Statusddl" class="form-control requiredDDL" alt="Status">
+            <option value="0">--Select Status--</option>
+            <option value="1">Active</option>
+            <option value="2">InActive</option>
+        </select>
+    </div>
 
-    <div class="col-md-4">
-        @Html.Label("Course Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-        <select name="CourseName" id="Courseddl" class="form-control requiredDDL" alt="Course Name">
-            <option value="0">--Select Course Name--</option>
-        </select>
-      
-    </div>
-    <div class="col-md-4">
-        @Html.Label("Class Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-        <select name="StandardName" id="Standardddl" class="form-control requiredDDL" alt="Class Name">
-            <option value="0">--Select Class Name--</option>
-        </select>
-       
-      
-    </div>
-   
 </div>
 <div class="col-md-12" style="overflow-y:scroll;height:400px !important;" id="studentdiv">
-    <input value="@Model.Count" id="datacount" hidden/>
+    <input value="@Model.Count" id="datacount" hidden />
     @if (Model.Count > 0)
     {
         <table style="width: 100%;" id="Studenttable" class="table table-striped dataTable no-footer">
@@ -70,7 +62,7 @@
                     <tr>
                         <td>
                             <input type="checkbox" onchange="checkstatus(this)" id="Createstatus" class="createStatus" />
-                            @Html.HiddenFor(x=>item.StudentID)
+                            @Html.HiddenFor(x => item.StudentID)
                         </td>
                         <td>
                             @if (item.FilePath == null)
@@ -107,13 +99,13 @@
 </div>
 <div class="col-md-12" style="text-align: right;">
     <br />
-    <a onclick="return TransferStudent();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+    <a onclick="return ChangeStudentStatus();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
         <span class="ladda-label">
             Save
         </span>
         <span class="ladda-spinner"></span>
     </a>
-    <a href="@Url.Action("StudentTransfer","Student")" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+    <a href="@Url.Action("StudentStatusChange","Student")" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
         <span class="ladda-label">
             Cancel
         </span>
@@ -122,4 +114,3 @@
 </div>
 <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
-<script src="~/scripts/app/StudentTransfer.js"></script>

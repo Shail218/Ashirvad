@@ -89,7 +89,7 @@ function RemoveCategory(categoryID) {
         var postCall = $.post(commonData.Category + "RemoveCategory", { "categoryID": categoryID });
         postCall.done(function (data) {
             HideLoader();
-            if (data.Success) {
+            if (data.Status) {
                 ShowMessage(data.Message, "Success");
                 window.location.href = "CategoryMaintenance?categoryID=0";
             } else {
