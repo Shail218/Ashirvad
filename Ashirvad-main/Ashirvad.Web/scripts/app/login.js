@@ -56,15 +56,34 @@ function checkusername() {
 
 function ChangePassword() {
     var isSuccess = ValidateData('dInformation');
-    if (isSuccess) {
+    var isValidate = false;
+    var confirmPassword = $("#confirm_password").val();
+    var newPassword = $("#new_password").val();
+    var oldpass = $("#old_password").val();
+    if (confirmPassword === newPassword) {
+       
+        if (confirmPassword === oldpass) {
+            ShowMessage("Old Password and New Password cannot be same.", "Error");
+        } else {
+            isValidate = true;
+        }
+    } else {
+        ShowMessage("Password and Confirm Password must be same.", "Error");
+    }
+    if (isSuccess && isValidate) {
         ShowLoader();
-        var password = $("#Password").val();
+        var password = $("#new_password").val();
         var oldPassword = $("#old_password").val();
         var postCall = $.post(commonData.ChangePassword + "changepassword", { "password": password, "oldPassword": oldPassword });
         postCall.done(function (data) {
-                HideLoader();
-                ShowMessage("password Change Successfully.", "Success");
-            window.location.href = commonData.VDName + 'Home/Index';
+            HideLoader();
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href;
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+           
             }).fail(function () {
                 HideLoader();
                 ShowMessage("An unexpected error occcurred while processing request!", "Error");

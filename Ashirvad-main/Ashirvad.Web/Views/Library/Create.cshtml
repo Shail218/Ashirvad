@@ -92,7 +92,7 @@
                 <option value="0">--Select Subject--</option>
             </select>
             @Html.HiddenFor(x => x.BranchSubject.Subject_dtl_id)
-            @Html.HiddenFor(x => x.BranchSubject.Subject.SubjectName, new { @class = "form-control requiredSub", @alt = "Standard", autocomplete = "off" })
+            @Html.HiddenFor(x => x.BranchSubject.Subject.SubjectName, new { @class = "form-control requiredSub", @alt = "Subject", autocomplete = "off" })
         </div>
         <div class="col-md-12" style="margin-top: 10px">
             @Html.Label("Document Description", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>

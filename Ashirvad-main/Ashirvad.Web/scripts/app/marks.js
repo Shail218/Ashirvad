@@ -149,8 +149,25 @@ function SaveMarks() {
     var MarksData = [];
     var test = $('#testEntityInfo_TestID').val();
     Map = {};
+    //$("#marksentrytable tbody tr").each(function () {
+    //    var StudentID = $(this).find("#StudentID").val();
+    //    var marks = $(this).find("#Marks").val();
+    //    if (marks == "" || marks == null) {
+    //        status = false;
+    //        return false;
+    //    }
+    //    if (StudentID != null) {
+    //        Map = {
+    //            AchieveMarks: marks,
+    //            student: {
+    //                StudentID: StudentID
+    //            }
+    //        }
+    //        MarksData.push(Map);
+    //    }
+    //});
     $("#marksentrytable tbody tr").each(function () {
-        var StudentID = $(this).find("#StudentID").val();
+        var StudentID = $(this).find("#item_StudentID").val();
         var marks = $(this).find("#Marks").val();
         if (marks == "" || marks == null) {
             status = false;
@@ -222,59 +239,66 @@ function LoadTestDates(BatchType) {
     }
 }
 
-function LoadStudentDetails(Std, courseid,Batch)
-{
-    ShowLoader();
-    table.destroy();
-    try {
-        table = $('#marksentrytable').DataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bInfo": true,
-            "bAutoWidth": true,
-            "proccessing": true,
-            "sLoadingRecords": "Loading...",
-            "sProcessing": true,
-            "serverSide": true,
-            "language": {
-                processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
-            },
-            "ajax": {
-                url: "" + GetSiteURL() + "/ResultEntry/CustomServerSideSearchAction?Std=" + Std + "&courseid=" + courseid + "&BatchTime=" + Batch + "",
-                type: 'POST',
-                "data": function (d) {
-                    HideLoader();
-                    d.Std = Std;
-                    d.BatchTime = Batch;
-                    d.courseid = courseid;
-                }
-            },
-            "columns": [
-                { "data": "Name" }
-            ],
-            "columnDefs": [
-                {
-                    targets: 1,
-                    render: function (data, type, full, meta) {
-                        if (type === 'display') {
-                            data = `<input name="Marks" class="form-control customwidth required" alt="Achieve Mark" autocomplete="off" Id="Marks" />
-                        <input hidden value= `+ full.StudentID + ` Id="StudentID" />`
-                        }
-                        return data;
-                    },
-                    orderable: false,
-                    searchable: false
-                }
-            ]
-        });
-    } catch (err) {
-        HideLoader();
-        ShowMessage(err.Message, "Error");
-    }
+//function LoadStudentDetails(Std, courseid,Batch)
+//{
+//    ShowLoader();
+//    table.destroy();
+//    try {
+//        table = $('#marksentrytable').DataTable({
+//            "bPaginate": true,
+//            "bLengthChange": false,
+//            "bFilter": true,
+//            "bInfo": true,
+//            "bAutoWidth": true,
+//            "proccessing": true,
+//            "sLoadingRecords": "Loading...",
+//            "sProcessing": true,
+//            "serverSide": true,
+//            "language": {
+//                processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+//            },
+//            "ajax": {
+//                url: "" + GetSiteURL() + "/ResultEntry/CustomServerSideSearchAction?Std=" + Std + "&courseid=" + courseid + "&BatchTime=" + Batch + "",
+//                type: 'POST',
+//                "data": function (d) {
+//                    HideLoader();
+//                    d.Std = Std;
+//                    d.BatchTime = Batch;
+//                    d.courseid = courseid;
+//                }
+//            },
+//            "columns": [
+//                { "data": "Name" }
+//            ],
+//            "columnDefs": [
+//                {
+//                    targets: 1,
+//                    render: function (data, type, full, meta) {
+//                        if (type === 'display') {
+//                            data = `<input name="Marks" class="form-control customwidth required" alt="Achieve Mark" autocomplete="off" Id="Marks" />
+//                        <input hidden value= `+ full.StudentID + ` Id="StudentID" />`
+//                        }
+//                        return data;
+//                    },
+//                    orderable: false,
+//                    searchable: false
+//                }
+//            ]
+//        });
+//    } catch (err) {
+//        HideLoader();
+//        ShowMessage(err.Message, "Error");
+//    }
  
+//}
+function LoadStudentDetails(Std, courseid, Batch) {
+    var postCall = $.post(commonData.ResultEntry + "GetStudentByStd", { "Std": Std, "courseid": courseid, "BatchTime": Batch });
+    postCall.done(function (data) {
+        $("#StudentDetail").html(data);
+    }).fail(function () {
+        //ShowMessage("An unexpected error occcurred while processing request!", "Error");
+    });
 }
-
 function clearsubject() {
     $('#SubjectName').empty();
     $('#SubjectName').select2();

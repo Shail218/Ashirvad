@@ -87,8 +87,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     var id = this.context.SaveChanges() > 0 ? branchMaster.branch_id : 0;
                     if (id > 0)
                     {
-                        branchInfo.BranchID = branchMaster.branch_id;
-                        responseModel.Data = branchInfo;
+                       // branchInfo.BranchID = branchMaster.branch_id;
+                       // responseModel.Data = branchInfo;
                         responseModel.Message = isUpdate == true ? "Branch Updated Successfully." : "Branch Inserted Successfully.";
                         responseModel.Status = true;
                     }
@@ -342,7 +342,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     }
 
                     var agrID = this.context.SaveChanges() > 0 ? agrMaster.agreement_id : 0;
-                    if (agrID > 0)
+                    if (agrID >= 0)
                     {
                         agrInfo.AgreementID = agrMaster.agreement_id;
                         responseModel.Data = agrInfo;

@@ -44,8 +44,8 @@ namespace Ashirvad.Web.Controllers
                 var Get = await GetBranchRights(userInfo.BranchInfo.BranchID);
                 if (userInfo.UserType == Enums.UserType.SuperAdmin)
                 {
-                    List<BranchWiseRightEntity> branchWises = new List<BranchWiseRightEntity>();
-                    SessionContext.Instance.userRightsList= JsonConvert.SerializeObject(branchWises);
+                    //List<BranchWiseRightEntity> branchWises = new List<BranchWiseRightEntity>();
+                    //SessionContext.Instance.userRightsList= JsonConvert.SerializeObject(branchWises);
                     response.Message = "Login Successfully!!";
                     response.Status = true;
                     response.URL = "Home/Dashboard";

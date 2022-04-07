@@ -170,7 +170,7 @@ function SaveAgreement() {
         var postCall = $.post(commonData.Agreement + "SaveAgreement", $('#fAgreementDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
-            if (data.Success) {
+            if (data.Status) {
                 ShowMessage(data.Message, "Success");
                 setTimeout(function () { window.location.href = "AgreementMaintenance?agreeID=0"; }, 2000);
             } else {

@@ -6,7 +6,7 @@
 }
 <style>
     .customwidth {
-        width :30% !important;
+        width: 30% !important;
     }
 </style>
 <table style="width: 100%;" id="marksentrytable" class="table table-striped dataTable no-footer">
@@ -21,7 +21,8 @@
         </tr>
     </thead>
     <tbody>
-        @*@foreach (var item in Model)
+        @if(Model!=null){
+        foreach (var item in Model)
         {
             <tr>
                 <td>
@@ -33,7 +34,9 @@
                 </td>
 
             </tr>
-        }*@
+        }
+        }
+
     </tbody>
 
 </table>
@@ -54,6 +57,18 @@
         </a>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+
+        $('#marksentrytable').DataTable({
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "order": [[0, "desc"]]
+        });
+    });</script>
 
 
 

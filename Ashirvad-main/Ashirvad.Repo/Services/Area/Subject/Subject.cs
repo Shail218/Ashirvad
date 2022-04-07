@@ -58,13 +58,13 @@ namespace Ashirvad.Repo.Services.Area.Subject
                     if (da)
                     {
                         subjectInfo.SubjectID = subjectMaster.subject_id;
-                        responseModel.Message = isUpdate == true ? "Subject Updated." : "Subject Inserted Successfully";
+                        responseModel.Message = isUpdate == true ? "Subject Updated Successfully." : "Subject Inserted Successfully.";
                         responseModel.Status = true;
                         responseModel.Data = subjectInfo;
                     }
                     else
                     {
-                        responseModel.Message = isUpdate == true ? "Subject Not Updated." : "Subject Not Inserted Successfully";
+                        responseModel.Message = isUpdate == true ? "Subject Not Updated." : "Subject Not Inserted Successfully.";
                         responseModel.Status = false;
                     }
                 }

@@ -159,28 +159,34 @@ function SaveBanner() {
             },
             ImageFile: $('input[type=file]')[0].files[0]
         };
-        $('#JSONData').val(JSON.stringify(NotificationTypeList));
-        ShowLoader();
-        var frm = $('#fBannerDetail');
-        var formData = new FormData(frm[0]);
-        formData.append('ImageFile', bannerData.ImageFile);
-        AjaxCallWithFileUpload(commonData.Banner + 'SaveBanner', formData, function (data) {
-            if (data) {
-                HideLoader();
-                if (data.Status) {
-                    ShowMessage(data.Message, 'Success');
-                    window.location.href = "BannerMaintenance?bannerID=0";
-                } else {
-                    ShowMessage(data.Message, 'Error');
+        if (NotificationTypeList.length > 0) {
+            $('#JSONData').val(JSON.stringify(NotificationTypeList));
+            ShowLoader();
+            var frm = $('#fBannerDetail');
+            var formData = new FormData(frm[0]);
+            formData.append('ImageFile', bannerData.ImageFile);
+            AjaxCallWithFileUpload(commonData.Banner + 'SaveBanner', formData, function (data) {
+                if (data) {
+                    HideLoader();
+                    if (data.Status) {
+                        ShowMessage(data.Message, 'Success');
+                        window.location.href = "BannerMaintenance?bannerID=0";
+                    } else {
+                        ShowMessage(data.Message, 'Error');
+                    }
                 }
-            }
-            else {
+                else {
+                    HideLoader();
+                    ShowMessage('An unexpected error occcurred while processing request!', 'Error');
+                }
+            }, function (xhr) {
                 HideLoader();
                 ShowMessage('An unexpected error occcurred while processing request!', 'Error');
-            }
-        }, function (xhr) {
-            HideLoader();
-        });
+            });
+        } else {
+            ShowMessage('Select sutype', 'Error');
+        }
+       
     }
 }
 

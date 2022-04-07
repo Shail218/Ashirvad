@@ -69,7 +69,7 @@ namespace Ashirvad.Repo.Services.Area
                     MarksInfo.MarksID = MarksMaster.marks_id;
                     responseModel.Message = isUpdate == true ? "Marks Updated." : "Marks Inserted Successfully";
                     responseModel.Status = true;
-                    responseModel.Data = MarksInfo;
+                  //  responseModel.Data = MarksInfo;
                 }
                 else
                 {

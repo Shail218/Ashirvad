@@ -228,9 +228,9 @@ function SaveStudent() {
                 HideLoader();
                 ShowMessage("An unexpected error occcurred while processing request!", "Error");
             }
-        }).fail(function () {
+        }, function (xhr) {
             HideLoader();
-            //ShowMessage("An unexpected error occcurred while processing request!", "Error");
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }
 }

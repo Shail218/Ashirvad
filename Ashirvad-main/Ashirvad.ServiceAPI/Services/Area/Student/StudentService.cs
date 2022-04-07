@@ -136,6 +136,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Student
 
             return null;
         }
+        
+        public async Task<List<StudentEntity>> GetStudentByStd(long Std,long courseId, long Branch, long BatchTime)
+        {
+            try
+            {
+                return await this._studentContext.GetAllStudentByStd(Std,courseId, Branch, BatchTime);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
 
         public async Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std, long courseid, long Branch, long BatchTime)
         {

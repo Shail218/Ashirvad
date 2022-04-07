@@ -25,7 +25,7 @@ namespace Ashirvad.Web.Controllers
         [HttpPost]
         public JsonResult changepassword(string password, string oldPassword)
         {
-            var result = _userServices.ChangePassword(SessionContext.Instance.LoginUser.UserID, password,oldPassword);
+            var result = _userServices.ChangePassword(SessionContext.Instance.LoginUser.UserID, password,oldPassword).Result;
             return Json(result);
         }
     }

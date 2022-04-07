@@ -122,7 +122,7 @@
         }
     </style>
 </head>
-<body class="skin-blue layout-top-nav">
+<body class="skin-blue layout-top-nav" id="mainbody">
     <input id="rightslist" hidden value="@SessionContext.Instance.userRightsList" />
     <input id="Lbranch" hidden value="@SessionContext.Instance.LoginUser.BranchInfo.BranchName" />
     <input id="Lbranchalias" hidden value="@SessionContext.Instance.LoginUser.BranchInfo.aliasName" />
@@ -274,13 +274,13 @@
                                 }
                                 @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
                                 {
-                                    <li class="dropdown" visible="true" style="margin-left:10px;">
+                                    <!--<li class="dropdown" visible="true" style="margin-left:10px;">-->
                                         @*<a href="@Url.Action("Index","Competition")">*@
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                             Competition
-                                        </a>
+                                        </a>-->
                                         @*</a>*@
-                                    <ul class="dropdown-menu">
+                                    <!--<ul class="dropdown-menu">
                                         <li id="wentry" class="Winnerentry">
                                             <a href="@Url.Action("Index","WinnerEntry")">Winner Entry</a>
                                         </li>
@@ -299,7 +299,7 @@
                                             <a href="@Url.Action("Index","ViewCompetitionlist")">View Competition Details</a>
                                         </li>
                                     </ul>
-                                    </li>
+                                    </li>-->
                                 }
                                 @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
                                 {
@@ -353,7 +353,7 @@
 
                                         </ul>
                                     </li>
-                                    <li class="dropdown" id="StudentMenu" style="margin-left:10px;">
+                                    @*<li class="dropdown" id="StudentMenu" style="margin-left:10px;">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                             Competiton
                                         </a>
@@ -365,7 +365,7 @@
                                                 <a href="@Url.Action("Index","WinnerList")">Winner List</a>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li>*@
                                     <li class="dropdown" id="GalleryMenu" style="margin-left:10px;">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                             Gallery

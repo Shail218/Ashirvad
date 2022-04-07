@@ -52,7 +52,7 @@ namespace Ashirvad.Repo.Services.Area.Banner
                     {
                         responseModel.Message = isUpdate == true ? "Banner Updated Successfully." : "Banner Inserted Successfully.";
                         responseModel.Status = true;
-                        responseModel.Data = bannerInfo;
+                      //  responseModel.Data = bannerInfo;
                     }
                     else
                     {

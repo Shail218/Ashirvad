@@ -198,7 +198,20 @@ function ValidateData(divName) {
 function ParseNull(itemObject) {
     return (itemObject == '' || itemObject == undefined || itemObject == null || itemObject == "") ? null : itemObject;
 }
+function addloader() {
+    document.getElementById("mainbody").style.opacity = "0.8";
+    var loadingGIF = ` <div id="loader1" style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #ffffff; opacity: 0.8;">
+                            <img id="imgUpdateProgress" src="../ThemeData/images/preview.gif"
+                                 AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 50%; left: 50%; Width: 200px; Height: 160px;" />
+                            <span style="border-width: 0px; position: fixed; padding: 30px; background-color: #FFFFFF; color: #0472C4; font-size: 25px; left: 50%; top: 35%;">Please Wait ...</span>
+                        </div>`;
+    $("#loader").after(loadingGIF);
+}
 
+function DeleteLoader() {
+    document.getElementById("mainbody").style.opacity = "1";
+    $("#loader1").remove();
+}
 function AjaxCall(serviceUrl, dataParam, successCallBack, errorCallBack) {
     var baseURI = $("input[id$=hdnServiceURL]").val();
     $.ajax({

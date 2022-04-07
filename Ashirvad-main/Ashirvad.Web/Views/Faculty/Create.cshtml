@@ -23,8 +23,8 @@
         }
 
             <div class="col-md-12" style="margin-bottom:7px;">
-                @Html.Label("Select Faculty", htmlAttributes: new { @class = "control-label" })
-                <select name="facultyName" id="facultyName" class="form-control select2" alt="Faculty Name">
+                @Html.Label("Select Faculty", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+                <select name="facultyName" id="facultyName" class="form-control requiredDDL select2" alt="Faculty Name">
                     <option value="0">--Select Faculty--</option>
 
                 </select>

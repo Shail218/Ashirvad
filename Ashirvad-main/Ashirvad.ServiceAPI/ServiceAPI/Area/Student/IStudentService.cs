@@ -20,6 +20,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Student
         Task<List<StudentEntity>> GetAllStudent(string studName, string contactNo);
         Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std, long courseid, long Branch, long BatchTime);
         Task<List<StudentEntity>> GetStudentByStd(long Std, long BranchID,long BatchTime);
+        Task<List<StudentEntity>> GetStudentByStd(long Std,long courseId, long BranchID,long BatchTime);
         Task<List<StudentEntity>> GetAllCustomStudent(DataTableAjaxPostModel model, long branchID, int status = 0);
         Task<List<StudentEntity>> GetAllStudentsName(long branchID, long stdid,long courseid, int batchtime);
         Task<List<StudentEntity>> GetFilterStudent(long course, long classname, string finalyear, long branchID);

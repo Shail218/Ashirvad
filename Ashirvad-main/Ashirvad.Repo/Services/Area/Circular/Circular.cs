@@ -43,10 +43,10 @@ namespace Ashirvad.Repo.Services.Area.Circular
                     this.context.CIRCULAR_MASTER.Add(circularMaster);
                 }
                 var res = this.context.SaveChanges();
-                if(res>0)
+                if(res>=0)
                 {
                      circularInfo.CircularId=circularMaster.circular_id;
-                    responseModel.Data = circularInfo;
+                   // responseModel.Data = circularInfo;
                     responseModel.Status = true;
                     responseModel.Message = isUpdate==true?"Circular Updated Successfully.":"Circular Inserted Successfully.";
                 }

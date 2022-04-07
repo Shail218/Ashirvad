@@ -137,79 +137,97 @@ function ValidateAttendanceData() {
     }
 }
 
-function GetStudentDetail() {    
+//function GetStudentDetail() {    
+//    var isSuccess = ValidateData('dInformation');
+//    if (isSuccess) {
+//        ShowLoader();
+//        var Course = $('#BranchCourse_course_dtl_id').val();
+//        var STD = $('#BranchClass_Class_dtl_id').val();
+//        var BatchTime = $('#BatchTypeID').val();
+//        table.destroy();
+//        table = $('#attendancetable').DataTable({
+//            "bPaginate": true,
+//            "bLengthChange": false,
+//            "bFilter": true,
+//            "bInfo": true,
+//            "bAutoWidth": true,
+//            "proccessing": true,
+//            "sLoadingRecords": "Loading...",
+//            "sProcessing": true,
+//            "serverSide": true,
+//            "language": {
+//                processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+//            },
+//            "ajax": {
+//                url: "" + GetSiteURL() + "/AttendanceEntry/CustomServerSideSearchAction?STD=" + STD + "&courseid=" + Course + "&BatchTime=" + BatchTime + "",
+//                type: 'POST',
+//                "data": function (d) {
+//                    HideLoader();
+//                    d.STD = STD;
+//                    d.BatchTime = BatchTime;
+//                }
+//            },
+//            "columns": [
+//                { "data": "Name" },
+//                { "data": "StudentID" }
+//            ],
+//            "columnDefs": [
+//                {
+//                    targets: 1,
+//                    render: function (data, type, full, meta) {
+//                        if (type === 'display') {
+//                            data = `<input type="checkbox" value="` + data + `" name="cb" id = "cb"/> <span style="margin-left:20px;">Absent</span>
+//                                <input hidden value = `+ full.StudentID +` Id = "StudentID" />
+//                                <input hidden value = `+ full.GrNo +` Id = "GrNo" />`
+//                        }
+//                        return data;
+//                    },
+//                    orderable: false,
+//                    searchable: false
+//                },
+//                {
+//                    targets: 2,
+//                    render: function (data, type, full, meta) {
+//                        if (type === 'display') {
+//                            data =
+//                                '<input name="Remarks" class = "remark" alt="Remarks" autocomplete="off" id="Remarks" />'
+//                        }
+//                        return data;
+//                    },
+//                    orderable: false,
+//                    searchable: false
+//                }
+//            ]
+//        });
+//    }
+//}
+function GetStudentDetail() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
         ShowLoader();
-        var Course = $('#BranchCourse_course_dtl_id').val();
-        var STD = $('#BranchClass_Class_dtl_id').val();
-        var BatchTime = $('#BatchTypeID').val();
-        table.destroy();
-        table = $('#attendancetable').DataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bInfo": true,
-            "bAutoWidth": true,
-            "proccessing": true,
-            "sLoadingRecords": "Loading...",
-            "sProcessing": true,
-            "serverSide": true,
-            "language": {
-                processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
-            },
-            "ajax": {
-                url: "" + GetSiteURL() + "/AttendanceEntry/CustomServerSideSearchAction?STD=" + STD + "&courseid=" + Course + "&BatchTime=" + BatchTime + "",
-                type: 'POST',
-                "data": function (d) {
-                    HideLoader();
-                    d.STD = STD;
-                    d.BatchTime = BatchTime;
-                }
-            },
-            "columns": [
-                { "data": "Name" },
-                { "data": "StudentID" }
-            ],
-            "columnDefs": [
-                {
-                    targets: 1,
-                    render: function (data, type, full, meta) {
-                        if (type === 'display') {
-                            data = `<input type="checkbox" value="` + data + `" name="cb" id = "cb"/> <span style="margin-left:20px;">Absent</span>
-                                <input hidden value = `+ full.StudentID +` Id = "StudentID" />
-                                <input hidden value = `+ full.GrNo +` Id = "GrNo" />`
-                        }
-                        return data;
-                    },
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    targets: 2,
-                    render: function (data, type, full, meta) {
-                        if (type === 'display') {
-                            data =
-                                '<input name="Remarks" class = "remark" alt="Remarks" autocomplete="off" id="Remarks" />'
-                        }
-                        return data;
-                    },
-                    orderable: false,
-                    searchable: false
-                }
-            ]
+        var date1 = $("#AttendanceDate").val();
+        $("#AttendanceDate").val(ConvertData(date1));
+        var postCall = $.post(commonData.AttendanceEntry + "GetAllStudentByBranchStdBatch", $('#fAttendanceReportDetail').serialize());
+        postCall.done(function (data) {
+            HideLoader();
+            $('#AttendanceData').html(data);
+            //ShowMessage("Student added Successfully.", "Success");
+            //window.location.href = "StudentMaintenance?studentID=0";
+        }).fail(function () {
+            HideLoader();
+            //ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }
 }
-
 function SaveAttendance() {
     
     var AttendanceData = [];
     Map = {};
-    $("#attendancetable tbody tr").each(function () {       
+    $("#attendancetable tbody tr").each(function () {
         var IsAbsent, IsPresent;
+        var GrNo = $(this).find("#item_GrNo").val();
         var Remarks = $(this).find("#Remarks").val();
-        var StudentID = $(this).find("#StudentID").val();
+        var StudentID = $(this).find("#item_StudentID").val();
         var checked = $(this).find("#cb").prop("checked");
         if (checked) {
             IsAbsent = true;
@@ -230,6 +248,30 @@ function SaveAttendance() {
             AttendanceData.push(Map);
         }
     });
+    //$("#attendancetable tbody tr").each(function () {       
+    //    var IsAbsent, IsPresent;
+    //    var Remarks = $(this).find("#Remarks").val();
+    //    var StudentID = $(this).find("#StudentID").val();
+    //    var checked = $(this).find("#cb").prop("checked");
+    //    if (checked) {
+    //        IsAbsent = true;
+    //        IsPresent = false;
+    //    } else {
+    //        IsAbsent = false;
+    //        IsPresent = true;
+    //    }
+    //    if (StudentID != null) {
+    //        Map = {
+    //            IsAbsent: IsAbsent,
+    //            IsPresent: IsPresent,
+    //            Remarks: Remarks,
+    //            Student: {
+    //                StudentID: StudentID
+    //            }
+    //        }
+    //        AttendanceData.push(Map);
+    //    }
+    //});
     //var date1 = $("#AttendanceDate").val();
     //$("#AttendanceDate").val(ConvertData(date1));
     $('#JsonData').val(JSON.stringify(AttendanceData));

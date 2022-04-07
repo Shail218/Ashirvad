@@ -63,10 +63,10 @@ namespace Ashirvad.Repo.Services.Area.Faculty
                     }
 
                     var res = this.context.SaveChanges() > 0 ? facultymaster.faculty_id : 0;
-                    if (res > 0)
+                    if (res >= 0)
                     {
                         facultyInfo.FacultyID = facultymaster.faculty_id;
-                        responseModel.Data = facultyInfo;
+                       // responseModel.Data = facultyInfo;
                         responseModel.Status = true;
                         responseModel.Message = isUpdate==true?"Faculty Updated Successfully.":"Faculty Inserted Successfully.";
                     }

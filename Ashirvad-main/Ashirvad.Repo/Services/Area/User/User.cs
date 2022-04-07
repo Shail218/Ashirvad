@@ -154,7 +154,8 @@ namespace Ashirvad.Repo.Services.Area.User
                                 BranchID = u.branch_id,
                                 BranchName = b.branch_name,
                                 ContactNo = b.contact_no,
-                                aliasName = b.alias_name
+                                aliasName = b.alias_name,
+                                AppImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.app_file_path
                             },
                             StaffDetail = new StaffEntity()
                             {
@@ -219,7 +220,8 @@ namespace Ashirvad.Repo.Services.Area.User
                             {
                                 BranchID = u.branch_id,
                                 BranchName = b.branch_name,
-                                ContactNo = b.contact_no
+                                ContactNo = b.contact_no,
+                                AppImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.app_file_path
                             },
                             UserType = u.user_type == 5 ? Enums.UserType.SuperAdmin : u.user_type == 1 ? Enums.UserType.Admin : u.user_type == 2 ? Enums.UserType.Student : u.user_type == 3 ? Enums.UserType.Parent : Enums.UserType.Staff
                         }).FirstOrDefault();
@@ -266,7 +268,8 @@ namespace Ashirvad.Repo.Services.Area.User
                             {
                                 BranchID = u.branch_id,
                                 BranchName = b.branch_name,
-                                ContactNo = b.contact_no
+                                ContactNo = b.contact_no,
+                                AppImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.app_file_path
                             },
                             UserType = u.user_type == 5 ? Enums.UserType.SuperAdmin : u.user_type == 1 ? Enums.UserType.Admin : u.user_type == 2 ? Enums.UserType.Student : u.user_type == 3 ? Enums.UserType.Parent : Enums.UserType.Staff
                         }).FirstOrDefault();
@@ -654,7 +657,7 @@ namespace Ashirvad.Repo.Services.Area.User
                 else
                 {
                     model.Status = false;
-                    model.Message = "User Not Found";
+                    model.Message = "Old Password is incorrect.";
                 }
             }
             catch (Exception ex)
@@ -696,6 +699,7 @@ namespace Ashirvad.Repo.Services.Area.User
             }
             return responseModel;
         } 
+      
         public ResponseModel ChangeUserStatus(long studentId, string lastupdatedby,int status)
         {
             ResponseModel responseModel = new ResponseModel();

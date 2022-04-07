@@ -283,22 +283,29 @@ function LoadCategory() {
 }
 
 function SaveLibraryVideo() {
+    var Isvalidate = true;
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
-        ShowLoader();
-        var postCall = $.post(commonData.Library + 'SaveLibrary', $('#fLibraryDetail').serialize());
-        postCall.done(function (data) {
-            HideLoader();
-            if (data) {
-                ShowMessage("Library Video added Successfully.", "Success");
-                window.location.href = "LibraryMaintenance?libraryID=0&Type=1";
-            } else {
-                ShowMessage(data.Message, "Error");
-            }
-        }).fail(function () {
-            HideLoader();
-            ShowMessage("An unexpected error occcurred while processing request!", "Error");
-        });
+        if ($("#Type").val() == 2) {
+            Isvalidate = CustomValidation('dInformation');
+        }
+        if (Isvalidate) {
+            ShowLoader();
+            var postCall = $.post(commonData.Library + 'SaveLibrary', $('#fLibraryDetail').serialize());
+            postCall.done(function (data) {
+                HideLoader();
+                if (data) {
+                    ShowMessage("Library Video added Successfully.", "Success");
+                    window.location.href = "LibraryMaintenance?libraryID=0&Type=1";
+                } else {
+                    ShowMessage(data.Message, "Error");
+                }
+            }).fail(function () {
+                HideLoader();
+                ShowMessage("An unexpected error occcurred while processing request!", "Error");
+            });
+        }
+      
     }
 }
 

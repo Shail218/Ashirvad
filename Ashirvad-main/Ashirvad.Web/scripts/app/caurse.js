@@ -82,12 +82,12 @@ $(document).ready(function () {
 function SaveCourse() {
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
-        ShowLoader();
+        addloader();
         var frm = $('#fCaurseDetail');
         var formData = new FormData(frm[0]);
         formData.append('ImageFile', $('input[type=file]')[0].files[0]);
         AjaxCallWithFileUpload(commonData.Course + 'SaveCourse', formData, function (data) {
-            HideLoader();
+            DeleteLoader();
             if (data.Status) {
                 ShowMessage(data.Message, 'Success');
                 window.location.href = "CourseMaintenance?courseID=0";
@@ -97,6 +97,7 @@ function SaveCourse() {
             }
         }, function (xhr) {
             HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
         });
     }
 }

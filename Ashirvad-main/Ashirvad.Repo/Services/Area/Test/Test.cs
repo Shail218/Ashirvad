@@ -483,7 +483,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         orderby u.test_id descending
                         where u.branch_id == branchID && u.CLASS_DTL_MASTER.class_dtl_id == stdID
                         where u.branch_id == branchID && u.class_dtl_id == stdID && u.course_dtl_id == courseid
-                        && (batchTime == 0 || u.batch_time_id == batchTime)
+                        && (batchTime == 0 || u.batch_time_id == batchTime) && u.row_sta_cd==(int)Enums.RowStatus.Active
                         select new TestEntity()
                         {
                             TestDate = u.test_dt,

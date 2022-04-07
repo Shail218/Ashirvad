@@ -216,6 +216,28 @@ namespace Ashirvad.Repo.Services.Area.Student
 
             return data;
         }
+        public async Task<List<StudentEntity>> GetAllStudentByStd(long Std,long courseId, long Branch, long Batch)
+        {
+            var data = (from u in this.context.STUDENT_MASTER
+                        .Include("STD_MASTER")
+                        .Include("SCHOOL_MASTER")
+                        .Include("BRANCH_MASTER")
+                        where u.class_dtl_id == Std && u.branch_id == Branch && u.batch_time == Batch && u.row_sta_cd == (long)Enums.RowStatus.Active && u.course_dtl_id == courseId
+                        select new StudentEntity()
+                        {
+
+                            StudentID = u.student_id,
+                            GrNo = u.gr_no,
+                            BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
+                            SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
+                            Name = u.first_name + " " + u.last_name
+                        }).ToList();
+
+            return data;
+        }
+       
         public async Task<List<StudentEntity>> GetAllCustomStudentMarks(DataTableAjaxPostModel model, long Std, long courseid, long Branch, long Batch)
         {
             var Result = new List<StudentEntity>();

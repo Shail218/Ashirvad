@@ -59,6 +59,11 @@ namespace Ashirvad.Web.Controllers
                 branch.BranchInfo.BranchID = SessionContext.Instance.LoginUser.BranchInfo.BranchID;
                 var data = await _staffService.UpdateProfile(branch);
                 res = data;
+                if (data.Status)
+                {
+                    SessionContext.Instance.LoginUser.mobileNo = branch.MobileNo;
+                    SessionContext.Instance.LoginUser.Username = branch.userNameNew;
+                }
                 //if (branch.MobileNo == SessionContext.Instance.LoginUser.Username)
                 //{
                 //    res.Message = data.StaffID == 0 ? "Profile failed to Update!!" : "Profile Update Successfully!!";
@@ -82,6 +87,11 @@ namespace Ashirvad.Web.Controllers
                     mobileNo = branch.MobileNo
                 });
                 res = data;
+                if (data.Status)
+                {
+                    SessionContext.Instance.LoginUser.mobileNo = branch.MobileNo;
+                    SessionContext.Instance.LoginUser.Username = branch.userNameNew;
+                }
                 //if (branch.MobileNo == SessionContext.Instance.LoginUser.Username)
                 //{
                 //    res.Message = data == 0 ? "Profile failed to Update!!" : "Profile Update Successfully!!";

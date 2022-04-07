@@ -115,7 +115,7 @@ function SaveBranch() {
     var isSuccess = ValidateData('dInformation');
 
     if (isSuccess) {
-        ShowLoader();
+        addloader();
         var frm = $('#fBranchDetail');
         var formData = new FormData(frm[0]);
         var item = $('input[type=file]');
@@ -124,7 +124,7 @@ function SaveBranch() {
             formData.append('AppImageFile', $('input[type=file]')[1].files[0]);
         }
         AjaxCallWithFileUpload(commonData.Branch + 'SaveBranch', formData, function (data) {
-            HideLoader();
+            DeleteLoader();
             if (data) {
                 if (data.Status) {
                     ShowMessage(data.Message, 'Success');

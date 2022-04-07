@@ -92,9 +92,9 @@ namespace Ashirvad.Web.Controllers
 
        
 
-        public async Task<ActionResult> GetStudentByStd(long Std, long BatchTime)
+        public async Task<ActionResult> GetStudentByStd(long Std,long courseid, long BatchTime)
         {
-            var result = _studentService.GetStudentByStd(Std, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime).Result;
+            var result = _studentService.GetStudentByStd(Std, courseid, SessionContext.Instance.LoginUser.BranchInfo.BranchID, BatchTime).Result;
             return View("~/Views/ResultEntry/Manage.cshtml", result);
         }
 

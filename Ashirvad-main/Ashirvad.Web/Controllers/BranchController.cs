@@ -77,8 +77,6 @@ namespace Ashirvad.Web.Controllers
                 }
                 branch.Transaction = GetTransactionData(branch.BranchID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
               
-
-         
             var data = await _branchService.BranchMaintenance(branch);
             response = data;
             return Json(response);

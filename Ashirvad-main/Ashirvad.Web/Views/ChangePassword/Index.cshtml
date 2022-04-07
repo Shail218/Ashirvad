@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     @Html.Label("Confirm Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                                    @Html.PasswordFor(x => x.Password, new { @class = "form-control required", autocomplete = "off", @alt = "Confirm Password" })
+                                    @Html.PasswordFor(x => x.Password, new { @Id = "confirm_password", @class = "form-control required", autocomplete = "off", @alt = "Confirm Password" })
                                     @Html.HiddenFor(x => x.UserID)
                                 </div>
                                 <div class="col-md-12" style="text-align: right;margin-top:27px;">

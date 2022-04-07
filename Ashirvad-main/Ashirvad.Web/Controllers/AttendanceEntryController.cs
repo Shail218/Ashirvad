@@ -61,7 +61,7 @@ namespace Ashirvad.Web.Controllers
         {
             List<StudentEntity> list = new List<StudentEntity>();
 
-            list= await this._attendanceContext.GetAllStudentByBranchStdBatch(attendanceInfo.Branch.BranchID, attendanceInfo.Standard.StandardID, attendanceInfo.BatchTypeID);
+            list= await this._attendanceContext.GetAllStudentByBranchStdBatch(attendanceInfo.Branch.BranchID, attendanceInfo.BranchClass.Class_dtl_id, attendanceInfo.BatchTypeID);
             return View("~/Views/AttendanceEntry/Manage.cshtml", list);
         }
 

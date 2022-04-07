@@ -299,7 +299,7 @@ function SaveLibrary() {
     var Isvalidate = true;
     var isSuccess = ValidateData('dInformation');
     if (isSuccess) {
-        if ($("#Type") == 2) {
+        if ($("#Type").val() == 2) {
             Isvalidate = CustomValidation('dInformation');
         }
         if (Isvalidate) {
