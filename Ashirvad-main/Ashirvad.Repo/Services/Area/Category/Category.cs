@@ -168,6 +168,8 @@ namespace Ashirvad.Repo.Services.Area
         public ResponseModel RemoveCategory(long CategoryID, string lastupdatedby)
         {
             ResponseModel responseModel = new ResponseModel();
+            Check_Delete check = new Check_Delete();
+            string message = "";
             try
             {
                 var data = (from u in this.context.CATEGORY_MASTER
@@ -175,20 +177,28 @@ namespace Ashirvad.Repo.Services.Area
                             select u).FirstOrDefault();
                 if (data != null)
                 {
-                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    data.trans_id = this.AddTransactionData(new TransactionEntity()
+                    var data1 = (from a in this.context.LIBRARY_MASTER
+                                 where a.category_id == data.category_id && a.row_sta_cd == 1
+                                 select a).ToList();
+                    foreach (var item in data1)
                     {
-                        TransactionId = data.trans_id,
-                        LastUpdateBy = lastupdatedby
-                    });
-                    this.context.SaveChanges();
-                    responseModel.Status = true;
-                    responseModel.Message ="Category Removed Successfully.";
-                }
-                else
-                {
-                    responseModel.Status = false;
-                    responseModel.Message = "Category Not Found.";
+                        var data_course = check.check_remove_category_superadmin(item.category_id.Value).Result;
+                        if (data_course.Status)
+                        {
+                            data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                            data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                            item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                            item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id.Value, LastUpdateBy = lastupdatedby });
+                            this.context.SaveChanges();
+                        }
+                        else
+                        {
+                            message = message + data_course.Message;
+                            break;
+                        }
+                    }
+                    responseModel.Status = message == "" ? true : false;
+                    responseModel.Message = message == "" ? "Category Removed Successfully!!" : message;
                 }
             }
             catch (Exception ex)

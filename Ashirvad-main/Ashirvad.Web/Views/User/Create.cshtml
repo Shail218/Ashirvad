@@ -54,8 +54,8 @@
             </div>
         </div>
         <div class="col-md-6">
-            @Html.Label("Gender", htmlAttributes: new { @class = "control-label" })
-            <select name="GenderName" id="GenderName" class="form-control select2" alt="Gender">
+            @Html.Label("Gender", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="GenderName" id="GenderName" class="form-control requiredDDL select2" alt="Gender">
                 <option value="0">--Select Gender--</option>
                 <option value="1">Male</option>
                 <option value="2">Female</option>

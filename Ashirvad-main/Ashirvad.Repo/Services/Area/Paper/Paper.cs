@@ -72,7 +72,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                 if (da > 0)
                 {
                     paperInfo.PaperID = da;
-                    responseModel.Data = paperInfo;
+                    //responseModel.Data = paperInfo;
                     responseModel.Message = isUpdate == true ? "Paper Updated Successfully." : "Paper Inserted Successfully.";
                     responseModel.Status = true;
                 }

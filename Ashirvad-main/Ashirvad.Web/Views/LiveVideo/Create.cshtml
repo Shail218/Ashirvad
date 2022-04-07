@@ -65,11 +65,11 @@
             </div>
             <div class="col-md-12">
                 @Html.Label("Google Meet / Zoom URL", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x => x.LinkURL, new { @class = "form-control required", @alt = "Video URL", autocomplete = "off" })
+                @Html.TextBoxFor(x => x.LinkURL, new { @class = "form-control required", @alt = "Google Meet / Zoom URL", autocomplete = "off" })
             </div>
             <div class="col-md-12">
                 @Html.Label("Description / Password", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextAreaFor(x => x.LinkDesc, new { @class = "form-control required", @alt = "Video Description", autocomplete = "off" })
+                @Html.TextAreaFor(x => x.LinkDesc, new { @class = "form-control required", @alt = "Description / Password", autocomplete = "off" })
             </div>
         }
 

@@ -45,8 +45,7 @@ namespace Ashirvad.Web.Controllers
 
         [HttpPost]
         public async Task<JsonResult> SaveToDo(ToDoEntity toDoEntity)
-        {
-            ResponseModel response = new ResponseModel();
+        {        
             if (toDoEntity.FileInfo != null)
             {
                 string _FileName = Path.GetFileName(toDoEntity.FileInfo.FileName);
@@ -63,9 +62,8 @@ namespace Ashirvad.Web.Controllers
                 RowStatusId = (int)Enums.RowStatus.Active
             };
             toDoEntity.Transaction = GetTransactionData(toDoEntity.ToDoID > 0 ? Common.Enums.TransactionType.Update : Common.Enums.TransactionType.Insert);
-            response = _todoService.ToDoMaintenance(toDoEntity).Result;
-
-            return Json(JObject.FromObject(response));
+            var data = _todoService.ToDoMaintenance(toDoEntity).Result;
+            return Json(data);
         }
 
         [HttpPost]

@@ -301,42 +301,37 @@ namespace Ashirvad.Repo.Services.Area.Class
         public ResponseModel RemoveClass(long classID, string lastupdatedby)
         {
             ResponseModel responseModel = new ResponseModel();
+            Check_Delete check = new Check_Delete();
+            string message = "";
             try
             {
-                bool Isvalid = CheckHistory(classID);
-                if (Isvalid)
-                {                  
-                    var data1 = (from u in this.context.CLASS_DTL_MASTER
-                                 where u.class_id == classID && u.is_class == false && u.row_sta_cd == 1
-                                 select u).FirstOrDefault();
-                    if (data1 != null)
+                var data = (from u in this.context.CLASS_MASTER
+                            where u.class_id == classID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    var data1 = (from a in this.context.CLASS_DTL_MASTER
+                                 where a.class_id == data.class_id && a.is_class == true && a.row_sta_cd == 1
+                                 select a).ToList();
+                    foreach (var item in data1)
                     {
-                        var data = (from u in this.context.CLASS_MASTER
-                                    where u.class_id == classID
-                                    select u).FirstOrDefault();
-                        if (data != null)
+                        var data_course = check.check_remove_class_superadmin(item.class_dtl_id).Result;
+                        if (data_course.Status)
                         {
                             data.row_sta_cd = (int)Enums.RowStatus.Inactive;
                             data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                            item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                            item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
                             this.context.SaveChanges();
-
                         }
-                        data1.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                        data1.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data1.trans_id, LastUpdateBy = lastupdatedby });
-                        this.context.SaveChanges();
-                        responseModel.Status = true;
-                        responseModel.Message = "Class Removed Successfully.";
+                        else
+                        {
+                            message = message + data_course.Message;
+                            break;
+                        }
                     }
-                    else
-                    {
-                        responseModel.Status = false;
-                        responseModel.Message = "Class Not Found.";
-                    }
-                }
-                else
-                {
-                    responseModel.Status = false;
-                    responseModel.Message = "Class Already in used.";
+                    responseModel.Status = message == "" ? true : false;
+                    responseModel.Message = message == "" ? "Class Removed Successfully!!" : message;
                 }
             }
             catch (Exception ex)

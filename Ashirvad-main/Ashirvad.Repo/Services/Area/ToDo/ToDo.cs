@@ -54,7 +54,7 @@ namespace Ashirvad.Repo.Services.Area.ToDo
                 if (da > 0)
                 {
                     todoInfo.ToDoID = da;
-                    responseModel.Data = todoInfo;
+                    //responseModel.Data = todoInfo;
                     responseModel.Message = isUpdate == true ? "ToDoList Updated Successfully." : "ToDoList Inserted Successfully.";
                     responseModel.Status = true;
                 }

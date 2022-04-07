@@ -208,41 +208,37 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
         public ResponseModel RemoveSubject(long subjectID, string lastupdatedby)
         {
             ResponseModel responseModel = new ResponseModel();
+            Check_Delete check = new Check_Delete();
+            string message = "";
             try
             {
-                bool Isvalid = CheckHistory(subjectID);
-                if (Isvalid)
+                var data = (from u in this.context.SUBJECT_BRANCH_MASTER
+                            where u.subject_id == subjectID
+                            select u).FirstOrDefault();
+                if (data != null)
                 {
-                    var data = (from u in this.context.SUBJECT_BRANCH_MASTER
-                                where u.subject_id == subjectID
-                                select u).FirstOrDefault();
-                    if (data != null)
+                    var data1 = (from a in this.context.SUBJECT_DTL_MASTER
+                                 where a.subject_id == data.subject_id && a.is_subject == true && a.row_sta_cd == 1
+                                 select a).ToList();
+                    foreach (var item in data1)
                     {
-                        data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                        data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                        this.context.SaveChanges();
+                        var data_course = check.check_remove_subject_superadmin(item.subject_dtl_id).Result;
+                        if (data_course.Status)
+                        {
+                            data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                            data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                            item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                            item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                            this.context.SaveChanges();
+                        }
+                        else
+                        {
+                            message = message + data_course.Message;
+                            break;
+                        }
                     }
-                    var data1 = (from u in this.context.SUBJECT_DTL_MASTER
-                                 where u.subject_id == subjectID && u.is_subject == false && u.row_sta_cd == 1
-                                 select u).FirstOrDefault();
-                    if (data1 != null)
-                    {
-                        data1.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                        data1.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data1.trans_id, LastUpdateBy = lastupdatedby });
-                        this.context.SaveChanges();
-                        responseModel.Message = "Subject Removed Successfully.";
-                        responseModel.Status = true;
-                    }
-                    else
-                    {
-                        responseModel.Message = "Subject Not Found.";
-                        responseModel.Status = false;
-                    }
-                }
-                else
-                {
-                    responseModel.Message = "Subject Cannot be Removed.";
-                    responseModel.Status = false;
+                    responseModel.Status = message == "" ? true : false;
+                    responseModel.Message = message == "" ? "Subject Removed Successfully!!" : message;
                 }
             }
             catch (Exception ex)
@@ -250,10 +246,7 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                 responseModel.Message = ex.Message.ToString();
                 responseModel.Status = false;
             }
-
             return responseModel;
-
-            //return false;
         }
 
         public async Task<ResponseModel> SubjectMasterMaintenance(SuperAdminSubjectEntity subjectentity)
@@ -498,8 +491,6 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
             }
 
         }
-
-
 
         public async Task<List<BranchSubjectEntity>> GetAllSubjectByCourseClassddl(long courseid, long classid, bool Isupdate = false)
         {

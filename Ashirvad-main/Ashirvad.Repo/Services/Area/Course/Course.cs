@@ -69,7 +69,7 @@ namespace Ashirvad.Repo.Services.Area.Course
                         courseEntity.Transaction.TransactionId = courseMaster.trans_id;
                         CourseMasterMaintenance(courseEntity);
                    
-                        responseModel.Data = courseEntity;
+                      //  responseModel.Data = courseEntity;
                         responseModel.Status = true;
                         responseModel.Message = isUpdate == true ? "Course Updated Successfully." : "Course Inserted Successfully.";
 
@@ -183,33 +183,38 @@ namespace Ashirvad.Repo.Services.Area.Course
         public ResponseModel RemoveCourse(long courseID, string lastupdatedby)
         {
             ResponseModel responseModel = new ResponseModel();
+            Check_Delete check = new Check_Delete();
+            string message = "";
             try
             {
-                bool Isvalid = CheckHistory(courseID);
-                if (Isvalid)
+                var data = (from u in this.context.COURSE_MASTER
+                            where u.course_id == courseID
+                            select u).FirstOrDefault();
+                if (data != null)
                 {
-                    var data = (from u in this.context.COURSE_MASTER
-                                where u.course_id == courseID
-                                select u).FirstOrDefault();
-                    if (data != null)
+                    var data1 = (from a in this.context.COURSE_DTL_MASTER
+                                 where a.course_id == data.course_id && a.is_course == true && a.row_sta_cd == 1
+                                 select a).ToList();
+                    foreach (var item in data1)
                     {
-                        data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                        data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                        this.context.SaveChanges();
-                        responseModel.Status = true;
-                        responseModel.Message = "Course Removed Successfully.";
+                        var data_course = check.check_remove_course_superadmin(item.course_dtl_id).Result;
+                        if (data_course.Status)
+                        {
+                            data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                            data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                            item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                            item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                            this.context.SaveChanges();
+                        }
+                        else
+                        {
+                            message = message + data_course.Message;
+                            break;
+                        }
                     }
-                    else
-                    {
-                        responseModel.Status = false;
-                        responseModel.Message = "Course Not Found.";
-                    }
-                }
-                else
-                {
-                    responseModel.Status = false;
-                    responseModel.Message = "Course Cannot be Removed.";
-                }
+                    responseModel.Status = message == "" ? true : false;
+                    responseModel.Message = message == "" ? "Course Removed Successfully!!" : message;                 
+                }      
             }
             catch (Exception ex)
             {

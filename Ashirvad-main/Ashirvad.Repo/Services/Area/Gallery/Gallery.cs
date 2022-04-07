@@ -50,7 +50,7 @@ namespace Ashirvad.Repo.Services.Area.Gallery
                 if (uniqueID > 0)
                 {
                     galleryInfo.UniqueID = galleryMaster.unique_id;
-                    responseModel.Data = galleryInfo;
+                    //responseModel.Data = galleryInfo;
                     responseModel.Status = true;
                     responseModel.Message = isUpdate==true?"Gallery Image/Video Updated Successfully.": "Gallery Image/Video Inserted Successfully.";
                 }

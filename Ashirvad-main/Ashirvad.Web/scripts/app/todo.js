@@ -180,23 +180,14 @@ function SaveToDo() {
             formData.append('FileInfo', $('input[type=file]')[0].files[0]);
         }
         AjaxCallWithFileUpload(commonData.ToDo + 'SaveToDo', formData, function (data) {
-            if (data != null) {
-                if (data.Status) {
-                    HideLoader();
-                    ShowMessage(data.Message, 'Success');
-                    window.location.href = "ToDoMaintenance?todoID=0";
-                }
-                else {
-                    HideLoader();
-                    ShowMessage(data.Message, 'Error');
-
-                }
-                //ShowMessage("Success", 'Success');
-                //window.location.href = "ToDoMaintenance?todoID=0";
-            } else {
-                ShowMessage('Else Error', 'Error');
+            HideLoader();
+            if (data.Status) {          
+                ShowMessage(data.Message, 'Success');
+                window.location.href = "ToDoMaintenance?todoID=0";
             }
-            
+            else {
+                ShowMessage(data.Message, 'Error');
+            }
         }, function (xhr) {
             HideLoader();
             ShowMessage('An unexpected error occcurred while processing request!', 'Error');

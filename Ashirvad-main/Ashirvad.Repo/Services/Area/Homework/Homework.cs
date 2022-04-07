@@ -67,7 +67,7 @@ namespace Ashirvad.Repo.Services.Area.Homework
                     if (res > 0)
                     {
                         homeworkInfo.HomeworkID = homework.homework_id;
-                        responseModel.Data = homeworkInfo;
+                        //responseModel.Data = homeworkInfo;
                         responseModel.Status = true;
                         responseModel.Message = isUpdate==true?"Homework Updated Successfully.":"Homework Inserted Successfully.";
                     }
