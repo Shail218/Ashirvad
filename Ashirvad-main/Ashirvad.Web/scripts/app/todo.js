@@ -32,7 +32,7 @@ $(document).ready(function () {
             { "data": "ToDoDate" },
             { "data": "UserInfo.Username" },
             { "data": "ToDoDescription" },
-            { "data": "FilePath" },
+            { "data": "ToDoFileName" },
             { "data": "ToDoID" },
             { "data": "ToDoID" }
         ],
@@ -52,7 +52,9 @@ $(document).ready(function () {
                 targets: 3,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
-                        data = '<a href= "' + full.FilePath.replace("https://mastermind.org.in", "") + '" id="paperdownload" download="' + full.ToDoFileName + '"> <img src="../ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
+                        if (data != null && data != "") {
+                            data = '<a href= "' + full.FilePath.replace("https://mastermind.org.in", "") + '" id="paperdownload" download="' + full.ToDoFileName + '"> <img src="../ThemeData/images/icons8-desktop-download-24 (1).png" /></a>'
+                        }
                     }
                     return data;
                 },

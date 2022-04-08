@@ -65,7 +65,7 @@ namespace Ashirvad.Repo.Services.Area
                         FeesInfo.FeesID = FeesMaster.fee_struct_mst_id;
                         var result2 = FeesDetailMaintenance(FeesInfo).Result;
                         //var res2 = result2 > 0 ? FeesInfo.FeesID : 0;
-                        responseModel.Data = FeesInfo;
+                        //responseModel.Data = FeesInfo;
                         responseModel = result2;
 
                     }
@@ -134,7 +134,7 @@ namespace Ashirvad.Repo.Services.Area
                 if (res > 0)
                 {
                     FeesInfo.FeesDetailID = FeesMaster.fee_struct_dtl_id;
-                    responseModel.Data = FeesInfo;
+                    //responseModel.Data = FeesInfo;
                     responseModel.Status = true;
                     responseModel.Message = isUpdate == true ? "Fee Details Updated Successfully." : "Fee Details Inserted Successfully.";
                 }

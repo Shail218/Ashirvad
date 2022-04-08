@@ -86,6 +86,7 @@ $(document).ready(function () {
 
     if ($("#BranchID").val() > 0) {
         $("#fuBranchImage").addClass("editForm");
+        $("#fuBranchImage2").addClass("editForm");
     }
 
     if ($("#RowStatus_RowStatusId").val() != "") {

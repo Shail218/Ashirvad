@@ -183,7 +183,7 @@ function SaveReport() {
             },
             "columns": [
                 { "data": "AttendanceDate" },
-                { "data": "Branch.BranchName" },
+               /* { "data": "Branch.BranchName" },*/
                 { "data": "BranchCourse.course.CourseName" },
                 { "data": "BranchClass.Class.ClassName" },
                 { "data": "BatchTypeText" },
@@ -205,7 +205,7 @@ function SaveReport() {
                     searchable: false
                 },
                 {
-                    targets: 5,
+                    targets: 4,
                     render: function (data, type, full, meta) {
                         if (type === 'display') {
                             data = full.AttendanceDetail[0].IsAbsent == true ? "<p style='color:red;'>Absent</p>" : "<p style='color:green;'>Present</p>"
@@ -216,7 +216,7 @@ function SaveReport() {
                     searchable: false
                 },
                 {
-                    targets: 6,
+                    targets: 5,
                     render: function (data, type, full, meta) {
 
                         if (type === 'display') {

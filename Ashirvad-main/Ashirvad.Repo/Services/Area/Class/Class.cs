@@ -255,7 +255,7 @@ namespace Ashirvad.Repo.Services.Area.Class
                          }).Count();
             var data = (from u in this.context.CLASS_MASTER
                         .Include("COURSE_MASTER")
-                        orderby u.class_name descending
+                        orderby u.class_id descending
                         where u.row_sta_cd == 1
                         && (
                          model.search.value == null || model.search.value == ""
