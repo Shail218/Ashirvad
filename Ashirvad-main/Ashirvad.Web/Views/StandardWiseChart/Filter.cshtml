@@ -9,7 +9,19 @@
                 </select>
             </div>
         }
-        <div class="col-md-6">
+        <div class="col-md-4">
+            @Html.Label("Select Course", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="CourseName" id="CourseName" class="form-control requiredDDL select2" alt="Course">
+                <option value="0">--Select Course--</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            @Html.Label("Select Standard", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="StandardName" id="StandardName" class="form-control requiredDDL select2" alt="Standard">
+                <option value="0">--Select Standard--</option>
+            </select>
+        </div>
+        <div class="col-md-4">
             @Html.Label("Select Student", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
             <select name="StudentName" id="StudentName" class="form-control requiredDDL select2" alt="Branch">
                 <option value="0">--Select Student--</option>

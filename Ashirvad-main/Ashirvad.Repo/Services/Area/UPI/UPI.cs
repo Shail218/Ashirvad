@@ -48,6 +48,7 @@ namespace Ashirvad.Repo.Services.Area.UPI
                     upiMaster.trans_id = this.AddTransactionData(upiInfo.TransactionData);
                     upiMaster.branch_id = upiInfo.BranchData.BranchID;
                     upiMaster.upi_code = upiInfo.UPICode;
+                    upiMaster.payment_gateway = upiInfo.PaymentGateway;
                     if (!isUpdate)
                     {
                         this.context.UPI_MASTER.Add(upiMaster);
@@ -96,6 +97,7 @@ namespace Ashirvad.Repo.Services.Area.UPI
                             },
                             UPICode = u.upi_code,
                             UPIId = u.unique_id,
+                            PaymentGateway= u.payment_gateway,
                             BranchData = new BranchEntity() { BranchID = b.branch_id, BranchName = b.branch_name },
                             TransactionData = new TransactionEntity() { TransactionId = u.trans_id }
                         }).OrderByDescending(x=>x.UPIId).ToList();
@@ -117,6 +119,7 @@ namespace Ashirvad.Repo.Services.Area.UPI
                             },
                             UPICode = u.upi_code,
                             UPIId = u.unique_id,
+                            PaymentGateway = u.payment_gateway,
                             BranchData = new BranchEntity() { BranchID = b.branch_id, BranchName = b.branch_name },
                             TransactionData = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();

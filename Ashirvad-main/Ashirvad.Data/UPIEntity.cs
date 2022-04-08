@@ -10,6 +10,7 @@ namespace Ashirvad.Data
     {
         public long UPIId { get; set; }
         public string UPICode { get; set; }
+        public string PaymentGateway { get; set; }
         public BranchEntity BranchData { get; set; }
         public RowStatusEntity RowStatusData { get; set; }
         public TransactionEntity TransactionData { get; set; }

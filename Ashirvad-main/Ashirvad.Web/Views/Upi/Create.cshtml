@@ -13,7 +13,10 @@
             </select>
             @Html.HiddenFor(x => x.BranchData.BranchID)
         </div>
-
+        <div class="col-md-12">
+            @Html.Label("Payment Gateway", htmlAttributes: new { @class = "control-label" })
+            @Html.TextBoxFor(x => x.PaymentGateway, new { @class = "form-control", @alt = "Payment Gateway", autocomplete = "off" })
+        </div>
         <div class="form-group AddUPIDetails">
             <div class="col-md-12" style="text-align: right;">
                 <br />
