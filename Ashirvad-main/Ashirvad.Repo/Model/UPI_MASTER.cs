@@ -28,11 +28,13 @@ public partial class UPI_MASTER
 
     public long trans_id { get; set; }
 
+    public string payment_gateway { get; set; }
 
 
-    public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
 
     public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+
+    public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
 
 }
 

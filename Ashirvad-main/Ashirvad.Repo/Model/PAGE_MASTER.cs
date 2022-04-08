@@ -39,6 +39,8 @@ public partial class PAGE_MASTER
 
 
 
+    public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<PACKAGE_RIGHTS_MASTER> PACKAGE_RIGHTS_MASTER { get; set; }

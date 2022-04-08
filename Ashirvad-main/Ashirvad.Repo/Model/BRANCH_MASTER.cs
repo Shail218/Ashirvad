@@ -88,9 +88,13 @@ public partial class BRANCH_MASTER
 
         this.TODO_MASTER = new HashSet<TODO_MASTER>();
 
-        this.UPI_MASTER = new HashSet<UPI_MASTER>();
-
         this.LINK_MASTER = new HashSet<LINK_MASTER>();
+
+        this.BRANCH_RIGHTS_MASTER = new HashSet<BRANCH_RIGHTS_MASTER>();
+
+        this.PAGE_MASTER = new HashSet<PAGE_MASTER>();
+
+        this.UPI_MASTER = new HashSet<UPI_MASTER>();
 
     }
 
@@ -255,11 +259,21 @@ public partial class BRANCH_MASTER
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<UPI_MASTER> UPI_MASTER { get; set; }
+    public virtual ICollection<LINK_MASTER> LINK_MASTER { get; set; }
+
+    public virtual BRANCH_MAINT BRANCH_MAINT { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<LINK_MASTER> LINK_MASTER { get; set; }
+    public virtual ICollection<BRANCH_RIGHTS_MASTER> BRANCH_RIGHTS_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<PAGE_MASTER> PAGE_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<UPI_MASTER> UPI_MASTER { get; set; }
 
 }
 

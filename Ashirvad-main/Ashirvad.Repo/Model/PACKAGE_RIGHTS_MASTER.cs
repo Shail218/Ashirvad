@@ -36,9 +36,9 @@ public partial class PACKAGE_RIGHTS_MASTER
 
 
 
-    public virtual PAGE_MASTER PAGE_MASTER { get; set; }
-
     public virtual PACKAGE_MASTER PACKAGE_MASTER { get; set; }
+
+    public virtual PAGE_MASTER PAGE_MASTER { get; set; }
 
 }
 

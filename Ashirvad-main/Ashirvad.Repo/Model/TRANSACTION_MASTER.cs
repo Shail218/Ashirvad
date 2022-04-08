@@ -32,8 +32,6 @@ public partial class TRANSACTION_MASTER
 
         this.BRANCH_LICENSE = new HashSet<BRANCH_LICENSE>();
 
-        this.BRANCH_RIGHTS_MASTER = new HashSet<BRANCH_RIGHTS_MASTER>();
-
         this.BRANCH_STAFF = new HashSet<BRANCH_STAFF>();
 
         this.CATEGORY_MASTER = new HashSet<CATEGORY_MASTER>();
@@ -72,8 +70,6 @@ public partial class TRANSACTION_MASTER
 
         this.TEST_MASTER_DTL = new HashSet<TEST_MASTER_DTL>();
 
-        this.UPI_MASTER = new HashSet<UPI_MASTER>();
-
         this.USER_DEF = new HashSet<USER_DEF>();
 
         this.COMPETITION_MASTER = new HashSet<COMPETITION_MASTER>();
@@ -89,6 +85,10 @@ public partial class TRANSACTION_MASTER
         this.SUBJECT_BRANCH_MASTER = new HashSet<SUBJECT_BRANCH_MASTER>();
 
         this.BRANCH_MASTER = new HashSet<BRANCH_MASTER>();
+
+        this.BRANCH_RIGHTS_MASTER = new HashSet<BRANCH_RIGHTS_MASTER>();
+
+        this.UPI_MASTER = new HashSet<UPI_MASTER>();
 
     }
 
@@ -130,10 +130,6 @@ public partial class TRANSACTION_MASTER
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<BRANCH_LICENSE> BRANCH_LICENSE { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<BRANCH_RIGHTS_MASTER> BRANCH_RIGHTS_MASTER { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
@@ -213,10 +209,6 @@ public partial class TRANSACTION_MASTER
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<UPI_MASTER> UPI_MASTER { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
     public virtual ICollection<USER_DEF> USER_DEF { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -246,6 +238,14 @@ public partial class TRANSACTION_MASTER
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<BRANCH_MASTER> BRANCH_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<BRANCH_RIGHTS_MASTER> BRANCH_RIGHTS_MASTER { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<UPI_MASTER> UPI_MASTER { get; set; }
 
 }
 

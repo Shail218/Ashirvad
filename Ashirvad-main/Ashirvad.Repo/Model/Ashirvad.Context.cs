@@ -61,8 +61,6 @@ public partial class AshirvadDBEntities1 : DbContext
 
     public virtual DbSet<STUDENT_PAYMENT_REL> STUDENT_PAYMENT_REL { get; set; }
 
-    public virtual DbSet<UPI_MASTER> UPI_MASTER { get; set; }
-
     public virtual DbSet<BRANCH_AGREEMENT> BRANCH_AGREEMENT { get; set; }
 
     public virtual DbSet<CATEGORY_MASTER> CATEGORY_MASTER { get; set; }
@@ -71,15 +69,11 @@ public partial class AshirvadDBEntities1 : DbContext
 
     public virtual DbSet<STUDENT_ANS_SHEET> STUDENT_ANS_SHEET { get; set; }
 
-    public virtual DbSet<PAGE_MASTER> PAGE_MASTER { get; set; }
-
     public virtual DbSet<PACKAGE_RIGHTS_MASTER> PACKAGE_RIGHTS_MASTER { get; set; }
 
     public virtual DbSet<GALLERY_MASTER> GALLERY_MASTER { get; set; }
 
     public virtual DbSet<PRACTICE_PAPER_REL> PRACTICE_PAPER_REL { get; set; }
-
-    public virtual DbSet<BRANCH_RIGHTS_MASTER> BRANCH_RIGHTS_MASTER { get; set; }
 
     public virtual DbSet<TODO_MASTER> TODO_MASTER { get; set; }
 
@@ -163,9 +157,15 @@ public partial class AshirvadDBEntities1 : DbContext
 
     public virtual DbSet<SUBJECT_BRANCH_MASTER> SUBJECT_BRANCH_MASTER { get; set; }
 
+    public virtual DbSet<BRANCH_MASTER> BRANCH_MASTER { get; set; }
+
     public virtual DbSet<BRANCH_MAINT> BRANCH_MAINT { get; set; }
 
-    public virtual DbSet<BRANCH_MASTER> BRANCH_MASTER { get; set; }
+    public virtual DbSet<BRANCH_RIGHTS_MASTER> BRANCH_RIGHTS_MASTER { get; set; }
+
+    public virtual DbSet<PAGE_MASTER> PAGE_MASTER { get; set; }
+
+    public virtual DbSet<UPI_MASTER> UPI_MASTER { get; set; }
 
 
     public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)

@@ -44,6 +44,10 @@ public partial class BRANCH_MAINT
 
     public string extra_3 { get; set; }
 
+
+
+    public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+
 }
 
 }

@@ -30,6 +30,8 @@ public partial class BRANCH_RIGHTS_MASTER
 
 
 
+    public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
+
     public virtual PACKAGE_MASTER PACKAGE_MASTER { get; set; }
 
     public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
