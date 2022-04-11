@@ -193,8 +193,13 @@ function SaveNotification() {
             var postCall = $.post(commonData.Notification + "SaveNotification", $('#fNotificationDetail').serialize());
             postCall.done(function (data) {
                 HideLoader();
-                ShowMessage('Notification details saved!', 'Success');
-                window.location.href = "NotificationMaintenance?notificationID=0";
+                if (data.Status) {
+                    ShowMessage(data.Message, 'Success');
+                    window.location.href = "NotificationMaintenance?notificationID=0";
+                } else {
+                    ShowMessage(data.Message, 'Error');
+                }
+
             }).fail(function () {
                 HideLoader();
                 ShowMessage("An unexpected error occcurred while processing request!", "Error");
@@ -209,8 +214,13 @@ function RemoveNotification(branchID) {
         var postCall = $.post(commonData.Notification + "RemoveNotification", { "notificationID": branchID });
         postCall.done(function (data) {
             HideLoader();
-            ShowMessage("Notification Removed Successfully.", "Success");
-            window.location.href = "NotificationMaintenance?notificationID=0";
+            if (data.Status) {
+                ShowMessage(data.Message, "Success");
+                window.location.href = "NotificationMaintenance?notificationID=0";
+            } else {
+                ShowMessage(data.Message, "Error");
+            }
+
         }).fail(function () {
             HideLoader();
             ShowMessage("An unexpected error occcurred while processing request!", "Error");

@@ -111,11 +111,8 @@ namespace Ashirvad.Web.Controllers
                 }
             }
             var data = await _notificationService.NotificationMaintenance(notification);
-            if (data != null)
-            {
-                return Json(true);
-            }
-            return Json(false);
+           
+            return Json(data);
         }
 
         [HttpPost]

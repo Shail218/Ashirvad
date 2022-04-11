@@ -62,20 +62,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.Notification
             return null;
         }
 
-        public async Task<NotificationEntity> NotificationMaintenance(NotificationEntity notifInfo)
+        public async Task<ResponseModel> NotificationMaintenance(NotificationEntity notifInfo)
         {
-            NotificationEntity notif = new NotificationEntity();
+            ResponseModel notif = new ResponseModel();
             try
             {
-                long notifID = await _notificationContext.NotificationMaintenance(notifInfo);
-                if (notifID > 0)
-                {
-                    notif.NotificationID = notifID;
-                }
+                notif = await _notificationContext.NotificationMaintenance(notifInfo);
+               
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
+                notif.Status = false;
+                notif.Message = ex.Message.ToString();
             }
 
             return notif;
@@ -115,18 +114,21 @@ namespace Ashirvad.ServiceAPI.Services.Area.Notification
             return null;
         }
         
-        public bool RemoveNotification(long notifID, string lastupdatedby)
+        public ResponseModel RemoveNotification(long notifID, string lastupdatedby)
         {
+            ResponseModel model = new ResponseModel();
             try
             {
-                return this._notificationContext.RemoveNotification(notifID, lastupdatedby);
+                model =  this._notificationContext.RemoveNotification(notifID, lastupdatedby);
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
+                model.Status = false;
+                model.Message = ex.Message.ToString();
             }
 
-            return false;
+            return model;
         }
         public async Task<OperationResult<List<NotificationEntity>>> GetAllNotificationforexcel(long branchID = 0)
         {

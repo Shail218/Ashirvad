@@ -15,44 +15,68 @@ namespace Ashirvad.Repo.Services.Area.Notification
 {
     public class Notification : ModelAccess, INotificationAPI
     {
-        public async Task<long> NotificationMaintenance(NotificationEntity notificationInfo)
+        public async Task<ResponseModel> NotificationMaintenance(NotificationEntity notificationInfo)
         {
-            Model.NOTIFICATION_MASTER notificationMaster = new Model.NOTIFICATION_MASTER();
-            bool isUpdate = true;
-            var data = (from notif in this.context.NOTIFICATION_MASTER
-                        where notif.notif_id == notificationInfo.NotificationID
-                        select notif).FirstOrDefault();
-            if (data == null)
+            ResponseModel model = new ResponseModel();
+            try
             {
-                data = new Model.NOTIFICATION_MASTER();
-                isUpdate = false;
-            }
-            else
-            {
-                notificationMaster = data;
-                notificationInfo.Transaction.TransactionId = data.trans_id;
-            }
+                Model.NOTIFICATION_MASTER notificationMaster = new Model.NOTIFICATION_MASTER();
+                bool isUpdate = true;
+                var data = (from notif in this.context.NOTIFICATION_MASTER
+                            where notif.notif_id == notificationInfo.NotificationID
+                            select notif).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Model.NOTIFICATION_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    notificationMaster = data;
+                    notificationInfo.Transaction.TransactionId = data.trans_id;
+                }
 
-            notificationMaster.row_sta_cd = notificationInfo.RowStatus.RowStatusId;
-            notificationMaster.notification_date = notificationInfo.Notification_Date;
-            notificationMaster.trans_id = this.AddTransactionData(notificationInfo.Transaction);
-            notificationMaster.branch_id = notificationInfo.Branch != null ? (long?)notificationInfo.Branch.BranchID : null;
-            notificationMaster.notif_message = notificationInfo.NotificationMessage;
-            if (!isUpdate)
-            {
-                this.context.NOTIFICATION_MASTER.Add(notificationMaster);
-            }
+                notificationMaster.row_sta_cd = notificationInfo.RowStatus.RowStatusId;
+                notificationMaster.notification_date = notificationInfo.Notification_Date;
+                notificationMaster.trans_id = this.AddTransactionData(notificationInfo.Transaction);
+                notificationMaster.branch_id = notificationInfo.Branch != null ? (long?)notificationInfo.Branch.BranchID : null;
+                notificationMaster.notif_message = notificationInfo.NotificationMessage;
+                if (!isUpdate)
+                {
+                    this.context.NOTIFICATION_MASTER.Add(notificationMaster);
+                }
 
-            if (this.context.SaveChanges() > 0 || notificationMaster.notif_id > 0)
-            {
-                var notifID = notificationMaster.notif_id;
-                notificationInfo.NotificationID = notificationMaster.notif_id;
-                var result = await this.AddNotificationType(notificationInfo.NotificationType, notifID);
-                NotificationStandardMaintenance(notificationInfo);
-                NotifyList(notificationInfo);
-                return notifID;
+                if (this.context.SaveChanges() > 0 || notificationMaster.notif_id > 0)
+                {
+                    var notifID = notificationMaster.notif_id;
+                    notificationInfo.NotificationID = notificationMaster.notif_id;
+                    var result = await this.AddNotificationType(notificationInfo.NotificationType, notifID);
+                    NotificationStandardMaintenance(notificationInfo);
+                    NotifyList(notificationInfo);
+                    if (result)
+                    {
+                        model.Status = true;
+                        model.Message = isUpdate == true ? "Notification inserted Successfully." : "Notification updated Successfully.";
+                    }
+                    else
+                    {
+                        model.Status = false;
+                        model.Message = isUpdate == true ? "Notification not inserted." : "Notification not updated.";
+                    }
+                }
+                else
+                {
+                    model.Status = false;
+                    model.Message = isUpdate==true?"Notification not inserted.":"Notification not updated.";
+                }
             }
-            return 0;
+            catch(Exception ex)
+            {
+                model.Status = false;
+                model.Message = ex.Message.ToString();
+            }
+           
+            return model;
         }
 
         public async Task<bool> AddNotificationType(List<NotificationTypeEntity> notifType, long notifID)
@@ -274,20 +298,37 @@ namespace Ashirvad.Repo.Services.Area.Notification
             return data;
         }
 
-        public bool RemoveNotification(long notifID, string lastupdatedby)
+        public ResponseModel RemoveNotification(long notifID, string lastupdatedby)
         {
-            var data = (from u in this.context.NOTIFICATION_MASTER
-                        where u.notif_id == notifID
-                        select u).FirstOrDefault();
-            if (data != null)
+            ResponseModel model = new ResponseModel();
+            try
             {
-                data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                this.context.SaveChanges();
-                return true;
-            }
+                var data = (from u in this.context.NOTIFICATION_MASTER
+                            where u.notif_id == notifID
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    model.Status = true;
+                    model.Message = "Notification removed Successfully.";
+                }
+                else
+                {
+                    model.Status = false;
+                    model.Message = "Notification does not exists.";
+                }
 
-            return false;
+            }
+            catch(Exception ex)
+            {
+                model.Status = false;
+                model.Message = ex.Message.ToString();
+            }
+         
+
+            return model;
         }
 
         public async Task<List<NotificationEntity>> GetAllCustomNotification(DataTableAjaxPostModel model, long branchID, int typeID)

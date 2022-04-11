@@ -10,10 +10,10 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Notification
 {
     public interface INotificationAPI
     {
-        Task<long> NotificationMaintenance(NotificationEntity NotificationInfo);
+        Task<ResponseModel> NotificationMaintenance(NotificationEntity NotificationInfo);
         Task<List<NotificationEntity>> GetAllNotification(long branchID);
         Task<NotificationEntity> GetNotificationByNotificationID(long NotificationID);
-        bool RemoveNotification(long NotificationID, string lastupdatedby);
+        ResponseModel RemoveNotification(long NotificationID, string lastupdatedby);
         Task<List<NotificationEntity>> GetAllNotification(long branchID, int typeID);
         Task<List<NotificationEntity>> GetAllCustomNotification(DataTableAjaxPostModel model, long branchID, int typeID);
         Task<List<NotificationEntity>> GetAllCustomNotification2(DataTableAjaxPostModel model, long branchID, int typeID);
