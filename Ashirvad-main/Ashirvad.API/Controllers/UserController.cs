@@ -95,7 +95,7 @@ namespace Ashirvad.API.Controllers
             OperationResult<UserEntity> result = new OperationResult<UserEntity>();
             result.Completed = data.Result.Status;
             result.Message = data.Result.Message;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (UserEntity)data.Result.Data;
             }
@@ -321,7 +321,7 @@ namespace Ashirvad.API.Controllers
             else
             {
                 entity.Status = false;
-                entity.Message = "Please Enter Register Mobile Number!!";
+                entity.Message = "Please Enter Valid UserName!!";
             }
             OperationResult<ResponseModel> result = new OperationResult<ResponseModel>();
             result.Completed = true;
@@ -350,7 +350,7 @@ namespace Ashirvad.API.Controllers
             OperationResult<long> result = new OperationResult<long>();
             result.Completed = data.Status;
             result.Message = data.Message;
-            if (data.Status)
+            if (data.Status && data.Data != null)
             {
                var da= (UPIEntity)data.Data;
                 result.Data = da.UPIId;

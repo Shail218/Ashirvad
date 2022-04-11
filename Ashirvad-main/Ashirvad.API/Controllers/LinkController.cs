@@ -28,7 +28,7 @@ namespace Ashirvad.API.Controllers
             var data = this._linkService.LinkMaintenance(linkInfo);
             OperationResult<LinkEntity> result = new OperationResult<LinkEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (LinkEntity)data.Result.Data;
             }
@@ -86,7 +86,7 @@ namespace Ashirvad.API.Controllers
             var data = this._linkService.LinkMaintenance(linkInfo);
             OperationResult<LinkEntity> result = new OperationResult<LinkEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (LinkEntity)data.Result.Data;
             }

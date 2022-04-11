@@ -35,7 +35,7 @@ namespace Ashirvad.API.Controllers
             var data = this._todoService.ToDoMaintenance(todo);
             result.Completed = data.Result.Status;
             result.Message = data.Result.Message;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data =(ToDoEntity)data.Result.Data;
 
@@ -180,7 +180,7 @@ namespace Ashirvad.API.Controllers
             var data = this._todoService.ToDoMaintenance(toDoEntity).Result;
             result.Completed = data.Status;
             result.Message = data.Message;
-            if (data.Status)
+            if (data.Status && data.Data != null)
             {
                 result.Data = (ToDoEntity)data.Data;
 

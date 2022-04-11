@@ -79,7 +79,7 @@ namespace Ashirvad.API.Controllers
                        
                         result.Completed = response.Status;
                         result.Message = response.Message;
-                        if (response.Status)
+                        if (response.Status && result.Data!=null)
                         {
                             result.Data = (PaymentRegisterEntity)response.Data;
                         }

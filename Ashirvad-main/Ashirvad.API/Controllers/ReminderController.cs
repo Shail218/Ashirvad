@@ -27,7 +27,7 @@ namespace Ashirvad.API.Controllers
             var data = this._reminderService.ReminderMaintenance(reminderInfo);
             OperationResult<ReminderEntity> result = new OperationResult<ReminderEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (ReminderEntity)data.Result.Data;
             }

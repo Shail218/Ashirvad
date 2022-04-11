@@ -107,7 +107,7 @@ namespace Ashirvad.API.Controllers
           
                 result.Completed = result1.Status;
             result.Message = result1.Message;
-            if (result1.Status)
+            if (result1.Status && result1.Data != null)
             {
                 result.Data = (MarksEntity)result1.Data;
             }
@@ -197,7 +197,7 @@ namespace Ashirvad.API.Controllers
                 response = this._marksService.MarksMaintenance(marksEntity).Result;
                 result.Completed = response.Status;
                 result.Message = response.Message;
-                if (response.Status)
+                if (response.Status && response.Data != null)
                 {
                     result.Data = (MarksEntity)response.Data;
                 }

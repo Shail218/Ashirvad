@@ -32,7 +32,7 @@ namespace Ashirvad.API.Controllers
             var data = _circularService.CircularMaintenance(circularEntity);
             OperationResult<CircularEntity> result = new OperationResult<CircularEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (CircularEntity)data.Result.Data;
             }

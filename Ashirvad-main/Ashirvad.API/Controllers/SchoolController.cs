@@ -29,7 +29,7 @@ namespace Ashirvad.API.Controllers
             OperationResult<SchoolEntity> result = new OperationResult<SchoolEntity>();
             result.Completed = data.Result.Status;
             result.Message = data.Result.Message;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (SchoolEntity)data.Result.Data;
             }

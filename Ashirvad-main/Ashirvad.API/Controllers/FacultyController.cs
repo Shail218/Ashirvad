@@ -111,7 +111,7 @@ namespace Ashirvad.Web.Controllers
                 }
                 var data = await _facultyService.FacultyMaintenance(entity);
                 response.Completed = data.Status;
-                if (data.Status)
+                if (data.Status && data.Data != null)
                 {
                     response.Data = (FacultyEntity)data.Data;
                 }

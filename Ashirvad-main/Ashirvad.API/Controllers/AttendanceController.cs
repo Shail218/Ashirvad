@@ -29,7 +29,7 @@ namespace Ashirvad.API.Controllers
             var data = this._attendanceService.AttendanceMaintenance(attendanceInfo);
             OperationResult<AttendanceEntity> result = new OperationResult<AttendanceEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (AttendanceEntity)data.Result.Data;
             }

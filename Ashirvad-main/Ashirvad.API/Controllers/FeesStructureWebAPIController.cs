@@ -106,7 +106,7 @@ namespace Ashirvad.API.Controllers
             var data = this._FeesService.FeesMaintenance(feesEntity).Result;
             result.Completed = data.Status;
             result.Message = data.Message;
-            if (data.Status)
+            if (data.Status && data.Data != null)
             {
                 result.Data = (FeesEntity)data.Data;
             }

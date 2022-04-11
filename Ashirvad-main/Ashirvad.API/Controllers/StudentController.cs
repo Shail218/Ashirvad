@@ -34,7 +34,7 @@ namespace Ashirvad.API.Controllers
             var data = this._studentService.StudentMaintenance(studentInfo);
             OperationResult<StudentEntity> result = new OperationResult<StudentEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (StudentEntity)data.Result.Data;
             }

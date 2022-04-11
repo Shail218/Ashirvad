@@ -62,7 +62,7 @@ namespace Ashirvad.Web.Controllers
              OperationResult<BranchCourseEntity> result = new OperationResult<BranchCourseEntity>();
             result.Completed = responseModel.Result.Status;
             result.Message = responseModel.Result.Message;
-            if (responseModel.Result.Status)
+            if (responseModel.Result.Status && responseModel.Result.Data != null)
             {
                 result.Data = (BranchCourseEntity)responseModel.Result.Data;
             }

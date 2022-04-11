@@ -34,7 +34,7 @@ namespace Ashirvad.API.Controllers
             OperationResult<TestEntity> result = new OperationResult<TestEntity>();
             var data = this._testService.TestMaintenance(testInfo);
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (TestEntity)data.Result.Data;
 
@@ -115,7 +115,10 @@ namespace Ashirvad.API.Controllers
 
             var data = this._testService.TestPaperMaintenance(testInfo);
             result.Completed = data.Result.Status;
-            result.Data = (TestPaperEntity)data.Result.Data;
+            if(data.Result.Status && data.Result.Data != null)
+            {
+                result.Data = (TestPaperEntity)data.Result.Data;
+            }
             result.Message = data.Result.Message;
             return result;
         }
@@ -184,7 +187,7 @@ namespace Ashirvad.API.Controllers
 
             var data = this._testService.StudentAnswerSheetMaintenance(ansSheet);
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
 
                 result.Data = (StudentAnswerSheetEntity)data.Result.Data;
@@ -333,7 +336,7 @@ namespace Ashirvad.API.Controllers
             result.Completed = data.Status;
            
             result.Message = data.Message;
-            if (data.Status)
+            if (data.Status && data.Data != null)
             {
                 result.Data = (TestPaperEntity)data.Data;
             }
@@ -428,7 +431,7 @@ namespace Ashirvad.API.Controllers
                // Response = data.Result;
                
                 result.Completed = data.Result.Status;
-                if (data.Result.Status)
+                if (data.Result.Status && data.Result.Data != null)
                 {
                     result.Data = (StudentAnswerSheetEntity)data.Result.Data;
                 }
@@ -475,7 +478,7 @@ namespace Ashirvad.API.Controllers
             var result1 = _testService.Ansdetailupdate(answerSheetEntity).Result;
             result.Completed = result1.Status;
             result.Message = result1.Message;
-            if (result1.Status)
+            if (result1.Status && result1.Data != null)
             {
                 result.Data = (StudentAnswerSheetEntity)result1.Data;
             }

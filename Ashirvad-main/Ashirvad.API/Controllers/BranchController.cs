@@ -49,7 +49,7 @@ namespace Ashirvad.API.Controllers
             var data = this._branchService.BranchMaintenance(branchInfo);
             OperationResult<BranchEntity> result = new OperationResult<BranchEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (BranchEntity)data.Result.Data;
             }

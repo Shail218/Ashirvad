@@ -59,7 +59,7 @@ namespace Ashirvad.Web.Controllers
             }
             OperationResult<BranchClassEntity> result = new OperationResult<BranchClassEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (BranchClassEntity)data.Result.Data;
             }

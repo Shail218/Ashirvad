@@ -223,7 +223,7 @@ namespace Ashirvad.API.Controllers
             }
             var data = this._homeworkService.HomeworkMaintenance(homeworkEntity).Result;
             result.Completed = data.Status;
-            if (data.Status)
+            if (data.Status && data.Data != null)
             {
                 result.Data = (HomeworkEntity)data.Data;
             }
@@ -299,7 +299,7 @@ namespace Ashirvad.API.Controllers
                    
                     result.Completed = responseModel.Status;
                     result.Message = responseModel.Message;
-                    if (responseModel.Status)
+                    if (responseModel.Status && responseModel.Data != null)
                     {
                         result.Data = (HomeworkDetailEntity)responseModel.Data;
                     }
@@ -319,7 +319,7 @@ namespace Ashirvad.API.Controllers
                 responseModel = data.Result;
                 result.Completed = responseModel.Status;
                 result.Message = responseModel.Message;
-                if (responseModel.Status)
+                if (responseModel.Status && responseModel.Data != null)
                 {
                     result.Data = (HomeworkDetailEntity)responseModel.Data;
                 }

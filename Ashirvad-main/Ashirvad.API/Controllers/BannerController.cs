@@ -31,7 +31,7 @@ namespace Ashirvad.API.Controllers
             var data = this._bannerService.BannerMaintenance(bannerInfo);
             OperationResult<BannerEntity> result = new OperationResult<BannerEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
 
                 result.Data = (BannerEntity)data.Result.Data;
@@ -159,7 +159,7 @@ namespace Ashirvad.API.Controllers
             var data = this._bannerService.BannerMaintenance(bannerEntity).Result;
 
                 result.Completed = data.Status;
-            if (data.Status)
+            if (data.Status && data.Data != null)
             {
                 result.Data = (BannerEntity)data.Data;
             }

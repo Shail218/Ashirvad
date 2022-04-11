@@ -28,7 +28,7 @@ namespace Ashirvad.API.Controllers
             var data = this._subjectService.SubjectMaintenance(subjectInfo);
             OperationResult<SubjectEntity> result = new OperationResult<SubjectEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (SubjectEntity)data.Result.Data;
             }

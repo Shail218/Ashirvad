@@ -36,7 +36,7 @@ namespace Ashirvad.API.Controllers
             var data = _announcementService.AnnouncementMaintenance(announcementEntity);
             OperationResult<AnnouncementEntity> result = new OperationResult<AnnouncementEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (AnnouncementEntity)data.Result.Data;
             }

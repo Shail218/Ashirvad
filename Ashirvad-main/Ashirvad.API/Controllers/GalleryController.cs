@@ -33,7 +33,7 @@ namespace Ashirvad.API.Controllers
             var data = this._galleryService.GalleryMaintenance(galleryInfo);
             OperationResult<GalleryEntity> result = new OperationResult<GalleryEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (GalleryEntity)data.Result.Data;
             }
@@ -83,7 +83,7 @@ namespace Ashirvad.API.Controllers
             var data = this._galleryService.GalleryMaintenance(galleryInfo);
             OperationResult<GalleryEntity> result = new OperationResult<GalleryEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (GalleryEntity)data.Result.Data;
             }
@@ -190,7 +190,7 @@ namespace Ashirvad.API.Controllers
             }
             var data = this._galleryService.GalleryMaintenance(galleryEntity).Result;
             result.Completed = data.Status;
-            if (data.Status)
+            if (data.Status && data.Data != null)
             {
                 result.Data = (GalleryEntity)data.Data;
             }

@@ -29,7 +29,7 @@ namespace Ashirvad.API.Controllers
             var data = this._batchService.BatchMaintenance(batchInfo);
             OperationResult<BatchEntity> result = new OperationResult<BatchEntity>();
             result.Completed = data.Result.Status;
-            if (data.Result.Status)
+            if (data.Result.Status && data.Result.Data != null)
             {
                 result.Data = (BatchEntity)data.Result.Data;
             }
