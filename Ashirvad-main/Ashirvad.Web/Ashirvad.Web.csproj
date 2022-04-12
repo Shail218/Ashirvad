@@ -1520,6 +1520,12 @@
     <Content Include="Views\Student\StudentStatusChange.cshtml" />
     <Content Include="Views\Student\FilterStudentData.cshtml" />
     <Content Include="Views\Student\ManageStudentData.cshtml" />
+    <Content Include="Views\Batch\CreateBatch.cshtml" />
+    <Content Include="Views\Batch\ManageBatch.cshtml" />
+    <Content Include="Views\Batch\Index1.cshtml" />
+    <Content Include="Views\Batch\Index2.cshtml" />
+    <Content Include="Views\Batch\CreateBatchTime.cshtml" />
+    <Content Include="Views\Batch\ManageBatchTime.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

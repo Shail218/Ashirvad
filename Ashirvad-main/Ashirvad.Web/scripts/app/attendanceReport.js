@@ -187,6 +187,7 @@ function SaveReport() {
                 { "data": "BranchCourse.course.CourseName" },
                 { "data": "BranchClass.Class.ClassName" },
                 { "data": "BatchTypeText" },
+                { "data": "AttendanceRemarks" },
                 { "data": "AttendanceDetail" },
                 { "data": "AttendanceDetail" }
 
@@ -205,7 +206,7 @@ function SaveReport() {
                     searchable: false
                 },
                 {
-                    targets: 4,
+                    targets: 5,
                     render: function (data, type, full, meta) {
                         if (type === 'display') {
                             data = full.AttendanceDetail[0].IsAbsent == true ? "<p style='color:red;'>Absent</p>" : "<p style='color:green;'>Present</p>"
@@ -216,7 +217,7 @@ function SaveReport() {
                     searchable: false
                 },
                 {
-                    targets: 5,
+                    targets: 6,
                     render: function (data, type, full, meta) {
 
                         if (type === 'display') {

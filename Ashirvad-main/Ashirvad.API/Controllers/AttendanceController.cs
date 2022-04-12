@@ -80,10 +80,10 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetAllStudentForAttendance")]
         [HttpGet]
-        public async Task<OperationResult<List<StudentEntity>>> GetAllStudentForAttendanceAsync(long branchID, long stdID, long courseid, int batchID,DateTime attendanceDate)
+        public async Task<OperationResult<List<StudentEntity>>> GetAllStudentForAttendanceAsync(long branchID, long stdID, long courseid, int batchID,DateTime attendanceDate, string attendanceRemarks)
         {
             OperationResult<List<StudentEntity>> result = new OperationResult<List<StudentEntity>>();
-            var res = await this._attendanceService.VerifyAttendanceRegister(branchID, stdID,courseid, batchID, attendanceDate);
+            var res = await this._attendanceService.VerifyAttendanceRegister(branchID, stdID,courseid, batchID, attendanceDate, attendanceRemarks);
             if (res.Status)
             {
                 var data =  this._attendanceService.GetAllStudentByBranchStdBatch(branchID, stdID, batchID);

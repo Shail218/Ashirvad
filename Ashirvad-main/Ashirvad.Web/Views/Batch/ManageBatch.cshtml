@@ -1,0 +1,49 @@
+﻿
+<table style="width: 100%;" id="batchtable" class="table table-striped dataTable no-footer">
+    <thead>
+        <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+            
+            <th>
+                Sr. No.
+            </th>
+            <th>
+                Batch Name
+            </th>
+            <th class="BatchMasterCreate">
+                Edit
+            </th>
+            <th class="BatchMasterDelete">
+                Delete
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var item = 1; item < 25; item++)
+        {
+
+            <tr>
+                <td>
+                    @item
+                </td>
+                <td>
+                    Batch @item
+                </td>
+                <td>
+                    <a href="#">
+                        <img src="~/ThemeData/images/viewIcon.png" />
+                    </a>
+                </td>
+                <td class="BatchMasterCreate">
+                    <a style="margin-left:20px;" href="#">
+                        <img src="~/ThemeData/images/delete.png" />
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+

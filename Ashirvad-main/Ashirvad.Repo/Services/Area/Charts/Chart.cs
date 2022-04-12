@@ -142,6 +142,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
                         {
                             AttendanceID = u.attendance_hdr_id,
                             AttendanceDate = u.attendance_dt,
+                            AttendanceRemarks = u.attendance_remarks,
                             AttendanceDatetxt = t.present_fg == 1 ? "Present" : "Absent"
                         }).OrderByDescending(a => a.AttendanceID).ToList();
             }
@@ -154,6 +155,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
                         {
                             AttendanceID = u.attendance_hdr_id,
                             AttendanceDate = u.attendance_dt,
+                            AttendanceRemarks = u.attendance_remarks,
                             AttendanceDatetxt = "Present"
                         }).OrderByDescending(a => a.AttendanceID).ToList();
             }
@@ -166,6 +168,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
                         {
                             AttendanceID = u.attendance_hdr_id,
                             AttendanceDate = u.attendance_dt,
+                            AttendanceRemarks = u.attendance_remarks,
                             AttendanceDatetxt = "Absent"
                         }).OrderByDescending(a => a.AttendanceID).ToList();
             }

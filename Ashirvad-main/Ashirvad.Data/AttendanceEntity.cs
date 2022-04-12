@@ -18,10 +18,14 @@ namespace Ashirvad.Data
         public DateTime From_Date { get; set; }
         public DateTime To_Date { get; set; }
         public string AttendanceDatetxt { get; set; }
+        public string AttendanceRemarks { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public StudentEntity studentEntity { get; set; }
         public long Count { get; set; }
+        public long AbsentCount { get; set; }
+        public long PresentCount { get; set; }
+        public long TotalCount { get; set; }
         public List<AttendanceDetailEntity> AttendanceDetail { get; set; }
         public BranchCourseEntity BranchCourse { get; set; }
         public BranchClassEntity BranchClass { get; set; }

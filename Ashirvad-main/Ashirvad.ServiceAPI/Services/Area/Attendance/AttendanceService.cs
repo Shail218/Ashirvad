@@ -114,11 +114,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Attendance
 
             return null;
         }
-        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID,long courseid, int batchID, DateTime attendanceDate )
+        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID,long courseid, int batchID, DateTime attendanceDate, string attendanceRemarks)
         {
             try
             {
-                return await this._attendanceContext.VerifyAttendanceRegister(branchID, stdID,courseid, batchID, attendanceDate);
+                return await this._attendanceContext.VerifyAttendanceRegister(branchID, stdID,courseid, batchID, attendanceDate,attendanceRemarks);
             }
             catch (Exception ex)
             {

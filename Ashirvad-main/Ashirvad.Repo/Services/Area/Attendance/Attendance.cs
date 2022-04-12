@@ -36,6 +36,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                     attendanceMaster = data;
                     attendanceInfo.Transaction.TransactionId = data.trans_id;
                 }
+                attendanceMaster.attendance_remarks = attendanceInfo.AttendanceRemarks;
                 attendanceMaster.course_dtl_id = attendanceInfo.BranchCourse.course_dtl_id;
                 attendanceMaster.class_dtl_id = attendanceInfo.BranchClass.Class_dtl_id;
                 attendanceMaster.batch_time_type = attendanceInfo.BatchTypeID;
@@ -259,6 +260,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 }
                             },
                             AttendanceDate = u.attendance_dt,
+                            AttendanceRemarks = u.attendance_remarks,
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
                             BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
@@ -337,7 +339,11 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 }
                             },
                             Count = count,
+                            AttendanceRemarks = u.attendance_remarks,
                             AttendanceDate = u.attendance_dt,
+                            AbsentCount = u.ATTENDANCE_DTL.Where(x=>x.absent_fg==1&& x.attd_hdr_id == u.attendance_hdr_id).Select(y => new { y.attd_dtl_id }).Count(),
+                            PresentCount = u.ATTENDANCE_DTL.Where(x=>x.present_fg==1 && x.attd_hdr_id == u.attendance_hdr_id).Select(y => new { y.attd_dtl_id }).Count(),
+                            TotalCount = u.ATTENDANCE_DTL.Where(x=>x.attd_hdr_id==u.attendance_hdr_id).Select(y => new { y.attd_dtl_id }).Count(),
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
                             BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
@@ -388,6 +394,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 }
                             },
                             AttendanceDate = u.attendance_dt,
+                            AttendanceRemarks = u.attendance_remarks,
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
                             BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
@@ -457,6 +464,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                     CourseName = u.COURSE_DTL_MASTER.COURSE_MASTER.course_name
                                 }
                             },
+                            AttendanceRemarks = u.attendance_remarks,
                             AttendanceDate = u.attendance_dt,
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
@@ -520,6 +528,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0,
                                 Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name }
                             },
+                            AttendanceRemarks = u.attendance_remarks,
                             AttendanceDate = u.attendance_dt,
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
@@ -578,7 +587,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
             return responseModel;
         }
 
-        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, long courseid, int batchID, DateTime attendanceDate)
+        public async Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, long courseid, int batchID, DateTime attendanceDate, string attendanceRemarks)
         {
             ResponseModel model = new ResponseModel();
             try
@@ -589,6 +598,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             && atd.class_dtl_id == stdID
                             && atd.course_dtl_id == courseid
                             && atd.attendance_dt == attendanceDate
+                            && atd.attendance_remarks.ToLower() == attendanceRemarks.ToLower()
                             && atd.row_sta_cd == 1
                             select atd).ToList();
                 if (data?.Count > 0)
@@ -656,6 +666,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                   }
                               },
                               AttendanceDate = u.attendance_dt,
+                              AttendanceRemarks = u.attendance_remarks,
                               AttendanceID = u.attendance_hdr_id,
                               BatchTypeID = u.batch_time_type,
                               BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
@@ -698,6 +709,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             },
                             Count = count,
                             AttendanceDate = u.attendance_dt,
+                            AttendanceRemarks = u.attendance_remarks,
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
                             BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",

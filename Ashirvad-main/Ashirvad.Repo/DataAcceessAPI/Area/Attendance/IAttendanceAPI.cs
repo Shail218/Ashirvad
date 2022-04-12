@@ -18,7 +18,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Attendance
         ResponseModel RemoveAttendance(long attendanceID, string lastupdatedby);
         Task<List<AttendanceEntity>> GetAllAttendanceByFilter(DateTime fromDate, DateTime toDate, long branchID, long stdID, long courseid, int batchTimeID, long studentid);
         Task<List<AttendanceEntity>> GetAllAttendanceByCustom(DataTableAjaxPostModel model, DateTime fromDate, DateTime toDate, long branchID, long stdID,long courseid, int batchTimeID, long studentid);
-        Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, long courseid, int batchID, DateTime attendanceDate);
+        Task<ResponseModel> VerifyAttendanceRegister(long branchID, long stdID, long courseid, int batchID, DateTime attendanceDate,string attendanceRemarks);
         Task<List<AttendanceEntity>> GetAllCustomAttendanceRegister(DataTableAjaxPostModel model, long branchID);
         Task<List<StudentEntity>> GetAllCustomAttendance(DataTableAjaxPostModel model, long Std,long courseid, long Branch, long Batch);
     }

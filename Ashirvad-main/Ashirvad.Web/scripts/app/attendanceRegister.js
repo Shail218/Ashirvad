@@ -30,6 +30,10 @@ $(document).ready(function () {
             { "data": "BranchCourse.course.CourseName" },
             { "data": "BranchClass.Class.ClassName" },
             { "data": "BatchTypeText" },
+            { "data": "PresentCount" },
+            { "data": "AbsentCount" },
+            { "data": "TotalCount" },
+            { "data": "AttendanceRemarks" },
             { "data": "AttendanceID" },
             { "data": "AttendanceID" }
         ],
@@ -46,7 +50,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 4,
+                targets: 8,
                 render: function (data, type, full, meta) {
                     var check = GetUserRights('AttendanceRegister');
                     if (type === 'display') {
@@ -64,7 +68,7 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 5,
+                targets: 9,
                 render: function (data, type, full, meta) {
                   
                     var check = GetUserRights('AttendanceRegister');

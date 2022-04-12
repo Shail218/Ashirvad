@@ -88,7 +88,7 @@ namespace Ashirvad.Web.Controllers
         public async Task<JsonResult> VerifyAttendanceRegister(AttendanceEntity attendanceInfo)
         {
             ResponseModel res = new ResponseModel();
-            res= await this._attendanceContext.VerifyAttendanceRegister(attendanceInfo.Branch.BranchID, attendanceInfo.BranchClass.Class_dtl_id,attendanceInfo.BranchCourse.course_dtl_id, attendanceInfo.BatchTypeID,attendanceInfo.AttendanceDate);
+            res= await this._attendanceContext.VerifyAttendanceRegister(attendanceInfo.Branch.BranchID, attendanceInfo.BranchClass.Class_dtl_id,attendanceInfo.BranchCourse.course_dtl_id, attendanceInfo.BatchTypeID,attendanceInfo.AttendanceDate,attendanceInfo.AttendanceRemarks);
             return Json(res);
         }
 

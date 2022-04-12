@@ -155,7 +155,8 @@ namespace Ashirvad.Repo.Services.Area.User
                                 BranchName = b.branch_name,
                                 ContactNo = b.contact_no,
                                 aliasName = b.alias_name,
-                                AppImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.app_file_path
+                                AppImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.app_file_path,
+                                ImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.file_path
                             },
                             StaffDetail = new StaffEntity()
                             {
@@ -221,7 +222,8 @@ namespace Ashirvad.Repo.Services.Area.User
                                 BranchID = u.branch_id,
                                 BranchName = b.branch_name,
                                 ContactNo = b.contact_no,
-                                AppImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.app_file_path
+                                AppImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.app_file_path,
+                                ImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.file_path
                             },
                             UserType = u.user_type == 5 ? Enums.UserType.SuperAdmin : u.user_type == 1 ? Enums.UserType.Admin : u.user_type == 2 ? Enums.UserType.Student : u.user_type == 3 ? Enums.UserType.Parent : Enums.UserType.Staff
                         }).FirstOrDefault();
@@ -269,7 +271,8 @@ namespace Ashirvad.Repo.Services.Area.User
                                 BranchID = u.branch_id,
                                 BranchName = b.branch_name,
                                 ContactNo = b.contact_no,
-                                AppImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.app_file_path
+                                AppImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.app_file_path,
+                                ImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.file_path
                             },
                             UserType = u.user_type == 5 ? Enums.UserType.SuperAdmin : u.user_type == 1 ? Enums.UserType.Admin : u.user_type == 2 ? Enums.UserType.Student : u.user_type == 3 ? Enums.UserType.Parent : Enums.UserType.Staff
                         }).FirstOrDefault();
