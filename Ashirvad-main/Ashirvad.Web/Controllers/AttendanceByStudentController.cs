@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Ashirvad.Web.Controllers
 {
-    public class AttendanceByStudentController : Controller
+    public class AttendanceByStudentController : BaseController
     {
         private readonly IChartService _chartService = null;
 
