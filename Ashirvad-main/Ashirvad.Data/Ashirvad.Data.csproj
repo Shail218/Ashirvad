@@ -80,6 +80,9 @@
     <Compile Include="Model\HomeworkchartModel.cs" />
     <Compile Include="Model\PaymentRegisterDataModel.cs" />
     <Compile Include="Model\RankMaintenanceModel.cs" />
+    <Compile Include="Model\RoleMaintenanceModel.cs" />
+    <Compile Include="Model\RoleRightMaintenanceModel.cs" />
+    <Compile Include="Model\UserWiseRightMaintenanceModel.cs" />
     <Compile Include="Model\WebsiteModel.cs" />
     <Compile Include="Model\BatchMaintenanceModel.cs" />
     <Compile Include="Model\BranchSubjectMaintenanceModel.cs" />
@@ -127,6 +130,8 @@
     <Compile Include="RankEntity.cs" />
     <Compile Include="ReminderEntity.cs" />
     <Compile Include="ResponseModel.cs" />
+    <Compile Include="RoleEntity.cs" />
+    <Compile Include="RoleRightsEntity.cs" />
     <Compile Include="RowStatusEntity.cs" />
     <Compile Include="SchoolEntity.cs" />
     <Compile Include="StaffEntity.cs" />
@@ -140,6 +145,7 @@
     <Compile Include="TransactionEntity.cs" />
     <Compile Include="UPIEntity.cs" />
     <Compile Include="UserEntity.cs" />
+    <Compile Include="UserWiseRightsEntity.cs" />
     <Compile Include="WinnerEntryEntity.cs" />
   </ItemGroup>
   <ItemGroup>

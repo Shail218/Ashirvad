@@ -606,6 +606,29 @@
           <Property Name="trans_id" Type="bigint" Nullable="false" />
           <Property Name="row_sta_cd" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="ROLE_MASTER">
+          <Key>
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="role_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="role_name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="branch_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" Nullable="false" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROLE_RIGHTS_MASTER">
+          <Key>
+            <PropertyRef Name="rolerights_id" />
+          </Key>
+          <Property Name="rolerights_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="page_id" Type="bigint" Nullable="false" />
+          <Property Name="role_id" Type="bigint" Nullable="false" />
+          <Property Name="createstatus" Type="bit" Nullable="false" />
+          <Property Name="viewstatus" Type="bit" Nullable="false" />
+          <Property Name="deletestatus" Type="bit" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="SCHOOL_MASTER">
           <Key>
             <PropertyRef Name="school_id" />
@@ -867,6 +890,16 @@
           <Property Name="parent_id" Type="bigint" />
           <Property Name="fcm_token" Type="varchar(max)" />
           <Property Name="mobile_no" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="USER_RIGHTS_MASTER">
+          <Key>
+            <PropertyRef Name="user_rights_id" />
+          </Key>
+          <Property Name="user_rights_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="role_id" Type="bigint" Nullable="false" />
+          <Property Name="user_id" Type="bigint" Nullable="false" />
+          <Property Name="row_sta_cd" Type="int" />
+          <Property Name="trans_id" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="USER_ROLE">
           <Key>
@@ -2133,6 +2166,46 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ROLE_MASTER_BRANCH_MASTER">
+          <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
+          <End Role="ROLE_MASTER" Type="Self.ROLE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="ROLE_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROLE_RIGHTS_MASTER_PAGE_MASTER">
+          <End Role="PAGE_MASTER" Type="Self.PAGE_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ROLE_RIGHTS_MASTER" Type="Self.ROLE_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAGE_MASTER">
+              <PropertyRef Name="page_id" />
+            </Principal>
+            <Dependent Role="ROLE_RIGHTS_MASTER">
+              <PropertyRef Name="page_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROLE_RIGHTS_MASTER_ROLE_MASTER">
+          <End Role="ROLE_MASTER" Type="Self.ROLE_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ROLE_RIGHTS_MASTER" Type="Self.ROLE_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLE_MASTER">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="ROLE_RIGHTS_MASTER">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SCHOOL_MASTER_BRANCH_MASTER">
           <End Role="BRANCH_MASTER" Type="Self.BRANCH_MASTER" Multiplicity="1" />
           <End Role="SCHOOL_MASTER" Type="Self.SCHOOL_MASTER" Multiplicity="*" />
@@ -2641,6 +2714,44 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_USER_RIGHTS_MASTER_ROLE_MASTER">
+          <End Role="ROLE_MASTER" Type="Self.ROLE_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="USER_RIGHTS_MASTER" Type="Self.USER_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLE_MASTER">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="USER_RIGHTS_MASTER">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_RIGHTS_MASTER_TRANSACTION_MASTER">
+          <End Role="TRANSACTION_MASTER" Type="Self.TRANSACTION_MASTER" Multiplicity="1" />
+          <End Role="USER_RIGHTS_MASTER" Type="Self.USER_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="USER_RIGHTS_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_RIGHTS_MASTER_USER_DEF">
+          <End Role="USER_DEF" Type="Self.USER_DEF" Multiplicity="1" />
+          <End Role="USER_RIGHTS_MASTER" Type="Self.USER_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER_DEF">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="USER_RIGHTS_MASTER">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_USER_ROLE_USER_DEF">
           <End Role="USER_DEF" Type="Self.USER_DEF" Multiplicity="1" />
           <End Role="USER_ROLE" Type="Self.USER_ROLE" Multiplicity="*" />
@@ -2747,6 +2858,8 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <EntitySet Name="PRACTICE_PAPER_REL" EntityType="Self.PRACTICE_PAPER_REL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RANK_MASTER" EntityType="Self.RANK_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REMINDER_MASTER" EntityType="Self.REMINDER_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROLE_MASTER" EntityType="Self.ROLE_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROLE_RIGHTS_MASTER" EntityType="Self.ROLE_RIGHTS_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SCHOOL_MASTER" EntityType="Self.SCHOOL_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STD_MASTER" EntityType="Self.STD_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STUDENT_ANS_SHEET" EntityType="Self.STUDENT_ANS_SHEET" Schema="dbo" store:Type="Tables" />
@@ -2765,6 +2878,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <EntitySet Name="TYPE_DESC" EntityType="Self.TYPE_DESC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UPI_MASTER" EntityType="Self.UPI_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER_DEF" EntityType="Self.USER_DEF" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USER_RIGHTS_MASTER" EntityType="Self.USER_RIGHTS_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER_ROLE" EntityType="Self.USER_ROLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WINNER_MASTER" EntityType="Self.WINNER_MASTER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Faculty" EntityType="Self.Faculty" store:Type="Views" store:Schema="dbo">
@@ -3179,6 +3293,18 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="REMINDER_MASTER" EntitySet="REMINDER_MASTER" />
           </AssociationSet>
+          <AssociationSet Name="FK_ROLE_MASTER_BRANCH_MASTER" Association="Self.FK_ROLE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="ROLE_MASTER" EntitySet="ROLE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROLE_RIGHTS_MASTER_PAGE_MASTER" Association="Self.FK_ROLE_RIGHTS_MASTER_PAGE_MASTER">
+            <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
+            <End Role="ROLE_RIGHTS_MASTER" EntitySet="ROLE_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROLE_RIGHTS_MASTER_ROLE_MASTER" Association="Self.FK_ROLE_RIGHTS_MASTER_ROLE_MASTER">
+            <End Role="ROLE_MASTER" EntitySet="ROLE_MASTER" />
+            <End Role="ROLE_RIGHTS_MASTER" EntitySet="ROLE_RIGHTS_MASTER" />
+          </AssociationSet>
           <AssociationSet Name="FK_SCHOOL_MASTER_BRANCH_MASTER" Association="Self.FK_SCHOOL_MASTER_BRANCH_MASTER">
             <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
             <End Role="SCHOOL_MASTER" EntitySet="SCHOOL_MASTER" />
@@ -3346,6 +3472,18 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <AssociationSet Name="FK_USER_DEF_TRANSACTION_MASTER" Association="Self.FK_USER_DEF_TRANSACTION_MASTER">
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="USER_DEF" EntitySet="USER_DEF" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_RIGHTS_MASTER_ROLE_MASTER" Association="Self.FK_USER_RIGHTS_MASTER_ROLE_MASTER">
+            <End Role="ROLE_MASTER" EntitySet="ROLE_MASTER" />
+            <End Role="USER_RIGHTS_MASTER" EntitySet="USER_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_RIGHTS_MASTER_TRANSACTION_MASTER" Association="Self.FK_USER_RIGHTS_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="USER_RIGHTS_MASTER" EntitySet="USER_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_RIGHTS_MASTER_USER_DEF" Association="Self.FK_USER_RIGHTS_MASTER_USER_DEF">
+            <End Role="USER_DEF" EntitySet="USER_DEF" />
+            <End Role="USER_RIGHTS_MASTER" EntitySet="USER_RIGHTS_MASTER" />
           </AssociationSet>
           <AssociationSet Name="FK_USER_ROLE_USER_DEF" Association="Self.FK_USER_ROLE_USER_DEF">
             <End Role="USER_DEF" EntitySet="USER_DEF" />
@@ -4060,6 +4198,33 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
             <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
             <End Role="UPI_MASTER" EntitySet="UPI_MASTER" />
           </AssociationSet>
+          <EntitySet Name="ROLE_MASTER" EntityType="AshirvadModel.ROLE_MASTER" />
+          <EntitySet Name="ROLE_RIGHTS_MASTER" EntityType="AshirvadModel.ROLE_RIGHTS_MASTER" />
+          <EntitySet Name="USER_RIGHTS_MASTER" EntityType="AshirvadModel.USER_RIGHTS_MASTER" />
+          <AssociationSet Name="FK_ROLE_MASTER_BRANCH_MASTER" Association="AshirvadModel.FK_ROLE_MASTER_BRANCH_MASTER">
+            <End Role="BRANCH_MASTER" EntitySet="BRANCH_MASTER" />
+            <End Role="ROLE_MASTER" EntitySet="ROLE_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROLE_RIGHTS_MASTER_PAGE_MASTER" Association="AshirvadModel.FK_ROLE_RIGHTS_MASTER_PAGE_MASTER">
+            <End Role="PAGE_MASTER" EntitySet="PAGE_MASTER" />
+            <End Role="ROLE_RIGHTS_MASTER" EntitySet="ROLE_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROLE_RIGHTS_MASTER_ROLE_MASTER" Association="AshirvadModel.FK_ROLE_RIGHTS_MASTER_ROLE_MASTER">
+            <End Role="ROLE_MASTER" EntitySet="ROLE_MASTER" />
+            <End Role="ROLE_RIGHTS_MASTER" EntitySet="ROLE_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_RIGHTS_MASTER_ROLE_MASTER" Association="AshirvadModel.FK_USER_RIGHTS_MASTER_ROLE_MASTER">
+            <End Role="ROLE_MASTER" EntitySet="ROLE_MASTER" />
+            <End Role="USER_RIGHTS_MASTER" EntitySet="USER_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_RIGHTS_MASTER_TRANSACTION_MASTER" Association="AshirvadModel.FK_USER_RIGHTS_MASTER_TRANSACTION_MASTER">
+            <End Role="TRANSACTION_MASTER" EntitySet="TRANSACTION_MASTER" />
+            <End Role="USER_RIGHTS_MASTER" EntitySet="USER_RIGHTS_MASTER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_RIGHTS_MASTER_USER_DEF" Association="AshirvadModel.FK_USER_RIGHTS_MASTER_USER_DEF">
+            <End Role="USER_DEF" EntitySet="USER_DEF" />
+            <End Role="USER_RIGHTS_MASTER" EntitySet="USER_RIGHTS_MASTER" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="BANNER_TYPE_REL">
           <Key>
@@ -4146,6 +4311,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="fcm_token" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_USER_DEF_TRANSACTION_MASTER" FromRole="USER_DEF" ToRole="TRANSACTION_MASTER" />
           <Property Name="mobile_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="USER_RIGHTS_MASTER" Relationship="AshirvadModel.FK_USER_RIGHTS_MASTER_USER_DEF" FromRole="USER_DEF" ToRole="USER_RIGHTS_MASTER" />
         </EntityType>
         <EntityType Name="USER_ROLE">
           <Key>
@@ -5832,6 +5998,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_BRANCH_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
           <NavigationProperty Name="UPI_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="UPI_MASTER" />
+          <NavigationProperty Name="USER_RIGHTS_MASTER" Relationship="AshirvadModel.FK_USER_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="TRANSACTION_MASTER" ToRole="USER_RIGHTS_MASTER" />
         </EntityType>
         <Association Name="FK_ABOUTUS_DETAIL_REL_TRANSACTION_MASTER">
           <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
@@ -6500,6 +6667,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <NavigationProperty Name="BRANCH_RIGHTS_MASTER" Relationship="AshirvadModel.FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="BRANCH_RIGHTS_MASTER" />
           <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="PAGE_MASTER" />
           <NavigationProperty Name="UPI_MASTER" Relationship="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="UPI_MASTER" />
+          <NavigationProperty Name="ROLE_MASTER" Relationship="AshirvadModel.FK_ROLE_MASTER_BRANCH_MASTER" FromRole="BRANCH_MASTER" ToRole="ROLE_MASTER" />
         </EntityType>
         <Association Name="FK_ABOUTUS_DETAIL_REL_ABOUTUS_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -6978,6 +7146,7 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
           <Property Name="trans_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_PAGE_MASTER_BRANCH_MASTER" FromRole="PAGE_MASTER" ToRole="BRANCH_MASTER" />
           <NavigationProperty Name="PACKAGE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_PACKAGE_RIGHTS_MASTER_PAGE_MASTER" FromRole="PAGE_MASTER" ToRole="PACKAGE_RIGHTS_MASTER" />
+          <NavigationProperty Name="ROLE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_ROLE_RIGHTS_MASTER_PAGE_MASTER" FromRole="PAGE_MASTER" ToRole="ROLE_RIGHTS_MASTER" />
         </EntityType>
         <Association Name="FK_BRANCH_RIGHTS_MASTER_BRANCH_MASTER">
           <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
@@ -7077,6 +7246,125 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
             </Principal>
             <Dependent Role="UPI_MASTER">
               <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ROLE_MASTER">
+          <Key>
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="role_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role_name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="branch_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" Nullable="false" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="BRANCH_MASTER" Relationship="AshirvadModel.FK_ROLE_MASTER_BRANCH_MASTER" FromRole="ROLE_MASTER" ToRole="BRANCH_MASTER" />
+          <NavigationProperty Name="ROLE_RIGHTS_MASTER" Relationship="AshirvadModel.FK_ROLE_RIGHTS_MASTER_ROLE_MASTER" FromRole="ROLE_MASTER" ToRole="ROLE_RIGHTS_MASTER" />
+          <NavigationProperty Name="USER_RIGHTS_MASTER" Relationship="AshirvadModel.FK_USER_RIGHTS_MASTER_ROLE_MASTER" FromRole="ROLE_MASTER" ToRole="USER_RIGHTS_MASTER" />
+        </EntityType>
+        <EntityType Name="ROLE_RIGHTS_MASTER">
+          <Key>
+            <PropertyRef Name="rolerights_id" />
+          </Key>
+          <Property Name="rolerights_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="page_id" Type="Int64" Nullable="false" />
+          <Property Name="role_id" Type="Int64" Nullable="false" />
+          <Property Name="createstatus" Type="Boolean" Nullable="false" />
+          <Property Name="viewstatus" Type="Boolean" Nullable="false" />
+          <Property Name="deletestatus" Type="Boolean" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="PAGE_MASTER" Relationship="AshirvadModel.FK_ROLE_RIGHTS_MASTER_PAGE_MASTER" FromRole="ROLE_RIGHTS_MASTER" ToRole="PAGE_MASTER" />
+          <NavigationProperty Name="ROLE_MASTER" Relationship="AshirvadModel.FK_ROLE_RIGHTS_MASTER_ROLE_MASTER" FromRole="ROLE_RIGHTS_MASTER" ToRole="ROLE_MASTER" />
+        </EntityType>
+        <EntityType Name="USER_RIGHTS_MASTER">
+          <Key>
+            <PropertyRef Name="user_rights_id" />
+          </Key>
+          <Property Name="user_rights_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role_id" Type="Int64" Nullable="false" />
+          <Property Name="user_id" Type="Int64" Nullable="false" />
+          <Property Name="row_sta_cd" Type="Int32" />
+          <Property Name="trans_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ROLE_MASTER" Relationship="AshirvadModel.FK_USER_RIGHTS_MASTER_ROLE_MASTER" FromRole="USER_RIGHTS_MASTER" ToRole="ROLE_MASTER" />
+          <NavigationProperty Name="TRANSACTION_MASTER" Relationship="AshirvadModel.FK_USER_RIGHTS_MASTER_TRANSACTION_MASTER" FromRole="USER_RIGHTS_MASTER" ToRole="TRANSACTION_MASTER" />
+          <NavigationProperty Name="USER_DEF" Relationship="AshirvadModel.FK_USER_RIGHTS_MASTER_USER_DEF" FromRole="USER_RIGHTS_MASTER" ToRole="USER_DEF" />
+        </EntityType>
+        <Association Name="FK_ROLE_MASTER_BRANCH_MASTER">
+          <End Type="AshirvadModel.BRANCH_MASTER" Role="BRANCH_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.ROLE_MASTER" Role="ROLE_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCH_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Principal>
+            <Dependent Role="ROLE_MASTER">
+              <PropertyRef Name="branch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROLE_RIGHTS_MASTER_PAGE_MASTER">
+          <End Type="AshirvadModel.PAGE_MASTER" Role="PAGE_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.ROLE_RIGHTS_MASTER" Role="ROLE_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAGE_MASTER">
+              <PropertyRef Name="page_id" />
+            </Principal>
+            <Dependent Role="ROLE_RIGHTS_MASTER">
+              <PropertyRef Name="page_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROLE_RIGHTS_MASTER_ROLE_MASTER">
+          <End Type="AshirvadModel.ROLE_MASTER" Role="ROLE_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.ROLE_RIGHTS_MASTER" Role="ROLE_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLE_MASTER">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="ROLE_RIGHTS_MASTER">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_RIGHTS_MASTER_ROLE_MASTER">
+          <End Type="AshirvadModel.ROLE_MASTER" Role="ROLE_MASTER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AshirvadModel.USER_RIGHTS_MASTER" Role="USER_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLE_MASTER">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="USER_RIGHTS_MASTER">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_RIGHTS_MASTER_TRANSACTION_MASTER">
+          <End Type="AshirvadModel.TRANSACTION_MASTER" Role="TRANSACTION_MASTER" Multiplicity="1" />
+          <End Type="AshirvadModel.USER_RIGHTS_MASTER" Role="USER_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANSACTION_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Principal>
+            <Dependent Role="USER_RIGHTS_MASTER">
+              <PropertyRef Name="trans_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_RIGHTS_MASTER_USER_DEF">
+          <End Type="AshirvadModel.USER_DEF" Role="USER_DEF" Multiplicity="1" />
+          <End Type="AshirvadModel.USER_RIGHTS_MASTER" Role="USER_RIGHTS_MASTER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER_DEF">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="USER_RIGHTS_MASTER">
+              <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8085,6 +8373,42 @@ warning 6002: The table/view 'db_a4b43d_ashirvaduat.dbo.Faculty' does not have a
                 <ScalarProperty Name="branch_id" ColumnName="branch_id" />
                 <ScalarProperty Name="upi_code" ColumnName="upi_code" />
                 <ScalarProperty Name="unique_id" ColumnName="unique_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROLE_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.ROLE_MASTER">
+              <MappingFragment StoreEntitySet="ROLE_MASTER">
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="branch_id" ColumnName="branch_id" />
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROLE_RIGHTS_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.ROLE_RIGHTS_MASTER">
+              <MappingFragment StoreEntitySet="ROLE_RIGHTS_MASTER">
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="deletestatus" ColumnName="deletestatus" />
+                <ScalarProperty Name="viewstatus" ColumnName="viewstatus" />
+                <ScalarProperty Name="createstatus" ColumnName="createstatus" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="page_id" ColumnName="page_id" />
+                <ScalarProperty Name="rolerights_id" ColumnName="rolerights_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USER_RIGHTS_MASTER">
+            <EntityTypeMapping TypeName="AshirvadModel.USER_RIGHTS_MASTER">
+              <MappingFragment StoreEntitySet="USER_RIGHTS_MASTER">
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="row_sta_cd" ColumnName="row_sta_cd" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="user_rights_id" ColumnName="user_rights_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

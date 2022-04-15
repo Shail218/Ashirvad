@@ -12,32 +12,24 @@ namespace Ashirvad.Repo.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class USER_DEF
+    public partial class ROLE_MASTER
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public USER_DEF()
+        public ROLE_MASTER()
         {
-            this.USER_ROLE = new HashSet<USER_ROLE>();
+            this.ROLE_RIGHTS_MASTER = new HashSet<ROLE_RIGHTS_MASTER>();
             this.USER_RIGHTS_MASTER = new HashSet<USER_RIGHTS_MASTER>();
         }
     
-        public long user_id { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
+        public long role_id { get; set; }
+        public string role_name { get; set; }
+        public long branch_id { get; set; }
         public int row_sta_cd { get; set; }
         public long trans_id { get; set; }
-        public Nullable<long> staff_id { get; set; }
-        public long branch_id { get; set; }
-        public int user_type { get; set; }
-        public Nullable<long> student_id { get; set; }
-        public Nullable<long> parent_id { get; set; }
-        public string fcm_token { get; set; }
-        public string mobile_no { get; set; }
     
+        public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<USER_ROLE> USER_ROLE { get; set; }
-        public virtual BRANCH_STAFF BRANCH_STAFF { get; set; }
-        public virtual TRANSACTION_MASTER TRANSACTION_MASTER { get; set; }
+        public virtual ICollection<ROLE_RIGHTS_MASTER> ROLE_RIGHTS_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USER_RIGHTS_MASTER> USER_RIGHTS_MASTER { get; set; }
     }

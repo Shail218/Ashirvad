@@ -5,7 +5,7 @@
 $(document).ready(function () {
     ShowLoader();
 
-    var studenttbl = $("#packagerightstable").DataTable({
+    var studenttbl = $("#Rolerightstable").DataTable({
         "bPaginate": true,
         "bLengthChange": false,
         "bFilter": true,
@@ -19,7 +19,7 @@ $(document).ready(function () {
             processing: '<img ID="imgUpdateProgress" src="~/ThemeData/images/preview.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 40%;Width:200px; Height:160px" />'
         },
         "ajax": {
-            url: GetSiteURL() + "/PackageRight/CustomServerSideSearchAction",
+            url: GetSiteURL() + "RoleRights/CustomServerSideSearchAction",
             type: 'POST',
             dataFilter: function (data) {
                 HideLoader();
@@ -33,9 +33,9 @@ $(document).ready(function () {
                 "data": null,
                 "defaultContent": ''
             },
-            { "data": "Packageinfo.Package" },
-            { "data": "Packageinfo.PackageID" },
-            { "data": "Packageinfo.PackageID" }
+            { "data": "Roleinfo.RoleName" },
+            { "data": "Roleinfo.RoleID" },
+            { "data": "Roleinfo.RoleID" }
         ],
         "columnDefs": [
             {
@@ -55,7 +55,7 @@ $(document).ready(function () {
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
-                            '<a href="PackageRightMaintenance?PackageRightID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
+                            '<a href="RoleRightMaintenance?RoleRightID=' + data + '"><img src = "../ThemeData/images/viewIcon.png" /></a >'
                     }
                     return data;
                 },
@@ -67,7 +67,7 @@ $(document).ready(function () {
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =
-                            '<a onclick = "RemovePackageRight(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+                            '<a onclick = "RemoveRoleRight(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
                     }
                     return data;
                 },
@@ -77,8 +77,8 @@ $(document).ready(function () {
         ]
     });
 
-    LoadPackage();
-    var Id = $("#PackageRightsId").val();
+    LoadRole();
+    var Id = $("#RoleRightsId").val();
     if (Id > 0) {
         checkstatus();
     }
@@ -150,7 +150,7 @@ function checkstatus() {
             Create = false;
         }
     });
-   
+
     $('#choiceList .deletestatus').each(function () {
         if ($(this)[0].checked == false) {
             Delete = false;
@@ -167,18 +167,19 @@ function checkstatus() {
         if (Create == true) {
             var te = $(this).find("#allcreate");
             $(this).find("#allcreate").prop('checked', true);
-           
+
         }
-       
-         if (Delete == true) {
-             $(this).find("#alldelete").prop('checked', true);
+
+        if (Delete == true) {
+            $(this).find("#alldelete").prop('checked', true);
         } if (View == true) {
-            $(this).find("#allview")[0].prop('checked', true);
+            $(this).find("#allview").prop('checked', true);
         }
     });
     HideLoader();
 
 }
+
 
 function LoadBranch(onLoaded) {
     var postCall = $.post(commonData.Branch + "BranchData");
@@ -204,19 +205,19 @@ function LoadBranch(onLoaded) {
     });
 }
 
-function LoadPackage() {
-    var postCall = $.post(commonData.Package + "PackageDataByBranch", { "branchID": 0 });
+function LoadRole() {
+    var postCall = $.post(commonData.Role + "RoleDataByBranch");
     postCall.done(function (data) {
-       
-        $('#PackageName').empty();
-        $('#PackageName').select2();
-        $("#PackageName").append("<option value=" + 0 + ">---Select Package Name---</option>");
+
+        $('#RoleName').empty();
+        $('#RoleName').select2();
+        $("#RoleName").append("<option value=" + 0 + ">---Select Role Name---</option>");
         for (i = 0; i < data.length; i++) {
-            $("#PackageName").append("<option value=" + data[i].PackageID + ">" + data[i].Package + "</option>");
+            $("#RoleName").append("<option value=" + data[i].RoleID + ">" + data[i].RoleName + "</option>");
         }
-        var t = $("#Packageinfo_PackageID").val();
-        if ($("#Packageinfo_PackageID").val() != "") {
-            $('#PackageName option[value="' + $("#Packageinfo_PackageID").val() + '"]').attr("selected", "selected");
+        var t = $("#Roleinfo_RoleID").val();
+        if ($("#Roleinfo_RoleID").val() != "") {
+            $('#RoleName option[value="' + $("#Roleinfo_RoleID").val() + '"]').attr("selected", "selected");
         }
         HideLoader();
     }).fail(function () {
@@ -228,27 +229,28 @@ $("#BranchName").change(function () {
 
     var Data = $("#BranchName option:selected").val();
     $('#Branch_BranchID').val(Data);
-    LoadPackage(Data);
+    LoadRole(Data);
 });
 
-$("#PackageName").change(function () {
-    var Data = $("#PackageName option:selected").val();
-    $('#Packageinfo_PackageID').val(Data);
+$("#RoleName").change(function () {
+    var Data = $("#RoleName option:selected").val();
+    $('#Roleinfo_RoleID').val(Data);
 });
 
-function SavePackageRight() {
+
+function SaveRoleRight() {
     var Array = [];
     var isSuccess = ValidateData('drights');
     if (isSuccess) {
         ShowLoader();
         Array = GetData();
         var test = $("#JasonData").val(JSON.stringify(Array))
-        var postCall = $.post(commonData.PackageRight + "SavePackageRight", $('#fPackageRightDetail').serialize());
+        var postCall = $.post(commonData.RoleRights + "SaveRoleRight", $('#fRoleRightDetail').serialize());
         postCall.done(function (data) {
             HideLoader();
             if (data.Status) {
                 ShowMessage(data.Message, 'Success');
-                setTimeout(function () { window.location.href = "PackageRightMaintenance?PackageRightID=0"; }, 2000);
+                setTimeout(function () { window.location.href = "RoleRightMaintenance?RoleRightID=0"; }, 2000);
 
             }
             else {
@@ -263,20 +265,21 @@ function SavePackageRight() {
     }
 }
 
-$("#PackageName").change(function () {
-    var Data = $("#PackageName option:selected").val();
-    $('#Packageinfo_PackageID').val(Data);
+$("#RoleName").change(function () {
+    var Data = $("#RoleName option:selected").val();
+    $('#Roleinfo_RoleID').val(Data);
 });
 
-function RemovePackageRight(PackageRightID) {
+
+function RemoveRoleRight(RoleRightID) {
     if (confirm('Are you sure want to delete this?')) {
         ShowLoader();
-        var postCall = $.post(commonData.PackageRight + "RemovePackageRight", { "PackageRightID": PackageRightID });
+        var postCall = $.post(commonData.RoleRight + "RemoveRoleRight", { "RoleRightID": RoleRightID });
         postCall.done(function (data) {
             HideLoader();
             if (data.Status) {
                 ShowMessage(data.Message, "Success");
-                window.location.href = "PackageRightMaintenance?PackageRightID=0";       
+                window.location.href = "RoleRightMaintenance?RoleRightID=0";
             } else {
                 ShowMessage(data.Message, "Error");
             }
@@ -309,7 +312,7 @@ function GetData() {
     var DeleteArray = [];
     var ViewArray = [];
     var PageArray = [];
-    var PackageIDArray = [];
+    var RoleIDArray = [];
     var MainArray = [];
 
     $('#choiceList .createStatus').each(function () {
@@ -331,22 +334,22 @@ function GetData() {
         PageArray.push(Page);
     });
 
-    $('#choiceList .PackageRightsIdlist').each(function () {
-        var Package = $(this).val();
-        PackageIDArray.push(Package);
+    $('#choiceList .RoleRightsIdlist').each(function () {
+        var Role = $(this).val();
+        RoleIDArray.push(Role);
     });
     for (var i = 0; i < PageArray.length; i++) {
         var Page = PageArray[i];
         var Create = CreateArray[i];
         var Delete = DeleteArray[i];
         var View = ViewArray[i];
-        var Package = PackageIDArray[i];
+        var Role = RoleIDArray[i];
         MainArray.push({
             "PageInfo": { "PageID": Page },
             "Createstatus": Create,
             "Deletestatus": Delete,
             "Viewstatus": View,
-            "PackageRightsId": Package
+            "RoleRightsId": Role
 
         })
     }

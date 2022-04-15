@@ -110,6 +110,13 @@ using Ashirvad.Repo.DataAcceessAPI.Area.PaymentRegister;
 using Ashirvad.Repo.Services.Area.PaymentRegister;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.PaymentRegister;
 using Ashirvad.ServiceAPI.Services.Area.PaymentRegister;
+using Ashirvad.Repo.DataAcceessAPI.Area.Role;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Role;
+using Ashirvad.ServiceAPI.Services.Area.Role;
+using Ashirvad.Repo.DataAcceessAPI.Area.RoleRights;
+using Ashirvad.Repo.Services.Area.RoleRights;
+using Ashirvad.ServiceAPI.Services.Area.RoleRights;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.RoleRights;
 
 namespace Ashirvad.API
 {
@@ -234,7 +241,14 @@ namespace Ashirvad.API
             container.RegisterType<IPaymentRegisterAPI, PaymentRegister>();
             container.RegisterType<IPaymentRegisterService, PaymentRegisterService>();
 
+            container.RegisterType<IRoleAPI, RoleAPI>();
+            container.RegisterType<IRoleService, RoleService>();
+
+            container.RegisterType<IRoleRightsAPI, RoleRightsAPI>();
+            container.RegisterType<IRoleRightsService, RoleRightsService>();
+
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
+
         }
     }
 }

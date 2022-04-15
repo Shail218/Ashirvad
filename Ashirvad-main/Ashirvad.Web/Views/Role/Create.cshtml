@@ -1,0 +1,27 @@
+﻿@model Ashirvad.Data.RoleEntity
+<form id="fRoleDetail">
+    <div class="form-group" id="dInformation">
+        <div class="col-md-12">
+            @Html.Label("Role Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            @Html.TextBoxFor(x=>x.RoleName, new { @class = "form-control required", @alt = "Role Name", autocomplete = "off" })
+            @Html.HiddenFor(x=>x.RoleID)
+        </div>
+        <div class="form-group">
+            <div class="col-md-12" style="text-align: right;">
+                <br />
+                <a onclick="return SaveRole();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                    <span class="ladda-label">
+                        Save
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+                <a href="@Url.Action("RoleMaintenance","Role", new { @branchID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
+                    <span class="ladda-label">
+                        Cancel
+                    </span>
+                    <span class="ladda-spinner"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</form>

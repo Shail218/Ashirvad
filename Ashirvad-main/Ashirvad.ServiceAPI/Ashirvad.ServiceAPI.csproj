@@ -90,6 +90,8 @@
     <Compile Include="ServiceAPI\Area\Payment\IStudentPaymentService.cs" />
     <Compile Include="ServiceAPI\Area\Reminder\IReminderService.cs" />
     <Compile Include="ServiceAPI\Area\Category\ICategoryService.cs" />
+    <Compile Include="ServiceAPI\Area\RoleRights\IRoleRightsService.cs" />
+    <Compile Include="ServiceAPI\Area\Role\IRoleService.cs" />
     <Compile Include="ServiceAPI\Area\School\ISchoolService.cs" />
     <Compile Include="ServiceAPI\Area\Staff\IStaffService.cs" />
     <Compile Include="ServiceAPI\Area\Standard\IStandardService.cs" />
@@ -132,6 +134,8 @@
     <Compile Include="Services\Area\Payment\StudentPaymentService.cs" />
     <Compile Include="Services\Area\Reminder\ReminderService.cs" />
     <Compile Include="Services\Area\Category\CategoryService.cs" />
+    <Compile Include="Services\Area\RoleRights\RoleRightsService.cs" />
+    <Compile Include="Services\Area\Role\RoleService.cs" />
     <Compile Include="Services\Area\School\SchoolService.cs" />
     <Compile Include="Services\Area\Staff\StaffService.cs" />
     <Compile Include="Services\Area\Standard\StandardService.cs" />

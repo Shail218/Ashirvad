@@ -60,7 +60,9 @@
     ListOfStudent: $("#hdnFldVDName").val() + "ListOfStudent/",
     ProgressReportChart: $("#hdnFldVDName").val() + "ProgressReportChart/",    
     AttendanceByStudent: $("#hdnFldVDName").val() + "AttendanceByStudent/" ,
-    OnlinePaymentList: $("#hdnFldVDName").val() + "OnlinePaymentList/"
+    OnlinePaymentList: $("#hdnFldVDName").val() + "OnlinePaymentList/",
+    Role: $("#hdnFldVDName").val() + "Role/",
+    RoleRights: $("#hdnFldVDName").val() + "RoleRights/",
 };
 
 function GetExtention(image){

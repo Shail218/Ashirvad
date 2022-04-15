@@ -217,6 +217,15 @@
         <EntityTypeShape EntityType="AshirvadModel.UPI_MASTER" Width="1.5" PointX="8.25" PointY="11.125" />
         <AssociationConnector Association="AshirvadModel.FK_UPI_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_UPI_MASTER_TRANSACTION_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.ROLE_MASTER" Width="1.5" PointX="5.25" PointY="61.25" />
+        <EntityTypeShape EntityType="AshirvadModel.ROLE_RIGHTS_MASTER" Width="1.5" PointX="7.5" PointY="59" />
+        <EntityTypeShape EntityType="AshirvadModel.USER_RIGHTS_MASTER" Width="1.5" PointX="12.75" PointY="37.5" />
+        <AssociationConnector Association="AshirvadModel.FK_ROLE_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_ROLE_RIGHTS_MASTER_PAGE_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_ROLE_RIGHTS_MASTER_ROLE_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_USER_RIGHTS_MASTER_ROLE_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_USER_RIGHTS_MASTER_TRANSACTION_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_USER_RIGHTS_MASTER_USER_DEF" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

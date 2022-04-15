@@ -18,6 +18,7 @@ namespace Ashirvad.Repo.Model
         public PAGE_MASTER()
         {
             this.PACKAGE_RIGHTS_MASTER = new HashSet<PACKAGE_RIGHTS_MASTER>();
+            this.ROLE_RIGHTS_MASTER = new HashSet<ROLE_RIGHTS_MASTER>();
         }
     
         public long page_id { get; set; }
@@ -29,5 +30,7 @@ namespace Ashirvad.Repo.Model
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PACKAGE_RIGHTS_MASTER> PACKAGE_RIGHTS_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ROLE_RIGHTS_MASTER> ROLE_RIGHTS_MASTER { get; set; }
     }
 }

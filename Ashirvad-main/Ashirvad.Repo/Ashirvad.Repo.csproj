@@ -93,6 +93,8 @@
     <Compile Include="DataAcceessAPI\Area\Payment\IStudentPaymentAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Reminder\IReminderAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Category\ICategoryAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\RoleRights\IRoleRightsAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\Role\IRoleAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\School\ISchoolAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Staff\IStaffAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\Standard\IStandardAPI.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="DataAcceessAPI\Area\Test\ITestAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\ToDo\IToDoAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\UPI\IUPIAPI.cs" />
+    <Compile Include="DataAcceessAPI\Area\UserRights\IUserRightsAPI.cs" />
     <Compile Include="DataAcceessAPI\Area\User\IUserAPI.cs" />
     <Compile Include="ModelAccess.cs" />
     <Compile Include="Model\ABOUTUS_DETAIL_REL.cs">
@@ -263,6 +266,12 @@
     <Compile Include="Model\REMINDER_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\ROLE_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ROLE_RIGHTS_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\SCHOOL_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -323,6 +332,9 @@
     <Compile Include="Model\USER_DEF.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\USER_RIGHTS_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\USER_ROLE.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
@@ -369,6 +381,8 @@
     <Compile Include="Services\Area\Payment\StudentPayment.cs" />
     <Compile Include="Services\Area\Reminder\Reminder.cs" />
     <Compile Include="Services\Area\Category\Category.cs" />
+    <Compile Include="Services\Area\RoleRights\RoleRightsAPI.cs" />
+    <Compile Include="Services\Area\Role\RoleAPI.cs" />
     <Compile Include="Services\Area\School\School.cs" />
     <Compile Include="Services\Area\Staff\Staff.cs" />
     <Compile Include="Services\Area\Standard\Standard.cs" />
@@ -378,6 +392,7 @@
     <Compile Include="Services\Area\Test\Test.cs" />
     <Compile Include="Services\Area\ToDo\ToDo.cs" />
     <Compile Include="Services\Area\UPI\UPI.cs" />
+    <Compile Include="Services\Area\UserRights\UserRightsAPI.cs" />
     <Compile Include="Services\Area\User\User.cs" />
   </ItemGroup>
   <ItemGroup>

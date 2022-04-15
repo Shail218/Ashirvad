@@ -54,6 +54,7 @@ namespace Ashirvad.Repo.Model
             this.BRANCH_RIGHTS_MASTER = new HashSet<BRANCH_RIGHTS_MASTER>();
             this.PAGE_MASTER = new HashSet<PAGE_MASTER>();
             this.UPI_MASTER = new HashSet<UPI_MASTER>();
+            this.ROLE_MASTER = new HashSet<ROLE_MASTER>();
         }
     
         public long branch_id { get; set; }
@@ -144,5 +145,7 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<PAGE_MASTER> PAGE_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UPI_MASTER> UPI_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ROLE_MASTER> ROLE_MASTER { get; set; }
     }
 }

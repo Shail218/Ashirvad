@@ -311,6 +311,8 @@
     <Content Include="scripts\app\profile.js" />
     <Content Include="scripts\app\progresschart.js" />
     <Content Include="scripts\app\reminder.js" />
+    <Content Include="scripts\app\role.js" />
+    <Content Include="scripts\app\roleright.js" />
     <Content Include="scripts\app\school.js" />
     <Content Include="scripts\app\showlibrary.js" />
     <Content Include="scripts\app\standard.js" />
@@ -1208,6 +1210,8 @@
     <Compile Include="Controllers\ReminderController.cs" />
     <Compile Include="Controllers\ResultEntryController.cs" />
     <Compile Include="Controllers\ResultRegisterController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\RoleRightsController.cs" />
     <Compile Include="Controllers\SchoolController.cs" />
     <Compile Include="Controllers\ShowLibraryController.cs" />
     <Compile Include="Controllers\StandardController.cs" />
@@ -1227,6 +1231,7 @@
     <Compile Include="Controllers\UpiController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserPermissionController.cs" />
+    <Compile Include="Controllers\UserRightsController.cs" />
     <Compile Include="Controllers\VideosController.cs" />
     <Compile Include="Controllers\WinnerEntryController.cs" />
     <Compile Include="Controllers\WinnerListController.cs" />
@@ -1526,6 +1531,17 @@
     <Content Include="Views\Batch\Index2.cshtml" />
     <Content Include="Views\Batch\CreateBatchTime.cshtml" />
     <Content Include="Views\Batch\ManageBatchTime.cshtml" />
+    <Content Include="Views\Role\Create.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Role\Manage.cshtml" />
+    <Content Include="Views\RoleRights\Create.cshtml" />
+    <Content Include="Views\RoleRights\NoRights.cshtml" />
+    <Content Include="Views\RoleRights\Manage.cshtml" />
+    <Content Include="Views\RoleRights\Index.cshtml" />
+    <Content Include="Views\UserRights\Create.cshtml" />
+    <Content Include="Views\UserRights\Index.cshtml" />
+    <Content Include="Views\UserRights\Manage.cshtml" />
+    <Content Include="Views\UserRights\RightsDataTable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

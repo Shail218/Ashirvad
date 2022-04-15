@@ -265,6 +265,7 @@ namespace Ashirvad.Repo.Services.Area.Page
                 packageRight.Viewstatus = false;
                 packageRight.RowStatus = new RowStatusEntity()
                 {
+                    RowStatusId = (int)Enums.RowStatus.Active,
                     RowStatus = Enums.RowStatus.Active
                 };
                 foreach (var item in data)
