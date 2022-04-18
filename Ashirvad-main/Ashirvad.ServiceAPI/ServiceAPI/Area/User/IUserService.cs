@@ -24,5 +24,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.User
         List<UserEntity> GetAllUsers(string userName, string contactNo);
         Task<ResponseModel> UpdatefcmToken(UserEntity userentity, string fcm_token);
         Task<UserEntity> ValidateStudentData(string userName, string password);
+        Task<List<UserEntity>> GetAllStaffUserbyBranch(long branchId);
     }
 }

@@ -329,6 +329,7 @@
     <Content Include="scripts\app\upi.js" />
     <Content Include="scripts\app\user.js" />
     <Content Include="scripts\app\userpermission.js" />
+    <Content Include="scripts\app\userwiserights.js" />
     <Content Include="scripts\app\video.js" />
     <Content Include="scripts\app\youtube.js" />
     <Content Include="scripts\ashirvad.js" />

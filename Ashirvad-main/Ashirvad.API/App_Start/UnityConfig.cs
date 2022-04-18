@@ -117,6 +117,10 @@ using Ashirvad.Repo.DataAcceessAPI.Area.RoleRights;
 using Ashirvad.Repo.Services.Area.RoleRights;
 using Ashirvad.ServiceAPI.Services.Area.RoleRights;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.RoleRights;
+using Ashirvad.Repo.DataAcceessAPI.Area.UserRights;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.UserRights;
+using Ashirvad.ServiceAPI.Services.Area.UserRights;
+using Ashirvad.Repo.Services.Area.UserRights;
 
 namespace Ashirvad.API
 {
@@ -246,6 +250,9 @@ namespace Ashirvad.API
 
             container.RegisterType<IRoleRightsAPI, RoleRightsAPI>();
             container.RegisterType<IRoleRightsService, RoleRightsService>();
+
+            container.RegisterType<IUserRightsAPI, UserRightsAPI>();
+            container.RegisterType<IUserRightsService, UserRightsService>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
 

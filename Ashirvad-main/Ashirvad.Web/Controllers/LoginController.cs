@@ -3,6 +3,7 @@ using Ashirvad.Data;
 using Ashirvad.Repo.Services.Area.User;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.User;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.UserRights;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,13 @@ namespace Ashirvad.Web.Controllers
     {
         private readonly IUserService _userService = null;
         private readonly IBranchRightsService _BranchRightService;
+        private readonly IUserRightsService _UserRightService;
         ResponseModel response = new ResponseModel();
-        public LoginController(IUserService userService, IBranchRightsService branchRightsService)
+        public LoginController(IUserService userService, IBranchRightsService branchRightsService, IUserRightsService userRightsService)
         {
             _userService = userService;
             _BranchRightService = branchRightsService;
+            _UserRightService = userRightsService;
         }
         // GET: Login
         public ActionResult Index()
@@ -42,6 +45,7 @@ namespace Ashirvad.Web.Controllers
                 userInfo.FinancialYear = user.FinancialYear;
                 success = true;
                 var Get = await GetBranchRights(userInfo.BranchInfo.BranchID);
+                var get2 = await GetUserRights(userInfo.UserID);
                 if (userInfo.UserType == Enums.UserType.SuperAdmin)
                 {
                     //List<BranchWiseRightEntity> branchWises = new List<BranchWiseRightEntity>();
@@ -71,11 +75,21 @@ namespace Ashirvad.Web.Controllers
                     var isAggrement = this._userService.CheckAgreement(userInfo.BranchInfo.BranchID);
                     if (isAggrement.Result)
                     {
-                        response.Message = "Login Successfully!!";
-                        response.Status = true;
-                        response.URL = "Home/ADashboard";
+                        if (get2 != null || userInfo.UserType == Enums.UserType.Admin)
+                        {
+                            response.Message = "Login Successfully!!";
+                            response.Status = true;
+                            response.URL = "Home/ADashboard";
 
-                        SessionContext.Instance.LoginUser = userInfo;
+                            SessionContext.Instance.LoginUser = userInfo;
+                        }
+                        else
+                        {
+                            response.Message = "You don't have rights for any module please contact your admin!!!";
+                            response.Status = false;
+                            SessionContext.Instance.LoginUser = null;
+                        }
+                       
                     }
                     else
                     {
@@ -162,6 +176,20 @@ namespace Ashirvad.Web.Controllers
                 SessionContext.Instance.userRightsList = null;
             }
             return SessionContext.Instance.userRightsList;
+
+        }     
+        public async Task<string> GetUserRights(long UserId)
+        {
+            var UserRightData = await _UserRightService.GetUserRightsByUserID(UserId);
+            if (UserRightData.Count > 0)
+            {
+                SessionContext.Instance.userRightList = JsonConvert.SerializeObject(UserRightData);
+            }
+            else
+            {
+                SessionContext.Instance.userRightList = null;
+            }
+            return SessionContext.Instance.userRightList;
 
         }
 

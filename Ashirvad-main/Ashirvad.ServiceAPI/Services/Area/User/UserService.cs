@@ -247,5 +247,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
 
             return null;
         }
+
+        public async Task<List<UserEntity>> GetAllStaffUserbyBranch(long branchId)
+        {
+            try
+            {
+                return await this._userContext.GetAllStaffUserbyBranch(branchId);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
     }
 }

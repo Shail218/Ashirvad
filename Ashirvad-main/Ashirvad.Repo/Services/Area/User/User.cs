@@ -397,6 +397,53 @@ namespace Ashirvad.Repo.Services.Area.User
             return data;
         }
 
+        public async Task<List<UserEntity>> GetAllStaffUserbyBranch(long branchId)
+        {
+            var data = (from u in this.context.USER_DEF
+                        join b in this.context.BRANCH_MASTER on u.branch_id equals b.branch_id
+                        join staff in this.context.BRANCH_STAFF on u.staff_id equals staff.staff_id into tempStaff
+                        from stf in tempStaff.DefaultIfEmpty()
+                        orderby u.user_id descending
+                        where u.branch_id == branchId && u.row_sta_cd==1 && u.user_type==(int)Enums.UserType.Staff
+                        select new UserEntity()
+                        {
+                            //ClientSecret = u.client_secret,
+                            ParentID = u.parent_id,
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = u.row_sta_cd
+                            },
+                            StaffID = u.staff_id,
+                            StudentID = u.student_id,
+                            UserID = u.user_id,
+                            Username = u.username,
+                            mobileNo = u.mobile_no,
+                            UserType = Enums.UserType.Staff,
+                           
+                            BranchInfo = new BranchEntity()
+                            {
+                                BranchID = u.branch_id,
+                                BranchName = b.branch_name
+                            },
+                            StaffDetail = new StaffEntity()
+                            {
+                                Name = stf.name,
+                                Address = stf.address,
+                                ApptDT = stf.appt_dt,
+                                DOB = stf.dob,
+                                Education = stf.education,
+                                EmailID = stf.email_id,
+                                JoinDT = stf.join_dt,
+                                StaffID = stf.staff_id,
+                                MobileNo = stf.mobile_no,
+                                LeavingDT = stf.leaving_dt
+                            }
+                        }).ToList();
+
+            return data;
+        }
+
         public List<UserEntity> GetAllUsers(string userName, string contactNo)
         {
             var data = (from u in this.context.USER_DEF

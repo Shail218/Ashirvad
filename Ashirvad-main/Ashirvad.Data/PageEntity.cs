@@ -11,6 +11,10 @@ namespace Ashirvad.Data
         public long PageID { get; set; }
         public long Count { get; set; }
         public string Page { get; set; }
+        public bool Createstatus { get; set; }
+        public bool Editstatus { get; set; }
+        public bool Deletestatus { get; set; }
+        public bool Viewstatus { get; set; }
         public TransactionEntity Transaction { get; set; }
         public RowStatusEntity RowStatus { get; set; }
         public BranchEntity BranchInfo { get; set; }

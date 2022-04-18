@@ -101,6 +101,7 @@
     <Compile Include="ServiceAPI\Area\Test\ITestService.cs" />
     <Compile Include="ServiceAPI\Area\ToDo\IToDoService.cs" />
     <Compile Include="ServiceAPI\Area\UPI\IUPIService.cs" />
+    <Compile Include="ServiceAPI\Area\UserRights\IUserRightsService.cs" />
     <Compile Include="ServiceAPI\Area\User\IUserService.cs" />
     <Compile Include="Services\Area\AboutUs\AboutUsService.cs" />
     <Compile Include="Services\Area\Admin\AdminDataService.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Services\Area\Test\TestService.cs" />
     <Compile Include="Services\Area\ToDo\ToDoService.cs" />
     <Compile Include="Services\Area\UPI\UPIService.cs" />
+    <Compile Include="Services\Area\UserRights\UserRightsService.cs" />
     <Compile Include="Services\Area\User\UserService.cs" />
     <Compile Include="Services\Gallery\GalleryService.cs" />
     <Compile Include="Services\Link\LinkService.cs" />

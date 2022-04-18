@@ -41,12 +41,12 @@ namespace Ashirvad.ServiceAPI.Services.Area.RoleRights
 
 
 
-        public async Task<List<RoleRightsEntity>> GetRoleRightsByRoleRightsID(long RoleRightsID)
+        public async Task<List<RoleRightsEntity>> GetRoleRightsByRoleRightsID(long RoleRightsID, long branchId)
         {
             try
             {
                 List<RoleRightsEntity> RoleRights = new List<RoleRightsEntity>();
-                RoleRights = await _RoleRightsContext.GetRightsByRightsID(RoleRightsID);
+                RoleRights = await _RoleRightsContext.GetRightsByRightsID(RoleRightsID,branchId);
                 return RoleRights;
             }
             catch (Exception ex)

@@ -43,6 +43,7 @@ namespace Ashirvad.Web
 
         public int PageSize { get; set; }
         public string userRightsList { get; set; }
+        public string userRightList { get; set; }
         public UserEntity LoginUser { get; set; }
         public string[] Permission { get; set; }
     }

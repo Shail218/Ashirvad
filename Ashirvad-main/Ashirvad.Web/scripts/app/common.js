@@ -63,6 +63,7 @@
     OnlinePaymentList: $("#hdnFldVDName").val() + "OnlinePaymentList/",
     Role: $("#hdnFldVDName").val() + "Role/",
     RoleRights: $("#hdnFldVDName").val() + "RoleRights/",
+    UserRights: $("#hdnFldVDName").val() + "UserRights/",
 };
 
 function GetExtention(image){

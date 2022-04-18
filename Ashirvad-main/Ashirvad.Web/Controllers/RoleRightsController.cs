@@ -1,6 +1,7 @@
 ﻿using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
+using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Page;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.RoleRights;
 using Newtonsoft.Json;
@@ -18,13 +19,14 @@ namespace Ashirvad.Web.Controllers
     {
         private readonly IRoleRightsService _RoleRightService;
         private readonly IPageService _pageService;
-
+        private readonly IBranchRightsService _BranchRightService;
         ResponseModel response = new ResponseModel();
-        public RoleRightsController(IRoleRightsService RoleRightService, IPageService pageService)
+        public RoleRightsController(IRoleRightsService RoleRightService, IPageService pageService,IBranchRightsService BranchRightService)
         {
 
             _RoleRightService = RoleRightService;
             _pageService = pageService;
+            _BranchRightService = BranchRightService;
         }
         // GET: RoleRight
         // GET: RoleRights
@@ -51,15 +53,19 @@ namespace Ashirvad.Web.Controllers
                 {
                     var result = await _RoleRightService.GetRolerightsByID(RoleRightID);
                 
-                    var result2 = await _RoleRightService.GetRoleRightsByRoleRightsID(RoleRightID);
+                    var result2 = await _RoleRightService.GetRoleRightsByRoleRightsID(RoleRightID,SessionContext.Instance.LoginUser.BranchInfo.BranchID);
                     RoleRight.RoleRightsInfo = result;
                     RoleRight.RoleRightsInfo.list = result2;
                 }
                 //var RoleRightData = await _RoleRightService.GetAllRoleRights();
                 RoleRight.RoleRightsData = new List<RoleRightsEntity>();
 
-                var branchData = await _pageService.GetAllPages(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
-                RoleRight.RoleRightsInfo.PageList = branchData;
+                var branchData = await _BranchRightService.GetBranchRightsByBranchID(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+             foreach(var da in branchData)
+            {
+                RoleRight.RoleRightsInfo.PageList.Add(da.PageInfo);
+            }
+       
                 return View("Index", RoleRight);
             
         }

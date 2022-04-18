@@ -358,6 +358,9 @@ namespace Ashirvad.Repo.Services.Area
                             {
                                 Page = PM.PAGE_MASTER.page,
                                 PageID = PM.page_id,
+                                Createstatus = PM.createstatus,
+                                Viewstatus = PM.viewstatus,
+                                Deletestatus = PM.deletestatus,
                             },
 
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },

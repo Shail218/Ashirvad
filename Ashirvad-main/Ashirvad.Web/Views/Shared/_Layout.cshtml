@@ -123,7 +123,9 @@
     </style>
 </head>
 <body class="skin-blue layout-top-nav" id="mainbody">
+    <input id="userType" hidden value="@SessionContext.Instance.LoginUser.UserType" />
     <input id="rightslist" hidden value="@SessionContext.Instance.userRightsList" />
+    <input id="rightlist" hidden value="@SessionContext.Instance.userRightList" />
     <input id="Lbranch" hidden value="@SessionContext.Instance.LoginUser.BranchInfo.BranchName" />
     <input id="Lbranchalias" hidden value="@SessionContext.Instance.LoginUser.BranchInfo.aliasName" />
     <input id="FinanceYear" hidden value="@SessionContext.Instance.LoginUser.FinancialYear" />
@@ -205,7 +207,7 @@
                                                 <a href="@Url.Action("SubjectMaintenance","SuperAdminSubject", new { @subjectID=0 })">Subject Master</a>
                                             </li>
                                         }
-                                        else if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
+                                        else
                                         {
                                             <li id="StM" class="AnnouncementMaster">
                                                 <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master</a>
@@ -301,7 +303,7 @@
                                     </ul>
                                     </li>-->
                                 }
-                                @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
+                             else
                                 {
                                     <li class="dropdown" id="StudentMenu" style="margin-left:10px;">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -549,8 +551,8 @@
                                             <li class="treeview RoleRights" id="rolright">
                                                 <a href="@Url.Action("RoleRightMaintenance", "RoleRights", new { @RoleRightID = 0 })">Role Rights</a>
                                             </li>
-                                            <li class="treeview" id="rolright">
-                                                <a href="@Url.Action("Index","UserRights")">User Rights</a>
+                                            <li class="treeview UserRights" id="userright">
+                                                <a href="@Url.Action("UserRightMaintenance", "UserRights", new { @UserRightID = 0 })">User Rights</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -569,8 +571,8 @@
                                     <li class="treeview RoleRights" id="rolright">
                                         <a href="@Url.Action("RoleRightMaintenance", "RoleRights", new { @RoleRightID = 0 })">Role Rights</a>
                                     </li>  
-                                    <li class="treeview" id="rolright">
-                                        <a href="@Url.Action("Index","UserRights")">User Rights</a>
+                                    <li class="treeview UserRights" id="userright">
+                                        <a href="@Url.Action("UserRightMaintenance","UserRights", new { @UserRightID = 0 })">User Rights</a>
                                     </li>
                                 </ul>
                             </li>

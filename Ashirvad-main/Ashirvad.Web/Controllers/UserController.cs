@@ -2,6 +2,7 @@
 using Ashirvad.Data;
 using Ashirvad.Data.Model;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Staff;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,12 @@ namespace Ashirvad.Web.Controllers
     public class UserController : BaseController
     {
         private readonly IStaffService _staffService;
+        private readonly IUserService _userService;
         public ResponseModel res = new ResponseModel();
-        public UserController(IStaffService staffService)
+        public UserController(IStaffService staffService, IUserService userService)
         {
             _staffService = staffService;
+            _userService = userService;
         }
 
         // GET: User
@@ -88,6 +91,17 @@ namespace Ashirvad.Web.Controllers
         }
 
         [HttpPost]
+        public async Task<JsonResult> GetAllStaffUserbyBranch()
+        {
+           
+            var data = await _userService.GetAllStaffUserbyBranch(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
+            //res.Status = data.StaffID > 0 ? true : false;
+            //res.Message = data.StaffID == -1 ? "User Already exists!!" : data.StaffID == 0 ? "User failed to insert!!" : "User Inserted Successfully!!";
+            return Json(data);
+        }
+
+
+        [HttpPost]
         public JsonResult RemoveUser(long userID)
         {
             var result = _staffService.RemoveStaff(userID, SessionContext.Instance.LoginUser.Username);
@@ -125,6 +139,7 @@ namespace Ashirvad.Web.Controllers
             });
 
         }
+      
         [HttpPost]
         public async Task<ActionResult> GetExportData(string Search)
         {

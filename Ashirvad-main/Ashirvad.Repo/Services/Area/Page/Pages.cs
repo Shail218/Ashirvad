@@ -4,6 +4,7 @@ using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.Repo.DataAcceessAPI.Area;
 using Ashirvad.Repo.DataAcceessAPI.Area.Page;
+using Ashirvad.Repo.DataAcceessAPI.Area.RoleRights;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,12 @@ namespace Ashirvad.Repo.Services.Area.Page
     public class Pages : ModelAccess, IPageAPI
     {
         private readonly IPackageRightsAPI _packageRights;
+        private readonly IRoleRightsAPI _roleRights;
 
-        public Pages(IPackageRightsAPI packageRights)
+        public Pages(IPackageRightsAPI packageRights, IRoleRightsAPI roleRights)
         {
             this._packageRights = packageRights;
+            this._roleRights = roleRights;
         }
 
         public async Task<long> CheckPage(string name, long branch, long Id)
@@ -125,6 +128,7 @@ namespace Ashirvad.Repo.Services.Area.Page
 
             return data;
         }
+
         public async Task<List<PageEntity>> GetAllCustomPages(DataTableAjaxPostModel model)
         {
             var Result = new List<PageEntity>();
@@ -156,8 +160,6 @@ namespace Ashirvad.Repo.Services.Area.Page
                         .Skip(model.start)
                         .Take(model.length)
                         .ToList();
-
-            
             return data;
         }
         public async Task<List<PageEntity>> GetAllPages()
@@ -251,13 +253,21 @@ namespace Ashirvad.Repo.Services.Area.Page
                             {
                                 PackageID = Package.package_id
                             }).Distinct().ToList();
+                var data2 = (from Role in this.context.ROLE_RIGHTS_MASTER
+                             where Role.row_sta_cd == 1
+                             select new RoleEntity
+                             {
+                                 RoleID = Role.role_id
+                             }).Distinct().ToList();
 
                 PackageRightEntity packageRight = new PackageRightEntity();
+               
                 packageRight.PageInfo = new PageEntity()
                 {
                     PageID = pageEntity.PageID,
                     Page = pageEntity.Page
                 };
+                
                 packageRight.Transaction = new TransactionEntity();
                 packageRight.Transaction = pageEntity.Transaction;
                 packageRight.Createstatus = false;
@@ -268,6 +278,7 @@ namespace Ashirvad.Repo.Services.Area.Page
                     RowStatusId = (int)Enums.RowStatus.Active,
                     RowStatus = Enums.RowStatus.Active
                 };
+               
                 foreach (var item in data)
                 {
                     packageRight.Packageinfo = new PackageEntity()
@@ -277,6 +288,33 @@ namespace Ashirvad.Repo.Services.Area.Page
                     };
                     packageRight.PackageRightsId = 0;
                     responseModel = _packageRights.RightsMaintenance(packageRight).Result;
+                    //var da = _packageRights.RightsMaintenance(packageRight).Result;
+                }
+                RoleRightsEntity roleRight = new RoleRightsEntity();
+                roleRight.PageInfo = new PageEntity()
+                {
+                    PageID = pageEntity.PageID,
+                    Page = pageEntity.Page
+                };
+                roleRight.Transaction = new TransactionEntity();
+                roleRight.Transaction = pageEntity.Transaction;
+                roleRight.Createstatus = false;
+                roleRight.Deletestatus = false;
+                roleRight.Viewstatus = false;
+                roleRight.RowStatus = new RowStatusEntity()
+                {
+                    RowStatusId = (int)Enums.RowStatus.Active,
+                    RowStatus = Enums.RowStatus.Active
+                };
+                foreach(var item2 in data2)
+                {
+                    roleRight.Roleinfo = new RoleEntity()
+                    {
+                        RoleID = item2.RoleID,
+
+                    };
+                    roleRight.RoleRightsId = 0;
+                    responseModel = _roleRights.RightsMaintenance(roleRight).Result;
                     //var da = _packageRights.RightsMaintenance(packageRight).Result;
                 }
                 //return result;

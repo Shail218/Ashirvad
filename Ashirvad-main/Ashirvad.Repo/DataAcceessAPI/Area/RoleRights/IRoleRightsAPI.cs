@@ -12,7 +12,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.RoleRights
     {
         Task<ResponseModel> RightsMaintenance(RoleRightsEntity RightsInfo);
         Task<List<RoleRightsEntity>> GetAllRights();
-        Task<List<RoleRightsEntity>> GetRightsByRightsID(long RightsID);
+        Task<List<RoleRightsEntity>> GetRightsByRightsID(long RightsID, long branchId);
         ResponseModel RemoveRights(long RightsID, string lastupdatedby);
         Task<RoleRightsEntity> GetRolebyID(long RightsID);
         Task<List<RoleRightsEntity>> GetAllCustomRights(DataTableAjaxPostModel model, long branchId);

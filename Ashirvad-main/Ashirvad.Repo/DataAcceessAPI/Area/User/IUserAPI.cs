@@ -29,5 +29,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.User
 
         Task<UserEntity> ValidateStudentData(string userName, string password);
         ResponseModel ChangeUserStatus(long studentId, string lastupdatedby, int status);
+
+        Task<List<UserEntity>> GetAllStaffUserbyBranch(long branchId);
     }
 }

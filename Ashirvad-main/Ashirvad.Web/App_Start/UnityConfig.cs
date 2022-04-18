@@ -34,6 +34,7 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Test;
 using Ashirvad.Repo.DataAcceessAPI.Area.ToDo;
 using Ashirvad.Repo.DataAcceessAPI.Area.UPI;
 using Ashirvad.Repo.DataAcceessAPI.Area.User;
+using Ashirvad.Repo.DataAcceessAPI.Area.UserRights;
 using Ashirvad.Repo.Services.Area;
 using Ashirvad.Repo.Services.Area.AboutUs;
 using Ashirvad.Repo.Services.Area.Admin;
@@ -68,6 +69,7 @@ using Ashirvad.Repo.Services.Area.Test;
 using Ashirvad.Repo.Services.Area.ToDo;
 using Ashirvad.Repo.Services.Area.UPI;
 using Ashirvad.Repo.Services.Area.User;
+using Ashirvad.Repo.Services.Area.UserRights;
 using Ashirvad.ServiceAPI.ServiceAPI.Area;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.AboutUs;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Admin;
@@ -104,6 +106,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Test;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.ToDo;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.UPI;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.User;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.UserRights;
 using Ashirvad.ServiceAPI.Services.Area;
 using Ashirvad.ServiceAPI.Services.Area.AboutUs;
 using Ashirvad.ServiceAPI.Services.Area.Admin;
@@ -137,6 +140,7 @@ using Ashirvad.ServiceAPI.Services.Area.Test;
 using Ashirvad.ServiceAPI.Services.Area.ToDo;
 using Ashirvad.ServiceAPI.Services.Area.UPI;
 using Ashirvad.ServiceAPI.Services.Area.User;
+using Ashirvad.ServiceAPI.Services.Area.UserRights;
 using Ashirvad.ServiceAPI.Services.Gallery;
 using Ashirvad.ServiceAPI.Services.Link;
 using System.Web.Mvc;
@@ -293,6 +297,11 @@ namespace Ashirvad.Web
 
             container.RegisterType<IRoleRightsAPI, RoleRightsAPI>();
             container.RegisterType<IRoleRightsService, RoleRightsService>();
+
+            container.RegisterType<IUserRightsAPI, UserRightsAPI>();
+            container.RegisterType<IUserRightsService, UserRightsService>();
+
+
         }
     }
 

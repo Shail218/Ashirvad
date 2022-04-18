@@ -11,7 +11,7 @@
     });
     ApplyNumeric();
     //$(".select2").select2();
-    CheckRights();
+    CheckRightMaster();
 });
 
 function ShowLoader() {
@@ -22,7 +22,15 @@ function HideLoader() {
     document.getElementById("loader").style.display = "None";
 
 }
+function CheckRightMaster() {
+    var type = $("#userType").val();
+    if (type == "Admin") {
+        CheckRights();
+    } else {
+        CheckRight();
+    }
 
+}
 function ApplyNumeric() {
     $(".numeric").numeric({ decimal: ".", negative: false, scale: 4 }).keydown(function (e) {
         if (e.shiftKey || e.ctrlKey || e.altKey) {
@@ -398,7 +406,7 @@ function CheckRights() {
                 $('#main-menu ' + ClassName).each(function () {
                     if (!Viewstatus) {
                         //$(this).addClass("displayNone");
-                        $(this).html("");
+                        $(this).remove();
                     }
                     else {
                         var test = $(this);
@@ -407,7 +415,7 @@ function CheckRights() {
                 $('#main-menu ' + CreateClass).each(function () {
                     if (!Createstatus) {
                         //$(this).addClass("displayNone");
-                        $(this).html("");
+                        $(this).remove();
                     }
                     else {
                         var test = $(this);
@@ -416,7 +424,85 @@ function CheckRights() {
                 $('#main-menu ' + DeleteClass).each(function () {
                     if (!Deletestatus) {
                         //$(this).addClass("displayNone");
-                        $(this).html("");
+                        $(this).remove();
+                    }
+                    else {
+                        var test = $(this);
+                    }
+                });
+            }
+            var classarray = [];
+            classarray.push("MasterMenu");
+            classarray.push("StudentMenu");
+            classarray.push("AttendanceMenu");
+            classarray.push("TestMenu");
+            classarray.push("GalleryMenu");
+            classarray.push("LibraryMenu");
+            classarray.push("MoreMenu");
+            for (var i = 0; i < classarray.length; i++) {
+                var Status = false;
+                var Count = 0;
+                var T = $('#' + classarray[i] + ' ul li');
+                for (var j = 0; j < T.length; j++) {
+                    var OP = T[j];
+                    var Check = OP.classList.contains('displayNone');
+                    if (!Check) {
+                        Count++;
+                        Status = true
+                        break;
+
+                    }
+                }
+
+                if (!Status) {
+                    $('#' + classarray[i]).addClass('displayNone');
+                }
+            }
+        }
+    }
+   
+
+}
+
+function CheckRight() {
+    var rightslist = $("#rightlist").val();
+    if (rightslist != null && rightslist != "") {
+        var data = $.parseJSON(rightslist);
+        if (data.length > 0) {
+            for (var i = 0; i < data.length; i++) {
+
+                var Page = data[i].PageInfo.Page;
+                var Createstatus = data[i].RoleRightinfo.Createstatus;
+                var Deletestatus = data[i].RoleRightinfo.Deletestatus;
+                var Viewstatus = data[i].RoleRightinfo.Viewstatus;
+                var ClassName = '.' + Page.replace(/\s/g, '');
+                var CreateClass = '.' + Page.replace(/\s/g, '') + 'Create';
+                var DeleteClass = '.' + Page.replace(/\s/g, '') + 'Delete';
+                var Count = 0;
+                var classname = "";
+                var Ts = $('#main-menu ' + ClassName);
+                $('#main-menu ' + ClassName).each(function () {
+                    if (!Viewstatus) {
+                        //$(this).addClass("displayNone");
+                        $(this).remove();
+                    }
+                    else {
+                        var test = $(this);
+                    }
+                });
+                $('#main-menu ' + CreateClass).each(function () {
+                    if (!Createstatus) {
+                        //$(this).addClass("displayNone");
+                        $(this).remove();
+                    }
+                    else {
+                        var test = $(this);
+                    }
+                });
+                $('#main-menu ' + DeleteClass).each(function () {
+                    if (!Deletestatus) {
+                        //$(this).addClass("displayNone");
+                        $(this).remove();
                     }
                     else {
                         var test = $(this);
@@ -543,6 +629,30 @@ function GetUserRights(PageName) {
     }
     return permission;
 }
+
+function GetUserRight(PageName) {
+    var rightslist = $("#rightlist").val();
+    var permission = [];
+    var data = $.parseJSON(rightslist);
+    if (data.length > 0) {
+      
+        var Index = data.findIndex(function (entry, i) {
+            if (entry.PageInfo.Page.replace(/\s/g, '') == PageName) {
+                index = i;
+                return i;
+            }
+        });
+
+        var Delete = data[Index].RoleRightinfo.Deletestatus;
+        var Create = data[Index].RoleRightinfo.Createstatus;
+        permission.push({
+            "Create": Create,
+            "Delete": Delete
+        })
+    }
+    return permission;
+}
+
 
 function convertTo24Hour(time) {
     var hours = parseInt(time.substr(0, 2));
