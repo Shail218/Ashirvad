@@ -1,6 +1,4 @@
-﻿
-
-using Ashirvad.Common;
+﻿using Ashirvad.Common;
 using Ashirvad.Data;
 using Ashirvad.Repo.DataAcceessAPI.Area;
 using Ashirvad.Repo.DataAcceessAPI.Area.Page;

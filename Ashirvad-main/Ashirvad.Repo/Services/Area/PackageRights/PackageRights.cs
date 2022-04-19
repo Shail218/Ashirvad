@@ -28,15 +28,37 @@ namespace Ashirvad.Repo.Services.Area.Branch
             try
             {
                 Model.PACKAGE_RIGHTS_MASTER RightsMaster = new Model.PACKAGE_RIGHTS_MASTER();
+                PackageRightEntity OldRightsMaster = new PackageRightEntity();
                 if (CheckRights((int)RightsInfo.PackageRightsId, (int)RightsInfo.Packageinfo.PackageID, (int)RightsInfo.PageInfo.PageID).Result != -1)
                 {
                     bool isUpdate = true;
                     var data = (from package in this.context.PACKAGE_RIGHTS_MASTER
                                 where package.packagerights_id == RightsInfo.PackageRightsId
+                                orderby package.page_id
                                 select new
                                 {
                                     RightsMaster = package
                                 }).FirstOrDefault();
+                    var data2 = (from u in this.context.PACKAGE_RIGHTS_MASTER
+                                 where u.packagerights_id == RightsInfo.PackageRightsId
+                                 orderby u.page_id
+                                 select new PackageRightEntity()
+                                 {
+                                     RowStatus = new RowStatusEntity()
+                                     {
+                                         RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                         RowStatusId = (int)u.row_sta_cd
+                                     },
+                                     PageInfo = new PageEntity()
+                                     {
+                                         Page = u.PAGE_MASTER.page,
+                                         PageID = u.page_id
+                                     },
+                                     PackageRightsId = u.packagerights_id,
+                                     Createstatus = u.createstatus,
+                                     Viewstatus = u.viewstatus,
+                                     Deletestatus = u.deletestatus,
+                                 }).FirstOrDefault();
                     if (data == null)
                     {
                         RightsMaster = new Model.PACKAGE_RIGHTS_MASTER();
@@ -44,6 +66,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     }
                     else
                     {
+                        OldRightsMaster = data2;
                         RightsMaster = data.RightsMaster;
                         RightsInfo.Transaction.TransactionId = data.RightsMaster.trans_id;
                     }
@@ -66,6 +89,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     var result = this.context.SaveChanges();
                     if (result > 0)
                     {
+                        ComparePackageRight(OldRightsMaster, RightsInfo);
                         RightsInfo.PackageRightsId = RightsMaster.packagerights_id;
                         //var result2 = PackageDetailMaintenance(PackageInfo).Result;
                         //return result > 0 ? RightsInfo.PackageRightsId : 0;
@@ -84,7 +108,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 {
                     responseModel.Message = "Package Rights Already Exists.";
                     responseModel.Status = false;
-                }              
+                }
             }
             catch (Exception ex)
             {
@@ -189,29 +213,29 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 item.list = (from u in this.context.PACKAGE_RIGHTS_MASTER
                               .Include("PACKAGE_MASTER")
                                .Include("PAGE_MASTER")
-                                           where u.row_sta_cd == 1 && u.package_id == item.Packageinfo.PackageID
-                                           select new PackageRightEntity()
-                                           {
-                                               RowStatus = new RowStatusEntity()
-                                               {
-                                                   RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                                   RowStatusId = (int)u.row_sta_cd
-                                               },
-                                               PageInfo = new PageEntity()
-                                               {
-                                                   Page = u.PAGE_MASTER.page,
-                                                   PageID = u.page_id
-                                               },
-                                               Packageinfo = new PackageEntity()
-                                               {
-                                                   Package = u.PACKAGE_MASTER.package,
-                                                   PackageID = u.PACKAGE_MASTER.package_id
-                                               },                                               
-                                               Createstatus = u.createstatus,
-                                               Viewstatus = u.viewstatus,
-                                               Deletestatus = u.deletestatus,
-                                               Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                                           }).ToList();
+                             where u.row_sta_cd == 1 && u.package_id == item.Packageinfo.PackageID
+                             select new PackageRightEntity()
+                             {
+                                 RowStatus = new RowStatusEntity()
+                                 {
+                                     RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                     RowStatusId = (int)u.row_sta_cd
+                                 },
+                                 PageInfo = new PageEntity()
+                                 {
+                                     Page = u.PAGE_MASTER.page,
+                                     PageID = u.page_id
+                                 },
+                                 Packageinfo = new PackageEntity()
+                                 {
+                                     Package = u.PACKAGE_MASTER.package,
+                                     PackageID = u.PACKAGE_MASTER.package_id
+                                 },
+                                 Createstatus = u.createstatus,
+                                 Viewstatus = u.viewstatus,
+                                 Deletestatus = u.deletestatus,
+                                 Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                             }).ToList();
             }
             return data;
         }
@@ -234,7 +258,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                                 Page = u.PAGE_MASTER.page,
                                 PageID = u.page_id
                             },
-                            PackageRightsId=u.packagerights_id,
+                            PackageRightsId = u.packagerights_id,
                             Createstatus = u.createstatus,
                             Viewstatus = u.viewstatus,
                             Deletestatus = u.deletestatus,
@@ -245,17 +269,17 @@ namespace Ashirvad.Repo.Services.Area.Branch
         public async Task<PackageRightEntity> GetPackagebyID(long RightsID)
         {
             var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
-                       .Include("PACKAGE_MASTER")                                                         
+                       .Include("PACKAGE_MASTER")
                         where u.row_sta_cd == 1 && u.package_id == RightsID
                         select new PackageRightEntity()
                         {
-                            PackageRightsId=u.packagerights_id,
+                            PackageRightsId = u.packagerights_id,
                             Packageinfo = new PackageEntity()
                             {
                                 PackageID = u.PACKAGE_MASTER.package_id,
                                 Package = u.PACKAGE_MASTER.package
                             },
-                           
+
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                         }).FirstOrDefault();
             return data;
@@ -285,7 +309,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     responseModel.Message = "Package Rights Not Found.";
                     responseModel.Status = true;
                 }
-                    //return true;               
+                //return true;               
             }
             catch (Exception ex)
             {
@@ -296,7 +320,84 @@ namespace Ashirvad.Repo.Services.Area.Branch
             //return false;
         }
 
+        public void ComparePackageRight(PackageRightEntity oldpackagerights, PackageRightEntity newpackagerights)
+        {
+            try
+            {
+                bool viewflag = false, createflag = false, deleteflag = false;
+                if (oldpackagerights.PageInfo.PageID == newpackagerights.PageInfo.PageID)
+                {
+                    createflag = oldpackagerights.Createstatus == newpackagerights.Createstatus ? false : true;
+                    deleteflag = oldpackagerights.Deletestatus == newpackagerights.Deletestatus ? false : true;
+                    viewflag = oldpackagerights.Viewstatus == newpackagerights.Viewstatus ? false : true;
+                }
+                if (createflag || deleteflag || viewflag)
+                {
+                    List<Model.ROLE_RIGHTS_MASTER> roleRightList = new List<Model.ROLE_RIGHTS_MASTER>();
+                    List<Model.ROLE_RIGHTS_MASTER> roleRightUpdateList = new List<Model.ROLE_RIGHTS_MASTER>();
+                    var branchdata = (from u in this.context.BRANCH_RIGHTS_MASTER where (u.package_id == newpackagerights.Packageinfo.PackageID && u.row_sta_cd == 1) select u.branch_id).ToList();
+                    foreach (var branchid in branchdata)
+                    {
+                        var roleright = (from role in this.context.ROLE_RIGHTS_MASTER where role.ROLE_MASTER.branch_id == branchid && role.page_id == newpackagerights.PageInfo.PageID select role).ToList();
+                        if (roleright?.Count > 0)
+                        {
+                            roleRightList.AddRange(roleright);
+                        }
+                    }
+                    if (roleRightList?.Count > 0)
+                    {
+                        foreach (var roleright in roleRightList)
+                        {
+                            if (createflag)
+                            {
+                                roleright.createstatus = newpackagerights.Createstatus==false
+                                    ?roleright.createstatus==true
+                                    ?false
+                                    : roleright.createstatus
+                                    : roleright.createstatus == true
+                                    ? roleright.createstatus
+                                    : false;
+                            }
+                            if (deleteflag)
+                            {
+                                roleright.deletestatus = newpackagerights.Deletestatus == false
+                                    ? roleright.deletestatus == true
+                                    ? false
+                                    : roleright.deletestatus
+                                    : roleright.deletestatus == true
+                                    ? roleright.deletestatus
+                                    : false;
+                            }
+                            if (viewflag)
+                            {
+                                roleright.viewstatus = newpackagerights.Viewstatus == false
+                                    ? roleright.viewstatus == true
+                                    ? false
+                                    : roleright.viewstatus
+                                    : roleright.viewstatus == true
+                                    ? roleright.viewstatus
+                                    : false;
+                            }
+                            this.context.Entry(roleright).State = System.Data.Entity.EntityState.Modified;
+                            roleRightUpdateList.Add(roleright);
+                            
+                        }
+                        this.context.ROLE_RIGHTS_MASTER.AddRange(roleRightUpdateList);
+                        foreach(var item in roleRightUpdateList)
+                        {
+                            this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
 
+                        }
+                        this.context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var s = ex.Message;
+            }
+
+        }
 
     }
 }

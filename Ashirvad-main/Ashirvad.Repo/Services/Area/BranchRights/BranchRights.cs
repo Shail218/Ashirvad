@@ -63,12 +63,14 @@ namespace Ashirvad.Repo.Services.Area
                     var result = this.context.SaveChanges();
                     if (result > 0)
                     {
+
                         RightsInfo.BranchWiseRightsID = RightsMaster.branchrights_id;
                         //var result2 = BranchDetailMaintenance(BranchInfo).Result;
                         //return result > 0 ? RightsInfo.BranchWiseRightsID : 0;
                         responseModel.Data = RightsInfo;
                         responseModel.Message = isUpdate == true ? "Branch Rights Updated Successfully." : "Branch Rights Inserted Successfully.";
                         responseModel.Status = true;
+                        ChangeBranchPackage(RightsInfo);
                     }
                     else
                     {
@@ -368,5 +370,63 @@ namespace Ashirvad.Repo.Services.Area
 
             return data;
         }
+
+        public void ChangeBranchPackage(BranchWiseRightEntity RightsInfo)
+        {
+            try
+            {
+                var packageRights = (from pr in this.context.PACKAGE_RIGHTS_MASTER where pr.package_id == RightsInfo.Packageinfo.PackageID orderby pr.page_id select pr).ToList();
+                if (packageRights?.Count > 0)
+                {
+                    List<Model.ROLE_RIGHTS_MASTER> roleRightList = new List<Model.ROLE_RIGHTS_MASTER>();
+                    List<Model.ROLE_RIGHTS_MASTER> roleRightUpdateList = new List<Model.ROLE_RIGHTS_MASTER>();
+                    foreach (var pageright in packageRights)
+                    {
+                        var roleright = (from role in this.context.ROLE_RIGHTS_MASTER where role.ROLE_MASTER.branch_id == RightsInfo.BranchID && role.page_id == RightsInfo.PageInfo.PageID select role).ToList();
+                        if (roleright?.Count > 0)
+                        {
+                            foreach (var rolerights in roleright)
+                            {
+                                rolerights.createstatus = pageright.createstatus == false
+                                   ? rolerights.createstatus == true
+                                   ? false
+                                   : rolerights.createstatus
+                                   : rolerights.createstatus == true
+                                   ? rolerights.createstatus
+                                   : false;
+                                rolerights.deletestatus = pageright.deletestatus == false
+                                   ? rolerights.deletestatus == true
+                                   ? false
+                                   : rolerights.deletestatus
+                                   : rolerights.deletestatus == true
+                                   ?rolerights.deletestatus
+                                   :false;
+                                rolerights.viewstatus = pageright.viewstatus == false
+                                   ? rolerights.viewstatus == true
+                                   ? false
+                                   : rolerights.viewstatus
+                                   : rolerights.viewstatus == true
+                                   ? rolerights.viewstatus
+                                   : false;
+                                this.context.Entry(rolerights).State = System.Data.Entity.EntityState.Modified;
+                                roleRightUpdateList.Add(rolerights);
+                            }
+                            this.context.ROLE_RIGHTS_MASTER.AddRange(roleRightUpdateList);
+                        }
+                    }
+                    foreach (var item in roleRightUpdateList)
+                    {
+                        this.context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+
+                    }
+                    this.context.SaveChanges();
+
+                }
+            }catch(Exception ex)
+            {
+
+            }
+        }
+
     }
 }
