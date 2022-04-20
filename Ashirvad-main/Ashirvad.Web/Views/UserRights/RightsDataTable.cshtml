@@ -9,7 +9,7 @@
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
 
             <th>
-                Page
+                Module
             </th>
             <th>
                 Create Status
@@ -32,17 +32,56 @@
                 <td>
                     @item1.PageInfo.Page
                 </td>
-                <td>
-                    @item1.RoleRightinfo.Createstatus
-                </td>
+                    @if (@item1.RoleRightinfo.Createstatus == true)
+                    {
+                    <td>
 
-                <td>
-                    @item1.RoleRightinfo.Deletestatus
-                </td>
-                <td>
-                    @item1.RoleRightinfo.Viewstatus
-                </td>
-            </tr>
-        }
+                        Yes
+
+                    </td>
+                }
+                else
+                {
+                    <td>
+
+                        No
+
+                    </td>
+                }
+                    @if (@item1.RoleRightinfo.Deletestatus == true)
+                    {
+                        <td>
+
+                            Yes
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+
+                            No
+
+                        </td>
+                    }
+                    @if (@item1.RoleRightinfo.Viewstatus == true)
+                    {
+                        <td>
+
+                            Yes
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+
+                            No
+
+                        </td>
+                    }
+
+                </tr>
+            }
     </tbody>
 </table>

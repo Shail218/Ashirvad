@@ -94,7 +94,7 @@ function format(d) {
                                 <thead>
                                     <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
                                             <th>
-                                                Page
+                                                Module
                                             </th>
                                             <th>
                                                 Create Status
@@ -130,13 +130,13 @@ function tabletd(d) {
              `+ PageName + `
              </td>
              <td>
-            `+ IsCreate + `
+            `+ (IsCreate == true ? 'Yes' : 'No') + `
             </td>
             <td>
-                ` + IsDelete + `
+                ` + (IsDelete == true ? 'Yes' : 'No') + `
             </td>
             <td>
-                ` + IsView + `
+                ` + (IsView == true ? 'Yes' : 'No') + `
             </td>
             </tr>`;
     }
