@@ -267,7 +267,9 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
 
         public ResponseModel RemoveRights(long RightsID, string lastupdatedby)
         {
+            Check_Delete check = new Check_Delete();
             ResponseModel responseModel = new ResponseModel();
+            string message = "";
             try
             {
                 var data = (from u in this.context.ROLE_RIGHTS_MASTER
@@ -277,11 +279,21 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
                 {
                     foreach (var item in data)
                     {
-                        item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        var data_course = check.check_remove_role_rights(item.role_id).Result;
+                        if (data_course.Status)
+                        {
+                            item.row_sta_cd = (int)Enums.RowStatus.Inactive;
                         item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
                         this.context.SaveChanges();
                         responseModel.Message = "Role Rights Removed Successfully.";
                         responseModel.Status = true;
+                        }
+                        else
+                        {
+                            responseModel.Message = data_course.Message;
+                            responseModel.Status = false;
+                            break;
+                        }
                     }
                 }
                 else

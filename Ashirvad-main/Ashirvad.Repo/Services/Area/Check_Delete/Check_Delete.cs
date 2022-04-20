@@ -828,5 +828,98 @@ namespace Ashirvad.Repo.Services.Area
             model.Message = "This Category is Already active in " + total_message + " places. Please delete this Category from that places first.";
             return model;
         }
+        public async Task<ResponseModel> check_remove_package_rights(long packageid)
+        {
+            long total_count = 0;
+            long count = 0;
+            string message = "";
+            string category = "";
+            string total_message = "<br />";
+
+            var data = this.context.BRANCH_RIGHTS_MASTER.Where(s => s.package_id == packageid && s.row_sta_cd == 1).ToList();
+            count = data.Count();
+            total_count = total_count + count;
+            category = count > 0 ? data[0].BRANCH_MASTER.branch_name: "";
+            message = count > 0 ? " Branch Rights Master = " + count + " Branch Name = " + category + "  <br />" : "";
+            total_message = total_message + message;
+
+            model.Status = total_count > 0 ? false : true;
+            model.Message = "This Pakage Rights is Already active in " + total_message + " places. Please delete this Package Rights from that places first.";
+            return model;
+        }
+        public async Task<ResponseModel> check_remove_package(long packageid)
+        {
+            long total_count = 0;
+            long count = 0;
+            string message = "";
+            string category = "";
+            string total_message = "<br />";
+
+            var data = this.context.BRANCH_RIGHTS_MASTER.Where(s => s.package_id == packageid && s.row_sta_cd == 1).ToList();
+            count = data.Count();
+            total_count = total_count + count;
+            category = count > 0 ? data[0].BRANCH_MASTER.branch_name: "";
+            message = count > 0 ? " Branch Rights Master = " + count + " Branch Name = " + category + "  <br />" : "";
+            total_message = total_message + message;
+
+            var data1 = this.context.PACKAGE_RIGHTS_MASTER.Where(s => s.package_id == packageid && s.row_sta_cd == 1).ToList();
+            count = data1.Count();
+            total_count = total_count + count;
+            category = count > 0 ? data1[0].PACKAGE_MASTER.package : "";
+            message = count > 0 ? " Package Rights Master = " + count + "Package Name = " + category + "  <br />" : "";
+            total_message = total_message + message;
+
+
+            model.Status = total_count > 0 ? false : true;
+            model.Message = "This Pakage is Already active in " + total_message + " places. Please delete this Package from that places first.";
+            return model;
+        }
+        public async Task<ResponseModel> check_remove_role(long roleid)
+        {
+            long total_count = 0;
+            long count = 0;
+            string message = "";
+            string category = "";
+            string total_message = "<br />";
+
+            var data = this.context.USER_RIGHTS_MASTER.Where(s => s.role_id == roleid && s.row_sta_cd == 1).ToList();
+            count = data.Count();
+            total_count = total_count + count;
+            category = count > 0 ? data[0].USER_DEF.username: "";
+            message = count > 0 ? " User Rights Master = " + count + " User Name = " + category + "  <br />" : "";
+            total_message = total_message + message;
+
+            var data1 = this.context.ROLE_RIGHTS_MASTER.Where(s => s.role_id == roleid && s.row_sta_cd == 1).ToList();
+            count = data1.Count();
+            total_count = total_count + count;
+            category = count > 0 ? data1[0].ROLE_MASTER.role_name : "";
+            message = count > 0 ? " Role Rights Master = " + count + "Role Name = " + category + "  <br />" : "";
+            total_message = total_message + message;
+
+
+            model.Status = total_count > 0 ? false : true;
+            model.Message = "This Role is Already active in " + total_message + " places. Please delete this Role from that places first.";
+            return model;
+        }
+        public async Task<ResponseModel> check_remove_role_rights(long roleid)
+        {
+            long total_count = 0;
+            long count = 0;
+            string message = "";
+            string category = "";
+            string total_message = "<br />";
+
+            var data = this.context.USER_RIGHTS_MASTER.Where(s => s.role_id == roleid && s.row_sta_cd == 1).ToList();
+            count = data.Count();
+            total_count = total_count + count;
+            category = count > 0 ? data[0].USER_DEF.username: "";
+            message = count > 0 ? " User Rights Master = " + count + " User Name = " + category + "  <br />" : "";
+            total_message = total_message + message;
+
+            model.Status = total_count > 0 ? false : true;
+            model.Message = "This Role Rights is Already active in " + total_message + " places. Please delete this Role Rights from that places first.";
+            return model;
+        }
+
     }
 }

@@ -160,7 +160,9 @@ namespace Ashirvad.Repo.Services.Area
 
         public ResponseModel RemoveRole(long RoleID, string lastupdatedby)
         {
+            Check_Delete check = new Check_Delete();
             ResponseModel responseModel = new ResponseModel();
+            string message = "";
             try
             {
 
@@ -169,12 +171,21 @@ namespace Ashirvad.Repo.Services.Area
                             select u).FirstOrDefault();
                 if (data != null)
                 {
-                    data.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
-                    this.context.SaveChanges();
-                    // return true;
-                    responseModel.Status = true;
-                    responseModel.Message = "Role Removed Successfully.";
+                    var data_course = check.check_remove_role(data.role_id).Result;
+                    if (data_course.Status)
+                    {
+                        data.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                        data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                        this.context.SaveChanges();
+                        // return true;
+                        responseModel.Status = true;
+                        responseModel.Message = "Role Removed Successfully.";
+                    }
+                    else
+                    {
+                        responseModel.Message = data_course.Message;
+                        responseModel.Status = false;
+                    }
                 }
                 else
                 {

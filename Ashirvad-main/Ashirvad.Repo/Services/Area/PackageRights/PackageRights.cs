@@ -287,7 +287,9 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
         public ResponseModel RemoveRights(long RightsID, string lastupdatedby)
         {
+            Check_Delete check = new Check_Delete();
             ResponseModel responseModel = new ResponseModel();
+            string message = "";
             try
             {
                 var data = (from u in this.context.PACKAGE_RIGHTS_MASTER
@@ -297,17 +299,27 @@ namespace Ashirvad.Repo.Services.Area.Branch
                 {
                     foreach (var item in data)
                     {
-                        item.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                        item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
-                        this.context.SaveChanges();
-                        responseModel.Message = "Package Rights Removed Successfully.";
-                        responseModel.Status = true;
+                        var data_course = check.check_remove_package_rights(item.package_id).Result;
+                        if (data_course.Status)
+                        {
+                            item.row_sta_cd = (int)Enums.RowStatus.Inactive;
+                            item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                            this.context.SaveChanges();
+                            responseModel.Message = "Package Rights Removed Successfully.";
+                            responseModel.Status = true;
+                        }
+                        else
+                        {
+                            responseModel.Message = data_course.Message;
+                            responseModel.Status = false;
+                            break;
+                        }
                     }
                 }
                 else
                 {
                     responseModel.Message = "Package Rights Not Found.";
-                    responseModel.Status = true;
+                    responseModel.Status = false;
                 }
                 //return true;               
             }

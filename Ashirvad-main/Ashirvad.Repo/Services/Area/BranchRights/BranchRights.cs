@@ -271,6 +271,7 @@ namespace Ashirvad.Repo.Services.Area
 
         public ResponseModel RemoveRights(long RightsID, string lastupdatedby)
         {
+            Check_Delete check = new Check_Delete();
             ResponseModel responseModel = new ResponseModel();
             try
             {
@@ -382,7 +383,7 @@ namespace Ashirvad.Repo.Services.Area
                     List<Model.ROLE_RIGHTS_MASTER> roleRightUpdateList = new List<Model.ROLE_RIGHTS_MASTER>();
                     foreach (var pageright in packageRights)
                     {
-                        var roleright = (from role in this.context.ROLE_RIGHTS_MASTER where role.ROLE_MASTER.branch_id == RightsInfo.BranchID && role.page_id == RightsInfo.PageInfo.PageID select role).ToList();
+                        var roleright = (from role in this.context.ROLE_RIGHTS_MASTER where role.ROLE_MASTER.branch_id == RightsInfo.BranchID && role.page_id == pageright.page_id select role).ToList();
                         if (roleright?.Count > 0)
                         {
                             foreach (var rolerights in roleright)

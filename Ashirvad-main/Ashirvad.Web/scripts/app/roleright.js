@@ -274,7 +274,7 @@ $("#RoleName").change(function () {
 function RemoveRoleRight(RoleRightID) {
     if (confirm('Are you sure want to delete this?')) {
         ShowLoader();
-        var postCall = $.post(commonData.RoleRight + "RemoveRoleRight", { "RoleRightID": RoleRightID });
+        var postCall = $.post(commonData.RoleRights + "RemoveRoleRight", { "RoleRightID": RoleRightID });
         postCall.done(function (data) {
             HideLoader();
             if (data.Status) {
