@@ -415,7 +415,7 @@ function CheckRights() {
                 $('#main-menu ' + CreateClass).each(function () {
                     if (!Createstatus) {
                         //$(this).addClass("displayNone");
-                        $(this).remove();
+                        $(this).html("");
                     }
                     else {
                         var test = $(this);
@@ -424,7 +424,7 @@ function CheckRights() {
                 $('#main-menu ' + DeleteClass).each(function () {
                     if (!Deletestatus) {
                         //$(this).addClass("displayNone");
-                        $(this).remove();
+                        $(this).html("");
                     }
                     else {
                         var test = $(this);
@@ -438,6 +438,8 @@ function CheckRights() {
             classarray.push("TestMenu");
             classarray.push("GalleryMenu");
             classarray.push("LibraryMenu");
+            classarray.push("UserPermissionMenu");
+            classarray.push("ChartReport");
             classarray.push("MoreMenu");
             for (var i = 0; i < classarray.length; i++) {
                 var Status = false;
@@ -493,7 +495,7 @@ function CheckRight() {
                 $('#main-menu ' + CreateClass).each(function () {
                     if (!Createstatus) {
                         //$(this).addClass("displayNone");
-                        $(this).remove();
+                        $(this).html("");
                     }
                     else {
                         var test = $(this);
@@ -502,7 +504,7 @@ function CheckRight() {
                 $('#main-menu ' + DeleteClass).each(function () {
                     if (!Deletestatus) {
                         //$(this).addClass("displayNone");
-                        $(this).remove();
+                        $(this).html("");
                     }
                     else {
                         var test = $(this);
@@ -516,7 +518,9 @@ function CheckRight() {
             classarray.push("TestMenu");
             classarray.push("GalleryMenu");
             classarray.push("LibraryMenu");
+            classarray.push("UserPermissionMenu");
             classarray.push("MoreMenu");
+            classarray.push("ChartReport");
             for (var i = 0; i < classarray.length; i++) {
                 var Status = false;
                 var Count = 0;

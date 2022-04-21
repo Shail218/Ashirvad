@@ -24,79 +24,164 @@ namespace Ashirvad.Repo.Services.Area.Branch
         public async Task<ResponseModel> BranchMaintenance(BranchEntity branchInfo)
         {
             ResponseModel responseModel = new ResponseModel();
+            Check_Delete check = new Check_Delete();
             Model.BRANCH_MASTER branchMaster = new Model.BRANCH_MASTER();
             try
             {
                 if (CheckBranch((int)branchInfo.BranchID, branchInfo.aliasName).Result != -1)
                 {
-                    branchMaster.BRANCH_MAINT = new Model.BRANCH_MAINT();
-                    bool isUpdate = true;
-                    var data = (from branch in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
-                                where branch.branch_id == branchInfo.BranchID
-                                select new
-                                {
-                                    branchMaster = branch
-                                }).FirstOrDefault();
-                    if (data == null)
+                    if (branchInfo.RowStatus.RowStatusId == (int)Enums.RowStatus.Inactive)
                     {
-                        branchMaster = new Model.BRANCH_MASTER();
+                        var res = check.check_remove_branch(branchInfo.BranchID).Result;
+                        if (res.Status)
+                        {
+                            branchMaster.BRANCH_MAINT = new Model.BRANCH_MAINT();
+                            bool isUpdate = true;
+                            var data = (from branch in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
+                                        where branch.branch_id == branchInfo.BranchID
+                                        select new
+                                        {
+                                            branchMaster = branch
+                                        }).FirstOrDefault();
+                            if (data == null)
+                            {
+                                branchMaster = new Model.BRANCH_MASTER();
+                                branchMaster.BRANCH_MAINT = new Model.BRANCH_MAINT();
+                                isUpdate = false;
+                            }
+                            else
+                            {
+                                branchMaster = data.branchMaster;
+                                branchMaster.BRANCH_MAINT = data.branchMaster.BRANCH_MAINT;
+                                branchInfo.Transaction.TransactionId = data.branchMaster.trans_id;
+                            }
+
+                            branchMaster.about_us = branchInfo.AboutUs;
+                            branchMaster.branch_name = branchInfo.BranchName;
+                            branchMaster.contact_no = branchInfo.ContactNo;
+                            branchMaster.branch_type = 2;
+                            branchMaster.email_id = branchInfo.EmailID;
+                            branchMaster.mobile_no = branchInfo.MobileNo;
+                            branchMaster.row_sta_cd = branchInfo.RowStatus.RowStatusId;
+                            branchMaster.alias_name = branchInfo.aliasName;
+                            branchMaster.trans_id = this.AddTransactionData(branchInfo.Transaction);
+                            branchMaster.board_type = null;
+
+                            this.context.BRANCH_MASTER.Add(branchMaster);
+                            if (isUpdate)
+                            {
+                                this.context.Entry(branchMaster).State = System.Data.Entity.EntityState.Modified;
+                            }
+                            if (!isUpdate)
+                            {
+                                branchMaster.BRANCH_MAINT.branch_id = branchMaster.branch_id;
+                            }
+                            branchMaster.BRANCH_MAINT.file_name = branchInfo.BranchMaint.FileName;
+                            branchMaster.BRANCH_MAINT.file_path = branchInfo.BranchMaint.FilePath;
+                            branchMaster.BRANCH_MAINT.app_file_name = branchInfo.BranchMaint.AppFileName;
+                            branchMaster.BRANCH_MAINT.app_file_path = branchInfo.BranchMaint.AppFilePath;
+                            branchMaster.BRANCH_MAINT.branch_logo = null;
+                            branchMaster.BRANCH_MAINT.header_logo = null;
+                            branchMaster.BRANCH_MAINT.website = branchInfo.BranchMaint.Website;
+                            branchMaster.BRANCH_MAINT.branch_logo_ext = null;
+                            branchMaster.BRANCH_MAINT.header_logo_ext = null;
+                            this.context.BRANCH_MAINT.Add(branchMaster.BRANCH_MAINT);
+                            if (isUpdate)
+                            {
+                                this.context.Entry(branchMaster.BRANCH_MAINT).State = System.Data.Entity.EntityState.Modified;
+                            }
+                            var id = this.context.SaveChanges() > 0 ? branchMaster.branch_id : 0;
+                            if (id > 0)
+                            {
+                                // branchInfo.BranchID = branchMaster.branch_id;
+                                // responseModel.Data = branchInfo;
+                                responseModel.Message = isUpdate == true ? "Branch Updated Successfully." : "Branch Inserted Successfully.";
+                                responseModel.Status = true;
+                            }
+                            else
+                            {
+                                responseModel.Message = isUpdate == true ? "Branch Not Updated." : "Branch Not Inserted.";
+                                responseModel.Status = false;
+                            }
+                        }
+                        else
+                        {
+                            responseModel.Status = res.Status;
+                            responseModel.Message = res.Message;
+                        }
+                    }
+                    else
+                    {
                         branchMaster.BRANCH_MAINT = new Model.BRANCH_MAINT();
-                        isUpdate = false;
-                    }
-                    else
-                    {
-                        branchMaster = data.branchMaster;
-                        branchMaster.BRANCH_MAINT = data.branchMaster.BRANCH_MAINT;
-                        branchInfo.Transaction.TransactionId = data.branchMaster.trans_id;
-                    }
+                        bool isUpdate = true;
+                        var data = (from branch in this.context.BRANCH_MASTER.Include("BRANCH_MAINT")
+                                    where branch.branch_id == branchInfo.BranchID
+                                    select new
+                                    {
+                                        branchMaster = branch
+                                    }).FirstOrDefault();
+                        if (data == null)
+                        {
+                            branchMaster = new Model.BRANCH_MASTER();
+                            branchMaster.BRANCH_MAINT = new Model.BRANCH_MAINT();
+                            isUpdate = false;
+                        }
+                        else
+                        {
+                            branchMaster = data.branchMaster;
+                            branchMaster.BRANCH_MAINT = data.branchMaster.BRANCH_MAINT;
+                            branchInfo.Transaction.TransactionId = data.branchMaster.trans_id;
+                        }
 
-                    branchMaster.about_us = branchInfo.AboutUs;
-                    branchMaster.branch_name = branchInfo.BranchName;
-                    branchMaster.contact_no = branchInfo.ContactNo;
-                    branchMaster.branch_type = 2;
-                    branchMaster.email_id = branchInfo.EmailID;
-                    branchMaster.mobile_no = branchInfo.MobileNo;
-                    branchMaster.row_sta_cd = branchInfo.RowStatus.RowStatusId;
-                    branchMaster.alias_name = branchInfo.aliasName;
-                    branchMaster.trans_id = this.AddTransactionData(branchInfo.Transaction);
-                    branchMaster.board_type = null;
+                        branchMaster.about_us = branchInfo.AboutUs;
+                        branchMaster.branch_name = branchInfo.BranchName;
+                        branchMaster.contact_no = branchInfo.ContactNo;
+                        branchMaster.branch_type = 2;
+                        branchMaster.email_id = branchInfo.EmailID;
+                        branchMaster.mobile_no = branchInfo.MobileNo;
+                        branchMaster.row_sta_cd = branchInfo.RowStatus.RowStatusId;
+                        branchMaster.alias_name = branchInfo.aliasName;
+                        branchMaster.trans_id = this.AddTransactionData(branchInfo.Transaction);
+                        branchMaster.board_type = null;
 
-                    this.context.BRANCH_MASTER.Add(branchMaster);
-                    if (isUpdate)
-                    {
-                        this.context.Entry(branchMaster).State = System.Data.Entity.EntityState.Modified;
+                        this.context.BRANCH_MASTER.Add(branchMaster);
+                        if (isUpdate)
+                        {
+                            this.context.Entry(branchMaster).State = System.Data.Entity.EntityState.Modified;
+                        }
+                        if (!isUpdate)
+                        {
+                            branchMaster.BRANCH_MAINT.branch_id = branchMaster.branch_id;
+                        }
+                        branchMaster.BRANCH_MAINT.file_name = branchInfo.BranchMaint.FileName;
+                        branchMaster.BRANCH_MAINT.file_path = branchInfo.BranchMaint.FilePath;
+                        branchMaster.BRANCH_MAINT.app_file_name = branchInfo.BranchMaint.AppFileName;
+                        branchMaster.BRANCH_MAINT.app_file_path = branchInfo.BranchMaint.AppFilePath;
+                        branchMaster.BRANCH_MAINT.branch_logo = null;
+                        branchMaster.BRANCH_MAINT.header_logo = null;
+                        branchMaster.BRANCH_MAINT.website = branchInfo.BranchMaint.Website;
+                        branchMaster.BRANCH_MAINT.branch_logo_ext = null;
+                        branchMaster.BRANCH_MAINT.header_logo_ext = null;
+                        this.context.BRANCH_MAINT.Add(branchMaster.BRANCH_MAINT);
+                        if (isUpdate)
+                        {
+                            this.context.Entry(branchMaster.BRANCH_MAINT).State = System.Data.Entity.EntityState.Modified;
+                        }
+                        var id = this.context.SaveChanges() > 0 ? branchMaster.branch_id : 0;
+                        if (id > 0)
+                        {
+                            // branchInfo.BranchID = branchMaster.branch_id;
+                            // responseModel.Data = branchInfo;
+                            responseModel.Message = isUpdate == true ? "Branch Updated Successfully." : "Branch Inserted Successfully.";
+                            responseModel.Status = true;
+                        }
+                        else
+                        {
+                            responseModel.Message = isUpdate == true ? "Branch Not Updated." : "Branch Not Inserted.";
+                            responseModel.Status = false;
+                        }
                     }
-                    if (!isUpdate)
-                    {
-                        branchMaster.BRANCH_MAINT.branch_id = branchMaster.branch_id;
-                    }
-                    branchMaster.BRANCH_MAINT.file_name = branchInfo.BranchMaint.FileName;
-                    branchMaster.BRANCH_MAINT.file_path = branchInfo.BranchMaint.FilePath;
-                    branchMaster.BRANCH_MAINT.app_file_name = branchInfo.BranchMaint.AppFileName;
-                    branchMaster.BRANCH_MAINT.app_file_path = branchInfo.BranchMaint.AppFilePath;
-                    branchMaster.BRANCH_MAINT.branch_logo = null;
-                    branchMaster.BRANCH_MAINT.header_logo = null;
-                    branchMaster.BRANCH_MAINT.website = branchInfo.BranchMaint.Website;
-                    branchMaster.BRANCH_MAINT.branch_logo_ext = null;
-                    branchMaster.BRANCH_MAINT.header_logo_ext = null;
-                    this.context.BRANCH_MAINT.Add(branchMaster.BRANCH_MAINT);
-                    if (isUpdate)
-                    {
-                        this.context.Entry(branchMaster.BRANCH_MAINT).State = System.Data.Entity.EntityState.Modified;
-                    }
-                    var id = this.context.SaveChanges() > 0 ? branchMaster.branch_id : 0;
-                    if (id > 0)
-                    {
-                       // branchInfo.BranchID = branchMaster.branch_id;
-                       // responseModel.Data = branchInfo;
-                        responseModel.Message = isUpdate == true ? "Branch Updated Successfully." : "Branch Inserted Successfully.";
-                        responseModel.Status = true;
-                    }
-                    else
-                    {
-                        responseModel.Message = isUpdate == true ? "Branch Not Updated." : "Branch Not Inserted.";
-                        responseModel.Status = false;
-                    }
+                   
                 }
             }catch(Exception ex)
             {

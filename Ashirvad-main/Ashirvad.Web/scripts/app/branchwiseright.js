@@ -35,8 +35,8 @@ $(document).ready(function () {
             },
             { "data": "Packageinfo.Package" },
             { "data": "branchinfo.BranchName" },
-            { "data": "BranchWiseRightsID" },
             { "data": "BranchWiseRightsID" }
+            //{ "data": "BranchWiseRightsID" }
         ],
         "columnDefs": [
             {
@@ -62,19 +62,19 @@ $(document).ready(function () {
                 },
                 orderable: false,
                 searchable: false
-            },
-            {
-                targets: 4,
-                render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data =
-                            '<a onclick = "RemoveBranchRight(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
-                    }
-                    return data;
-                },
-                orderable: false,
-                searchable: false
             }
+            //{
+            //    targets: 4,
+            //    render: function (data, type, full, meta) {
+            //        if (type === 'display') {
+            //            data =
+            //                '<a onclick = "RemoveBranchRight(' + data + ')"><img src = "../ThemeData/images/delete.png" /></a >'
+            //        }
+            //        return data;
+            //    },
+            //    orderable: false,
+            //    searchable: false
+            //}
         ]
     });
 

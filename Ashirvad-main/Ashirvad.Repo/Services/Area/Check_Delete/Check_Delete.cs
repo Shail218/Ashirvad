@@ -920,6 +920,24 @@ namespace Ashirvad.Repo.Services.Area
             model.Message = "This Role Rights is Already active in " + total_message + " places. Please delete this Role Rights from that places first.";
             return model;
         }
+         public async Task<ResponseModel> check_remove_branch(long branchid)
+        {
+            long total_count = 0;
+            long count = 0;
+            string message = "";
+            string category = "";
+            string total_message = "<br />";
+
+            var data = this.context.BRANCH_AGREEMENT.Where(s => s.branch_id == branchid && s.row_sta_cd == 1).ToList();
+            count = data.Count();
+            total_count = total_count + count;
+            category = count > 0 ? data[0].BRANCH_MASTER.branch_name: "";
+            total_message = total_message + message;
+
+            model.Status = total_count > 0 ? false : true;
+            model.Message = "This Branch is Already active in Agreement. Please inactive this Branch from Agreement first.";
+            return model;
+        }
 
     }
 }

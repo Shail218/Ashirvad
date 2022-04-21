@@ -251,7 +251,7 @@
                                             <li id="BS" class="StudentTransfer">
                                                 <a href="@Url.Action("StudentTransfer","Student")">Student Transfer</a>
                                             </li>
-                                            <li id="BS" class="StudentStatusChange">
+                                            <li id="BS" class="StudentActiveInactiveStatusChange">
                                                 <a href="@Url.Action("StudentStatusChange","Student")">Student Active/Inactive</a>
                                             </li>
                                         }
@@ -434,22 +434,22 @@
 
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li class="treeview" id="Li4">
+                                            <li class="treeview StandardWiseReport" id="Li4">
                                                 <a href="@Url.Action("Index","StandardWiseChart")">
                                                     Standard Wise
                                                 </a>
                                             </li>
-                                            <li class="treeview" id="Li5">
+                                            <li class="treeview BatchWiseReport" id="Li5">
                                                 <a href="@Url.Action("Index","BatchWiseChart",new { @StandardID = 0})">
                                                     Batch Wise
                                                 </a>
                                             </li>
-                                            <li class="treeview" id="Li8">
+                                            <li class="treeview ListofStudent" id="Li8">
                                                 <a href="@Url.Action("Index","ListOfStudent",new { @StandardID = 0,@batchID = -1})">
                                                     List Of Student
                                                 </a>
                                             </li>
-                                            <li class="treeview" id="Li9">
+                                            <li class="treeview StudentProgressChart" id="Li9">
                                                 <a href="@Url.Action("Index","ProgressReportChart",new { @StudentID = 0 })">
                                                     Student Progress Chart
                                                 </a>
@@ -545,7 +545,7 @@
                                                     Branch Wise Rights
                                                 </a>
                                             </li>
-                                            <li class="treeview Role" id="rol">
+                                            @*<li class="treeview Role" id="rol">
                                                 <a href="@Url.Action("RoleMaintenance","Role", new { @branchID = 0 })">Role</a>
                                             </li>
                                             <li class="treeview RoleRights" id="rolright">
@@ -553,14 +553,14 @@
                                             </li>
                                             <li class="treeview UserRights" id="userright">
                                                 <a href="@Url.Action("UserRightMaintenance", "UserRights", new { @UserRightID = 0 })">User Rights</a>
-                                            </li>
+                                            </li>*@
                                         </ul>
                                     </li>
 
                                 }
                                 @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
                                 {
-                            <li class="dropdown" id="td" visible="true">
+                            <li class="dropdown" id="UserPermissionMenu" visible="true">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     User Permission
                                 </a>
@@ -587,7 +587,7 @@
                                                 Genius App
                                             </a>
                                         </li>
-                                        <li class="treeview LibraryImage">
+                                        <li class="treeview">
                                             <a href="~/Apps/MasterMindUAT_1.6.apk" download>
                                                 Mastermind App
                                             </a>
