@@ -148,46 +148,52 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
         public async Task<List<RoleRightsEntity>> GetAllRightsbyBranch(long branchId)
         {
             var data = (from u in this.context.ROLE_RIGHTS_MASTER
-                        .Include("ROLE_MASTER")
-                        .Include("PAGE_MASTER")
-                        where u.row_sta_cd == 1 && u.ROLE_MASTER.branch_id==branchId
+                       .Include("ROLE_MASTER")
+                       .Include("PAGE_MASTER")
+                        orderby u.rolerights_id descending
+                        where u.row_sta_cd == 1 && u.ROLE_MASTER.branch_id == branchId
                         select new RoleRightsEntity()
                         {
-                            RowStatus = new RowStatusEntity()
-                            {
-                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
-                                RowStatusId = (int)u.row_sta_cd
-                            },
-                            PageInfo = new PageEntity()
-                            {
-                                Page = u.PAGE_MASTER.page,
-                                PageID = u.page_id
-                            },
                             Roleinfo = new RoleEntity()
                             {
                                 RoleName = u.ROLE_MASTER.role_name,
                                 RoleID = u.ROLE_MASTER.role_id
-                            },
-                            Createstatus = u.createstatus,
-                            Viewstatus = u.viewstatus,
-                            Deletestatus = u.deletestatus,
-                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                        }).ToList();
+                            }
+                        }).Distinct()
+                       .OrderByDescending(a => a.Roleinfo.RoleID)
+                       
+                       .ToList();
             if (data.Count > 0)
             {
-                data[0].list = (from u in this.context.ROLE_RIGHTS_MASTER
-                              .Include("ROLE_MASTER")
-                               .Include("PAGE_MASTER")
-                                where u.row_sta_cd == 1
-                                select new RoleRightsEntity()
-                                {
-                                    Roleinfo = new RoleEntity()
-                                    {
-                                        RoleName = u.ROLE_MASTER.role_name,
-                                        RoleID = u.ROLE_MASTER.role_id
-                                    },
-
-                                }).Distinct().ToList();
+                foreach (var item in data)
+                {
+                    item.list = (from u in this.context.ROLE_RIGHTS_MASTER
+                                  .Include("ROLE_MASTER")
+                                   .Include("PAGE_MASTER")
+                                 where u.row_sta_cd == 1 && u.role_id == item.Roleinfo.RoleID
+                                 select new RoleRightsEntity()
+                                 {
+                                     RowStatus = new RowStatusEntity()
+                                     {
+                                         RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                         RowStatusId = (int)u.row_sta_cd
+                                     },
+                                     PageInfo = new PageEntity()
+                                     {
+                                         Page = u.PAGE_MASTER.page,
+                                         PageID = u.page_id
+                                     },
+                                     Roleinfo = new RoleEntity()
+                                     {
+                                         RoleName = u.ROLE_MASTER.role_name,
+                                         RoleID = u.ROLE_MASTER.role_id
+                                     },
+                                     Createstatus = u.createstatus,
+                                     Viewstatus = u.viewstatus,
+                                     Deletestatus = u.deletestatus,
+                                     Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                                 }).ToList();
+                }
             }
             else
             {

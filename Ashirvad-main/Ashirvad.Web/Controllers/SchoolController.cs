@@ -86,7 +86,7 @@ namespace Ashirvad.Web.Controllers
 
         public async Task<JsonResult> SchoolData(long branchID)
         {
-            var branchData = await _schoolService.GetAllSchools(branchID);
+            var branchData = await _schoolService.GetAllSchools(SessionContext.Instance.LoginUser.BranchInfo.BranchID);
             return Json(branchData);
         }
 
