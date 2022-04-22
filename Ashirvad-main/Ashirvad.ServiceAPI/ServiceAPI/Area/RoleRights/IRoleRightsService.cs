@@ -17,5 +17,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.RoleRights
         Task<RoleRightsEntity> GetRolerightsByID(long RoleRightsID);
         ResponseModel RemoveRoleRights(long RoleRightsID, string lastupdatedby);
         Task<List<RoleRightsEntity>> GetAllRightsbyBranch(long branchId);
+        Task<List<RoleRightsEntity>> GetPageListbyBranchID(long branchId);
     }
 }

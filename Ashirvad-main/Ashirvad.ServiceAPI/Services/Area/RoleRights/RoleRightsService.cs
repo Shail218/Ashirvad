@@ -46,7 +46,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.RoleRights
             try
             {
                 List<RoleRightsEntity> RoleRights = new List<RoleRightsEntity>();
-                RoleRights = await _RoleRightsContext.GetRightsByRightsID(RoleRightsID,branchId);
+                RoleRights = await _RoleRightsContext.GetRightsByRightsID(RoleRightsID, branchId);
                 return RoleRights;
             }
             catch (Exception ex)
@@ -100,33 +100,46 @@ namespace Ashirvad.ServiceAPI.Services.Area.RoleRights
 
             return null;
         }
-
-        public async Task<List<RoleRightsEntity>> GetAllCustomRights(DataTableAjaxPostModel model, long branchId)
+        public async Task<List<RoleRightsEntity>> GetPageListbyBranchID(long branchId)
         {
             try
             {
-                return await this._RoleRightsContext.GetAllCustomRights(model,branchId);
+                return await this._RoleRightsContext.GetPageListbyBranchID(branchId);
             }
             catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
+
             return null;
         }
 
-        public ResponseModel RemoveRoleRights(long RoleRightsID, string lastupdatedby)
-        {
-            ResponseModel responseModel = new ResponseModel();
-            try
-            {
-                return this._RoleRightsContext.RemoveRights(RoleRightsID, lastupdatedby);
-            }
-            catch (Exception ex)
-            {
-                EventLogger.WriteEvent(Logger.Severity.Error, ex);
-            }
-            return responseModel;
-            // return false;
-        }
+public async Task<List<RoleRightsEntity>> GetAllCustomRights(DataTableAjaxPostModel model, long branchId)
+{
+    try
+    {
+        return await this._RoleRightsContext.GetAllCustomRights(model, branchId);
+    }
+    catch (Exception ex)
+    {
+        EventLogger.WriteEvent(Logger.Severity.Error, ex);
+    }
+    return null;
+}
+
+public ResponseModel RemoveRoleRights(long RoleRightsID, string lastupdatedby)
+{
+    ResponseModel responseModel = new ResponseModel();
+    try
+    {
+        return this._RoleRightsContext.RemoveRights(RoleRightsID, lastupdatedby);
+    }
+    catch (Exception ex)
+    {
+        EventLogger.WriteEvent(Logger.Severity.Error, ex);
+    }
+    return responseModel;
+    // return false;
+}
     }
 }

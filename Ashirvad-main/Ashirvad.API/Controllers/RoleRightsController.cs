@@ -67,6 +67,17 @@ namespace Ashirvad.API.Controllers
             result.Completed = true;
             return result;
         }
+        
+        [Route("GetPageListbyBranchID")]
+        [HttpGet]
+        public OperationResult<List<RoleRightsEntity>> GetPageListbyBranchID(long branchID)
+        {
+            var data = this._RoleRightService.GetPageListbyBranchID(branchID);
+            OperationResult<List<RoleRightsEntity>> result = new OperationResult<List<RoleRightsEntity>>();
+            result.Data = data.Result;
+            result.Completed = true;
+            return result;
+        }
 
         [Route("GetRolerightsByID")]
         [HttpGet]

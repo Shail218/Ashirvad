@@ -10,7 +10,7 @@ using static Ashirvad.Common.Common;
 
 namespace Ashirvad.Repo.Services.Area.RoleRights
 {
-   public class RoleRightsAPI : ModelAccess, IRoleRightsAPI
+    public class RoleRightsAPI : ModelAccess, IRoleRightsAPI
     {
 
         public async Task<long> CheckRights(int RightsID, int RoleID, int PageID)
@@ -144,7 +144,7 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
             }
             return data;
 
-        } 
+        }
         public async Task<List<RoleRightsEntity>> GetAllRightsbyBranch(long branchId)
         {
             var data = (from u in this.context.ROLE_RIGHTS_MASTER
@@ -161,7 +161,7 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
                             }
                         }).Distinct()
                        .OrderByDescending(a => a.Roleinfo.RoleID)
-                       
+
                        .ToList();
             if (data.Count > 0)
             {
@@ -273,14 +273,14 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
             return data;
         }
 
-        public async Task<List<RoleRightsEntity>> GetRightsByRightsID(long RightsID,long branchId)
+        public async Task<List<RoleRightsEntity>> GetRightsByRightsID(long RightsID, long branchId)
         {
             var data = (from u in this.context.ROLE_RIGHTS_MASTER
                        .Include("Role_MASTER")
                        .Include("PAGE_MASTER")
-                       join branch in this.context.BRANCH_RIGHTS_MASTER on u.ROLE_MASTER.branch_id equals branch.branch_id
-                       join PM in this.context.PACKAGE_RIGHTS_MASTER on branch.package_id equals PM.package_id
-                        where u.row_sta_cd == 1 && u.role_id == RightsID && u.ROLE_MASTER.branch_id==branchId && PM.page_id == u.page_id && PM.row_sta_cd==1
+                        join branch in this.context.BRANCH_RIGHTS_MASTER on u.ROLE_MASTER.branch_id equals branch.branch_id
+                        join PM in this.context.PACKAGE_RIGHTS_MASTER on branch.package_id equals PM.package_id
+                        where u.row_sta_cd == 1 && u.role_id == RightsID && u.ROLE_MASTER.branch_id == branchId && PM.page_id == u.page_id && PM.row_sta_cd == 1
                         select new RoleRightsEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -297,14 +297,14 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
                                 Deletestatus = PM.deletestatus,
                             },
                             RoleRightsId = u.rolerights_id,
-                            Createstatus =u.createstatus,
+                            Createstatus = u.createstatus,
                             Viewstatus = u.viewstatus,
                             Deletestatus = u.deletestatus,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                         }).ToList();
             return data;
         }
-   
+
         public async Task<RoleRightsEntity> GetRolebyID(long RightsID)
         {
             var data = (from u in this.context.ROLE_RIGHTS_MASTER
@@ -342,10 +342,10 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
                         if (data_course.Status)
                         {
                             item.row_sta_cd = (int)Enums.RowStatus.Inactive;
-                        item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
-                        this.context.SaveChanges();
-                        responseModel.Message = "Role Rights Removed Successfully.";
-                        responseModel.Status = true;
+                            item.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = item.trans_id, LastUpdateBy = lastupdatedby });
+                            this.context.SaveChanges();
+                            responseModel.Message = "Role Rights Removed Successfully.";
+                            responseModel.Status = true;
                         }
                         else
                         {
@@ -369,6 +369,33 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
             }
             return responseModel;
             //return false;
+        }
+
+        public async Task<List<RoleRightsEntity>> GetPageListbyBranchID(long branchId)
+        {
+            var data = (from u in this.context.BRANCH_RIGHTS_MASTER
+                       .Include("PAGE_MASTER")
+                        join PM in this.context.PACKAGE_RIGHTS_MASTER on u.package_id equals PM.package_id
+                        where PM.row_sta_cd == 1 && u.branch_id==branchId
+                        select new RoleRightsEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            PageInfo = new PageEntity()
+                            {
+                                Page = PM.PAGE_MASTER.page,
+                                PageID = PM.page_id,
+                                
+                            },
+                            Createstatus = PM.createstatus,
+                            Viewstatus = PM.viewstatus,
+                            Deletestatus = PM.deletestatus,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
+                        }).ToList();
+            return data;
         }
 
     }

@@ -17,5 +17,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.RoleRights
         Task<RoleRightsEntity> GetRolebyID(long RightsID);
         Task<List<RoleRightsEntity>> GetAllCustomRights(DataTableAjaxPostModel model, long branchId);
         Task<List<RoleRightsEntity>> GetAllRightsbyBranch(long branchId);
+        Task<List<RoleRightsEntity>> GetPageListbyBranchID(long branchId);
     }
 }
