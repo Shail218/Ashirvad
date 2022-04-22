@@ -87,6 +87,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.RoleRights
 
             return null;
         }
+        public async Task<List<RoleRightsEntity>> GetAllRightsbyBranch(long branchId)
+        {
+            try
+            {
+                return await this._RoleRightsContext.GetAllRightsbyBranch(branchId);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return null;
+        }
 
         public async Task<List<RoleRightsEntity>> GetAllCustomRights(DataTableAjaxPostModel model, long branchId)
         {

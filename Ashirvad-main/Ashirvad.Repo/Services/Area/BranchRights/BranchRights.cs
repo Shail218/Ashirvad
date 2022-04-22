@@ -376,7 +376,7 @@ namespace Ashirvad.Repo.Services.Area
         {
             try
             {
-                var packageRights = (from pr in this.context.PACKAGE_RIGHTS_MASTER where pr.package_id == RightsInfo.Packageinfo.PackageID orderby pr.page_id select pr).ToList();
+                var packageRights = (from pr in this.context.PACKAGE_RIGHTS_MASTER where pr.package_id == RightsInfo.Packageinfo.PackageID && pr.row_sta_cd==1 orderby pr.page_id select pr).ToList();
                 if (packageRights?.Count > 0)
                 {
                     List<Model.ROLE_RIGHTS_MASTER> roleRightList = new List<Model.ROLE_RIGHTS_MASTER>();

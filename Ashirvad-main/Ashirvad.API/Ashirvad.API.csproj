@@ -265,6 +265,8 @@
     <Compile Include="Controllers\PaymentRegisterController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ReminderController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\RoleRightsController.cs" />
     <Compile Include="Controllers\SchoolController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
     <Compile Include="Controllers\StandardController.cs" />
@@ -273,6 +275,7 @@
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\ToDoController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserRightsController.cs" />
     <Compile Include="Filter\AshirvadAuthorizationAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

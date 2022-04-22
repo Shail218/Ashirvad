@@ -144,6 +144,59 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
             }
             return data;
 
+        } 
+        public async Task<List<RoleRightsEntity>> GetAllRightsbyBranch(long branchId)
+        {
+            var data = (from u in this.context.ROLE_RIGHTS_MASTER
+                        .Include("ROLE_MASTER")
+                        .Include("PAGE_MASTER")
+                        where u.row_sta_cd == 1 && u.ROLE_MASTER.branch_id==branchId
+                        select new RoleRightsEntity()
+                        {
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            PageInfo = new PageEntity()
+                            {
+                                Page = u.PAGE_MASTER.page,
+                                PageID = u.page_id
+                            },
+                            Roleinfo = new RoleEntity()
+                            {
+                                RoleName = u.ROLE_MASTER.role_name,
+                                RoleID = u.ROLE_MASTER.role_id
+                            },
+                            Createstatus = u.createstatus,
+                            Viewstatus = u.viewstatus,
+                            Deletestatus = u.deletestatus,
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                        }).ToList();
+            if (data.Count > 0)
+            {
+                data[0].list = (from u in this.context.ROLE_RIGHTS_MASTER
+                              .Include("ROLE_MASTER")
+                               .Include("PAGE_MASTER")
+                                where u.row_sta_cd == 1
+                                select new RoleRightsEntity()
+                                {
+                                    Roleinfo = new RoleEntity()
+                                    {
+                                        RoleName = u.ROLE_MASTER.role_name,
+                                        RoleID = u.ROLE_MASTER.role_id
+                                    },
+
+                                }).Distinct().ToList();
+            }
+            else
+            {
+                RoleRightsEntity entity = new RoleRightsEntity();
+                entity.list = new List<RoleRightsEntity>();
+                data.Add(entity);
+            }
+            return data;
+
         }
 
         public async Task<List<RoleRightsEntity>> GetAllCustomRights(DataTableAjaxPostModel model, long branchId)
@@ -221,7 +274,7 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
                        .Include("PAGE_MASTER")
                        join branch in this.context.BRANCH_RIGHTS_MASTER on u.ROLE_MASTER.branch_id equals branch.branch_id
                        join PM in this.context.PACKAGE_RIGHTS_MASTER on branch.package_id equals PM.package_id
-                        where u.row_sta_cd == 1 && u.role_id == RightsID && u.ROLE_MASTER.branch_id==branchId && PM.page_id == u.page_id
+                        where u.row_sta_cd == 1 && u.role_id == RightsID && u.ROLE_MASTER.branch_id==branchId && PM.page_id == u.page_id && PM.row_sta_cd==1
                         select new RoleRightsEntity()
                         {
                             RowStatus = new RowStatusEntity()

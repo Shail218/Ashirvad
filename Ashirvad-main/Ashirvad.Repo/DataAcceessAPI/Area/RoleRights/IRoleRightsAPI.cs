@@ -16,5 +16,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.RoleRights
         ResponseModel RemoveRights(long RightsID, string lastupdatedby);
         Task<RoleRightsEntity> GetRolebyID(long RightsID);
         Task<List<RoleRightsEntity>> GetAllCustomRights(DataTableAjaxPostModel model, long branchId);
+        Task<List<RoleRightsEntity>> GetAllRightsbyBranch(long branchId);
     }
 }

@@ -19,13 +19,13 @@ namespace Ashirvad.Web.Controllers
         private readonly IUserRightsService _UserRightService;
         private readonly IPageService _pageService;
 
-
         public UserRightsController(IUserRightsService UserRightService, IPageService pageService)
         {
 
             _UserRightService = UserRightService;
             _pageService = pageService;
         }
+
         // GET: UserRight
         public ActionResult Index()
         {

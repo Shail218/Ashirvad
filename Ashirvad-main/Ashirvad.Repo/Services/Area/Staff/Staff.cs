@@ -214,7 +214,7 @@ namespace Ashirvad.Repo.Services.Area.Staff
             {
 
                 var Result = new List<StaffEntity>();
-                long Type = branchID == 0 ? 0 : (long)Enums.UserType.Staff;
+                long Type = branchID == 0 ? (long)Enums.UserType.Admin : (long)Enums.UserType.Staff;
                 bool Isasc = model.order[0].dir == "desc" ? false : true;
                 long count = (from u in this.context.BRANCH_STAFF
                             .Include("BRANCH_MASTER")
