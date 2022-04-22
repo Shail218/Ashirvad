@@ -30,16 +30,30 @@ namespace Ashirvad.API.Controllers
 
         [Route("RoleRightsMaintenance")]
         [HttpPost]
-        public OperationResult<RoleRightsEntity> RoleRightsMaintenance(RoleRightsEntity roleInfo)
+        public OperationResult<RoleRightsEntity> RoleRightsMaintenance(List<RoleRightsEntity> roleInfo)
         {
-            var data = this._RoleRightService.RoleRightsMaintenance(roleInfo);
             OperationResult<RoleRightsEntity> result = new OperationResult<RoleRightsEntity>();
-            result.Completed = data.Result.Status;
-            if (data.Result.Status && data.Result.Data != null)
+            try
             {
-                result.Data = (RoleRightsEntity)data.Result.Data;
+
+            
+            foreach (var roleIn in roleInfo)
+            {
+                var data = this._RoleRightService.RoleRightsMaintenance(roleIn);
+
+                result.Completed = data.Result.Status;
+                if (data.Result.Status && data.Result.Data != null)
+                {
+                    result.Data = (RoleRightsEntity)data.Result.Data;
+                }
+                result.Message = data.Result.Message;
             }
-            result.Message = data.Result.Message;
+            }
+            catch (Exception ex)
+            {
+                result.Completed = false;
+                result.Message = ex.Message;
+            }
             return result;
         }
 
@@ -67,9 +81,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetRoleRightsByRoleRightsID")]
         [HttpGet]
-        public OperationResult<List<RoleRightsEntity>> GetRoleRightsByRoleRightsID(long roleId,long branchId)
+        public OperationResult<List<RoleRightsEntity>> GetRoleRightsByRoleRightsID(long roleId, long branchId)
         {
-            var data = this._RoleRightService.GetRoleRightsByRoleRightsID(roleId,branchId);
+            var data = this._RoleRightService.GetRoleRightsByRoleRightsID(roleId, branchId);
             OperationResult<List<RoleRightsEntity>> result = new OperationResult<List<RoleRightsEntity>>();
             result.Data = data.Result;
             result.Completed = true;
@@ -78,11 +92,11 @@ namespace Ashirvad.API.Controllers
 
         [Route("GetRoleRightsByRoleID")]
         [HttpGet]
-        public OperationResult<RoleRightMaintenanceModel> GetRoleRightsByRoleID(long roleId,long branchId)
+        public OperationResult<RoleRightMaintenanceModel> GetRoleRightsByRoleID(long roleId, long branchId)
         {
             RoleRightMaintenanceModel maintenanceModel = new RoleRightMaintenanceModel();
             maintenanceModel.RoleRightsInfo = this._RoleRightService.GetRolerightsByID(roleId).Result;
-            maintenanceModel.RoleRightsInfo.list = this._RoleRightService.GetRoleRightsByRoleRightsID(roleId,branchId).Result;
+            maintenanceModel.RoleRightsInfo.list = this._RoleRightService.GetRoleRightsByRoleRightsID(roleId, branchId).Result;
             var branchData = this._BranchRightService.GetBranchRightsByBranchID(branchId).Result;
             foreach (var da in branchData)
             {
@@ -94,7 +108,7 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
-        
+
 
         [Route("RemoveRoleRights")]
         [HttpPost]
