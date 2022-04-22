@@ -23,7 +23,7 @@ namespace Ashirvad.API.Controllers
             _UserRightService = UserRightService;
             _pageService = pageService;
         }
-     
+
         [Route("UserRightsMaintenance")]
         [HttpPost]
         public OperationResult<UserWiseRightsEntity> UserRightsMaintenance(UserWiseRightsEntity userInfo)
@@ -39,6 +39,28 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("GetAllUserRightsbyBranchId")]
+        [HttpGet]
+        public OperationResult<List<UserWiseRightsEntity>> GetAllUserRightsbyBranchId(long branchId)
+        {
+            var data = this._UserRightService.GetAllUserRightsbyBranchId(branchId);
+            OperationResult<List<UserWiseRightsEntity>> result = new OperationResult<List<UserWiseRightsEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
+
+        [Route("GetUserRightsByUserID")]
+        [HttpGet]
+        public OperationResult<List<UserWiseRightsEntity>> GetUserRightsByUserID(long userId)
+        {
+            var data = this._UserRightService.GetUserRightsByUserID(userId);
+            OperationResult<List<UserWiseRightsEntity>> result = new OperationResult<List<UserWiseRightsEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
+
         [Route("RemoveUserRights")]
         [HttpPost]
         public OperationResult<bool> RemoveUserRights(long userRightsId, string lastupdatedby)
@@ -50,6 +72,8 @@ namespace Ashirvad.API.Controllers
             result.Message = data.Message;
             return result;
         }
+
+
 
     }
 }

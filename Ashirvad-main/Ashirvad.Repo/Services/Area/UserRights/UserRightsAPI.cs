@@ -254,6 +254,78 @@ namespace Ashirvad.Repo.Services.Area.UserRights
             return data;
         }
 
+        public async Task<List<UserWiseRightsEntity>> GetAllUserRightsbyBranchId(long branchId)
+        {
+            
+            var data = (from u in this.context.USER_RIGHTS_MASTER
+                                .Include("USER_DEF")
+                                .Include("BRANCH_STAFF")
+                        join staff in this.context.BRANCH_STAFF on u.USER_DEF.staff_id equals staff.staff_id
+                        orderby u.user_rights_id descending
+                        where u.row_sta_cd == 1 && u.ROLE_MASTER.branch_id == branchId 
+                        select new UserWiseRightsEntity()
+                        {
+                            userinfo = new UserEntity()
+                            {
+                                Username = u.USER_DEF.username,
+                                UserID = u.user_id,
+                                StaffDetail = new StaffEntity()
+                                {
+                                    Name = staff.name
+                                }
+                            },
+                            Roleinfo = new RoleEntity()
+                            {
+                                RoleName = u.ROLE_MASTER.role_name
+                            },
+                            UserWiseRightsID = u.user_rights_id,
+                          
+                        }).Distinct()
+                        .OrderByDescending(a => a.UserWiseRightsID)
+                        .ToList();
+            foreach (var item in data)
+            {
+                item.list = (from u in this.context.USER_RIGHTS_MASTER
+                     .Include("ROLE_MASTER")
+                      .Include("USER_DEF")
+                      .Include("BRANCH_STAFF")
+                             join staff in this.context.BRANCH_STAFF on u.USER_DEF.staff_id equals staff.staff_id
+                             join PM in this.context.ROLE_RIGHTS_MASTER on u.role_id equals PM.role_id
+                             join page in this.context.PAGE_MASTER on PM.page_id equals page.page_id
+                             where u.row_sta_cd == 1 && u.user_id == item.userinfo.UserID
+                             select new UserWiseRightsEntity()
+                             {
+                                 PageInfo = new PageEntity()
+                                 {
+                                     Page = page.page,
+                                     PageID = page.page_id,
+                                 },
+                                 userinfo = new UserEntity()
+                                 {
+                                     Username = u.USER_DEF.username,
+                                     UserID = u.user_id,
+                                     StaffDetail = new StaffEntity()
+                                     {
+                                         Name = staff.name
+                                     }
+                                 },
+                                 Roleinfo = new RoleEntity()
+                                 {
+                                     RoleName = u.ROLE_MASTER.role_name,
+                                     RoleID = u.role_id,
+                                 },
+                                 Createstatus = PM.createstatus,
+                                 Viewstatus = PM.viewstatus,
+                                 Deletestatus = PM.deletestatus,
+                                 UserWiseRightsID = u.user_rights_id,
+                                 Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                             }).ToList();
+            }
+            return data;
+        }
+
+
+
         public async Task<UserWiseRightsEntity> GetRightsByRightsID(long RightsID)
         {
             var data = (from u in this.context.USER_RIGHTS_MASTER
@@ -347,7 +419,7 @@ namespace Ashirvad.Repo.Services.Area.UserRights
             return data;
         }
 
-        public async Task<List<UserWiseRightsEntity>> GetAllRightsByUser(long RoleID)
+        public async Task<List<UserWiseRightsEntity>> GetAllRightsByUser(long userID)
         {
             var data = (from u in this.context.USER_RIGHTS_MASTER
                         .Include("ROLE_MASTER")
@@ -356,7 +428,7 @@ namespace Ashirvad.Repo.Services.Area.UserRights
                         join PM in this.context.ROLE_RIGHTS_MASTER on u.role_id equals PM.role_id
                         join page in this.context.PAGE_MASTER on PM.page_id equals page.page_id
                         orderby PM.PAGE_MASTER.page
-                        where u.row_sta_cd == 1 && u.user_id == RoleID && PM.row_sta_cd == 1 && page.row_sta_cd == 1
+                        where u.row_sta_cd == 1 && u.user_id == userID && PM.row_sta_cd == 1 && page.row_sta_cd == 1
                         select new UserWiseRightsEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -372,6 +444,11 @@ namespace Ashirvad.Repo.Services.Area.UserRights
                                 Viewstatus = PM.viewstatus,
                                 Deletestatus = PM.deletestatus,
 
+                            },
+                            Roleinfo = new RoleEntity()
+                            {
+                                RoleID = PM.role_id,
+                                RoleName = PM.ROLE_MASTER.role_name
                             },
                             PageInfo = new PageEntity()
                             {

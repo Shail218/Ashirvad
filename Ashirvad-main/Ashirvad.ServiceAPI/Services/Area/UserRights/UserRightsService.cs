@@ -60,6 +60,19 @@ namespace Ashirvad.ServiceAPI.Services.Area.UserRights
             }
             return null;
         }
+        
+        public async Task<List<UserWiseRightsEntity>> GetAllUserRightsbyBranchId(long branchId)
+        {
+            try
+            {
+                return await this._UserRightsContext.GetAllUserRightsbyBranchId(branchId);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
 
         public async Task<List<UserWiseRightsEntity>> GetAllUserRightsUniqData(long PackageRightID)
         {
@@ -104,11 +117,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.UserRights
             return null;
         }
 
-        public async Task<List<UserWiseRightsEntity>> GetUserRightsByUserID(long PackageRightID)
+        public async Task<List<UserWiseRightsEntity>> GetUserRightsByUserID(long UserID)
         {
             try
             {
-                return await this._UserRightsContext.GetAllRightsByUser(PackageRightID);
+                return await this._UserRightsContext.GetAllRightsByUser(UserID);
             }
             catch (Exception ex)
             {

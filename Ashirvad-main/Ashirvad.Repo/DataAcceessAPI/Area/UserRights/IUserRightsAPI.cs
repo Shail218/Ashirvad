@@ -17,5 +17,6 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.UserRights
         ResponseModel RemoveRights(long RightsID, string lastupdatedby);
         Task<List<UserWiseRightsEntity>> GetAllRightsByUser(long PackageRightID);
         Task<List<UserWiseRightsEntity>> GetAllCustomRights(DataTableAjaxPostModel model, long branchId);
+        Task<List<UserWiseRightsEntity>> GetAllUserRightsbyBranchId(long branchId);
     }
 }

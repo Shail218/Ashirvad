@@ -17,5 +17,6 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.UserRights
         Task<UserWiseRightsEntity> GetUserRightsByID(long standardID);
         Task<List<UserWiseRightsEntity>> GetUserRightsByUserID(long PackageRightID);
         Task<List<UserWiseRightsEntity>> GetAllCustomRights(DataTableAjaxPostModel model, long UserId);
+        Task<List<UserWiseRightsEntity>> GetAllUserRightsbyBranchId(long branchId);
     }
 }
