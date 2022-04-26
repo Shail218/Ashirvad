@@ -276,10 +276,11 @@ namespace Ashirvad.Repo.Services.Area.UserRights
                             },
                             Roleinfo = new RoleEntity()
                             {
+                                RoleID = u.ROLE_MASTER.role_id,
                                 RoleName = u.ROLE_MASTER.role_name
                             },
                             UserWiseRightsID = u.user_rights_id,
-                          
+                            Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).Distinct()
                         .OrderByDescending(a => a.UserWiseRightsID)
                         .ToList();
@@ -288,37 +289,21 @@ namespace Ashirvad.Repo.Services.Area.UserRights
                 item.list = (from u in this.context.USER_RIGHTS_MASTER
                      .Include("ROLE_MASTER")
                       .Include("USER_DEF")
-                      .Include("BRANCH_STAFF")
-                             join staff in this.context.BRANCH_STAFF on u.USER_DEF.staff_id equals staff.staff_id
+                      .Include("BRANCH_STAFF")                          
                              join PM in this.context.ROLE_RIGHTS_MASTER on u.role_id equals PM.role_id
                              join page in this.context.PAGE_MASTER on PM.page_id equals page.page_id
-                             where u.row_sta_cd == 1 && u.user_id == item.userinfo.UserID
+                             where u.row_sta_cd == 1 && u.user_id == item.userinfo.UserID && u.role_id == item.Roleinfo.RoleID
+                             && PM.row_sta_cd == 1
                              select new UserWiseRightsEntity()
                              {
                                  PageInfo = new PageEntity()
                                  {
                                      Page = page.page,
                                      PageID = page.page_id,
-                                 },
-                                 userinfo = new UserEntity()
-                                 {
-                                     Username = u.USER_DEF.username,
-                                     UserID = u.user_id,
-                                     StaffDetail = new StaffEntity()
-                                     {
-                                         Name = staff.name
-                                     }
-                                 },
-                                 Roleinfo = new RoleEntity()
-                                 {
-                                     RoleName = u.ROLE_MASTER.role_name,
-                                     RoleID = u.role_id,
-                                 },
+                                 },                                                       
                                  Createstatus = PM.createstatus,
                                  Viewstatus = PM.viewstatus,
-                                 Deletestatus = PM.deletestatus,
-                                 UserWiseRightsID = u.user_rights_id,
-                                 Transaction = new TransactionEntity() { TransactionId = u.trans_id },
+                                 Deletestatus = PM.deletestatus                                                     
                              }).ToList();
             }
             return data;

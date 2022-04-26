@@ -1,6 +1,7 @@
 ﻿using Ashirvad.API.Filter;
 using Ashirvad.Data;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Page;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.User;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.UserRights;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace Ashirvad.API.Controllers
     { // GET: UserRights
         private readonly IUserRightsService _UserRightService;
         private readonly IPageService _pageService;
+        private readonly IUserService _userService;
 
-        public UserRightsController(IUserRightsService UserRightService, IPageService pageService)
+        public UserRightsController(IUserRightsService UserRightService, IPageService pageService, IUserService userService)
         {
             _UserRightService = UserRightService;
             _pageService = pageService;
+            _userService = userService;
         }
 
         [Route("UserRightsMaintenance")]
@@ -73,7 +76,27 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("UserRightUniqueData")]
+        [HttpGet]
+        public OperationResult<List<UserWiseRightsEntity>> UserRightUniqueData(long roleid)
+        {
+            var data = this._UserRightService.GetAllUserRightsUniqData(roleid);
+            OperationResult<List<UserWiseRightsEntity>> result = new OperationResult<List<UserWiseRightsEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
 
+        [Route("GetAllStaffUserbyBranch")]
+        [HttpGet]
+        public OperationResult<List<UserEntity>> GetAllStaffUserbyBranch(long branchid)
+        {
+            var data = this._userService.GetAllStaffUserbyBranch(branchid);
+            OperationResult<List<UserEntity>> result = new OperationResult<List<UserEntity>>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
 
     }
 }

@@ -153,7 +153,7 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
                         orderby u.rolerights_id descending
                         where u.row_sta_cd == 1 && u.ROLE_MASTER.branch_id == branchId
                         select new RoleRightsEntity()
-                        {
+                        { 
                             Roleinfo = new RoleEntity()
                             {
                                 RoleName = u.ROLE_MASTER.role_name,
@@ -161,7 +161,6 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
                             }
                         }).Distinct()
                        .OrderByDescending(a => a.Roleinfo.RoleID)
-
                        .ToList();
             if (data.Count > 0)
             {
@@ -170,9 +169,12 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
                     item.list = (from u in this.context.ROLE_RIGHTS_MASTER
                                   .Include("ROLE_MASTER")
                                    .Include("PAGE_MASTER")
-                                 where u.row_sta_cd == 1 && u.role_id == item.Roleinfo.RoleID
+                                 join branch in this.context.BRANCH_RIGHTS_MASTER on u.ROLE_MASTER.branch_id equals branch.branch_id
+                                 join PM in this.context.PACKAGE_RIGHTS_MASTER on branch.package_id equals PM.package_id
+                                 where u.row_sta_cd == 1 && u.role_id == item.Roleinfo.RoleID && PM.row_sta_cd == 1 && PM.page_id == u.page_id
                                  select new RoleRightsEntity()
                                  {
+                                     RoleRightsId = u.rolerights_id,
                                      RowStatus = new RowStatusEntity()
                                      {
                                          RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
@@ -181,12 +183,10 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
                                      PageInfo = new PageEntity()
                                      {
                                          Page = u.PAGE_MASTER.page,
-                                         PageID = u.page_id
-                                     },
-                                     Roleinfo = new RoleEntity()
-                                     {
-                                         RoleName = u.ROLE_MASTER.role_name,
-                                         RoleID = u.ROLE_MASTER.role_id
+                                         PageID = u.page_id,
+                                         Createstatus = PM.createstatus,
+                                         Viewstatus = PM.viewstatus,
+                                         Deletestatus = PM.deletestatus
                                      },
                                      Createstatus = u.createstatus,
                                      Viewstatus = u.viewstatus,
@@ -258,6 +258,7 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
                                  {
                                      Page = u.PAGE_MASTER.page,
                                      PageID = u.page_id
+
                                  },
                                  Roleinfo = new RoleEntity()
                                  {
@@ -376,7 +377,7 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
             var data = (from u in this.context.BRANCH_RIGHTS_MASTER
                        .Include("PAGE_MASTER")
                         join PM in this.context.PACKAGE_RIGHTS_MASTER on u.package_id equals PM.package_id
-                        where PM.row_sta_cd == 1 && u.branch_id==branchId
+                        where PM.row_sta_cd == 1 && u.branch_id == branchId
                         select new RoleRightsEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -388,11 +389,10 @@ namespace Ashirvad.Repo.Services.Area.RoleRights
                             {
                                 Page = PM.PAGE_MASTER.page,
                                 PageID = PM.page_id,
-                                
+                                Createstatus = PM.createstatus,
+                                Viewstatus = PM.viewstatus,
+                                Deletestatus = PM.deletestatus,
                             },
-                            Createstatus = PM.createstatus,
-                            Viewstatus = PM.viewstatus,
-                            Deletestatus = PM.deletestatus,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
             return data;
