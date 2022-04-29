@@ -1080,7 +1080,6 @@ namespace Ashirvad.Repo.Services.Area.Test
                 responseModel.Status = false;
             }
             return responseModel;
-
         }
 
         public async Task<List<StudentAnswerSheetEntity>> GetAllTestAnswerSheetByTestStudent(long testID)
@@ -1531,8 +1530,6 @@ namespace Ashirvad.Repo.Services.Area.Test
                         {
                             FilePath = u.ans_sheet_filepath,
                             AnswerSheetName = u.ans_sheet_name,
-
-
                         }).ToList();
             //if (data != null)
             //{

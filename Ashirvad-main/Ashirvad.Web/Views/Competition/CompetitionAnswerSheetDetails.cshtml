@@ -1,0 +1,146 @@
+﻿@model List<Ashirvad.Data.CompetitionAnswerSheetEntity>
+
+@{ ViewBag.Title = "CompetitionAnswerSheetMaintenance";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+
+<section class="content">
+    <div class="row">
+        <div class="messagealert" id="alert_container"></div>
+        <section class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Homework Entry</h3>
+                </div>
+                <div class="box-body" style="padding:20px;">
+                    <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
+                        <thead>
+                            <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
+                                <th>
+                                    Submit Date
+                                </th>
+                                <th>
+                                    Branch Name
+                                </th>
+                                <th>
+                                    Standard
+                                </th>
+                                <th>
+                                    Student Name
+                                </th>
+                                <th>
+                                    Competition Status
+                                </th>
+                                <th>
+                                    Remarks
+                                </th>
+                                <th>
+                                    Download  AnswerSheet
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Remarks
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                string StatusText = item.Status == 0 ? "Pending" : "Done";
+                    <tr>
+                        <td>
+                            @item.SubmitDate.ToString("dd/MM/yyyy")
+
+                        </td>
+                        <td>
+                            @item.branchInfo.BranchName
+                        </td>
+                        <td>
+                            @item.studentInfo.BranchClass.Class.ClassName
+                        </td>
+
+                        <td>
+                            @item.studentInfo.Name
+                        </td>
+                        <td>
+                            @StatusText
+                        </td>
+                        <td>
+                            @item.Remarks
+                        </td>
+                        <td style="text-align:center;">
+                            <a onclick="#">
+                                <img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" style="height:35px;width:35px" />
+                            </a>
+                        </td>
+                        <td>
+                            @Html.HiddenFor(x => item.Status)
+                            <table id="rdbResult" class="radioboxlist form-control">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            @Html.RadioButtonFor(x => item.Status, 0, new { Id = "Pending_" + item.competitionInfo.CompetitionID + item.studentInfo.StudentID + "" })
+                                            <lable for="statusPending">Pending</lable>
+                                        </td>
+                                        <td>
+                                            @Html.RadioButtonFor(x => item.Status, 1, new { Id = "Done_" + item.competitionInfo.CompetitionID + item.studentInfo.StudentID + "" })
+                                            <lable for="statusDone">Done</lable>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(x => item.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off", Id = "Remark_" + item.competitionInfo.CompetitionID + item.studentInfo.StudentID + "" })
+
+                        </td>
+                        <td>
+                            <a href="#" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                                <span class="ladda-label">
+                                    Save
+                                </span>
+                                <span class="ladda-spinner"></span>
+                            </a>
+                        </td>
+                    </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+    @section Scripts {
+        <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <script src="~/scripts/app/competitionansdetails.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                $('#studenttbl').DataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": true,
+                    "order": [[0, "desc"]]
+                });
+            });</script>
+        <script type="text/javascript">
+            function ConfirmationDialog() {
+                if (confirm("Are you sure to continue?"))
+                    return true;
+                else
+                    return false;
+            }</script>
+    }
+</section>
+

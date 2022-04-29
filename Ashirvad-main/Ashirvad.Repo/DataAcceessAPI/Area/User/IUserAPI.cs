@@ -31,5 +31,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.User
         ResponseModel ChangeUserStatus(long studentId, string lastupdatedby, int status);
 
         Task<List<UserEntity>> GetAllStaffUserbyBranch(long branchId);
+
+        Task<ResponseModel> UserPermission(long userID, long BranchId);
     }
 }

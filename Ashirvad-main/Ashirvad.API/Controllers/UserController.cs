@@ -32,9 +32,9 @@ namespace Ashirvad.API.Controllers
 
         [Route("ValidateUser")]
         [HttpGet]
-        public OperationResult<UserEntity> ValidateUser(string userName, string password,string fcmtoken)
+        public OperationResult<UserEntity> ValidateUser(string userName, string password, string fcmtoken)
         {
-            var data = this._userService.ValidateUser(userName, password);            
+            var data = this._userService.ValidateUser(userName, password);
             OperationResult<UserEntity> result = new OperationResult<UserEntity>();
             if (data.Result == null)
             {
@@ -99,7 +99,6 @@ namespace Ashirvad.API.Controllers
             {
                 result.Data = (UserEntity)data.Result.Data;
             }
-     
             return result;
         }
 
@@ -206,7 +205,7 @@ namespace Ashirvad.API.Controllers
 
         [Route("ValidateStudent")]
         [HttpGet]
-        public OperationResult<UserEntity> ValidateStudent(string userName, string password,string fcmtoken)
+        public OperationResult<UserEntity> ValidateStudent(string userName, string password, string fcmtoken)
         {
             var data = this._userService.ValidateStudent(userName, password);
             OperationResult<UserEntity> result = new OperationResult<UserEntity>();
@@ -236,9 +235,10 @@ namespace Ashirvad.API.Controllers
             }
             return result;
         }
-          [Route("ValidateStudentData")]
+
+        [Route("ValidateStudentData")]
         [HttpGet]
-        public OperationResult<UserEntity> ValidateStudentData(string userName, string password,string fcmtoken)
+        public OperationResult<UserEntity> ValidateStudentData(string userName, string password, string fcmtoken)
         {
             var data = this._userService.ValidateStudentData(userName, password);
             OperationResult<UserEntity> result = new OperationResult<UserEntity>();
@@ -352,7 +352,7 @@ namespace Ashirvad.API.Controllers
             result.Message = data.Message;
             if (data.Status && data.Data != null)
             {
-               var da= (UPIEntity)data.Data;
+                var da = (UPIEntity)data.Data;
                 result.Data = da.UPIId;
             }
             return result;
@@ -373,7 +373,7 @@ namespace Ashirvad.API.Controllers
 
         [Route("UpdateFcMToken")]
         [HttpPost]
-        public OperationResult<bool> UpdateFcMToken(long userID,string fcmtoken)
+        public OperationResult<bool> UpdateFcMToken(long userID, string fcmtoken)
         {
             UserEntity user = new UserEntity();
             user.UserID = userID;
@@ -382,6 +382,24 @@ namespace Ashirvad.API.Controllers
             result.Completed = da.Result.Status;
             result.Data = da.Result.Status;
             result.Message = da.Result.Message;
+            return result;
+        }
+
+        [Route("UserPermission")]
+        [HttpGet]
+        public OperationResult<List<PageEntity>> UserPermission(long userId, long BranchID)
+        {
+            var data = this._userService.UserPermission(userId, BranchID);
+            OperationResult<List<PageEntity>> result = new OperationResult<List<PageEntity>>();
+
+
+            result.Completed = data.Result.Status;
+            if (data.Result.Status && data.Result.Data != null)
+            {
+                result.Data = (List<PageEntity>)data.Result.Data;
+            }
+            result.Message = data.Result.Message;
+
             return result;
         }
     }

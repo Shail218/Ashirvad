@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ashirvad.Common.Common;
 
 namespace Ashirvad.ServiceAPI.Services.Area.Competition
 {
@@ -18,9 +19,11 @@ namespace Ashirvad.ServiceAPI.Services.Area.Competition
         {
             this._competitionContext = competitionContext;
         }
+
+        #region Competition Entry
         public async Task<ResponseModel> CompetitionMaintenance(CompetitionEntity CompetitonInfo)
         {
-            ClassEntity cl = new ClassEntity();
+
             ResponseModel responseModel = new ResponseModel();
             try
             {
@@ -35,9 +38,17 @@ namespace Ashirvad.ServiceAPI.Services.Area.Competition
             return responseModel;
         }
 
-        public Task<ResponseModel> DeleteCompetition(long CompetitionID)
+        public async Task<ResponseModel> DeleteCompetition(long CompetitionID, string lastupdatedby)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _competitionContext.DeleteCompetition(CompetitionID, lastupdatedby);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
         }
 
         public async Task<List<CompetitionEntity>> GetAllCompetiton()
@@ -46,21 +57,98 @@ namespace Ashirvad.ServiceAPI.Services.Area.Competition
             {
                 return await _competitionContext.GetAllCompetiton();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 EventLogger.WriteEvent(Logger.Severity.Error, ex);
             }
             return null;
         }
 
-        public Task<CompetitionEntity> GetCompetitionByID(int Competiton)
+        public async Task<CompetitionEntity> GetCompetitionByID(long CompetitonID)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _competitionContext.GetCompetitionByID(CompetitonID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
+                public async Task<List<CompetitionEntity>> GetAllCustomCompetition(DataTableAjaxPostModel model)
+        {
+            try
+            {
+                return await _competitionContext.GetAllCustomCompetition(model);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
         }
 
-        public Task<ResponseModel> SaveCompetition(CompetitionEntity competition, string Username, bool IsUpdate)
+        #endregion
+
+        #region Competition Answer Sheet
+
+        public async Task<ResponseModel> CompetitionSheetMaintenance(CompetitionAnswerSheetEntity competitionAnswerSheet)
         {
-            throw new NotImplementedException();
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                responseModel = await _competitionContext.CompetitionSheetMaintenance(competitionAnswerSheet);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return responseModel;
         }
+
+        public async Task<List<CompetitionAnswerSheetEntity>> GetAllAnswerSheetByCompetitionId(long competitionId)
+        {
+            try
+            {
+                return await _competitionContext.GetAllAnswerSheetByCompetitionId(competitionId);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
+
+        public async Task<List<CompetitionAnswerSheetEntity>> GetAllDistinctAnswerSheetDatabyCompetitionId(long competitionId)
+        {
+            try
+            {
+                return await _competitionContext.GetAllDistinctAnswerSheetDatabyCompetitionId(competitionId);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
+
+        public async Task<List<CompetitionAnswerSheetEntity>> GetStudentAnswerSheetbyCompetitionID(long competitionId, long studentID)
+        {
+            try
+            {
+                return await _competitionContext.GetStudentAnswerSheetbyCompetitionID(competitionId,studentID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
+
+        #endregion
+
+
     }
 }

@@ -112,7 +112,7 @@ namespace Ashirvad.Repo.Services.Area.User
                     responseModel.Message = isUpdate == true ? flag == false ? "Your User Name has Changed!! Please Login Again!!" : "Profile Updated." : "Profile Inserted Successfully";
                     responseModel.Status = true;
                     responseModel.Data = userInfo;
-                    
+
                 }
                 else
                 {
@@ -156,7 +156,7 @@ namespace Ashirvad.Repo.Services.Area.User
                                 ContactNo = b.contact_no,
                                 aliasName = b.alias_name,
                                 AppImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.app_file_path,
-                                ImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.file_path
+                                ImagePath = "https://mastermind.org.in" + b.BRANCH_MAINT.file_path,
                             },
                             StaffDetail = new StaffEntity()
                             {
@@ -171,6 +171,7 @@ namespace Ashirvad.Repo.Services.Area.User
 
             if (user != null)
             {
+                //var da = (from a in this.context.BRANCH_AGREEMENT where a.branch_id == user.BranchInfo.BranchID && a.row_sta_cd == 1 select a.serial_key).FirstOrDefault();
                 user.Roles = this.GetRolesByUser(user.UserID);
                 if (user.UserType == Enums.UserType.Student)
                 {
@@ -178,6 +179,7 @@ namespace Ashirvad.Repo.Services.Area.User
                     var studentData = await stu.GetStudentByID(user.StudentID.Value);
                     user.StudentDetail = studentData;
                 }
+               // user.BranchInfo.SerialKey = da;
             }
             return user;
         }
@@ -404,7 +406,7 @@ namespace Ashirvad.Repo.Services.Area.User
                         join staff in this.context.BRANCH_STAFF on u.staff_id equals staff.staff_id into tempStaff
                         from stf in tempStaff.DefaultIfEmpty()
                         orderby u.user_id descending
-                        where u.branch_id == branchId && u.row_sta_cd==1 && u.user_type==(int)Enums.UserType.Staff
+                        where u.branch_id == branchId && u.row_sta_cd == 1 && u.user_type == (int)Enums.UserType.Staff
                         select new UserEntity()
                         {
                             //ClientSecret = u.client_secret,
@@ -420,7 +422,7 @@ namespace Ashirvad.Repo.Services.Area.User
                             Username = u.username,
                             mobileNo = u.mobile_no,
                             UserType = Enums.UserType.Staff,
-                           
+
                             BranchInfo = new BranchEntity()
                             {
                                 BranchID = u.branch_id,
@@ -748,9 +750,9 @@ namespace Ashirvad.Repo.Services.Area.User
                 responseModel.Status = false;
             }
             return responseModel;
-        } 
-      
-        public ResponseModel ChangeUserStatus(long studentId, string lastupdatedby,int status)
+        }
+
+        public ResponseModel ChangeUserStatus(long studentId, string lastupdatedby, int status)
         {
             ResponseModel responseModel = new ResponseModel();
             try
@@ -763,7 +765,7 @@ namespace Ashirvad.Repo.Services.Area.User
                     data.row_sta_cd = status;
                     data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
                     this.context.SaveChanges();
-                    responseModel.Message = status==1?"User Active Successfully.":"User Inactived Successfully.";
+                    responseModel.Message = status == 1 ? "User Active Successfully." : "User Inactived Successfully.";
                     responseModel.Status = true;
                 }
                 else
@@ -868,7 +870,7 @@ namespace Ashirvad.Repo.Services.Area.User
             return model;
         }
 
-        public async Task<ResponseModel> StudentUserMaintenance(UserEntity userInfo ,bool IsDeleted=false)
+        public async Task<ResponseModel> StudentUserMaintenance(UserEntity userInfo, bool IsDeleted = false)
         {
             try
             {
@@ -906,7 +908,7 @@ namespace Ashirvad.Repo.Services.Area.User
                 user.trans_id = this.AddTransactionData(userInfo.Transaction);
                 user.username = userInfo.Username;
                 this.context.USER_DEF.Add(user);
-               var res = this.context.SaveChanges();
+                var res = this.context.SaveChanges();
                 if (res > 0)
                 {
                     responseModel.Status = true;
@@ -926,6 +928,86 @@ namespace Ashirvad.Repo.Services.Area.User
 
 
             return responseModel;
+        }
+
+        public async Task<ResponseModel> UserPermission(long userID, long BranchId)
+        {
+            ResponseModel model = new ResponseModel();
+            try
+            {
+                var data = (from user in this.context.USER_DEF
+                            join userdtl in this.context.BRANCH_STAFF on user.staff_id equals userdtl.staff_id
+                            where user.user_id == userID && user.row_sta_cd == 1
+                            select user).FirstOrDefault();
+                if (data != null)
+                {
+                    var usertype = data.user_type == 5 ? Enums.UserType.SuperAdmin : data.user_type == 1 ? Enums.UserType.Admin : data.user_type == 2 ? Enums.UserType.Student : data.user_type == 3 ? Enums.UserType.Parent : Enums.UserType.Staff;
+
+                    if (usertype == Enums.UserType.Admin)
+                    {
+                        var pagedata = (from branch in this.context.BRANCH_RIGHTS_MASTER
+                                        join packageRights in this.context.PACKAGE_RIGHTS_MASTER on branch.package_id equals packageRights.package_id
+                                        where branch.branch_id == BranchId && packageRights.PACKAGE_MASTER.row_sta_cd == 1 && branch.row_sta_cd == 1 && packageRights.row_sta_cd == 1
+                                        select new PageEntity()
+                                        {
+                                            PageID = packageRights.page_id,
+                                            Page = packageRights.PAGE_MASTER.page,
+                                            Createstatus = packageRights.createstatus,
+                                            Deletestatus = packageRights.deletestatus,
+                                            Viewstatus = packageRights.viewstatus
+                                        }).ToList();
+                        if (pagedata?.Count > 0)
+                        {
+                            model.Data = pagedata;
+                            model.Status = true;
+                            model.Message = "User has Admin Rights.";
+                        }
+                        else
+                        {
+                            model.Status = false;
+                            model.Message = "User has no Rights.";
+                        }
+                    }
+                    else if (usertype == Enums.UserType.Staff)
+                    {
+                        var pagedata = (from roleRights in this.context.ROLE_RIGHTS_MASTER
+                                        join user in this.context.USER_RIGHTS_MASTER on roleRights.ROLE_MASTER.role_id equals user.role_id
+                                        where user.user_id == userID && roleRights.ROLE_MASTER.row_sta_cd == 1 && user.row_sta_cd == 1 && roleRights.row_sta_cd == 1
+                                        select new PageEntity()
+                                        {
+                                            PageID = roleRights.page_id,
+                                            Page = roleRights.PAGE_MASTER.page,
+                                            Createstatus = roleRights.createstatus,
+                                            Deletestatus = roleRights.deletestatus,
+                                            Viewstatus = roleRights.viewstatus
+                                        }).ToList();
+
+                        if (pagedata?.Count > 0)
+                        {
+                            model.Data = pagedata;
+                            model.Status = true;
+                            model.Message = "User has Staff Rights.";
+                        }
+                        else
+                        {
+                            model.Status = false;
+                            model.Message = "User has no Rights.";
+                        }
+
+                    }
+                    else
+                    {
+                        model.Status = false;
+                        model.Message = "User Must be a Staff or Admin.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                model.Status = false;
+                model.Message = ex.Message;
+            }
+            return model;
         }
     }
 }

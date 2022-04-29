@@ -54,6 +54,7 @@ namespace Ashirvad.Web.Controllers
         public async Task<JsonResult> CustomServerSideSearchAction(DataTableAjaxPostModel model)
         {
             List<string> columns = new List<string>();
+           // columns.Add("SerialKey");
             columns.Add("AgreementFromDate");
             columns.Add("AgreementToDate");
             foreach (var item in model.order)

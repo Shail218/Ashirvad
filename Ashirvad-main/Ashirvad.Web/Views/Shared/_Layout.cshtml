@@ -183,17 +183,17 @@
                                         @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
                                         {
                                             @*<li id="StM">
-                                                    <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master</a>
-                                                </li>*@
+                        <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master</a>
+                    </li>*@
                                             <li id="BrM">
                                                 <a href="@Url.Action("BranchMaintenance","Branch", new { @branchID=0 })">Branch Master</a>
                                             </li>
                                             @*<li id="Banner">
-                                                    <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })" )">Banner Master</a>
-                                                </li>*@
+                        <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })" )">Banner Master</a>
+                    </li>*@
                                             @*<li id="NotificationMaster">
-                                                    <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
-                                                </li>*@
+                        <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
+                    </li>*@
                                             <li id="StM">
                                                 <a href="@Url.Action("UserMaintenance","User", new { @branchID=0 })">User Master</a>
                                             </li>
@@ -276,34 +276,34 @@
                                 }
                                 @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
                                 {
-                                    <!--<li class="dropdown" visible="true" style="margin-left:10px;">-->
-                                    @*<a href="@Url.Action("Index","Competition")">*@
-                                    <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        Competition
-                                    </a>-->
-                                    @*</a>*@
-                                    <!--<ul class="dropdown-menu">
-                                        <li id="wentry" class="Winnerentry">
-                                            <a href="@Url.Action("Index","WinnerEntry")">Winner Entry</a>
-                                        </li>
+                                    <li class="dropdown" visible="true" style="margin-left:10px;">
+                                        @*<a href="@Url.Action("Index","Competition")">*@
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            Competition
+                                        </a>
+                                        @*</a>*@
+                                        <ul class="dropdown-menu">
+                                            <li id="wentry" class="Winnerentry">
+                                                <a href="@Url.Action("Index","WinnerEntry")">Winner Entry</a>
+                                            </li>
 
-                                        <li id="bentry" class="branchwiesrankentry">
-                                            <a href="@Url.Action("Index","BranchWiseRank")">Branch Wise Rank Entry</a>
-                                        </li>
+                                            <li id="bentry" class="branchwiesrankentry">
+                                                <a href="@Url.Action("Index","BranchWiseRank")">Branch Wise Rank Entry</a>
+                                            </li>
 
-                                        <li id="" class="">
-                                            <a href="@Url.Action("Index","Competition")">Competition Entry</a>
-                                        </li>
-                                        <li id="" class="">
-                                            <a href="@Url.Action("Index","Rank")">Rank Details</a>
-                                        </li>
-                                        <li id="" class="">
-                                            <a href="@Url.Action("Index","ViewCompetitionlist")">View Competition Details</a>
-                                        </li>
-                                    </ul>
-                                    </li>-->
+                                            <li id="" class="">
+                                                <a href="@Url.Action("CompetitionMaintenance","Competition", new { @competitonID=0 })">Competition Entry</a>
+                                            </li>
+                                            <li id="" class="">
+                                                <a href="@Url.Action("Index","Rank")">Rank Details</a>
+                                            </li>
+                                            <li id="" class="">
+                                                <a href="@Url.Action("Index","ViewCompetitionlist")">View Competition Details</a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 }
-                             else
+                                else
                                 {
                                     <li class="dropdown" id="StudentMenu" style="margin-left:10px;">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -356,18 +356,18 @@
                                         </ul>
                                     </li>
                                     @*<li class="dropdown" id="StudentMenu" style="margin-left:10px;">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                Competiton
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li id="" class="">
-                                                    <a href="@Url.Action("Index","StudentRank")">Student Rank</a>
-                                                </li>
-                                                <li id="" class="">
-                                                    <a href="@Url.Action("Index","WinnerList")">Winner List</a>
-                                                </li>
-                                            </ul>
-                                        </li>*@
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    Competiton
+                </a>
+                <ul class="dropdown-menu">
+                    <li id="" class="">
+                        <a href="@Url.Action("Index","StudentRank")">Student Rank</a>
+                    </li>
+                    <li id="" class="">
+                        <a href="@Url.Action("Index","WinnerList")">Winner List</a>
+                    </li>
+                </ul>
+            </li>*@
                                     <li class="dropdown" id="GalleryMenu" style="margin-left:10px;">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                             Gallery
@@ -487,10 +487,10 @@
                                                 </a>
                                             </li>
                                             @*<li class="treeview Report" id="Li3">
-                                                    <a href="@Url.Action("GetAllReportData","AdminReport")">
-                                                        Report
-                                                    </a>
-                                                </li>*@
+                        <a href="@Url.Action("GetAllReportData","AdminReport")">
+                            Report
+                        </a>
+                    </li>*@
                                         </ul>
                                     </li>
 
@@ -546,36 +546,36 @@
                                                 </a>
                                             </li>
                                             @*<li class="treeview Role" id="rol">
-                                                <a href="@Url.Action("RoleMaintenance","Role", new { @branchID = 0 })">Role</a>
-                                            </li>
-                                            <li class="treeview RoleRights" id="rolright">
-                                                <a href="@Url.Action("RoleRightMaintenance", "RoleRights", new { @RoleRightID = 0 })">Role Rights</a>
-                                            </li>
-                                            <li class="treeview UserRights" id="userright">
-                                                <a href="@Url.Action("UserRightMaintenance", "UserRights", new { @UserRightID = 0 })">User Rights</a>
-                                            </li>*@
+                        <a href="@Url.Action("RoleMaintenance","Role", new { @branchID = 0 })">Role</a>
+                    </li>
+                    <li class="treeview RoleRights" id="rolright">
+                        <a href="@Url.Action("RoleRightMaintenance", "RoleRights", new { @RoleRightID = 0 })">Role Rights</a>
+                    </li>
+                    <li class="treeview UserRights" id="userright">
+                        <a href="@Url.Action("UserRightMaintenance", "UserRights", new { @UserRightID = 0 })">User Rights</a>
+                    </li>*@
                                         </ul>
                                     </li>
 
                                 }
                                 @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.Admin)
                                 {
-                            <li class="dropdown" id="UserPermissionMenu" visible="true">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    User Permission
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li class="treeview Role" id="rol">
-                                        <a href="@Url.Action("RoleMaintenance","Role", new { @branchID = 0 })">Role</a>
+                                    <li class="dropdown" id="UserPermissionMenu" visible="true">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            User Permission
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="treeview Role" id="rol">
+                                                <a href="@Url.Action("RoleMaintenance","Role", new { @branchID = 0 })">Role</a>
+                                            </li>
+                                            <li class="treeview RoleRights" id="rolright">
+                                                <a href="@Url.Action("RoleRightMaintenance", "RoleRights", new { @RoleRightID = 0 })">Role Rights</a>
+                                            </li>
+                                            <li class="treeview UserRights" id="userright">
+                                                <a href="@Url.Action("UserRightMaintenance","UserRights", new { @UserRightID = 0 })">User Rights</a>
+                                            </li>
+                                        </ul>
                                     </li>
-                                    <li class="treeview RoleRights" id="rolright">
-                                        <a href="@Url.Action("RoleRightMaintenance", "RoleRights", new { @RoleRightID = 0 })">Role Rights</a>
-                                    </li>  
-                                    <li class="treeview UserRights" id="userright">
-                                        <a href="@Url.Action("UserRightMaintenance","UserRights", new { @UserRightID = 0 })">User Rights</a>
-                                    </li>
-                                </ul>
-                            </li>
                                 }
                                 <li class="dropdown" id="Library" style="margin-left:10px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -628,7 +628,7 @@
                     </div>
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <h4 style="color: white;" id="lblBranchName">@SessionContext.Instance.LoginUser.BranchInfo.BranchName</h4>
+                            <h4 style="color: white;" id="lblBranchName">@SessionContext.Instance.LoginUser.BranchInfo.BranchName @*- @SessionContext.Instance.LoginUser.BranchInfo.SerialKey*@</h4>
                             @*<h4 style="color: white;" id="lblFinanceYear"></h4>*@
                         </div>
                     </div>

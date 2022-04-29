@@ -13,6 +13,7 @@ namespace Ashirvad.Data
         public DateTime AgreementFromDate { get; set; }
         public DateTime AgreementToDate { get; set; }
         public double Amount { get; set; }
+        public string SerialKey { get; set; }
         public TransactionEntity TranscationData { get; set; }
         public RowStatusEntity RowStatusData { get; set; }
         public long Count { get; set; }

@@ -64,6 +64,7 @@
     Role: $("#hdnFldVDName").val() + "Role/",
     RoleRights: $("#hdnFldVDName").val() + "RoleRights/",
     UserRights: $("#hdnFldVDName").val() + "UserRights/",
+    Competition: $("#hdnFldVDName").val() + "Competition/",
 };
 
 function GetExtention(image){

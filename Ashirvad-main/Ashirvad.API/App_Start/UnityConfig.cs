@@ -121,6 +121,10 @@ using Ashirvad.Repo.DataAcceessAPI.Area.UserRights;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.UserRights;
 using Ashirvad.ServiceAPI.Services.Area.UserRights;
 using Ashirvad.Repo.Services.Area.UserRights;
+using Ashirvad.Repo.DataAcceessAPI.Area.Competition;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Competiton;
+using Ashirvad.ServiceAPI.Services.Area.Competition;
+using Ashirvad.Repo.Services.Area.Competiton;
 
 namespace Ashirvad.API
 {
@@ -253,6 +257,9 @@ namespace Ashirvad.API
 
             container.RegisterType<IUserRightsAPI, UserRightsAPI>();
             container.RegisterType<IUserRightsService, UserRightsService>();
+
+            container.RegisterType<ICompetitonAPI, Competition>();
+            container.RegisterType<ICompetitonService, CompetitionService>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
 

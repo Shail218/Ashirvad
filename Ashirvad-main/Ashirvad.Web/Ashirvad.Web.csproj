@@ -275,6 +275,8 @@
     <Content Include="scripts\app\circular.js" />
     <Content Include="scripts\app\class.js" />
     <Content Include="scripts\app\common.js" />
+    <Content Include="scripts\app\competition.js" />
+    <Content Include="scripts\app\competitionansdetails.js" />
     <Content Include="scripts\app\dashboard.js" />
     <Content Include="scripts\app\faculty.js" />
     <Content Include="scripts\app\fees.js" />
@@ -329,6 +331,8 @@
     <Content Include="CircularFiles\9QGCR5DXJ2LJQYP54A9R.xls" />
     <Content Include="Apps\MasterMindUAT_1.6.apk" />
     <Content Include="Apps\MyGeniusUAT_1.4.apk" />
+    <Content Include="CompetitionImage\9QGCR5DXJ2LJQYP54A9R.xls" />
+    <Content Include="CompetitionDetail\9QGCR5DXJ2LJQYP54A9R.xls" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
@@ -1168,6 +1172,7 @@
     <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\CircularController.cs" />
     <Compile Include="Controllers\ClassController.cs" />
+    <Compile Include="Controllers\CompetitionAnsDetailsController.cs" />
     <Compile Include="Controllers\CompetitionController.cs" />
     <Compile Include="Controllers\FacultyController.cs" />
     <Compile Include="Controllers\ForgotPasswordController.cs" />
@@ -1528,6 +1533,7 @@
     <Content Include="Views\UserRights\Index.cshtml" />
     <Content Include="Views\UserRights\Manage.cshtml" />
     <Content Include="Views\UserRights\RightsDataTable.cshtml" />
+    <Content Include="Views\Competition\CompetitionAnswerSheetDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1539,6 +1545,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\CompetitionAnsDetails\" />
     <Folder Include="ZipFiles\HomeworkDetails\" />
     <Folder Include="ZipFiles\TestPaperDetails\" />
   </ItemGroup>

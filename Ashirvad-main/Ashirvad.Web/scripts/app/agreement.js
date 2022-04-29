@@ -31,6 +31,7 @@ $(document).ready(function () {
         },
         "columns": [
             { "data": "BranchData.BranchName" },
+           /* { "data": "SerialKey" },*/
             { "data": "AgreementFromDate" },
             { "data": "AgreementToDate" },
             { "data": "Amount" },

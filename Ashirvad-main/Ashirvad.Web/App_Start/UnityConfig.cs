@@ -8,6 +8,7 @@ using Ashirvad.Repo.DataAcceessAPI.Area.Batch;
 using Ashirvad.Repo.DataAcceessAPI.Area.Branch;
 using Ashirvad.Repo.DataAcceessAPI.Area.Circular;
 using Ashirvad.Repo.DataAcceessAPI.Area.Class;
+using Ashirvad.Repo.DataAcceessAPI.Area.Competition;
 using Ashirvad.Repo.DataAcceessAPI.Area.Course;
 using Ashirvad.Repo.DataAcceessAPI.Area.DashboardChart;
 using Ashirvad.Repo.DataAcceessAPI.Area.Faculty;
@@ -45,6 +46,7 @@ using Ashirvad.Repo.Services.Area.Batch;
 using Ashirvad.Repo.Services.Area.Branch;
 using Ashirvad.Repo.Services.Area.Circular;
 using Ashirvad.Repo.Services.Area.Class;
+using Ashirvad.Repo.Services.Area.Competiton;
 using Ashirvad.Repo.Services.Area.Course;
 using Ashirvad.Repo.Services.Area.DashboardChart;
 using Ashirvad.Repo.Services.Area.Faculty;
@@ -81,6 +83,7 @@ using Ashirvad.ServiceAPI.ServiceAPI.Area.Branch;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Charts;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Circular;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Class;
+using Ashirvad.ServiceAPI.ServiceAPI.Area.Competiton;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Course;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.DashboardChart;
 using Ashirvad.ServiceAPI.ServiceAPI.Area.Faculty;
@@ -117,6 +120,7 @@ using Ashirvad.ServiceAPI.Services.Area.Batch;
 using Ashirvad.ServiceAPI.Services.Area.Branch;
 using Ashirvad.ServiceAPI.Services.Area.Circular;
 using Ashirvad.ServiceAPI.Services.Area.Class;
+using Ashirvad.ServiceAPI.Services.Area.Competition;
 using Ashirvad.ServiceAPI.Services.Area.Course;
 using Ashirvad.ServiceAPI.Services.Area.DashboardChart;
 using Ashirvad.ServiceAPI.Services.Area.Faculty;
@@ -301,7 +305,8 @@ namespace Ashirvad.Web
             container.RegisterType<IUserRightsAPI, UserRightsAPI>();
             container.RegisterType<IUserRightsService, UserRightsService>();
 
-
+            container.RegisterType<ICompetitonAPI, Competition>();
+            container.RegisterType<ICompetitonService, CompetitionService>();
         }
     }
 

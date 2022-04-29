@@ -408,10 +408,15 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     {
                         data = new Model.BRANCH_AGREEMENT();
                         isUpdate = false;
+                       // agrMaster.serial_key = Common.Common.RandomString(10);
                     }
                     else
                     {
                         agrMaster = data;
+                        //if (data.serial_key == null)
+                        //{
+                        //    agrMaster.serial_key = Common.Common.RandomString(10);
+                        //}
                         agrInfo.TranscationData.TransactionId = data.trans_id;
                     }
 
@@ -473,6 +478,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             AgreementToDate = u.to_dt,
                             AgreementID = u.agreement_id,
                             Amount = u.amount,
+                           // SerialKey = u.serial_key,
                             BranchData = new BranchEntity() { BranchID = b.branch_id, BranchName = b.branch_name },
                             TranscationData = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
@@ -514,6 +520,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             AgreementToDate = u.to_dt,
                             AgreementID = u.agreement_id,
                             Amount = u.amount,
+                         //   SerialKey = u.serial_key,
                             Count = count,
                             BranchData = new BranchEntity() { BranchID = b.branch_id, BranchName = b.branch_name },
                             TranscationData = new TransactionEntity() { TransactionId = u.trans_id }
@@ -540,6 +547,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             AgreementToDate = u.to_dt,
                             AgreementID = u.agreement_id,
                             Amount = u.amount,
+                         //   SerialKey = u.serial_key,
                             BranchData = new BranchEntity() { BranchID = b.branch_id, BranchName = b.branch_name },
                             TranscationData = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();

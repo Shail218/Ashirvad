@@ -74,6 +74,7 @@ namespace Ashirvad.Repo.Services.Area.SuperAdminSubject
                         if ((int)subjectEntity.UserType == 5)
                         {
                             SuperAdminSubjectMasterMaintenance(subjectEntity);
+                            SubjectMasterMaintenance(subjectEntity);
                         }
                         else
                         {

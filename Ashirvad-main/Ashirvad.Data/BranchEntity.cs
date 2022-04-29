@@ -19,6 +19,7 @@ namespace Ashirvad.Data
         public long BranchID { get; set; }
         public long Count { get; set; }
         public string BranchName { get; set; }
+        public string SerialKey { get; set; }
         public string AboutUs { get; set; }
         public string ContactNo { get; set; }
         public string MobileNo { get; set; }

@@ -46,13 +46,6 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
             try
             {
                 responseModel = await this._userContext.UserMaintenance(UserInfo);
-                //long userID = await this._userContext.UserMaintenance(UserInfo);
-                //if (userID > 0)
-                //{
-                //    //Add User
-                //    //Get Branch
-                //    user.UserID = userID;
-                //}
             }
             catch (Exception ex)
             {
@@ -102,6 +95,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
 
             return null;
         }
+
         public List<UserEntity> GetAllUsers(long branchID, List<int> userType = null)
         {
             try
@@ -134,6 +128,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
 
             return null;
         }
+
         public List<UserEntity> GetAllUsers(string userName, string contactNo)
         {
             try
@@ -219,6 +214,7 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
 
             return responseModel;
         }
+
         public async Task<ResponseModel> UpdatefcmToken(UserEntity userentity, string fcm_token)
         {
             ResponseModel model = new ResponseModel();
@@ -261,5 +257,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.User
 
             return null;
         }
+
+        public async Task<ResponseModel> UserPermission(long userID, long BranchId)
+        {
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                responseModel = await this._userContext.UserPermission(userID,BranchId);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return responseModel;
+        }
+
     }
 }

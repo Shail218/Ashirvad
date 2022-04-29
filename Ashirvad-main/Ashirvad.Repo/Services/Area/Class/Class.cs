@@ -70,6 +70,7 @@ namespace Ashirvad.Repo.Services.Area.Class
                         if ((int)classEntity.UserType == 5)
                         {
                             SuperadminClassMasterMaintenance(classEntity);
+                            ClassMasterMaintenance(classEntity);
                         }
                         else
                         {
