@@ -372,6 +372,7 @@ namespace Ashirvad.Repo.Services.Area.Class
                     };
                     branchClass.branch = item.branch;
                     result = _BranchClass.ClassMaintenance(branchClass).Result;
+                    //branchClass.Class_dtl_id = 0;
                 }
                 //if ((int)ClassEntity.UserType == 5)
                 //{

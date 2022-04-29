@@ -63,8 +63,7 @@ namespace Ashirvad.Repo.Services.Area.Branch
                     var result = this.context.SaveChanges();
                     if (result > 0)
                     {
-                        ClassInfo.Class_dtl_id = ClassMaster.class_dtl_id;
-                        model.Data = ClassInfo;
+                     //   model.Data = ClassInfo;
                         model.Status = true;
                         model.Message = isUpdate==true?"Class Updated Successfully.":"Class Inserted Successfully.";
                     }

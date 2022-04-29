@@ -520,6 +520,14 @@ namespace Ashirvad.Repo.Services.Area
             string message = "";
             string course = "";
             string total_message = "<br />";
+
+            var data30 = this.context.COURSE_DTL_MASTER.Where(s => s.course_dtl_id == coursedetailid && s.row_sta_cd == 1 && s.is_course == true).ToList();
+            count = data30.Count();
+            total_count = total_count + count;
+            course = count > 0 ? data30[0].COURSE_MASTER.course_name : "";
+            message = count > 0 ? " Course Master = " + count + " Course Name = " + course + "  <br />" : "";
+            total_message = total_message + message;
+
             var data = this.context.BATCH_MASTER.Where(s => s.course_dtl_id == coursedetailid && s.row_sta_cd == 1).ToList();
             count = data.Count();
             total_count = total_count + count;
@@ -658,6 +666,13 @@ namespace Ashirvad.Repo.Services.Area
             message = count > 0 ? " Faculty Master = " + count + " Class Name = " + cls + "  <br />" : "";
             total_message = total_message + message;
 
+            var data30 = this.context.CLASS_DTL_MASTER.Where(s => s.class_dtl_id == classdetailid && s.row_sta_cd == 1 && s.is_class == true).ToList();
+            count = data30.Count();
+            total_count = total_count + count;
+            cls = count > 0 ? data30[0].CLASS_MASTER.class_name : "";
+            message = count > 0 ? " Class Master = " + count + " Class Name = " + cls + "  <br />" : "";
+            total_message = total_message + message;
+
             var data3 = this.context.SUBJECT_DTL_MASTER.Where(s => s.class_dtl_id == classdetailid && s.row_sta_cd == 1 && s.is_subject == true).ToList();
             count = data3.Count();
             total_count = total_count + count;
@@ -747,6 +762,13 @@ namespace Ashirvad.Repo.Services.Area
             string message = "";
             string subject = "";
             string total_message = "<br />";
+
+            var data30 = this.context.SUBJECT_DTL_MASTER.Where(s => s.subject_dtl_id == subjectdetailid && s.row_sta_cd == 1 && s.is_subject == true).ToList();
+            count = data30.Count();
+            total_count = total_count + count;
+            subject = count > 0 ? data30[0].SUBJECT_BRANCH_MASTER.subject_name : "";
+            message = count > 0 ? " Subject Master = " + count + " Subject Name = " + subject + "  <br />" : "";
+            total_message = total_message + message;
 
             var data = this.context.FACULTY_MASTER.Where(s => s.subject_dtl_id == subjectdetailid && s.row_sta_cd == 1).ToList();
             count = data.Count();

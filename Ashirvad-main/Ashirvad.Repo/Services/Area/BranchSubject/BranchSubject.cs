@@ -66,8 +66,8 @@ namespace Ashirvad.Repo.Services.Area.Branch
 
                     if (result > 0)
                     {
-                        SubjectInfo.Subject_dtl_id = SubjectMaster.subject_dtl_id;
-                        responseModel.Data = SubjectInfo;
+                        //SubjectInfo.Subject_dtl_id = SubjectMaster.subject_dtl_id;
+                       // responseModel.Data = SubjectInfo;
                         responseModel.Status = true;
                         responseModel.Message = isUpdate==true?"Subject Updated Successfully.":"Subject Inserted Successfully.";
                     }
