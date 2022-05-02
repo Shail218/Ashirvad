@@ -1534,6 +1534,7 @@
     <Content Include="Views\UserRights\Manage.cshtml" />
     <Content Include="Views\UserRights\RightsDataTable.cshtml" />
     <Content Include="Views\Competition\CompetitionAnswerSheetDetails.cshtml" />
+    <Content Include="Views\CompetitionAnsDetails\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1545,7 +1546,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\CompetitionAnsDetails\" />
     <Folder Include="ZipFiles\HomeworkDetails\" />
     <Folder Include="ZipFiles\TestPaperDetails\" />
   </ItemGroup>

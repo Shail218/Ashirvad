@@ -27,7 +27,7 @@ namespace Ashirvad.Repo.DataAcceessAPI.Area.Competition
         Task<List<CompetitionAnswerSheetEntity>> GetAllAnswerSheetByCompetitionId(long competitionId);
         Task<List<CompetitionAnswerSheetEntity>> GetAllDistinctAnswerSheetDatabyCompetitionId(long competitionId);
         Task<List<CompetitionAnswerSheetEntity>> GetStudentAnswerSheetbyCompetitionID(long competitionId, long studentID);
-
+        ResponseModel RemoveCompetitionAnswerSheetdetail(long competitionId, long studid);
         #endregion
     }
 }

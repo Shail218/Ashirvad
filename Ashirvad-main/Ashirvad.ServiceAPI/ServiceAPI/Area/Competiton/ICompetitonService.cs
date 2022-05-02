@@ -26,7 +26,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Competiton
         Task<List<CompetitionAnswerSheetEntity>> GetAllDistinctAnswerSheetDatabyCompetitionId(long competitionId);
         Task<List<CompetitionAnswerSheetEntity>> GetStudentAnswerSheetbyCompetitionID(long competitionId, long studentID);
         Task<List<CompetitionEntity>> GetAllCustomCompetition(DataTableAjaxPostModel model);
-
+        ResponseModel RemoveCompetitionAnswerSheetdetail(long competitionId, long studid);
         #endregion
 
 

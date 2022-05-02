@@ -146,7 +146,20 @@ namespace Ashirvad.ServiceAPI.Services.Area.Competition
             }
             return null;
         }
+        public ResponseModel RemoveCompetitionAnswerSheetdetail(long competitionId, long studid)
+        {
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                responseModel = _competitionContext.RemoveCompetitionAnswerSheetdetail(competitionId, studid);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
 
+            return responseModel;
+        }
         #endregion
 
 

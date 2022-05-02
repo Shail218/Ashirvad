@@ -88,7 +88,7 @@
                     </td>
                     <td class="text-center">
                         @Html.HiddenFor(x => item.CompetitionID)
-                        <a href="#">
+                        <a href="@Url.Action("CompetitionAnsSheetMaintenance","CompetitionAnsDetails",new { @competitonID=item.CompetitionID });">
                             <img src="../ThemeData/images/tick.png" style="height:35px;width:35px" />
                         </a>
                     </td>

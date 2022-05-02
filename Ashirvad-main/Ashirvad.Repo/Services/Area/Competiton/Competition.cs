@@ -163,7 +163,7 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                             TotalMarks = u.total_marks,
                             Remarks = u.remarks,
                             FileName = u.file_name,
-                            FilePath = u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             DocLink = u.doc_link,
                             DocType = u.doc_type.HasValue ? u.doc_type.Value : false,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
@@ -206,7 +206,7 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                             CompetitionID = u.competition_id,
                             CompetitionDt = u.competition_dt,
                             FileName = u.file_name,
-                            FilePath = u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             DocLink = u.doc_link,
                             Remarks = u.remarks,
                             TotalMarks = u.total_marks,
@@ -298,7 +298,7 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            CompetitionFilepath = u.competition_filepath,
+                            CompetitionFilepath = "https://mastermind.org.in" + u.competition_filepath,
                             CompetitionDtlId = u.competition_dtl_id,
                             CompetitionSheetName = u.competition_sheet_name,
                             branchInfo = new BranchEntity()
@@ -345,7 +345,7 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                         select new CompetitionAnswerSheetEntity()
                         {
 
-                            CompetitionFilepath = u.competition_filepath,
+                            CompetitionFilepath = "https://mastermind.org.in" + u.competition_filepath,
                             Remarks = u.remarks,
                             Status = u.status,
                             StatusText = u.status == 1 ? "Pending" : "Done",
@@ -384,7 +384,7 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                                 RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
                                 RowStatusId = (int)u.row_sta_cd
                             },
-                            CompetitionFilepath = u.competition_filepath,
+                            CompetitionFilepath = "https://mastermind.org.in" + u.competition_filepath,
                             CompetitionDtlId = u.competition_dtl_id,
                             CompetitionSheetName = u.competition_sheet_name,
                             branchInfo = new BranchEntity()
@@ -413,7 +413,35 @@ namespace Ashirvad.Repo.Services.Area.Competiton
             return data;
         }
 
-     
+        public ResponseModel RemoveCompetitionAnswerSheetdetail(long competitionId, long studid)
+        {
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                var data = (from u in this.context.COMPETITION_MASTER_DTL
+                            where u.competition_id == competitionId && u.stud_id == studid
+                            select u).ToList();
+
+                if (data != null)
+                {
+                    this.context.COMPETITION_MASTER_DTL.RemoveRange(data);
+                    this.context.SaveChanges();
+                    responseModel.Message = "Competition AnswerSheetDetails Removed Successfully.";
+                    responseModel.Status = true;
+                }
+                else
+                {
+                    responseModel.Message = "Competition AnswerSheetDetails Not Found.";
+                    responseModel.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
+        }
         #endregion
     }
 }

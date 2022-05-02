@@ -23,7 +23,7 @@ namespace Ashirvad.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> CompetitionMaintenance(long competitonID)
+        public async Task<ActionResult> CompetitionAnsSheetMaintenance(long competitonID)
         {
             CompetitonMaintenanceModel model = new CompetitonMaintenanceModel();
             var result = await _competitonService.GetAllAnswerSheetByCompetitionId(competitonID);
@@ -38,22 +38,22 @@ namespace Ashirvad.Web.Controllers
             try
             {
 
-                var homeworks = _competitonService.GetAllAnswerSheetByCompetitionId(testid).Result;
+                var homeworks = _competitonService.GetStudentAnswerSheetbyCompetitionID(testid,StudentID).Result;
                 //string randomfilename = Common.Common.RandomString(20);
                 string randomfilename = "Test_" + Test.ToString("ddMMyyyy") + "_Student_" + Student + "_Class_" + Class;
-                FileName = "/ZipFiles/TestPaperDetails/" + randomfilename + ".zip";
+                FileName = "/ZipFiles/CompetitionDetail/" + randomfilename + ".zip";
                 if (homeworks.Count > 0)
                 {
 
                     string Ex = ".pdf";
                     if (System.IO.File.Exists(Server.MapPath
-                                   ("~/ZipFiles/TestPaperDetails/" + randomfilename + ".zip")))
+                                   ("~/ZipFiles/CompetitionDetail/" + randomfilename + ".zip")))
                     {
                         System.IO.File.Delete(Server.MapPath
-                                      ("~/ZipFiles/TestPaperDetails/" + randomfilename + ".zip"));
+                                      ("~/ZipFiles/CompetitionDetail/" + randomfilename + ".zip"));
                     }
                     ZipArchive zip = System.IO.Compression.ZipFile.Open(Server.MapPath
-                             ("~/ZipFiles/TestPaperDetails/" + randomfilename + ".zip"), ZipArchiveMode.Create);
+                             ("~/ZipFiles/CompetitionDetail/" + randomfilename + ".zip"), ZipArchiveMode.Create);
 
                     foreach (var item in homeworks)
                     {
