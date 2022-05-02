@@ -135,7 +135,7 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                             CompetitionID = u.competition_id,
                             CompetitionDt = u.competition_dt,
                             FileName = u.file_name,
-                            FilePath = u.file_path,
+                            FilePath = "https://mastermind.org.in" + u.file_path,
                             DocLink = u.doc_link,
                             Remarks = u.remarks,
                             TotalMarks = u.total_marks,
