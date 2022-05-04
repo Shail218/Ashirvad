@@ -36,10 +36,10 @@ namespace Ashirvad.API.Controllers
         }
 
 
-        [Route("CompetitionAnswerSheetMaintenance/{CompetitionID}/{BranchID}/{StudentID}/{Remarks}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}")]
+        [Route("CompetitionAnswerSheetMaintenance/{CompetitionID}/{BranchID}/{StudentID}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}")]
         [HttpPost]
         public OperationResult<CompetitionAnswerSheetEntity> CompetitionAnswerSheetMaintenance(long CompetitionID, long BranchID, long StudentID,
-            string Remarks, int? Status, DateTime SubmitDate, long CreateId, string CreateBy)
+            int Status, DateTime SubmitDate, long CreateId, string CreateBy)
         {
             OperationResult<CompetitionAnswerSheetEntity> result = new OperationResult<CompetitionAnswerSheetEntity>();
 
@@ -55,7 +55,7 @@ namespace Ashirvad.API.Controllers
             CompetitionDetail.branchInfo.BranchID = BranchID;
             CompetitionDetail.studentInfo.StudentID = StudentID;
             CompetitionDetail.Remarks = "";
-            CompetitionDetail.Status = Status.HasValue ? Status.Value : 0;
+            CompetitionDetail.Status = Status;
             CompetitionDetail.SubmitDate = SubmitDate;
             CompetitionDetail.RowStatus = new RowStatusEntity()
             {
@@ -80,7 +80,7 @@ namespace Ashirvad.API.Controllers
                         // for live server
                         //string UpdatedPath = currentDir.Replace("mastermindapi", "mastermind");
                         // for local server
-                        string UpdatedPath = currentDir.Replace("WebAPI", "wwwroot");
+                        string UpdatedPath = currentDir.Replace("Ashirvad.API", "Ashirvad.Web");
                         var postedFile = httpRequest.Files[file];
                         string randomfilename = Common.Common.RandomString(20);
                         extension = Path.GetExtension(postedFile.FileName);

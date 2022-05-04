@@ -226,6 +226,10 @@
         <AssociationConnector Association="AshirvadModel.FK_USER_RIGHTS_MASTER_ROLE_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_USER_RIGHTS_MASTER_TRANSACTION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_USER_RIGHTS_MASTER_USER_DEF" />
+        <EntityTypeShape EntityType="AshirvadModel.COMPETITION_RANK_MASTER" Width="1.5" PointX="40" PointY="22" />
+        <AssociationConnector Association="AshirvadModel.FK_COMPETITION_RANK_MASTER_BRANCH_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_COMPETITION_RANK_MASTER_COMPETITION_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_COMPETITION_RANK_MASTER_STUDENT_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

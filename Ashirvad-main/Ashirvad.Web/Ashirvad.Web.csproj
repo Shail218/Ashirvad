@@ -277,6 +277,7 @@
     <Content Include="scripts\app\common.js" />
     <Content Include="scripts\app\competition.js" />
     <Content Include="scripts\app\competitionansdetails.js" />
+    <Content Include="scripts\app\competitionRankDetail.js" />
     <Content Include="scripts\app\dashboard.js" />
     <Content Include="scripts\app\faculty.js" />
     <Content Include="scripts\app\fees.js" />
@@ -1165,7 +1166,7 @@
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BranchCourseController.cs" />
     <Compile Include="Controllers\BranchSubjectController.cs" />
-    <Compile Include="Controllers\BranchWiseRankController.cs" />
+    <Compile Include="Controllers\CompetitionRankController.cs" />
     <Compile Include="Controllers\BranchWiseRightController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CaurseController.cs" />
@@ -1502,9 +1503,9 @@
     <Content Include="Views\WinnerEntry\Index.cshtml" />
     <Content Include="Views\WinnerEntry\Create.cshtml" />
     <Content Include="Views\WinnerEntry\Manage.cshtml" />
-    <Content Include="Views\BranchWiseRank\Index.cshtml" />
-    <Content Include="Views\BranchWiseRank\Create.cshtml" />
-    <Content Include="Views\BranchWiseRank\Manage.cshtml" />
+    <Content Include="Views\CompetitionRank\Index.cshtml" />
+    <Content Include="Views\CompetitionRank\Create.cshtml" />
+    <Content Include="Views\CompetitionRank\Manage.cshtml" />
     <Content Include="Views\WinnerList\Index.cshtml" />
     <Content Include="Views\WinnerList\Create.cshtml" />
     <Content Include="Views\WinnerList\Manage.cshtml" />
@@ -1546,6 +1547,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="ZipFiles\CompetitionDetail\" />
     <Folder Include="ZipFiles\HomeworkDetails\" />
     <Folder Include="ZipFiles\TestPaperDetails\" />
   </ItemGroup>

@@ -65,6 +65,8 @@
     RoleRights: $("#hdnFldVDName").val() + "RoleRights/",
     UserRights: $("#hdnFldVDName").val() + "UserRights/",
     Competition: $("#hdnFldVDName").val() + "Competition/",
+    CompetitionAnswerSheet: $("#hdnFldVDName").val() + "CompetitionAnsDetails/",
+    CompetitionRank: $("#hdnFldVDName").val() + "CompetitionRank/",
 };
 
 function GetExtention(image){

@@ -88,7 +88,18 @@ namespace Ashirvad.ServiceAPI.Services.Area.Competition
             }
             return null;
         }
-
+        public async Task<List<CompetitionEntity>> GetAllCompetitonData()
+        {
+            try
+            {
+                return await _competitionContext.GetAllCompetitonData();
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
         #endregion
 
         #region Competition Answer Sheet
@@ -159,9 +170,89 @@ namespace Ashirvad.ServiceAPI.Services.Area.Competition
             }
 
             return responseModel;
+        }        
+        public ResponseModel UpdateCompetitionAnswerSheetRemarks(long competitionId, long studid, string remarks)
+        {
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                responseModel = _competitionContext.UpdateCompetitionAnswerSheetRemarks(competitionId, studid,remarks);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return responseModel;
         }
         #endregion
 
+        #region Competition Rank Entry
+
+        public async Task<CommonResponseModel<List<CompetitionAnswerSheetEntity>>> GetStudentListforCompetitionRankEntry(long competitionId)
+        {
+            CommonResponseModel<List<CompetitionAnswerSheetEntity>> responseModel = new CommonResponseModel<List<CompetitionAnswerSheetEntity>>();
+            try
+            {
+                responseModel = await _competitionContext.GetStudentListforCompetitionRankEntry(competitionId);
+               
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+
+            return responseModel;
+        }
+        public async Task<ResponseModel> CompetitionRankMaintenance(CompetitionRankEntity rankEntity)
+        {
+            try
+            {
+                return await _competitionContext.CompetitionRankMaintenance(rankEntity);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
+        public async Task<ResponseModel> UpdateRankDetail(long CompetitionId, long CompetitionRankId, string Remarks)
+        {
+            try
+            {
+                return await _competitionContext.UpdateRankDetail(CompetitionId, CompetitionRankId, Remarks);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
+        public async Task<CommonResponseModel<List<CompetitionRankEntity>>> GetCompetitionRankListbyCompetitionId(long CompetitionId)
+        {
+            try
+            {
+                return await _competitionContext.GetCompetitionRankListbyCompetitionId(CompetitionId);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
+        public async Task<CommonResponseModel<List<CompetitionRankEntity>>> GetCompetitionRankDistinctList()
+        {
+            try
+            {
+                return await _competitionContext.GetCompetitionRankDistinctList();
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
+        #endregion
 
     }
 }

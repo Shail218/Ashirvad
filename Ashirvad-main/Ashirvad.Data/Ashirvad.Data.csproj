@@ -59,6 +59,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="ClassEntity.cs" />
     <Compile Include="CompetitionAnswerSheetEntity.cs" />
+    <Compile Include="CompetitionRankEntity.cs" />
     <Compile Include="CourseEntity.cs" />
     <Compile Include="DataUsageEntity.cs" />
     <Compile Include="FacultyEntity.cs" />

@@ -96,6 +96,7 @@ namespace Ashirvad.Repo.Model
         public virtual DbSet<ROLE_MASTER> ROLE_MASTER { get; set; }
         public virtual DbSet<ROLE_RIGHTS_MASTER> ROLE_RIGHTS_MASTER { get; set; }
         public virtual DbSet<USER_RIGHTS_MASTER> USER_RIGHTS_MASTER { get; set; }
+        public virtual DbSet<COMPETITION_RANK_MASTER> COMPETITION_RANK_MASTER { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

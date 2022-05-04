@@ -35,9 +35,6 @@
             <th style="text-align:center;" class="textalign">
                 View Student AnswerSheet
             </th>
-            <th class="CompetitionDelete">
-                Delete
-            </th>
         </tr>
     </thead>
     <tbody>
@@ -72,7 +69,6 @@
                         @if (item.FileName == null)
                         {
                             <a href="@item.DocLink" target="_blank" style="color:blue;text-decoration:underline;">Go to Link</a>
-                            @*@Html.DisplayFor(Model => item.DocLink)*@
                         }
                         else
                         {
@@ -88,13 +84,8 @@
                     </td>
                     <td class="text-center">
                         @Html.HiddenFor(x => item.CompetitionID)
-                        <a href="@Url.Action("CompetitionAnsSheetMaintenance","CompetitionAnsDetails",new { @competitonID=item.CompetitionID });">
+                        <a href="@Url.Action("CompetitionAnsSheetMaintenance","CompetitionAnsDetails",new { @competitonID=item.CompetitionID })">
                             <img src="../ThemeData/images/tick.png" style="height:35px;width:35px" />
-                        </a>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0)" onclick="RemoveCompetition(@item.CompetitionID)">
-                            <img src="~/ThemeData/images/delete.png" />
                         </a>
                     </td>
                 </tr>

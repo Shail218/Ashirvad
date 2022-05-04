@@ -1,0 +1,24 @@
+﻿﻿@model Ashirvad.Data.CompetitionEntity
+<form id="fTestDetail">
+    <div class="row" id="dInformation" style="padding-top:15px">
+        <div class="col-md-12">
+            <div class="col-md-12">
+                @Html.Label("Select Competition", htmlAttributes: new { @class = "control-label" })
+                <select name="CompetitionNamedrop" id="CompetitionNamedrop" class="form-control requiredDDL select2" alt="Type">
+                    <option value="0">--Select Competition--</option>
+                </select>
+                @Html.HiddenFor(x=>x.CompetitionID)
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12" style="text-align: right; margin-top: 5PX">
+                    <a onclick="GetStudentList();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                        <span class="ladda-label">
+                            Filter
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

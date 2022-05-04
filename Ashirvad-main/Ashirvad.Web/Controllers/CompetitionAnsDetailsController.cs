@@ -26,21 +26,21 @@ namespace Ashirvad.Web.Controllers
         public async Task<ActionResult> CompetitionAnsSheetMaintenance(long competitonID)
         {
             CompetitonMaintenanceModel model = new CompetitonMaintenanceModel();
-            var result = await _competitonService.GetAllAnswerSheetByCompetitionId(competitonID);
+            var result = await _competitonService.GetAllDistinctAnswerSheetDatabyCompetitionId(competitonID);
             model.competitionAnswersData = result;
-            return View("Index", model);
+            return View("Index", model.competitionAnswersData);
         }
 
-        public async Task<JsonResult> SaveZipFile(long testid, long StudentID, DateTime Test, string Student, string Class)
+        public async Task<JsonResult> SaveZipFile(long competitionId, long StudentID, DateTime Competition, string Student, string Class)
         {
             string[] array = new string[2];
             string FileName = "";
             try
             {
 
-                var homeworks = _competitonService.GetStudentAnswerSheetbyCompetitionID(testid,StudentID).Result;
+                var homeworks = _competitonService.GetStudentAnswerSheetbyCompetitionID(competitionId, StudentID).Result;
                 //string randomfilename = Common.Common.RandomString(20);
-                string randomfilename = "Test_" + Test.ToString("ddMMyyyy") + "_Student_" + Student + "_Class_" + Class;
+                string randomfilename = "Competition_" + Competition.ToString("ddMMyyyy") + "_Student_" + Student + "_Class_" + Class+"_z";
                 FileName = "/ZipFiles/CompetitionDetail/" + randomfilename + ".zip";
                 if (homeworks.Count > 0)
                 {
@@ -75,5 +75,10 @@ namespace Ashirvad.Web.Controllers
 
         }
 
+        public JsonResult UpdateCompetitionAnswerSheetRemarks(long competitionId, long StudentID,string Remarks)
+        {
+            var result = _competitonService.UpdateCompetitionAnswerSheetRemarks(competitionId,StudentID,Remarks);
+            return Json(result);
+        }
     }
 }

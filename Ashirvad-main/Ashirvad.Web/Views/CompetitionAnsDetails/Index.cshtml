@@ -10,7 +10,7 @@
         <section class="col-md-12">
             <div class="box box-warning">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Homework Entry</h3>
+                    <h3 class="box-title">Competition Answer Sheet</h3>
                 </div>
                 <div class="box-body" style="padding:20px;">
                     <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
@@ -23,23 +23,18 @@
                                     Branch Name
                                 </th>
                                 <th>
+                                    Course
+                                </th>
+                                <th>
                                     Standard
                                 </th>
                                 <th>
                                     Student Name
                                 </th>
                                 <th>
-                                    Competition Status
-                                </th>
-                                <th>
-                                    Remarks
-                                </th>
-                                <th>
                                     Download  AnswerSheet
                                 </th>
-                                <th>
-                                    Status
-                                </th>
+                               
                                 <th>
                                     Remarks
                                 </th>
@@ -63,47 +58,28 @@
                                         @item.branchInfo.BranchName
                                     </td>
                                     <td>
+                                        @item.studentInfo.BranchClass.BranchCourse.course.CourseName
+                                    </td>
+                                    <td>
                                         @item.studentInfo.BranchClass.Class.ClassName
                                     </td>
 
                                     <td>
-                                        @item.studentInfo.Name
+                                        @item.studentInfo.FirstName @item.studentInfo.LastName
                                     </td>
-                                    <td>
-                                        @StatusText
-                                    </td>
-                                    <td>
-                                        @item.Remarks
-                                    </td>
+                                    
                                     <td style="text-align:center;">
-                                        <a onclick="#">
+                                        <a onclick="DownloadAnsdetail('@item.competitionInfo.CompetitionID', '@item.studentInfo.StudentID', '@item.competitionInfo.CompetitionDt', '@item.studentInfo.FirstName @item.studentInfo.LastName', '@item.studentInfo.BranchClass.Class.ClassName')">
                                             <img src="~/ThemeData/images/cloud-download-alt-solid-svg.png" style="height:35px;width:35px" />
                                         </a>
                                     </td>
-                                    <td>
-                                        @Html.HiddenFor(x => item.Status)
-                                        <table id="rdbResult" class="radioboxlist form-control">
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        @Html.RadioButtonFor(x => item.Status, 0, new { Id = "Pending_" + item.competitionInfo.CompetitionID + item.studentInfo.StudentID + "" })
-                                                        <lable for="statusPending">Pending</lable>
-                                                    </td>
-                                                    <td>
-                                                        @Html.RadioButtonFor(x => item.Status, 1, new { Id = "Done_" + item.competitionInfo.CompetitionID + item.studentInfo.StudentID + "" })
-                                                        <lable for="statusDone">Done</lable>
-                                                    </td>
-
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
+                                   
                                     <td>
                                         @Html.TextBoxFor(x => item.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off", Id = "Remark_" + item.competitionInfo.CompetitionID + item.studentInfo.StudentID + "" })
 
                                     </td>
                                     <td>
-                                        <a href="#" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                                        <a onclick="UpdateCompetition(@item.competitionInfo.CompetitionID, @item.studentInfo.StudentID);" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                                             <span class="ladda-label">
                                                 Save
                                             </span>

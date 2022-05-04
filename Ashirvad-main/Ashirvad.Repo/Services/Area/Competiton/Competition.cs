@@ -14,7 +14,7 @@ namespace Ashirvad.Repo.Services.Area.Competiton
     public class Competition : ModelAccess, ICompetitonAPI
     {
         #region Competition Entry
-        
+
         public async Task<long> CheckCompetitonExist(string CompetitionName, long CompetitionID)
         {
             long result;
@@ -144,6 +144,18 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                         }).ToList();
             return data;
         }
+        public async Task<List<CompetitionEntity>> GetAllCompetitonData()
+        {
+            var data = (from u in this.context.COMPETITION_MASTER
+                        orderby u.competition_id
+                        select new CompetitionEntity()
+                        {
+                            CompetitionName = u.competition_name,
+                            CompetitionID = u.competition_id
+
+                        }).ToList();
+            return data;
+        }
         public async Task<CompetitionEntity> GetCompetitionByID(long CompetitonID)
         {
             var data = (from u in this.context.COMPETITION_MASTER
@@ -175,7 +187,7 @@ namespace Ashirvad.Repo.Services.Area.Competiton
         {
             var Result = new List<CompetitionEntity>();
             bool Isasc = model.order[0].dir == "desc" ? false : true;
-           
+
             long count = (from u in this.context.COMPETITION_MASTER
                           orderby u.competition_id descending
                           where u.row_sta_cd == 1
@@ -185,7 +197,7 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                           }).Distinct().Count();
             var data = (from u in this.context.COMPETITION_MASTER
                         orderby u.competition_id descending
-                        where u.row_sta_cd ==1
+                        where u.row_sta_cd == 1
                       && (model.search.value == null
                         || model.search.value == ""
                         || u.competition_name.ToString().ToLower().Contains(model.search.value)
@@ -242,9 +254,7 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                 {
                     ansSheet = new Model.COMPETITION_MASTER_DTL();
                     isUpdate = false;
-
                 }
-
                 ansSheet.row_sta_cd = competitionAnswerSheet.RowStatus.RowStatusId;
                 ansSheet.trans_id = this.AddTransactionData(competitionAnswerSheet.Transaction);
                 ansSheet.competition_id = competitionAnswerSheet.competitionInfo.CompetitionID;
@@ -344,8 +354,16 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                         where u.competition_id == competitionId
                         select new CompetitionAnswerSheetEntity()
                         {
-
-                            CompetitionFilepath = "https://mastermind.org.in" + u.competition_filepath,
+                            RowStatus = new RowStatusEntity()
+                            {
+                                RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                RowStatusId = (int)u.row_sta_cd
+                            },
+                            branchInfo = new BranchEntity()
+                            {
+                                BranchID = u.BRANCH_MASTER.branch_id,
+                                BranchName = u.BRANCH_MASTER.branch_name
+                            },
                             Remarks = u.remarks,
                             Status = u.status,
                             StatusText = u.status == 1 ? "Pending" : "Done",
@@ -354,19 +372,31 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                                 StudentID = u.STUDENT_MASTER.student_id,
                                 FirstName = u.STUDENT_MASTER.first_name,
                                 LastName = u.STUDENT_MASTER.last_name,
-                                Name = u.STUDENT_MASTER.first_name + " " + u.STUDENT_MASTER.last_name
+                                BranchClass = new BranchClassEntity()
+                                {
+                                    BranchCourse = new BranchCourseEntity()
+                                    {
+                                        course = new CourseEntity()
+                                        {
+                                            CourseName = u.STUDENT_MASTER.CLASS_DTL_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                        }
+                                    },
+                                    Class = new ClassEntity()
+                                    {
+                                        ClassName = u.STUDENT_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                    }
+                                }
                             },
-
                             SubmitDate = u.submit_dt,
                             competitionInfo = new CompetitionEntity()
                             {
                                 CompetitionID = u.competition_id,
                                 CompetitionDt = u.COMPETITION_MASTER.competition_dt,
-                                CompetitionName = u.COMPETITION_MASTER.competition_name,
-                            },
+                                CompetitionName = u.COMPETITION_MASTER.competition_name
+                            }
 
                         }).Distinct().ToList();
-           
+
             return data;
         }
 
@@ -442,6 +472,316 @@ namespace Ashirvad.Repo.Services.Area.Competiton
             }
             return responseModel;
         }
+
+        public ResponseModel UpdateCompetitionAnswerSheetRemarks(long competitionId, long studid, string remarks)
+        {
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                var data = (from u in this.context.COMPETITION_MASTER_DTL
+                            where u.competition_id == competitionId && u.stud_id == studid && u.row_sta_cd == 1
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.remarks = remarks;
+                    this.context.Entry(data).State = System.Data.Entity.EntityState.Modified;
+                    var da = this.context.SaveChanges();
+                    if (da > 0)
+                    {
+                        responseModel.Message = "Remarks Updated Successfully.";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = "Remarks Not Updated.";
+                        responseModel.Status = false;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
+        }
+
+        #endregion
+
+        #region Competition Rank Entry
+
+        public async Task<CommonResponseModel<List<CompetitionAnswerSheetEntity>>> GetStudentListforCompetitionRankEntry(long competitionId)
+        {
+            CommonResponseModel<List<CompetitionAnswerSheetEntity>> responseModel = new CommonResponseModel<List<CompetitionAnswerSheetEntity>>();
+            try
+            {
+                if (!CheckCompeitionRankEntry(competitionId))
+                {
+                    responseModel.Data = (from u in this.context.STUDENT_MASTER
+                                .Include("BRANCH_MASTER")
+                                          where u.row_sta_cd == 1
+                                          orderby u.BRANCH_MASTER.branch_name ascending
+                                          select new CompetitionAnswerSheetEntity()
+                                          {
+                                              RowStatus = new RowStatusEntity()
+                                              {
+                                                  RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                                  RowStatusId = (int)u.row_sta_cd
+                                              },
+                                              branchInfo = new BranchEntity()
+                                              {
+                                                  BranchID = u.BRANCH_MASTER.branch_id,
+                                                  BranchName = u.BRANCH_MASTER.branch_name
+                                              },
+                                              studentInfo = new StudentEntity()
+                                              {
+                                                  StudentID = u.student_id,
+                                                  FirstName = u.first_name,
+                                                  LastName = u.last_name,
+                                                  BranchClass = new BranchClassEntity()
+                                                  {
+                                                      BranchCourse = new BranchCourseEntity()
+                                                      {
+                                                          course = new CourseEntity()
+                                                          {
+                                                              CourseID = u.CLASS_DTL_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_id,
+                                                              CourseName = u.CLASS_DTL_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                                          }
+                                                      },
+                                                      Class = new ClassEntity()
+                                                      {
+                                                          ClassID = u.CLASS_DTL_MASTER.CLASS_MASTER.class_id,
+                                                          ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                                      }
+                                                  }
+                                              }
+                                          }).Distinct().ToList();
+                    if (responseModel.Data?.Count > 0)
+                    {
+                        var compe = (from com in this.context.COMPETITION_MASTER
+                                     where com.competition_id == competitionId
+                                     select new CompetitionEntity()
+                                     {
+                                         CompetitionID = com.competition_id,
+                                         CompetitionName = com.competition_name
+                                     }).FirstOrDefault();
+                        foreach (var item in responseModel.Data)
+                        {
+                            item.competitionInfo = compe;
+                        }
+                        responseModel.Message = "Success";
+                        responseModel.Status = true;
+                    }
+                    else
+                    {
+                        responseModel.Message = "No Student Found.";
+                        responseModel.Status = false;
+                    }
+                }
+                else
+                {
+                    responseModel.Message = "Competition Rank Entry Already Done.";
+                    responseModel.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+
+            return responseModel;
+        }
+        public bool CheckCompeitionRankEntry(long CompetitionId)
+        {
+            bool isExists = this.context.COMPETITION_RANK_MASTER.Where(s => s.competition_id == CompetitionId && s.row_sta_cd == 1).FirstOrDefault() != null;
+            return isExists;
+        }
+        public async Task<ResponseModel> CompetitionRankMaintenance(CompetitionRankEntity rankEntity)
+        {
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                bool isUpdate = true;
+                Model.COMPETITION_RANK_MASTER compRankEntity = new Model.COMPETITION_RANK_MASTER();
+                var data = (from cl in this.context.COMPETITION_RANK_MASTER
+                            where cl.competition_rank_id == rankEntity.CompetitionRankId
+                            select cl).FirstOrDefault();
+                if (data == null)
+                {
+                    compRankEntity = new Model.COMPETITION_RANK_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    compRankEntity = data;
+                    rankEntity.Transaction.TransactionId = compRankEntity.trans_id;
+                }
+                compRankEntity.student_id = rankEntity.studentInfo.StudentID;
+                compRankEntity.branch_id = rankEntity.branchInfo.BranchID;
+                compRankEntity.competition_rank = rankEntity.competitionRank;
+                compRankEntity.rank_dt = rankEntity.RankDate;
+                compRankEntity.row_sta_cd = rankEntity.RowStatus.RowStatusId;
+                compRankEntity.competition_id = rankEntity.competitionInfo.CompetitionID;
+                compRankEntity.trans_id = this.AddTransactionData(rankEntity.Transaction);
+                this.context.COMPETITION_RANK_MASTER.Add(compRankEntity);
+                if (isUpdate)
+                {
+                    this.context.Entry(compRankEntity).State = System.Data.Entity.EntityState.Modified;
+                }
+                var Result = this.context.SaveChanges();
+                if (Result > 0)
+                {
+                    responseModel.Status = true;
+                    responseModel.Message = isUpdate == true ? "Rank Updated Successfully." : "Rank Inserted Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = isUpdate == true ? "Rank Not Updated." : "Rank Not Inserted.";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                if (ex.InnerException != null)
+                {
+                    responseModel.Message = ex.InnerException.Message.ToString();
+                }
+                responseModel.Status = false;
+            }
+
+            return responseModel;
+        }
+        public async Task<ResponseModel> UpdateRankDetail(long CompetitionId, long CompetitionRankId, string Remarks)
+        {
+            ResponseModel model = new ResponseModel();
+            try
+            {
+                var data = (from cl in this.context.COMPETITION_RANK_MASTER
+                            where cl.competition_rank_id == CompetitionRankId && cl.competition_id == CompetitionId && cl.row_sta_cd == 1
+                            select cl).FirstOrDefault();
+                if (data != null)
+                {
+                    data.competition_rank = Remarks;
+                    this.context.COMPETITION_RANK_MASTER.Add(data);
+                    this.context.Entry(data).State = System.Data.Entity.EntityState.Modified;
+                    this.context.SaveChanges();
+                    model.Status = true;
+                    model.Message = "Rank Updated Successfully.";
+                }
+                else
+                {
+                    model.Status = false;
+                    model.Message = "Data Not Found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                model.Message = ex.Message.ToString();
+                model.Status = false;
+            }
+            return model;
+        }
+        public async Task<CommonResponseModel<List<CompetitionRankEntity>>> GetCompetitionRankListbyCompetitionId(long CompetitionId)
+        {
+            CommonResponseModel<List<CompetitionRankEntity>> responseModel = new CommonResponseModel<List<CompetitionRankEntity>>();
+            try
+            {
+                responseModel.Data = (from u in this.context.COMPETITION_RANK_MASTER
+                               .Include("BRANCH_MASTER")
+                                      orderby u.BRANCH_MASTER.branch_name ascending
+                                      select new CompetitionRankEntity()
+                                      {
+                                          RowStatus = new RowStatusEntity()
+                                          {
+                                              RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                              RowStatusId = (int)u.row_sta_cd
+                                          },
+                                          branchInfo = new BranchEntity()
+                                          {
+                                              BranchID = u.BRANCH_MASTER.branch_id,
+                                              BranchName = u.BRANCH_MASTER.branch_name
+                                          },
+                                          studentInfo = new StudentEntity()
+                                          {
+                                              StudentID = u.student_id,
+                                              FirstName = u.STUDENT_MASTER.first_name,
+                                              LastName = u.STUDENT_MASTER.last_name,
+                                              BranchClass = new BranchClassEntity()
+                                              {
+                                                  BranchCourse = new BranchCourseEntity()
+                                                  {
+                                                      course = new CourseEntity()
+                                                      {
+                                                          CourseID = u.STUDENT_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_id,
+                                                          CourseName = u.STUDENT_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                                      }
+                                                  },
+                                                  Class = new ClassEntity()
+                                                  {
+                                                      ClassID = u.STUDENT_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_id,
+                                                      ClassName = u.STUDENT_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                                  }
+                                              }
+                                          },
+                                          competitionInfo = new CompetitionEntity()
+                                          {
+                                              CompetitionID = u.competition_id,
+                                              CompetitionName = u.COMPETITION_MASTER.competition_name
+                                          },
+                                          CompetitionRankId = u.competition_rank_id,
+                                          competitionRank = u.competition_rank
+                                      }).ToList();
+                if (responseModel.Data?.Count > 0)
+                {
+                    responseModel.Status = true;
+                    responseModel.Message = "Success";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "No Data Found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
+        }
+        public async Task<CommonResponseModel<List<CompetitionRankEntity>>> GetCompetitionRankDistinctList()
+        {
+            CommonResponseModel<List<CompetitionRankEntity>> responseModel = new CommonResponseModel<List<CompetitionRankEntity>>();
+            try
+            {
+                responseModel.Data = (from u in this.context.COMPETITION_RANK_MASTER
+                               .Include("BRANCH_MASTER")
+                                      orderby u.BRANCH_MASTER.branch_name ascending
+                                      select new CompetitionRankEntity()
+                                      {
+                                          RowStatus = new RowStatusEntity()
+                                          {
+                                              RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                              RowStatusId = (int)u.row_sta_cd
+                                          },
+                                          competitionInfo = new CompetitionEntity()
+                                          {
+                                              CompetitionID = u.competition_id,
+                                              CompetitionName = u.COMPETITION_MASTER.competition_name
+                                          }
+                                      }).Distinct().ToList();
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
+        }
+
         #endregion
     }
 }

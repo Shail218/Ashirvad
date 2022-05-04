@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Ashirvad.Data.Model
+namespace Ashirvad.Data
 {
    public class CompetitionEntity
     {
