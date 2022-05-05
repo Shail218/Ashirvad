@@ -11,5 +11,6 @@ namespace Ashirvad.Data.Model
         public CompetitionEntity CompetitonInfo { get; set; }
         public List<CompetitionEntity> CompetitionData { get; set; }
         public List<CompetitionAnswerSheetEntity> competitionAnswersData { get; set; }
+        public List<CompetitionRankEntity> competitionRankData { get; set; }
     }
 }

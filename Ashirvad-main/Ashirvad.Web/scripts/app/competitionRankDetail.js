@@ -89,7 +89,7 @@ function SaveCompetitionRank() {
         HideLoader();
         if (data.Status) {
             ShowMessage(data.Message, "Success");
-            window.location.href;
+            window.location.href = "/CompetitionRankRegister/Index";
         } else {
             ShowMessage(data.Message, "Error");
         }

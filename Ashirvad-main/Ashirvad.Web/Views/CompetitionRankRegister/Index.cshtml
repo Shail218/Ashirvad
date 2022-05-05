@@ -1,0 +1,48 @@
+﻿@model Ashirvad.Data.Model.CompetitonMaintenanceModel
+@{
+    ViewBag.Title = "Competition Rank Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="row">
+        <section class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Competition Rank Register</h3>
+                    <div class="box-body" id="CompetitionRankData" style="padding:10px">
+                        @{
+                            Html.RenderPartial("Manage", new ViewDataDictionary(Model.competitionRankData));
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    @section Scripts {
+        <script src="~/ThemeData/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/ThemeData/plugins/datatables/dataTables.bootstrap.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+
+                $('#competitionrankregistertable').DataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": true
+                });
+            });
+        </script>
+
+        <script type="text/javascript">
+            function ConfirmationDialog() {
+                if (confirm("Are you sure to continue?"))
+                    return true;
+                else
+                    return false;
+            }
+        </script>
+    }
+</section>
+

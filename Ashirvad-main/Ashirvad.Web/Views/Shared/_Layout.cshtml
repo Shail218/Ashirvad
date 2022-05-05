@@ -282,25 +282,28 @@
                                             Competition
                                         </a>
                                         @*</a>*@
-                                        <ul class="dropdown-menu">
-                                            <li id="wentry" class="Winnerentry">
-                                                <a href="@Url.Action("Index","WinnerEntry")">Winner Entry</a>
-                                            </li>
+                                    <ul class="dropdown-menu">
 
-                                            <li id="bentry" class="branchwiesrankentry">
-                                                <a href="@Url.Action("Index","CompetitionRank")">Competition Rank Entry</a>
-                                            </li>
+                                        <li id="" class="CompetitionEntry">
+                                            <a href="@Url.Action("CompetitionMaintenance","Competition", new { @competitonID=0 })">Competition Entry</a>
+                                        </li>
+                                        <li id="bentry" class="CompetitionRank">
+                                            <a href="@Url.Action("Index","CompetitionRank")">Competition Rank Entry</a>
+                                        </li>
+                                        <li id="com" class="CompetitionRankRegister">
+                                            <a href="@Url.Action("Index","CompetitionRankRegister")">Competition Rank Register</a>
+                                        </li>
+                                        <li id="wentry" class="Winnerentry">
+                                            <a href="@Url.Action("Index","WinnerEntry")">Winner Entry</a>
+                                        </li>
 
-                                            <li id="" class="">
-                                                <a href="@Url.Action("CompetitionMaintenance","Competition", new { @competitonID=0 })">Competition Entry</a>
-                                            </li>
-                                            <li id="" class="">
-                                                <a href="@Url.Action("Index","Rank")">Rank Details</a>
-                                            </li>
-                                            <li id="" class="">
-                                                <a href="@Url.Action("Index","ViewCompetitionlist")">View Competition Details</a>
-                                            </li>
-                                        </ul>
+                                        <li id="" class="">
+                                            <a href="@Url.Action("Index","Rank")">Rank Details</a>
+                                        </li>
+                                        <li id="" class="">
+                                            <a href="@Url.Action("Index","ViewCompetitionlist")">View Competition Details</a>
+                                        </li>
+                                    </ul>
                                     </li>
                                 }
                                 else

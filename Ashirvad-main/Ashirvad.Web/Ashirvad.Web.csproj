@@ -278,6 +278,7 @@
     <Content Include="scripts\app\competition.js" />
     <Content Include="scripts\app\competitionansdetails.js" />
     <Content Include="scripts\app\competitionRankDetail.js" />
+    <Content Include="scripts\app\competitionRankRegister.js" />
     <Content Include="scripts\app\dashboard.js" />
     <Content Include="scripts\app\faculty.js" />
     <Content Include="scripts\app\fees.js" />
@@ -1175,6 +1176,7 @@
     <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\CompetitionAnsDetailsController.cs" />
     <Compile Include="Controllers\CompetitionController.cs" />
+    <Compile Include="Controllers\CompetitionRankRegisterController.cs" />
     <Compile Include="Controllers\FacultyController.cs" />
     <Compile Include="Controllers\ForgotPasswordController.cs" />
     <Compile Include="Controllers\HomeworkByStudentController.cs" />
@@ -1536,6 +1538,9 @@
     <Content Include="Views\UserRights\RightsDataTable.cshtml" />
     <Content Include="Views\Competition\CompetitionAnswerSheetDetails.cshtml" />
     <Content Include="Views\CompetitionAnsDetails\Index.cshtml" />
+    <Content Include="Views\CompetitionRankRegister\Index.cshtml" />
+    <Content Include="Views\CompetitionRankRegister\Manage.cshtml" />
+    <Content Include="Views\CompetitionRankRegister\CompetitionRankDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

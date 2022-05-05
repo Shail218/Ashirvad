@@ -770,7 +770,8 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                                           competitionInfo = new CompetitionEntity()
                                           {
                                               CompetitionID = u.competition_id,
-                                              CompetitionName = u.COMPETITION_MASTER.competition_name
+                                              CompetitionName = u.COMPETITION_MASTER.competition_name,
+                                              CompetitionDt = u.COMPETITION_MASTER.competition_dt
                                           }
                                       }).Distinct().ToList();
             }
