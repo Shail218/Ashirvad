@@ -28,8 +28,9 @@
                         <td>
                             @item.competitionInfo.CompetitionName
                         </td>
-                        <td>
+                        <td><a onclick="GetStudentDetail('@item.competitionInfo.CompetitionID');">
                             <img src="~/ThemeData/images/viewIcon.png" />
+                            </a>
                         </td>
                     </tr>
                 }

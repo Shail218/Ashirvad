@@ -24,5 +24,17 @@ namespace Ashirvad.Web.Controllers
             maintenanceModel.competitionRankData = result.Data;
             return View(maintenanceModel);
         }
+        public async Task<ActionResult> GetCompetitionRankStudentListbyCompetitionId(long CompetitionId)
+        {
+            CompetitonMaintenanceModel maintenanceModel = new CompetitonMaintenanceModel();
+            var result = await this._competitonService.GetCompetitionRankListbyCompetitionId(CompetitionId);
+            maintenanceModel.competitionRankData = result.Data;
+            return View("~/Views/CompetitionRankRegister/CompetitionRankDetails.cshtml", maintenanceModel.competitionRankData);
+        }
+        public async Task<JsonResult> UpdateCompetitionRankDetail(long CompetitionId, long CompetitionRankId, string Rank)
+        {
+            var result = this._competitonService.UpdateRankDetail(CompetitionId, CompetitionRankId, Rank);  
+            return Json(result);
+        }
     }
 }

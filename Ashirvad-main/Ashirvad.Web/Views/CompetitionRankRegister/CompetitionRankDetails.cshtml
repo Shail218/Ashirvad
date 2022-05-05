@@ -1,4 +1,4 @@
-﻿@model List<Ashirvad.Data.CompetitionAnswerSheetEntity>
+﻿@model List<Ashirvad.Data.CompetitionRankEntity>
 @{
     Layout = null;
     string message = ViewBag.Message;
@@ -52,14 +52,14 @@
                 @item.studentInfo.FirstName @item.studentInfo.LastName
                 @Html.HiddenFor(x => item.studentInfo.StudentID)
                 @Html.HiddenFor(x => item.competitionInfo.CompetitionID)
-                @Html.HiddenFor(x => item.CompetitionDtlId)
+                @Html.HiddenFor(x => item.CompetitionRankId)
             </td>
             <td>
-                @Html.TextBoxFor(x => item.Remarks, new { @class = "form-control required", @alt = "Remarks", autocomplete = "off" })
+                @Html.TextBoxFor(x => item.competitionRank, new { @class = "form-control required", @alt = "Remarks",@Id="Rank_"+item.CompetitionRankId, autocomplete = "off" })
             </td>
             <td>
             <td>
-                <a onclick="" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
+                <a onclick="UpdateCompetitionRank('@item.competitionInfo.CompetitionID', '@item.CompetitionRankId')" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                     <span class="ladda-label">
                         Save
                     </span>
