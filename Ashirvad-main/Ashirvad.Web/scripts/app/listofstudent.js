@@ -116,6 +116,12 @@ function LoadBatch() {
     $("#BatchTime").append("<option value='1'>Morning</option>");
     $("#BatchTime").append("<option value='2'>Afternoon</option>");
     $("#BatchTime").append("<option value='3'>Evening</option>");
+    $("#BatchTime").append("<option value='4'>Morning2</option>");
+    $("#BatchTime").append("<option value='5'>Afternoon2</option>");
+    $("#BatchTime").append("<option value='6'>Evening2</option>");
+    $("#BatchTime").append("<option value='7'>Morning3</option>");
+    $("#BatchTime").append("<option value='8'>Afternoon3</option>");
+    $("#BatchTime").append("<option value='9'>Evening3</option>");
     var url = new URL(window.location.href);
     var search_params = url.searchParams;
     var batchID = search_params.get('batchID');

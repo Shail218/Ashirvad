@@ -180,7 +180,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             },
                             BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
-                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3 },
                             StudentMaint = new StudentMaint()
                             {
                                 ParentName = maint.parent_name,
@@ -272,7 +272,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             GrNo = u.gr_no,
                             BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
-                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3 },
                             BranchInfo = new BranchEntity() { BranchID = u.branch_id, BranchName = u.BRANCH_MASTER.branch_name },
                             Name = u.first_name + " " + u.last_name,
                             Count = count
@@ -326,7 +326,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                                 }
                             },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
-                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3 },
                             StudentMaint = new StudentMaint()
                             {
                                 ParentName = maint.parent_name,
@@ -398,7 +398,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                                 }
                             },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
-                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3 },
                             StudentMaint = new StudentMaint()
                             {
                                 ParentName = maint.parent_name,
@@ -459,7 +459,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
-                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3 },
                             StudentMaint = new StudentMaint()
                             {
                                 ParentName = maint.parent_name,
@@ -558,7 +558,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             },
                             BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
-                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3 },
                             StudentMaint = new StudentMaint()
                             {
                                 ParentName = maint.parent_name,
@@ -655,8 +655,8 @@ namespace Ashirvad.Repo.Services.Area.Student
                             BatchInfo = new BatchEntity()
                             {
                                 BatchTime = u.batch_time,
-                                BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening,
-                                BatchText = u.batch_time == 1 ? "Morning" : u.batch_time == 2 ? "Afternoon" : "Evening"
+                                BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3,
+                                BatchText = u.batch_time == 1 ? "Morning" : u.batch_time == 2 ? "Afternoon" : u.batch_time == 3 ? "Evening" : u.batch_time == 4 ? "Morning2" : u.batch_time == 5 ? "Afternoon2" : u.batch_time == 6 ? "Evening2" : u.batch_time == 7 ? "Morning3" : u.batch_time == 8 ? "Afternoon3" : "Evening3"
                             },
                             StudentMaint = new StudentMaint()
                             {
@@ -736,7 +736,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             },
                             BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
-                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3 },
                             StudentMaint = new StudentMaint()
                             {
                                 ParentName = maint.parent_name,
@@ -796,7 +796,7 @@ namespace Ashirvad.Repo.Services.Area.Student
                             },
                             BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
-                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3 },
                             StudentMaint = new StudentMaint()
                             {
                                 ParentName = maint.parent_name,

@@ -77,7 +77,14 @@ namespace Ashirvad.Common
         {
             Morning = 1,
             Afternoon = 2,
-            Evening = 3
+            Evening = 3,
+            Morning2 = 4,
+            Afternoon2 = 5,
+            Evening2 = 6,
+            Morning3 = 7,
+            Afternoon3 = 8,
+            Evening3 = 9,
+
         }
 
         public enum PaymentStatus : int

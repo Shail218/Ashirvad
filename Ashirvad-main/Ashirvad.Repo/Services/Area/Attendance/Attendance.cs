@@ -128,7 +128,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             //StudImage = u.stud_img.Length > 0 ? Convert.ToBase64String(u.stud_img) : "",
                             BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
-                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3 },
                             StudentMaint = new StudentMaint()
                             {
                                 ParentName = maint.parent_name,
@@ -207,7 +207,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                                 }
                             },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
-                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3 },
                             StudentMaint = new StudentMaint()
                             {
                                 ParentName = maint.parent_name,
@@ -263,7 +263,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             AttendanceRemarks = u.attendance_remarks,
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
-                            BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
+                            BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : u.batch_time_type == 3 ? "Evening" : u.batch_time_type == 4 ? "Morning2" : u.batch_time_type == 5 ? "Afternoon2" : u.batch_time_type == 6 ? "Evening2" : u.batch_time_type == 7 ? "Morning3" : u.batch_time_type == 8 ? "Afternoon3" : "Evening3",
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
 
@@ -346,7 +346,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             TotalCount = u.ATTENDANCE_DTL.Where(x=>x.attd_hdr_id==u.attendance_hdr_id).Select(y => new { y.attd_dtl_id }).Count(),
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
-                            BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
+                            BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : u.batch_time_type == 3 ? "Evening" : u.batch_time_type == 4 ? "Morning2" : u.batch_time_type == 5 ? "Afternoon2" : u.batch_time_type == 6 ? "Evening2" : u.batch_time_type == 7 ? "Morning3" : u.batch_time_type == 8 ? "Afternoon3" : "Evening3",
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         })
                         .Skip(model.start)
@@ -397,7 +397,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             AttendanceRemarks = u.attendance_remarks,
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
-                            BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
+                            BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : u.batch_time_type == 3 ? "Evening" : u.batch_time_type == 4 ? "Morning2" : u.batch_time_type == 5 ? "Afternoon2" : u.batch_time_type == 6 ? "Evening2" : u.batch_time_type == 7 ? "Morning3" : u.batch_time_type == 8 ? "Afternoon3" : "Evening3",
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).ToList();
 
@@ -468,7 +468,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             AttendanceDate = u.attendance_dt,
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
-                            BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
+                            BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : u.batch_time_type == 3 ? "Evening" : u.batch_time_type == 4 ? "Morning2" : u.batch_time_type == 5 ? "Afternoon2" : u.batch_time_type == 6 ? "Evening2" : u.batch_time_type == 7 ? "Morning3" : u.batch_time_type == 8 ? "Afternoon3" : "Evening3",
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         }).FirstOrDefault();
 
@@ -532,7 +532,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             AttendanceDate = u.attendance_dt,
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
-                            BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
+                            BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : u.batch_time_type == 3 ? "Evening" : u.batch_time_type == 4 ? "Morning2" : u.batch_time_type == 5 ? "Afternoon2" : u.batch_time_type == 6 ? "Evening2" : u.batch_time_type == 7 ? "Morning3" : u.batch_time_type == 8 ? "Afternoon3" : "Evening3",
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
                             AttendanceDetail = new List<AttendanceDetailEntity>()
                             {
@@ -669,7 +669,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                               AttendanceRemarks = u.attendance_remarks,
                               AttendanceID = u.attendance_hdr_id,
                               BatchTypeID = u.batch_time_type,
-                              BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
+                              BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : u.batch_time_type == 3 ? "Evening" : u.batch_time_type == 4 ? "Morning2" : u.batch_time_type == 5 ? "Afternoon2" : u.batch_time_type == 6 ? "Evening2" : u.batch_time_type == 7 ? "Morning3" : u.batch_time_type == 8 ? "Afternoon3" : "Evening3",
                               Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                           }).Distinct().Count();
             var data = (from u in this.context.ATTENDANCE_HDR
@@ -712,7 +712,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                             AttendanceRemarks = u.attendance_remarks,
                             AttendanceID = u.attendance_hdr_id,
                             BatchTypeID = u.batch_time_type,
-                            BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : "Evening",
+                            BatchTypeText = u.batch_time_type == 1 ? "Morning" : u.batch_time_type == 2 ? "Afternoon" : u.batch_time_type == 3 ? "Evening" : u.batch_time_type == 4 ? "Morning2" : u.batch_time_type == 5 ? "Afternoon2" : u.batch_time_type == 6 ? "Evening2" : u.batch_time_type == 7 ? "Morning3" : u.batch_time_type == 8 ? "Afternoon3" : "Evening3",
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id }
                         })
                         .Skip(model.start)

@@ -125,7 +125,7 @@ namespace Ashirvad.Repo.Services.Area.Batch
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                            BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening
+                            BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3
                         }).ToList();
 
             return data;
@@ -163,7 +163,7 @@ namespace Ashirvad.Repo.Services.Area.Batch
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                            BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening
+                            BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3
                         }).ToList();
 
             return data;
@@ -217,8 +217,8 @@ namespace Ashirvad.Repo.Services.Area.Batch
                             },
                             Count = count,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                            BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening,
-                            BatchText = u.batch_time == 1 ? "Morning" : u.batch_time == 2 ? "Afternoon" : "Evening"
+                            BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3,
+                            BatchText = u.batch_time == 1 ? "Morning" : u.batch_time == 2 ? "Afternoon" : u.batch_time == 3 ? "Evening" : u.batch_time == 4 ? "Morning2" : u.batch_time == 5 ? "Afternoon2" : u.batch_time == 6 ? "Evening2" : u.batch_time == 7 ? "Morning3" : u.batch_time == 8 ? "Afternoon3" : "Evening3"
                         })
                         .Skip(model.start)
                         .Take(model.length)
@@ -257,7 +257,7 @@ namespace Ashirvad.Repo.Services.Area.Batch
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                            BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening
+                            BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3
                         }).ToList();
 
             return data;
@@ -302,7 +302,7 @@ namespace Ashirvad.Repo.Services.Area.Batch
                                 BranchName = u.BRANCH_MASTER.branch_name
                             },
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
-                            BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening
+                            BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3
                         }).FirstOrDefault();
 
             return data;

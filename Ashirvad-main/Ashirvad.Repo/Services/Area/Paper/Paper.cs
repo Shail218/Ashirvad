@@ -139,7 +139,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                                 }
                             },
                             BatchTypeID = u.batch_type,
-                            BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : "Evening",
+                            BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : u.batch_type == 3 ? "Evening" : u.batch_type == 4 ? "Morning2" : u.batch_type == 5 ? "Afternoon2" : u.batch_type == 6 ? "Evening2" : u.batch_type == 7 ? "Morning3" : u.batch_type == 8 ? "Afternoon3" : "Evening3",
                             PaperID = u.paper_id,
                             Remarks = u.remarks,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
@@ -225,7 +225,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                                 }
                             },
                             BatchTypeID = u.batch_type,
-                            BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : "Evening",
+                            BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : u.batch_type == 3 ? "Evening" : u.batch_type == 4 ? "Morning2" : u.batch_type == 5 ? "Afternoon2" : u.batch_type == 6 ? "Evening2" : u.batch_type == 7 ? "Morning3" : u.batch_type == 8 ? "Afternoon3" : "Evening3",
                             PaperID = u.paper_id,
                             Remarks = u.remarks,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
@@ -290,7 +290,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                                 }
                             },
                             BatchTypeID = u.batch_type,
-                            BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : "Evening",
+                            BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : u.batch_type == 3 ? "Evening" : u.batch_type == 4 ? "Morning2" : u.batch_type == 5 ? "Afternoon2" : u.batch_type == 6 ? "Evening2" : u.batch_type == 7 ? "Morning3" : u.batch_type == 8 ? "Afternoon3" : "Evening3",
                             PaperID = u.paper_id,
                             Remarks = u.remarks,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
@@ -365,7 +365,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                             },
                             BatchTypeID = u.batch_type,
                             Count = count,
-                            BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : "Evening",
+                            BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : u.batch_type == 3 ? "Evening" : u.batch_type == 4 ? "Morning2" : u.batch_type == 5 ? "Afternoon2" : u.batch_type == 6 ? "Evening2" : u.batch_type == 7 ? "Morning3" : u.batch_type == 8 ? "Afternoon3" : "Evening3",
                             PaperID = u.paper_id,
                             Remarks = u.remarks,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },
@@ -432,7 +432,7 @@ namespace Ashirvad.Repo.Services.Area.Paper
                                 }
                             },
                             BatchTypeID = u.batch_type,
-                            BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : "Evening",
+                            BatchTypeText = u.batch_type == 1 ? "Morning" : u.batch_type == 2 ? "Afternoon" : u.batch_type == 3 ? "Evening" : u.batch_type == 4 ? "Morning2" : u.batch_type == 5 ? "Afternoon2" : u.batch_type == 6 ? "Evening2" : u.batch_type == 7 ? "Morning3" : u.batch_type == 8 ? "Afternoon3" : "Evening3",
                             PaperID = u.paper_id,
                             Remarks = u.remarks,
                             Transaction = new TransactionEntity() { TransactionId = u.trans_id },

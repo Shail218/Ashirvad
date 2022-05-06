@@ -25,6 +25,12 @@
                     <option value="1">Morning</option>
                     <option value="2">AfterNoon</option>
                     <option value="3">Evening</option>
+                    <option value="4">Morning2</option>
+                    <option value="5">Afternoon2</option>
+                    <option value="6">Evening2</option>
+                    <option value="7">Morning3</option>
+                    <option value="8">Afternoon3</option>
+                    <option value="9">Evening3</option>
                 </select>
                 @Html.HiddenFor(x => x.BatchTypeID)
                 @Html.HiddenFor(x => x.BatchTypeText)
@@ -84,6 +90,12 @@
                     <option value="1">Morning</option>
                     <option value="2">AfterNoon</option>
                     <option value="3">Evening</option>
+                    <option value="4">Morning2</option>
+                    <option value="5">Afternoon2</option>
+                    <option value="6">Evening2</option>
+                    <option value="7">Morning3</option>
+                    <option value="8">Afternoon3</option>
+                    <option value="9">Evening3</option>
                 </select>
                 @Html.HiddenFor(x => x.BatchTypeID)
                 @Html.HiddenFor(x => x.BatchTypeText)
@@ -105,7 +117,7 @@
             </div>
             <div class="col-md-2">
                 @Html.Label("Attendance Remarks", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-                @Html.TextBoxFor(x=>x.AttendanceRemarks, "", new { @class = "form-control required", autocomplete = "off", @alt = "Attendance Remarks" })
+                @Html.TextBoxFor(x => x.AttendanceRemarks, "", new { @class = "form-control required", autocomplete = "off", @alt = "Attendance Remarks" })
             </div>
             <div class="col-md-1" style="margin-top: 25px; text-align: right">
                 <a onclick="ValidateAttendanceData();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">

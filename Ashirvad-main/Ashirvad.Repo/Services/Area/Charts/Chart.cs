@@ -65,7 +65,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
                             FilePath = u.file_path,
                             BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
-                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3 },
                         }).FirstOrDefault();
             return data;
         }
@@ -86,7 +86,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
                             FilePath = u.file_path,
                             BranchClass = new BranchClassEntity() { Class_dtl_id = u.class_dtl_id.HasValue == true ? u.class_dtl_id.Value : 0, Class = new ClassEntity() { ClassName = u.CLASS_DTL_MASTER.CLASS_MASTER.class_name } },
                             SchoolInfo = new SchoolEntity() { SchoolID = (long)u.school_id, SchoolName = u.SCHOOL_MASTER.school_name },
-                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : Enums.BatchType.Evening },
+                            BatchInfo = new BatchEntity() { BatchTime = u.batch_time, BatchType = u.batch_time == 1 ? Enums.BatchType.Morning : u.batch_time == 2 ? Enums.BatchType.Afternoon : u.batch_time == 3 ? Enums.BatchType.Evening : u.batch_time == 4 ? Enums.BatchType.Morning2 : u.batch_time == 5 ? Enums.BatchType.Afternoon2 : u.batch_time == 6 ? Enums.BatchType.Evening2 : u.batch_time == 7 ? Enums.BatchType.Morning3 : u.batch_time == 8 ? Enums.BatchType.Afternoon3 : Enums.BatchType.Evening3 },
                         }).ToList();
             return data;
         }
@@ -125,6 +125,66 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Charts
             data3.Add("Evening");
             data3.Add(count2);
             standardEntity.data.Add(data3);
+            ArrayList data4 = new ArrayList();
+            int count3 = (from u in this.context.STUDENT_MASTER
+                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 4)
+                          select new BranchStandardEntity()
+                          {
+                              branchid = u.branch_id
+                          }).Count();
+            data4.Add("Morning2");
+            data4.Add(count3);
+            standardEntity.data.Add(data4);
+            ArrayList data5 = new ArrayList();
+            int count4 = (from u in this.context.STUDENT_MASTER
+                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 5)
+                          select new BranchStandardEntity()
+                          {
+                              branchid = u.branch_id
+                          }).Count();
+            data5.Add("Afternoon2");
+            data5.Add(count4);
+            standardEntity.data.Add(data5);
+            ArrayList data6 = new ArrayList();
+            int count5 = (from u in this.context.STUDENT_MASTER
+                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 6)
+                          select new BranchStandardEntity()
+                          {
+                              branchid = u.branch_id
+                          }).Count();
+            data6.Add("Evening2");
+            data6.Add(count5);
+            standardEntity.data.Add(data6);
+            ArrayList data7 = new ArrayList();
+            int count6 = (from u in this.context.STUDENT_MASTER
+                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 7)
+                          select new BranchStandardEntity()
+                          {
+                              branchid = u.branch_id
+                          }).Count();
+            data7.Add("Morning3");
+            data7.Add(count6);
+            standardEntity.data.Add(data7);
+            ArrayList data8 = new ArrayList();
+            int count7 = (from u in this.context.STUDENT_MASTER
+                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 8)
+                          select new BranchStandardEntity()
+                          {
+                              branchid = u.branch_id
+                          }).Count();
+            data8.Add("Afternoon3");
+            data8.Add(count7);
+            standardEntity.data.Add(data8);
+            ArrayList data9 = new ArrayList();
+            int count8 = (from u in this.context.STUDENT_MASTER
+                          where (u.branch_id == branchid && u.row_sta_cd == 1 && u.batch_time == 9)
+                          select new BranchStandardEntity()
+                          {
+                              branchid = u.branch_id
+                          }).Count();
+            data9.Add("Evening3");
+            data9.Add(count8);
+            standardEntity.data.Add(data9);
             standardEntity.id = "Batch";
             branches.Add(standardEntity);
             return branches;

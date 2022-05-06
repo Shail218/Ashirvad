@@ -36,7 +36,7 @@
                     <option value="0">--Select Standard--</option>
                 </select>
                 @Html.HiddenFor(x => x.BranchClass.Class_dtl_id)
-            </div>            
+            </div>
             <div class="col-md-3">
                 @Html.Label("Select Batch Time", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <select name="Batchtime" id="Batchtime" class="form-control requiredDDL select2" alt="BatchTime">
@@ -44,10 +44,16 @@
                     <option value="1">Morning</option>
                     <option value="2">Afternoon</option>
                     <option value="3">Evening</option>
+                    <option value="4">Morning2</option>
+                    <option value="5">Afternoon2</option>
+                    <option value="6">Evening2</option>
+                    <option value="7">Morning3</option>
+                    <option value="8">Afternoon3</option>
+                    <option value="9">Evening3</option>
                 </select>
                 @Html.HiddenFor(x => x.BatchTime)
                 @Html.HiddenFor(x => x.BatchType)
-            </div> 
+            </div>
             <div class="col-md-3">
                 @Html.Label("Test Date", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <select name="Test" id="testddl" class="form-control" alt="Test Date">
@@ -57,7 +63,7 @@
             </div>
         </div>
 
-        <div class="row">            
+        <div class="row">
             <div class="col-md-3">
                 @Html.Label("Subject Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
                 <select name="SubjectName" id="SubjectName" class="form-control requiredDDL select2" alt="Subject">
@@ -83,17 +89,17 @@
             </div>
             <div class="col-md-3" style="text-align: right;margin-top:27px;">
                 @*<a onclick="return GetStudentDetail();" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
-                <span class="ladda-label">
-                    Filter
-                </span>
-                <span class="ladda-spinner"></span>
-            </a>*@
+                        <span class="ladda-label">
+                            Filter
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>*@
                 @*<a href="@Url.Action("MarksMaintenance","ResultEntry", new { @MarksID=0 })" class="ladda-button mb-2 mr-2 btn btn-danger" data-style="expand-left">
-                <span class="ladda-label">
-                    Cancel
-                </span>
-                <span class="ladda-spinner"></span>
-            </a>*@
+                        <span class="ladda-label">
+                            Cancel
+                        </span>
+                        <span class="ladda-spinner"></span>
+                    </a>*@
             </div>
         </div>
 

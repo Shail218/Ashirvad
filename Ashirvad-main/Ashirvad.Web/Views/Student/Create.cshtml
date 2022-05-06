@@ -121,6 +121,12 @@
                     <option value="1">Morning</option>
                     <option value="2">AfterNoon</option>
                     <option value="3">Evening</option>
+                    <option value="4">Morning2</option>
+                    <option value="5">Afternoon2</option>
+                    <option value="6">Evening2</option>
+                    <option value="7">Morning3</option>
+                    <option value="8">Afternoon3</option>
+                    <option value="9">Evening3</option>
                 </select>
                 @Html.HiddenFor(x => x.BatchInfo.BatchType)
                 @Html.HiddenFor(x => x.BatchInfo.BatchTime)
@@ -173,7 +179,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <input type="radio" name="Status" id="rowStaActive" checked value="1"/>
+                                <input type="radio" name="Status" id="rowStaActive" checked value="1" />
                                 <lable for="rowStaActive">Active</lable>
                             </td>
                             <td>
@@ -260,7 +266,7 @@
                         </a>
                     </div>
 
-                    
+
                 </div>
             </div>
         </fieldset>

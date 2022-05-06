@@ -152,7 +152,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                             },
                            
                             BatchTimeID = u.batch_time_id,
-                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
+                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : u.batch_time_id == 3 ? "Evening" : u.batch_time_id == 4 ? "Morning2" : u.batch_time_id == 5 ? "Afternoon2" : u.batch_time_id == 6 ? "Evening2" : u.batch_time_id == 7 ? "Morning3" : u.batch_time_id == 8 ? "Afternoon3" : "Evening3",
                             TestID = u.test_id,
                             Remarks = u.remarks,
                             Marks = u.total_marks,
@@ -246,7 +246,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 }
                             },
                             BatchTimeID = u.batch_time_id,
-                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
+                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : u.batch_time_id == 3 ? "Evening" : u.batch_time_id == 4 ? "Morning2" : u.batch_time_id == 5 ? "Afternoon2" : u.batch_time_id == 6 ? "Evening2" : u.batch_time_id == 7 ? "Morning3" : u.batch_time_id == 8 ? "Afternoon3" : "Evening3",
                             TestID = u.test_id,
                             Remarks = u.remarks,
                             Marks = u.total_marks,
@@ -325,7 +325,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 }
                             },
                             BatchTimeID = u.batch_time_id,
-                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
+                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : u.batch_time_id == 3 ? "Evening" : u.batch_time_id == 4 ? "Morning2" : u.batch_time_id == 5 ? "Afternoon2" : u.batch_time_id == 6 ? "Evening2" : u.batch_time_id == 7 ? "Morning3" : u.batch_time_id == 8 ? "Afternoon3" : "Evening3",
                             TestID = u.test_id,
                             Remarks = u.remarks,
                             Marks = u.total_marks,
@@ -389,7 +389,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 }
                             },
                             BatchTimeID = u.batch_time_id,
-                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
+                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : u.batch_time_id == 3 ? "Evening" : u.batch_time_id == 4 ? "Morning2" : u.batch_time_id == 5 ? "Afternoon2" : u.batch_time_id == 6 ? "Evening2" : u.batch_time_id == 7 ? "Morning3" : u.batch_time_id == 8 ? "Afternoon3" : "Evening3",
                             TestID = u.test_id,
                             Remarks = u.remarks,
                             Marks = u.total_marks,
@@ -462,7 +462,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 }
                             },
                             BatchTimeID = u.batch_time_id,
-                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
+                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : u.batch_time_id == 3 ? "Evening" : u.batch_time_id == 4 ? "Morning2" : u.batch_time_id == 5 ? "Afternoon2" : u.batch_time_id == 6 ? "Evening2" : u.batch_time_id == 7 ? "Morning3" : u.batch_time_id == 8 ? "Afternoon3" : "Evening3",
                             TestID = u.test_id,
                             Remarks = u.remarks,
                             Marks = u.total_marks,
@@ -549,7 +549,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                                 }
                             },
                             BatchTimeID = u.batch_time_id,
-                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
+                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : u.batch_time_id == 3 ? "Evening" : u.batch_time_id == 4 ? "Morning2" : u.batch_time_id == 5 ? "Afternoon2" : u.batch_time_id == 6 ? "Evening2" : u.batch_time_id == 7 ? "Morning3" : u.batch_time_id == 8 ? "Afternoon3" : "Evening3",
                             TestID = u.test_id,
                             Remarks = u.remarks,
                             Marks = u.total_marks,
@@ -623,7 +623,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                             },
                             BatchTimeID = u.batch_time_id,
 
-                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : "Evening",
+                            BatchTimeText = u.batch_time_id == 1 ? "Morning" : u.batch_time_id == 2 ? "Afternoon" : u.batch_time_id == 3 ? "Evening" : u.batch_time_id == 4 ? "Morning2" : u.batch_time_id == 5 ? "Afternoon2" : u.batch_time_id == 6 ? "Evening2" : u.batch_time_id == 7 ? "Morning3" : u.batch_time_id == 8 ? "Afternoon3" : "Evening3",
                             TestID = u.test_id,
                             Remarks = u.remarks,
                             Marks = u.total_marks,
