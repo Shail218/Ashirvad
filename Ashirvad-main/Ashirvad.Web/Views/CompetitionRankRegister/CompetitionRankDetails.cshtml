@@ -58,14 +58,12 @@
                 @Html.TextBoxFor(x => item.competitionRank, new { @class = "form-control required", @alt = "Remarks",@Id="Rank_"+item.CompetitionRankId, autocomplete = "off" })
             </td>
             <td>
-            <td>
                 <a onclick="UpdateCompetitionRank('@item.competitionInfo.CompetitionID', '@item.CompetitionRankId')" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                     <span class="ladda-label">
                         Save
                     </span>
                     <span class="ladda-spinner"></span>
                 </a>
-            </td>
             </td>
         </tr>
             }
