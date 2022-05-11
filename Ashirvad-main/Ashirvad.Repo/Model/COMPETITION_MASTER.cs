@@ -21,6 +21,7 @@ namespace Ashirvad.Repo.Model
             this.RANK_MASTER = new HashSet<RANK_MASTER>();
             this.WINNER_MASTER = new HashSet<WINNER_MASTER>();
             this.COMPETITION_RANK_MASTER = new HashSet<COMPETITION_RANK_MASTER>();
+            this.COMPETITION_WINNER_MASTER = new HashSet<COMPETITION_WINNER_MASTER>();
         }
     
         public long competition_id { get; set; }
@@ -49,5 +50,7 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<WINNER_MASTER> WINNER_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<COMPETITION_RANK_MASTER> COMPETITION_RANK_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<COMPETITION_WINNER_MASTER> COMPETITION_WINNER_MASTER { get; set; }
     }
 }

@@ -171,7 +171,7 @@ namespace Ashirvad.Repo.Services.Area.User
 
             if (user != null)
             {
-                //var da = (from a in this.context.BRANCH_AGREEMENT where a.branch_id == user.BranchInfo.BranchID && a.row_sta_cd == 1 select a.serial_key).FirstOrDefault();
+                var da = (from a in this.context.BRANCH_AGREEMENT where a.branch_id == user.BranchInfo.BranchID && a.row_sta_cd == 1 select a.serial_key).FirstOrDefault();
                 user.Roles = this.GetRolesByUser(user.UserID);
                 if (user.UserType == Enums.UserType.Student)
                 {
@@ -179,7 +179,7 @@ namespace Ashirvad.Repo.Services.Area.User
                     var studentData = await stu.GetStudentByID(user.StudentID.Value);
                     user.StudentDetail = studentData;
                 }
-               // user.BranchInfo.SerialKey = da;
+                user.BranchInfo.SerialKey = da;
             }
             return user;
         }

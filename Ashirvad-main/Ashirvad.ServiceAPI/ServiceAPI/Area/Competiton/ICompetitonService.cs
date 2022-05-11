@@ -39,5 +39,12 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Competiton
         Task<CommonResponseModel<List<CompetitionRankEntity>>> GetCompetitionRankListbyCompetitionId(long CompetitionId);
         Task<CommonResponseModel<List<CompetitionRankEntity>>> GetCompetitionRankDistinctList();
         #endregion
+
+        #region Competition Winner Entry
+        Task<ResponseModel> CompetitionWinnerMaintenance(CompetitionWinnerEntity winnerEntity);
+        Task<CommonResponseModel<List<CompetitionWinnerEntity>>> GetCompetitionWinnerListbyCompetitionId();
+        Task<CommonResponseModel<CompetitionWinnerEntity>> GetCompetitionWinnerDetailbyId(long competitionWinnerId);
+        Task<ResponseModel> DeleteCompetitionWinner(long competitionWinnerId, string lastupdatedby);
+        #endregion
     }
 }

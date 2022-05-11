@@ -31,7 +31,7 @@ $(document).ready(function () {
         },
         "columns": [
             { "data": "BranchData.BranchName" },
-           /* { "data": "SerialKey" },*/
+            { "data": "SerialKey" },
             { "data": "AgreementFromDate" },
             { "data": "AgreementToDate" },
             { "data": "Amount" },
@@ -39,17 +39,6 @@ $(document).ready(function () {
             { "data": "AgreementID" },
         ],
         "columnDefs": [
-            {
-                targets: 1,
-                render: function (data, type, full, meta) {
-                    if (type === 'display') {
-                        data = ConvertMiliDateFrom(data)
-                    }
-                    return data;
-                },
-                orderable: false,
-                searchable: false
-            },
             {
                 targets: 2,
                 render: function (data, type, full, meta) {
@@ -62,7 +51,18 @@ $(document).ready(function () {
                 searchable: false
             },
             {
-                targets: 5,
+                targets: 3,
+                render: function (data, type, full, meta) {
+                    if (type === 'display') {
+                        data = ConvertMiliDateFrom(data)
+                    }
+                    return data;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                targets: 6,
                 render: function (data, type, full, meta) {
                     if (type === 'display') {
                         data =

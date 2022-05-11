@@ -784,5 +784,244 @@ namespace Ashirvad.Repo.Services.Area.Competiton
         }
 
         #endregion
+
+        #region Competition Winner Entry
+
+        public async Task<ResponseModel> CompetitionWinnerMaintenance(CompetitionWinnerEntity winnerEntity)
+        {
+            ResponseModel model = new ResponseModel();
+            try
+            {
+
+                bool isUpdate = true;
+                Model.COMPETITION_WINNER_MASTER compwinnerEntity = new Model.COMPETITION_WINNER_MASTER();
+                var data = (from cl in this.context.COMPETITION_WINNER_MASTER
+                            where cl.competition_winner_id == winnerEntity.competition_winner_id
+                            select cl).FirstOrDefault();
+                if (data == null)
+                {
+                    compwinnerEntity = new Model.COMPETITION_WINNER_MASTER();
+                    isUpdate = false;
+                }
+                else
+                {
+                    compwinnerEntity = data;
+                    winnerEntity.Transaction.TransactionId = compwinnerEntity.trans_id;
+                }
+                compwinnerEntity.competition_rank_id = winnerEntity.competitionRankInfo.CompetitionRankId;
+                compwinnerEntity.prize_name = winnerEntity.prizeName;
+                compwinnerEntity.row_sta_id = winnerEntity.RowStatus.RowStatusId;
+                compwinnerEntity.competition_id = winnerEntity.competitionInfo.CompetitionID;
+                compwinnerEntity.trans_id = this.AddTransactionData(winnerEntity.Transaction);
+                this.context.COMPETITION_WINNER_MASTER.Add(compwinnerEntity);
+                if (isUpdate)
+                {
+                    this.context.Entry(compwinnerEntity).State = System.Data.Entity.EntityState.Modified;
+                }
+                var Result = this.context.SaveChanges();
+                if (Result > 0)
+                {
+                    model.Status = true;
+                    model.Message = isUpdate == true ? "Competition Winner Updated Successfully." : "Competition Winner Inserted Successfully.";
+                }
+                else
+                {
+                    model.Status = false;
+                    model.Message = isUpdate == true ? "Competition Winner Not Updated." : "Competition Winner Not Inserted.";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                model.Status = false;
+                model.Message = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    model.Message = ex.InnerException.Message;
+                }
+            }
+            return model;
+        }
+        public bool CheckCompetitionWinnerEntry(long CompetitionId, long CompetitionRankId)
+        {
+            bool isExists = this.context.COMPETITION_WINNER_MASTER.Where(s => s.competition_id == CompetitionId && s.competition_rank_id == CompetitionRankId && s.row_sta_id == 1).FirstOrDefault() != null;
+            return isExists;
+        }
+        public async Task<CommonResponseModel<List<CompetitionWinnerEntity>>> GetCompetitionWinnerListbyCompetitionId()
+        {
+            CommonResponseModel<List<CompetitionWinnerEntity>> responseModel = new CommonResponseModel<List<CompetitionWinnerEntity>>();
+            try
+            {
+                responseModel.Data = (from u in this.context.COMPETITION_WINNER_MASTER
+                               .Include("BRANCH_MASTER")
+                                      orderby u.competition_id ascending
+                                      select new CompetitionWinnerEntity()
+                                      {
+                                          prizeName = u.prize_name,
+                                          competition_winner_id = u.competition_winner_id,
+                                          RowStatus = new RowStatusEntity()
+                                          {
+                                              RowStatus = u.row_sta_id == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                              RowStatusId = (int)u.row_sta_id
+                                          },
+                                          competitionRankInfo = new CompetitionRankEntity()
+                                          {
+                                              branchInfo = new BranchEntity()
+                                              {
+                                                  BranchID = u.COMPETITION_RANK_MASTER.BRANCH_MASTER.branch_id,
+                                                  BranchName = u.COMPETITION_RANK_MASTER.BRANCH_MASTER.branch_name
+                                              },
+                                              studentInfo = new StudentEntity()
+                                              {
+                                                  StudentID = u.COMPETITION_RANK_MASTER.student_id,
+                                                  FirstName = u.COMPETITION_RANK_MASTER.STUDENT_MASTER.first_name,
+                                                  LastName = u.COMPETITION_RANK_MASTER.STUDENT_MASTER.last_name,
+                                                  BranchClass = new BranchClassEntity()
+                                                  {
+                                                      BranchCourse = new BranchCourseEntity()
+                                                      {
+                                                          course = new CourseEntity()
+                                                          {
+                                                              CourseID = u.COMPETITION_RANK_MASTER.STUDENT_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_id,
+                                                              CourseName = u.COMPETITION_RANK_MASTER.STUDENT_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                                          }
+                                                      },
+                                                      Class = new ClassEntity()
+                                                      {
+                                                          ClassID = u.COMPETITION_RANK_MASTER.STUDENT_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_id,
+                                                          ClassName = u.COMPETITION_RANK_MASTER.STUDENT_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                                      }
+                                                  }
+                                              },
+                                              CompetitionRankId = u.competition_rank_id,
+                                              competitionRank = u.COMPETITION_RANK_MASTER.competition_rank
+                                          },
+                                          competitionInfo = new CompetitionEntity()
+                                          {
+                                              CompetitionID = u.competition_id,
+                                              CompetitionName = u.COMPETITION_MASTER.competition_name
+                                          }
+                                      }).ToList();
+                if (responseModel.Data?.Count > 0)
+                {
+                    responseModel.Status = true;
+                    responseModel.Message = "Success";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "No Data Found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
+        }
+        public async Task<CommonResponseModel<CompetitionWinnerEntity>> GetCompetitionWinnerDetailbyId(long competitionWinnerId)
+        {
+            CommonResponseModel<CompetitionWinnerEntity> responseModel = new CommonResponseModel<CompetitionWinnerEntity>();
+            try
+            {
+                responseModel.Data = (from u in this.context.COMPETITION_WINNER_MASTER
+                               .Include("BRANCH_MASTER")
+                               where u.competition_winner_id== competitionWinnerId && u.row_sta_id ==(int)Enums.RowStatus.Active
+                                      select new CompetitionWinnerEntity()
+                                      {
+                                          prizeName = u.prize_name,
+                                          competition_winner_id = u.competition_winner_id,
+                                          RowStatus = new RowStatusEntity()
+                                          {
+                                              RowStatus = u.row_sta_id == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                              RowStatusId = (int)u.row_sta_id
+                                          },
+                                          competitionRankInfo = new CompetitionRankEntity()
+                                          {
+                                              branchInfo = new BranchEntity()
+                                              {
+                                                  BranchID = u.COMPETITION_RANK_MASTER.BRANCH_MASTER.branch_id,
+                                                  BranchName = u.COMPETITION_RANK_MASTER.BRANCH_MASTER.branch_name
+                                              },
+                                              studentInfo = new StudentEntity()
+                                              {
+                                                  StudentID = u.COMPETITION_RANK_MASTER.student_id,
+                                                  FirstName = u.COMPETITION_RANK_MASTER.STUDENT_MASTER.first_name,
+                                                  LastName = u.COMPETITION_RANK_MASTER.STUDENT_MASTER.last_name,
+                                                  BranchClass = new BranchClassEntity()
+                                                  {
+                                                      BranchCourse = new BranchCourseEntity()
+                                                      {
+                                                          course = new CourseEntity()
+                                                          {
+                                                              CourseID = u.COMPETITION_RANK_MASTER.STUDENT_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_id,
+                                                              CourseName = u.COMPETITION_RANK_MASTER.STUDENT_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                                          }
+                                                      },
+                                                      Class = new ClassEntity()
+                                                      {
+                                                          ClassID = u.COMPETITION_RANK_MASTER.STUDENT_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_id,
+                                                          ClassName = u.COMPETITION_RANK_MASTER.STUDENT_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                                      }
+                                                  }
+                                              },
+                                              CompetitionRankId = u.competition_rank_id,
+                                              competitionRank = u.COMPETITION_RANK_MASTER.competition_rank
+                                          },
+                                          competitionInfo = new CompetitionEntity()
+                                          {
+                                              CompetitionID = u.competition_id,
+                                              CompetitionName = u.COMPETITION_MASTER.competition_name
+                                          }
+                                      }).FirstOrDefault();
+                if (responseModel.Data!=null)
+                {
+                    responseModel.Status = true;
+                    responseModel.Message = "Success";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "No Data Found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message.ToString();
+                responseModel.Status = false;
+            }
+            return responseModel;
+        }
+        public async Task<ResponseModel> DeleteCompetitionWinner(long competitionWinnerId, string lastupdatedby)
+        {
+            ResponseModel responseModel = new ResponseModel();
+            try
+            {
+                var data = (from u in this.context.COMPETITION_WINNER_MASTER
+                            where u.competition_winner_id == competitionWinnerId
+                            select u).FirstOrDefault();
+                if (data != null)
+                {
+                    data.row_sta_id = (int)Enums.RowStatus.Inactive;
+                    data.trans_id = this.AddTransactionData(new TransactionEntity() { TransactionId = data.trans_id, LastUpdateBy = lastupdatedby });
+                    this.context.SaveChanges();
+                    responseModel.Status = true;
+                    responseModel.Message = "Competition Winner Removed Successfully.";
+                }
+                else
+                {
+                    responseModel.Status = false;
+                    responseModel.Message = "Competition Winner Not Found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.Status = false;
+                responseModel.Message = ex.Message.ToString();
+            }
+            return responseModel;
+        }
+        #endregion
     }
 }

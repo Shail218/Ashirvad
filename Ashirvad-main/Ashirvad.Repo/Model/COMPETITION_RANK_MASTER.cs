@@ -14,6 +14,12 @@ namespace Ashirvad.Repo.Model
     
     public partial class COMPETITION_RANK_MASTER
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public COMPETITION_RANK_MASTER()
+        {
+            this.COMPETITION_WINNER_MASTER = new HashSet<COMPETITION_WINNER_MASTER>();
+        }
+    
         public long competition_rank_id { get; set; }
         public System.DateTime rank_dt { get; set; }
         public long competition_id { get; set; }
@@ -29,5 +35,7 @@ namespace Ashirvad.Repo.Model
         public virtual BRANCH_MASTER BRANCH_MASTER { get; set; }
         public virtual COMPETITION_MASTER COMPETITION_MASTER { get; set; }
         public virtual STUDENT_MASTER STUDENT_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<COMPETITION_WINNER_MASTER> COMPETITION_WINNER_MASTER { get; set; }
     }
 }

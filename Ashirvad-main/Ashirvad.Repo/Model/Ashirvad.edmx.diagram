@@ -230,6 +230,10 @@
         <AssociationConnector Association="AshirvadModel.FK_COMPETITION_RANK_MASTER_BRANCH_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_COMPETITION_RANK_MASTER_COMPETITION_MASTER" />
         <AssociationConnector Association="AshirvadModel.FK_COMPETITION_RANK_MASTER_STUDENT_MASTER" />
+        <EntityTypeShape EntityType="AshirvadModel.COMPETITION_WINNER_MASTER" Width="1.5" PointX="42.25" PointY="22.5" />
+        <AssociationConnector Association="AshirvadModel.FK_COMPETITION_WINNER_MASTER_COMPETITION_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_COMPETITION_WINNER_MASTER_COMPETITION_RANK_MASTER" />
+        <AssociationConnector Association="AshirvadModel.FK_COMPETITION_WINNER_MASTER_TRANSACTION_MASTER" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

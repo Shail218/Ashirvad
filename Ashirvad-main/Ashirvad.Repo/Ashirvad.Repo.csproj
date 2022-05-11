@@ -188,6 +188,9 @@
     <Compile Include="Model\COMPETITION_RANK_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\COMPETITION_WINNER_MASTER.cs">
+      <DependentUpon>Ashirvad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\COURSE_DTL_MASTER.cs">
       <DependentUpon>Ashirvad.tt</DependentUpon>
     </Compile>

@@ -52,6 +52,7 @@ namespace Ashirvad.Repo.Model
             this.BRANCH_RIGHTS_MASTER = new HashSet<BRANCH_RIGHTS_MASTER>();
             this.UPI_MASTER = new HashSet<UPI_MASTER>();
             this.USER_RIGHTS_MASTER = new HashSet<USER_RIGHTS_MASTER>();
+            this.COMPETITION_WINNER_MASTER = new HashSet<COMPETITION_WINNER_MASTER>();
         }
     
         public long trans_id { get; set; }
@@ -133,5 +134,7 @@ namespace Ashirvad.Repo.Model
         public virtual ICollection<UPI_MASTER> UPI_MASTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USER_RIGHTS_MASTER> USER_RIGHTS_MASTER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<COMPETITION_WINNER_MASTER> COMPETITION_WINNER_MASTER { get; set; }
     }
 }

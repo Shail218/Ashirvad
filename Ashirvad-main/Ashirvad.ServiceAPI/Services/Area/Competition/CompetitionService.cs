@@ -254,5 +254,55 @@ namespace Ashirvad.ServiceAPI.Services.Area.Competition
         }
         #endregion
 
+        #region Competition Winner Entry
+        public async Task<ResponseModel> CompetitionWinnerMaintenance(CompetitionWinnerEntity winnerEntity)
+        {
+            try
+            {
+                return await _competitionContext.CompetitionWinnerMaintenance(winnerEntity);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
+        public async Task<CommonResponseModel<List<CompetitionWinnerEntity>>> GetCompetitionWinnerListbyCompetitionId()
+        {
+            try
+            {
+                return await _competitionContext.GetCompetitionWinnerListbyCompetitionId();
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
+        public async Task<CommonResponseModel<CompetitionWinnerEntity>> GetCompetitionWinnerDetailbyId(long competitionWinnerId)
+        {
+            try
+            {
+                return await _competitionContext.GetCompetitionWinnerDetailbyId(competitionWinnerId);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
+        public async Task<ResponseModel> DeleteCompetitionWinner(long competitionWinnerId, string lastupdatedby)
+        {
+            try
+            {
+                return await _competitionContext.DeleteCompetitionWinner(competitionWinnerId, lastupdatedby);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
+        #endregion
     }
 }

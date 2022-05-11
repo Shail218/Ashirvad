@@ -8,9 +8,11 @@ namespace Ashirvad.Data.Model
 {
     public class CompetitonMaintenanceModel
     {
-        public CompetitionEntity CompetitonInfo { get; set; }
-        public List<CompetitionEntity> CompetitionData { get; set; }
-        public List<CompetitionAnswerSheetEntity> competitionAnswersData { get; set; }
-        public List<CompetitionRankEntity> competitionRankData { get; set; }
+        public CompetitionEntity CompetitonInfo { get; set; } = new CompetitionEntity();
+        public List<CompetitionEntity> CompetitionData { get; set; } = new List<CompetitionEntity>();
+        public List<CompetitionAnswerSheetEntity> competitionAnswersData { get; set; } = new List<CompetitionAnswerSheetEntity>();
+        public List<CompetitionRankEntity> competitionRankData { get; set; } = new List<CompetitionRankEntity>();
+        public CompetitionWinnerEntity competitionWinnerEntity { get; set; } = new CompetitionWinnerEntity();
+        public List<CompetitionWinnerEntity> competitionWinnerData { get; set; } = new List<CompetitionWinnerEntity>();
     }
 }
