@@ -1,31 +1,31 @@
-﻿@model Ashirvad.Data.TestEntity
+﻿@model Ashirvad.Data.CompetitionWinnerEntity
 <form id="fTestDetail">
     <div class="form-group" id="dInformation">
         <div class="col-md-12">
-            @Html.Label(" Select Competition", htmlAttributes: new { @class = "control-label" })
-            <select name="Type" id="Type" class="form-control select2" alt="Type">
+            @Html.Label(" Select Competition", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="Type" id="Type" class="form-control requiredDDL select2" alt="Type">
                 <option value="0">--Select Competition--</option>
-
+                @Html.HiddenFor(x => x.competitionInfo.CompetitionID)
+                @Html.HiddenFor(x => x.competition_winner_id)
             </select>
         </div>
-
+        <div class="col-md-12">
+            @Html.Label(" Select Branch", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="Branch" id="Branch" class="form-control requiredDDL select2" alt="Branch">
+                <option value="0">--Select Branch--</option>
+                @Html.HiddenFor(x => x.competitionRankInfo.branchInfo.BranchID)
+            </select>
+        </div>
+        <div class="col-md-12">
+            @Html.Label(" Select Student", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
+            <select name="Student" id="Student" class="form-control requiredDDL select2" alt="Student">
+                <option value="0">--Select Student--</option>
+                @Html.HiddenFor(x => x.competitionRankInfo.CompetitionRankId)
+            </select>
+        </div>
         <div class="col-md-12">
             @Html.Label("Prize Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.TestEndTime, null, new { @class = "form-control required ", @alt = "End Time", autocomplete = "off" })
-        </div>
-
-        <div class="col-md-12">
-            @Html.Label(" Select Branch", htmlAttributes: new { @class = "control-label" })
-            <select name="Type" id="Type" class="form-control select2" alt="Type">
-                <option value="0">--Select Branch--</option>
-
-            </select>
-        </div>
-
-
-        <div class="col-md-12">
-            @Html.Label("Student Name", htmlAttributes: new { @class = "control-label" })<span style="color:red">*</span>
-            @Html.TextBoxFor(x => x.TestEndTime, null, new { @class = "form-control required ", @alt = "End Time", autocomplete = "off" })
+            @Html.TextBoxFor(x => x.prizeName, null, new { @class = "form-control required ", @alt = "Prize Name", autocomplete = "off" })
         </div>
 
         <div class="form-group">
@@ -33,7 +33,7 @@
                 <br />
                 <a onclick="" class="ladda-button mb-2 mr-2 btn btn-primary" data-style="expand-left">
                     <span class="ladda-label">
-                        Add Student
+                        Save
                     </span>
                     <span class="ladda-spinner"></span>
                 </a>

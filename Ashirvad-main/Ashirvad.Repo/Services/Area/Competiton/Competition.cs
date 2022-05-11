@@ -783,6 +783,63 @@ namespace Ashirvad.Repo.Services.Area.Competiton
             return responseModel;
         }
 
+        public async Task<List<CompetitionRankEntity>> GetCompetitionRankListByCompetitionIdandBranchID(long competitionId, long branchId)
+        {
+            List<CompetitionRankEntity> responseModel = new List<CompetitionRankEntity>();
+            try
+            {
+                responseModel = (from u in this.context.COMPETITION_RANK_MASTER
+                               .Include("BRANCH_MASTER")
+                               where u.branch_id == branchId && u.competition_id==competitionId && u.row_sta_cd ==1
+                                      select new CompetitionRankEntity()
+                                      {
+                                          RowStatus = new RowStatusEntity()
+                                          {
+                                              RowStatus = u.row_sta_cd == 1 ? Enums.RowStatus.Active : Enums.RowStatus.Inactive,
+                                              RowStatusId = (int)u.row_sta_cd
+                                          },
+                                          branchInfo = new BranchEntity()
+                                          {
+                                              BranchID = u.BRANCH_MASTER.branch_id,
+                                              BranchName = u.BRANCH_MASTER.branch_name
+                                          },
+                                          studentInfo = new StudentEntity()
+                                          {
+                                              StudentID = u.student_id,
+                                              FirstName = u.STUDENT_MASTER.first_name,
+                                              LastName = u.STUDENT_MASTER.last_name,
+                                              BranchClass = new BranchClassEntity()
+                                              {
+                                                  BranchCourse = new BranchCourseEntity()
+                                                  {
+                                                      course = new CourseEntity()
+                                                      {
+                                                          CourseID = u.STUDENT_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_id,
+                                                          CourseName = u.STUDENT_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                                      }
+                                                  },
+                                                  Class = new ClassEntity()
+                                                  {
+                                                      ClassID = u.STUDENT_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_id,
+                                                      ClassName = u.STUDENT_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                                  }
+                                              }
+                                          },
+                                          competitionInfo = new CompetitionEntity()
+                                          {
+                                              CompetitionID = u.competition_id,
+                                              CompetitionName = u.COMPETITION_MASTER.competition_name
+                                          },
+                                          CompetitionRankId = u.competition_rank_id,
+                                          competitionRank = u.competition_rank
+                                      }).ToList();
+                
+            }
+            catch (Exception ex)
+            {
+            }
+            return responseModel;
+        }
         #endregion
 
         #region Competition Winner Entry
