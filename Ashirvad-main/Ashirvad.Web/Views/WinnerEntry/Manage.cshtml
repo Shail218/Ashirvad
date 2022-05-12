@@ -1,5 +1,5 @@
 ﻿@using Ashirvad.Web.Controllers;
-@model List<Ashirvad.Data.TestEntity>
+@model List<Ashirvad.Data.CompetitionWinnerEntity>
 <table style="width: 100%;" id="studenttbl" class="table table-striped dataTable no-footer">
     <thead>
         <tr style="background-color:#005cbf;font-style:inherit;color:aliceblue">
@@ -13,6 +13,12 @@
                 Branch
             </th>
             <th>
+                Course
+            </th>
+            <th>
+                Class
+            </th>
+            <th>
                 Student
             </th>
             <th class="TestPaperEntryCreate">
@@ -21,13 +27,36 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>National Level</td>
-            <td>2nd Prize</td>
-            <td>Alkapuri</td>
-            <td>Smeet</td>
-            <td><img src="~/ThemeData/images/viewIcon.png" /></td>
-        </tr>
+        @if (Model?.Count > 0) { 
+        foreach(var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.competitionInfo.CompetitionName
+                        </td>
+                        <td>
+                            @item.prizeName
+                        </td>
+                        <td>
+                            @item.competitionRankInfo.branchInfo.BranchName
+                        </td>
+                        <td>
+                            @item.competitionRankInfo.studentInfo.BranchClass.BranchCourse.course.CourseName
+                        </td>
+                        <td>
+                            @item.competitionRankInfo.studentInfo.BranchClass.Class.ClassName
+                        </td>
+                        <td>
+                            @item.competitionRankInfo.studentInfo.FirstName @item.competitionRankInfo.studentInfo.LastName
+                        </td>
+                        <td>
+                            <a href="@Url.Action("CompetitionWinnerMaintenance", "WinnerEntry", new { CompetitionWinnerId = item.competition_winner_id })">
+                                <img src="~/ThemeData/images/viewIcon.png" />
+                            </a>
+                        </td>
+                    </tr>
+                }
+        }
     </tbody>
 
 </table>

@@ -28,13 +28,11 @@ namespace Ashirvad.Web.Controllers
             competitonMaintenanceModel.competitionAnswersData = new List<CompetitionAnswerSheetEntity>();
             return View(competitonMaintenanceModel);
         }
-
         public async Task<JsonResult> GetCompetitionData()
         {
             var result = _competitonService.GetAllCompetitonData();
             return Json(result);
         }
-
         public async Task<ActionResult> GetStudentListforCompetitionRank(long competitonID)
         {
             CompetitonMaintenanceModel competitonMaintenanceModel = new CompetitonMaintenanceModel();
@@ -43,13 +41,13 @@ namespace Ashirvad.Web.Controllers
             ViewBag.Message = data.Message;
             return View("~/Views/CompetitionRank/Manage.cshtml", data.Data);
         }
-       public async Task<JsonResult> CompetitionRankMaintenance(string JsonData)
+        public async Task<JsonResult> CompetitionRankMaintenance(string JsonData)
         {
             ResponseModel model = new ResponseModel();
             var line = JsonConvert.DeserializeObject<List<CompetitionRankEntity>>(JsonData);
             if (line?.Count > 0)
             {
-                foreach(var i in line)
+                foreach (var i in line)
                 {
                     i.RankDate = DateTime.Now;
                     i.RowStatus = new RowStatusEntity() { RowStatusId = (int)Enums.RowStatus.Active };

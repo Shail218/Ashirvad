@@ -68,6 +68,7 @@
     CompetitionAnswerSheet: $("#hdnFldVDName").val() + "CompetitionAnsDetails/",
     CompetitionRank: $("#hdnFldVDName").val() + "CompetitionRank/",
     CompetitionRankRegister: $("#hdnFldVDName").val() + "CompetitionRankRegister/",
+    WinnerEntry: $("#hdnFldVDName").val() + "WinnerEntry/",
 };
 
 function GetExtention(image){

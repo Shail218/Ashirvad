@@ -279,6 +279,7 @@
     <Content Include="scripts\app\competitionansdetails.js" />
     <Content Include="scripts\app\competitionRankDetail.js" />
     <Content Include="scripts\app\competitionRankRegister.js" />
+    <Content Include="scripts\app\competitionWinner.js" />
     <Content Include="scripts\app\dashboard.js" />
     <Content Include="scripts\app\faculty.js" />
     <Content Include="scripts\app\fees.js" />
