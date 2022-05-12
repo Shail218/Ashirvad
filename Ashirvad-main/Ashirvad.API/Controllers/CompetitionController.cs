@@ -35,6 +35,27 @@ namespace Ashirvad.API.Controllers
             return result;
         }
 
+        [Route("GetStudentRank")]
+        [HttpGet]
+        public OperationResult<CompetitionRankEntity> GetStudentRank(long CompetitionID,long StudentID)
+        {
+            var data = _competitionService.GetStudentRank(CompetitionID, StudentID);
+            OperationResult<CompetitionRankEntity> result = new OperationResult<CompetitionRankEntity>();
+            result.Completed = true;
+            result.Data = data.Result;
+            return result;
+        }
+
+        [Route("GetCompetitionWinnerList")]
+        [HttpGet]
+        public OperationResult<List<CompetitionWinnerEntity>> GetCompetitionWinnerList()
+        {
+            var data = _competitionService.GetCompetitionWinnerListbyCompetitionId();
+            OperationResult<List<CompetitionWinnerEntity>> result = new OperationResult<List<CompetitionWinnerEntity>>();
+            result.Completed = data.Result.Status;
+            result.Data = data.Result.Data;
+            return result;
+        }
 
         [Route("CompetitionAnswerSheetMaintenance/{CompetitionID}/{BranchID}/{StudentID}/{Status}/{SubmitDate}/{CreateId}/{CreateBy}")]
         [HttpPost]

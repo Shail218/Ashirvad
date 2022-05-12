@@ -38,6 +38,7 @@ namespace Ashirvad.ServiceAPI.ServiceAPI.Area.Competiton
         Task<ResponseModel> UpdateRankDetail(long CompetitionId, long CompetitionRankId, string Remarks);
         Task<CommonResponseModel<List<CompetitionRankEntity>>> GetCompetitionRankListbyCompetitionId(long CompetitionId);
         Task<CommonResponseModel<List<CompetitionRankEntity>>> GetCompetitionRankDistinctList();
+        Task<CompetitionRankEntity> GetStudentRank(long CompetetionID, long StudentID);
         Task<List<CompetitionRankEntity>> GetCompetitionRankListByCompetitionIdandBranchID(long competitionId, long branchId);
         #endregion
 

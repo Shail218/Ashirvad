@@ -21,8 +21,11 @@
             <th>
                 Student
             </th>
-            <th class="TestPaperEntryCreate">
+            <th>
                 Edit
+            </th>
+            <th>
+                Delete
             </th>
         </tr>
     </thead>
@@ -52,6 +55,11 @@
                         <td>
                             <a href="@Url.Action("CompetitionWinnerMaintenance", "WinnerEntry", new { CompetitionWinnerId = item.competition_winner_id })">
                                 <img src="~/ThemeData/images/viewIcon.png" />
+                            </a>
+                        </td>
+                        <td>
+                            <a style="margin-left:20px;" href="#" onclick="RemoveCompetitionWinner(@item.competition_winner_id);">
+                                <img src="~/ThemeData/images/delete.png" />
                             </a>
                         </td>
                     </tr>

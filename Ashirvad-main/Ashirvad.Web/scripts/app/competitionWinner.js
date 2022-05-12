@@ -110,3 +110,22 @@ function SaveCompetitionWinner() {
         });
     }
 }
+function RemoveCompetitionWinner(competitionWinnerID) {
+    if (confirm('Are you sure want to delete this Competition Winner?')) {
+        ShowLoader();
+        var postCall = $.post(commonData.WinnerEntry + "RemoveCompetitionWinner", { "CompetitionWinnerId": competitionWinnerID });
+        postCall.done(function (data) {
+            HideLoader();
+            if (data.Status == true) {
+                ShowMessage(data.Message, "Success");
+                setTimeout(function () { window.location.href = "CompetitionWinnerMaintenance?CompetitionWinnerId=0" }, 2000);
+            }
+            else {
+                ShowMessage(data.Message, "Error");
+            }
+        }).fail(function () {
+            HideLoader();
+            ShowMessage("An unexpected error occcurred while processing request!", "Error");
+        });
+    }
+}

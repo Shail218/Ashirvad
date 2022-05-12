@@ -752,6 +752,47 @@ namespace Ashirvad.Repo.Services.Area.Competiton
             }
             return responseModel;
         }
+        public async Task<CompetitionRankEntity> GetStudentRank(long CompetitionId,long StudentID)
+        {
+            var data = (from u in this.context.COMPETITION_RANK_MASTER
+                               .Include("BRANCH_MASTER")
+                        where u.row_sta_cd == 1 && u.competition_id == CompetitionId
+                        && u.student_id == StudentID
+                        orderby u.BRANCH_MASTER.branch_name ascending
+                        select new CompetitionRankEntity()
+                        {
+                            studentInfo = new StudentEntity()
+                            {
+                                StudentID = u.student_id,
+                                FirstName = u.STUDENT_MASTER.first_name,
+                                LastName = u.STUDENT_MASTER.last_name,
+                                BranchClass = new BranchClassEntity()
+                                {
+                                    BranchCourse = new BranchCourseEntity()
+                                    {
+                                        course = new CourseEntity()
+                                        {
+                                            CourseID = u.STUDENT_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_id,
+                                            CourseName = u.STUDENT_MASTER.COURSE_DTL_MASTER.COURSE_MASTER.course_name
+                                        }
+                                    },
+                                    Class = new ClassEntity()
+                                    {
+                                        ClassID = u.STUDENT_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_id,
+                                        ClassName = u.STUDENT_MASTER.CLASS_DTL_MASTER.CLASS_MASTER.class_name
+                                    }
+                                }
+                            },
+                            competitionInfo = new CompetitionEntity()
+                            {
+                                CompetitionID = u.competition_id,
+                                CompetitionName = u.COMPETITION_MASTER.competition_name
+                            },
+                            CompetitionRankId = u.competition_rank_id,
+                            competitionRank = u.competition_rank
+                        }).FirstOrDefault();
+            return data;
+        }
         public async Task<CommonResponseModel<List<CompetitionRankEntity>>> GetCompetitionRankDistinctList()
         {
             CommonResponseModel<List<CompetitionRankEntity>> responseModel = new CommonResponseModel<List<CompetitionRankEntity>>();
@@ -838,44 +879,51 @@ namespace Ashirvad.Repo.Services.Area.Competiton
             ResponseModel model = new ResponseModel();
             try
             {
-
                 bool isUpdate = true;
                 Model.COMPETITION_WINNER_MASTER compwinnerEntity = new Model.COMPETITION_WINNER_MASTER();
-                var data = (from cl in this.context.COMPETITION_WINNER_MASTER
-                            where cl.competition_winner_id == winnerEntity.competition_winner_id
-                            select cl).FirstOrDefault();
-                if (data == null)
+                if(CheckCompetitionWinnerEntry(winnerEntity.competitionInfo.CompetitionID,winnerEntity.competitionRankInfo.CompetitionRankId,
+                    winnerEntity.competition_winner_id).Result != -1)
                 {
-                    compwinnerEntity = new Model.COMPETITION_WINNER_MASTER();
-                    isUpdate = false;
-                }
-                else
-                {
-                    compwinnerEntity = data;
-                    winnerEntity.Transaction.TransactionId = compwinnerEntity.trans_id;
-                }
-                compwinnerEntity.competition_rank_id = winnerEntity.competitionRankInfo.CompetitionRankId;
-                compwinnerEntity.prize_name = winnerEntity.prizeName;
-                compwinnerEntity.row_sta_id = winnerEntity.RowStatus.RowStatusId;
-                compwinnerEntity.competition_id = winnerEntity.competitionInfo.CompetitionID;
-                compwinnerEntity.trans_id = this.AddTransactionData(winnerEntity.Transaction);
-                this.context.COMPETITION_WINNER_MASTER.Add(compwinnerEntity);
-                if (isUpdate)
-                {
-                    this.context.Entry(compwinnerEntity).State = System.Data.Entity.EntityState.Modified;
-                }
-                var Result = this.context.SaveChanges();
-                if (Result > 0)
-                {
-                    model.Status = true;
-                    model.Message = isUpdate == true ? "Competition Winner Updated Successfully." : "Competition Winner Inserted Successfully.";
+                    var data = (from cl in this.context.COMPETITION_WINNER_MASTER
+                                where cl.competition_winner_id == winnerEntity.competition_winner_id
+                                select cl).FirstOrDefault();
+                    if (data == null)
+                    {
+                        compwinnerEntity = new Model.COMPETITION_WINNER_MASTER();
+                        isUpdate = false;
+                    }
+                    else
+                    {
+                        compwinnerEntity = data;
+                        winnerEntity.Transaction.TransactionId = compwinnerEntity.trans_id;
+                    }
+                    compwinnerEntity.competition_rank_id = winnerEntity.competitionRankInfo.CompetitionRankId;
+                    compwinnerEntity.prize_name = winnerEntity.prizeName;
+                    compwinnerEntity.row_sta_id = winnerEntity.RowStatus.RowStatusId;
+                    compwinnerEntity.competition_id = winnerEntity.competitionInfo.CompetitionID;
+                    compwinnerEntity.trans_id = this.AddTransactionData(winnerEntity.Transaction);
+                    this.context.COMPETITION_WINNER_MASTER.Add(compwinnerEntity);
+                    if (isUpdate)
+                    {
+                        this.context.Entry(compwinnerEntity).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    var Result = this.context.SaveChanges();
+                    if (Result > 0)
+                    {
+                        model.Status = true;
+                        model.Message = isUpdate == true ? "Competition Winner Updated Successfully." : "Competition Winner Inserted Successfully.";
+                    }
+                    else
+                    {
+                        model.Status = false;
+                        model.Message = isUpdate == true ? "Competition Winner Not Updated." : "Competition Winner Not Inserted.";
+                    }
                 }
                 else
                 {
                     model.Status = false;
-                    model.Message = isUpdate == true ? "Competition Winner Not Updated." : "Competition Winner Not Inserted.";
+                    model.Message = "Competiton Winner Already Exist.";
                 }
-
             }
             catch (Exception ex)
             {
@@ -888,10 +936,13 @@ namespace Ashirvad.Repo.Services.Area.Competiton
             }
             return model;
         }
-        public bool CheckCompetitionWinnerEntry(long CompetitionId, long CompetitionRankId)
+        public async Task<long> CheckCompetitionWinnerEntry(long CompetitionId, long CompetitionRankId,long competetionwinnerID)
         {
-            bool isExists = this.context.COMPETITION_WINNER_MASTER.Where(s => s.competition_id == CompetitionId && s.competition_rank_id == CompetitionRankId && s.row_sta_id == 1).FirstOrDefault() != null;
-            return isExists;
+            long result;
+            bool isExists = this.context.COMPETITION_WINNER_MASTER.Where(s => s.competition_id == CompetitionId && s.competition_rank_id == CompetitionRankId && s.row_sta_id == 1 &&
+            (competetionwinnerID == 0 || s.competition_winner_id == competetionwinnerID)).FirstOrDefault() != null;
+            result = isExists == true ? -1 : 1;
+            return result;      
         }
         public async Task<CommonResponseModel<List<CompetitionWinnerEntity>>> GetCompetitionWinnerListbyCompetitionId()
         {
@@ -899,7 +950,7 @@ namespace Ashirvad.Repo.Services.Area.Competiton
             try
             {
                 responseModel.Data = (from u in this.context.COMPETITION_WINNER_MASTER
-                               .Include("BRANCH_MASTER")
+                               .Include("BRANCH_MASTER") where u.row_sta_id == 1
                                       orderby u.competition_id ascending
                                       select new CompetitionWinnerEntity()
                                       {
@@ -972,7 +1023,7 @@ namespace Ashirvad.Repo.Services.Area.Competiton
             try
             {
                 responseModel.Data = (from u in this.context.COMPETITION_WINNER_MASTER
-                               .Include("BRANCH_MASTER")
+                               .Include("BRANCH_MASTER") 
                                where u.competition_winner_id== competitionWinnerId && u.row_sta_id ==(int)Enums.RowStatus.Active
                                       select new CompetitionWinnerEntity()
                                       {

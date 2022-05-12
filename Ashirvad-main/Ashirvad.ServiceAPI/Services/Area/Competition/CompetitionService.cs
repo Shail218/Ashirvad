@@ -252,7 +252,18 @@ namespace Ashirvad.ServiceAPI.Services.Area.Competition
             }
             return null;
         }
-
+        public async Task<CompetitionRankEntity> GetStudentRank(long CompetetionID , long StudentID)
+        {
+            try
+            {
+                return await _competitionContext.GetStudentRank(CompetetionID, StudentID);
+            }
+            catch (Exception ex)
+            {
+                EventLogger.WriteEvent(Logger.Severity.Error, ex);
+            }
+            return null;
+        }
         public async Task<List<CompetitionRankEntity>> GetCompetitionRankListByCompetitionIdandBranchID(long competitionId, long branchId)
         {
             try

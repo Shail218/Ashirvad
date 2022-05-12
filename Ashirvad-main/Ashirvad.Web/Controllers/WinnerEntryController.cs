@@ -69,6 +69,11 @@ namespace Ashirvad.Web.Controllers
             var data = await _competitonService.CompetitionWinnerMaintenance(winnerEntity);
             return Json(data);
         }
+        public async Task<JsonResult> RemoveCompetitionWinner(long CompetitionWinnerId)
+        {
+           var data = await _competitonService.DeleteCompetitionWinner(CompetitionWinnerId,SessionContext.Instance.LoginUser.Username);
+            return Json(data);
+        }
 
     }
 }
