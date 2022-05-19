@@ -64,10 +64,8 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                     var da = this.context.SaveChanges() > 0 || competitonmaster.competition_id > 0;
                     if (da)
                     {
-                        CompetitonInfo.CompetitionID = competitonmaster.competition_id;
                         responseModel.Message = isUpdate == true ? "Competiton Updated." : "Competiton Inserted Successfully";
                         responseModel.Status = true;
-                        responseModel.Data = CompetitonInfo;
                     }
                     else
                     {
@@ -121,7 +119,6 @@ namespace Ashirvad.Repo.Services.Area.Competiton
         {
             var data = (from u in this.context.COMPETITION_MASTER
                         orderby u.competition_id descending
-                        where u.row_sta_cd == 1
                         select new CompetitionEntity()
                         {
                             RowStatus = new RowStatusEntity()
@@ -996,7 +993,8 @@ namespace Ashirvad.Repo.Services.Area.Competiton
                                           competitionInfo = new CompetitionEntity()
                                           {
                                               CompetitionID = u.competition_id,
-                                              CompetitionName = u.COMPETITION_MASTER.competition_name
+                                              CompetitionName = u.COMPETITION_MASTER.competition_name,
+                                              CompetitionDt = u.COMPETITION_MASTER.competition_dt
                                           }
                                       }).ToList();
                 if (responseModel.Data?.Count > 0)

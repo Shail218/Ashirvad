@@ -78,7 +78,7 @@
                         }
                     </td>
                     <td>
-                        <a href="@item.FilePath.Replace("https://mastermind.org.in", "")" target="_blank">
+                        <a href="@Url.Action("CompetitionMaintenance","Competition",new { @competitonID=item.CompetitionID })">
                             <img src="~/ThemeData/images/viewIcon.png" />
                         </a>
                     </td>

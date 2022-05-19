@@ -51,17 +51,11 @@ namespace Ashirvad.Web.Controllers
                 competitionEntity.DocLink = null;
                 competitionEntity.DocType = true;
             }
-            else
-            {
-                competitionEntity.FileName = null;
-                competitionEntity.FilePath = null;
-                competitionEntity.DocType = false;
-            }
             competitionEntity.Transaction = GetTransactionData(competitionEntity.CompetitionID > 0 ? Enums.TransactionType.Update : Enums.TransactionType.Insert);
-            competitionEntity.RowStatus = new RowStatusEntity()
-            {
-                RowStatusId = (int)Enums.RowStatus.Active
-            };
+            //competitionEntity.RowStatus = new RowStatusEntity()
+            //{
+            //    RowStatusId = (int)Enums.RowStatus.Active
+            //};
             var data = await _competitonService.CompetitionMaintenance(competitionEntity);
             return Json(data);
         }

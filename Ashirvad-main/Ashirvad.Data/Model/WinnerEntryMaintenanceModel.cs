@@ -10,5 +10,6 @@ namespace Ashirvad.Data.Model
     {
         public WinnerEntryEntity WinnerEntryInfo { get; set; }
         public List<WinnerEntryEntity> WinnerEntryData { get; set; }
+        public List<CompetitionEntity> competitions { get; set; }
     }
 }

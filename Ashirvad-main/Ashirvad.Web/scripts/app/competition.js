@@ -81,18 +81,18 @@ function SaveCompetition() {
 
 $("#Type").change(function () {
     var Data = $("#Type option:selected").val();
-    if (Data == 2) {
+    if (Data == "False") {
         $('#link').show();
         $('#fuPaperDoc').removeClass("fileRequired");
         $('#testpaper').hide();
-    } else if (Data == 1) {
+    } else if (Data == "True") {
         $('#testpaper').show();
         $('#fuPaperDoc').addClass("fileRequired");
         $('#link').hide();
     } else {
         $('#testpaper').hide();
         $('#link').hide();
-        $('#test_fuPaperDoc').removeClass("fileRequired");
+        $('#fuPaperDoc').removeClass("fileRequired");
     }
     $('#DocType').val(Data);
 });
