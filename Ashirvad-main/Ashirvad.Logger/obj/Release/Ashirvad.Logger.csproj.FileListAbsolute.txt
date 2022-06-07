@@ -1,9 +1,0 @@
-C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Logger\obj\Release\Ashirvad.Logger.csprojAssemblyReference.cache
-C:\Users\Uniqtech\Desktop\Ashirvad-main_2\Ashirvad\Ashirvad-main\Ashirvad.Logger\obj\Release\Ashirvad.Logger.csproj.CoreCompileInputs.cache
-D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\bin\Release\Ashirvad.Logger.dll
-D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\bin\Release\Ashirvad.Logger.pdb
-D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\obj\Release\Ashirvad.Logger.csproj.AssemblyReference.cache
-D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\obj\Release\Ashirvad.Logger.csproj.CoreCompileInputs.cache
-D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\obj\Release\Ashirvad.Logger.csproj.CopyComplete
-D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\obj\Release\Ashirvad.Logger.dll
-D:\ashivad_study_link\Ashirvad_Github\Ashirvad-main\Ashirvad.Logger\obj\Release\Ashirvad.Logger.pdb
