@@ -115,6 +115,7 @@
             -webkit-appearance: none;
             margin: 0;
         }
+
         .messagealert {
             position: fixed !important;
             z-index: 1 !important;
@@ -188,17 +189,17 @@
                                         @if (SessionContext.Instance.LoginUser.UserType == Ashirvad.Common.Enums.UserType.SuperAdmin)
                                         {
                                             @*<li id="StM">
-                        <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master</a>
-                    </li>*@
+                                                    <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master</a>
+                                                </li>*@
                                             <li id="BrM">
                                                 <a href="@Url.Action("BranchMaintenance","Branch", new { @branchID=0 })">Branch Master</a>
                                             </li>
                                             @*<li id="Banner">
-                        <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })" )">Banner Master</a>
-                    </li>*@
+                                                    <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })" )">Banner Master</a>
+                                                </li>*@
                                             @*<li id="NotificationMaster">
-                        <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
-                    </li>*@
+                                                    <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
+                                                </li>*@
                                             <li id="StM">
                                                 <a href="@Url.Action("UserMaintenance","User", new { @branchID=0 })">User Master</a>
                                             </li>
@@ -215,49 +216,130 @@
                                         else
                                         {
                                             <li id="StM" class="AnnouncementMaster">
-                                                <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master</a>
+                                                <div>
+                                                    <a href="https://youtu.be/ULVjusbB6xY" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("AnnouncementMaintenance","Anouncement",new { @annoID=0 })">Announcement Master   </a>
+                                                </div>
+
+
                                             </li>
                                             <li id="StM" class="UserMaster">
-                                                <a href="@Url.Action("UserMaintenance","User", new { @branchID=0 })">User Master</a>
+                                                <div>
+                                                    <a href="https://youtu.be/sl0N16pvhhU" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("UserMaintenance","User", new { @branchID=0 })">User Master</a>
+                                                </div>
+
                                             </li>
                                             <li id="ScM" class="SchoolMaster">
-                                                <a href="@Url.Action("SchoolMaintenance","School", new { @branchID=0 })">School Master</a>
+                                                <div>
+                                                    <a href="https://youtu.be/-a-kRWUWfj0" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("SchoolMaintenance","School", new { @branchID=0 })">School Master</a>
+                                                </div>
                                             </li>
                                             <li id="StuM" class="StudentMaster">
-                                                <a href="@Url.Action("StudentMaintenance","Student", new { @studentID=0 })">Admission Form</a>
+                                                <div>
+                                                    <a href="https://youtu.be/cNvQJlMo5Ho" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("StudentMaintenance","Student", new { @studentID=0 })">Admission Form</a>
+                                                </div>
                                             </li>
                                             <li id="MsM" class="ManageStudentMaster">
-                                                <a href="@Url.Action("ManageStudentMaintenance","ManageStudent", new { @branchID= @SessionContext.Instance.LoginUser.BranchInfo.BranchID})">Manage Student Master</a>
+                                                <div>
+                                                    <a href="https://youtu.be/UrTmaZcHVew" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("ManageStudentMaintenance","ManageStudent", new { @branchID= @SessionContext.Instance.LoginUser.BranchInfo.BranchID})">Manage Student Master</a>
+                                                </div>
                                             </li>
                                             <li id="Notification" class="NotificationMaster">
-                                                <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
+                                                <div>
+                                                    <a href="https://youtu.be/8tw75ig83KI" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("NotificationMaintenance","Notification", new { @notificationID=0 })" )">Notification Master</a>
+                                                </div>
                                             </li>
                                             <li id="BaM" class="BatchMaster">
-                                                <a href="@Url.Action("BatchMaintenance","Batch", new { @branchID=0 })">Batch Master</a>
+                                                <div>
+                                                    <a href="https://youtu.be/zCePARg5Les" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("BatchMaintenance","Batch", new { @branchID=0 })">Batch Master</a>
+                                                </div>
                                             </li>
                                             <li id="Banner" class="BannerMaster">
-                                                <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })">Banner Master</a>
+                                                <div>
+                                                    <a href="https://youtu.be/nu1Trb_Zhw8" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("BannerMaintenance","Banner", new { @bannerID=0 })">Banner Master</a>
+                                                </div>
                                             </li>
                                             <li id="AuM" class="AboutUsMaster">
-                                                <a href="@Url.Action("AboutUsMaintenance","AboutUs", new { @aboutID=0 })">About Us Master</a>
+                                                <div>
+                                                    <a href="https://youtu.be/S83576Jjkrw" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("AboutUsMaintenance","AboutUs", new { @aboutID=0 })">About Us Master</a>
+                                                </div>
                                             </li>
                                             <li id="fc" class="FacultyMaster">
-                                                <a href="@Url.Action("FacultyMaintenance","Faculty", new { @facultyID = 0})">Faculty Master</a>
+                                                <div>
+                                                    <a href="#" @*target="_blank"*@>
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("FacultyMaintenance","Faculty", new { @facultyID = 0})">Faculty Master</a>
+                                                </div>
                                             </li>
                                             <li id="Bcour" class="BranchCourseMaster">
-                                                <a href="@Url.Action("CourseMaintenance","BranchCourse", new { @courseID=0 })">Course Master</a>
+                                                <div>
+                                                    <a href="https://youtu.be/R8VYOZ8Rtv4" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("CourseMaintenance","BranchCourse", new { @courseID=0 })">Course Master</a>
+                                                </div>
                                             </li>
                                             <li id="Bclass" class="BranchClassMaster">
-                                                <a href="@Url.Action("ClassMaintenance","BranchClass", new { @ClassID=0 })">Class Master</a>
+                                                <div>
+                                                    <a href="https://youtu.be/OC7XskknKxQ" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("ClassMaintenance","BranchClass", new { @ClassID=0 })">Class Master</a>
+                                                </div>
                                             </li>
                                             <li id="BS" class="BranchSubjectMaster">
-                                                <a href="@Url.Action("SubjectMaintenance","BranchSubject", new { @SubjectID=0,@CourseID=0})">Subject Master</a>
+                                                <div>
+                                                    <a href="https://youtu.be/sHyPnKzoC7o" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("SubjectMaintenance","BranchSubject", new { @SubjectID=0,@CourseID=0})">Subject Master</a>
+                                                </div>
+
                                             </li>
                                             <li id="BS" class="StudentTransfer">
-                                                <a href="@Url.Action("StudentTransfer","Student")">Student Transfer</a>
+                                                <div>
+                                                    <a href="#" @*target="_blank"*@>
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("StudentTransfer","Student")">Student Transfer</a>
+                                                </div>
+
                                             </li>
                                             <li id="BS" class="StudentActiveInactiveStatusChange">
-                                                <a href="@Url.Action("StudentStatusChange","Student")">Student Active/Inactive</a>
+                                                <div>
+                                                    <a href="#" @*target="_blank"*@>
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("StudentStatusChange","Student")">Student Active/Inactive</a>
+                                                </div>
+
                                             </li>
                                         }
 
@@ -287,27 +369,21 @@
                                             Competition
                                         </a>
                                         @*</a>*@
-                                    <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu">
 
-                                        <li id="" class="CompetitionEntry">
-                                            <a href="@Url.Action("CompetitionMaintenance","Competition", new { @competitonID=0 })">Competition Entry</a>
-                                        </li>
-                                        <li id="bentry" class="CompetitionRank">
-                                            <a href="@Url.Action("Index","CompetitionRank")">Competition Rank Entry</a>
-                                        </li>
-                                        <li id="com" class="CompetitionRankRegister">
-                                            <a href="@Url.Action("Index","CompetitionRankRegister")">Competition Rank Register</a>
-                                        </li>
-                                        <li id="wentry" class="Winnerentry">
-                                            <a href="@Url.Action("CompetitionWinnerMaintenance","WinnerEntry",new {@CompetitionWinnerId=0 })">Winner Entry</a>
-                                        </li>
-                                        <li id="" class="">
-                                            <a href="@Url.Action("Index","Rank")">Rank Details</a>
-                                        </li>
-                                        <li id="" class="">
-                                            <a href="@Url.Action("Index","ViewCompetitionlist")">View Competition Details</a>
-                                        </li>
-                                    </ul>
+                                            <li id="" class="CompetitionEntry">
+                                                <a href="@Url.Action("CompetitionMaintenance","Competition", new { @competitonID=0 })">Competition Entry</a>
+                                            </li>
+                                            <li id="bentry" class="CompetitionRank">
+                                                <a href="@Url.Action("Index","CompetitionRank")">Competition Rank Entry</a>
+                                            </li>
+                                            <li id="com" class="CompetitionRankRegister">
+                                                <a href="@Url.Action("Index","CompetitionRankRegister")">Competition Rank Register</a>
+                                            </li>
+                                            <li id="wentry" class="Winnerentry">
+                                                <a href="@Url.Action("CompetitionWinnerMaintenance","WinnerEntry",new {@CompetitionWinnerId=0 })">Winner Entry</a>
+                                            </li>
+                                        </ul>
                                     </li>
                                 }
                                 else
@@ -317,14 +393,30 @@
                                             Fees
                                         </a>
                                         <ul class="dropdown-menu">
+
                                             <li id="stfest" class="StudentFeesStructure">
-                                                <a href="@Url.Action("FeesMaintenance","FeesStructure",new { @FeesID = 0})">Student Fees Structure</a>
+                                                <div>
+                                                    <a href="https://youtu.be/NfNpy8K4PD4" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("FeesMaintenance","FeesStructure",new { @FeesID = 0})">Student Fees Structure</a>
+                                                </div>
                                             </li>
                                             <li id="stonpa" class="StudentOnlinePayment">
-                                                <a href="@Url.Action("Index","OnlinePaymentList")">Student Online Payment</a>
+                                                <div>
+                                                    <a href="https://youtu.be/NfNpy8K4PD4" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("Index","OnlinePaymentList")">Student Online Payment</a>
+                                                </div>
                                             </li>
                                             <li id="adupde" class="AddUPIDetails">
-                                                <a href="@Url.Action("UPIMaintenance","Upi",new { @upiID=0 })">Add UPI Details</a>
+                                                <div>
+                                                    <a href="https://youtu.be/NfNpy8K4PD4" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("UPIMaintenance","Upi",new { @upiID=0 })">Add UPI Details</a>
+                                                </div>
                                             </li>
                                         </ul>
                                     </li>
@@ -334,13 +426,28 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li id="Ae" class="AttendanceEntry">
-                                                <a href="@Url.Action("Index","AttendanceEntry")">Attendance Entry</a>
+                                                <div>
+                                                    <a href="https://youtu.be/fCpco18OGZU" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("Index","AttendanceEntry")">Attendance Entry</a>
+                                                </div>
                                             </li>
                                             <li id="Ar" class="AttendanceRegister">
-                                                <a href="@Url.Action("Index","AttendanceRegister")">Attendance Register</a>
+                                                <div>
+                                                    <a href="https://youtu.be/fCpco18OGZU" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("Index","AttendanceRegister")">Attendance Register</a>
+                                                </div>
                                             </li>
                                             <li id="Sar" class="StudentAttendanceReport">
-                                                <a href="@Url.Action("Index","AttendanceReport")">Student Attendance Report</a>
+                                                <div>
+                                                    <a href="https://youtu.be/fCpco18OGZU" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("Index","AttendanceReport")">Student Attendance Report</a>
+                                                </div>
                                             </li>
                                         </ul>
                                     </li>
@@ -351,54 +458,90 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li id="Utp" class="TestPaperEntry">
-                                                <a href="@Url.Action("TestPaperMaintenance","TestPaper", new { @testID=0 })">Test Paper Entry</a>
+                                                <div>
+                                                    <a href="#" @*target="_blank"*@>
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("TestPaperMaintenance","TestPaper", new { @testID=0 })">Test Paper Entry</a>
+                                                </div>
                                             </li>
                                             <li id="Me" class="MarksEntry">
-                                                <a href="@Url.Action("MarksMaintenance","ResultEntry", new { @MarksID=0 })">Marks Entry</a>
+                                                <div>
+                                                    <a href="#" @*target="_blank"*@>
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("MarksMaintenance","ResultEntry", new { @MarksID=0 })">Marks Entry</a>
+                                                </div>
                                             </li>
                                             <li id="Mr" class="MarksRegister">
-                                                <a href="@Url.Action("Index","ResultRegister")">Marks Register</a>
+                                                <div>
+                                                    <a href="#" @*target="_blank"*@>
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("Index","ResultRegister")">Marks Register</a>
+                                                </div>
                                             </li>
 
                                         </ul>
                                     </li>
                                     @*<li class="dropdown" id="StudentMenu" style="margin-left:10px;">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    Competiton
-                </a>
-                <ul class="dropdown-menu">
-                    <li id="" class="">
-                        <a href="@Url.Action("Index","StudentRank")">Student Rank</a>
-                    </li>
-                    <li id="" class="">
-                        <a href="@Url.Action("Index","WinnerList")">Winner List</a>
-                    </li>
-                </ul>
-            </li>*@
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                Competiton
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li id="" class="">
+                                                    <a href="@Url.Action("Index","StudentRank")">Student Rank</a>
+                                                </li>
+                                                <li id="" class="">
+                                                    <a href="@Url.Action("Index","WinnerList")">Winner List</a>
+                                                </li>
+                                            </ul>
+                                        </li>*@
                                     <li class="dropdown" id="GalleryMenu" style="margin-left:10px;">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                             Gallery
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li class="treeview Photos" id="Gallery">
-                                                <a href="@Url.Action("PhotosMaintenance","Photos", new { @photoID=0 })">
-                                                    Photos
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/3tEs79T9bsQ" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("PhotosMaintenance","Photos", new { @photoID=0 })">
+                                                        Photos
+                                                    </a>
+                                                </div>
+
                                             </li>
                                             <li class="treeview Video" id="Video">
-                                                <a href="@Url.Action("VideosMaintenance","Videos", new { @videoID=0 })">
-                                                    Video
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/3tEs79T9bsQ" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("VideosMaintenance","Videos", new { @videoID=0 })">
+                                                        Video
+                                                    </a>
+                                                </div>
                                             </li>
                                             <li class="treeview OnlineClass" id="LiveVideos">
-                                                <a href="@Url.Action("LiveVideoMaintenance","LiveVideo", new { @linkID=0 })">
-                                                    Online Class
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/3tEs79T9bsQ" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("LiveVideoMaintenance","LiveVideo", new { @linkID=0 })">
+                                                        Online Class
+                                                    </a>
+                                                </div>
                                             </li>
                                             <li class="treeview YoutubeVideos" id="Li1">
-                                                <a href="@Url.Action("YoutubeMaintenance","Youtube", new { @linkID=0 })">
-                                                    Youtube Videos
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/3tEs79T9bsQ" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("YoutubeMaintenance","Youtube", new { @linkID=0 })">
+                                                        Youtube Videos
+                                                    </a>
+                                                </div>
                                             </li>
                                         </ul>
                                     </li>
@@ -409,29 +552,54 @@
                                         <ul class="dropdown-menu">
 
                                             <li class="treeview LibraryImage">
-                                                <a href="@Url.Action("LibraryMaintenance","Library",new { @libraryID=0,Type=2})">
-                                                    Books
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/WqwjGcOli_g" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("LibraryMaintenance","Library",new { @libraryID=0,Type=2})">
+                                                        Books
+                                                    </a>
+                                                </div>
                                             </li>
                                             <li class="treeview LibraryVideo">
-                                                <a href="@Url.Action("LibraryMaintenance","Library",new { @libraryID=0,Type=1})">
-                                                    Video
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/WqwjGcOli_g" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("LibraryMaintenance","Library",new { @libraryID=0,Type=1})">
+                                                        Video
+                                                    </a>
+                                                </div>
                                             </li>
                                             <li class="treeview  ShowLibrary">
-                                                <a href="@Url.Action("ShowLibraryMaintenance","ShowLibrary",new {@type=2})">
-                                                    Show Books Library
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/WqwjGcOli_g" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("ShowLibraryMaintenance","ShowLibrary",new {@type=2})">
+                                                        Show Books Library
+                                                    </a>
+                                                </div>
                                             </li>
                                             <li class="treeview  ShowLibrary">
-                                                <a href="@Url.Action("ShowLibraryMaintenance","ShowLibrary",new {@type=1})">
-                                                    Show Video Library
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/WqwjGcOli_g" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("ShowLibraryMaintenance","ShowLibrary",new {@type=1})">
+                                                        Show Video Library
+                                                    </a>
+                                                </div>
                                             </li>
                                             <li class="treeview ManageLibrary">
-                                                <a href="@Url.Action("ManageLibraryMaintenance","ManageLibrary")">
-                                                    Manage Library
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/WqwjGcOli_g" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("ManageLibraryMaintenance","ManageLibrary")">
+                                                        Manage Library
+                                                    </a>
+                                                </div>
                                             </li>
                                         </ul>
                                     </li>
@@ -442,24 +610,44 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li class="treeview StandardWiseReport" id="Li4">
-                                                <a href="@Url.Action("Index","StandardWiseChart")">
-                                                    Standard Wise
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/Z2CbVwYjfEc" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("Index","StandardWiseChart")">
+                                                        Standard Wise
+                                                    </a>
+                                                </div>
                                             </li>
                                             <li class="treeview BatchWiseReport" id="Li5">
-                                                <a href="@Url.Action("Index","BatchWiseChart",new { @StandardID = 0})">
-                                                    Batch Wise
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/Z2CbVwYjfEc" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("Index","BatchWiseChart",new { @StandardID = 0})">
+                                                        Batch Wise
+                                                    </a>
+                                                </div>
                                             </li>
                                             <li class="treeview ListofStudent" id="Li8">
-                                                <a href="@Url.Action("Index","ListOfStudent",new { @StandardID = 0,@batchID = -1})">
-                                                    List Of Student
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/Z2CbVwYjfEc" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("Index","ListOfStudent",new { @StandardID = 0,@batchID = -1})">
+                                                        List Of Student
+                                                    </a>
+                                                </div>
                                             </li>
                                             <li class="treeview StudentProgressChart" id="Li9">
-                                                <a href="@Url.Action("Index","ProgressReportChart",new { @StudentID = 0 })">
-                                                    Student Progress Chart
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/Z2CbVwYjfEc" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("Index","ProgressReportChart",new { @StudentID = 0 })">
+                                                        Student Progress Chart
+                                                    </a>
+                                                </div>
                                             </li>
                                         </ul>
                                     </li>
@@ -469,35 +657,60 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li class="treeview PracticePapers" id="PracticePaper">
-                                                <a href="@Url.Action("PaperMaintenance","Papers", new { @paperID=0 })">
-                                                    Practice Papers
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/bdIS11GuMH8" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("PaperMaintenance","Papers", new { @paperID=0 })">
+                                                        Practice Papers
+                                                    </a>
+                                                </div>
                                             </li>
                                             <li class="treeview Homework" id="Homework">
-                                                <a href="@Url.Action("HomeworkMaintenance","Homework", new { @homeworkID=0, @branchID=0 })">
-                                                    Homework
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/bdIS11GuMH8" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("HomeworkMaintenance","Homework", new { @homeworkID=0, @branchID=0 })">
+                                                        Homework
+                                                    </a>
+                                                </div>
                                             </li>
                                             <li class="treeview To-DoEntry" id="tde">
-                                                <a href="@Url.Action("ToDoMaintenance","ToDo",new { @todoID=0 })">
-                                                    To-Do Entry
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/bdIS11GuMH8" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("ToDoMaintenance","ToDo",new { @todoID=0 })">
+                                                        To-Do Entry
+                                                    </a>
+                                                </div>
                                             </li>
                                             <li class="treeview To-DoRegister" id="tdr">
-                                                <a href="@Url.Action("ToDoRegisterMaintenance","ToDoRegister",new { @todoID=0 })">
-                                                    To-Do Register
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/bdIS11GuMH8" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("ToDoRegisterMaintenance","ToDoRegister",new { @todoID=0 })">
+                                                        To-Do Register
+                                                    </a>
+                                                </div>
                                             </li>
                                             <li class="treeview ReminderEntry" id="Li3">
-                                                <a href="@Url.Action("ReminderMaintenance","Reminder", new { @reminderID=0 })">
-                                                    Reminder Entry
-                                                </a>
+                                                <div>
+                                                    <a href="https://youtu.be/bdIS11GuMH8" target="_blank">
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("ReminderMaintenance","Reminder", new { @reminderID=0 })">
+                                                        Reminder Entry
+                                                    </a>
+                                                </div>
                                             </li>
                                             @*<li class="treeview Report" id="Li3">
-                        <a href="@Url.Action("GetAllReportData","AdminReport")">
-                            Report
-                        </a>
-                    </li>*@
+                                                    <a href="@Url.Action("GetAllReportData","AdminReport")">
+                                                        Report
+                                                    </a>
+                                                </li>*@
                                         </ul>
                                     </li>
 
@@ -553,14 +766,14 @@
                                                 </a>
                                             </li>
                                             @*<li class="treeview Role" id="rol">
-                        <a href="@Url.Action("RoleMaintenance","Role", new { @branchID = 0 })">Role</a>
-                    </li>
-                    <li class="treeview RoleRights" id="rolright">
-                        <a href="@Url.Action("RoleRightMaintenance", "RoleRights", new { @RoleRightID = 0 })">Role Rights</a>
-                    </li>
-                    <li class="treeview UserRights" id="userright">
-                        <a href="@Url.Action("UserRightMaintenance", "UserRights", new { @UserRightID = 0 })">User Rights</a>
-                    </li>*@
+                                                    <a href="@Url.Action("RoleMaintenance","Role", new { @branchID = 0 })">Role</a>
+                                                </li>
+                                                <li class="treeview RoleRights" id="rolright">
+                                                    <a href="@Url.Action("RoleRightMaintenance", "RoleRights", new { @RoleRightID = 0 })">Role Rights</a>
+                                                </li>
+                                                <li class="treeview UserRights" id="userright">
+                                                    <a href="@Url.Action("UserRightMaintenance", "UserRights", new { @UserRightID = 0 })">User Rights</a>
+                                                </li>*@
                                         </ul>
                                     </li>
 
@@ -573,13 +786,28 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li class="treeview Role" id="rol">
-                                                <a href="@Url.Action("RoleMaintenance","Role", new { @branchID = 0 })">Role</a>
+                                                <div>
+                                                    <a href="#" @*target="_blank"*@>
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("RoleMaintenance","Role", new { @branchID = 0 })">Role</a>
+                                                </div>
                                             </li>
                                             <li class="treeview RoleRights" id="rolright">
-                                                <a href="@Url.Action("RoleRightMaintenance", "RoleRights", new { @RoleRightID = 0 })">Role Rights</a>
+                                                <div>
+                                                    <a href="#" @*target="_blank"*@>
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("RoleRightMaintenance", "RoleRights", new { @RoleRightID = 0 })">Role Rights</a>
+                                                </div>
                                             </li>
                                             <li class="treeview UserRights" id="userright">
-                                                <a href="@Url.Action("UserRightMaintenance","UserRights", new { @UserRightID = 0 })">User Rights</a>
+                                                <div>
+                                                    <a href="#" @*target="_blank"*@>
+                                                        <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                    </a>
+                                                    <a href="@Url.Action("UserRightMaintenance","UserRights", new { @UserRightID = 0 })">User Rights</a>
+                                                    </div>
                                             </li>
                                         </ul>
                                     </li>
@@ -590,14 +818,24 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li class="treeview">
-                                            <a href="~/Apps/MyGeniusUAT_1.4.apk" download>
-                                                Genius App
-                                            </a>
+                                            <div>
+                                                <a href="#" @*target="_blank"*@>
+                                                    <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                </a>
+                                                <a href="~/Apps/MyGeniusUAT_1.4.apk" download>
+                                                    Genius App
+                                                </a>
+                                                </div>
                                         </li>
                                         <li class="treeview">
-                                            <a href="~/Apps/MasterMindUAT_1.6.apk" download>
-                                                Mastermind App
-                                            </a>
+                                            <div>
+                                                <a href="https://youtu.be/00PhiSVVaV8" target="_blank">
+                                                    <img src="~/ThemeData/images/icons8-info-64.png" style="height:24px !important; padding-right:5px;" />
+                                                </a>
+                                                <a href="~/Apps/MasterMindUAT_1.6.apk" download>
+                                                    Mastermind App
+                                                </a>
+                                                </div>
                                         </li>
                                     </ul>
                                 </li>

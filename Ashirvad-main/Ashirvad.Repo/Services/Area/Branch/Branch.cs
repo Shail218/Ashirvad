@@ -95,6 +95,13 @@ namespace Ashirvad.Repo.Services.Area.Branch
                             {
                                 // branchInfo.BranchID = branchMaster.branch_id;
                                 // responseModel.Data = branchInfo;
+                                if (!isUpdate)
+                                {
+                                    // ISSUE: reference to a compiler-generated field
+                                    branchInfo.BranchID = branchMaster.branch_id;
+                                    // ISSUE: reference to a compiler-generated field
+                                    CreateDefaultRecord(branchInfo);
+                                }
                                 responseModel.Message = isUpdate == true ? "Branch Updated Successfully." : "Branch Inserted Successfully.";
                                 responseModel.Status = true;
                             }
@@ -583,6 +590,104 @@ namespace Ashirvad.Repo.Services.Area.Branch
             }
             return responseModel;
            
+        }
+
+        public async Task<bool> CreateDefaultRecord(BranchEntity entity)
+        {
+            entity.Transaction.TransactionId = 0L;
+            AnnouncementEntity announcement = new AnnouncementEntity()
+            {
+                AnnouncementText = "Welcome! To " + entity.BranchName + ".",
+                BranchData = new BranchEntity()
+                {
+                    BranchID = entity.BranchID
+                },
+                RowStatusData = new RowStatusEntity()
+                {
+                    RowStatusId = 1
+                },
+                TransactionData = entity.Transaction
+            };
+            BannerTypeEntity bannerTypeEntity1 = new BannerTypeEntity()
+            {
+                TypeID = 1
+            };
+            List<BannerTypeEntity> bannerTypeEntityList = new List<BannerTypeEntity>();
+            bannerTypeEntityList.Add(bannerTypeEntity1);
+            BannerTypeEntity bannerTypeEntity2 = new BannerTypeEntity()
+            {
+                TypeID = 2
+            };
+            bannerTypeEntityList.Add(bannerTypeEntity2);
+            BannerTypeEntity bannerTypeEntity3 = new BannerTypeEntity()
+            {
+                TypeID = 3
+            };
+            bannerTypeEntityList.Add(bannerTypeEntity3);
+            BannerEntity banner = new BannerEntity()
+            {
+                BranchInfo = new BranchEntity()
+                {
+                    BranchID = entity.BranchID
+                },
+                RowStatus = new RowStatusEntity()
+                {
+                    RowStatusId = 1
+                },
+                BannerType = bannerTypeEntityList,
+                Transaction = entity.Transaction,
+                BannerImageText = entity.BranchMaint.FilePath,
+                FileName = entity.BranchMaint.FileName,
+                FilePath = entity.BranchMaint.FilePath
+            };
+            AboutUsEntity aboutUsInfo = new AboutUsEntity()
+            {
+                BranchInfo = new BranchEntity()
+                {
+                    BranchID = entity.BranchID
+                },
+                RowStatus = new RowStatusEntity()
+                {
+                    RowStatusId = 1
+                },
+                TransactionInfo = entity.Transaction,
+                AboutUsDesc = "Vision\r\nSomerville School aims to be an institution of excellence where sound ethical values, character, wisdom, leadership, service and academic achievement are encouraged in a safe and nurturing environment.\r\nMission\r\nThe Mission of the school is to provide an environment that lays emphasis on intellectual and emotional growth in which every student discovers and realizes his/her full potential and highest academic standards are achieved;\r\nWhere emphasis is laid on integrity, ethics, moral courage, hard work, responsibility and self-discipline;\r\nWhere activities focus on developing visionary, articulate and confident individuals with sensitivity and concern for the less fortunate, the environment, diversity and communal harmony, human rights and democratic values;\r\nWhere students, teachers, parents and the administration work together as a nurturing community.\r\n",
+                EmailID = "test@gmail.com",
+                ContactNo = "0000000000",
+                WhatsAppNo = "1111111111",
+                HeaderImageName = entity.BranchMaint.FileName,
+                FilePath = entity.BranchMaint.FilePath
+            };
+            AboutUsDetailEntity detailEntity = new AboutUsDetailEntity()
+            {
+                BrandName = "Science Teacher A science teacher provides instruction and guidance to help students explore and understand important concepts in science, including problem-solving and how to gather evidence to support ideas or decisions. Science teachers create lesson plans, present science demonstrations, and grade tests and assignments.",
+                HeaderImageText = entity.BranchMaint.FileName,
+                BranchInfo = new BranchEntity()
+                {
+                    BranchID = entity.BranchID
+                },
+                FilePath = entity.BranchMaint.FilePath,
+                RowStatus = new RowStatusEntity()
+                {
+                    RowStatusId = 1
+                },
+                TransactionInfo = entity.Transaction
+            };
+            Ashirvad.Repo.Services.Area.Announcement.Announcement c = new Ashirvad.Repo.Services.Area.Announcement.Announcement();
+            Ashirvad.Repo.Services.Area.Banner.Banner b = new Ashirvad.Repo.Services.Area.Banner.Banner();
+            Ashirvad.Repo.Services.Area.AboutUs.AboutUs w = new Ashirvad.Repo.Services.Area.AboutUs.AboutUs();
+            ResponseModel responseModel1 = await w.AboutUsMaintenance(aboutUsInfo);
+            ResponseModel responseModel2 = await w.AboutUsDetailMaintenance(detailEntity);
+            ResponseModel responseModel3 = await c.AnnouncementMaintenance(announcement);
+            ResponseModel responseModel4 = await b.BannerMaintenance(banner);
+            bool defaultRecord = true;
+            announcement = (AnnouncementEntity)null;
+            banner = (BannerEntity)null;
+            detailEntity = (AboutUsDetailEntity)null;
+            c = (Ashirvad.Repo.Services.Area.Announcement.Announcement)null;
+            b = (Ashirvad.Repo.Services.Area.Banner.Banner)null;
+            w = (Ashirvad.Repo.Services.Area.AboutUs.AboutUs)null;
+            return defaultRecord;
         }
 
     }
