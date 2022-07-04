@@ -420,7 +420,7 @@ namespace Ashirvad.Repo.Services.Area.Test
                         .Include("SUBJECT_DTL_MASTER")
                         orderby u.test_id descending
                         where u.branch_id == branchID && u.CLASS_DTL_MASTER.class_dtl_id == stdID 
-                        && u.course_dtl_id == courseID
+                        && u.course_dtl_id == courseID && u.row_sta_cd == 1
                         && (batchTime == 0 || u.batch_time_id == batchTime)
                         select new TestEntity()
                         {
