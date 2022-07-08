@@ -510,7 +510,7 @@ namespace Ashirvad.Repo.Services.Area.Attendance
                         join detail in this.context.ATTENDANCE_DTL on u.attendance_hdr_id equals detail.attd_hdr_id
                         join stu in this.context.STUDENT_MASTER on detail.student_id equals stu.student_id
                         orderby u.attendance_hdr_id descending
-                        where detail.student_id == studentID
+                        where detail.student_id == studentID && u.row_sta_cd==1
                         select new AttendanceEntity()
                         {
                             RowStatus = new RowStatusEntity()
